@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1190040104 d:\progz\pmf-codeblocks\main.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	"generate.cpp"
+
+1193409976 d:\progz\pmf-codeblocks\src\generate.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"probability.hpp"
+
+1190579892 d:\progz\pmf-codeblocks\headers\point.hpp
+	<cstdio>
+	<iostream>
+
+1190580276 d:\progz\pmf-codeblocks\headers\listelement.hpp
+	<cstdio>
+
+1190580344 d:\progz\pmf-codeblocks\headers\templatelist.hpp
+	<cstdio>
+	<iostream>
+	"listelement.hpp"
+
+1190577296 d:\progz\pmf-codeblocks\headers\birthslist.hpp
+	<stdio.h>
+	<iostream>
+	"point.hpp"
+	"templatelist.hpp"
+
+1190580524 d:\progz\pmf-codeblocks\headers\intersectionslist.hpp
+	<stdio.h>
+	<iostream>
+	"templatelist.hpp"
+	"crosselement.hpp"
+
+1190580664 d:\progz\pmf-codeblocks\headers\crosselement.hpp
+	<cstdio>
+	"point.hpp"
+
+1190278104 d:\progz\pmf-codeblocks\headers\probability.hpp
+	<cstdlib>
+	<cmath>
+
