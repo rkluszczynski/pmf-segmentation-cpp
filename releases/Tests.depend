@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1193408968 d:\progz\pmf-codeblocks\tests\test-point.cpp
+	<cstdio>
+	<iostream>
+	"point.hpp"
+
+1190223430 d:\progz\pmf-codeblocks\tests\test.cpp
+	<cstdio>
+	<iostream>
+
+1190581396 d:\progz\pmf-codeblocks\tests\test-templatelist.cpp
+	<cstdio>
+	<iostream>
+	"templatelist.hpp"
+
+1190422206 d:\progz\pmf-codeblocks\tests\test-polimorfizm.cpp
+	<iostream>
+
+1193409444 d:\progz\pmf-codeblocks\tests\test-bothlists.cpp
+	<cstdio>
+	<cstdlib>
+
+1194013718 source:d:\progz\pmf-codeblocks\tests\test.cpp
+	<cstdio>
+	<iostream>
+
+1194013718 source:d:\progz\pmf-codeblocks\tests\test-point.cpp
+	<cstdio>
+	<iostream>
+	"point.hpp"
+
+1195475920 source:d:\progz\pmf-codeblocks\tests\test-templatelist.cpp
+	<cstdio>
+	<iostream>
+	"templatelist.hpp"
+
+1196097392 source:d:\progz\pmf-codeblocks\tests\test-bothlists.cpp
+	<iostream>
+	"generate.cpp"
+

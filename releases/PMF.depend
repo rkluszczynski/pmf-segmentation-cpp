@@ -1,0 +1,73 @@
+# depslib dependency file v1.0
+1190040104 d:\progz\pmf-codeblocks\main.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	"generate.cpp"
+
+1196243144 d:\progz\pmf-codeblocks\src\generate.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+
+1195475504 d:\progz\pmf-codeblocks\headers\point.hpp
+	<cstdio>
+	<iostream>
+
+1195475554 d:\progz\pmf-codeblocks\headers\listelement.hpp
+	<cstdio>
+
+1196089124 d:\progz\pmf-codeblocks\headers\templatelist.hpp
+	<cstdio>
+	<iostream>
+	<fstream>
+	"listelement.hpp"
+
+1196088112 d:\progz\pmf-codeblocks\headers\birthslist.hpp
+	<stdio.h>
+	<iostream>
+	"point.hpp"
+	"templatelist.hpp"
+
+1196097924 d:\progz\pmf-codeblocks\headers\intersectionslist.hpp
+	<stdio.h>
+	<iostream>
+	"templatelist.hpp"
+	"crosselement.hpp"
+
+1196098004 d:\progz\pmf-codeblocks\headers\crosselement.hpp
+	<cstdio>
+	"point.hpp"
+
+1195474272 d:\progz\pmf-codeblocks\headers\probability.hpp
+	<cstdlib>
+	<cmath>
+
+1194013718 source:d:\progz\pmf-codeblocks\main.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	"generate.cpp"
+
+1195464244 d:\progz\pmf-codeblocks\headers\lists.hpp
+	"geometry.hpp"
+
+1195484144 d:\progz\pmf-codeblocks\headers\geometry.hpp
+
+1196101066 d:\progz\pmf-codeblocks\headers\accesslists.hpp
+	"geometry.hpp"
+
+1196169464 d:\progz\pmf-codeblocks\headers\configurationlist.hpp
+	"templatelist.hpp"
+
