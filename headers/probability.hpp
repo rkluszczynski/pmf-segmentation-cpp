@@ -5,46 +5,46 @@
 #include <cmath>
 
 
-template <class REAL> void determineBirthAngles(REAL *g, REAL *d)
+template <class T_REAL> void determineBirthAngles(T_REAL & g, T_REAL & d)
 {
-    REAL katL, katB, kat, tmp;
+    T_REAL katL, katB, kat, tmp;
     do {
-        katL = M_PI * ((REAL)rand() / (REAL)RAND_MAX) - ((REAL)M_PI * (REAL)0.5);
-        katB = M_PI * ((REAL)rand() / (REAL)RAND_MAX) - ((REAL)M_PI * (REAL)0.5);
+        katL = M_PI * ((T_REAL)rand() / (T_REAL)RAND_MAX) - ((T_REAL)M_PI * (T_REAL)0.5);
+        katB = M_PI * ((T_REAL)rand() / (T_REAL)RAND_MAX) - ((T_REAL)M_PI * (T_REAL)0.5);
         if(katL > katB) { tmp = katL;  katL = katB;  katB = tmp; }
         // Teraz zawsze mamy katB <= katL
         kat = katB - katL;
     }
-    while( (((REAL)rand()) / (REAL)RAND_MAX) > (REAL)sin(kat) );
-    *g = katB;
-    *d = katL;
+    while( (((T_REAL)rand()) / (T_REAL)RAND_MAX) > (T_REAL)sin(kat) );
+    g = katB;
+    d = katL;
 }
 
 
-template <class REAL> void determineUpdateAngle(REAL *fi)
+template <class T_REAL> void determineUpdateAngle(T_REAL & fi)
 {
-    REAL zm = ((REAL)rand()) / ((REAL)RAND_MAX);
-    *fi = (REAL)acos(zm) * ((((REAL)rand()/(REAL)RAND_MAX) > 0.5)?1:(-1));
+    T_REAL zm = ((T_REAL)rand()) / ((T_REAL)RAND_MAX);
+    fi = (T_REAL)acos(zm) * ((((T_REAL)rand()/(T_REAL)RAND_MAX) > 0.5)?1:(-1));
 }
 
 
-template <class REAL> REAL Exp (REAL lambda)
+template <class T_REAL> T_REAL Exp (T_REAL lambda)
 {
-    REAL u = (((REAL)rand()) / (REAL)RAND_MAX);
-    if(u < ((REAL)0.00001)) u = (REAL)0.00001;
-    if(u > ((REAL)0.99999)) u = (REAL)0.99999;
-    return((REAL) (- log(u) / lambda));
+    T_REAL u = (((T_REAL)rand()) / (T_REAL)RAND_MAX);
+    if(u < ((T_REAL)0.00001)) u = (T_REAL)0.00001;
+    if(u > ((T_REAL)0.99999)) u = (T_REAL)0.99999;
+    return((T_REAL) (- log(u) / lambda));
 }
 
 
-template <class REAL> REAL Uniform (REAL a, REAL b)
+template <class T_REAL> T_REAL Uniform (T_REAL a, T_REAL b)
 {
 	if (b < a) {
-		REAL tmp = b;
+		T_REAL tmp = b;
 		b = a;
 		a = tmp;
 	}
-	REAL u = (((REAL)rand()) / (REAL)RAND_MAX);
+	T_REAL u = (((T_REAL)rand()) / (T_REAL)RAND_MAX);
 	return((b-a) * u  +  a);
 }
 

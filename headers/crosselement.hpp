@@ -6,22 +6,22 @@
 #include "point.hpp"
 
 
-template <class REAL> struct CrosspointElement
+template <class T_REAL> struct CrosspointElement
 {
-    pmf_point<REAL> * pt;
+    pmf_point<T_REAL> * pt;
     long p1, p2;
 
-	CrosspointElement (pmf_point<REAL> * ppt, long pp1, long pp2)
+	CrosspointElement (pmf_point<T_REAL> * ppt, long pp1, long pp2)
 		: pt(ppt), p1(pp1), p2(pp2)
 	{}
 
-    bool operator< (const CrosspointElement<REAL> & cpt) const { return(pt->x < cpt.pt->x); }
-    bool operator< (const CrosspointElement<REAL> * & cpt) const { return(pt->x < cpt->pt->x); }
+    bool operator< (const CrosspointElement<T_REAL> & cpt) const { return(pt->x < cpt.pt->x); }
+    bool operator< (const CrosspointElement<T_REAL> * & cpt) const { return(pt->x < cpt->pt->x); }
 
     /**
      * Funkcja wypisujaca na ekran informacje o punkcie, dziala na wskazniku.
      **/
-	friend std::ostream& operator << (std::ostream& out, const CrosspointElement<REAL> cpt)
+	friend std::ostream& operator << (std::ostream& out, const CrosspointElement<T_REAL> cpt)
 	{
 		out << (*cpt.pt) << "/" << cpt.p1 << "," << cpt.p2 << "/";
 		return out;

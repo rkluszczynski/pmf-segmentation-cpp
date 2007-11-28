@@ -13,40 +13,59 @@
 #define PT_INTERSECTION		6
 #define PT_UPDATE		    7
 
-template <typename REAL> struct pmf_point
+template <typename T_REAL> struct pmf_point
 {
-	REAL x, y;
+	T_REAL x, y;
 	pmf_point * n1, * n2;
-	REAL l1, l2;
+	T_REAL l1, l2;
 	long int id;
 	int type;
 
-	pmf_point ( REAL xx,  REAL yy, 	REAL ll1,  REAL ll2,  long int idi )
+	pmf_point ( T_REAL xx,  T_REAL yy, 	T_REAL ll1,  T_REAL ll2,  long int idi )
 		: x(xx), y(yy), n1(NULL), n2(NULL), l1(ll1), l2(ll2), id(idi), type(PT_UNKNOWN)
 	{}
 
-	pmf_point ( REAL xx,  REAL yy,  REAL ll1,  REAL ll2,  long int idi,  int ttype )
+	pmf_point ( T_REAL xx,  T_REAL yy,  T_REAL ll1,  T_REAL ll2,  long int idi,  int ttype )
 		: x(xx), y(yy), n1(NULL), n2(NULL), l1(ll1), l2(ll2), id(idi), type(ttype)
 	{}
-
-	pmf_point ( const REAL xx,  const REAL yy,  pmf_point * nn1,  pmf_point * nn2,
-			REAL ll1,  REAL ll2,  long int idi )
+/*
+	pmf_point ( const T_REAL xx,  const T_REAL yy,  pmf_point<T_REAL> * nn1,  pmf_point<T_REAL> * nn2,
+			T_REAL ll1,  T_REAL ll2,  long int idi )
 		: x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(PT_UNKNOWN)
 	{}
+*/
+	pmf_point ( T_REAL xx,  T_REAL yy,  pmf_point<T_REAL> * nn1,  pmf_point<T_REAL> * nn2,
+            T_REAL ll1,  T_REAL ll2,  long int idi,  int ttype )
+		: x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype)
+	{}
 
-	bool operator< (const pmf_point<REAL> & point)   const { return(x <  point.x); }
+	bool operator< (const pmf_point<T_REAL> & point)   const { return(x <  point.x); }
 	//bool operator< (const pmf_point<REAL> * & point) const { return(x < point->x); }
 
     /**
-     * Funkcja wypisujaca na ekran informacje o punkcie, dziala na wskazniku.
+     * Funkcja wypisujaca na ekran informacje o punkcie.
      **/
-	friend std::ostream& operator << (std::ostream& out, const pmf_point<REAL> pt)
+	friend std::ostream& operator << (std::ostream& out, const pmf_point<T_REAL> pt)
 	{
 		out << /*" " <<*/ pt.id << "`";
 		out << "(" << pt.x << ";" << pt.y << ")";
 		out << "[" << (pt.n1 ? (pt.n1)->id : 0) << "]";
 		out << "[" << (pt.n2 ? (pt.n2)->id : 0) << "]";
-		out << "{" << pt.type << "}";
+        //out << "{" << pt.type << "}";
+        if (true) {
+            out << "{";
+            switch(pt.type) {
+                case PT_BIRTH_NORMAL : out << "Bn"; break;
+                case PT_BIRTH_LEFT   : out << "Bl"; break;
+                case PT_BIRTH_UP     : out << "Bu"; break;
+                case PT_BIRTH_DOWN   : out << "Bd"; break;
+                case PT_BORDER       : out << "bor"; break;
+                case PT_INTERSECTION : out << "Cr"; break;
+                case PT_UPDATE       : out << "U"; break;
+                default :   out << "u/n";
+            }
+            out << "}";
+        }
 		//out << " ";
 		return out;
 	}

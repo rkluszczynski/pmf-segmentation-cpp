@@ -3,51 +3,54 @@
 
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 
 #include "listelement.hpp"
 
 #define null 0
 
-template <class T> class TemplateList
+template <class T_TYPE> class TemplateList
 {
-	private :
-		Element<T> * head;
-		Element<T> * tail;
+	protected :
+		Element<T_TYPE> * head;
+		Element<T_TYPE> * tail;
 		long size;
 
 		void clear() { while (! empty())  pop_front(); }
 
 	public :
-		typedef Element<T> * NODE;
+		typedef Element<T_TYPE> * NODE;
 
 		TemplateList();
 		~TemplateList();
 
-		void push_back(const T *);
-		void push_in_order(const T *);
+        //void push_back(const T_TYPE *);
+		//void push_in_order(const T_TYPE *);
+        void push_back(T_TYPE *);
+		void push_in_order(T_TYPE *);
 		void pop_front();
 
 		bool empty() { return(! head); }
 
-		T& front() { return(head->data); }
-		const T& front() const { return(head->data); }
+		T_TYPE * front() { return(head->data); }
+//		const T_TYPE * front() const { return(head->data); }
 
-		Element<T> * begin() { return(head); }
-		Element<T> * end() { return(null); }
+		Element<T_TYPE> * begin() { return(head); }
+		Element<T_TYPE> * end() { return(null); }
 
-		const Element<T> * begin() const { return(head); }
-		const Element<T> * end() const { return(null); }
+//		const Element<T_TYPE> * begin() const { return(head); }
+//		const Element<T_TYPE> * end() const { return(null); }
 
-		Element<T> * getHead() { return(head); }
-		void setHead(Element<T> * p) { head = p; }
+		Element<T_TYPE> * getHead() { return(head); }
+		void setHead(Element<T_TYPE> * p) { head = p; }
 
 		long getSize() { return(size); }
 		void setSize(long val) { size = val; }
 
-		friend std::ostream & operator << (std::ostream & out, const TemplateList<T> * list)
+		friend std::ostream & operator << (std::ostream & out, const TemplateList<T_TYPE> * list)
 		{
 			out << std::endl << "[ LIST ] :> ";
-			Element<T> * iter = list->head;
+			Element<T_TYPE> * iter = list->head;
 			while (iter) {
                   out << " " << *iter->data;
                   iter = iter->next;
@@ -61,8 +64,8 @@ template <class T> class TemplateList
 /**
  * Konstruktor klasy.
  **/
-template <class T>
-TemplateList<T>::TemplateList () : head(null), tail(null), size(0)
+template <class T_TYPE>
+TemplateList<T_TYPE>::TemplateList () : head(null), tail(null), size(0)
 {
 	std::cout << "[ LIST ]  created" << std::endl;
 };
@@ -71,8 +74,8 @@ TemplateList<T>::TemplateList () : head(null), tail(null), size(0)
 /**
  * Destruktor klasy.
  **/
-template <class T>
-TemplateList<T>::~TemplateList ()
+template <class T_TYPE>
+TemplateList<T_TYPE>::~TemplateList ()
 {
 	clear();
 	std::cerr << "[ LIST ]  destroyed" << std::endl;
@@ -82,16 +85,17 @@ TemplateList<T>::~TemplateList ()
 /**
  * Wstawia element na koniec listy.
  **/
-template <class T>
-void TemplateList<T>::push_back (const T * data)
+template <class T_TYPE>
+//void TemplateList<T>::push_back (const T * data)
+void TemplateList<T_TYPE>::push_back (T_TYPE * data)
 {
 	if (head) {
-		Element<T> * tmp = new Element<T> (data, tail, null);
+		Element<T_TYPE> * tmp = new Element<T_TYPE> (data, tail, null);
 		tail->next = tmp;
 		tail = tmp;
 	}
 	else {
-		Element<T> * tmp = new Element<T> (data, null, null);
+		Element<T_TYPE> * tmp = new Element<T_TYPE> (data, null, null);
 		head = tail = tmp;
 	}
 	++size;
@@ -101,18 +105,19 @@ void TemplateList<T>::push_back (const T * data)
 /**
  * Wstawia element w kolejnosci rosnacej.
  **/
-template <class T>
-void TemplateList<T>::push_in_order (const T * data)
+template <class T_TYPE>
+//void TemplateList<T_TYPE>::push_in_order (const T_TYPE * data)
+void TemplateList<T_TYPE>::push_in_order (T_TYPE * data)
 {
-	Element<T> * iter = head;
-	Element<T> * prev = null;
+	Element<T_TYPE> * iter = head;
+	Element<T_TYPE> * prev = null;
 	while (iter  &&  (*(iter->data) < *data))
 	{
 		prev = iter;
 		iter = iter->next;
 	}
 
-	Element<T> * tmp = new Element<T> (data, prev, iter);
+	Element<T_TYPE> * tmp = new Element<T_TYPE> (data, prev, iter);
 	if (iter == head)  head = tmp;
 	else prev->next = tmp;
 	++size;
@@ -122,16 +127,17 @@ void TemplateList<T>::push_in_order (const T * data)
 /**
  * Usuwa pierwszy element z listy.
  **/
-template <class T>
-void TemplateList<T>::pop_front ()
+template <class T_TYPE>
+void TemplateList<T_TYPE>::pop_front ()
 {
 	if (head) {
-		Element<T> * tmp = head;
+		Element<T_TYPE> * tmp = head;
 		head = head->next;
 		delete tmp;
 	}
 	--size;
 }
+
 
 #undef null
 

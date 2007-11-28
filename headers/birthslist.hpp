@@ -18,8 +18,8 @@ bool operator< (PMF_PT pt1, PMF_PT pt2)
 }
 */
 
-template <class REAL>
-class BirthsList : public TemplateList<pmf_point<REAL> >
+template <class T_REAL>
+class BirthsList : public TemplateList<pmf_point<T_REAL> >
 {
     /*
         virtual bool lt(const pmf_point<REAL> * & a, const pmf_point<REAL> * & b)
@@ -28,7 +28,40 @@ class BirthsList : public TemplateList<pmf_point<REAL> >
             return(a->x < b->x);
         }
         */
+    public :
+        bool remove_point_with_id (long);
 };
+
+
+template <class T_REAL>
+bool BirthsList<T_REAL>::remove_point_with_id (long ptId)
+{
+    Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
+    Element<pmf_point<T_REAL> > * pop = iter, * tmp = iter;
+    while (iter) {
+        if (iter->data->id == ptId) {
+            delete iter->data;
+            if (iter == TemplateList<pmf_point<T_REAL> >::head) {
+                TemplateList<pmf_point<T_REAL> >::head = iter->next;
+                delete(iter);
+                pop = TemplateList<pmf_point<T_REAL> >::head;
+                iter = TemplateList<pmf_point<T_REAL> >::head;
+            }
+            else {
+                pop->next = iter->next;
+                delete(iter);
+                iter = pop->next;
+            }
+            return true;
+        }
+        else {
+            pop = iter;
+            iter = iter->next;
+        }
+    }
+    return false;
+}
+
 
 #undef null
 

@@ -5,7 +5,7 @@
 
 template <class TYPE> struct Element
 {
-	const TYPE * data;
+	TYPE * data;
 	Element * next;
 	Element * prev;
     /*
@@ -17,7 +17,7 @@ template <class TYPE> struct Element
 	    data = tmp;
     }
     */
-	Element (const TYPE * x, Element * y, Element * z = NULL)
+	Element (TYPE * x, Element * y, Element * z = NULL)
 		: data(x), prev(y), next(z)
 	{}
 };

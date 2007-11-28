@@ -11,10 +11,10 @@
 
 
 #define ABS(x)   ( ((x)>0) ? (x) : (-(x)) )
-template <class REAL>
-int sgnDet(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr)
+template <class T_REAL>
+int sgnDet(T_REAL xp, T_REAL yp, T_REAL xq, T_REAL yq, T_REAL xr, T_REAL yr)
 {
-  REAL tmp;
+  T_REAL tmp;
   tmp = xp*yq + xr*yp + xq*yr - xr*yq - xq*yp - xp*yr;
   if(ABS(tmp) < EPSILON) return(0);
   else if(tmp > 0.0) return(1);
@@ -25,8 +25,8 @@ int sgnDet(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr)
 
 #define MIN(x,y) ( ((x)<(y)) ? (x) : (y) )
 #define MAX(x,y) ( ((x)>(y)) ? (x) : (y) )
-template <class REAL>
-int isOnSegment(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr)
+template <class T_REAL>
+int isOnSegment(T_REAL xp, T_REAL yp, T_REAL xq, T_REAL yq, T_REAL xr, T_REAL yr)
 /* Return values:
  *   1 - point (xr,yr) belongs to a segment (xp,yp)-(xq,yq)
  *   0 - point is outside the segment
@@ -43,9 +43,9 @@ int isOnSegment(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr)
 
 
 /* Function 'cross3' added 4 Nov 2005 */
-template <class REAL>
-int cross3( REAL xp, REAL yp, REAL xq, REAL yq /* Line 1 ( p-q ) */,
-		  REAL xr, REAL yr, REAL xs, REAL ys /* Line 2 ( r-s ) */ )
+template <class T_REAL>
+int cross3( T_REAL xp, T_REAL yp, T_REAL xq, T_REAL yq /* Line 1 ( p-q ) */,
+		  T_REAL xr, T_REAL yr, T_REAL xs, T_REAL ys /* Line 2 ( r-s ) */ )
 /* Returning values:
  *    0  - lines do not cross
  *    1  - lines crosses each others
@@ -73,9 +73,9 @@ int cross3( REAL xp, REAL yp, REAL xq, REAL yq /* Line 1 ( p-q ) */,
 
 
 #define ABS(x)   ( ((x)>0) ? (x) : (-(x)) )
-template <class REAL>
-void crosspoint2( REAL x3, REAL y3, REAL x4, REAL y4,
-		REAL x1, REAL y1, REAL x2, REAL y2, REAL *x, REAL *y )
+template <class T_REAL>
+void crosspoint2( T_REAL x3, T_REAL y3, T_REAL x4, T_REAL y4,
+		T_REAL x1, T_REAL y1, T_REAL x2, T_REAL y2, T_REAL & x, T_REAL & y )
 {
 	REAL a, b, c, d;
 	if( x1 != x2 )
@@ -87,20 +87,20 @@ void crosspoint2( REAL x3, REAL y3, REAL x4, REAL y4,
 			c = (y3 - y4)/(x3 - x4);
 			d = y3 - c * x3;
 
-			*x = (d - b)/(a - c);
-			*y = a * (*x) + b;
+			x = (d - b)/(a - c);
+			y = a * (x) + b;
 		}
 		else {
-			*x = x3;
-			*y = a * (*x) + b;
+			x = x3;
+			y = a * (x) + b;
 		}
 	}
 	else {
 		c = (y3 - y4)/(x3 - x4);
 		d = y3 - c * x3;
 
-		*x = x1;
-		*y = c * (*x) + d;
+		x = x1;
+		y = c * (x) + d;
 	}
 }
 #undef ABS

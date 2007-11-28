@@ -14,7 +14,7 @@ int main()
     int   tmp = 7;
 
     for (int i = 0; i < N; i++) {
-        tab[i] = i * 2;
+        tab[i] = ((i+tmp)%N) * 2;
         tl->push_in_order(tab+i);
     }
     tl->push_in_order(&tmp);
