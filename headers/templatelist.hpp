@@ -78,7 +78,7 @@ template <class T_TYPE>
 TemplateList<T_TYPE>::~TemplateList ()
 {
 	clear();
-	std::cerr << "[ LIST ]  destroyed" << std::endl;
+	//std::cerr << "[ LIST ]  destroyed" << std::endl;
 }
 
 
