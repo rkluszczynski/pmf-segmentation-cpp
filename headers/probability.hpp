@@ -3,7 +3,7 @@
 
 #include <cstdlib>
 #include <cmath>
-
+#include <algorithm>
 
 template <class T_REAL> void determineBirthAngles(T_REAL & g, T_REAL & d)
 {
@@ -39,11 +39,7 @@ template <class T_REAL> T_REAL Exp (T_REAL lambda)
 
 template <class T_REAL> T_REAL Uniform (T_REAL a, T_REAL b)
 {
-	if (b < a) {
-		T_REAL tmp = b;
-		b = a;
-		a = tmp;
-	}
+	if (b < a) { swap(a, b); }
 	T_REAL u = (((T_REAL)rand()) / (T_REAL)RAND_MAX);
 	return((b-a) * u  +  a);
 }

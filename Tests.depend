@@ -38,3 +38,24 @@
 	<iostream>
 	"generate.cpp"
 
+1196416152 source:d:\progz\pmf-codeblocks\tests\test-heap.cpp
+	<iostream>
+	"heap.hpp"
+
+1196416134 d:\progz\pmf-codeblocks\tests\heap.hpp
+	<iostream>
+	<algorithm>
+	<vector>
+
+1197237718 source:d:\progz\pmf-codeblocks\tests\test-blockslists.cpp
+	<iostream>
+	<algorithm>
+	"blockslists.hpp"
+	"probability.hpp"
+
+1197236070 d:\progz\pmf-codeblocks\tests\blockslists.hpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"blocklist.hpp"
+

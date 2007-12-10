@@ -39,11 +39,30 @@
 				<Option compiler="gcc" />
 				<Option projectResourceIncludeDirsRelation="1" />
 			</Target>
+			<Target title="test-heap">
+				<Option output="Tests.exe" prefix_auto="0" extension_auto="0" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+			<Target title="test-BlocksLists">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
 			<Add option="-I headers -I src" />
 		</Compiler>
+		<Unit filename="tests\blockslists.hpp">
+			<Option target="test-BlocksLists" />
+		</Unit>
+		<Unit filename="tests\heap.hpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="tests\test-BlocksLists.cpp">
+			<Option target="test-BlocksLists" />
+		</Unit>
 		<Unit filename="tests\test-BothLists.cpp">
 			<Option target="test-BothLists" />
 		</Unit>
@@ -52,6 +71,9 @@
 		</Unit>
 		<Unit filename="tests\test-TemplateList.cpp">
 			<Option target="test-TemplateList" />
+		</Unit>
+		<Unit filename="tests\test-heap.cpp">
+			<Option target="test-heap" />
 		</Unit>
 		<Unit filename="tests\test-polimorfizm.cpp">
 			<Option target="test-polimorfizm" />

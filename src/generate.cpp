@@ -20,6 +20,7 @@ using namespace std;
 /**
  * Funkcja generuje lewe punkty narodzin, zapisuje je do listy narodzin,
  * a nastepnie zwraca ilosc tych punktow bedaca nastepnym wolny ID punktu.
+ *
  **/
 long pmf_generate_initial_births (
                                     BirthsList<REAL> * list,
@@ -85,31 +86,33 @@ long pmf_process_initial_births (
 
 void pmf_correct_intersection_point ( pmf_point<REAL> * pt, long id1, long id2 )
 {
+#ifdef DEBUG
     cout << "########### " << id1 << "  " << id2 << " -------------------------" << endl;
+#endif
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id1)
     {
-        cout << "########### 1" << endl;
+        //cout << "########### 1" << endl;
         pt->n1->n1 = pt;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id1)
     {
-        cout << "########### 2" << endl;
+        //cout << "########### 2" << endl;
         pt->n1->n2 = pt;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
     }
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id2)
     {
-        cout << "########### 3" << endl;
+        //cout << "########### 3" << endl;
         pt->n1->n1 = pt;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id2)
     {
-        cout << "########### 4" << endl;
+        //cout << "########### 4" << endl;
         pt->n1->n2 = pt;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;

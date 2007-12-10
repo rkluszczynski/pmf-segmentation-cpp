@@ -25,6 +25,7 @@
 		</VirtualTargets>
 		<Unit filename="headers\accesslists.hpp" />
 		<Unit filename="headers\birthslist.hpp" />
+		<Unit filename="headers\blocklist.hpp" />
 		<Unit filename="headers\configurationlist.hpp" />
 		<Unit filename="headers\crosselement.hpp" />
 		<Unit filename="headers\geometry.hpp" />
