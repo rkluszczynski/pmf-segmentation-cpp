@@ -10,7 +10,7 @@
 				<Option output="D:\Progz\PMF-CodeBlocks\PMF.exe" prefix_auto="0" extension_auto="0" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 4" />
+				<Option parameters="-s 7" />
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
@@ -26,6 +26,7 @@
 		<Unit filename="headers\accesslists.hpp" />
 		<Unit filename="headers\birthslist.hpp" />
 		<Unit filename="headers\blocklist.hpp" />
+		<Unit filename="headers\blockslists.hpp" />
 		<Unit filename="headers\configurationlist.hpp" />
 		<Unit filename="headers\crosselement.hpp" />
 		<Unit filename="headers\geometry.hpp" />

@@ -6,6 +6,7 @@
 
 #include "templatelist.hpp"
 #include "crosselement.hpp"
+#include "blockslists.hpp"
 
 #define null 0
 
@@ -16,12 +17,12 @@ class IntersectionsList : public TemplateList<CrosspointElement<T_REAL> >
     public:
         void push_back (pmf_point<T_REAL> *, long, long);
         void push_in_order (pmf_point<T_REAL> *, long, long);
-        bool remove_intersection_with_one_id_of (long, long);
+        bool remove_intersection_with_one_id_of (long, long, BlocksLists<T_REAL> *);
 };
 
 
 template <class T_REAL>
-bool IntersectionsList<T_REAL>::remove_intersection_with_one_id_of (long ptId1, long ptId2)
+bool IntersectionsList<T_REAL>::remove_intersection_with_one_id_of (long ptId1, long ptId2, BlocksLists<T_REAL> * blocksLists)
 {
     Element<CrosspointElement<T_REAL> > * iter = TemplateList<CrosspointElement<T_REAL> >::head;
     Element<CrosspointElement<T_REAL> > * pop = iter, * tmp = iter;
@@ -32,6 +33,12 @@ bool IntersectionsList<T_REAL>::remove_intersection_with_one_id_of (long ptId1, 
              ( iter->data->p1 == ptId1  ||  iter->data->p2 == ptId1  ||
                iter->data->p1 == ptId2  ||  iter->data->p2 == ptId2 ) )
         {
+            // Added 16.01.2008
+            if (blocksLists) {
+                blocksLists->pop(iter->data->pt);
+                cout << blocksLists << endl;
+            }
+            // -- RK
             delete iter->data->pt;
             delete iter->data;
             if (iter == TemplateList<CrosspointElement<T_REAL> >::head)

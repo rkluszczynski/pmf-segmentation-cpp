@@ -6,6 +6,7 @@
 
 #include "point.hpp"
 #include "templatelist.hpp"
+#include "blockslists.hpp"
 
 #define null 0
 /*
@@ -29,17 +30,32 @@ class BirthsList : public TemplateList<pmf_point<T_REAL> >
         }
         */
     public :
-        bool remove_point_with_id (long);
+        void push_in_order (pmf_point<T_REAL> *, BlocksLists<T_REAL> *);
+        bool remove_point_with_id (long, BlocksLists<T_REAL> *);
 };
 
 
 template <class T_REAL>
-bool BirthsList<T_REAL>::remove_point_with_id (long ptId)
+void BirthsList<T_REAL>::push_in_order (pmf_point<T_REAL> * pt, BlocksLists<T_REAL> * blocks)
+{
+    if (blocks) {
+        pt->block = blocks->determine_point_block(pt);
+        blocks->push(pt);
+    }
+    TemplateList<pmf_point<T_REAL> >::push_in_order (pt);
+}
+
+
+template <class T_REAL>
+bool BirthsList<T_REAL>::remove_point_with_id (long ptId, BlocksLists<T_REAL> * blocksLists)
 {
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
     Element<pmf_point<T_REAL> > * pop = iter, * tmp = iter;
     while (iter) {
         if (iter->data->id == ptId) {
+            // Added 16.01.2008
+            if (blocksLists)  blocksLists->pop(iter->data);
+            // -- RK
             delete iter->data;
             if (iter == TemplateList<pmf_point<T_REAL> >::head) {
                 TemplateList<pmf_point<T_REAL> >::head = iter->next;

@@ -54,9 +54,6 @@
 			<Add option="-g" />
 			<Add option="-I headers -I src" />
 		</Compiler>
-		<Unit filename="tests\blockslists.hpp">
-			<Option target="test-BlocksLists" />
-		</Unit>
 		<Unit filename="tests\heap.hpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

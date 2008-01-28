@@ -29,6 +29,7 @@ template <class T_REAL>
 void BlockList<T_REAL>::pop_point (pmf_point<T_REAL> * pt)
 {
     Element<pmf_point<T_REAL> > * pointer = pt->pointer;
+    assert(pt);
     if (pointer == TemplateList<pmf_point<T_REAL> >::head) {
         TemplateList<pmf_point<T_REAL> >::head = pointer->next;
         if (pointer->next) {
@@ -37,17 +38,18 @@ void BlockList<T_REAL>::pop_point (pmf_point<T_REAL> * pt)
         else {
             TemplateList<pmf_point<T_REAL> >::tail = NULL;
         }
-        delete pointer;
-    }
-    else if (pointer == TemplateList<pmf_point<T_REAL> >::tail) {
-        TemplateList<pmf_point<T_REAL> >::tail = pointer->prev;
-        TemplateList<pmf_point<T_REAL> >::tail->next = NULL;
-        delete pointer;
     }
     else {
+        if (pointer == TemplateList<pmf_point<T_REAL> >::tail)
+            TemplateList<pmf_point<T_REAL> >::tail = pointer->prev;
         pointer->prev->next = pointer->next;
-        delete pointer;
+        if (pointer->next)
+            pointer->next->prev = pointer->prev;
     }
+    if (pointer->data) cout << " DEL : " << *pointer->data << endl;
+    if (pointer->next) cout << "NEXT : " << *pointer->next->data << endl;
+    if (pointer->prev) cout << "PREV : " << *pointer->prev->data << endl;
+    delete pointer;
 }
 
 
@@ -58,13 +60,20 @@ void BlockList<T_REAL>::print_points ()
 	Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
 	while (iter) {
         cout << " " << *iter->data;
-        cout << "~" << (iter->data)->block;
+        cout << "~";
         Element<pmf_point<T_REAL> > * tmp = iter->data->pointer;
+        if (tmp->prev) {
+            cout << tmp->prev->data->id << ".";
+        }
+        else {
+            cout << "x.";
+        }
+        cout << (iter->data)->block;
         if (tmp->next) {
             cout << "." << tmp->next->data->id;
         }
         else {
-            cout << ".0";
+            cout << ".x";
         }
         cout << " ";
         iter = iter->next;

@@ -7,12 +7,15 @@ using namespace std;
 #include "birthslist.hpp"
 #include "intersectionslist.hpp"
 #include "configurationlist.hpp"
+#include "blockslists.hpp"
 
 #include "probability.hpp"
 
 #define REAL double
 #define PMF_POINT pmf_point<REAL>
+
 #define DEBUG
+#define LOG
 
 #include "accesslists.hpp"
 
@@ -25,7 +28,8 @@ using namespace std;
 long pmf_generate_initial_births (
                                     BirthsList<REAL> * list,
                                     REAL fieldHeight,
-                                    REAL fieldWidth
+                                    REAL fieldWidth,
+                                    BlocksLists<REAL> * blocks
                                 )
 {
     REAL polowaPI = 0.5 * M_PI;
@@ -36,6 +40,10 @@ long pmf_generate_initial_births (
     while (vertical <= fieldHeight) {
         REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         PMF_POINT * pt = new PMF_POINT(0.0, vertical, 0.0, 0.0, ++id, PT_BIRTH_LEFT);
+        if (blocks) {
+            pt->block = blocks->determine_point_block(pt);
+            blocks->push(pt);
+        }
         list->push_back(pt);
         vertical += Exp<REAL>(2.0);
     }
@@ -46,6 +54,10 @@ long pmf_generate_initial_births (
         REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         if (angle < 0.0) {
             PMF_POINT * pt = new PMF_POINT(horizontal, 0.0, 0.0, 0.0, ++id, PT_BIRTH_UP);
+            if (blocks) {
+                pt->block = blocks->determine_point_block(pt);
+                blocks->push(pt);
+            }
             list->push_back(pt);
         }
         horizontal += Exp<REAL>(2.0);
@@ -57,31 +69,13 @@ long pmf_generate_initial_births (
         REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         if (angle > 0.0) {
             PMF_POINT * pt = new PMF_POINT(horizontal, fieldWidth, 0.0, 0.0, ++id, PT_BIRTH_DOWN);
-            list->push_in_order(pt);
+            list->push_in_order(pt, blocks);
         }
         horizontal += Exp<REAL>(2.0);
     }
     return(id);
 }
 
-/*
-long pmf_process_initial_births (
-                                    BirthsList<REAL> * bList,
-                                    IntersectionsList<REAL> * iList,
-                                    REAL fieldHeight,
-                                    REAL fieldWidth,
-                                    TemplateList<REAL> * PMF
-                                )
-{
-    REAL bSize = bList->getSize();
-    while (PMF->getSize() < bSize) {
-        const * pt = bList->front();
-        bList->pop_front();
-
-
-    }
-}
-*/
 
 
 void pmf_correct_intersection_point ( pmf_point<REAL> * pt, long id1, long id2 )
@@ -162,24 +156,33 @@ void pmf_generate (
 {
     long id;
     cout << "[ INFO ] : setting seed for random numbers ( " << seed << ")" << endl;
-    srand(seed);
+    //srand(seed);
 
     cout << "[ INFO ] : starting generate function ... " << endl;
     BirthsList<REAL> *        birthList = new BirthsList<REAL> ();
     IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
     ConfigurationList<REAL> *       PMF = new ConfigurationList<REAL> ();
+    BlocksLists<REAL> *     blocksLists = new BlocksLists<REAL> (fieldHeight, fieldWidth, 1.9);
 
-    id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth);
+    id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, blocksLists);
     cout << birthList << endl;
     cout << crossList << endl;
-//    pmf_process_initial_births (birthList, crossList, fieldHeight, fieldWidth, PMF);
-//    cout << birthList << endl;
-//    cout << crossList << endl;
+    /*
+    cout << blocksLists << endl;
+    long qq1, qq2;
+    PMF_POINT * ptmp = pmf_do_get(birthList, crossList, qq1, qq2);
+    blocksLists->pop(ptmp);
+    cout << blocksLists << endl;
+    exit(0);
 
-//    return;
-
+    delete blocksLists;
+    blocksLists = NULL;
+    */
+#ifdef LOG
+    FILE * flog = freopen("output/log.txt", "w", stdout);
+#endif
     PMF_POINT * pop = NULL;
-    int qwe = 0;
+    int iterationCounter = 0;
     long id1, id2;
     while (! birthList->empty()  ||  ! crossList->empty()) {
         PMF_POINT * pt = pmf_do_top(birthList, crossList, id1, id2);
@@ -188,7 +191,8 @@ void pmf_generate (
         if (pt->x > fieldWidth)  break;
 
 #ifdef DEBUG
-        cout << " ------------------------- step " << ++qwe << " --------------------" << endl;
+        cout << " ---------------------------------------------------------------------------" << endl;
+        cout << " ------------------------------ STEP " << ++iterationCounter << "----------------------------------" << endl;
         if (pop)  { cout << " poprzedni = " << (*pop) << "  " << endl; }
         cout << "  kandydat = " << (*pt) << "  " << endl;
         //cout << (* pmf_do_get(birthList, crossList, id1, id2)) << endl;
@@ -206,7 +210,7 @@ void pmf_generate (
             if (pop  &&  pop->x + zm < pt->x) {
                 REAL zmY = Uniform<REAL> (0.0, fieldHeight);
                 PMF_POINT * newPt = new PMF_POINT(pop->x + zm, zmY, 0.0, 0.0, ++id, PT_BIRTH_NORMAL);
-                birthList->push_in_order(newPt);
+                birthList->push_in_order(newPt, blocksLists);
             }
         }
 #ifdef DEBUG
@@ -247,7 +251,7 @@ void pmf_generate (
             // TODO :
             //		if(storePoints(nowy, qB, qI, akt, &idPktu, Bord) == 1) akt->r2 = nowy;
             //		else delete(nowy);
-            pmf_store_points(newPt, birthList, crossList, pt, ++id, fieldHeight, fieldWidth);
+            pmf_store_points_in_blocks (newPt, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
         }
 
         /*  W momencie wybrania juz punktu do dalszej pracy nalezy
@@ -264,13 +268,13 @@ void pmf_generate (
             zmY = pt->y + upperLength * sin(upperAngle);
             assert(zmX > pt->x);
             PMF_POINT * newpt1 = new PMF_POINT(zmX, zmY, pt, NULL, 0.0, 0.0, ++id, PT_UPDATE);
-            pmf_store_points(newpt1, birthList, crossList, pt, ++id, fieldHeight, fieldWidth);
+            pmf_store_points_in_blocks (newpt1, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
             zmX = pt->x + lowerLength * cos(lowerAngle);
             zmY = pt->y + lowerLength * sin(lowerAngle);
             assert(zmX > pt->x);
             PMF_POINT * newpt2 = new PMF_POINT(zmX, zmY, pt, NULL, 0.0, 0.0, ++id, PT_UPDATE);
-            pmf_store_points(newpt2, birthList, crossList, pt, ++id, fieldHeight, fieldWidth);
+            pmf_store_points_in_blocks (newpt2, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
             pt->n1 = newpt1;
             pt->n2 = newpt2;
@@ -290,13 +294,17 @@ void pmf_generate (
             cout << "INTERSECTION  : " << *(pt->n1) << "  " << endl;
             cout << "INTERSECTION  : " << *(pt->n2) << "  " << endl;
 #endif
-            crossList->remove_intersection_with_one_id_of (id1, id2);
-            birthList->remove_point_with_id (id1);
-            birthList->remove_point_with_id (id2);
+            crossList->remove_intersection_with_one_id_of (id1, id2, blocksLists);
+            birthList->remove_point_with_id (id1, blocksLists);
+            birthList->remove_point_with_id (id2, blocksLists);
         }
 
         pop = pt;
 #ifdef DEBUG
+        //cout << endl << "### Lista punktow w bloku ###" << endl;
+        //if (blocksLists)  blocksLists->print_lists();
+        //cout << endl << "### Atualne PMF ###" << endl;
+        //cout << PMF << endl;
         //getchar();
 #endif
     }
@@ -310,6 +318,9 @@ void pmf_generate (
     fout.close();
     delete PMF;
 
+#ifdef LOG
+    fclose(flog);
+#endif
     cout << "[ DONE ] : leaving generate function" << endl;
     return;
 }
