@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<resource_extra>
+		<object root="1" />
+		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes" />
+		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes" />
+		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes" />
+		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
+		<object name="ID_MENUITEM4" class="wxMenuItem" variable="MenuItem1" member="yes">
+			<handler function="OnMenuItem1Selected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_MENUITEM1" class="wxMenuItem" variable="quitMenuItem" member="yes">
+			<handler function="OnQuit" entry="EVT_MENU" />
+		</object>
+		<object name="ID_MENUITEM2" class="wxMenuItem" variable="generateMenuItem" member="yes">
+			<handler function="OnGenerateMenuItemSelected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="yes">
+			<handler function="OnAbout" entry="EVT_MENU" />
+		</object>
+		<object name="ID_STATUSBAR1" class="wxStatusBar" variable="StatusBar1" member="yes" />
+	</resource_extra>
+</wxsmith>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc">
+	<object class="wxFrame" name="mainFrame">
+		<title>Frame</title>
+		<size>600,500</size>
+		<object class="wxNotebook" name="ID_NOTEBOOK1">
+			<pos>136,176</pos>
+			<object class="notebookpage">
+				<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1">
+					<sashpos>360</sashpos>
+					<minsize>10</minsize>
+					<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" />
+					<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
+				</object>
+				<label>Generating PMF</label>
+			</object>
+		</object>
+		<object class="wxMenuBar">
+			<object class="wxMenu">
+				<label>File</label>
+				<object class="wxMenuItem" name="ID_MENUITEM4">
+					<label>Test Paint</label>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_MENUITEM1">
+					<label>Quit</label>
+				</object>
+			</object>
+			<object class="wxMenu">
+				<label>PMF</label>
+				<object class="wxMenuItem" name="ID_MENUITEM2">
+					<label>Generate ...</label>
+				</object>
+			</object>
+			<object class="wxMenu">
+				<label>Help</label>
+				<object class="wxMenuItem" name="ID_MENUITEM3">
+					<label>About</label>
+				</object>
+			</object>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR1">
+			<fields>3</fields>
+			<widths>-30,-10,-10</widths>
+			<styles>wxSB_NORMAL,wxSB_NORMAL,wxSB_NORMAL</styles>
+			<style>wxST_SIZEGRIP</style>
+		</object>
+	</object>
+</resource>
