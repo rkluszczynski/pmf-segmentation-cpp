@@ -15,8 +15,8 @@ int main()
     BirthsList<REAL> * birthList = new BirthsList<REAL> ();
     IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
 
-    id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth);
-    birthList->remove_point_with_id(3);
+    id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, NULL);
+    birthList->remove_point_with_id(3, NULL);
     cout << birthList << endl;
 
     pmf_point<REAL> * pt = new pmf_point<REAL> (17,1,0,0,++id);
@@ -25,7 +25,7 @@ int main()
     crossList->push_back(pt,1L,2L);
     crossList->push_in_order(pt2,3L,2L);
     crossList->push_in_order(pt3,1L,7L);
-    crossList->remove_intersection_with_one_id_of (5L, 1L);
+    crossList->remove_intersection_with_one_id_of (5L, 1L, NULL);
     cout << crossList << endl;
 
     cout << "[ DONE ] : leaving generate function" << endl;
