@@ -162,7 +162,7 @@ void pmf_generate (
     BirthsList<REAL> *        birthList = new BirthsList<REAL> ();
     IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
     ConfigurationList<REAL> *       PMF = new ConfigurationList<REAL> ();
-    BlocksLists<REAL> *     blocksLists = new BlocksLists<REAL> (fieldHeight, fieldWidth, 1.9);
+    BlocksLists<REAL> *     blocksLists = new BlocksLists<REAL> (fieldHeight, fieldWidth, 1.1);
 
     id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, blocksLists);
     cout << birthList << endl;
@@ -221,7 +221,7 @@ void pmf_generate (
         PMF->push_back(pt);
 
 #ifdef DEBUG
-        cout << (*pt) << "       " << id1 << " " << id2 << endl;
+        cout << "=" << (*pt) << "       " << id1 << " " << id2 << endl;
 #endif
 
         if (pt->type == PT_UPDATE || pt->type == PT_BIRTH_LEFT || pt->type == PT_BIRTH_DOWN || pt->type == PT_BIRTH_UP) {
@@ -301,10 +301,12 @@ void pmf_generate (
 
         pop = pt;
 #ifdef DEBUG
-        //cout << endl << "### Lista punktow w bloku ###" << endl;
-        //if (blocksLists)  blocksLists->print_lists();
-        //cout << endl << "### Atualne PMF ###" << endl;
-        //cout << PMF << endl;
+        if (true) {
+            cout << endl << "### Lista punktow w bloku ###" << endl;
+            if (blocksLists)  blocksLists->print_lists();
+            cout << endl << "### Atualne PMF ###" << endl;
+            cout << PMF << endl;
+        }
         //getchar();
 #endif
     }

@@ -22,7 +22,7 @@ template <typename T_REAL> struct pmf_point
 	T_REAL x, y;
 	pmf_point * n1, * n2;
 	T_REAL l1, l2;
-	long int id;
+	long int id, oid;
 	int type;
 
 	int block;
@@ -73,6 +73,8 @@ template <typename T_REAL> struct pmf_point
                 default :   out << "u/n";
             }
             out << "}";
+            if(pt.block > 0)
+                out << "|" << pt.block << "|";
         }
 		//out << " ";
 		return out;

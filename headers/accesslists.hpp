@@ -17,14 +17,14 @@ inline void pmf_check_crossings_in_block (
         pmf_point<REAL> * pt = iter->data;
         // TODO : check all the crossings
         if ( (pt->type == PT_UPDATE  ||  pt->type == PT_BORDER)
-            &&  pt->n2 == NULL )// &&  pt->n1 != newPt  &&  pt->n1 != NULL)
+           )// &&  pt->n2 == NULL )// &&  pt->n1 != newPt  &&  pt->n1 != NULL)
         {
             if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
             {
                 REAL xx, yy;
                 crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
 #ifdef DEBUG
-                cout << " CROSSED ";
+                cout << " CROSSED:" << pt->id << "-" << pt->n1->id << " " << endl;
 #endif
                 PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
                 newpt2->block = blocks->determine_point_block(newpt2);
@@ -32,22 +32,6 @@ inline void pmf_check_crossings_in_block (
                 iList->push_in_order (newpt2, newPt->id, pt->id);
             }
         }
-        /*
-        if (newPt != pt->n1  &&  pt->n1 != NULL  &&
-            cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1 )
-        {
-            REAL xx, yy;
-            crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
-
-#ifdef DEBUG
-            cout << " CROSSED ";
-#endif
-            PMF_POINT * newpt2 = new PMF_POINT(xx, yy, pt, pt->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
-            newpt2->block = blocks->determine_point_block(newpt2);
-            blocks->push(newpt2);
-            iList->push_in_order (newpt2, newPt->id, pt->id);
-        }
-        */
         //out << " " << *iter->data;
         iter = iter->next;
     }
@@ -103,6 +87,7 @@ bool pmf_store_points_in_blocks (
             newPt->block = block;
             /* Calculate intersection points with other segments in neighbours' blocks */
             int ll, rr, uu, dd;
+            block = parentPt->block;
             ll = blocks->left_from(block);
             rr = blocks->right_from(block);
             uu = blocks->up_from(block);

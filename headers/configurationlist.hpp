@@ -19,6 +19,7 @@ void ConfigurationList<T_REAL>::set_points_ids ()
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
     int newID = 0;
     while (iter) {
+        iter->data->oid = iter->data->id;
         (* iter->data).id = (++newID);
         iter = iter->next;
     }
@@ -38,7 +39,9 @@ void ConfigurationList<T_REAL>::save_configuration (std::ostream & out, double f
         //out << pt->l1 << " " << pt->l2 << " ";
         out << ((pt->n1) ? pt->n1->id : 0) << " ";
         out << ((pt->n2) ? pt->n2->id : 0) << " ";
-        out << pt->type;
+        out << pt->type << " ";
+        out << pt->block << " ";
+        out << pt->oid << " ";
         out << endl;
         iter = iter->next;
     }
