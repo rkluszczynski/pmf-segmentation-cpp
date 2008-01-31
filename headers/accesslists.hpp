@@ -16,6 +16,29 @@ inline void pmf_check_crossings_in_block (
     while (iter) {
         pmf_point<REAL> * pt = iter->data;
         // TODO : check all the crossings
+        switch (pt->type) {
+            case PT_UPDATE :
+            case PT_BORDER :
+                //if ( pt->n2 == NULL )// &&  pt->n1 != newPt  &&  pt->n1 != NULL)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED:" << pt->id << "-" << pt->n1->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, pt->id);
+                    }
+                }
+            default :
+                //out << " " << *iter->data;
+                iter = iter->next;
+        }
+        /*
         if ( (pt->type == PT_UPDATE  ||  pt->type == PT_BORDER)
            )// &&  pt->n2 == NULL )// &&  pt->n1 != newPt  &&  pt->n1 != NULL)
         {
@@ -34,6 +57,7 @@ inline void pmf_check_crossings_in_block (
         }
         //out << " " << *iter->data;
         iter = iter->next;
+        */
     }
 }
 
