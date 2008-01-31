@@ -46,7 +46,11 @@ class mainFrame: public wxFrame
 		void OnAbout(wxCommandEvent& event);
 		void OnMenuItem1Selected(wxCommandEvent& event);
 		void OnGenerateMenuItemSelected(wxCommandEvent& event);
+		void OnmyNotebookPageChanged(wxNotebookEvent& event);
+		void OnMyScrolledWindowPaint(wxPaintEvent& event);
 		//*)
+
+        void PaintScrolledWindowBackground(wxDC& dc);
 
 		DECLARE_EVENT_TABLE()
 };

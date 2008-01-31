@@ -4,7 +4,9 @@
 		<object root="1" />
 		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes" />
 		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes" />
-		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes" />
+		<object name="ID_mySCROLLEDWINDOW" class="wxScrolledWindow" variable="myScrolledWindow" member="yes">
+			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
+		</object>
 		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
 		<object name="ID_MENUITEM4" class="wxMenuItem" variable="MenuItem1" member="yes">
 			<handler function="OnMenuItem1Selected" entry="EVT_MENU" />

@@ -22,7 +22,7 @@ GenerateDialog::GenerateDialog(wxWindow* parent)
 	TextCtrl2 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
 	Button1 = (wxButton*)FindWindow(XRCID("ID_BUTTON1"));
 	Button2 = (wxButton*)FindWindow(XRCID("ID_BUTTON2"));
-
+	
 	Connect(XRCID("ID_BUTTON1"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnButton1Click);
 	Connect(XRCID("ID_BUTTON2"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnButton2Click);
 	//*)

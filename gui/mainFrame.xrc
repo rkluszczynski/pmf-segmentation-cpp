@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resource xmlns="http://www.wxwidgets.org/wxxrc">
 	<object class="wxFrame" name="mainFrame">
-		<title>PMF Application - ver. $Id$</title>
+		<title>PMF Application -- $Id$</title>
 		<size>600,500</size>
 		<object class="wxNotebook" name="ID_NOTEBOOK1">
 			<pos>136,176</pos>

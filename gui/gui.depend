@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1201600278 source:d:\progz\pmf-codeblocks\gui\mainframe.cpp
+1201600640 source:d:\progz\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	"GenerateDialog.h"
 	<wx/xrc/xmlres.h>
 
-1201599308 d:\progz\pmf-codeblocks\gui\mainframe.h
+1201773680 d:\progz\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1221,7 +1221,7 @@
 	"wx/defs.h"
 	"wx/filesys.h"
 
-1201600382 source:d:\progz\pmf-codeblocks\gui\generatedialog.cpp
+1201705512 source:d:\progz\pmf-codeblocks\gui\generatedialog.cpp
 	"GenerateDialog.h"
 	<wx/xrc/xmlres.h>
 
@@ -1936,4 +1936,42 @@
 	"wx/dcmemory.h"
 	"wx/dcclient.h"
 	"wx/window.h"
+
+1201598512 source:d:\projects\pmf-codeblocks\gui\pmfapplication.cpp
+	"PMFApplication.h"
+	"mainFrame.h"
+	<wx/xrc/xmlres.h>
+	<wx/image.h>
+
+1201522014 d:\projects\pmf-codeblocks\gui\pmfapplication.h
+	<wx/app.h>
+
+1201773680 d:\projects\pmf-codeblocks\gui\mainframe.h
+	<wx/scrolwin.h>
+	<wx/notebook.h>
+	<wx/menu.h>
+	<wx/splitter.h>
+	<wx/frame.h>
+	<wx/html/htmlwin.h>
+	<wx/statusbr.h>
+
+1201774188 source:d:\projects\pmf-codeblocks\gui\mainframe.cpp
+	"mainFrame.h"
+	<wx/wx.h>
+	<wx/dcbuffer.h>
+	"GenerateDialog.h"
+	<wx/xrc/xmlres.h>
+
+1201600314 d:\projects\pmf-codeblocks\gui\generatedialog.h
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1193991320 source:d:\projects\pmf-codeblocks\gui\resource.rc
+	"wx/msw/wx.rc"
+
+1201705512 source:d:\projects\pmf-codeblocks\gui\generatedialog.cpp
+	"GenerateDialog.h"
+	<wx/xrc/xmlres.h>
 
