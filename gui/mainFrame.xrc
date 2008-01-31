@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resource xmlns="http://www.wxwidgets.org/wxxrc">
 	<object class="wxFrame" name="mainFrame">
-		<title>Frame</title>
+		<title>PMF Application - ver. $Id$</title>
 		<size>600,500</size>
 		<object class="wxNotebook" name="ID_NOTEBOOK1">
 			<pos>136,176</pos>
@@ -9,7 +9,9 @@
 				<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1">
 					<sashpos>360</sashpos>
 					<minsize>10</minsize>
-					<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" />
+					<object class="wxScrolledWindow" name="ID_mySCROLLEDWINDOW">
+						<style>wxHSCROLL|wxVSCROLL|wxDOUBLE_BORDER|wxFULL_REPAINT_ON_RESIZE</style>
+					</object>
 					<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
 				</object>
 				<label>Generating PMF</label>
