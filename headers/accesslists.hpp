@@ -3,6 +3,7 @@
 
 #include "geometry.hpp"
 
+#define LOOK_FORWARD 1
 inline void pmf_check_crossings_in_block (
                                             PMF_POINT * newPt,
                                             IntersectionsList<REAL> * iList,
@@ -13,9 +14,144 @@ inline void pmf_check_crossings_in_block (
                                         )
 {
     Element<pmf_point<REAL> > * iter = blocks->getBlockList(index)->getHead();
+    assert(parentPt == newPt->n1);
     while (iter) {
         pmf_point<REAL> * pt = iter->data;
-        // TODO : check all the crossings
+#if LOOK_FORWARD
+        switch (pt->type) {
+            case PT_BIRTH_NORMAL :
+                if (pt->n1)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~1:" << pt->id << "-" << pt->n1->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, pt->n1->id);
+                    }
+                }
+                if (pt->n2)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~2:" << pt->id << "-" << pt->n2->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, pt->n2->id);
+                    }
+                }
+                iter = iter->next;
+                break;;
+            case PT_BIRTH_LEFT   :
+            case PT_BIRTH_UP     :
+            case PT_BIRTH_DOWN   :
+                if (pt->n1)//&&  newPt != pt->n1 && pt != newPt)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~0:" << pt->id << "-" << pt->n1->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, pt->n1->id);
+                    }
+                }
+                iter = iter->next;
+                break;;
+            case PT_UPDATE       :
+                if (pt->n2)//&&  newPt != pt->n1 && pt != newPt)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~U:" << pt->id << "-" << pt->n2->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, pt->n2->id);
+                    }
+                }
+            case PT_UNKNOWN      :
+            case PT_BORDER       :
+            case PT_INTERSECTION :
+            default :
+                //out << " " << *iter->data;
+                iter = iter->next;
+        }
+        /*
+        pmf_point<REAL> * earlierPt, * laterPt;
+
+        if (pt->n2 != NULL  &&  pt->n1->x < pt->n2->x) {
+            earlierPt = pt->n1;
+            laterPt = pt->n2;
+        }
+        else {
+            earlierPt = pt->n2;
+            laterPt = pt->n1;
+        }
+
+        switch (pt->type) {
+            case PT_BIRTH_NORMAL :
+                if (earlierPt  &&  newPt != earlierPt)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, earlierPt->x, earlierPt->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, earlierPt->x, earlierPt->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~1:" << pt->id << "-" << earlierPt->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, earlierPt->id);
+                    }
+                }
+            case PT_BIRTH_LEFT   :
+            case PT_BIRTH_UP     :
+            case PT_BIRTH_DOWN   :
+            case PT_UPDATE       :
+                if (laterPt  &&  newPt != laterPt)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, laterPt->x, laterPt->y) == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, laterPt->x, laterPt->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~2:" << pt->id << "-" << laterPt->id << " " << endl;
+#endif
+                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iList->push_in_order (newpt2, newPt->id, laterPt->id);
+                    }
+                }
+            case PT_UNKNOWN      :
+            case PT_BORDER       :
+            case PT_INTERSECTION :
+            default :
+                //out << " " << *iter->data;
+                iter = iter->next;
+        }
+        */
+#else   // LOOK_FORWARD
         switch (pt->type) {
             case PT_UPDATE :
             case PT_BORDER :
@@ -38,28 +174,10 @@ inline void pmf_check_crossings_in_block (
                 //out << " " << *iter->data;
                 iter = iter->next;
         }
-        /*
-        if ( (pt->type == PT_UPDATE  ||  pt->type == PT_BORDER)
-           )// &&  pt->n2 == NULL )// &&  pt->n1 != newPt  &&  pt->n1 != NULL)
-        {
-            if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
-            {
-                REAL xx, yy;
-                crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
-#ifdef DEBUG
-                cout << " CROSSED:" << pt->id << "-" << pt->n1->id << " " << endl;
-#endif
-                PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
-                newpt2->block = blocks->determine_point_block(newpt2);
-                blocks->push(newpt2);
-                iList->push_in_order (newpt2, newPt->id, pt->id);
-            }
-        }
-        //out << " " << *iter->data;
-        iter = iter->next;
-        */
+#endif  // LOOK_FORWARD
     }
 }
+#undef LOOK_FORWARD
 
 
 bool pmf_store_points_in_blocks (
