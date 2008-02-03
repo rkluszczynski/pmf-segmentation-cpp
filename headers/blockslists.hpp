@@ -95,8 +95,8 @@ void BlocksLists<T_REAL>::push (pmf_point<T_REAL> * pt)
  * Konstruktor klasy.
  **/
 template <class T_REAL>
-BlocksLists<T_REAL>::BlocksLists (T_REAL fheight, T_REAL fwidth, T_REAL bsize)
-: fieldHeight(fheight), fieldWidth(fwidth), blockHeight(bsize), blockWidth(bsize)
+BlocksLists<T_REAL>::BlocksLists (T_REAL fwidth, T_REAL fheight, T_REAL bsize)
+: fieldWidth(fwidth), fieldHeight(fheight), blockHeight(bsize), blockWidth(bsize)
 {
 	assert(blockHeight <= fieldHeight && blockWidth <= fieldWidth);
 

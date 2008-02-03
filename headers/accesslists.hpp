@@ -50,7 +50,6 @@ inline void pmf_check_crossings_in_block (
                         iList->push_in_order (newpt2, newPt->id, pt->n2->id);
                     }
                 }
-                iter = iter->next;
                 break;;
             case PT_BIRTH_LEFT   :
             case PT_BIRTH_UP     :
@@ -70,7 +69,6 @@ inline void pmf_check_crossings_in_block (
                         iList->push_in_order (newpt2, newPt->id, pt->n1->id);
                     }
                 }
-                iter = iter->next;
                 break;;
             case PT_UPDATE       :
                 if (pt->n2)//&&  newPt != pt->n1 && pt != newPt)
@@ -93,64 +91,9 @@ inline void pmf_check_crossings_in_block (
             case PT_INTERSECTION :
             default :
                 //out << " " << *iter->data;
-                iter = iter->next;
+                ;;
         }
-        /*
-        pmf_point<REAL> * earlierPt, * laterPt;
-
-        if (pt->n2 != NULL  &&  pt->n1->x < pt->n2->x) {
-            earlierPt = pt->n1;
-            laterPt = pt->n2;
-        }
-        else {
-            earlierPt = pt->n2;
-            laterPt = pt->n1;
-        }
-
-        switch (pt->type) {
-            case PT_BIRTH_NORMAL :
-                if (earlierPt  &&  newPt != earlierPt)
-                {
-                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, earlierPt->x, earlierPt->y) == 1)
-                    {
-                        REAL xx, yy;
-                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, earlierPt->x, earlierPt->y, xx, yy);
-#ifdef DEBUG
-                        cout << " CROSSED~1:" << pt->id << "-" << earlierPt->id << " " << endl;
-#endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
-                        newpt2->block = blocks->determine_point_block(newpt2);
-                        blocks->push(newpt2);
-                        iList->push_in_order (newpt2, newPt->id, earlierPt->id);
-                    }
-                }
-            case PT_BIRTH_LEFT   :
-            case PT_BIRTH_UP     :
-            case PT_BIRTH_DOWN   :
-            case PT_UPDATE       :
-                if (laterPt  &&  newPt != laterPt)
-                {
-                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, laterPt->x, laterPt->y) == 1)
-                    {
-                        REAL xx, yy;
-                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, laterPt->x, laterPt->y, xx, yy);
-#ifdef DEBUG
-                        cout << " CROSSED~2:" << pt->id << "-" << laterPt->id << " " << endl;
-#endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
-                        newpt2->block = blocks->determine_point_block(newpt2);
-                        blocks->push(newpt2);
-                        iList->push_in_order (newpt2, newPt->id, laterPt->id);
-                    }
-                }
-            case PT_UNKNOWN      :
-            case PT_BORDER       :
-            case PT_INTERSECTION :
-            default :
-                //out << " " << *iter->data;
-                iter = iter->next;
-        }
-        */
+        iter = iter->next;
 #else   // LOOK_FORWARD
         switch (pt->type) {
             case PT_UPDATE :

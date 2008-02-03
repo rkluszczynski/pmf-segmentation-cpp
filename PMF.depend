@@ -8,7 +8,7 @@
 	<unistd.h>
 	"generate.cpp"
 
-1201532346 d:\projects\pmf-codeblocks\src\generate.cpp
+1202049866 d:\projects\pmf-codeblocks\src\generate.cpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -40,7 +40,7 @@
 	<fstream>
 	"listelement.hpp"
 
-1200478050 d:\projects\pmf-codeblocks\headers\blockslists.hpp
+1202046702 d:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
@@ -61,7 +61,8 @@
 	<cstdio>
 	"point.hpp"
 
-1201530708 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1202048264 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+	"point.hpp"
 	"templatelist.hpp"
 
 1197227676 d:\projects\pmf-codeblocks\headers\probability.hpp
@@ -73,4 +74,7 @@
 	"geometry.hpp"
 
 1195484144 d:\projects\pmf-codeblocks\headers\geometry.hpp
+
+1202048362 source:d:\projects\pmf-codeblocks\src\add.cpp
+	"configurationlist.hpp"
 

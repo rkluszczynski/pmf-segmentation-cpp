@@ -1,16 +1,34 @@
 #ifndef CONFIGURATIONLIST_HPP_INCLUDED
 #define CONFIGURATIONLIST_HPP_INCLUDED
 
+#include "point.hpp"
 #include "templatelist.hpp"
 
 
 template <class T_REAL>
 class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
 {
+    private :
+        T_REAL fieldWidth, fieldHeight;
+
     public :
+        ConfigurationList(T_REAL, T_REAL);
+
+        T_REAL getFieldWidth()  { return  fieldWidth; }
+        T_REAL getFieldHeight() { return fieldHeight; }
+
         void set_points_ids ();
-		void save_configuration (std::ostream & out, double fieldHeight , double fieldWidth);
+		void save_configuration (std::ostream & out);
 };
+
+
+template <class T_REAL>
+ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
+: TemplateList<pmf_point<T_REAL> >()
+{
+    fieldWidth = width;
+    fieldHeight = height;
+}
 
 
 template <class T_REAL>
@@ -27,8 +45,9 @@ void ConfigurationList<T_REAL>::set_points_ids ()
 
 
 template <class T_REAL>
-void ConfigurationList<T_REAL>::save_configuration (std::ostream & out, double fieldHeight , double fieldWidth)
+void ConfigurationList<T_REAL>::save_configuration (std::ostream & out)
 {
+    using std::endl;
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
     out << fieldHeight << " " << fieldWidth << endl;
     out << TemplateList<pmf_point<T_REAL> >::size << endl;

@@ -15,7 +15,7 @@ using namespace std;
 #define PMF_POINT pmf_point<REAL>
 
 #define DEBUG
-#define LOG
+#define LOG 1
 
 #include "accesslists.hpp"
 
@@ -156,29 +156,19 @@ void pmf_generate (
 {
     long id;
     cout << "[ INFO ] : setting seed for random numbers ( " << seed << ")" << endl;
-    //srand(seed);
+    srand(seed);
 
     cout << "[ INFO ] : starting generate function ... " << endl;
     BirthsList<REAL> *        birthList = new BirthsList<REAL> ();
     IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
-    ConfigurationList<REAL> *       PMF = new ConfigurationList<REAL> ();
-    BlocksLists<REAL> *     blocksLists = new BlocksLists<REAL> (fieldHeight, fieldWidth, 1.1);
+    ConfigurationList<REAL> *       PMF = new ConfigurationList<REAL> (fieldWidth, fieldHeight);
+    BlocksLists<REAL> *     blocksLists = new BlocksLists<REAL> (fieldWidth, fieldHeight, 1.1);
 
     id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, blocksLists);
     cout << birthList << endl;
     cout << crossList << endl;
-    /*
-    cout << blocksLists << endl;
-    long qq1, qq2;
-    PMF_POINT * ptmp = pmf_do_get(birthList, crossList, qq1, qq2);
-    blocksLists->pop(ptmp);
-    cout << blocksLists << endl;
-    exit(0);
 
-    delete blocksLists;
-    blocksLists = NULL;
-    */
-#ifdef LOG
+#if LOG
     FILE * flog = freopen("output/log.txt", "w", stdout);
 #endif
     PMF_POINT * pop = NULL;
@@ -241,10 +231,16 @@ void pmf_generate (
             REAL xx = pt->x + len * cos(newAngle);
             REAL yy = pt->y + len * sin(newAngle);
 
-            PMF_POINT * newPt = new PMF_POINT(xx, yy, pt, NULL, 0.0, 0.0, ++id, PT_UPDATE);
+            PMF_POINT * newPt = new PMF_POINT(xx, yy, pt, NULL, len, 0.0, ++id, PT_UPDATE);
             /* Correcting neighbour of parent point */
-            if (pt->type == PT_UPDATE)  { pt->n2 = newPt; }
-            else  { pt->n1 = newPt; }
+            if (pt->type == PT_UPDATE)  {
+                pt->n2 = newPt;
+                pt->l2 = len;
+            }
+            else  {
+                pt->n1 = newPt;
+                pt->l1 = len;
+            }
 #ifdef DEBUG
             cout << " ADDING POINT  :  " << *newPt << endl;
 #endif
@@ -258,26 +254,26 @@ void pmf_generate (
             wykonac odpowiednie modyfikacje w listach.
          */
         if (pt->type == PT_BIRTH_NORMAL) {
-            REAL lowerLength = Exp<REAL>(2.0);
             REAL upperLength = Exp<REAL>(2.0);
-            REAL lowerAngle, upperAngle;
+            REAL lowerLength = Exp<REAL>(2.0);
+            REAL upperAngle, lowerAngle;
             determineBirthAngles (upperAngle, lowerAngle);
 
             REAL zmX, zmY;
             zmX = pt->x + upperLength * cos(upperAngle);
             zmY = pt->y + upperLength * sin(upperAngle);
             assert(zmX > pt->x);
-            PMF_POINT * newpt1 = new PMF_POINT(zmX, zmY, pt, NULL, 0.0, 0.0, ++id, PT_UPDATE);
+            PMF_POINT * newpt1 = new PMF_POINT(zmX, zmY, pt, NULL, upperLength, 0.0, ++id, PT_UPDATE);
             pmf_store_points_in_blocks (newpt1, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
             zmX = pt->x + lowerLength * cos(lowerAngle);
             zmY = pt->y + lowerLength * sin(lowerAngle);
             assert(zmX > pt->x);
-            PMF_POINT * newpt2 = new PMF_POINT(zmX, zmY, pt, NULL, 0.0, 0.0, ++id, PT_UPDATE);
+            PMF_POINT * newpt2 = new PMF_POINT(zmX, zmY, pt, NULL, lowerLength, 0.0, ++id, PT_UPDATE);
             pmf_store_points_in_blocks (newpt2, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
-            pt->n1 = newpt1;
-            pt->n2 = newpt2;
+            pt->n1 = newpt1;  pt->l1 = upperLength;
+            pt->n2 = newpt2;  pt->l2 = lowerLength;
 #ifdef DEBUG
             cout << " ADDING BIRTH DIRECTION POINT 1  :  " << *newpt1 << endl;
             cout << " ADDING BIRTH DIRECTION POINT 2  :  " << *newpt2 << endl;
@@ -288,7 +284,6 @@ void pmf_generate (
         if (pt->type == PT_INTERSECTION)
         {
             pmf_correct_intersection_point (pt, id1, id2);
-            //pmf_correct_intersection_point (pt, pt->n1->id, pt->n2->id);
 #ifdef DEBUG
             cout << "INTERSECTION  : " << (*pt) << "  " << endl;
             cout << "INTERSECTION  : " << *(pt->n1) << "  " << endl;
@@ -312,15 +307,16 @@ void pmf_generate (
     }
     delete birthList;
     delete crossList;
+    delete blocksLists;
 
     cout << "[ SAVE ] : saving configuration to a file" << endl;
     fstream fout("output/PMF.txt");
     PMF->set_points_ids();
-    PMF->save_configuration(fout, fieldHeight, fieldWidth);
+    PMF->save_configuration(fout);
     fout.close();
     delete PMF;
 
-#ifdef LOG
+#if LOG
     fclose(flog);
 #endif
     cout << "[ DONE ] : leaving generate function" << endl;

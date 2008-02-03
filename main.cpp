@@ -5,7 +5,7 @@
 #include <ctime>
 #include <unistd.h>
 
-#include "generate.cpp"
+#include "operations.hpp"
 
 
 void print_usage(char *prog_name)

@@ -5,6 +5,7 @@
 		<Option title="PMF GUI" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="wxsmith\;dialogs\;" />
 		<Build>
 			<Target title="Release">
 				<Option output="bin\Release\PMFApplication" prefix_auto="1" extension_auto="1" />
@@ -58,8 +59,12 @@
 		<ResourceCompiler>
 			<Add directory="$(#wx)\include" />
 		</ResourceCompiler>
-		<Unit filename="GenerateDialog.cpp" />
-		<Unit filename="GenerateDialog.h" />
+		<Unit filename="GenerateDialog.cpp">
+			<Option virtualFolder="dialogs\" />
+		</Unit>
+		<Unit filename="GenerateDialog.h">
+			<Option virtualFolder="dialogs\" />
+		</Unit>
 		<Unit filename="PMFApplication.cpp" />
 		<Unit filename="PMFApplication.h" />
 		<Unit filename="mainFrame.cpp" />
