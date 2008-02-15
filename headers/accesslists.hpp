@@ -3,15 +3,18 @@
 
 #include "geometry.hpp"
 
+#define PMF_POINT pmf_point<REAL>
+
 #define LOOK_FORWARD 1
-inline void pmf_check_crossings_in_block (
-                                            PMF_POINT * newPt,
-                                            IntersectionsList<REAL> * iList,
-                                            long & id,
-                                            PMF_POINT * parentPt,
-                                            BlocksLists<REAL> * blocks,
-                                            int index
-                                        )
+inline
+void pmf_check_crossings_in_block (
+                                        pmf_point<REAL> * newPt,
+                                        IntersectionsList<REAL> * iList,
+                                        long & id,
+                                        pmf_point<REAL> * parentPt,
+                                        BlocksLists<REAL> * blocks,
+                                        int index
+                                    )
 {
     Element<pmf_point<REAL> > * iter = blocks->getBlockList(index)->getHead();
     assert(parentPt == newPt->n1);
@@ -123,6 +126,7 @@ inline void pmf_check_crossings_in_block (
 #undef LOOK_FORWARD
 
 
+inline
 bool pmf_store_points_in_blocks (
                         PMF_POINT * newPt,
                         BirthsList<REAL> * bList,
@@ -288,6 +292,7 @@ bool pmf_store_points ( PMF_POINT * newPt,
 */
 
 
+inline
 PMF_POINT * pmf_do_get (
                         BirthsList<REAL> * bList,
                         IntersectionsList<REAL> * iList,
@@ -325,6 +330,7 @@ PMF_POINT * pmf_do_get (
 }
 
 
+inline
 PMF_POINT * pmf_do_top (
                         BirthsList<REAL> * bList,
                         IntersectionsList<REAL> * iList,
@@ -351,4 +357,5 @@ PMF_POINT * pmf_do_top (
 }
 
 
+#undef PMF_POINT
 #endif // ACCESSLISTS_HPP_INCLUDED

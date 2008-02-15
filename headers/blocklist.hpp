@@ -28,6 +28,8 @@ class BlockList : public TemplateList<pmf_point<T_REAL> >
 template <class T_REAL>
 void BlockList<T_REAL>::pop_point (pmf_point<T_REAL> * pt)
 {
+    using std::cout;
+    using std::endl;
     Element<pmf_point<T_REAL> > * pointer = pt->pointer;
     assert(pt);
     if (pointer == TemplateList<pmf_point<T_REAL> >::head) {

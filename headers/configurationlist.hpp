@@ -14,8 +14,8 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
     public :
         ConfigurationList(T_REAL, T_REAL);
 
-        T_REAL getFieldWidth()  { return  fieldWidth; }
-        T_REAL getFieldHeight() { return fieldHeight; }
+        T_REAL get_field_width()  { return  fieldWidth; }
+        T_REAL get_field_height() { return fieldHeight; }
 
         void set_points_ids ();
 		void save_configuration (std::ostream & out);

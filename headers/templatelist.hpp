@@ -44,8 +44,8 @@ template <class T_TYPE> class TemplateList
 		Element<T_TYPE> * getHead() { return(head); }
 		void setHead(Element<T_TYPE> * p) { head = p; }
 
-		long getSize() { return(size); }
-		void setSize(long val) { size = val; }
+		long get_size() { return(size); }
+		void set_size(long val) { size = val; }
 
 		friend std::ostream & operator << (std::ostream & out, const TemplateList<T_TYPE> * list)
 		{

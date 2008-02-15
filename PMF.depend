@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1194013718 source:d:\projects\pmf-codeblocks\main.cpp
+1202056100 source:d:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
 	<csignal>
 	<ctime>
 	<unistd.h>
-	"generate.cpp"
+	"operations.hpp"
 
 1202049866 d:\projects\pmf-codeblocks\src\generate.cpp
 	<iostream>
@@ -34,7 +34,7 @@
 1195475554 d:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
 
-1197213276 d:\projects\pmf-codeblocks\headers\templatelist.hpp
+1202706066 d:\projects\pmf-codeblocks\headers\templatelist.hpp
 	<cstdio>
 	<iostream>
 	<fstream>
@@ -46,11 +46,11 @@
 	<assert.h>
 	"blocklist.hpp"
 
-1200693534 d:\projects\pmf-codeblocks\headers\blocklist.hpp
+1202706952 d:\projects\pmf-codeblocks\headers\blocklist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
-1200766496 d:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1202706988 d:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
@@ -61,7 +61,7 @@
 	<cstdio>
 	"point.hpp"
 
-1202048264 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1202705980 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -70,11 +70,30 @@
 	<cmath>
 	<algorithm>
 
-1201954636 d:\projects\pmf-codeblocks\headers\accesslists.hpp
+1202708296 d:\projects\pmf-codeblocks\headers\accesslists.hpp
 	"geometry.hpp"
 
 1195484144 d:\projects\pmf-codeblocks\headers\geometry.hpp
 
-1202048362 source:d:\projects\pmf-codeblocks\src\add.cpp
+1202707988 source:d:\projects\pmf-codeblocks\src\add.cpp
 	"configurationlist.hpp"
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+	<vector>
+	<stack>
+
+1202708086 source:d:\projects\pmf-codeblocks\src\generate.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+
+1202056162 d:\projects\pmf-codeblocks\src\operations.hpp
 

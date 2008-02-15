@@ -1,20 +1,170 @@
 
 #include "configurationlist.hpp"
+#include "birthslist.hpp"
+#include "intersectionslist.hpp"
+#include "probability.hpp"
+#include "accesslists.hpp"
+#include "modifylists.hpp"
 
 #define REAL double
 
+#define PT_LT(X, Y) ((X) < (Y))
 void pmf_add_point (
             ConfigurationList<REAL> * PMF,
+            ConfigurationList<REAL> * newPMF,
             REAL xx,
             REAL yy
         )
 {
-    REAL fieldWidth  = PMF->getFieldWidth();
-    REAL fieldHeight = PMF->getFieldHeight();
+    REAL fieldWidth  = PMF->get_field_width();
+    REAL fieldHeight = PMF->get_field_height();
+    PMF->set_points_ids();
 
+    long oldSize = PMF->get_size() + 1;
+    long ptId = oldSize;
+
+    pmf_point<REAL> * pt;
+    while ((pt = PMF->front()) != NULL  &&  PT_LT(pt->x, xx))
+    {
+        PMF->pop_front();
+        newPMF->push_back(pt);
+    }
+
+    pt = new pmf_point<REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
+    PMF->push_back(pt);
+
+    BirthsList<REAL> *        birthList = new BirthsList<REAL> ();
+    IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
+    BlocksLists<REAL> *     blocksLists = NULL;//new BlocksLists<REAL> (fieldWidth, fieldHeight, 1.1);
+
+    while (! PMF->empty())
+    {
+        birthList->push_back(PMF->front());
+        PMF->pop_front();
+    }
+
+    REAL lowerAngle, upperAngle;
+    pmf_point<REAL> * newPt;
+    REAL length, coordX, coordY;
+
+    determineBirthAngles(upperAngle, lowerAngle);
+
+    length = Exp<REAL>(2.0);
+    coordX = pt->x + length * cos(upperAngle);
+    coordY = pt->y + length * sin(upperAngle);
+    newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
+    pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+    pt->n1 = newPt;
+    pt->l1 = newPt->l1;
+
+    length = Exp<REAL>(2.0);
+    coordX = pt->x + length * cos(lowerAngle);
+    coordY = pt->y + length * sin(lowerAngle);
+    newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
+    pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+    pt->n2 = newPt;
+    pt->l2 = newPt->l1;
+
+    // and the riots start ...
+    long id1, id2;
+    double angle, newAngle;
+
+    while( !birthList->empty() || !crossList->empty() )
+    {
+        pt = pmf_do_get( birthList, crossList, id1, id2 );
+        PMF->push_back(pt);
+
+        if( pt->id <= oldSize )
+        {
+            if(pt->n1 != NULL  &&  pt->n2 == NULL)
+            {
+                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+
+                determineUpdateAngle(newAngle);
+                newAngle += angle;
+                if(newAngle >  M_PI/2.0) newAngle -= M_PI;
+                if(newAngle < -M_PI/2.0) newAngle += M_PI;
+
+                length = Exp<REAL>(2.0);
+                coordX = pt->x + length*cos(newAngle);
+                coordY = pt->y + length*sin(newAngle);
+                newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
+
+                pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                pt->n2 = newPt;
+                pt->l2 = length;
+            }
+        }
+        else {
+            if (pt->n1 != NULL  &&  pt->n2 == NULL)
+//                &&  isInsideBorder(akt->x,akt->y,Bord) == 0
+//                &&  isOnBorder(akt->x,akt->y,Bord) < 0
+            {
+                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+
+                determineUpdateAngle(newAngle);
+                newAngle += angle;
+                if(newAngle >  M_PI/2.0) newAngle -= M_PI;
+                if(newAngle < -M_PI/2.0) newAngle += M_PI;
+
+                length = Exp<REAL>(2.0);
+                coordX = pt->x + length*cos(newAngle);
+                coordY = pt->y + length*sin(newAngle);
+                newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
+
+                pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                pt->n2 = newPt;
+                pt->l2 = length;
+            }
+
+            //if(akt->r1!=NULL && akt->r2!=NULL && akt->r1->x<akt->x  &&  akt->r2->x<akt->x)
+            if (pt->id == PT_BIRTH_NORMAL)
+            {
+                // isIDaNeighbor
+                /*
+                int i1, i2;
+                if( (i1 = isIDaNeighbor(akt->r1, id1)) > 0
+                    &&  (i2 = isIDaNeighbor(akt->r2, id2)) > 0 )
+                {
+                    if(i1 == 1)  akt->r1->r1 = akt;
+                    else if(i1 == 2)  akt->r1->r2 = akt;
+                    else fprintf(stderr, "&1");
+
+                    if(i2 == 1)  akt->r2->r1 = akt;
+                    else if(i2 == 2)  akt->r2->r2 = akt;
+                    else fprintf(stderr, "&2");
+                }
+                else
+                    if( (i1 = isIDaNeighbor(akt->r1, id2)) > 0
+                        &&  (i2 = isIDaNeighbor(akt->r2, id1)) > 0)
+                    {
+                    if(i1 == 1)  akt->r1->r1 = akt;
+                    else if(i1 == 2)  akt->r1->r2 = akt;
+                    else fprintf(stderr, "&1");
+
+                    if(i2 == 1)  akt->r2->r1 = akt;
+                    else if(i2 == 2)  akt->r2->r2 = akt;
+                    else fprintf(stderr, "&2");
+                    }
+                    else
+                    fprintf(stderr, "#");
+
+                delPathS(akt, id1, qB, qI, &idPktu, Bord);
+                delPathS(akt, id2, qB, qI, &idPktu, Bord);
+                */
+            }
+            // TODO :
+            /*
+        qB->remove(akt->id);
+        qI->remove(akt->id);
+            */;
+
+        }
+    }
 
     return;
 }
+#undef PT_LT
 
 #undef REAL
 
@@ -204,64 +354,6 @@ struct Tpoint *delPathS(struct Tpoint *akt, long id, listB *qB, listI *qI, long 
 
 bool addPoint(PMF *Hist, PMF *newHist, float x, float y, int zap, int PointThre, struct borderPoint * Bord)
 {
-    float kg, kd, kat, nkat, len, zmX, zmY;
-    long oldSize, idPktu, zm, i1, i2, id1, id2;
-    struct Tpoint *pkt, *nowy, *akt, *tmp;
-    float cosinus;
-    int changed;
-    bool restore;
-
-    Hist->setPointIDs();		// This is IMPORTANT
-
-    FILE *fstep;
-    if(zap == 1) {
-	    fstep = fopen("STEPSSeed1Iter44.txt", "w");
-	    writeConf(fstep, Hist);
-	    fflush(fstep);
-    }
-
-    oldSize = Hist->getSize() + 1;
-    idPktu = oldSize;
-    while( (pkt = Hist->top()) != NULL  &&  pkt->x < x )
-    {
-	newHist->addPoint(Hist->get());
-    }
-
-    pkt = allocPoint(x, y, NULL, NULL, 0, 0, &idPktu);
-    newHist->addPoint(pkt);
-
-    listB *qB = new listB();	// List of Birth SItes
-    listI *qI = new listI();	// List of intersection points
-    while(!Hist->empty())
-    {
-	qB->put( Hist->get() );
-    }
-    determineBirthAngles(&kg, &kd);
-
-    len = E(2);
-    zmX = pkt->x + len*cos(kg);
-    zmY = pkt->y + len*sin(kg);
-    nowy = allocPoint(zmX, zmY, pkt, NULL, 0, 0, &idPktu);
-    storePoints2(nowy, qB, qI, &idPktu, Bord);
-    pkt->r1 = nowy;
-
-    len = E(2);
-    zmX = pkt->x + len*cos(kd);
-    zmY = pkt->y + len*sin(kd);
-    nowy = allocPoint(zmX, zmY, pkt, NULL, 0, 0, &idPktu);
-    storePoints2(nowy, qB, qI, &idPktu, Bord);
-    pkt->r2 = nowy;
-
-    if (zap == 1)
-    {
-	    fprintf(fstep, "\nDODAJE PKT : %3li (%f,%f)", pkt->id, x, y);
-	    fprintf(fstep, "[%.3f;%.3f;%li;%li]\n", pkt->x, pkt->y,
-			    (pkt->r1) ? pkt->r1->id : 0,
-			    (pkt->r2) ? pkt->r2->id : 0);
-	    qB->write(fstep);
-	    qI->write(fstep);
-	    fflush(fstep);
-    }
 
     long qq = 0;
     restore = false;

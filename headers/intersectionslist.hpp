@@ -24,6 +24,8 @@ class IntersectionsList : public TemplateList<CrosspointElement<T_REAL> >
 template <class T_REAL>
 bool IntersectionsList<T_REAL>::remove_intersection_with_one_id_of (long ptId1, long ptId2, BlocksLists<T_REAL> * blocksLists)
 {
+    using std::cout;
+    using std::endl;
     Element<CrosspointElement<T_REAL> > * iter = TemplateList<CrosspointElement<T_REAL> >::head;
     Element<CrosspointElement<T_REAL> > * pop = iter, * tmp = iter;
     bool deleted = false;

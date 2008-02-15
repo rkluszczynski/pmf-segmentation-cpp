@@ -5,3 +5,12 @@
 	"blockslists.hpp"
 	"probability.hpp"
 
+1195476144 source:d:\projects\pmf-codeblocks\tests\test-templatelist.cpp
+	<cstdio>
+	<iostream>
+	"templatelist.hpp"
+
+1201618298 source:d:\projects\pmf-codeblocks\tests\test-bothlists.cpp
+	<iostream>
+	"generate.cpp"
+

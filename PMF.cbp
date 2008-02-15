@@ -52,6 +52,9 @@
 		<Unit filename="headers\listelement.hpp">
 			<Option virtualFolder="structures\core\" />
 		</Unit>
+		<Unit filename="headers\modifylists.hpp">
+			<Option virtualFolder="structures\lists\" />
+		</Unit>
 		<Unit filename="headers\point.hpp">
 			<Option virtualFolder="structures\" />
 		</Unit>

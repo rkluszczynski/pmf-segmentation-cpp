@@ -10,14 +10,13 @@ using namespace std;
 #include "blockslists.hpp"
 
 #include "probability.hpp"
+#include "accesslists.hpp"
 
 #define REAL double
 #define PMF_POINT pmf_point<REAL>
 
 #define DEBUG
 #define LOG 1
-
-#include "accesslists.hpp"
 
 
 /**
@@ -147,7 +146,8 @@ template <class REAL> void pmf_generate (
               REAL fieldSize, char * outputFile, time_t seed
 		)
 */
-void pmf_generate (
+ConfigurationList<REAL> *
+pmf_generate (
 			REAL fieldHeight,
 			REAL fieldWidth,
 			char * outputFile,
@@ -314,13 +314,13 @@ void pmf_generate (
     PMF->set_points_ids();
     PMF->save_configuration(fout);
     fout.close();
-    delete PMF;
+//    delete PMF;
 
 #if LOG
     fclose(flog);
 #endif
     cout << "[ DONE ] : leaving generate function" << endl;
-    return;
+    return PMF;
 }
 
 
