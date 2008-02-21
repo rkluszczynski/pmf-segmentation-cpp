@@ -24,6 +24,14 @@ void pmf_add_point (
     long ptId = oldSize;
 
     pmf_point<REAL> * pt;
+    while (! PMF->empty())
+    {
+        pt = PMF->front();
+        PMF->pop_front();
+        newPMF->push_back(pt);
+    }
+/*
+    pmf_point<REAL> * pt;
     while ((pt = PMF->front()) != NULL  &&  PT_LT(pt->x, xx))
     {
         PMF->pop_front();
@@ -151,17 +159,17 @@ void pmf_add_point (
 
                 delPathS(akt, id1, qB, qI, &idPktu, Bord);
                 delPathS(akt, id2, qB, qI, &idPktu, Bord);
-                */
+                *
             }
             // TODO :
             /*
         qB->remove(akt->id);
         qI->remove(akt->id);
-            */;
-
+            *
+            ;
         }
     }
-
+// */
     return;
 }
 #undef PT_LT

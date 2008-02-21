@@ -14,3 +14,15 @@
 	<iostream>
 	"generate.cpp"
 
+1203543082 source:d:\projects\pmf-codeblocks\tests\test-addpoint.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	"generate.cpp"
+	"add.cpp"
+

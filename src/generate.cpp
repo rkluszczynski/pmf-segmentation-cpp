@@ -310,7 +310,7 @@ pmf_generate (
     delete blocksLists;
 
     cout << "[ SAVE ] : saving configuration to a file" << endl;
-    fstream fout("output/PMF.txt");
+    ofstream fout("output/PMF.txt");
     PMF->set_points_ids();
     PMF->save_configuration(fout);
     fout.close();
