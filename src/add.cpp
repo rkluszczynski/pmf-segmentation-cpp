@@ -23,6 +23,7 @@ void pmf_add_point (
     long oldSize = PMF->get_size() + 1;
     long ptId = oldSize;
 
+    /*
     pmf_point<REAL> * pt;
     while (! PMF->empty())
     {
@@ -30,7 +31,8 @@ void pmf_add_point (
         PMF->pop_front();
         newPMF->push_back(pt);
     }
-/*
+    */
+
     pmf_point<REAL> * pt;
     while ((pt = PMF->front()) != NULL  &&  PT_LT(pt->x, xx))
     {
@@ -39,7 +41,7 @@ void pmf_add_point (
     }
 
     pt = new pmf_point<REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
-    PMF->push_back(pt);
+    newPMF->push_back(pt);
 
     BirthsList<REAL> *        birthList = new BirthsList<REAL> ();
     IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
@@ -61,7 +63,8 @@ void pmf_add_point (
     coordX = pt->x + length * cos(upperAngle);
     coordY = pt->y + length * sin(upperAngle);
     newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
-    pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+    //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                birthList->push_in_order(newPt);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
 
@@ -69,7 +72,8 @@ void pmf_add_point (
     coordX = pt->x + length * cos(lowerAngle);
     coordY = pt->y + length * sin(lowerAngle);
     newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
-    pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+    //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                birthList->push_in_order(newPt);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
 
@@ -80,7 +84,7 @@ void pmf_add_point (
     while( !birthList->empty() || !crossList->empty() )
     {
         pt = pmf_do_get( birthList, crossList, id1, id2 );
-        PMF->push_back(pt);
+        newPMF->push_back(pt);
 
         if( pt->id <= oldSize )
         {
@@ -98,13 +102,15 @@ void pmf_add_point (
                 coordY = pt->y + length*sin(newAngle);
                 newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
 
-                pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                birthList->push_in_order(newPt);
                 pt->n2 = newPt;
                 pt->l2 = length;
             }
         }
         else {
-            if (pt->n1 != NULL  &&  pt->n2 == NULL)
+            if (pt->type == PT_UPDATE)
+//            if (pt->n1 != NULL  &&  pt->n2 == NULL)
 //                &&  isInsideBorder(akt->x,akt->y,Bord) == 0
 //                &&  isOnBorder(akt->x,akt->y,Bord) < 0
             {
@@ -120,13 +126,14 @@ void pmf_add_point (
                 coordY = pt->y + length*sin(newAngle);
                 newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
 
-                pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+                birthList->push_in_order(newPt);
                 pt->n2 = newPt;
                 pt->l2 = length;
             }
 
             //if(akt->r1!=NULL && akt->r2!=NULL && akt->r1->x<akt->x  &&  akt->r2->x<akt->x)
-            if (pt->id == PT_BIRTH_NORMAL)
+            if (pt->id == PT_INTERSECTION)
             {
                 // isIDaNeighbor
                 /*
@@ -159,17 +166,16 @@ void pmf_add_point (
 
                 delPathS(akt, id1, qB, qI, &idPktu, Bord);
                 delPathS(akt, id2, qB, qI, &idPktu, Bord);
-                *
+                */
             }
             // TODO :
             /*
         qB->remove(akt->id);
         qI->remove(akt->id);
-            *
+            */
             ;
         }
     }
-// */
     return;
 }
 #undef PT_LT
@@ -188,7 +194,7 @@ int isIDaNeighbor(struct Tpoint *pt, long id)
 
 void storePoints2(struct Tpoint *newPt, listB *qB, listI *qI, long *idPktu, struct borderPoint * Bord)
 {
-    struct TlistBElement *tmpW;
+    struct TlistBEement *tmpW;
     float pX, pY;
     struct Tpoint *point;
 
