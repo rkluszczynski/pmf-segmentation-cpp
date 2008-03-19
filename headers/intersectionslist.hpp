@@ -17,8 +17,51 @@ class IntersectionsList : public TemplateList<CrosspointElement<T_REAL> >
     public:
         void push_back (pmf_point<T_REAL> *, long, long);
         void push_in_order (pmf_point<T_REAL> *, long, long);
+        bool remove_intersection_with_id (long, BlocksLists<T_REAL> *);
         bool remove_intersection_with_one_id_of (long, long, BlocksLists<T_REAL> *);
 };
+
+
+template <class T_REAL>
+bool IntersectionsList<T_REAL>::remove_intersection_with_id (long ptId, BlocksLists<T_REAL> * blocksLists)
+{
+    using std::cout;
+    using std::endl;
+    Element<CrosspointElement<T_REAL> > * iter = TemplateList<CrosspointElement<T_REAL> >::head;
+    Element<CrosspointElement<T_REAL> > * pop = iter, * tmp = iter;
+    bool deleted = false;
+    while (iter) {
+        if (iter->data->p1 == ptId  ||  iter->data->p2 == ptId)
+        {
+            // Added 16.01.2008
+            if (blocksLists) {
+                blocksLists->pop(iter->data->pt);
+                cout << blocksLists << endl;
+            }
+            // -- RK
+            delete iter->data->pt;
+            delete iter->data;
+            if (iter == TemplateList<CrosspointElement<T_REAL> >::head)
+            {
+                TemplateList<CrosspointElement<T_REAL> >::head = iter->next;
+                delete iter;
+                pop = TemplateList<CrosspointElement<T_REAL> >::head;
+                iter = TemplateList<CrosspointElement<T_REAL> >::head;
+            }
+            else {
+                pop->next = iter->next;
+                delete iter;
+                iter = pop->next;
+            }
+            deleted = true;
+        }
+        else {
+            pop = iter;
+            iter = iter->next;
+        }
+    }
+    return deleted;
+}
 
 
 template <class T_REAL>

@@ -8,6 +8,39 @@
 
 #define REAL double
 
+void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id2)
+{
+    int i1, i2;
+    i1 = pmf_which_neighbor_is_id (pt->n1, id1);
+    i2 = pmf_which_neighbor_is_id (pt->n2, id2);
+    if (i1 > 0  &&  i2 > 0) {
+        if (i1 == 1)  pt->n1->n1 = pt;
+        else if (i1 == 2)  pt->n1->n2 = pt;
+        else assert(false);
+
+        if (i2 == 1)  pt->n2->n1 = pt;
+        else if (i2 == 2)  pt->n2->n2 = pt;
+        else assert(false);
+
+        return;
+    }
+    i1 = pmf_which_neighbor_is_id (pt->n1, id2);
+    i2 = pmf_which_neighbor_is_id (pt->n2, id1);
+    if (i1 > 0  &&  i2 > 0) {
+        if (i1 == 1)  pt->n1->n1 = pt;
+        else if (i1 == 2)  pt->n1->n2 = pt;
+        else assert(false);
+
+        if (i2 == 1)  pt->n2->n1 = pt;
+        else if (i2 == 2)  pt->n2->n2 = pt;
+        else assert(false);
+
+        return;
+    }
+    assert(false);
+}
+
+
 #define PT_LT(X, Y) ((X) < (Y))
 void pmf_add_point (
             ConfigurationList<REAL> * PMF,
@@ -63,8 +96,8 @@ void pmf_add_point (
     coordX = pt->x + length * cos(upperAngle);
     coordY = pt->y + length * sin(upperAngle);
     newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
-    //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-                birthList->push_in_order(newPt);
+    pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+//                birthList->push_in_order(newPt);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
 
@@ -72,8 +105,8 @@ void pmf_add_point (
     coordX = pt->x + length * cos(lowerAngle);
     coordY = pt->y + length * sin(lowerAngle);
     newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
-    //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-                birthList->push_in_order(newPt);
+    pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+//                birthList->push_in_order(newPt);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
 
@@ -102,8 +135,8 @@ void pmf_add_point (
                 coordY = pt->y + length*sin(newAngle);
                 newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
 
-                //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-                birthList->push_in_order(newPt);
+                pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+//                birthList->push_in_order(newPt);
                 pt->n2 = newPt;
                 pt->l2 = length;
             }
@@ -126,8 +159,8 @@ void pmf_add_point (
                 coordY = pt->y + length*sin(newAngle);
                 newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
 
-                //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-                birthList->push_in_order(newPt);
+                pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
+//                birthList->push_in_order(newPt);
                 pt->n2 = newPt;
                 pt->l2 = length;
             }
@@ -135,6 +168,10 @@ void pmf_add_point (
             //if(akt->r1!=NULL && akt->r2!=NULL && akt->r1->x<akt->x  &&  akt->r2->x<akt->x)
             if (pt->id == PT_INTERSECTION)
             {
+                pmf_correct_new_intersection_point(pt, id1, id2);
+                pmf_delete_path(pt, birthList->get_point_with_id(id1), birthList, crossList, blocksLists, ptId, fieldHeight, fieldWidth);
+                pmf_delete_path(pt, birthList->get_point_with_id(id2), birthList, crossList, blocksLists, ptId, fieldHeight, fieldWidth);
+
                 // isIDaNeighbor
                 /*
                 int i1, i2;
@@ -173,7 +210,8 @@ void pmf_add_point (
         qB->remove(akt->id);
         qI->remove(akt->id);
             */
-            ;
+            birthList->remove_point_with_id (pt->id, blocksLists);
+            crossList->remove_intersection_with_id (pt->id, blocksLists);
         }
     }
     return;

@@ -32,7 +32,20 @@ class BirthsList : public TemplateList<pmf_point<T_REAL> >
     public :
         void push_in_order (pmf_point<T_REAL> *, BlocksLists<T_REAL> *);
         bool remove_point_with_id (long, BlocksLists<T_REAL> *);
+        pmf_point<T_REAL> * get_point_with_id (long);
 };
+
+
+template <class T_REAL>
+pmf_point<T_REAL> * BirthsList<T_REAL>::get_point_with_id (long ptId)
+{
+    Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
+    while (iter) {
+        if (iter->data->id == ptId) return iter->data;
+        else iter = iter->next;
+    }
+    return NULL;
+}
 
 
 template <class T_REAL>
