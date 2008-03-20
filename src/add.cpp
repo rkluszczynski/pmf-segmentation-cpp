@@ -8,39 +8,7 @@
 
 #define REAL double
 
-void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id2)
-{
-    int i1, i2;
-    i1 = pmf_which_neighbor_is_id (pt->n1, id1);
-    i2 = pmf_which_neighbor_is_id (pt->n2, id2);
-    if (i1 > 0  &&  i2 > 0) {
-        if (i1 == 1)  pt->n1->n1 = pt;
-        else if (i1 == 2)  pt->n1->n2 = pt;
-        else assert(false);
-
-        if (i2 == 1)  pt->n2->n1 = pt;
-        else if (i2 == 2)  pt->n2->n2 = pt;
-        else assert(false);
-
-        return;
-    }
-    i1 = pmf_which_neighbor_is_id (pt->n1, id2);
-    i2 = pmf_which_neighbor_is_id (pt->n2, id1);
-    if (i1 > 0  &&  i2 > 0) {
-        if (i1 == 1)  pt->n1->n1 = pt;
-        else if (i1 == 2)  pt->n1->n2 = pt;
-        else assert(false);
-
-        if (i2 == 1)  pt->n2->n1 = pt;
-        else if (i2 == 2)  pt->n2->n2 = pt;
-        else assert(false);
-
-        return;
-    }
-    assert(false);
-}
-
-
+//#define TYLKO_KOPIUJ
 #define PT_LT(X, Y) ((X) < (Y))
 void pmf_add_point (
             ConfigurationList<REAL> * PMF,
@@ -49,23 +17,16 @@ void pmf_add_point (
             REAL yy
         )
 {
+#ifdef TYLKO_KOPIUJ
+    while (! PMF->empty()) { newPMF->push_back(PMF->front()); PMF->pop_front(); }
+    return;
+#endif
     REAL fieldWidth  = PMF->get_field_width();
     REAL fieldHeight = PMF->get_field_height();
     PMF->set_points_ids();
 
     long oldSize = PMF->get_size() + 1;
     long ptId = oldSize;
-
-    /*
-    pmf_point<REAL> * pt;
-    while (! PMF->empty())
-    {
-        pt = PMF->front();
-        PMF->pop_front();
-        newPMF->push_back(pt);
-    }
-    */
-
     pmf_point<REAL> * pt;
     while ((pt = PMF->front()) != NULL  &&  PT_LT(pt->x, xx))
     {
@@ -171,45 +132,8 @@ void pmf_add_point (
                 pmf_correct_new_intersection_point(pt, id1, id2);
                 pmf_delete_path(pt, birthList->get_point_with_id(id1), birthList, crossList, blocksLists, ptId, fieldHeight, fieldWidth);
                 pmf_delete_path(pt, birthList->get_point_with_id(id2), birthList, crossList, blocksLists, ptId, fieldHeight, fieldWidth);
-
-                // isIDaNeighbor
-                /*
-                int i1, i2;
-                if( (i1 = isIDaNeighbor(akt->r1, id1)) > 0
-                    &&  (i2 = isIDaNeighbor(akt->r2, id2)) > 0 )
-                {
-                    if(i1 == 1)  akt->r1->r1 = akt;
-                    else if(i1 == 2)  akt->r1->r2 = akt;
-                    else fprintf(stderr, "&1");
-
-                    if(i2 == 1)  akt->r2->r1 = akt;
-                    else if(i2 == 2)  akt->r2->r2 = akt;
-                    else fprintf(stderr, "&2");
-                }
-                else
-                    if( (i1 = isIDaNeighbor(akt->r1, id2)) > 0
-                        &&  (i2 = isIDaNeighbor(akt->r2, id1)) > 0)
-                    {
-                    if(i1 == 1)  akt->r1->r1 = akt;
-                    else if(i1 == 2)  akt->r1->r2 = akt;
-                    else fprintf(stderr, "&1");
-
-                    if(i2 == 1)  akt->r2->r1 = akt;
-                    else if(i2 == 2)  akt->r2->r2 = akt;
-                    else fprintf(stderr, "&2");
-                    }
-                    else
-                    fprintf(stderr, "#");
-
-                delPathS(akt, id1, qB, qI, &idPktu, Bord);
-                delPathS(akt, id2, qB, qI, &idPktu, Bord);
-                */
             }
-            // TODO :
-            /*
-        qB->remove(akt->id);
-        qI->remove(akt->id);
-            */
+
             birthList->remove_point_with_id (pt->id, blocksLists);
             crossList->remove_intersection_with_id (pt->id, blocksLists);
         }
@@ -221,187 +145,6 @@ void pmf_add_point (
 #undef REAL
 
 /*
-
-int isIDaNeighbor(struct Tpoint *pt, long id)
-{
-    if(pt->r1 != NULL  &&  pt->r1->id == id) return(1);
-    else if (pt->r2 != NULL  &&  pt->r2->id == id)  return(2);
-    else return(0);
-}
-
-
-void storePoints2(struct Tpoint *newPt, listB *qB, listI *qI, long *idPktu, struct borderPoint * Bord)
-{
-    struct TlistBEement *tmpW;
-    float pX, pY;
-    struct Tpoint *point;
-
-    if (isInsideBorder(newPt->x, newPt->y, Bord) == 1)
-    {
-	for(int i = 0; i < 4; i++)
-	{
-	    if( cross3(newPt->x, newPt->y, newPt->r1->x, newPt->r1->y,
-			Bord[i].x, Bord[i].y, Bord[i+1].x, Bord[i+1].y)
-		    != 0 )
-	    {
-		crosspoint(newPt->x, newPt->y, newPt->r1->x, newPt->r1->y,
-			Bord[i].x, Bord[i].y, Bord[i+1].x, Bord[i+1].y, &pX, &pY);
-		newPt->x = pX;
-		newPt->y = pY;
-		newPt->r2 = NULL;
-		break;
-	    }
-	}
-    }
-    tmpW = qB->getHead();
-    while(tmpW)
-    {
-	if(newPt->r1 != tmpW->point->r1  && tmpW->point->r1 != NULL &&
-		tmpW->point->r1->x < tmpW->point->x &&
-		cross3(newPt->x, newPt->y, newPt->r1->x, newPt->r1->y,
-		    tmpW->point->x, tmpW->point->y, tmpW->point->r1->x,
-		    tmpW->point->r1->y) == 1 )
-	{
-	    crosspoint(newPt->x, newPt->y, newPt->r1->x, newPt->r1->y,
-		    tmpW->point->x, tmpW->point->y, tmpW->point->r1->x,
-		    tmpW->point->r1->y, &pX, &pY);
-	    point = allocPoint(pX, pY, newPt->r1, tmpW->point->r1, 0, 0, idPktu);
-	    qI->put(point, tmpW->point->id, newPt->id);
-	}
-	if(newPt->r1 != tmpW->point->r2  && tmpW->point->r2 != NULL &&
-		tmpW->point->r2->x < tmpW->point->x &&
-		cross3(newPt->x, newPt->y, newPt->r1->x, newPt->r1->y,
-		    tmpW->point->x, tmpW->point->y, tmpW->point->r2->x,
-		    tmpW->point->r2->y) == 1 )
-	{
-	    crosspoint(newPt->x, newPt->y, newPt->r1->x, newPt->r1->y,
-		    tmpW->point->x, tmpW->point->y, tmpW->point->r2->x,
-		    tmpW->point->r2->y, &pX, &pY);
-	    point = allocPoint(pX, pY, newPt->r1, tmpW->point->r2, 0, 0, idPktu);
-	    qI->put(point, tmpW->point->id, newPt->id);
-	}
-	tmpW = tmpW->next;
-    }
-    qB->put(newPt);
-    return;
-}
-
-
-#include <vector>
-#include <stack>
-struct Tpoint *delPathS(struct Tpoint *akt, long id, listB *qB, listI *qI, long *idPktu, struct borderPoint * Bord)
-{
-    struct Tpoint *res = NULL, *pt, *addr;
-//    std::vector<long int> st;
-		//modified 8th Dec 2006
-    std::stack<long int> st;
-
-    //st.reserve(200);
-    pt = qB->getPoint(id);
-    while(1)
-    {
-	if(pt->r1 != NULL  &&  pt->r2 != NULL)
-	{
-	    //if( pt->r1->x <= pt->x  &&  pt->r2->x <= pt->x )
-		//modified 8th Dec 2006
-	    if( pt->r1->x < pt->x  &&  pt->r2->x < pt->x )
-	    {
-		if(st.empty())
-		{
-		    if(akt == NULL)
-		    {
-			fprintf(stderr, "[ERROR] sth's wrong !!!");
-			exit(-2);
-		    }
-		    else
-		    {
-			if(akt->r1 != NULL && akt->r1->id == pt->r1->id) addr = pt->r2;
-			if(akt->r1 != NULL && akt->r1->id == pt->r2->id) addr = pt->r1;
-			if(akt->r2 != NULL && akt->r2->id == pt->r1->id) addr = pt->r2;
-			if(akt->r2 != NULL && akt->r2->id == pt->r2->id) addr = pt->r1;
-		    }
-		}
-		else {
-		    //if(pt->r1->id == st.back()) addr = pt->r2;
-		    if(pt->r1->id == st.top()) addr = pt->r2;
-		    else addr = pt->r1;
-		}
-
-		//st.push_back(id);
-		st.push(id);
-
-		res = allocPoint(pt->x, pt->y, addr, NULL, 0, 0, idPktu);
-		if(addr->r1 != NULL  &&  addr->r1->id == id)  addr->r1 = res;
-		else if(addr->r2 != NULL  &&  addr->r2->id == id)  addr->r2 = res;
-
-//		   fprintf(fstep, "(%.3f;%.3f;%li;%li;id=%li)!", res->x, res->y,
-//		   (res->r1) ? res->r1->id : 0,
-//		   (res->r2) ? res->r2->id : 0,
-//		   res->id);
-		break;
-	    }
-	    else {
-		//st.push_back(id);
-		st.push(id);
-		if(pt->r1->x + EPSILON >= pt->x)
-		//modified 8th Dec 2006
-		//if(pt->r2->id == id)
-		{
-		    id = pt->r1->id;
-		    pt = pt->r1;
-		    continue;
-		}
-		if(pt->r2->x + EPSILON >= pt->x)
-		//modified 8th Dec 2006
-		//if(pt->r1->id == id)
-		{
-		    id = pt->r2->id;
-		    pt = pt->r2;
-		    continue;
-		}
-		fprintf(stderr, " [ this should not be ever read ] \n");  fflush(stderr);
-	    }
-	}
-	//else  { st.push_back(id); }
-	else  { st.push(id); }
-
-	if(pt->r1 != NULL  &&  pt->r2 == NULL)
-	{
-	    //if(pt->r1->x < pt->x) break;
-		//modified 8th Dec 2006
-	    if(pt->r1->x <= pt->x) break;
-	    id = pt->r1->id;
-	    pt = pt->r1;
-	    continue;
-	}
-	if(pt->r2 != NULL  &&  pt->r1 == NULL)
-	{
-	    //if(pt->r2->x < pt->x) break;
-		//modified 8th Dec 2006
-	    if(pt->r2->x <= pt->x) break;
-	    id = pt->r2->id;
-	    pt = pt->r2;
-	    continue;
-	}
-	break;
-    }
-
-    while(! st.empty())
-    {
-	//id = st.back();
-	id = st.top();
-	//st.pop_back();
-	st.pop();
-
-	qB->remove(id);
-	qI->remove(id);
-    }
-
-    if(res != NULL) storePoints2(res, qB, qI, idPktu, Bord);
-    return(res);
-}
-
-
 #define ABS(x) (((x) > 0) ? (x) : (-(x)))
 
 bool addPoint(PMF *Hist, PMF *newHist, float x, float y, int zap, int PointThre, struct borderPoint * Bord)

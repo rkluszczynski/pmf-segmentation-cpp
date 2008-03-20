@@ -26,6 +26,7 @@ int main (int argc, char *argv[])
 	ConfigurationList<REAL> * pmf = pmf_generate ( sizeArak, sizeArak, outputFile, seed );
 	ConfigurationList<REAL> * pmf2 = new ConfigurationList<REAL>(sizeArak, sizeArak);
 
+	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
 	pmf_add_point(pmf, pmf2, 1.0, 1.0);
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
