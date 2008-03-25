@@ -27,7 +27,10 @@ int main (int argc, char *argv[])
 	ConfigurationList<REAL> * pmf2 = new ConfigurationList<REAL>(sizeArak, sizeArak);
 
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
-	pmf_add_point(pmf, pmf2, 1.0, 1.0);
+    //pmf_add_point(pmf, pmf2, 6.8, 3.15);
+	//pmf_add_point(pmf, pmf2, 1.1, 0.5);
+	//pmf_add_point(pmf, pmf2, 6.8, 3.3);
+	pmf_add_point(pmf, pmf2, 1.1, 1.1); // ERROR
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
     ofstream fout("output/PMF2.txt");

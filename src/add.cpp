@@ -6,6 +6,7 @@
 #include "accesslists.hpp"
 #include "modifylists.hpp"
 
+#define LOG 1
 #define REAL double
 
 //#define TYLKO_KOPIUJ
@@ -33,6 +34,7 @@ void pmf_add_point (
         PMF->pop_front();
         newPMF->push_back(pt);
     }
+    cerr << "[  ADD ] : oldSize = " << ptId << endl;
 
     pt = new pmf_point<REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
     newPMF->push_back(pt);
@@ -75,14 +77,35 @@ void pmf_add_point (
     long id1, id2;
     double angle, newAngle;
 
+#if LOG
+    FILE * flog = freopen("output/log2.txt", "w", stdout);
+    int iterationCounter = 0;
+#endif
     while( !birthList->empty() || !crossList->empty() )
     {
         pt = pmf_do_get( birthList, crossList, id1, id2 );
         newPMF->push_back(pt);
+#if LOG
+        cout << " ---------------------------------------------------------------------------" << endl;
+        cout << " ------------------------------ STEP " << ++iterationCounter << "----------------------------------" << endl;
+        cout << "  pt = " << (*pt) << "    [" << id1 << ";" << id2 << "] " << endl;
+        cout << birthList << endl;
+        cout << crossList << endl;
+        if (true) {
+            cout << endl << "### Lista punktow w bloku ###" << endl;
+            if (blocksLists)  blocksLists->print_lists();
+            cout << endl << "### Atualne PMF ###" << endl;
+            cout << newPMF << endl;
+        }
+#endif
 
         if( pt->id <= oldSize )
         {
-            if(pt->n1 != NULL  &&  pt->n2 == NULL)
+            /* if(akt->r1 != NULL  &&  akt->r2 == NULL  &&  isInsideBorder(akt->x,akt->y, Bord) == 0
+                    &&  isOnBorder(akt->x,akt->y,Bord) < 0
+             */
+            if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
+            //if(pt->n1 != NULL  &&  pt->n2 == NULL)
             {
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
 
@@ -127,9 +150,15 @@ void pmf_add_point (
             }
 
             //if(akt->r1!=NULL && akt->r2!=NULL && akt->r1->x<akt->x  &&  akt->r2->x<akt->x)
-            if (pt->id == PT_INTERSECTION)
+            if (pt->type == PT_INTERSECTION)
             {
+#if LOG
+            cout << "INTERSECTION  : " << (*pt) << "  " << endl;
+            cout << "INTERSECTION  : " << *(pt->n1) << "  " << endl;
+            cout << "INTERSECTION  : " << *(pt->n2) << "  " << endl;
+#endif
                 pmf_correct_new_intersection_point(pt, id1, id2);
+                assert(birthList->get_point_with_id(id1) && birthList->get_point_with_id(id2));
                 pmf_delete_path(pt, birthList->get_point_with_id(id1), birthList, crossList, blocksLists, ptId, fieldHeight, fieldWidth);
                 pmf_delete_path(pt, birthList->get_point_with_id(id2), birthList, crossList, blocksLists, ptId, fieldHeight, fieldWidth);
             }
@@ -138,6 +167,13 @@ void pmf_add_point (
             crossList->remove_intersection_with_id (pt->id, blocksLists);
         }
     }
+    delete birthList;
+    delete crossList;
+    if (blocksLists) delete blocksLists;
+
+#if LOG
+    //fclose(flog);
+#endif
     return;
 }
 #undef PT_LT

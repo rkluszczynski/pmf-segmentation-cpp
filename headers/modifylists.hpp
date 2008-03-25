@@ -77,7 +77,7 @@ pmf_point<REAL> * pmf_delete_path (
                 }
 
                 st.push(dpt->id);
-                newPt = new pmf_point<REAL>(dpt->x, dpt->y, dptn, NULL, 0.0, 0.0, ++ptId, PT_UPDATE);
+                newPt = new pmf_point<REAL>(dpt->x, dpt->y, dptn, NULL, 0.0, 0.0, dpt->id, PT_UPDATE);
                 if (dptn->n1 != NULL  &&  dptn->n1->id == dpt->id)  dptn->n1 = newPt;
                 else
                     if (dptn->n2 != NULL  &&  dptn->n2->id == dpt->id)  dptn->n2 = newPt;

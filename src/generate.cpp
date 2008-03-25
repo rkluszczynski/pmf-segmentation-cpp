@@ -317,7 +317,7 @@ pmf_generate (
 //    delete PMF;
 
 #if LOG
-    fclose(flog);
+    //fclose(flog);
 #endif
     cout << "[ DONE ] : leaving generate function" << endl;
     return PMF;
