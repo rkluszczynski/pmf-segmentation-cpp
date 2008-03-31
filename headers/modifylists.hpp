@@ -4,6 +4,7 @@
 #include "point.hpp"
 
 #define REAL double
+inline
 int pmf_which_neighbor_is_id(pmf_point<REAL> * pt, long id)
 {
     if (pt->n1 != NULL  &&  pt->n1->id == id) return 1;
@@ -12,6 +13,7 @@ int pmf_which_neighbor_is_id(pmf_point<REAL> * pt, long id)
 }
 
 
+inline
 void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id2)
 {
     int i1 = pmf_which_neighbor_is_id (pt->n1, id1);
@@ -45,6 +47,7 @@ void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id
 
 
 #include <stack>
+inline
 pmf_point<REAL> * pmf_delete_path (
                                     pmf_point<REAL> * cpt,
                                     pmf_point<REAL> * dpt,
