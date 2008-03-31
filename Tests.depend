@@ -26,6 +26,18 @@
 	"generate.cpp"
 	"add.cpp"
 
+1206444178 source:h:\projects\pmf-codeblocks\tests\test-addpoint.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	"generate.cpp"
+	"add.cpp"
+
 1206973044 source:d:\projects\pmf-codeblocks\tests\test-rotatetypes.cpp
 	<cstdio>
 	<cstdlib>

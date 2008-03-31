@@ -97,3 +97,14 @@
 
 1202056162 d:\projects\pmf-codeblocks\src\operations.hpp
 
+1202056100 source:h:\projects\pmf-codeblocks\main.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	"operations.hpp"
+
+1202056162 h:\projects\pmf-codeblocks\src\operations.hpp
+
