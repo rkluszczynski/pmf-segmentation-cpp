@@ -209,9 +209,9 @@ bool pmf_store_points_in_blocks (
         }
         else {
             Element<pmf_point<REAL> > * pEl = bList->getHead();
-            while (pEl) {
-
-                if (newPt != pEl->data->n1  &&  pEl->data->n1 != NULL &&
+            while (pEl)
+            {
+                if (newPt != pEl->data->n1  &&  pEl->data->n1 != NULL  &&
                     cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y) == 1 )
                 {
                     REAL xx, yy;

@@ -46,6 +46,86 @@ void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id
 }
 
 
+inline
+bool pmf_store_modified_points_in_blocks (
+                        PMF_POINT * newPt,
+                        BirthsList<REAL> * bList,
+                        IntersectionsList<REAL> * iList,
+                        PMF_POINT * parentPt,
+                        long & id,
+                        REAL fieldHeight,
+                        REAL fieldWidth,
+                        BlocksLists<REAL> * blocks
+                    )
+{
+    if (newPt->type > 4) {
+        /* Check if coordinates are not outside the field. */
+        if( parentPt->type != PT_BIRTH_UP  &&
+            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f) != 0 )
+        {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+        if( parentPt->type != PT_BIRTH_DOWN &&
+            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight) != 0 )
+        {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight) != 0 ) {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+
+        /* Check if pointer to blocks is NULL */
+        if (blocks)
+        {
+            assert(false);
+        }
+        else {
+            Element<pmf_point<REAL> > * pEl = bList->getHead();
+            while (pEl)
+            {
+                if (newPt != pEl->data->n1  &&  pEl->data->n1 != NULL  &&
+                    pEl->data->n1->x < pEl->data->x  &&
+                    cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y) == 1 )
+                {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y, xx, yy);
+                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->data->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    iList->push_in_order (newpt2, newPt->id, pEl->data->id);
+                }
+                if (newPt != pEl->data->n2  &&  pEl->data->n2 != NULL  &&
+                    pEl->data->n2->x < pEl->data->x  &&
+                    cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n2->x, pEl->data->n2->y) == 1 )
+                {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n2->x, pEl->data->n2->y, xx, yy);
+                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->data->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    iList->push_in_order (newpt2, newPt->id, pEl->data->id);
+                }
+                pEl = pEl->next;
+            }
+        }
+    }
+    /* Adding point to the list */
+    bList->push_in_order(newPt, blocks);
+    return true;
+}
+
+
 #include <stack>
 inline
 pmf_point<REAL> * pmf_delete_path (
@@ -122,7 +202,7 @@ pmf_point<REAL> * pmf_delete_path (
     }
 
     if (newPt != NULL)
-        pmf_store_points_in_blocks(newPt, bList, iList, newPt->n1, ptId, fieldHeight, fieldWidth, blocks);
+        pmf_store_modified_points_in_blocks(newPt, bList, iList, newPt->n1, ptId, fieldHeight, fieldWidth, blocks);
     return newPt;
 }
 #undef REAL
@@ -296,7 +376,7 @@ struct Tpoint *delPathS(struct Tpoint *akt, long id, listB *qB, listI *qI, long 
 	qI->remove(id);
     }
 
-    if(res != NULL) storePoints2(res, qB, qI, idPktu, Bord);
+    if(res != NULL) Points2(res, qB, qI, idPktu, Bord);
     return(res);
 }
 
