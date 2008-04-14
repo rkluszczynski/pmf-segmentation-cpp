@@ -19,7 +19,7 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
 
         void set_points_ids ();
 		void save_configuration (std::ostream & out);
-		void save_svg (std::ostream & out);
+		void save_svg (std::ostream & out, double scale = 100.0);
 };
 
 
@@ -69,10 +69,10 @@ void ConfigurationList<T_REAL>::save_configuration (std::ostream & out)
 
 
 template <class T_REAL>
-void ConfigurationList<T_REAL>::save_svg (std::ostream & out)
+void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale)
 {
     using std::endl;
-    double scale = 100;
+    double strokeWidth = 0.15;
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
 
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
@@ -80,15 +80,15 @@ void ConfigurationList<T_REAL>::save_svg (std::ostream & out)
     out << "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\" ";
     out << "width=\"" << scale*fieldWidth << "\" height=\"" << scale*fieldHeight << "\">" << endl;
     out << endl;
-    out << "<g style=\"stroke-width:0.1; stroke:blue; fill:none;\">";
+    out << "<g style=\"stroke-width:" << strokeWidth << "; stroke:blue; fill:none;\">" << endl;
     while (iter) {
         pmf_point<T_REAL> * pt = iter->data;
         if (pt->n1) {
-            out << "<line x1=\"" << scale*pt->x << "\" y1=\"" << scale*pt->y << "\" ";
+            out << "\t<line x1=\"" << scale*pt->x << "\" y1=\"" << scale*pt->y << "\" ";
             out << "x2=\"" << scale*pt->n1->x << "\" y2=\"" << scale*pt->n1->y << "\"/>" << endl;
         }
         if (pt->n2) {
-            out << "<line x1=\"" << scale*pt->x << "\" y1=\"" << scale*pt->y << "\" ";
+            out << "\t<line x1=\"" << scale*pt->x << "\" y1=\"" << scale*pt->y << "\" ";
             out << "x2=\"" << scale*pt->n2->x << "\" y2=\"" << scale*pt->n2->y << "\"/>" << endl;
         }
         iter = iter->next;

@@ -61,7 +61,6 @@ void pmf_add_point (
     newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
     //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
     pmf_store_modified_points_in_blocks (newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-//                birthList->push_in_order(newPt);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
 
@@ -71,7 +70,6 @@ void pmf_add_point (
     newPt = new pmf_point<REAL>(coordX, coordY, pt, NULL, length, 0.0, ++ptId, PT_UPDATE);
     //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
     pmf_store_modified_points_in_blocks (newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-//                birthList->push_in_order(newPt);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
 
@@ -123,7 +121,6 @@ void pmf_add_point (
 
                 //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
                 pmf_store_modified_points_in_blocks (newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-//                birthList->push_in_order(newPt);
                 pt->n2 = newPt;
                 pt->l2 = length;
             }
@@ -148,11 +145,9 @@ void pmf_add_point (
 
                 //pmf_store_points_in_blocks(newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
                 pmf_store_modified_points_in_blocks (newPt, birthList, crossList, pt, ptId, fieldHeight, fieldWidth, blocksLists);
-//                birthList->push_in_order(newPt);
                 pt->n2 = newPt;
                 pt->l2 = length;
             }
-
             //if(akt->r1!=NULL && akt->r2!=NULL && akt->r1->x<akt->x  &&  akt->r2->x<akt->x)
             if (pt->type == PT_INTERSECTION)
             {
@@ -175,7 +170,6 @@ void pmf_add_point (
     delete birthList;
     delete crossList;
     if (blocksLists) delete blocksLists;
-
 #if LOG
     //fclose(flog);
 #endif
@@ -184,7 +178,6 @@ void pmf_add_point (
 #undef PT_LT
 
 #undef REAL
-
 /*
 #define ABS(x) (((x) > 0) ? (x) : (-(x)))
 

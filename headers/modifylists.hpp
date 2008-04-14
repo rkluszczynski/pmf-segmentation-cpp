@@ -46,6 +46,9 @@ void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id
 }
 
 
+#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
+#define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
+#define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
 inline
 bool pmf_store_modified_points_in_blocks (
                         PMF_POINT * newPt,
@@ -55,7 +58,9 @@ bool pmf_store_modified_points_in_blocks (
                         long & id,
                         REAL fieldHeight,
                         REAL fieldWidth,
-                        BlocksLists<REAL> * blocks
+                        BlocksLists<REAL> * blocks,
+                        REAL sinL = 0.0,
+                        REAL cosL = 1.0
                     )
 {
     if (newPt->type > 4) {
@@ -99,7 +104,8 @@ bool pmf_store_modified_points_in_blocks (
             while (pEl)
             {
                 if (newPt != pEl->data->n1  &&  pEl->data->n1 != NULL  &&
-                    pEl->data->n1->x < pEl->data->x  &&
+                    //pEl->data->n1->x < pEl->data->x  &&
+                    PT_LT(pEl->data->n1, pEl->data, sinL, cosL)  &&
                     cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y) == 1 )
                 {
                     REAL xx, yy;
@@ -108,7 +114,8 @@ bool pmf_store_modified_points_in_blocks (
                     iList->push_in_order (newpt2, newPt->id, pEl->data->id);
                 }
                 if (newPt != pEl->data->n2  &&  pEl->data->n2 != NULL  &&
-                    pEl->data->n2->x < pEl->data->x  &&
+                    //pEl->data->n2->x < pEl->data->x  &&
+                    PT_LT(pEl->data->n2, pEl->data, sinL, cosL)  &&
                     cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n2->x, pEl->data->n2->y) == 1 )
                 {
                     REAL xx, yy;
@@ -136,7 +143,9 @@ pmf_point<REAL> * pmf_delete_path (
                                     BlocksLists<REAL> * blocks,
                                     long & ptId,
                                     REAL fieldHeight,
-                                    REAL fieldWidth
+                                    REAL fieldWidth,
+                                    REAL sinL = 0.0,
+                                    REAL cosL = 1.0
                                 )
 {
     pmf_point<REAL> * newPt = NULL;
@@ -177,13 +186,15 @@ pmf_point<REAL> * pmf_delete_path (
 
         /* Point to delete has only 1 neighbor at first pointer */
         if (dpt->n1 != NULL  &&  dpt->n2 == NULL) {
-            if (dpt->n1->x <= dpt->x) break;
+            //if (dpt->n1->x <= dpt->x) break;
+            if (PT_LE(dpt->n1, dpt, sinL, cosL)) break;
             dpt = dpt->n1;
             continue;
         }
         /* Point to delete has only 1 neighbor at 2nd pointer */
         if (dpt->n1 == NULL  &&  dpt->n2 != NULL) {
-            if (dpt->n2->x <= dpt->x) break;
+            //if (dpt->n2->x <= dpt->x) break;
+            if (PT_LE(dpt->n2, dpt, sinL, cosL)) break;
             dpt = dpt->n2;
             continue;
         }
@@ -205,6 +216,10 @@ pmf_point<REAL> * pmf_delete_path (
         pmf_store_modified_points_in_blocks(newPt, bList, iList, newPt->n1, ptId, fieldHeight, fieldWidth, blocks);
     return newPt;
 }
+#undef X_ROTATED
+#undef PT_LT
+#undef PT_LE
+
 #undef REAL
 
 
