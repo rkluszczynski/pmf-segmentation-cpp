@@ -33,9 +33,10 @@ int main (int argc, char *argv[])
 	pmf_add_point(pmf, pmf2, 1.1, 1.1); // ERROR
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
-    ofstream fout("output/PMF2.txt");
+    ofstream fout("output/PMF2.svg");
     pmf2->set_points_ids();
-    pmf2->save_configuration(fout);
+    //pmf2->save_configuration(fout);
+    pmf2->save_svg(fout);
     fout.close();
 
 	delete pmf;
