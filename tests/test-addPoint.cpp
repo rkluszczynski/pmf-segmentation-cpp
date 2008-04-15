@@ -9,6 +9,7 @@
 
 #include "generate.cpp"
 #include "add.cpp"
+#include "templateheap.hpp"
 
 #define REAL double
 int main (int argc, char *argv[])

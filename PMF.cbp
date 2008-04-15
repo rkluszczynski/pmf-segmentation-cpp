@@ -5,7 +5,7 @@
 		<Option title="PMF Project" />
 		<Option pch_mode="0" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="structures\;operations\;util\;structures\core\;structures\lists\;structures\blocks\;" />
+		<Option virtualFolders="structures\;operations\;util\;structures\core\;structures\lists\;structures\blocks\;structures\heaps\;" />
 		<Build>
 			<Target title="default">
 				<Option output="PMF.exe" prefix_auto="0" extension_auto="0" />
@@ -60,6 +60,9 @@
 		</Unit>
 		<Unit filename="headers\probability.hpp">
 			<Option virtualFolder="util\" />
+		</Unit>
+		<Unit filename="headers\templateheap.hpp">
+			<Option virtualFolder="structures\heaps\" />
 		</Unit>
 		<Unit filename="headers\templatelist.hpp">
 			<Option virtualFolder="structures\core\" />
