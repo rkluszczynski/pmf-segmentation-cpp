@@ -14,7 +14,7 @@
 	<iostream>
 	"generate.cpp"
 
-1208124294 source:d:\projects\pmf-codeblocks\tests\test-addpoint.cpp
+1208384196 source:d:\projects\pmf-codeblocks\tests\test-addpoint.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -24,7 +24,6 @@
 	<iostream>
 	<fstream>
 	"generate.cpp"
-	"add.cpp"
 
 1206444178 source:h:\projects\pmf-codeblocks\tests\test-addpoint.cpp
 	<cstdio>

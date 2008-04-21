@@ -87,7 +87,10 @@ void BlocksLists<T_REAL>::push (pmf_point<T_REAL> * pt)
 {
     assert(pt->block != BLOCK_UNDEFINED);
     if (pt->block != BLOCK_UNDEFINED)  blocks[pt->block].push_back(pt);
-    else  std::cerr << "[ ERROR ] : pushing to blocks list without block number defined" << std::endl;
+    else  {
+        std::cerr << "[ ERROR ] : pushing to blocks list without block number defined" << std::endl;
+        assert(false);
+    }
 }
 
 

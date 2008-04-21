@@ -8,14 +8,14 @@
 #include <fstream>
 
 #include "generate.cpp"
-#include "add.cpp"
-#include "templateheap.hpp"
+//#include "add.cpp"
+//#include "templateheap.hpp"
 
 #define REAL double
 int main (int argc, char *argv[])
 {
 	int           opt = 0x0;
-	double   sizeArak = 7.0;
+	double   sizeArak = 5.0;
 	char * outputFile = NULL;
 	time_t       seed = 0;//time(NULL);
 
@@ -24,14 +24,18 @@ int main (int argc, char *argv[])
 	fprintf(stderr, "[ INFO ] :        Seed (-e) = %li\n", seed);
 
 	/* Generating Polygonal Markov Field. */
+	time_t czas = -time(NULL);
 	ConfigurationList<REAL> * pmf = pmf_generate ( sizeArak, sizeArak, outputFile, seed );
+	czas += time(NULL);
+	cerr << "[ TIME ] : " << czas << endl;
+	return 0;
 	ConfigurationList<REAL> * pmf2 = new ConfigurationList<REAL>(sizeArak, sizeArak);
 
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
     //pmf_add_point(pmf, pmf2, 6.8, 3.15);
 	//pmf_add_point(pmf, pmf2, 1.1, 0.5);
 	//pmf_add_point(pmf, pmf2, 6.8, 3.3);
-	pmf_add_point(pmf, pmf2, 1.1, 1.1); // ERROR
+	//pmf_add_point(pmf, pmf2, 1.1, 1.1); // ERROR
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
     ofstream fout("output/PMF2.svg");

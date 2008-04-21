@@ -36,7 +36,9 @@ bool IntersectionsList<T_REAL>::remove_intersection_with_id (long ptId, BlocksLi
             // Added 16.01.2008
             if (blocksLists) {
                 blocksLists->pop(iter->data->pt);
+#ifdef DEBUG
                 cout << blocksLists << endl;
+#endif
             }
             // -- RK
             delete iter->data->pt;
@@ -81,7 +83,9 @@ bool IntersectionsList<T_REAL>::remove_intersection_with_one_id_of (long ptId1, 
             // Added 16.01.2008
             if (blocksLists) {
                 blocksLists->pop(iter->data->pt);
+#ifdef DEBUG
                 cout << blocksLists << endl;
+#endif
             }
             // -- RK
             delete iter->data->pt;

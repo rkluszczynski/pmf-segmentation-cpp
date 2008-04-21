@@ -7,6 +7,7 @@ using namespace std;
 #include "birthslist.hpp"
 #include "intersectionslist.hpp"
 #include "configurationlist.hpp"
+#undef DEBUG
 #include "blockslists.hpp"
 
 #include "probability.hpp"
@@ -15,8 +16,9 @@ using namespace std;
 #define REAL double
 #define PMF_POINT pmf_point<REAL>
 
-#define DEBUG
-#define LOG 1
+#undef DEBUG
+//#define DEBUG
+#define LOG 0
 
 
 /**
@@ -163,10 +165,11 @@ pmf_generate (
     IntersectionsList<REAL> * crossList = new IntersectionsList<REAL> ();
     ConfigurationList<REAL> *       PMF = new ConfigurationList<REAL> (fieldWidth, fieldHeight);
     BlocksLists<REAL> *     blocksLists = new BlocksLists<REAL> (fieldWidth, fieldHeight, 1.1);
+    blocksLists = NULL;
 
     id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, blocksLists);
-    cout << birthList << endl;
-    cout << crossList << endl;
+    //cout << birthList << endl;
+    //cout << crossList << endl;
 
 #if LOG
     FILE * flog = freopen("output/log.txt", "w", stdout);
@@ -180,9 +183,10 @@ pmf_generate (
         // TODO: w-k konca petli
         if (pt->x > fieldWidth)  break;
 
+        ++iterationCounter;
 #ifdef DEBUG
         cout << " ---------------------------------------------------------------------------" << endl;
-        cout << " ------------------------------ STEP " << ++iterationCounter << "----------------------------------" << endl;
+        cout << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << endl;
         if (pop)  { cout << " poprzedni = " << (*pop) << "  " << endl; }
         cout << "  kandydat = " << (*pt) << "  " << endl;
         //cout << (* pmf_do_get(birthList, crossList, id1, id2)) << endl;
@@ -262,13 +266,15 @@ pmf_generate (
             REAL zmX, zmY;
             zmX = pt->x + upperLength * cos(upperAngle);
             zmY = pt->y + upperLength * sin(upperAngle);
-            assert(zmX > pt->x);
+            // FIX IT :
+            assert(zmX >= pt->x);
             PMF_POINT * newpt1 = new PMF_POINT(zmX, zmY, pt, NULL, upperLength, 0.0, ++id, PT_UPDATE);
             pmf_store_points_in_blocks (newpt1, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
             zmX = pt->x + lowerLength * cos(lowerAngle);
             zmY = pt->y + lowerLength * sin(lowerAngle);
-            assert(zmX > pt->x);
+            // FIX IT :
+            assert(zmX >= pt->x);
             PMF_POINT * newpt2 = new PMF_POINT(zmX, zmY, pt, NULL, lowerLength, 0.0, ++id, PT_UPDATE);
             pmf_store_points_in_blocks (newpt2, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
@@ -296,7 +302,7 @@ pmf_generate (
 
         pop = pt;
 #ifdef DEBUG
-        if (true) {
+        if (false) {
             cout << endl << "### Lista punktow w bloku ###" << endl;
             if (blocksLists)  blocksLists->print_lists();
             cout << endl << "### Atualne PMF ###" << endl;
@@ -309,14 +315,13 @@ pmf_generate (
     delete crossList;
     delete blocksLists;
 
+#if LOG
     cout << "[ SAVE ] : saving configuration to a file" << endl;
     ofstream fout("output/PMF.txt");
     PMF->set_points_ids();
     PMF->save_configuration(fout);
     fout.close();
 //    delete PMF;
-
-#if LOG
     //fclose(flog);
 #endif
     cout << "[ DONE ] : leaving generate function" << endl;

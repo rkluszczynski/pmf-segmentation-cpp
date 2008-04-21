@@ -48,9 +48,11 @@ void BlockList<T_REAL>::pop_point (pmf_point<T_REAL> * pt)
         if (pointer->next)
             pointer->next->prev = pointer->prev;
     }
+#ifdef DEBUG
     if (pointer->data) cout << " DEL : " << *pointer->data << endl;
     if (pointer->next) cout << "NEXT : " << *pointer->next->data << endl;
     if (pointer->prev) cout << "PREV : " << *pointer->prev->data << endl;
+#endif
     delete pointer;
 }
 
