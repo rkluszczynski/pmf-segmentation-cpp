@@ -13,20 +13,26 @@ using namespace std;
 #define PMF_HEAP_RIGHT(X)    (((X)<<1) + 2)
 
 template <class T_TYPE>
-class TemplateHeap
+class AbstractHeap
 {
     private :
         vector<T_TYPE> * data;
 
         void min_heapify (long);
-        virtual bool less_then (T_TYPE, T_TYPE);
+        virtual bool __less_then (T_TYPE, T_TYPE) = 0;
+        inline bool __less_equal (T_TYPE, T_TYPE);
 
     public :
-        TemplateHeap();
-        ~TemplateHeap();
+        AbstractHeap();
+        virtual ~AbstractHeap()
+        {
+            delete data;
+            std::cout << "[ PMF HEAP ]  destroyed" << std::endl;
+        };
 
-        inline long size()  { return data->size(); }
-        inline bool empty() { return data->size() == 0; }
+        inline long   size() { return data->size(); }
+        inline bool  empty() { return data->size() == 0; }
+        inline T_TYPE  top() { return (*data)[0]; }
 
         T_TYPE extract_min ();
         void insert (T_TYPE);
@@ -34,7 +40,7 @@ class TemplateHeap
 
 
 template <class T_TYPE>
-TemplateHeap<T_TYPE>::TemplateHeap ()
+AbstractHeap<T_TYPE>::AbstractHeap ()
 {
     data = new vector<T_TYPE> ();
 	std::cout << "[ PMF HEAP ]  created" << std::endl;
@@ -42,35 +48,27 @@ TemplateHeap<T_TYPE>::TemplateHeap ()
 
 
 template <class T_TYPE>
-TemplateHeap<T_TYPE>::~TemplateHeap ()
-{
-    delete data;
-	std::cout << "[ PMF HEAP ]  destroyed" << std::endl;
-};
-
-
-template <class T_TYPE>
 void
-TemplateHeap<T_TYPE>::min_heapify (long index)
+AbstractHeap<T_TYPE>::min_heapify (long index)
 {
     long l = PMF_HEAP_LEFT(index);
     long r = PMF_HEAP_RIGHT(index);
-    long largest = index;
+    long best = index;
 
     //if (l < size()  &&  (*data)[l] > (*data)[largest])  largest = l;
     //if (r < size()  &&  (*data)[r] > (*data)[largest])  largest = r;
-    if (l < size()  &&  less_then((*data)[largest], (*data)[l]))  largest = l;
-    if (r < size()  &&  less_then((*data)[largest], (*data)[r]))  largest = r;
-    if (largest != index)  {
-        swap((*data)[index], (*data)[largest]);
-        min_heapify(largest);
+    if (l < size()  &&  __less_then((*data)[l], (*data)[best]))  best = l;
+    if (r < size()  &&  __less_then((*data)[r], (*data)[best]))  best = r;
+    if (best != index)  {
+        swap((*data)[index], (*data)[best]);
+        min_heapify(best);
     }
 }
 
 
 template <class T_TYPE>
 T_TYPE
-TemplateHeap<T_TYPE>::extract_min ()
+AbstractHeap<T_TYPE>::extract_min ()
 {
     assert(size() != 0);
     T_TYPE topElement = (*data)[0];
@@ -83,16 +81,24 @@ TemplateHeap<T_TYPE>::extract_min ()
 
 template <class T_TYPE>
 void
-TemplateHeap<T_TYPE>::insert (T_TYPE element)
+AbstractHeap<T_TYPE>::insert (T_TYPE element)
 {
     int index = size();
     data->push_back(element);
-    while (index > 0  &&  less_then((*data)[PMF_HEAP_PARENT(index)], element))
+    while (index > 0  &&  __less_then(element, (*data)[PMF_HEAP_PARENT(index)]))
     {
         (*data)[index] = (*data)[PMF_HEAP_PARENT(index)];
         index = PMF_HEAP_PARENT(index);
     }
     (*data)[index] = element;
+}
+
+
+template <class T_TYPE>
+inline bool
+AbstractHeap<T_TYPE>::__less_equal (T_TYPE el1, T_TYPE el2)
+{
+    return (! __less_then(el2, el1));
 }
 
 #undef PMF_HEAP_RIGHT

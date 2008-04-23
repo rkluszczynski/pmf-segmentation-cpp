@@ -25,8 +25,14 @@
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
 		</VirtualTargets>
+		<Unit filename="headers\abstractheap.hpp">
+			<Option virtualFolder="structures\heaps\" />
+		</Unit>
 		<Unit filename="headers\accesslists.hpp">
 			<Option virtualFolder="structures\lists\" />
+		</Unit>
+		<Unit filename="headers\birthsheap.hpp">
+			<Option virtualFolder="structures\heaps\" />
 		</Unit>
 		<Unit filename="headers\birthslist.hpp">
 			<Option virtualFolder="structures\lists\" />
@@ -61,13 +67,13 @@
 		<Unit filename="headers\probability.hpp">
 			<Option virtualFolder="util\" />
 		</Unit>
-		<Unit filename="headers\templateheap.hpp">
-			<Option virtualFolder="structures\heaps\" />
-		</Unit>
 		<Unit filename="headers\templatelist.hpp">
 			<Option virtualFolder="structures\core\" />
 		</Unit>
 		<Unit filename="main.cpp" />
+		<Unit filename="src\add-rot.cpp">
+			<Option virtualFolder="operations\" />
+		</Unit>
 		<Unit filename="src\add.cpp">
 			<Option virtualFolder="operations\" />
 		</Unit>

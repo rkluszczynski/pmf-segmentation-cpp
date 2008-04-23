@@ -327,6 +327,6 @@ pmf_generate (
     cout << "[ DONE ] : leaving generate function" << endl;
     return PMF;
 }
-
+#undef LOG
 
 #undef REAL

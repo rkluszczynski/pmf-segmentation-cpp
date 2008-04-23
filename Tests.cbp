@@ -75,6 +75,21 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
+			<Target title="test-templateHeap">
+				<Option output="Tests.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+			<Target title="test-addRotatedPoint">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
@@ -89,6 +104,9 @@
 		<Unit filename="tests\test-BothLists.cpp">
 			<Option target="test-BothLists" />
 		</Unit>
+		<Unit filename="tests\test-PMFHeap.cpp">
+			<Option target="test-templateHeap" />
+		</Unit>
 		<Unit filename="tests\test-Point.cpp">
 			<Option target="test-Point" />
 		</Unit>
@@ -98,6 +116,10 @@
 		<Unit filename="tests\test-addPoint.cpp">
 			<Option virtualFolder="mains\" />
 			<Option target="test-addPointToPMF" />
+		</Unit>
+		<Unit filename="tests\test-addRotPt.cpp">
+			<Option virtualFolder="mains\" />
+			<Option target="test-addRotatedPoint" />
 		</Unit>
 		<Unit filename="tests\test-heap.cpp">
 			<Option target="test-heap" />

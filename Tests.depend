@@ -49,3 +49,20 @@
 	"generate.cpp"
 	"rotate.cpp"
 
+1208987806 source:h:\projects\pmf-codeblocks\tests\test-pmfheap.cpp
+	<iostream>
+	<cmath>
+	"abstractheap.hpp"
+
+1208990916 source:h:\projects\pmf-codeblocks\tests\test-addrotpt.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	"generate.cpp"
+	"add-rot.cpp"
+
