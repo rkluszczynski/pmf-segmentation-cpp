@@ -6,6 +6,8 @@
 #include "modifylists.hpp"
 
 #include "birthsheap.hpp"
+#include "intersectionsheap.hpp"
+#include "modifyheaps.hpp"
 
 #define LOG 1
 #define REAL double
@@ -44,6 +46,7 @@ void pmf_add_rotated_point (
         PMF->pop_front();
         bHeap->insert(pt);
     }
+    //bHeap->remove_point_with_id(8);
 
     pt = new pmf_point<REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
@@ -54,6 +57,36 @@ void pmf_add_rotated_point (
         //newPMF->push_in_order(bHeap->extract_min());
         newPMF->push_back(bHeap->extract_min());
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ************************************************************************************** */
+    /* ************************************************************************************** */
+#if 0
+    /* Test of IntersectionHeap */
+    cerr << " TESTING  ...  'IntersectionsHeap' ... " << endl;
+    IntersectionsHeap<REAL> * iHeap = new IntersectionsHeap<REAL> (sinL, cosL);
+    pmf_point<REAL> * ppt = new pmf_point<REAL>(1.0, 2.0, NULL, NULL, 0.0, 0.0, 171717, 17);
+    long ii1 = 7, ii2 = 117;
+    long ti1, ti2;
+    iHeap->insert(ppt, ii1, ii2);
+    cerr << " TESTING  ...   top =  " << *iHeap->top() << endl;
+    cerr << " TESTING  ...  " << *iHeap->extract_min(ti1, ti2) << endl;
+    cerr << " TESTING  ...   intersection of " << ti1 << " and " << ti2 << endl;
+    delete iHeap;
+    cerr << " TESTING  ...  done" << endl;
+#endif
 
     return;
 }

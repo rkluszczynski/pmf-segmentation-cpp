@@ -16,11 +16,12 @@ template <class T_TYPE>
 class AbstractHeap
 {
     private :
-        vector<T_TYPE> * data;
-
-        void min_heapify (long);
         virtual bool __less_then (T_TYPE, T_TYPE) = 0;
         inline bool __less_equal (T_TYPE, T_TYPE);
+
+    protected :
+        vector<T_TYPE> * data;
+        void min_heapify (long);
 
     public :
         AbstractHeap();
@@ -33,6 +34,7 @@ class AbstractHeap
         inline long   size() { return data->size(); }
         inline bool  empty() { return data->size() == 0; }
         inline T_TYPE  top() { return (*data)[0]; }
+        inline T_TYPE  get(long i) { return (*data)[i]; }
 
         T_TYPE extract_min ();
         void insert (T_TYPE);

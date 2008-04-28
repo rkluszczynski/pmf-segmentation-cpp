@@ -2,6 +2,7 @@
 #define BIRTHSHEAP_HPP_INCLUDED
 
 #include <cmath>
+#include <algorithm>
 #include "abstractheap.hpp"
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
@@ -20,7 +21,28 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
     public :
         BirthsHeap() : sinL(0.0), cosL(1.0) {};
         BirthsHeap(double ssinL, double ccosL) : sinL(ssinL), cosL(ccosL) {};
+
+        bool remove_point_with_id(long);
 };
+
+
+template <class T_REAL>
+bool
+BirthsHeap<T_REAL>::remove_point_with_id (long ptId)
+{
+    for (int i = 0; i < AbstractHeap<pmf_point<T_REAL> *>::size(); i++)
+    {
+        pmf_point<T_REAL> * pt = AbstractHeap<pmf_point<T_REAL> *>::get(i);
+        if (pt->id == ptId) {
+            //if (blocksLists)  blocksLists->pop(iter->data);
+            std::swap ((*AbstractHeap<pmf_point<T_REAL> *>::data)[i], (*AbstractHeap<pmf_point<T_REAL> *>::data)[AbstractHeap<pmf_point<T_REAL> *>::size()-1]);
+            AbstractHeap<pmf_point<T_REAL> *>::data->pop_back();
+            AbstractHeap<pmf_point<T_REAL> *>::min_heapify (i);
+            return true;
+        }
+    }
+    return false;
+}
 
 #undef X_ROTATED
 

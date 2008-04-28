@@ -66,3 +66,15 @@
 	"generate.cpp"
 	"add-rot.cpp"
 
+1208998454 source:d:\projects\pmf-codeblocks\tests\test-addrotpt.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	"generate.cpp"
+	"add-rot.cpp"
+
