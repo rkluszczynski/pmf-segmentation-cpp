@@ -13,6 +13,30 @@
 #define REAL double
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
+#define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
+inline
+pmf_point<REAL> *
+pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL length, REAL angle, long & ptId, REAL sinL, REAL cosL)
+{
+    cerr << " LENGTH = " << length << endl;
+
+    REAL rotx = X_ROTATED(ppt->x, ppt->y, sinL, cosL);
+    REAL roty = Y_ROTATED(ppt->x, ppt->y, sinL, cosL);
+    cerr << rotx << "  " << roty << endl;
+
+    REAL coordX = rotx + length * cos(angle);
+    REAL coordY = roty + length * sin(angle);
+    cerr << coordX << "  " << coordY << endl;
+
+    REAL newX = X_ROTATED(coordX, coordY, -sinL, cosL);
+    REAL newY = Y_ROTATED(coordX, coordY, -sinL, cosL);
+    cerr << newX << "  " << newY << endl;
+
+    pmf_point<REAL> * newPt = new pmf_point<REAL>(newX, newY, ppt, NULL, length, 0.0, ++ptId, PT_UPDATE);
+    return newPt;
+}
+
+
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
 void pmf_add_rotated_point (
@@ -32,10 +56,12 @@ void pmf_add_rotated_point (
 
     long oldSize = PMF->get_size() + 1;
     long ptId = oldSize;
-    REAL sinL = 0.0;
-    REAL cosL = 1.0;
+    REAL alpha = 0.0;
+    REAL  sinL = -1.0;
+    REAL  cosL = 0.0;
     assert(sinL*sinL + cosL*cosL == 1.0);
     REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
+    REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
     cerr << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << endl;
 
     BirthsHeap<REAL> * bHeap = new BirthsHeap<REAL> (sinL, cosL);
@@ -58,15 +84,24 @@ void pmf_add_rotated_point (
         newPMF->push_back(bHeap->extract_min());
     }
 
+    REAL lowerAngle, upperAngle;
+    pmf_point<REAL> * newPt;
 
+    determineBirthAngles(upperAngle, lowerAngle);
 
+    cerr << *pt << endl;
 
+    newPt = pmf_put_new_neighbor(pt, Exp<REAL>(2.0), upperAngle, ptId, sinL, cosL);
+    pt->n1 = newPt;
+    pt->l1 = newPt->l1;
 
+    cerr << *pt->n1 << endl;
 
+    newPt = pmf_put_new_neighbor(pt, Exp<REAL>(2.0), lowerAngle, ptId, sinL, cosL);
+    pt->n2 = newPt;
+    pt->l2 = newPt->l1;
 
-
-
-
+    cerr << *pt->n2 << endl;
 
 
 
@@ -90,6 +125,7 @@ void pmf_add_rotated_point (
 
     return;
 }
+#undef Y_ROTATED
 #undef X_ROTATED
 #undef LOG
 
