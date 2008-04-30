@@ -16,8 +16,9 @@
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
 inline
 pmf_point<REAL> *
-pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL length, REAL angle, long & ptId, REAL sinL, REAL cosL)
+pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL angle, long & ptId, REAL sinL, REAL cosL)
 {
+    REAL length = Exp<REAL>(2.0);
     cerr << " LENGTH = " << length << endl;
 
     REAL rotx = X_ROTATED(ppt->x, ppt->y, sinL, cosL);
@@ -74,6 +75,7 @@ void pmf_add_rotated_point (
     }
     //bHeap->remove_point_with_id(8);
 
+    // Creating new point
     pt = new pmf_point<REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
     {
@@ -84,6 +86,7 @@ void pmf_add_rotated_point (
         newPMF->push_back(bHeap->extract_min());
     }
 
+    // Determining neighbors of a new point
     REAL lowerAngle, upperAngle;
     pmf_point<REAL> * newPt;
 
@@ -91,17 +94,23 @@ void pmf_add_rotated_point (
 
     cerr << *pt << endl;
 
-    newPt = pmf_put_new_neighbor(pt, Exp<REAL>(2.0), upperAngle, ptId, sinL, cosL);
+    newPt = pmf_put_new_neighbor(pt, upperAngle, ptId, sinL, cosL);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
+    // TODO: store point
 
     cerr << *pt->n1 << endl;
 
-    newPt = pmf_put_new_neighbor(pt, Exp<REAL>(2.0), lowerAngle, ptId, sinL, cosL);
+    newPt = pmf_put_new_neighbor(pt, lowerAngle, ptId, sinL, cosL);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
+    // TODO: store point
 
     cerr << *pt->n2 << endl;
+
+    // and the riots start again ...
+    long id1, id2;
+    double angle, newAngle;
 
 
 
