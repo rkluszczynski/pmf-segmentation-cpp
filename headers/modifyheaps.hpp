@@ -73,7 +73,9 @@ pmf_store_rotated_point_in_blocks (
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
                     PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
-                    iHeap->insert (newpt2, newPt->id, pEl->id);
+                    //iHeap->insert (newpt2, newPt->id, pEl->id);
+
+                    cerr << " -- CROSS -- : " << *newpt2 << endl;
                 }
 
                 if (newPt != pEl->n2  &&  pEl->n2 != NULL  &&
@@ -84,12 +86,15 @@ pmf_store_rotated_point_in_blocks (
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
                     PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
-                    iHeap->insert (newpt2, newPt->id, pEl->id);
+                    //iHeap->insert (newpt2, newPt->id, pEl->id);
+
+                    cerr << " -- CROSS -- : " << *newpt2 << endl;
                 }
             }
         }
     }
     /* Adding point to the list */
+    cerr << " --- INS --- : " << *newPt << endl;
     bHeap->insert(newPt);
     //bHeap->insert(newPt, blocks);
     return true;
@@ -183,7 +188,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
     return newPt;
 }
 
-
+/*
 inline
 pmf_point<REAL> * pmf_do_heaps_top (
                                 BirthsHeap<REAL> * bHeap,
@@ -211,7 +216,7 @@ pmf_point<REAL> * pmf_do_heaps_top (
         }
     }
 }
-
+*/
 
 inline
 pmf_point<REAL> * pmf_do_heaps_get (

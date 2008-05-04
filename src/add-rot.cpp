@@ -19,19 +19,19 @@ pmf_point<REAL> *
 pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL angle, long & ptId, REAL sinL, REAL cosL)
 {
     REAL length = Exp<REAL>(2.0);
-    cerr << " LENGTH = " << length << endl;
+    //cerr << " LENGTH = " << length << endl;
 
     REAL rotx = X_ROTATED(ppt->x, ppt->y, sinL, cosL);
     REAL roty = Y_ROTATED(ppt->x, ppt->y, sinL, cosL);
-    cerr << rotx << "  " << roty << endl;
+    //cerr << rotx << "  " << roty << endl;
 
     REAL coordX = rotx + length * cos(angle);
     REAL coordY = roty + length * sin(angle);
-    cerr << coordX << "  " << coordY << endl;
+    //cerr << coordX << "  " << coordY << endl;
 
     REAL newX = X_ROTATED(coordX, coordY, -sinL, cosL);
     REAL newY = Y_ROTATED(coordX, coordY, -sinL, cosL);
-    cerr << newX << "  " << newY << endl;
+    //cerr << newX << "  " << newY << endl;
 
     pmf_point<REAL> * newPt = new pmf_point<REAL>(newX, newY, ppt, NULL, length, 0.0, ++ptId, PT_UPDATE);
     return newPt;
@@ -58,8 +58,8 @@ void pmf_add_rotated_point (
     long oldSize = PMF->get_size() + 1;
     long ptId = oldSize;
     REAL alpha = 0.0;
-    REAL  sinL = -1.0;
-    REAL  cosL = 0.0;
+    REAL  sinL = -1.0;//-1.0;
+    REAL  cosL = 0.0;//0.0;
     assert(sinL*sinL + cosL*cosL == 1.0);
     REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
@@ -87,6 +87,7 @@ void pmf_add_rotated_point (
         //newPMF->push_in_order(bHeap->extract_min());
         newPMF->push_back(bHeap->extract_min());
     }
+    bHeap->insert(pt);
 
     // Determining neighbors of a new point
     REAL lowerAngle, upperAngle;
@@ -100,6 +101,8 @@ void pmf_add_rotated_point (
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
     // TODO: store point
+    //bHeap->insert(newPt);
+    pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
     cerr << *pt->n1 << endl;
 
@@ -107,6 +110,8 @@ void pmf_add_rotated_point (
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
     // TODO: store point
+    //bHeap->insert(newPt);
+    pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
     cerr << *pt->n2 << endl;
 
@@ -114,12 +119,12 @@ void pmf_add_rotated_point (
     // and the riots start again ...
     long id1, id2;
     double angle, newAngle;
-
+//*
     while (!bHeap->empty()  ||  !iHeap->empty())
     {
-        pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL);
+        pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
         newPMF->push_back(pt);
-
+        /*
         if (pt->id <= oldSize) {
             if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
             {
@@ -131,6 +136,7 @@ void pmf_add_rotated_point (
 
                 newPt = pmf_put_new_neighbor(pt, angle, ptId, sinL, cosL);
                 // TODO: store point
+                //pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
                 pt->n2 = newPt;
                 pt->l2 = 17.17; //TODO
@@ -147,6 +153,7 @@ void pmf_add_rotated_point (
 
                 newPt = pmf_put_new_neighbor(pt, angle, ptId, sinL, cosL);
                 // TODO: store point
+                //pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
                 pt->n2 = newPt;
                 pt->l2 = 17.17; //TODO
@@ -160,9 +167,11 @@ void pmf_add_rotated_point (
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
             }
+
             bHeap->remove_point_with_id(pt->id);
             iHeap->remove_intersections_with_id(pt->id);
         }
+        //*/
     }
 
     /* ************************************************************************************** */

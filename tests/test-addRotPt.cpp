@@ -26,16 +26,22 @@ int main (int argc, char *argv[])
 	/* Generating Polygonal Markov Field. */
 	ConfigurationList<REAL> * pmf = pmf_generate ( sizeArak, sizeArak, outputFile, seed );
 	ConfigurationList<REAL> * pmf2 = new ConfigurationList<REAL>(sizeArak, sizeArak);
+//*
+    ofstream fout("output/PMF-before-rot.txt");
+    pmf->set_points_ids();
+    pmf->save_configuration(fout);
+    fout.close();
+//*/
 
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
     pmf_add_rotated_point(pmf, pmf2, 0.2, 2.0);
 //*
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
-    ofstream fout("output/PMF-rot.txt");
+    ofstream fout2("output/PMF-after-rot.txt");
     pmf2->set_points_ids();
-    pmf2->save_configuration(fout);
+    pmf2->save_configuration(fout2);
     //pmf2->save_svg(fout);
-    fout.close();
+    fout2.close();
 //*/
 	delete pmf;
 	delete pmf2;
