@@ -10,7 +10,8 @@
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
 inline
-bool pmf_store_rotated_point_in_blocks (
+bool
+pmf_store_rotated_point_in_blocks (
                         PMF_POINT * newPt,
                         BirthsHeap<REAL> * bHeap,
                         IntersectionsHeap<REAL> * iHeap,
@@ -181,6 +182,74 @@ pmf_point<REAL> * pmf_delete_rotated_path (
         pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, newPt->n1, ptId, fieldHeight, fieldWidth, blocks);
     return newPt;
 }
+
+
+inline
+pmf_point<REAL> * pmf_do_heaps_top (
+                                BirthsHeap<REAL> * bHeap,
+                                IntersectionsHeap<REAL> * iHeap,
+                                long & id1,
+                                long & id2,
+                                REAL sinL,
+                                REAL cosL
+                            )
+{
+    if (bHeap->empty() && iHeap->empty()) { return NULL; }
+    else if (!bHeap->empty() && iHeap->empty()) { return bHeap->top(); }
+    else if (bHeap->empty() && !iHeap->empty())
+    {
+        id1 = iHeap->topP1();
+        id2 = iHeap->topP2();
+        return iHeap->top();
+    }
+    else {
+        if (PT_LE(bHeap->top(), iHeap->top(), sinL, cosL)) { return bHeap->top(); }
+        else {
+            id1 = iHeap->topP1();
+            id2 = iHeap->topP2();
+            return iHeap->top();
+        }
+    }
+}
+
+
+inline
+pmf_point<REAL> * pmf_do_heaps_get (
+                        BirthsHeap<REAL> * bHeap,
+                        IntersectionsHeap<REAL> * iHeap,
+                        long & id1,
+                        long & id2,
+                        REAL sinL,
+                        REAL cosL
+                    )
+{
+    if (bHeap->empty() && iHeap->empty()) { return NULL; }
+    else if (!bHeap->empty() && iHeap->empty()) {
+        pmf_point<REAL> * pt = bHeap->extract_min();
+        return pt;
+    }
+    else if (bHeap->empty() && !iHeap->empty()) {
+        /*
+        pmf_point<REAL> * pt = iHeap->top();
+        id1 = iHeap->topP1();
+        id2 = iHeap->topP2();
+        return pt;
+        */
+        return iHeap->extract_min(id1, id2);
+    }
+    else {
+        pmf_point<REAL> * bpt = bHeap->top();
+        pmf_point<REAL> * ipt = iHeap->top();
+        if (PT_LE(bpt, ipt, sinL, cosL)) {
+            return bHeap->extract_min();
+        }
+        else {
+            return iHeap->extract_min(id1, id2);
+        }
+    }
+}
+
+
 #undef X_ROTATED
 #undef PT_LT
 #undef PT_LE

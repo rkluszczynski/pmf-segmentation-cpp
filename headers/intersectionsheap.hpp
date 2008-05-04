@@ -22,6 +22,8 @@ class IntersectionsHeap : public AbstractHeap<CrosspointElement<T_REAL> *>
         IntersectionsHeap(double ssinL, double ccosL) : sinL(ssinL), cosL(ccosL) {};
 
         inline pmf_point<T_REAL> * top() { return AbstractHeap<CrosspointElement<T_REAL> *>::top()->pt; }
+        inline long topP1() { return AbstractHeap<CrosspointElement<T_REAL> *>::top()->p1; }
+        inline long topP2() { return AbstractHeap<CrosspointElement<T_REAL> *>::top()->p2; }
 
         pmf_point<T_REAL> * extract_min (long & , long & );
         void insert (pmf_point<T_REAL> *, long , long );

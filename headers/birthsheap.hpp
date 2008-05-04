@@ -23,6 +23,7 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
         BirthsHeap(double ssinL, double ccosL) : sinL(ssinL), cosL(ccosL) {};
 
         bool remove_point_with_id(long);
+        pmf_point<T_REAL> * get_point_with_id(long);
 };
 
 
@@ -43,6 +44,20 @@ BirthsHeap<T_REAL>::remove_point_with_id (long ptId)
     }
     return false;
 }
+
+
+template <class T_REAL>
+pmf_point<T_REAL> *
+BirthsHeap<T_REAL>::get_point_with_id (long ptId)
+{
+    for (int i = 0; i < AbstractHeap<pmf_point<T_REAL> *>::size(); i++)
+    {
+        pmf_point<T_REAL> * pt = AbstractHeap<pmf_point<T_REAL> *>::get(i);
+        if (pt->id == ptId) { return pt; }
+    }
+    return NULL;
+}
+
 
 #undef X_ROTATED
 

@@ -65,7 +65,9 @@ void pmf_add_rotated_point (
     REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
     cerr << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << endl;
 
-    BirthsHeap<REAL> * bHeap = new BirthsHeap<REAL> (sinL, cosL);
+    BirthsHeap<REAL> *        bHeap = new BirthsHeap<REAL> (sinL, cosL);
+    IntersectionsHeap<REAL> * iHeap = new IntersectionsHeap<REAL> (sinL, cosL);
+
     pmf_point<REAL> * pt;
     while (! PMF->empty())
     {
@@ -108,27 +110,75 @@ void pmf_add_rotated_point (
 
     cerr << *pt->n2 << endl;
 
+    /* ************************************************************************************** */
     // and the riots start again ...
     long id1, id2;
     double angle, newAngle;
 
+    while (!bHeap->empty()  ||  !iHeap->empty())
+    {
+        pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL);
+        newPMF->push_back(pt);
 
+        if (pt->id <= oldSize) {
+            if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
+            {
+                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+                determineUpdateAngle(newAngle);
+                newAngle += angle;
+                if (newAngle > M_PI_2)  newAngle -= M_PI;
+                if (newAngle < -M_PI_2)  newAngle += M_PI;
 
+                newPt = pmf_put_new_neighbor(pt, angle, ptId, sinL, cosL);
+                // TODO: store point
+
+                pt->n2 = newPt;
+                pt->l2 = 17.17; //TODO
+            }
+        }
+        else {
+            if (pt->type == PT_UPDATE)
+            {
+                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+                determineUpdateAngle(newAngle);
+                newAngle += angle;
+                if (newAngle > M_PI_2)  newAngle -= M_PI;
+                if (newAngle < -M_PI_2)  newAngle += M_PI;
+
+                newPt = pmf_put_new_neighbor(pt, angle, ptId, sinL, cosL);
+                // TODO: store point
+
+                pt->n2 = newPt;
+                pt->l2 = 17.17; //TODO
+            }
+            else if (pt->type == PT_INTERSECTION)
+            {
+                pmf_correct_new_intersection_point(pt, id1, id2);
+                assert(bHeap->get_point_with_id(id1) != NULL);
+                assert(bHeap->get_point_with_id(id2) != NULL);
+                ;
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
+            }
+            bHeap->remove_point_with_id(pt->id);
+            iHeap->remove_intersections_with_id(pt->id);
+        }
+    }
 
     /* ************************************************************************************** */
     /* ************************************************************************************** */
 #if 0
     /* Test of IntersectionHeap */
     cerr << " TESTING  ...  'IntersectionsHeap' ... " << endl;
-    IntersectionsHeap<REAL> * iHeap = new IntersectionsHeap<REAL> (sinL, cosL);
+    IntersectionsHeap<REAL> * iiHeap = new IntersectionsHeap<REAL> (sinL, cosL);
     pmf_point<REAL> * ppt = new pmf_point<REAL>(1.0, 2.0, NULL, NULL, 0.0, 0.0, 171717, 17);
     long ii1 = 7, ii2 = 117;
     long ti1, ti2;
-    iHeap->insert(ppt, ii1, ii2);
-    cerr << " TESTING  ...   top =  " << *iHeap->top() << endl;
-    cerr << " TESTING  ...  " << *iHeap->extract_min(ti1, ti2) << endl;
+    iiHeap->insert(ppt, ii1, ii2);
+    cerr << " TESTING  ...   top =  " << *iiHeap->top() << endl;
+    cerr << " TESTING  ...  " << *iiHeap->extract_min(ti1, ti2) << endl;
     cerr << " TESTING  ...   intersection of " << ti1 << " and " << ti2 << endl;
-    delete iHeap;
+    delete iiHeap;
     cerr << " TESTING  ...  done" << endl;
 #endif
 
