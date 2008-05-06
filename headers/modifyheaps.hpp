@@ -54,6 +54,14 @@ pmf_store_rotated_point_in_blocks (
             newPt->n2 = NULL;
             newPt->type = PT_BORDER;
         }
+        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight) != 0 ) {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
 
         /* Check if pointer to blocks is NULL */
         if (blocks)
@@ -73,9 +81,10 @@ pmf_store_rotated_point_in_blocks (
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
                     PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+
                     //iHeap->insert (newpt2, newPt->id, pEl->id);
 
-                    cerr << " -- CROSS -- : " << *newpt2 << endl;
+                    cerr << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << endl;
                 }
 
                 if (newPt != pEl->n2  &&  pEl->n2 != NULL  &&
@@ -86,9 +95,10 @@ pmf_store_rotated_point_in_blocks (
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
                     PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+
                     //iHeap->insert (newpt2, newPt->id, pEl->id);
 
-                    cerr << " -- CROSS -- : " << *newpt2 << endl;
+                    cerr << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << endl;
                 }
             }
         }

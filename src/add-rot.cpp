@@ -57,9 +57,16 @@ void pmf_add_rotated_point (
 
     long oldSize = PMF->get_size() + 1;
     long ptId = oldSize;
-    REAL alpha = 0.0;
     REAL  sinL = -1.0;//-1.0;
     REAL  cosL = 0.0;//0.0;
+
+    REAL alpha = -M_PI_2;
+    sinL = sin(alpha);
+    cosL = cos(alpha);
+    cerr << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << endl;
+    cerr << "[  sin ] : " << sinL << endl;
+    cerr << "[  cos ] : " << cosL << endl;
+
     assert(sinL*sinL + cosL*cosL == 1.0);
     REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
@@ -124,19 +131,20 @@ void pmf_add_rotated_point (
     {
         pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
         newPMF->push_back(pt);
-        /*
+        //*
         if (pt->id <= oldSize) {
             if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
             {
+                assert(false == true);
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
                 determineUpdateAngle(newAngle);
                 newAngle += angle;
                 if (newAngle > M_PI_2)  newAngle -= M_PI;
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
-                newPt = pmf_put_new_neighbor(pt, angle, ptId, sinL, cosL);
+                newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
                 // TODO: store point
-                //pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
+                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
                 pt->n2 = newPt;
                 pt->l2 = 17.17; //TODO
@@ -146,20 +154,21 @@ void pmf_add_rotated_point (
             if (pt->type == PT_UPDATE)
             {
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
-                determineUpdateAngle(newAngle);
+                determineUpdateAngle<REAL>(newAngle);
                 newAngle += angle;
                 if (newAngle > M_PI_2)  newAngle -= M_PI;
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
-                newPt = pmf_put_new_neighbor(pt, angle, ptId, sinL, cosL);
+                newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
                 // TODO: store point
-                //pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
+                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
                 pt->n2 = newPt;
                 pt->l2 = 17.17; //TODO
             }
             else if (pt->type == PT_INTERSECTION)
             {
+                assert(false == true);
                 pmf_correct_new_intersection_point(pt, id1, id2);
                 assert(bHeap->get_point_with_id(id1) != NULL);
                 assert(bHeap->get_point_with_id(id2) != NULL);
