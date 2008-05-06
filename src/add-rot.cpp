@@ -57,10 +57,10 @@ void pmf_add_rotated_point (
 
     long oldSize = PMF->get_size() + 1;
     long ptId = oldSize;
-    REAL  sinL = -1.0;//-1.0;
-    REAL  cosL = 0.0;//0.0;
+    REAL  sinL = 0.0;//-1.0;
+    REAL  cosL = 1.0;//0.0;
 
-    REAL alpha = -M_PI_2;
+    REAL alpha = 0;//M_PI_2;
     sinL = sin(alpha);
     cosL = cos(alpha);
     cerr << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << endl;
@@ -168,17 +168,19 @@ void pmf_add_rotated_point (
             }
             else if (pt->type == PT_INTERSECTION)
             {
-                assert(false == true);
+                cerr << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << endl;
                 pmf_correct_new_intersection_point(pt, id1, id2);
+                //assert(false == true);
                 assert(bHeap->get_point_with_id(id1) != NULL);
                 assert(bHeap->get_point_with_id(id2) != NULL);
                 ;
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
-            }
+
 
             bHeap->remove_point_with_id(pt->id);
             iHeap->remove_intersections_with_id(pt->id);
+            }
         }
         //*/
     }
