@@ -60,7 +60,7 @@ void pmf_add_rotated_point (
     REAL  sinL = 0.0;//-1.0;
     REAL  cosL = 1.0;//0.0;
 
-    REAL alpha = 0;//M_PI_2;
+    REAL alpha = M_PI_2;
     sinL = sin(alpha);
     cosL = cos(alpha);
     cerr << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << endl;
@@ -94,7 +94,9 @@ void pmf_add_rotated_point (
         //newPMF->push_in_order(bHeap->extract_min());
         newPMF->push_back(bHeap->extract_min());
     }
-    bHeap->insert(pt);
+    //bHeap->insert(pt);
+    newPMF->push_back(pt);
+    cerr << bHeap << endl;
 
     // Determining neighbors of a new point
     REAL lowerAngle, upperAngle;
@@ -129,13 +131,23 @@ void pmf_add_rotated_point (
 //*
     while (!bHeap->empty()  ||  !iHeap->empty())
     {
+        id1 = id2 = 0;
         pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
         newPMF->push_back(pt);
+#if LOG
+        ++iterationCounter;
+        cout << " ---------------------------------------------------------------------------" << endl;
+        cout << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << endl;
+        cout << *pt << "   ::  " << id1 << " , " << id2 << endl;
+        cout << bHeap << endl;
+        cout << iHeap << endl;
+#endif
+        cerr << "[ STEP ] : " << iterationCounter << endl;
         //*
         if (pt->id <= oldSize) {
             if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
             {
-                assert(false == true);
+                //assert(false == true);
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
                 determineUpdateAngle(newAngle);
                 newAngle += angle;

@@ -29,6 +29,15 @@ class IntersectionsHeap : public AbstractHeap<CrosspointElement<T_REAL> *>
         void insert (pmf_point<T_REAL> *, long , long );
 
         bool remove_intersections_with_id(long);
+
+		friend std::ostream & operator << (std::ostream & out, IntersectionsHeap<T_REAL> * iHeap)
+		{
+			out << std::endl << "[ IHEAP ] :> ";
+			for (int i = 0; i < iHeap->size(); i++)
+                out << " " << *(iHeap->get(i)->pt) << "~" << iHeap->get(i)->p1 << "+" << iHeap->get(i)->p2;
+            out << std::endl;
+			return out;
+		}
 };
 
 
@@ -45,6 +54,7 @@ IntersectionsHeap<T_REAL>::remove_intersections_with_id (long ptId)
             std::swap ((*AbstractHeap<CrosspointElement<T_REAL> *>::data)[i], (*AbstractHeap<CrosspointElement<T_REAL> *>::data)[AbstractHeap<CrosspointElement<T_REAL> *>::size()-1]);
             AbstractHeap<CrosspointElement<T_REAL> *>::data->pop_back();
             AbstractHeap<CrosspointElement<T_REAL> *>::min_heapify (i);
+            --i;
             deleted = true;
         }
     }

@@ -30,6 +30,7 @@ int main (int argc, char *argv[])
     ofstream fout("output/PMF-before-rot.txt");
     pmf->set_points_ids();
     pmf->save_configuration(fout);
+    //pmf->save_svg(fout);
     fout.close();
 //*/
 
@@ -40,7 +41,7 @@ int main (int argc, char *argv[])
     ofstream fout2("output/PMF-after-rot.txt");
     pmf2->set_points_ids();
     pmf2->save_configuration(fout2);
-    //pmf2->save_svg(fout);
+    //pmf2->save_svg(fout2);
     fout2.close();
 //*/
 	delete pmf;

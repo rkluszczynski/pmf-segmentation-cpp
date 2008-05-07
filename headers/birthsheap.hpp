@@ -24,6 +24,15 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
 
         bool remove_point_with_id(long);
         pmf_point<T_REAL> * get_point_with_id(long);
+
+		friend std::ostream & operator << (std::ostream & out, BirthsHeap<T_REAL> * bHeap)
+		{
+			out << std::endl << "[ BHEAP ] :> ";
+			for (int i = 0; i < bHeap->size(); i++)
+                out << " " << *(bHeap->get(i));
+            out << std::endl;
+			return out;
+		}
 };
 
 
