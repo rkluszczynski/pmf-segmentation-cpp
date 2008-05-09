@@ -4,6 +4,7 @@
 //(*Headers(GenerateDialog)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
+#include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 //*)
@@ -21,8 +22,10 @@ class GenerateDialog: public wxDialog
 		wxStaticText* StaticText2;
 		wxButton* Button1;
 		wxStaticText* StaticText1;
+		wxStaticText* StaticText3;
 		wxButton* Button2;
 		wxTextCtrl* TextCtrl2;
+		wxCheckBox* UseBlocksCheckBox;
 		wxTextCtrl* TextCtrl1;
 		//*)
 
@@ -37,6 +40,7 @@ class GenerateDialog: public wxDialog
 		//(*Handlers(GenerateDialog)
 		void OnButton2Click(wxCommandEvent& event);
 		void OnButton1Click(wxCommandEvent& event);
+		void OnUseBlocksCheckBoxClick(wxCommandEvent& event);
 		//*)
 
 		DECLARE_EVENT_TABLE()
