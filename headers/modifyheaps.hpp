@@ -111,6 +111,7 @@ pmf_store_rotated_point_in_blocks (
 }
 
 
+#define DEL_PATH_LOG 1
 #include <stack>
 inline
 pmf_point<REAL> * pmf_delete_rotated_path (
@@ -128,9 +129,14 @@ pmf_point<REAL> * pmf_delete_rotated_path (
 {
     pmf_point<REAL> * newPt = NULL;
     std::stack<long int> st;
-
+#if DEL_PATH_LOG
+    cout << " DELETEING PATH : " << *dpt << endl;
+#endif
     while (true) {
         /* Point to delete has 2 neighbors - the worst case */
+#if DEL_PATH_LOG
+        cout << " " << *dpt;
+#endif
         if (dpt->n1 != NULL  &&  dpt->n2 != NULL) {
             if (dpt->type == PT_INTERSECTION) {
                 pmf_point<REAL> * dptn;
@@ -155,8 +161,10 @@ pmf_point<REAL> * pmf_delete_rotated_path (
             }
             else {
                 st.push(dpt->id);
-                if (dpt->n1->x > dpt->x) { dpt = dpt->n1; continue; }
-                if (dpt->n2->x > dpt->x) { dpt = dpt->n2; continue; }
+                //if (dpt->n1->x > dpt->x) { dpt = dpt->n1; continue; }
+                if (PT_LT(dpt, dpt->n1, sinL, cosL)) { dpt = dpt->n1; continue; }
+                //if (dpt->n2->x > dpt->x) { dpt = dpt->n2; continue; }
+                if (PT_LT(dpt, dpt->n2, sinL, cosL)) { dpt = dpt->n2; continue; }
                 assert(false);
             }
         }
@@ -182,7 +190,13 @@ pmf_point<REAL> * pmf_delete_rotated_path (
     }
 
     /* And now we remove all the points from lists */
+#if DEL_PATH_LOG
+    cout << endl << " IDS : ";
+#endif
     while (! st.empty()) {
+#if DEL_PATH_LOG
+        cout << " " << st.top();
+#endif
         long int id = st.top();
         st.pop();
         /* ... do the goods ... */
@@ -193,6 +207,10 @@ pmf_point<REAL> * pmf_delete_rotated_path (
         iHeap->remove_intersections_with_id(id);
     }
 
+#if DEL_PATH_LOG
+    cout << endl;
+    if (newPt)  cout << " RENEW : " << *newPt << endl;
+#endif
     if (newPt != NULL)
         pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, newPt->n1, ptId, fieldHeight, fieldWidth, blocks);
     return newPt;

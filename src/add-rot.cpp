@@ -9,6 +9,8 @@
 #include "intersectionsheap.hpp"
 #include "modifyheaps.hpp"
 
+#include "rotate.cpp"
+
 #define LOG 1
 #define REAL double
 
@@ -60,12 +62,19 @@ void pmf_add_rotated_point (
     REAL  sinL = 0.0;//-1.0;
     REAL  cosL = 1.0;//0.0;
 
-    REAL alpha = M_PI_2;
+    REAL alpha = -M_PI_2;
     sinL = sin(alpha);
     cosL = cos(alpha);
     cerr << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << endl;
     cerr << "[  sin ] : " << sinL << endl;
     cerr << "[  cos ] : " << cosL << endl;
+    if (alpha != 0.0) {
+        pmf_rotate_point_types(PMF, sinL, cosL);
+        cerr << "[ SAVE ] : saving rotated configuration to a file" << endl;
+        ofstream fout("output/PMF-R.txt");
+        PMF->save_configuration(fout);
+        fout.close();
+    }
 
     assert(sinL*sinL + cosL*cosL == 1.0);
     REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
@@ -186,8 +195,8 @@ void pmf_add_rotated_point (
                 assert(bHeap->get_point_with_id(id1) != NULL);
                 assert(bHeap->get_point_with_id(id2) != NULL);
                 ;
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
 
 
             bHeap->remove_point_with_id(pt->id);

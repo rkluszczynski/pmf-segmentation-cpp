@@ -24,8 +24,10 @@ int main (int argc, char *argv[])
 
 	/* Generating Polygonal Markov Field. */
 	ConfigurationList<REAL> * pmf = pmf_generate ( sizeArak, sizeArak, outputFile, seed );
-	REAL alpha = M_PI_4;
-	pmf_rotate_point_types (pmf, alpha);
+	REAL alpha = M_PI_2;
+	REAL ssinL = sin(alpha);
+	REAL ccosL = cos(alpha);
+	pmf_rotate_point_types (pmf, ssinL, ccosL);
 
     cerr << "[ SAVE ] : saving rotated configuration to a file" << endl;
     ofstream fout("output/PMF-R.txt");

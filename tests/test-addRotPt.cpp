@@ -35,6 +35,7 @@ int main (int argc, char *argv[])
 //*/
 
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
+    //pmf_add_rotated_point(pmf, pmf2, 1.1, 3.0);
     pmf_add_rotated_point(pmf, pmf2, 0.2, 2.0);
 //*
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;

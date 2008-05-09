@@ -13,12 +13,14 @@
 
 void pmf_rotate_point_types (
             ConfigurationList<REAL> * PMF,
-            REAL alpha
+            REAL sinL,
+            REAL cosL
+            //REAL alpha
         )
 {
     Element<pmf_point<REAL> > * elem = PMF->getHead();
-    REAL sinL = sin(alpha);
-    REAL cosL = cos(alpha);
+    //REAL sinL = sin(alpha);
+    //REAL cosL = cos(alpha);
     cerr << " sinL = " << sinL << endl;
     cerr << " cosL = " << cosL << endl;
     while (elem) {
@@ -27,15 +29,15 @@ void pmf_rotate_point_types (
         pmf_point<REAL> * n1 = pt->n1;
         pmf_point<REAL> * n2 = pt->n2;
 
-        REAL rotX = pt->x * cosL - pt->y * sinL;
+        REAL rotX = X_ROTATED(pt->x, pt->y, sinL, cosL);
         switch (pt->type) {
             case PT_BIRTH_NORMAL :
             case PT_INTERSECTION :
             case PT_UPDATE :
                 assert(n1 != NULL);
                 assert(n2 != NULL);
-                REAL rotX1 = n1->x * cosL - n1->y * sinL;
-                REAL rotX2 = n2->x * cosL - n2->y * sinL;
+                REAL rotX1 = X_ROTATED(n1->x, n1->y, sinL, cosL);
+                REAL rotX2 = X_ROTATED(n2->x, n2->y, sinL, cosL);
 
                 if (rotX < rotX1) {
                     if (rotX < rotX2)  pt->type = PT_BIRTH_NORMAL;
@@ -52,7 +54,7 @@ void pmf_rotate_point_types (
             case PT_BORDER :
                 assert(n1 != NULL);
                 assert(n2 == NULL);
-                REAL rotX0 = n1->x * cosL - n1->y * sinL;
+                REAL rotX0 = X_ROTATED(n1->x, n1->y, sinL, cosL);
 
                 if (rotX < rotX0)  pt->type = PT_BIRTH_LEFT;
                 else  pt->type = PT_BORDER;
@@ -64,6 +66,9 @@ void pmf_rotate_point_types (
     }
     return;
 }
+#undef X_ROTATED
+#undef Y_ROTATED
+
 #undef PT_LT
 
 #undef REAL
