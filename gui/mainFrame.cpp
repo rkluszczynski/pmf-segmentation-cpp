@@ -28,7 +28,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	generateMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM2"));
 	aboutMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM3"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
-	
+
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
@@ -97,10 +97,13 @@ void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
     if ( gDialog.isOk() ) {
         wxString str1 = (gDialog.TextCtrl1)->GetValue();
         wxString str2 = (gDialog.TextCtrl2)->GetValue();
+        bool check = (gDialog.UseBlocksCheckBox)->GetValue();
         double fieldSize, blockSize;
         if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize))
             if (fieldSize > 0.0  &&  blockSize > 0.0) {
-                wxMessageBox(str1+_(" ; ")+str2, _("Welcome to..."));
+                wxString msg = str1 + _(" ; ");
+                if (check)  msg += str2;  else  msg += _(" NO BLOCKS ");
+                wxMessageBox(msg, _("Welcome to..."));
             }
             else {
                 wxMessageBox(_("Field and block sizes should be positive!"), _("Wrong values!"));
