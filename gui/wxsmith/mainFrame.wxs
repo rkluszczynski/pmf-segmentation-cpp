@@ -2,7 +2,9 @@
 <wxsmith>
 	<resource_extra>
 		<object root="1" />
-		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes" />
+		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes">
+			<handler function="OnMyNotebookPageChanged" entry="EVT_NOTEBOOK_PAGE_CHANGED" />
+		</object>
 		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes" />
 		<object name="ID_mySCROLLEDWINDOW" class="wxScrolledWindow" variable="myScrolledWindow" member="yes">
 			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
@@ -11,11 +13,17 @@
 		<object name="ID_MENUITEM4" class="wxMenuItem" variable="MenuItem1" member="yes">
 			<handler function="OnMenuItem1Selected" entry="EVT_MENU" />
 		</object>
+		<object name="ID_MENUITEM6" class="wxMenuItem" variable="LoadImageMenuItem" member="yes">
+			<handler function="OnLoadImageMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_MENUITEM1" class="wxMenuItem" variable="quitMenuItem" member="yes">
 			<handler function="OnQuit" entry="EVT_MENU" />
 		</object>
 		<object name="ID_MENUITEM2" class="wxMenuItem" variable="generateMenuItem" member="yes">
 			<handler function="OnGenerateMenuItemSelected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_MENUITEM5" class="wxMenuItem" variable="viewInfosMenuItem" member="yes">
+			<handler function="OnViewInfosMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="yes">
 			<handler function="OnAbout" entry="EVT_MENU" />

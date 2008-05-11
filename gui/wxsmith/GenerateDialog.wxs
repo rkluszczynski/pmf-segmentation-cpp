@@ -3,17 +3,17 @@
 	<resource_extra>
 		<object root="1" />
 		<object name="ID_STATICTEXT1" class="wxStaticText" variable="StaticText1" member="yes" />
-		<object name="ID_TEXTCTRL1" class="wxTextCtrl" variable="TextCtrl1" member="yes" />
+		<object name="ID_TEXTCTRL1" class="wxTextCtrl" variable="FieldSizeTextCtrl" member="yes" />
 		<object name="ID_CHECKBOX1" class="wxCheckBox" variable="UseBlocksCheckBox" member="yes">
 			<handler function="OnUseBlocksCheckBoxClick" entry="EVT_CHECKBOX" />
 		</object>
 		<object name="ID_STATICTEXT3" class="wxStaticText" variable="StaticText3" member="yes" />
 		<object name="ID_STATICTEXT2" class="wxStaticText" variable="StaticText2" member="yes" />
-		<object name="ID_TEXTCTRL2" class="wxTextCtrl" variable="TextCtrl2" member="yes" />
-		<object name="ID_BUTTON1" class="wxButton" variable="Button1" member="yes">
+		<object name="ID_TEXTCTRL2" class="wxTextCtrl" variable="BlockSizeTextCtrl" member="yes" />
+		<object name="ID_BUTTON1" class="wxButton" variable="GenerateDialogOKButton" member="yes">
 			<handler function="OnButton1Click" entry="EVT_BUTTON" />
 		</object>
-		<object name="ID_BUTTON2" class="wxButton" variable="Button2" member="yes">
+		<object name="ID_BUTTON2" class="wxButton" variable="GenerateDialogCancelButton" member="yes">
 			<handler function="OnButton2Click" entry="EVT_BUTTON" />
 		</object>
 	</resource_extra>

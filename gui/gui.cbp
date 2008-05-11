@@ -5,7 +5,7 @@
 		<Option title="PMF GUI" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="wxsmith\;dialogs\;" />
+		<Option virtualFolders="wxsmith\;dialogs\;panels\;" />
 		<Build>
 			<Target title="Release">
 				<Option output="bin\Release\PMFApplication" prefix_auto="1" extension_auto="1" />
@@ -65,6 +65,12 @@
 		<Unit filename="GenerateDialog.h">
 			<Option virtualFolder="dialogs\" />
 		</Unit>
+		<Unit filename="ImagePanel.cpp">
+			<Option virtualFolder="panels\" />
+		</Unit>
+		<Unit filename="ImagePanel.h">
+			<Option virtualFolder="panels\" />
+		</Unit>
 		<Unit filename="PMFApplication.cpp" />
 		<Unit filename="PMFApplication.h" />
 		<Unit filename="mainFrame.cpp" />
@@ -73,6 +79,7 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="wxsmith\GenerateDialog.wxs" />
+		<Unit filename="wxsmith\ImagePanel.wxs" />
 		<Unit filename="wxsmith\mainFrame.wxs" />
 		<Extensions>
 			<code_completion />
@@ -86,6 +93,7 @@
 				<resources>
 					<wxFrame wxs="wxsmith/mainFrame.wxs" src="mainFrame.cpp" hdr="mainFrame.h" xrc="mainFrame.xrc" name="mainFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/GenerateDialog.wxs" src="GenerateDialog.cpp" hdr="GenerateDialog.h" xrc="GenerateDialog.xrc" name="GenerateDialog" language="CPP" />
+					<wxPanel wxs="wxsmith/ImagePanel.wxs" src="ImagePanel.cpp" hdr="ImagePanel.h" name="ImagePanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

@@ -59,9 +59,9 @@
 	"wx/msw/gccpriv.h"
 	<AvailabilityMacros.h>
 
-1200840678 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\setup.h
+1200840680 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\setup.h
 
-1200838214 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\chkconf.h
+1200838216 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\chkconf.h
 	"wx/palmos/chkconf.h"
 	"wx/msw/wince/chkconf.h"
 	"wx/msw/chkconf.h"
@@ -1943,7 +1943,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1201773680 h:\projects\pmf-codeblocks\gui\mainframe.h
+1210464994 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1952,14 +1952,15 @@
 	<wx/html/htmlwin.h>
 	<wx/statusbr.h>
 
-1201774466 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210466766 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	"GenerateDialog.h"
+	"ImagePanel.h"
 	<wx/xrc/xmlres.h>
 
-1210355894 h:\projects\pmf-codeblocks\gui\generatedialog.h
+1210413206 h:\projects\pmf-codeblocks\gui\generatedialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
@@ -1972,4 +1973,30 @@
 1210400146 source:d:\projects\pmf-codeblocks\gui\generatedialog.cpp
 	"GenerateDialog.h"
 	<wx/xrc/xmlres.h>
+
+1210413274 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
+	"GenerateDialog.h"
+	<wx/xrc/xmlres.h>
+
+1210447904 source:h:\projects\pmf-codeblocks\gui\imagewindow.cpp
+	"ImageWindow.h"
+	<wx/intl.h>
+	<wx/string.h>
+
+1210447734 h:\projects\pmf-codeblocks\gui\imagewindow.h
+	<wx/stattext.h>
+	<wx/panel.h>
+
+1210466618 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+	<wx/intl.h>
+	<wx/string.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+	"ImagePanel.h"
+
+1210468260 h:\projects\pmf-codeblocks\gui\imagepanel.h
+	<wx/scrolwin.h>
+	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/statbmp.h>
 

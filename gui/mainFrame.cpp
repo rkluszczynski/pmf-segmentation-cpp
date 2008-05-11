@@ -2,6 +2,7 @@
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
 #include "GenerateDialog.h"
+#include "ImagePanel.h"
 
 //(*InternalHeaders(mainFrame)
 #include <wx/xrc/xmlres.h>
@@ -26,13 +27,17 @@ mainFrame::mainFrame(wxWindow* parent)
 	MenuItem1 = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM4"));
 	quitMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
 	generateMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM2"));
+	viewInfosMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM5"));
 	aboutMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM3"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
+	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
+	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
 	Connect(XRCID("ID_MENUITEM2"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
+	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
 
@@ -95,8 +100,8 @@ void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
     GenerateDialog gDialog(this);
     gDialog.ShowModal();
     if ( gDialog.isOk() ) {
-        wxString str1 = (gDialog.TextCtrl1)->GetValue();
-        wxString str2 = (gDialog.TextCtrl2)->GetValue();
+        wxString str1 = (gDialog.FieldSizeTextCtrl)->GetValue();
+        wxString str2 = (gDialog.BlockSizeTextCtrl)->GetValue();
         bool check = (gDialog.UseBlocksCheckBox)->GetValue();
         double fieldSize, blockSize;
         if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize))
@@ -140,6 +145,45 @@ void mainFrame::OnMyScrolledWindowPaint(wxPaintEvent& event)
     int x = wxMax(0, (sz.GetX() - w)/2);
     int y = wxMax(0, (sz.GetY() - h)/2);
     wxRect rectToDraw(x, y, w, h);
-    if (myScrolledWindow->IsExposed(rectToDraw))
-        dc.DrawRectangle(rectToDraw);
+    if (myScrolledWindow->IsExposed(rectToDraw)) dc.DrawRectangle(rectToDraw);
+}
+
+
+void mainFrame::OnViewInfosMenuItemSelected(wxCommandEvent& event)
+{
+    bool value = myHtmlWindow->IsShown();
+    myHtmlWindow->Show((value) ? false : true);
+    wxMessageBox(((value) ? _("TRUE") : _("FALSE")), _("INFO"));
+    myHtmlWindow->Refresh();
+}
+
+
+void mainFrame::OnLoadImageMenuItemSelected(wxCommandEvent& event)
+{
+    wxString caption = wxT("Choose a file");
+    wxString wildcard = wxT("PNG files (*.png)|*.png");
+    wildcard += wxT("|BMP files (*.bmp)|*.bmp");
+    wildcard += wxT("|GIF files (*.gif)|*.gif");
+    wxString defaultDir = wxT("C:\\Uzytki\\ImageJ\\images");
+    wxString defaultFilename = wxEmptyString;
+
+    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxOPEN);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        wxString path = dialog.GetPath();
+        //int fiterIndex = dialog.GetFilterIndex();
+
+        ImagePanel * ip = new ImagePanel(myNotebook, wxID_ANY);
+        ip->LoadFile(path);
+        myNotebook->AddPage(ip, wxT("[ IMAGE ] : ") + dialog.GetFilename(), false, 2);
+    }
+}
+
+void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
+{
+    wxWindow * w = myNotebook->GetCurrentPage();
+    if (w->IsKindOf(CLASSINFO(ImagePanel)))
+    {
+        printf("Changed to ImagePanel ...\n");
+    }
 }

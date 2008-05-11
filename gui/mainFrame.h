@@ -19,8 +19,10 @@ class mainFrame: public wxFrame
 		virtual ~mainFrame();
 
 		//(*Declarations(mainFrame)
+		wxMenuBar* PMFApplicationMenuBar;
 		wxMenu* Menu3;
 		wxMenuItem* MenuItem1;
+		wxMenuItem* viewInfosMenuItem;
 		wxMenu* Menu1;
 		wxMenuItem* aboutMenuItem;
 		wxHtmlWindow* myHtmlWindow;
@@ -28,10 +30,10 @@ class mainFrame: public wxFrame
 		wxScrolledWindow* myScrolledWindow;
 		wxSplitterWindow* mySplitterWindow;
 		wxMenuItem* generateMenuItem;
-		wxMenuBar* MenuBar1;
 		wxNotebook* myNotebook;
 		wxMenu* Menu2;
 		wxMenuItem* quitMenuItem;
+		wxMenu* Menu4;
 		//*)
 
 	protected:
@@ -46,8 +48,10 @@ class mainFrame: public wxFrame
 		void OnAbout(wxCommandEvent& event);
 		void OnMenuItem1Selected(wxCommandEvent& event);
 		void OnGenerateMenuItemSelected(wxCommandEvent& event);
-		void OnmyNotebookPageChanged(wxNotebookEvent& event);
 		void OnMyScrolledWindowPaint(wxPaintEvent& event);
+		void OnViewInfosMenuItemSelected(wxCommandEvent& event);
+		void OnLoadImageMenuItemSelected(wxCommandEvent& event);
+		void OnMyNotebookPageChanged(wxNotebookEvent& event);
 		//*)
 
         void PaintScrolledWindowBackground(wxDC& dc);

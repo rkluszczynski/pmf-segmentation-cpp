@@ -19,14 +19,14 @@ class GenerateDialog: public wxDialog
 		bool isOk();
 
 		//(*Declarations(GenerateDialog)
+		wxButton* GenerateDialogCancelButton;
+		wxTextCtrl* FieldSizeTextCtrl;
 		wxStaticText* StaticText2;
-		wxButton* Button1;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
-		wxButton* Button2;
-		wxTextCtrl* TextCtrl2;
+		wxButton* GenerateDialogOKButton;
+		wxTextCtrl* BlockSizeTextCtrl;
 		wxCheckBox* UseBlocksCheckBox;
-		wxTextCtrl* TextCtrl1;
 		//*)
 
 	protected:

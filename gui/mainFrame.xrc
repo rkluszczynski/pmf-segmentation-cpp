@@ -5,6 +5,7 @@
 		<size>600,500</size>
 		<object class="wxNotebook" name="ID_NOTEBOOK1">
 			<pos>136,176</pos>
+			<style>wxFULL_REPAINT_ON_RESIZE</style>
 			<object class="notebookpage">
 				<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1">
 					<sashpos>360</sashpos>
@@ -23,6 +24,9 @@
 				<object class="wxMenuItem" name="ID_MENUITEM4">
 					<label>Test Paint</label>
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEM6">
+					<label>Load Image</label>
+				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_MENUITEM1">
 					<label>Quit</label>
@@ -32,6 +36,12 @@
 				<label>PMF</label>
 				<object class="wxMenuItem" name="ID_MENUITEM2">
 					<label>Generate ...</label>
+				</object>
+			</object>
+			<object class="wxMenu">
+				<label>Window</label>
+				<object class="wxMenuItem" name="ID_MENUITEM5">
+					<label>View Infos</label>
 				</object>
 			</object>
 			<object class="wxMenu">

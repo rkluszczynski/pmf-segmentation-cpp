@@ -17,13 +17,13 @@ GenerateDialog::GenerateDialog(wxWindow* parent)
 	//(*Initialize(GenerateDialog)
 	wxXmlResource::Get()->LoadObject(this,parent,_T("GenerateDialog"),_T("wxDialog"));
 	StaticText1 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT1"));
-	TextCtrl1 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL1"));
+	FieldSizeTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL1"));
 	UseBlocksCheckBox = (wxCheckBox*)FindWindow(XRCID("ID_CHECKBOX1"));
 	StaticText3 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT3"));
 	StaticText2 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT2"));
-	TextCtrl2 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
-	Button1 = (wxButton*)FindWindow(XRCID("ID_BUTTON1"));
-	Button2 = (wxButton*)FindWindow(XRCID("ID_BUTTON2"));
+	BlockSizeTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
+	GenerateDialogOKButton = (wxButton*)FindWindow(XRCID("ID_BUTTON1"));
+	GenerateDialogCancelButton = (wxButton*)FindWindow(XRCID("ID_BUTTON2"));
 
 	Connect(XRCID("ID_CHECKBOX1"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnUseBlocksCheckBoxClick);
 	Connect(XRCID("ID_BUTTON1"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnButton1Click);
@@ -61,5 +61,5 @@ void GenerateDialog::OnUseBlocksCheckBoxClick(wxCommandEvent& event)
 {
     bool value = event.IsChecked();
     StaticText2->Enable(value);
-    TextCtrl2->Enable(value);
+    BlockSizeTextCtrl->Enable(value);
 }
