@@ -21,19 +21,24 @@ END_EVENT_TABLE()
 ImagePanel::ImagePanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(ImagePanel)
-	wxBoxSizer* BoxSizer2;
 	wxBoxSizer* BoxSizer1;
+	wxFlexGridSizer* FlexGridSizer1;
 
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("id"));
 	SetBackgroundColour(wxColour(240,240,255));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
 	scrolledImageWindow = new wxScrolledWindow(this, ID_SCROLLEDWINDOW1, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL, _T("ID_SCROLLEDWINDOW1"));
-	BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
-	staticBitmap = new wxStaticBitmap(scrolledImageWindow, ID_STATICBITMAP1, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICBITMAP1"));
-	BoxSizer2->Add(staticBitmap, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	scrolledImageWindow->SetSizer(BoxSizer2);
-	BoxSizer2->Fit(scrolledImageWindow);
-	BoxSizer2->SetSizeHints(scrolledImageWindow);
+	FlexGridSizer1 = new wxFlexGridSizer(0, 3, 0, 0);
+	FlexGridSizer1->AddGrowableCol(0);
+	FlexGridSizer1->AddGrowableCol(2);
+	FlexGridSizer1->Add(-1,-1,1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	staticBitmap = new wxStaticBitmap(scrolledImageWindow, ID_STATICBITMAP1, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxSIMPLE_BORDER, _T("ID_STATICBITMAP1"));
+	staticBitmap->SetBackgroundColour(wxColour(240,240,240));
+	FlexGridSizer1->Add(staticBitmap, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+	FlexGridSizer1->Add(-1,-1,1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
+	scrolledImageWindow->SetSizer(FlexGridSizer1);
+	FlexGridSizer1->Fit(scrolledImageWindow);
+	FlexGridSizer1->SetSizeHints(scrolledImageWindow);
 	BoxSizer1->Add(scrolledImageWindow, 1, wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0);
 	SetSizer(BoxSizer1);
 	BoxSizer1->Fit(this);
@@ -47,6 +52,7 @@ ImagePanel::~ImagePanel()
 {
 	//(*Destroy(ImagePanel)
 	//*)
+	if (bmp) delete bmp;
 }
 
 

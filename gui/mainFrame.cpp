@@ -24,17 +24,13 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	MenuItem1 = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM4"));
-	quitMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
-	generateMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM2"));
-	viewInfosMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM5"));
-	aboutMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM3"));
-	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
+	ApplicationStatusBar = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
+	Connect(XRCID("ID_MENUITEM7"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
 	Connect(XRCID("ID_MENUITEM2"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
@@ -179,11 +175,22 @@ void mainFrame::OnLoadImageMenuItemSelected(wxCommandEvent& event)
     }
 }
 
+
 void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
 {
     wxWindow * w = myNotebook->GetCurrentPage();
-    if (w->IsKindOf(CLASSINFO(ImagePanel)))
+    bool isClassImagePanel = w->IsKindOf(CLASSINFO(ImagePanel));
+    if (isClassImagePanel)
     {
         printf("Changed to ImagePanel ...\n");
     }
+    GetMenuBar()->Enable(XRCID("ID_MENUITEM7"), isClassImagePanel);
+}
+
+
+void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
+{
+    wxWindow * w = myNotebook->GetCurrentPage();
+    int pageid = myNotebook->GetSelection();
+    myNotebook->DeletePage(pageid);
 }

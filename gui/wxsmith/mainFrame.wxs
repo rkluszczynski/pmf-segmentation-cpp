@@ -10,24 +10,27 @@
 			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
 		</object>
 		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
-		<object name="ID_MENUITEM4" class="wxMenuItem" variable="MenuItem1" member="yes">
+		<object name="ID_MENUITEM4" class="wxMenuItem" variable="MenuItem1" member="no">
 			<handler function="OnMenuItem1Selected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM6" class="wxMenuItem" variable="LoadImageMenuItem" member="yes">
+		<object name="ID_MENUITEM6" class="wxMenuItem" variable="loadImageMenuItem" member="no">
 			<handler function="OnLoadImageMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM1" class="wxMenuItem" variable="quitMenuItem" member="yes">
+		<object name="ID_MENUITEM7" class="wxMenuItem" variable="closeImageMenuItem" member="no">
+			<handler function="OnCloseImageMenuItemSelected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_MENUITEM1" class="wxMenuItem" variable="quitMenuItem" member="no">
 			<handler function="OnQuit" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM2" class="wxMenuItem" variable="generateMenuItem" member="yes">
+		<object name="ID_MENUITEM2" class="wxMenuItem" variable="generateMenuItem" member="no">
 			<handler function="OnGenerateMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM5" class="wxMenuItem" variable="viewInfosMenuItem" member="yes">
+		<object name="ID_MENUITEM5" class="wxMenuItem" variable="viewInfosMenuItem" member="no">
 			<handler function="OnViewInfosMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="yes">
+		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="no">
 			<handler function="OnAbout" entry="EVT_MENU" />
 		</object>
-		<object name="ID_STATUSBAR1" class="wxStatusBar" variable="StatusBar1" member="yes" />
+		<object name="ID_STATUSBAR1" class="wxStatusBar" variable="ApplicationStatusBar" member="yes" />
 	</resource_extra>
 </wxsmith>

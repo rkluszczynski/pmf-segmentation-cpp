@@ -33,5 +33,4 @@ bool PMFApplication::OnInit()
     }
     //*)
     return wxsOK;
-
 }
