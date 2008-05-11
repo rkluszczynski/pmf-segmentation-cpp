@@ -25,6 +25,7 @@ bool PMFApplication::OnInit()
     wxXmlResource::Get()->InitAllHandlers();
     wxsOK = wxsOK && wxXmlResource::Get()->Load(_T("mainFrame.xrc"));
     wxsOK = wxsOK && wxXmlResource::Get()->Load(_T("GenerateDialog.xrc"));
+    wxsOK = wxsOK && wxXmlResource::Get()->Load(_T("PMFPanel.xrc"));
     if ( wxsOK )
     {
     	mainFrame* Frame = new mainFrame(0);

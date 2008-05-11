@@ -22,9 +22,11 @@ GenerateDialog::GenerateDialog(wxWindow* parent)
 	StaticText3 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT3"));
 	StaticText2 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT2"));
 	BlockSizeTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
+	StaticText4 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT4"));
+	ScaleTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL3"));
 	GenerateDialogOKButton = (wxButton*)FindWindow(XRCID("ID_BUTTON1"));
 	GenerateDialogCancelButton = (wxButton*)FindWindow(XRCID("ID_BUTTON2"));
-
+	
 	Connect(XRCID("ID_CHECKBOX1"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnUseBlocksCheckBoxClick);
 	Connect(XRCID("ID_BUTTON1"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnButton1Click);
 	Connect(XRCID("ID_BUTTON2"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&GenerateDialog::OnButton2Click);

@@ -27,6 +27,8 @@ class GenerateDialog: public wxDialog
 		wxButton* GenerateDialogOKButton;
 		wxTextCtrl* BlockSizeTextCtrl;
 		wxCheckBox* UseBlocksCheckBox;
+		wxStaticText* StaticText4;
+		wxTextCtrl* ScaleTextCtrl;
 		//*)
 
 	protected:

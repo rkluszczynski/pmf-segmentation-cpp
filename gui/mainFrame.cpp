@@ -3,6 +3,7 @@
 #include <wx/dcbuffer.h>
 #include "GenerateDialog.h"
 #include "ImagePanel.h"
+#include "PMFPanel.h"
 
 //(*InternalHeaders(mainFrame)
 #include <wx/xrc/xmlres.h>
@@ -16,6 +17,7 @@ BEGIN_EVENT_TABLE(mainFrame,wxFrame)
 	//*)
 END_EVENT_TABLE()
 
+
 mainFrame::mainFrame(wxWindow* parent)
 {
 	//(*Initialize(mainFrame)
@@ -24,7 +26,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	ApplicationStatusBar = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
+	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
@@ -40,16 +42,19 @@ mainFrame::mainFrame(wxWindow* parent)
 	SetStatusText(_T(" (c) 2008"), 2);
 }
 
+
 mainFrame::~mainFrame()
 {
 	//(*Destroy(mainFrame)
 	//*)
 }
 
+
 void mainFrame::OnQuit(wxCommandEvent& event)
 {
     Destroy();
 }
+
 
 void mainFrame::OnAbout(wxCommandEvent& event)
 {
@@ -91,6 +96,7 @@ void mainFrame::OnMenuItem1Selected(wxCommandEvent& event)
     myScrolledWindow->SetScrollRate(10, 10);
 }
 
+
 void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
 {
     GenerateDialog gDialog(this);
@@ -98,13 +104,20 @@ void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
     if ( gDialog.isOk() ) {
         wxString str1 = (gDialog.FieldSizeTextCtrl)->GetValue();
         wxString str2 = (gDialog.BlockSizeTextCtrl)->GetValue();
+        wxString str3 = (gDialog.ScaleTextCtrl)->GetValue();
         bool check = (gDialog.UseBlocksCheckBox)->GetValue();
         double fieldSize, blockSize;
-        if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize))
-            if (fieldSize > 0.0  &&  blockSize > 0.0) {
+        long scale;
+        if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize) && str3.ToLong(&scale))
+            if (fieldSize > 0.0  &&  blockSize > 0.0  &&  scale > 0)
+            {
                 wxString msg = str1 + _(" ; ");
                 if (check)  msg += str2;  else  msg += _(" NO BLOCKS ");
-                wxMessageBox(msg, _("Welcome to..."));
+                //wxMessageBox(msg, _("Welcome to..."));
+
+                PMFPanel * pmf = new PMFPanel(myNotebook);
+                pmf->SetParameters(fieldSize, (check) ? blockSize : 0.0f, scale);
+                myNotebook->AddPage(pmf, wxT("[ PMF ] : Unnamed"), false, 2);
             }
             else {
                 wxMessageBox(_("Field and block sizes should be positive!"), _("Wrong values!"));
@@ -180,17 +193,18 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
 {
     wxWindow * w = myNotebook->GetCurrentPage();
     bool isClassImagePanel = w->IsKindOf(CLASSINFO(ImagePanel));
+    bool isClassPMFPanel = w->IsKindOf(CLASSINFO(PMFPanel));
+
     if (isClassImagePanel)
     {
         printf("Changed to ImagePanel ...\n");
     }
-    GetMenuBar()->Enable(XRCID("ID_MENUITEM7"), isClassImagePanel);
+    GetMenuBar()->Enable(XRCID("ID_MENUITEM7"), isClassImagePanel || isClassPMFPanel);
 }
 
 
 void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
 {
-    wxWindow * w = myNotebook->GetCurrentPage();
     int pageid = myNotebook->GetSelection();
     myNotebook->DeletePage(pageid);
 }

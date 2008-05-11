@@ -42,7 +42,7 @@
 			</object>
 			<object class="sizeritem">
 				<object class="wxStaticText" name="ID_STATICTEXT2">
-					<label>Block size:</label>
+					<label>Block size :</label>
 				</object>
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
@@ -51,6 +51,22 @@
 			<object class="sizeritem">
 				<object class="wxTextCtrl" name="ID_TEXTCTRL2">
 					<value>1.2</value>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxStaticText" name="ID_STATICTEXT4">
+					<label>Scale (in pixels) :</label>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxTextCtrl" name="ID_TEXTCTRL3">
+					<value>200</value>
 				</object>
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>

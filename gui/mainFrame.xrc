@@ -28,7 +28,7 @@
 					<label>Load Image</label>
 				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM7">
-					<label>Close Image</label>
+					<label>Close</label>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />

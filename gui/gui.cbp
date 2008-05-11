@@ -73,6 +73,12 @@
 		</Unit>
 		<Unit filename="PMFApplication.cpp" />
 		<Unit filename="PMFApplication.h" />
+		<Unit filename="PMFPanel.cpp">
+			<Option virtualFolder="panels\" />
+		</Unit>
+		<Unit filename="PMFPanel.h">
+			<Option virtualFolder="panels\" />
+		</Unit>
 		<Unit filename="mainFrame.cpp" />
 		<Unit filename="mainFrame.h" />
 		<Unit filename="resource.rc">
@@ -80,6 +86,7 @@
 		</Unit>
 		<Unit filename="wxsmith\GenerateDialog.wxs" />
 		<Unit filename="wxsmith\ImagePanel.wxs" />
+		<Unit filename="wxsmith\PMFPanel.wxs" />
 		<Unit filename="wxsmith\mainFrame.wxs" />
 		<Extensions>
 			<code_completion />
@@ -89,11 +96,13 @@
 				<gui name="wxWidgets" src="PMFApplication.cpp" main="mainFrame" init_handlers="necessary" language="CPP">
 					<load_resource file="mainFrame.xrc" />
 					<load_resource file="GenerateDialog.xrc" />
+					<load_resource file="PMFPanel.xrc" />
 				</gui>
 				<resources>
 					<wxFrame wxs="wxsmith/mainFrame.wxs" src="mainFrame.cpp" hdr="mainFrame.h" xrc="mainFrame.xrc" name="mainFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/GenerateDialog.wxs" src="GenerateDialog.cpp" hdr="GenerateDialog.h" xrc="GenerateDialog.xrc" name="GenerateDialog" language="CPP" />
 					<wxPanel wxs="wxsmith/ImagePanel.wxs" src="ImagePanel.cpp" hdr="ImagePanel.h" name="ImagePanel" language="CPP" />
+					<wxPanel wxs="wxsmith/PMFPanel.wxs" src="PMFPanel.cpp" hdr="PMFPanel.h" xrc="PMFPanel.xrc" name="PMFPanel" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

@@ -1934,7 +1934,7 @@
 
 1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
 
-1210494216 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
+1210499548 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
 	"PMFApplication.h"
 	"mainFrame.h"
 	<wx/xrc/xmlres.h>
@@ -1943,7 +1943,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1210495608 h:\projects\pmf-codeblocks\gui\mainframe.h
+1210499950 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1952,15 +1952,16 @@
 	<wx/html/htmlwin.h>
 	<wx/statusbr.h>
 
-1210494552 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210503924 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	"GenerateDialog.h"
 	"ImagePanel.h"
+	"PMFPanel.h"
 	<wx/xrc/xmlres.h>
 
-1210413206 h:\projects\pmf-codeblocks\gui\generatedialog.h
+1210505116 h:\projects\pmf-codeblocks\gui\generatedialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
@@ -1987,7 +1988,7 @@
 	<wx/stattext.h>
 	<wx/panel.h>
 
-1210491776 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+1210501118 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/bitmap.h>
@@ -1997,6 +1998,16 @@
 1210491150 h:\projects\pmf-codeblocks\gui\imagepanel.h
 	<wx/scrolwin.h>
 	<wx/sizer.h>
+	<wx/panel.h>
+	<wx/statbmp.h>
+
+1210505052 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+	"PMFPanel.h"
+	<wx/dcmemory.h>
+	<wx/xrc/xmlres.h>
+
+1210501952 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+	<wx/scrolwin.h>
 	<wx/panel.h>
 	<wx/statbmp.h>
 

@@ -19,12 +19,16 @@ class mainFrame: public wxFrame
 		virtual ~mainFrame();
 
 		//(*Declarations(mainFrame)
-		wxMenuBar* PMFApplicationMenuBar;
+		wxMenu* Menu3;
+		wxMenu* Menu1;
 		wxHtmlWindow* myHtmlWindow;
+		wxStatusBar* StatusBar1;
 		wxScrolledWindow* myScrolledWindow;
 		wxSplitterWindow* mySplitterWindow;
+		wxMenuBar* MenuBar1;
 		wxNotebook* myNotebook;
-		wxStatusBar* ApplicationStatusBar;
+		wxMenu* Menu2;
+		wxMenu* Menu4;
 		//*)
 
 	protected:

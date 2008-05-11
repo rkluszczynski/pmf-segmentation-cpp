@@ -31,6 +31,6 @@
 		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="no">
 			<handler function="OnAbout" entry="EVT_MENU" />
 		</object>
-		<object name="ID_STATUSBAR1" class="wxStatusBar" variable="ApplicationStatusBar" member="yes" />
+		<object name="ID_STATUSBAR1" class="wxStatusBar" variable="StatusBar1" member="yes" />
 	</resource_extra>
 </wxsmith>

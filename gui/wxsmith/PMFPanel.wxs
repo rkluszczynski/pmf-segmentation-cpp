@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<resource_extra>
+		<object root="1" />
+		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="scrolledWindow" member="yes" />
+		<object name="ID_STATICBITMAP1" class="wxStaticBitmap" variable="staticBitmap" member="yes" />
+	</resource_extra>
+</wxsmith>
