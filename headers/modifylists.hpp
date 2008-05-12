@@ -51,10 +51,10 @@ void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
 inline
 bool pmf_store_modified_points_in_blocks (
-                        PMF_POINT * newPt,
+                        pmf_point<REAL> * newPt,
                         BirthsList<REAL> * bList,
                         IntersectionsList<REAL> * iList,
-                        PMF_POINT * parentPt,
+                        pmf_point<REAL> * parentPt,
                         long & id,
                         REAL fieldHeight,
                         REAL fieldWidth,
@@ -110,7 +110,7 @@ bool pmf_store_modified_points_in_blocks (
                 {
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y, xx, yy);
-                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->data->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->data->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
                     iList->push_in_order (newpt2, newPt->id, pEl->data->id);
                 }
                 if (newPt != pEl->data->n2  &&  pEl->data->n2 != NULL  &&
@@ -120,7 +120,7 @@ bool pmf_store_modified_points_in_blocks (
                 {
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n2->x, pEl->data->n2->y, xx, yy);
-                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->data->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->data->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
                     iList->push_in_order (newpt2, newPt->id, pEl->data->id);
                 }
                 pEl = pEl->next;

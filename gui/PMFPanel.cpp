@@ -52,6 +52,7 @@ void PMFPanel::SetParameters(double fSize, double bSize, long sscale)
         wxMemoryDC dc(*bmp);
         dc.SetBackground(*wxWHITE_BRUSH);
         dc.Clear();
+        dc.DrawLine(20, 5, 100, 9);
         //dc.SelectObject(wxNullBitmap);
 
         /// TODO: generate and draw a configuration

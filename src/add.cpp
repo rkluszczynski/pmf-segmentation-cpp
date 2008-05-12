@@ -18,6 +18,9 @@ void pmf_add_point (
             REAL yy
         )
 {
+    using std::cout;
+    using std::cerr;
+    using std::endl;
 #ifdef TYLKO_KOPIUJ
     while (! PMF->empty()) { newPMF->push_back(PMF->front()); PMF->pop_front(); }
     return;

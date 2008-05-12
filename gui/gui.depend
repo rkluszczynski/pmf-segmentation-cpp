@@ -1952,7 +1952,7 @@
 	<wx/html/htmlwin.h>
 	<wx/statusbr.h>
 
-1210503924 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210536536 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -1961,7 +1961,7 @@
 	"PMFPanel.h"
 	<wx/xrc/xmlres.h>
 
-1210505116 h:\projects\pmf-codeblocks\gui\generatedialog.h
+1210505276 h:\projects\pmf-codeblocks\gui\generatedialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
@@ -1975,7 +1975,7 @@
 	"GenerateDialog.h"
 	<wx/xrc/xmlres.h>
 
-1210413274 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
+1210505276 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
 	"GenerateDialog.h"
 	<wx/xrc/xmlres.h>
 
@@ -2001,12 +2001,12 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1210505052 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1210537898 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	<wx/dcmemory.h>
 	<wx/xrc/xmlres.h>
 
-1210501952 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1210505418 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	<wx/scrolwin.h>
 	<wx/panel.h>
 	<wx/statbmp.h>

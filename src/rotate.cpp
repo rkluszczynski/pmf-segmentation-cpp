@@ -21,8 +21,8 @@ void pmf_rotate_point_types (
     Element<pmf_point<REAL> > * elem = PMF->getHead();
     //REAL sinL = sin(alpha);
     //REAL cosL = cos(alpha);
-    cerr << " sinL = " << sinL << endl;
-    cerr << " cosL = " << cosL << endl;
+    std::cerr << " sinL = " << sinL << std::endl;
+    std::cerr << " cosL = " << cosL << std::endl;
     while (elem) {
         pmf_point<REAL> * pt = elem->data;
 

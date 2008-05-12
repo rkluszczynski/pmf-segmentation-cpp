@@ -12,10 +12,10 @@
 inline
 bool
 pmf_store_rotated_point_in_blocks (
-                        PMF_POINT * newPt,
+                        pmf_point<REAL> * newPt,
                         BirthsHeap<REAL> * bHeap,
                         IntersectionsHeap<REAL> * iHeap,
-                        PMF_POINT * parentPt,
+                        pmf_point<REAL> * parentPt,
                         long & id,
                         REAL fieldHeight,
                         REAL fieldWidth,
@@ -80,7 +80,7 @@ pmf_store_rotated_point_in_blocks (
                 {
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
-                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
 
                     iHeap->insert (newpt2, newPt->id, pEl->id);
 
@@ -94,7 +94,7 @@ pmf_store_rotated_point_in_blocks (
                 {
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
-                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
 
                     iHeap->insert (newpt2, newPt->id, pEl->id);
 
