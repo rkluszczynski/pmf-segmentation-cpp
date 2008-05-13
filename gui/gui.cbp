@@ -16,6 +16,8 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
+					<Add directory="..\src" />
+					<Add directory="..\headers" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
@@ -34,6 +36,8 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
+					<Add directory="..\src" />
+					<Add directory="..\headers" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
@@ -59,6 +63,12 @@
 		<ResourceCompiler>
 			<Add directory="$(#wx)\include" />
 		</ResourceCompiler>
+		<Unit filename="AddPointDialog.cpp">
+			<Option virtualFolder="dialogs\" />
+		</Unit>
+		<Unit filename="AddPointDialog.h">
+			<Option virtualFolder="dialogs\" />
+		</Unit>
 		<Unit filename="GenerateDialog.cpp">
 			<Option virtualFolder="dialogs\" />
 		</Unit>
@@ -84,6 +94,7 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="wxsmith\AddPointDialog.wxs" />
 		<Unit filename="wxsmith\GenerateDialog.wxs" />
 		<Unit filename="wxsmith\ImagePanel.wxs" />
 		<Unit filename="wxsmith\PMFPanel.wxs" />
@@ -97,12 +108,14 @@
 					<load_resource file="mainFrame.xrc" />
 					<load_resource file="GenerateDialog.xrc" />
 					<load_resource file="PMFPanel.xrc" />
+					<load_resource file="AddPointDialog.xrc" />
 				</gui>
 				<resources>
 					<wxFrame wxs="wxsmith/mainFrame.wxs" src="mainFrame.cpp" hdr="mainFrame.h" xrc="mainFrame.xrc" name="mainFrame" language="CPP" />
 					<wxDialog wxs="wxsmith/GenerateDialog.wxs" src="GenerateDialog.cpp" hdr="GenerateDialog.h" xrc="GenerateDialog.xrc" name="GenerateDialog" language="CPP" />
 					<wxPanel wxs="wxsmith/ImagePanel.wxs" src="ImagePanel.cpp" hdr="ImagePanel.h" name="ImagePanel" language="CPP" />
 					<wxPanel wxs="wxsmith/PMFPanel.wxs" src="PMFPanel.cpp" hdr="PMFPanel.h" xrc="PMFPanel.xrc" name="PMFPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/AddPointDialog.wxs" src="AddPointDialog.cpp" hdr="AddPointDialog.h" xrc="AddPointDialog.xrc" name="AddPointDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>

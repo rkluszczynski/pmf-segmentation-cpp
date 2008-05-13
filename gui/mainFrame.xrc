@@ -38,8 +38,25 @@
 			</object>
 			<object class="wxMenu">
 				<label>PMF</label>
-				<object class="wxMenuItem" name="ID_MENUITEM2">
+				<object class="wxMenuItem" name="ID_GENERATE_MENUITEM">
 					<label>Generate ...</label>
+				</object>
+				<object class="wxMenuItem" name="ID_REGENERATE_MENUITEM">
+					<label>Regenerate ...</label>
+					<enabled>0</enabled>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_ADDPOINT_MENUITEM">
+					<label>Add point ...</label>
+					<enabled>0</enabled>
+				</object>
+				<object class="wxMenuItem" name="ID_UPDPOINT_MENUITEM">
+					<label>Update point ...</label>
+					<enabled>0</enabled>
+				</object>
+				<object class="wxMenuItem" name="ID_DELPOINT_MENUITEM">
+					<label>Delete point ...</label>
+					<enabled>0</enabled>
 				</object>
 			</object>
 			<object class="wxMenu">

@@ -8,8 +8,10 @@
 #include <wx/statbmp.h>
 //*)
 
-class ImagePanel: public wxPanel
+class ImagePanel : public wxPanel
 {
+    DECLARE_CLASS(ImagePanel)
+
 	public:
 
 		ImagePanel(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
@@ -30,13 +32,14 @@ class ImagePanel: public wxPanel
 		//*)
 
 	private:
+
         wxImage image;
         wxBitmap * bmp;
 
 		//(*Handlers(ImagePanel)
 		//*)
 
-		DECLARE_EVENT_TABLE()
+	DECLARE_EVENT_TABLE()
 };
 
 #endif

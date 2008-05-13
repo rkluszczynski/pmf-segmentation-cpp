@@ -1934,7 +1934,7 @@
 
 1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
 
-1210499548 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
+1210632194 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
 	"PMFApplication.h"
 	"mainFrame.h"
 	<wx/xrc/xmlres.h>
@@ -1943,7 +1943,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1210499950 h:\projects\pmf-codeblocks\gui\mainframe.h
+1210634748 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1952,16 +1952,17 @@
 	<wx/html/htmlwin.h>
 	<wx/statusbr.h>
 
-1210536536 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210636898 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	"GenerateDialog.h"
 	"ImagePanel.h"
 	"PMFPanel.h"
+	"AddPointDialog.h"
 	<wx/xrc/xmlres.h>
 
-1210505276 h:\projects\pmf-codeblocks\gui\generatedialog.h
+1210634836 h:\projects\pmf-codeblocks\gui\generatedialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
@@ -1988,26 +1989,116 @@
 	<wx/stattext.h>
 	<wx/panel.h>
 
-1210501118 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+1210625760 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/bitmap.h>
 	<wx/image.h>
 	"ImagePanel.h"
 
-1210491150 h:\projects\pmf-codeblocks\gui\imagepanel.h
+1210622472 h:\projects\pmf-codeblocks\gui\imagepanel.h
 	<wx/scrolwin.h>
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1210537898 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1210626418 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
-	<wx/dcmemory.h>
+	<wx/wx.h>
+	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1210505418 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1210622954 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+	"PMF.cpp"
+	<wx/dcmemory.h>
 	<wx/scrolwin.h>
 	<wx/panel.h>
 	<wx/statbmp.h>
+
+1210621146 h:\projects\pmf-codeblocks\src\pmf.cpp
+	"PMF.hpp"
+	"generate.cpp"
+
+1210621036 h:\projects\pmf-codeblocks\src\pmf.hpp
+	<ctime>
+	"configurationlist.hpp"
+
+1208189954 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+	"point.hpp"
+	"templatelist.hpp"
+
+1201531284 h:\projects\pmf-codeblocks\headers\point.hpp
+	<cstdio>
+	<iostream>
+	"listelement.hpp"
+
+1195475554 h:\projects\pmf-codeblocks\headers\listelement.hpp
+	<cstdio>
+
+1202706066 h:\projects\pmf-codeblocks\headers\templatelist.hpp
+	<cstdio>
+	<iostream>
+	<fstream>
+	"listelement.hpp"
+
+1210621134 h:\projects\pmf-codeblocks\src\generate.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+
+1205964256 h:\projects\pmf-codeblocks\headers\birthslist.hpp
+	<stdio.h>
+	<iostream>
+	"point.hpp"
+	"templatelist.hpp"
+	"blockslists.hpp"
+
+1208803244 h:\projects\pmf-codeblocks\headers\blockslists.hpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"blocklist.hpp"
+
+1208803244 h:\projects\pmf-codeblocks\headers\blocklist.hpp
+	"point.hpp"
+	"templatelist.hpp"
+
+1208803244 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+	<stdio.h>
+	<iostream>
+	"templatelist.hpp"
+	"crosselement.hpp"
+	"blockslists.hpp"
+
+1196098004 h:\projects\pmf-codeblocks\headers\crosselement.hpp
+	<cstdio>
+	"point.hpp"
+
+1197227676 h:\projects\pmf-codeblocks\headers\probability.hpp
+	<cstdlib>
+	<cmath>
+	<algorithm>
+
+1210618006 h:\projects\pmf-codeblocks\headers\accesslists.hpp
+	"geometry.hpp"
+
+1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
+
+1210636222 h:\projects\pmf-codeblocks\gui\addpointdialog.h
+	<wx/textctrl.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/dialog.h>
+
+1210639174 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
+	"AddPointDialog.h"
+	<wx/wx.h>
+	<wx/dcbuffer.h>
+	<wx/xrc/xmlres.h>
 

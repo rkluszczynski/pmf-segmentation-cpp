@@ -1,13 +1,10 @@
 #ifndef __GEOMETRY_HPP__
 #define __GEOMETRY_HPP__
 
-#pragma pmf_header
-#define REAL double
 
 #ifndef EPSILON
 #define EPSILON 0.0000005
 #endif
-#pragma pmf_end
 
 
 #define ABS(x)   ( ((x)>0) ? (x) : (-(x)) )
@@ -77,7 +74,7 @@ template <class T_REAL>
 void crosspoint2( T_REAL x3, T_REAL y3, T_REAL x4, T_REAL y4,
 		T_REAL x1, T_REAL y1, T_REAL x2, T_REAL y2, T_REAL & x, T_REAL & y )
 {
-	REAL a, b, c, d;
+	T_REAL a, b, c, d;
 	if( x1 != x2 )
 	{
 		a = (y1 - y2)/(x1 - x2);

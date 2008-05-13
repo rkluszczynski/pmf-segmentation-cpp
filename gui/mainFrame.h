@@ -48,6 +48,7 @@ class mainFrame: public wxFrame
 		void OnLoadImageMenuItemSelected(wxCommandEvent& event);
 		void OnMyNotebookPageChanged(wxNotebookEvent& event);
 		void OnCloseImageMenuItemSelected(wxCommandEvent& event);
+		void OnAddPointMenuItemSelected(wxCommandEvent& event);
 		//*)
 
         void PaintScrolledWindowBackground(wxDC& dc);

@@ -3,23 +3,23 @@
 
 #include "geometry.hpp"
 
-#define PMF_POINT pmf_point<REAL>
 
 #define LOOK_FORWARD 1
+template <class T_REAL>
 inline
 void pmf_check_crossings_in_block (
-                                        pmf_point<REAL> * newPt,
-                                        IntersectionsList<REAL> * iList,
+                                        pmf_point<T_REAL> * newPt,
+                                        IntersectionsList<T_REAL> * iList,
                                         long & id,
-                                        pmf_point<REAL> * parentPt,
-                                        BlocksLists<REAL> * blocks,
+                                        pmf_point<T_REAL> * parentPt,
+                                        BlocksLists<T_REAL> * blocks,
                                         int index
                                     )
 {
-    Element<pmf_point<REAL> > * iter = blocks->getBlockList(index)->getHead();
+    Element<pmf_point<T_REAL> > * iter = blocks->getBlockList(index)->getHead();
     assert(parentPt == newPt->n1);
     while (iter) {
-        pmf_point<REAL> * pt = iter->data;
+        pmf_point<T_REAL> * pt = iter->data;
 #if LOOK_FORWARD
         switch (pt->type) {
             case PT_BIRTH_NORMAL :
@@ -27,12 +27,12 @@ void pmf_check_crossings_in_block (
                 {
                     if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
                     {
-                        REAL xx, yy;
+                        T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
 #ifdef DEBUG
                         cout << " CROSSED~1:" << pt->id << "-" << pt->n1->id << " " << endl;
 #endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
                         iList->push_in_order (newpt2, newPt->id, pt->n1->id);
@@ -42,12 +42,12 @@ void pmf_check_crossings_in_block (
                 {
                     if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y) == 1)
                     {
-                        REAL xx, yy;
+                        T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
 #ifdef DEBUG
                         cout << " CROSSED~2:" << pt->id << "-" << pt->n2->id << " " << endl;
 #endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
                         iList->push_in_order (newpt2, newPt->id, pt->n2->id);
@@ -61,12 +61,12 @@ void pmf_check_crossings_in_block (
                 {
                     if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
                     {
-                        REAL xx, yy;
+                        T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
 #ifdef DEBUG
                         cout << " CROSSED~0:" << pt->id << "-" << pt->n1->id << " " << endl;
 #endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
                         iList->push_in_order (newpt2, newPt->id, pt->n1->id);
@@ -78,12 +78,12 @@ void pmf_check_crossings_in_block (
                 {
                     if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y) == 1)
                     {
-                        REAL xx, yy;
+                        T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
 #ifdef DEBUG
                         cout << " CROSSED~U:" << pt->id << "-" << pt->n2->id << " " << endl;
 #endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
                         iList->push_in_order (newpt2, newPt->id, pt->n2->id);
@@ -105,12 +105,12 @@ void pmf_check_crossings_in_block (
                 {
                     if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
                     {
-                        REAL xx, yy;
+                        T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
 #ifdef DEBUG
                         cout << " CROSSED:" << pt->id << "-" << pt->n1->id << " " << endl;
 #endif
-                        PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pt->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
                         iList->push_in_order (newpt2, newPt->id, pt->id);
@@ -126,43 +126,44 @@ void pmf_check_crossings_in_block (
 #undef LOOK_FORWARD
 
 
+template <class T_REAL>
 inline
 bool pmf_store_points_in_blocks (
-                        PMF_POINT * newPt,
-                        BirthsList<REAL> * bList,
-                        IntersectionsList<REAL> * iList,
-                        PMF_POINT * parentPt,
+                        pmf_point<T_REAL> * newPt,
+                        BirthsList<T_REAL> * bList,
+                        IntersectionsList<T_REAL> * iList,
+                        pmf_point<T_REAL> * parentPt,
                         long & id,
-                        REAL fieldHeight,
-                        REAL fieldWidth,
-                        BlocksLists<REAL> * blocks
+                        T_REAL fieldHeight,
+                        T_REAL fieldWidth,
+                        BlocksLists<T_REAL> * blocks
                     )
 {
     if (newPt->type > 4) {
         /* Check if coordinates are not outside the field. */
         if( parentPt->type != PT_BIRTH_UP  &&
-            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f) != 0 )
+            cross3<T_REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f) != 0 )
         {
-            REAL cx, cy;
-            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f, cx, cy);
+            T_REAL cx, cy;
+            crosspoint2<T_REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
             newPt->type = PT_BORDER;
         }
         if( parentPt->type != PT_BIRTH_DOWN &&
-            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight) != 0 )
+            cross3<T_REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight) != 0 )
         {
-            REAL cx, cy;
-            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight, cx, cy);
+            T_REAL cx, cy;
+            crosspoint2<T_REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
             newPt->type = PT_BORDER;
         }
-        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight) != 0 ) {
-            REAL cx, cy;
-            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight, cx, cy);
+        if( cross3<T_REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight) != 0 ) {
+            T_REAL cx, cy;
+            crosspoint2<T_REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
@@ -208,15 +209,15 @@ bool pmf_store_points_in_blocks (
                 pmf_check_crossings_in_block (newPt, iList, id, parentPt, blocks, index);
         }
         else {
-            Element<pmf_point<REAL> > * pEl = bList->getHead();
+            Element<pmf_point<T_REAL> > * pEl = bList->getHead();
             while (pEl)
             {
                 if (newPt != pEl->data->n1  &&  pEl->data->n1 != NULL  &&
                     cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y) == 1 )
                 {
-                    REAL xx, yy;
+                    T_REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->data->x, pEl->data->y, pEl->data->n1->x, pEl->data->n1->y, xx, yy);
-                    PMF_POINT * newpt2 = new PMF_POINT(xx, yy, parentPt, pEl->data->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pEl->data->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
                     iList->push_in_order (newpt2, newPt->id, pEl->data->id);
                 }
                 pEl = pEl->next;
@@ -292,30 +293,31 @@ bool pmf_store_points ( PMF_POINT * newPt,
 */
 
 
+template <class T_REAL>
 inline
-PMF_POINT * pmf_do_get (
-                        BirthsList<REAL> * bList,
-                        IntersectionsList<REAL> * iList,
+pmf_point<T_REAL> * pmf_do_get (
+                        BirthsList<T_REAL> * bList,
+                        IntersectionsList<T_REAL> * iList,
                         long & id1,
                         long & id2
                     )
 {
     if (bList->empty() && iList->empty()) { return NULL; }
     else if (!bList->empty() && iList->empty()) {
-        PMF_POINT * pt = bList->front();
+        pmf_point<T_REAL> * pt = bList->front();
         bList->pop_front();
         return pt;
     }
     else if (bList->empty() && !iList->empty()) {
-        PMF_POINT * pt = (iList->front())->pt;
+        pmf_point<T_REAL> * pt = (iList->front())->pt;
         id1 = iList->front()->p1;
         id2 = iList->front()->p2;
         iList->pop_front();
         return pt;
     }
     else {
-        PMF_POINT * bpt = bList->front();
-        PMF_POINT * ipt = iList->front()->pt;
+        pmf_point<T_REAL> * bpt = bList->front();
+        pmf_point<T_REAL> * ipt = iList->front()->pt;
         if (bpt->x < ipt->x) {
             bList->pop_front();
             return bpt;
@@ -330,10 +332,11 @@ PMF_POINT * pmf_do_get (
 }
 
 
+template <class T_REAL>
 inline
-PMF_POINT * pmf_do_top (
-                        BirthsList<REAL> * bList,
-                        IntersectionsList<REAL> * iList,
+pmf_point<T_REAL> * pmf_do_top (
+                        BirthsList<T_REAL> * bList,
+                        IntersectionsList<T_REAL> * iList,
                         long & id1,
                         long & id2
                     )
@@ -357,5 +360,4 @@ PMF_POINT * pmf_do_top (
 }
 
 
-#undef PMF_POINT
 #endif // ACCESSLISTS_HPP_INCLUDED

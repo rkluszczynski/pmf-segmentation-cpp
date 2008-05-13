@@ -7,6 +7,7 @@
 #include <wx/image.h>
 #include "ImagePanel.h"
 
+IMPLEMENT_CLASS(ImagePanel,wxPanel)
 
 //(*IdInit(ImagePanel)
 const long ImagePanel::ID_STATICBITMAP1 = wxNewId();
@@ -18,12 +19,13 @@ BEGIN_EVENT_TABLE(ImagePanel,wxPanel)
 	//*)
 END_EVENT_TABLE()
 
+
 ImagePanel::ImagePanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 {
 	//(*Initialize(ImagePanel)
 	wxBoxSizer* BoxSizer1;
 	wxFlexGridSizer* FlexGridSizer1;
-
+	
 	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL|wxFULL_REPAINT_ON_RESIZE, _T("id"));
 	SetBackgroundColour(wxColour(240,240,255));
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
@@ -47,6 +49,7 @@ ImagePanel::ImagePanel(wxWindow* parent,wxWindowID id,const wxPoint& pos,const w
 	bmp = NULL;
     scrolledImageWindow->SetScrollRate(1, 1);
 }
+
 
 ImagePanel::~ImagePanel()
 {

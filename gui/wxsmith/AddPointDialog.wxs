@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<resource_extra>
+		<object root="1" />
+		<object name="ID_PANEL1" class="wxPanel" variable="Panel1" member="yes" />
+		<object name="ID_PANEL3" class="wxPanel" variable="Panel3" member="yes" />
+		<object name="ID_TEXTCTRL1" class="wxTextCtrl" variable="TextCtrl1" member="yes" />
+		<object name="ID_PANEL4" class="wxPanel" variable="Panel4" member="yes">
+			<handler function="OnPanel4Paint" entry="EVT_PAINT" />
+			<handler function="OnPanel4LeftUp" entry="EVT_LEFT_UP" />
+		</object>
+		<object name="ID_PANEL2" class="wxPanel" variable="Panel2" member="yes" />
+		<object name="ID_BUTTON1" class="wxButton" variable="Button1" member="yes">
+			<handler function="OnButton1Click" entry="EVT_BUTTON" />
+		</object>
+		<object name="ID_BUTTON2" class="wxButton" variable="Button2" member="yes">
+			<handler function="OnButton2Click" entry="EVT_BUTTON" />
+		</object>
+	</resource_extra>
+</wxsmith>

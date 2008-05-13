@@ -4,6 +4,7 @@
 #include "GenerateDialog.h"
 #include "ImagePanel.h"
 #include "PMFPanel.h"
+#include "AddPointDialog.h"
 
 //(*InternalHeaders(mainFrame)
 #include <wx/xrc/xmlres.h>
@@ -27,14 +28,15 @@ mainFrame::mainFrame(wxWindow* parent)
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
-	
+
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM7"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
-	Connect(XRCID("ID_MENUITEM2"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
+	Connect(XRCID("ID_GENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
+	Connect(XRCID("ID_ADDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddPointMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
@@ -71,6 +73,9 @@ void mainFrame::OnAbout(wxCommandEvent& event)
 #else
     wxbuild << _T("-ANSI build");
 #endif // wxUSE_UNICODE
+    wxbuild << _T("\n\nBuilt on: ");
+    wxbuild << _T(__DATE__);
+    wxbuild << _T(" (") << _T(__TIME__) << _T(")");
     wxMessageBox(wxbuild, _("Welcome to..."));
 }
 
@@ -195,11 +200,18 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
     bool isClassImagePanel = w->IsKindOf(CLASSINFO(ImagePanel));
     bool isClassPMFPanel = w->IsKindOf(CLASSINFO(PMFPanel));
 
-    if (isClassImagePanel)
+    if (isClassPMFPanel)
     {
         printf("Changed to ImagePanel ...\n");
     }
     GetMenuBar()->Enable(XRCID("ID_MENUITEM7"), isClassImagePanel || isClassPMFPanel);
+    // PMFPanel options
+    GetMenuBar()->Enable(XRCID("ID_GENERATE_MENUITEM"), ! isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_REGENERATE_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_ADDPOINT_MENUITEM"), isClassPMFPanel);
+    isClassPMFPanel = false;
+    GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel);
 }
 
 
@@ -207,4 +219,13 @@ void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
 {
     int pageid = myNotebook->GetSelection();
     myNotebook->DeletePage(pageid);
+}
+
+void mainFrame::OnAddPointMenuItemSelected(wxCommandEvent& event)
+{
+    AddPointDialog gDialog(this);
+    gDialog.ShowModal();
+    if ( gDialog.isOk() ) {
+        ;
+    }
 }

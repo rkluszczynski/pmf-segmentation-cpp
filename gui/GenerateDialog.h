@@ -37,6 +37,7 @@ class GenerateDialog: public wxDialog
 		//*)
 
 	private:
+
         bool clickedOK;
 
 		//(*Handlers(GenerateDialog)
@@ -45,7 +46,7 @@ class GenerateDialog: public wxDialog
 		void OnUseBlocksCheckBoxClick(wxCommandEvent& event);
 		//*)
 
-		DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif
