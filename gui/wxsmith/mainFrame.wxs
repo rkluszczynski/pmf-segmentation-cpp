@@ -25,7 +25,9 @@
 		<object name="ID_GENERATE_MENUITEM" class="wxMenuItem" variable="generateMenuItem" member="no">
 			<handler function="OnGenerateMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_REGENERATE_MENUITEM" class="wxMenuItem" variable="regenerateMenuItem" member="no" />
+		<object name="ID_REGENERATE_MENUITEM" class="wxMenuItem" variable="regenerateMenuItem" member="no">
+			<handler function="OnRegenerateMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_ADDPOINT_MENUITEM" class="wxMenuItem" variable="addPointMenuItem" member="no">
 			<handler function="OnAddPointMenuItemSelected" entry="EVT_MENU" />
 		</object>

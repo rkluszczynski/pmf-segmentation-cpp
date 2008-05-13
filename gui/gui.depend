@@ -1943,7 +1943,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1210634748 h:\projects\pmf-codeblocks\gui\mainframe.h
+1210713132 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1951,8 +1951,9 @@
 	<wx/frame.h>
 	<wx/html/htmlwin.h>
 	<wx/statusbr.h>
+	"PMFPanel.h"
 
-1210636898 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210714064 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2002,13 +2003,14 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1210626418 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1210712434 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
+	<sys/timeb.h>
 	<wx/wx.h>
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1210622954 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1210722770 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.cpp"
 	<wx/dcmemory.h>
 	<wx/scrolwin.h>
@@ -2090,14 +2092,14 @@
 
 1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
-1210664958 h:\projects\pmf-codeblocks\gui\addpointdialog.h
+1210721314 h:\projects\pmf-codeblocks\gui\addpointdialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/panel.h>
 	<wx/button.h>
 	<wx/dialog.h>
 
-1210665976 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
+1210721456 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
 	"AddPointDialog.h"
 	<cmath>
 	<wx/wx.h>

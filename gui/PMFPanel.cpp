@@ -1,4 +1,6 @@
 #include "PMFPanel.h"
+#include "mainFrame.h"
+#include <sys/timeb.h>
 #include <wx/wx.h>
 #include <wx/string.h>
 
@@ -25,6 +27,7 @@ PMFPanel::PMFPanel(wxWindow* parent)
 	scrolledWindow = (wxScrolledWindow*)FindWindow(XRCID("ID_SCROLLEDWINDOW1"));
 	//*)
 	staticBitmap->Connect(XRCID("ID_STATICBITMAP1"),wxEVT_RIGHT_UP,(wxObjectEventFunction)&PMFPanel::OnRightUp,0,this);
+	staticBitmap->Connect(XRCID("ID_STATICBITMAP1"),wxEVT_LEFT_UP,(wxObjectEventFunction)&PMFPanel::OnLeftUp,0,this);
 
 	fieldSize = blockSize = 0.0;
 	pmf = NULL;
@@ -42,9 +45,15 @@ PMFPanel::~PMFPanel()
 }
 
 
-bool PMFPanel::DrawGeneratedPMF(wxMemoryDC & dc)
+bool PMFPanel::DrawGeneratedPMF()
 {
     if (pmf == NULL  ||  bmp == NULL)  return false;
+
+    wxMemoryDC dc(*bmp);
+    dc.SetBackground(*wxWHITE_BRUSH);
+    dc.Clear();
+    //dc.SelectObject(wxNullBitmap);
+
     Element<pmf_point<double> > * iter = pmf->getFirstElement();
     while (iter) {
         pmf_point<double> * pt = iter->data;
@@ -62,7 +71,26 @@ bool PMFPanel::DrawGeneratedPMF(wxMemoryDC & dc)
         }
         iter = iter->next;
     }
+
+    staticBitmap->SetBitmap(*bmp);
     return true;
+}
+
+
+double PMFPanel::GeneratePMF()
+{
+    struct timeb tbeg, tend;
+
+    if (pmf) delete pmf;
+    pmf = new PMF<double>(fieldSize, fieldSize);
+
+    ftime(&tbeg);
+    pmf->Generate();
+    ftime(&tend);
+
+    double genTime = tend.time - tbeg.time;
+    genTime += ((tend.millitm - tbeg.millitm) * 0.001);
+    return genTime;
 }
 
 
@@ -79,18 +107,6 @@ void PMFPanel::SetParameters(double fSize, double bSize, long sscale)
 
         if (bmp) delete bmp;
         bmp = new wxBitmap(width, height);
-
-        wxMemoryDC dc(*bmp);
-        dc.SetBackground(*wxWHITE_BRUSH);
-        dc.Clear();
-        //dc.SelectObject(wxNullBitmap);
-
-        pmf = new PMF<double>(fieldSize, fieldSize);
-        pmf->Generate();
-        if (! DrawGeneratedPMF(dc))
-        {
-            wxMessageBox(_("ERROR"), _("ERROR"));
-        }
         staticBitmap->SetBitmap(*bmp);
         scrolledWindow->FitInside();
     }
@@ -99,10 +115,17 @@ void PMFPanel::SetParameters(double fSize, double bSize, long sscale)
 
 void PMFPanel::OnRightUp(wxMouseEvent& event)
 {
+    ((mainFrame *)GetParent()->GetParent())->SetStatusText(wxString::Format(wxT(" Clicked at (%d,%d)"), event.GetX(), event.GetY()), 0);
+
     wxMenu m_menu;
-    m_menu.Append(wxID_EXIT, wxString::Format(wxT("x = %d"), event.GetX()));
     m_menu.AppendSeparator();
-    m_menu.Append(wxID_EXIT, wxString::Format(wxT("y = %d"), event.GetY()));
+    m_menu.Append(wxID_ANY, wxT("Add point ..."));
+    m_menu.AppendSeparator();
 
     PopupMenu(&m_menu, event.GetPosition());
+}
+
+void PMFPanel::OnLeftUp(wxMouseEvent& event)
+{
+    ((mainFrame *)GetParent()->GetParent())->SetStatusText(wxString::Format(wxT(" Left clicked at (%d,%d)"), event.GetX(), event.GetY()), 0);
 }

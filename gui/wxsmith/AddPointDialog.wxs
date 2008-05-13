@@ -4,16 +4,27 @@
 		<object root="1" />
 		<object name="ID_PANEL1" class="wxPanel" variable="Panel1" member="yes" />
 		<object name="ID_PANEL3" class="wxPanel" variable="Panel3" member="yes" />
+		<object name="ID_STATICTEXT5" class="wxStaticText" variable="StaticText5" member="yes" />
 		<object name="ID_STATICTEXT2" class="wxStaticText" variable="StaticText2" member="yes" />
 		<object name="ID_TEXTCTRL2" class="wxTextCtrl" variable="TextCtrl2" member="yes" />
 		<object name="ID_STATICTEXT3" class="wxStaticText" variable="StaticText3" member="yes" />
 		<object name="ID_TEXTCTRL3" class="wxTextCtrl" variable="TextCtrl3" member="yes" />
 		<object name="ID_STATICTEXT1" class="wxStaticText" variable="StaticText1" member="yes" />
-		<object name="ID_TEXTCTRL1" class="wxTextCtrl" variable="TextCtrl1" member="yes" />
+		<object name="ID_TEXTCTRL1" class="wxTextCtrl" variable="TextCtrl1" member="yes">
+			<handler function="OnTextCtrl1Text" entry="EVT_TEXT" />
+		</object>
+		<object name="ID_STATICTEXT4" class="wxStaticText" variable="StaticText4" member="yes" />
+		<object name="ID_TEXTCTRL4" class="wxTextCtrl" variable="TextCtrl4" member="yes">
+			<handler function="OnTextCtrl4Text" entry="EVT_TEXT" />
+		</object>
+		<object name="ID_PANEL5" class="wxPanel" variable="Panel5" member="yes" />
+		<object name="ID_STATICTEXT7" class="wxStaticText" variable="StaticText7" member="yes" />
 		<object name="ID_PANEL4" class="wxPanel" variable="Panel4" member="yes">
 			<handler function="OnPanel4Paint" entry="EVT_PAINT" />
 			<handler function="OnPanel4LeftUp" entry="EVT_LEFT_UP" />
 		</object>
+		<object name="ID_STATICTEXT8" class="wxStaticText" variable="StaticText8" member="yes" />
+		<object name="ID_STATICTEXT9" class="wxStaticText" variable="StaticText9" member="yes" />
 		<object name="ID_PANEL2" class="wxPanel" variable="Panel2" member="yes" />
 		<object name="ID_BUTTON1" class="wxButton" variable="Button1" member="yes">
 			<handler function="OnButton1Click" entry="EVT_BUTTON" />

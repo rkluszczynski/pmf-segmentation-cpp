@@ -20,6 +20,8 @@ class PMFPanel: public wxPanel
 		virtual ~PMFPanel();
 
 		void SetParameters(double, double, long);
+		double GeneratePMF();
+        bool DrawGeneratedPMF();
 
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;
@@ -39,10 +41,9 @@ class PMFPanel: public wxPanel
         wxBitmap * bmp;
         long scale;
 
-        bool DrawGeneratedPMF(wxMemoryDC &);
-
 		//(*Handlers(PMFPanel)
 		void OnRightUp(wxMouseEvent& event);
+		void OnLeftUp(wxMouseEvent& event);
 		//*)
 
 	DECLARE_EVENT_TABLE()

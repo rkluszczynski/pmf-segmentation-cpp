@@ -28,7 +28,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
-
+	
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
@@ -36,6 +36,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_MENUITEM7"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
 	Connect(XRCID("ID_GENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
+	Connect(XRCID("ID_REGENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRegenerateMenuItemSelected);
 	Connect(XRCID("ID_ADDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddPointMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
@@ -102,7 +103,8 @@ void mainFrame::OnMenuItem1Selected(wxCommandEvent& event)
 }
 
 
-void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
+
+void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL)
 {
     GenerateDialog gDialog(this);
     gDialog.ShowModal();
@@ -116,18 +118,29 @@ void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
         if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize) && str3.ToLong(&scale))
             if (fieldSize > 0.0  &&  blockSize > 0.0  &&  scale > 0)
             {
-                wxString msg = str1 + _(" ; ");
-                if (check)  msg += str2;  else  msg += _(" NO BLOCKS ");
-                //wxMessageBox(msg, _("Welcome to..."));
+                bool newPanel = (pmf == NULL) ? true : false;
 
-                PMFPanel * pmf = new PMFPanel(myNotebook);
+                if (newPanel)  pmf = new PMFPanel(myNotebook);
                 pmf->SetParameters(fieldSize, (check) ? blockSize : 0.0f, scale);
-                myNotebook->AddPage(pmf, wxT("[ PMF ] : Unnamed"), false, 2);
+                double genTime = pmf->GeneratePMF();
+                if (! pmf->DrawGeneratedPMF()) {
+                    ;
+                }
+                if (newPanel)  myNotebook->AddPage(pmf, wxT("[ PMF ] : Unnamed"), false, 2);
+
+                SetStatusText( wxString::Format(wxT("Generation time : %.3lf sec."), genTime), 0);
             }
             else {
                 wxMessageBox(_("Field and block sizes should be positive!"), _("Wrong values!"));
             }
     }
+}
+
+
+void mainFrame::OnGenerateMenuItemSelected(wxCommandEvent& event)
+{
+    GeneratingPMFAction(event);
+    myNotebook->SetSelection(myNotebook->GetPageCount() - 1);
 }
 
 
@@ -228,4 +241,11 @@ void mainFrame::OnAddPointMenuItemSelected(wxCommandEvent& event)
     if ( gDialog.isOk() ) {
         ;
     }
+}
+
+void mainFrame::OnRegenerateMenuItemSelected(wxCommandEvent& event)
+{
+    PMFPanel * pmf = (PMFPanel *) myNotebook->GetCurrentPage();
+    GeneratingPMFAction(event, pmf);
+    pmf->Refresh();
 }

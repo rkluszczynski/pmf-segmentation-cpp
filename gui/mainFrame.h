@@ -11,6 +11,9 @@
 #include <wx/statusbr.h>
 //*)
 
+#include "PMFPanel.h"
+
+
 class mainFrame: public wxFrame
 {
 	public:
@@ -49,11 +52,13 @@ class mainFrame: public wxFrame
 		void OnMyNotebookPageChanged(wxNotebookEvent& event);
 		void OnCloseImageMenuItemSelected(wxCommandEvent& event);
 		void OnAddPointMenuItemSelected(wxCommandEvent& event);
+		void OnRegenerateMenuItemSelected(wxCommandEvent& event);
 		//*)
 
-        void PaintScrolledWindowBackground(wxDC& dc);
+        void PaintScrolledWindowBackground(wxDC&);
+        void GeneratingPMFAction(wxCommandEvent&, PMFPanel *);
 
-		DECLARE_EVENT_TABLE()
+    DECLARE_EVENT_TABLE()
 };
 
 #endif
