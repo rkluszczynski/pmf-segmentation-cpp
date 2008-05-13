@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resource xmlns="http://www.wxwidgets.org/wxxrc">
 	<object class="wxDialog" name="GenerateDialog">
-		<title>Generating parameters ...</title>
+		<title>Generating PMF ...</title>
 		<centered>1</centered>
 		<size>220,151</size>
 		<object class="wxGridSizer">

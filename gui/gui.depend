@@ -2090,14 +2090,16 @@
 
 1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
-1210636222 h:\projects\pmf-codeblocks\gui\addpointdialog.h
+1210664958 h:\projects\pmf-codeblocks\gui\addpointdialog.h
+	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/panel.h>
 	<wx/button.h>
 	<wx/dialog.h>
 
-1210639174 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
+1210665976 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
 	"AddPointDialog.h"
+	<cmath>
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>

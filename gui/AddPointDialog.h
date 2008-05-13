@@ -2,6 +2,7 @@
 #define ADDPOINTDIALOG_H
 
 //(*Headers(AddPointDialog)
+#include <wx/stattext.h>
 #include <wx/textctrl.h>
 #include <wx/panel.h>
 #include <wx/button.h>
@@ -18,13 +19,18 @@ class AddPointDialog: public wxDialog
         bool isOk();
 
 		//(*Declarations(AddPointDialog)
+		wxStaticText* StaticText2;
 		wxPanel* Panel4;
 		wxButton* Button1;
 		wxPanel* Panel1;
+		wxStaticText* StaticText1;
+		wxStaticText* StaticText3;
 		wxButton* Button2;
 		wxPanel* Panel3;
+		wxTextCtrl* TextCtrl2;
 		wxTextCtrl* TextCtrl1;
 		wxPanel* Panel2;
+		wxTextCtrl* TextCtrl3;
 		//*)
 
 	protected:
@@ -36,7 +42,8 @@ class AddPointDialog: public wxDialog
 
         bool clickedOK;
         int x0, y0, x, y;
-        double angle;
+        double angle, sinus, cosinus;
+        int circleRadius;
 
 		//(*Handlers(AddPointDialog)
 		void OnPanel4LeftUp(wxMouseEvent& event);

@@ -1,4 +1,5 @@
 #include "AddPointDialog.h"
+#include <cmath>
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
 
@@ -19,6 +20,11 @@ AddPointDialog::AddPointDialog(wxWindow* parent)
 {
 	//(*Initialize(AddPointDialog)
 	wxXmlResource::Get()->LoadObject(this,parent,_T("AddPointDialog"),_T("wxDialog"));
+	StaticText2 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT2"));
+	TextCtrl2 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
+	StaticText3 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT3"));
+	TextCtrl3 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL3"));
+	StaticText1 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT1"));
 	TextCtrl1 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL1"));
 	Panel3 = (wxPanel*)FindWindow(XRCID("ID_PANEL3"));
 	Panel4 = (wxPanel*)FindWindow(XRCID("ID_PANEL4"));
@@ -32,10 +38,12 @@ AddPointDialog::AddPointDialog(wxWindow* parent)
 	Connect(XRCID("ID_BUTTON1"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&AddPointDialog::OnButton1Click);
 	Connect(XRCID("ID_BUTTON2"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&AddPointDialog::OnButton2Click);
 	//*)
+	circleRadius = 55;
 
 	clickedOK = false;
 	x0 = y0 = 75;
-	x = y = 0;
+	x = 75 + circleRadius;
+	y = 75;
 	angle = 0.0f;
 }
 
@@ -66,23 +74,25 @@ void AddPointDialog::OnButton2Click(wxCommandEvent& event)
 
 void AddPointDialog::OnPanel4LeftUp(wxMouseEvent& event)
 {
-    x = event.GetX();
-    y = event.GetY();
+    if (event.GetX() != x0  ||  event.GetY() != y0)
+    {
+        double dx = double(event.GetX() - x0);
+        double dy = double(y0 - event.GetY());
+        double length = sqrt(dx*dx + dy*dy);
+
+        sinus = dy / length;
+        cosinus = dx / length;
+        angle = asin(sinus);
+
+        x = x0 + int(cosinus * double(circleRadius));
+        y = y0 - int(sinus * double(circleRadius));
+        //y = GetSize().GetHeight() - y;
+
+        TextCtrl1->SetValue(wxString::Format(wxT("%lf"), angle));
+    }
     Panel4->Refresh();
 }
 
-
-/// Paint the background
-void AddPointDialog::PaintScrolledWindowBackground(wxDC& dc)
-{
-    wxColour backgroundColour = Panel4->GetBackgroundColour();
-    if (!backgroundColour.Ok())
-        backgroundColour = wxSystemSettings::GetColour(wxSYS_COLOUR_INFOBK);
-    dc.SetBrush(wxBrush(backgroundColour));
-    wxRect windowRect(wxPoint(0, 0), Panel4->GetVirtualSize());//GetClientSize());
-    //Panel4->CalcUnscrolledPosition(windowRect.x, windowRect.y, & windowRect.x, & windowRect.y);
-    dc.DrawRectangle(windowRect);
-}
 
 void AddPointDialog::OnPanel4Paint(wxPaintEvent& event)
 {
@@ -92,8 +102,13 @@ void AddPointDialog::OnPanel4Paint(wxPaintEvent& event)
     dc.SetBackground(wxBrush(wxSystemSettings::GetColour(wxSYS_COLOUR_INFOBK)));
     dc.Clear();
     dc.SetPen(*wxBLACK_PEN);
-    dc.DrawCircle(x0, y0, 55);
-    dc.SetPen(wxPen(*wxBLACK, 2, wxSOLID));
-    dc.DrawLine(x0, y0, x, y);
+    dc.DrawCircle(x0, y0, circleRadius);
+    dc.DrawLine(x0+circleRadius+2, y0, x0+circleRadius+10, y0);
+    //dc.DrawText(wxT("0"), x0+circleRadius+5, y0+1);
+    if (x != x0  ||  y != y0)
+    {
+        dc.SetPen(wxPen(*wxBLACK, 2, wxSOLID));
+        dc.DrawLine(x0, y0, x, y);
+    }
     //dc.SetUserScale(0.5,0.5);
 }
