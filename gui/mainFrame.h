@@ -14,12 +14,14 @@
 #include "PMFPanel.h"
 
 
-class mainFrame: public wxFrame
+class mainFrame : public wxFrame
 {
 	public:
 
 		mainFrame(wxWindow* parent);
 		virtual ~mainFrame();
+
+		void AddPointAction(wxCommandEvent&, double, double);
 
 		//(*Declarations(mainFrame)
 		wxMenu* Menu3;

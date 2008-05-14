@@ -28,7 +28,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
-	
+
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
@@ -236,11 +236,7 @@ void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
 
 void mainFrame::OnAddPointMenuItemSelected(wxCommandEvent& event)
 {
-    AddPointDialog gDialog(this);
-    gDialog.ShowModal();
-    if ( gDialog.isOk() ) {
-        ;
-    }
+    AddPointAction(event, 0.2, 2.0);
 }
 
 void mainFrame::OnRegenerateMenuItemSelected(wxCommandEvent& event)
@@ -248,4 +244,14 @@ void mainFrame::OnRegenerateMenuItemSelected(wxCommandEvent& event)
     PMFPanel * pmf = (PMFPanel *) myNotebook->GetCurrentPage();
     GeneratingPMFAction(event, pmf);
     pmf->Refresh();
+}
+
+
+void mainFrame::AddPointAction(wxCommandEvent& event, double x, double y)
+{
+    AddPointDialog gDialog(this);
+    gDialog.ShowModal();
+    if ( gDialog.isOk() ) {
+        ;
+    }
 }

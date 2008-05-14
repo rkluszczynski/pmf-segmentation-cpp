@@ -3,6 +3,7 @@
 
 #include "PMF.cpp"
 #include <wx/dcmemory.h>
+#include <wx/menu.h>
 
 //(*Headers(PMFPanel)
 #include <wx/scrolwin.h>
@@ -40,11 +41,13 @@ class PMFPanel: public wxPanel
 
         wxBitmap * bmp;
         long scale;
+        wxMenu popupMenu;
 
 		//(*Handlers(PMFPanel)
 		void OnRightUp(wxMouseEvent& event);
 		void OnLeftUp(wxMouseEvent& event);
 		//*)
+		void OnAddPointPopupMenuItemSelected(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };

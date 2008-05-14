@@ -34,6 +34,19 @@ PMFPanel::PMFPanel(wxWindow* parent)
 	scale = 100;
 	bmp = NULL;
 	scrolledWindow->SetScrollRate(1, 1);
+
+    popupMenu.AppendSeparator();
+    popupMenu.Append(wxID_ANY, wxT("Add point ..."));
+    popupMenu.Append(wxID_ANY, wxT("Update point ..."));
+    popupMenu.Append(wxID_ANY, wxT("Delete point ..."));
+    popupMenu.AppendSeparator();
+    popupMenu.Connect(popupMenu.FindItem(wxT("Add point ...")),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPanel::OnAddPointPopupMenuItemSelected);
+    //popupMenu.Connect(0,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddPointMenuItemSelected);
+    popupMenu.Enable(popupMenu.FindItem(wxT("Update point ...")), false);
+    popupMenu.Enable(popupMenu.FindItem(wxT("Delete point ...")), false);
+
+    mainFrame * mframe;
+    mframe = (mainFrame *)GetParent()->GetParent();
 }
 
 
@@ -116,14 +129,16 @@ void PMFPanel::SetParameters(double fSize, double bSize, long sscale)
 void PMFPanel::OnRightUp(wxMouseEvent& event)
 {
     ((mainFrame *)GetParent()->GetParent())->SetStatusText(wxString::Format(wxT(" Clicked at (%d,%d)"), event.GetX(), event.GetY()), 0);
-
-    wxMenu m_menu;
-    m_menu.AppendSeparator();
-    m_menu.Append(wxID_ANY, wxT("Add point ..."));
-    m_menu.AppendSeparator();
-
-    PopupMenu(&m_menu, event.GetPosition());
+    PopupMenu(&popupMenu, event.GetPosition());
 }
+
+
+void PMFPanel::OnAddPointPopupMenuItemSelected(wxCommandEvent& event)
+{
+    wxString str = wxT("Jak sie dobrac do mainFrame ?");
+    wxMessageBox(str, wxT("Test"));
+}
+
 
 void PMFPanel::OnLeftUp(wxMouseEvent& event)
 {
