@@ -18,6 +18,7 @@ class AddPointDialog: public wxDialog
 		virtual ~AddPointDialog();
 
         bool isOk();
+        void SetPointCoordinates(double, double);
 
 		//(*Declarations(AddPointDialog)
 		wxStaticText* StaticText9;

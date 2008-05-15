@@ -9,7 +9,7 @@
 #include <wx/dialog.h>
 //*)
 
-class GenerateDialog: public wxDialog
+class GenerateDialog : public wxDialog
 {
 	public:
 

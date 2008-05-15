@@ -43,6 +43,8 @@ class mainFrame : public wxFrame
 
 	private:
 
+        double defaultX, defaultY;
+
 		//(*Handlers(mainFrame)
 		void OnQuit(wxCommandEvent& event);
 		void OnAbout(wxCommandEvent& event);

@@ -185,3 +185,9 @@ void AddPointDialog::OnPanel4Paint(wxPaintEvent& event)
     //dc.SetUserScale(0.5,0.5);
 }
 
+
+void AddPointDialog::SetPointCoordinates(double x, double y)
+{
+    TextCtrl2->ChangeValue(wxString::Format(wxT("%lf"), x));
+    TextCtrl3->ChangeValue(wxString::Format(wxT("%lf"), y));
+}

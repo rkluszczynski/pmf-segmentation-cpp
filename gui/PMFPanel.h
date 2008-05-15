@@ -2,8 +2,10 @@
 #define PMFPANEL_H
 
 #include "PMF.cpp"
+#include "PMFPopupMenu.h"
 #include <wx/dcmemory.h>
 #include <wx/menu.h>
+#include <wx/gdicmn.h>
 
 //(*Headers(PMFPanel)
 #include <wx/scrolwin.h>
@@ -41,13 +43,14 @@ class PMFPanel: public wxPanel
 
         wxBitmap * bmp;
         long scale;
-        wxMenu popupMenu;
+
+        PMFPopupMenu * pmfPopupMenu;
+        void * mframe;
 
 		//(*Handlers(PMFPanel)
 		void OnRightUp(wxMouseEvent& event);
 		void OnLeftUp(wxMouseEvent& event);
 		//*)
-		void OnAddPointPopupMenuItemSelected(wxCommandEvent& event);
 
 	DECLARE_EVENT_TABLE()
 };

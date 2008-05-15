@@ -246,10 +246,10 @@ void mainFrame::OnRegenerateMenuItemSelected(wxCommandEvent& event)
     pmf->Refresh();
 }
 
-
-void mainFrame::AddPointAction(wxCommandEvent& event, double x, double y)
+void mainFrame::AddPointAction(wxCommandEvent& event, double xx, double yy)
 {
     AddPointDialog gDialog(this);
+    gDialog.SetPointCoordinates(xx, yy);
     gDialog.ShowModal();
     if ( gDialog.isOk() ) {
         ;

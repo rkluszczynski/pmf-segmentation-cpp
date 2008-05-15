@@ -5,7 +5,7 @@
 		<Option title="PMF GUI" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="wxsmith\;dialogs\;panels\;" />
+		<Option virtualFolders="wxsmith\;dialogs\;panels\;components\;" />
 		<Build>
 			<Target title="Release">
 				<Option output="bin\Release\PMFApplication" prefix_auto="1" extension_auto="1" />
@@ -88,6 +88,12 @@
 		</Unit>
 		<Unit filename="PMFPanel.h">
 			<Option virtualFolder="panels\" />
+		</Unit>
+		<Unit filename="PMFPopupMenu.cpp">
+			<Option virtualFolder="components\" />
+		</Unit>
+		<Unit filename="PMFPopupMenu.h">
+			<Option virtualFolder="components\" />
 		</Unit>
 		<Unit filename="mainFrame.cpp" />
 		<Unit filename="mainFrame.h" />
