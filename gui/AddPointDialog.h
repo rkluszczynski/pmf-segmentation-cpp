@@ -4,6 +4,7 @@
 //(*Headers(AddPointDialog)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
+#include <wx/checkbox.h>
 #include <wx/panel.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
@@ -27,19 +28,22 @@ class AddPointDialog: public wxDialog
 		wxStaticText* StaticText2;
 		wxPanel* Panel4;
 		wxButton* Button1;
+		wxStaticText* StaticText6;
 		wxStaticText* StaticText8;
 		wxPanel* Panel1;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
 		wxButton* Button2;
 		wxPanel* Panel3;
+		wxTextCtrl* BlockSizeTextCtrl;
+		wxTextCtrl* RadianAngleTextCtrl;
 		wxStaticText* StaticText5;
 		wxStaticText* StaticText7;
-		wxTextCtrl* TextCtrl2;
-		wxTextCtrl* TextCtrl1;
+		wxTextCtrl* CoordinateYTextCtrl;
+		wxCheckBox* UseBlocksCheckBox;
 		wxPanel* Panel2;
 		wxStaticText* StaticText4;
-		wxTextCtrl* TextCtrl3;
+		wxTextCtrl* CoordinateXTextCtrl;
 		//*)
 
 	protected:
@@ -60,7 +64,8 @@ class AddPointDialog: public wxDialog
 		void OnButton2Click(wxCommandEvent& event);
 		void OnPanel4Paint(wxPaintEvent& event);
 		void OnTextCtrl4Text(wxCommandEvent& event);
-		void OnTextCtrl1Text(wxCommandEvent& event);
+		void OnRadianAngleTextCtrlText(wxCommandEvent& event);
+		void OnCheckBox1Click(wxCommandEvent& event);
 		//*)
         void PaintScrolledWindowBackground(wxDC& );
 

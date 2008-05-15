@@ -22,11 +22,14 @@ AddPointDialog::AddPointDialog(wxWindow* parent)
 	wxXmlResource::Get()->LoadObject(this,parent,_T("AddPointDialog"),_T("wxDialog"));
 	StaticText5 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT5"));
 	StaticText2 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT2"));
-	TextCtrl2 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
+	CoordinateXTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL2"));
 	StaticText3 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT3"));
-	TextCtrl3 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL3"));
+	CoordinateYTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL3"));
+	UseBlocksCheckBox = (wxCheckBox*)FindWindow(XRCID("ID_CHECKBOX1"));
+	StaticText6 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT6"));
+	BlockSizeTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL5"));
 	StaticText1 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT1"));
-	TextCtrl1 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL1"));
+	RadianAngleTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL1"));
 	StaticText4 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT4"));
 	TextCtrl4 = (wxTextCtrl*)FindWindow(XRCID("ID_TEXTCTRL4"));
 	Panel3 = (wxPanel*)FindWindow(XRCID("ID_PANEL3"));
@@ -40,7 +43,8 @@ AddPointDialog::AddPointDialog(wxWindow* parent)
 	Button2 = (wxButton*)FindWindow(XRCID("ID_BUTTON2"));
 	Panel2 = (wxPanel*)FindWindow(XRCID("ID_PANEL2"));
 
-	Connect(XRCID("ID_TEXTCTRL1"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&AddPointDialog::OnTextCtrl1Text);
+	Connect(XRCID("ID_CHECKBOX1"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&AddPointDialog::OnCheckBox1Click);
+	Connect(XRCID("ID_TEXTCTRL1"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&AddPointDialog::OnRadianAngleTextCtrlText);
 	Connect(XRCID("ID_TEXTCTRL4"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&AddPointDialog::OnTextCtrl4Text);
 	Panel4->Connect(XRCID("ID_PANEL4"),wxEVT_PAINT,(wxObjectEventFunction)&AddPointDialog::OnPanel4Paint,0,this);
 	Panel4->Connect(XRCID("ID_PANEL4"),wxEVT_LEFT_UP,(wxObjectEventFunction)&AddPointDialog::OnPanel4LeftUp,0,this);
@@ -102,7 +106,7 @@ void AddPointDialog::OnPanel4LeftUp(wxMouseEvent& event)
         y = y0 - int(sinus * double(circleRadius));
         //y = GetSize().GetHeight() - y;
 
-        TextCtrl1->ChangeValue(wxString::Format(wxT("%lf"), angle));
+        RadianAngleTextCtrl->ChangeValue(wxString::Format(wxT("%lf"), angle));
         TextCtrl4->ChangeValue(wxString::Format(wxT("%lf"), radians2degree(angle)));
 
         StaticText8->SetLabel(wxString::Format(wxT("Sinus = %.3lf"), sinus ));
@@ -124,12 +128,12 @@ void AddPointDialog::OnTextCtrl4Text(wxCommandEvent& event)
         y = y0 - int(sinus * double(circleRadius));
         Panel4->Refresh();
 
-        TextCtrl1->ChangeValue(wxString::Format(wxT("%lf"), angle));
+        RadianAngleTextCtrl->ChangeValue(wxString::Format(wxT("%lf"), angle));
         StaticText8->SetLabel(wxString::Format(wxT("Sinus = %.3lf"), sinus ));
         StaticText9->SetLabel(wxString::Format(wxT("Cosinus = %.3lf"), cosinus ));
     }
     else if (str.IsEmpty()) {
-        TextCtrl1->ChangeValue(wxT(""));
+        RadianAngleTextCtrl->ChangeValue(wxT(""));
     }
     else {
         wxMessageBox(wxT("BLAD"), wxT("ERROR"));
@@ -138,9 +142,9 @@ void AddPointDialog::OnTextCtrl4Text(wxCommandEvent& event)
 }
 
 
-void AddPointDialog::OnTextCtrl1Text(wxCommandEvent& event)
+void AddPointDialog::OnRadianAngleTextCtrlText(wxCommandEvent& event)
 {
-    wxString str = TextCtrl1->GetValue();
+    wxString str = RadianAngleTextCtrl->GetValue();
     double rad;
     if (str.ToDouble(&rad)) {
         angle = rad;
@@ -155,11 +159,11 @@ void AddPointDialog::OnTextCtrl1Text(wxCommandEvent& event)
         StaticText9->SetLabel(wxString::Format(wxT("Cosinus = %.3lf"), cosinus ));
     }
     else if (str.IsEmpty()) {
-        TextCtrl1->ChangeValue(wxT(""));
+        RadianAngleTextCtrl->ChangeValue(wxT(""));
     }
     else {
         wxMessageBox(wxT("BLAD"), wxT("ERROR"));
-        TextCtrl1->Undo();
+        RadianAngleTextCtrl->Undo();
     }
 }
 #undef radians2degree
@@ -188,6 +192,14 @@ void AddPointDialog::OnPanel4Paint(wxPaintEvent& event)
 
 void AddPointDialog::SetPointCoordinates(double x, double y)
 {
-    TextCtrl2->ChangeValue(wxString::Format(wxT("%lf"), x));
-    TextCtrl3->ChangeValue(wxString::Format(wxT("%lf"), y));
+    CoordinateXTextCtrl->ChangeValue(wxString::Format(wxT("%lf"), x));
+    CoordinateYTextCtrl->ChangeValue(wxString::Format(wxT("%lf"), y));
+}
+
+
+void AddPointDialog::OnCheckBox1Click(wxCommandEvent& event)
+{
+    bool value = event.IsChecked();
+    StaticText6->Enable(value);
+    BlockSizeTextCtrl->Enable(value);
 }
