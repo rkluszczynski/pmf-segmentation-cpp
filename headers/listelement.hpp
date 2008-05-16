@@ -18,8 +18,12 @@ template <class TYPE> struct Element
     }
     */
 	Element (TYPE * x, Element * y, Element * z = NULL)
-		: data(x), prev(y), next(z)
-	{}
+		//: data(x), prev(y), next(z)
+	{
+	    data = x;
+	    prev = y;
+	    next = z;
+    }
 };
 
 #endif  /* __LISTELEMENT_HPP__ */

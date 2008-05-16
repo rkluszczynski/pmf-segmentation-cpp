@@ -3,7 +3,8 @@
 
 #define REAL double
 
-void pmf_generate (
+ConfigurationList<REAL> *
+pmf_generate (
 			REAL fieldHeight,
 			REAL fieldWidth,
 			char * outputFile,

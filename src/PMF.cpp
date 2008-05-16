@@ -1,5 +1,3 @@
-#include "PMF.hpp"
-
 
 template <class T_REAL>
 PMF<T_REAL> :: PMF (T_REAL fWidth, T_REAL fHeight)
@@ -19,9 +17,9 @@ PMF<T_REAL> :: ~PMF ()
 
 
 template <class T_REAL>
-inline void
-PMF<T_REAL> :: SetSeed (time_t sseed) { this.seed = sseed; }
+void
+PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 
 
-#include "generate.cpp"
+#include "generate.hpp"
 

@@ -6,7 +6,7 @@
 #include "configurationlist.hpp"
 
 
-template <class T_REAL = double>
+template <class T_REAL>
 class PMF
 {
     protected :
@@ -23,6 +23,8 @@ class PMF
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };
+
+#include "PMF.cpp"
 
 
 #endif // PMF_HPP_INCLUDED

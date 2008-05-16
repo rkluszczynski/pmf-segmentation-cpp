@@ -72,7 +72,7 @@ bool IntersectionsList<T_REAL>::remove_intersection_with_one_id_of (long ptId1, 
     using std::cout;
     using std::endl;
     Element<CrosspointElement<T_REAL> > * iter = TemplateList<CrosspointElement<T_REAL> >::head;
-    Element<CrosspointElement<T_REAL> > * pop = iter, * tmp = iter;
+    Element<CrosspointElement<T_REAL> > * pop = iter;//, * tmp = iter;
     bool deleted = false;
     while (iter) {
         if ( !(iter->data->p1 == ptId1  &&  iter->data->p2 == ptId2)  &&

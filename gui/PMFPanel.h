@@ -1,7 +1,7 @@
 #ifndef PMFPANEL_H
 #define PMFPANEL_H
 
-#include "PMF.cpp"
+#include "PMF.hpp"
 #include "PMFPopupMenu.h"
 #include <wx/dcmemory.h>
 #include <wx/menu.h>

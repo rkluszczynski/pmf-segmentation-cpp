@@ -63,7 +63,7 @@ template <class T_REAL>
 bool BirthsList<T_REAL>::remove_point_with_id (long ptId, BlocksLists<T_REAL> * blocksLists)
 {
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
-    Element<pmf_point<T_REAL> > * pop = iter, * tmp = iter;
+    Element<pmf_point<T_REAL> > * pop = iter;//, * tmp = iter;
     while (iter) {
         if (iter->data->id == ptId) {
             // Added 16.01.2008

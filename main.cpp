@@ -5,7 +5,7 @@
 #include <ctime>
 #include <unistd.h>
 
-#include "operations.hpp"
+#include "PMF.hpp"
 
 
 void print_usage(char *prog_name)
@@ -21,6 +21,7 @@ void print_usage(char *prog_name)
 }
 
 
+#define REAL double
 int main (int argc, char *argv[])
 {
 	int           opt = 0x0;
@@ -82,9 +83,13 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] :        Seed (-e) = %li\n", seed);
 
 		/* Generating Polygonal Markov Field. */
-		pmf_generate ( sizeArak, sizeArak, outputFile, seed );
+		PMF<REAL> * pmf = new PMF<double>(sizeArak, sizeArak);
+		pmf->SetSeed(seed);
+		pmf->Generate(1.1);
+		//pmf_generate ( sizeArak, sizeArak, outputFile, seed );
 	}
 	else { print_usage(argv[0]); }
 
     return(0);
 }
+#undef REAL

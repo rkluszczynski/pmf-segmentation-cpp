@@ -97,23 +97,25 @@
 
 1202056162 d:\projects\pmf-codeblocks\src\operations.hpp
 
-1202056100 source:h:\projects\pmf-codeblocks\main.cpp
+1210927154 source:h:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
 	<csignal>
 	<ctime>
 	<unistd.h>
-	"operations.hpp"
-
-1202056162 h:\projects\pmf-codeblocks\src\operations.hpp
-
-1210570666 source:h:\projects\pmf-codeblocks\src\pmf.cpp
 	"PMF.hpp"
 
-1210570556 h:\projects\pmf-codeblocks\src\pmf.hpp
+1210922834 h:\projects\pmf-codeblocks\src\operations.hpp
+
+1210621146 source:h:\projects\pmf-codeblocks\src\pmf.cpp
+	"PMF.hpp"
+	"generate.cpp"
+
+1210927190 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	"configurationlist.hpp"
+	"PMF.cpp"
 
 1208189954 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
@@ -178,10 +180,10 @@
 	<cmath>
 	<algorithm>
 
-1207769980 h:\projects\pmf-codeblocks\headers\accesslists.hpp
+1210618006 h:\projects\pmf-codeblocks\headers\accesslists.hpp
 	"geometry.hpp"
 
-1195484144 h:\projects\pmf-codeblocks\headers\geometry.hpp
+1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
 1210570744 h:\projects\pmf-codeblocks\headers\modifylists.hpp
 	"point.hpp"
@@ -225,7 +227,41 @@
 	"accesslists.hpp"
 	"modifylists.hpp"
 
-1208986876 source:h:\projects\pmf-codeblocks\src\generate.cpp
+1210927050 source:h:\projects\pmf-codeblocks\src\generate.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+
+1210570910 source:h:\projects\pmf-codeblocks\src\rotate.cpp
+	"configurationlist.hpp"
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+	"modifylists.hpp"
+
+1210922652 h:\projects\pmf-codeblocks\src\generate.cpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+	"PMF.hpp"
+
+1210927280 h:\projects\pmf-codeblocks\src\pmf.cpp
+	"generate.hpp"
+
+1210927098 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>

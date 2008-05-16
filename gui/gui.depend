@@ -1953,7 +1953,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1210893106 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210893766 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2011,8 +2011,8 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1210833924 h:\projects\pmf-codeblocks\gui\pmfpanel.h
-	"PMF.cpp"
+1210927704 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
 	<wx/menu.h>
@@ -2021,13 +2021,13 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1210621146 h:\projects\pmf-codeblocks\src\pmf.cpp
-	"PMF.hpp"
-	"generate.cpp"
+1210927496 h:\projects\pmf-codeblocks\src\pmf.cpp
+	"generate.hpp"
 
-1210621036 h:\projects\pmf-codeblocks\src\pmf.hpp
+1210927386 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	"configurationlist.hpp"
+	"PMF.cpp"
 
 1208189954 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
@@ -2038,7 +2038,7 @@
 	<iostream>
 	"listelement.hpp"
 
-1195475554 h:\projects\pmf-codeblocks\headers\listelement.hpp
+1210927930 h:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
 
 1202706066 h:\projects\pmf-codeblocks\headers\templatelist.hpp
@@ -2075,7 +2075,7 @@
 	"point.hpp"
 	"templatelist.hpp"
 
-1208803244 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1210927864 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
@@ -2120,4 +2120,15 @@
 	<cmath>
 	<wx/wx.h>
 	<wx/menu.h>
+
+1210927798 h:\projects\pmf-codeblocks\src\generate.hpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
 

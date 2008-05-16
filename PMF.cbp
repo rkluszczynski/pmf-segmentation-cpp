@@ -20,6 +20,10 @@
 					<Add directory="headers" />
 					<Add directory="src" />
 				</Compiler>
+				<Linker>
+					<Add directory="objs\src" />
+					<Add directory="objs" />
+				</Linker>
 			</Target>
 		</Build>
 		<VirtualTargets>
@@ -79,6 +83,7 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="src\PMF.cpp">
 			<Option virtualFolder="structures\" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\PMF.hpp">
 			<Option virtualFolder="structures\" />
@@ -92,6 +97,10 @@
 		</Unit>
 		<Unit filename="src\generate.cpp">
 			<Option virtualFolder="operations\" />
+		</Unit>
+		<Unit filename="src\generate.hpp">
+			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\operations.hpp">
 			<Option virtualFolder="operations\" />
