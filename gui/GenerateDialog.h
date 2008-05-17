@@ -22,6 +22,7 @@ class GenerateDialog : public wxDialog
 		wxButton* GenerateDialogCancelButton;
 		wxTextCtrl* FieldSizeTextCtrl;
 		wxStaticText* StaticText2;
+		wxTextCtrl* SeedTextCtrl;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
 		wxButton* GenerateDialogOKButton;

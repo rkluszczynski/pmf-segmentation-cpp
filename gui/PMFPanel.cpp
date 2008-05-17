@@ -80,12 +80,13 @@ bool PMFPanel::DrawGeneratedPMF()
 }
 
 
-double PMFPanel::GeneratePMF()
+double PMFPanel::GeneratePMF(time_t sseed = 0)
 {
     struct timeb tbeg, tend;
 
     if (pmf) delete pmf;
     pmf = new PMF<double>(fieldSize, fieldSize);
+    pmf->SetSeed(sseed);
 
     ftime(&tbeg);
     pmf->Generate();

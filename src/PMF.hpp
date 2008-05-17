@@ -20,6 +20,9 @@ class PMF
 
 		void SetSeed(time_t);
 		void Generate(T_REAL);
+		void RotatePointTypes(T_REAL, T_REAL);
+
+		bool SaveConfiguration(char *);
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };

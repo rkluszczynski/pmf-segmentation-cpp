@@ -23,7 +23,7 @@ class PMFPanel: public wxPanel
 		virtual ~PMFPanel();
 
 		void SetParameters(double, double, long);
-		double GeneratePMF();
+		double GeneratePMF(time_t);
         bool DrawGeneratedPMF();
 
 		//(*Declarations(PMFPanel)

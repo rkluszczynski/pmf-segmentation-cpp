@@ -6,8 +6,6 @@
 #include <unistd.h>
 #include <sys/timeb.h>
 
-#define CHECK_ASSERTIONS 1
-
 #include "PMF.hpp"
 
 

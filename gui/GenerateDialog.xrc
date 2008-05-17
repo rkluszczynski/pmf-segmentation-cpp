@@ -3,7 +3,6 @@
 	<object class="wxDialog" name="GenerateDialog">
 		<title>Generating PMF ...</title>
 		<centered>1</centered>
-		<size>220,151</size>
 		<object class="wxGridSizer">
 			<cols>2</cols>
 			<rows>4</rows>
@@ -24,6 +23,22 @@
 				<option>1</option>
 			</object>
 			<object class="sizeritem">
+				<object class="wxStaticText" name="ID_STATICTEXT3">
+					<label>Seed :</label>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxTextCtrl" name="ID_TEXTCTRL4">
+					<value>0</value>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
 				<object class="wxCheckBox" name="ID_CHECKBOX1">
 					<label>Use blocks ...</label>
 					<checked>1</checked>
@@ -32,10 +47,7 @@
 				<border>5</border>
 				<option>1</option>
 			</object>
-			<object class="sizeritem">
-				<object class="wxStaticText" name="ID_STATICTEXT3">
-					<label></label>
-				</object>
+			<object class="spacer">
 				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 				<border>5</border>
 				<option>1</option>

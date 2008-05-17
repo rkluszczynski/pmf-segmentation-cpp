@@ -97,13 +97,14 @@
 
 1202056162 d:\projects\pmf-codeblocks\src\operations.hpp
 
-1210927154 source:h:\projects\pmf-codeblocks\main.cpp
+1211021002 source:h:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
 	<csignal>
 	<ctime>
 	<unistd.h>
+	<sys/timeb.h>
 	"PMF.hpp"
 
 1210922834 h:\projects\pmf-codeblocks\src\operations.hpp
@@ -112,7 +113,7 @@
 	"PMF.hpp"
 	"generate.cpp"
 
-1210927190 h:\projects\pmf-codeblocks\src\pmf.hpp
+1211020540 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	"configurationlist.hpp"
 	"PMF.cpp"
@@ -126,7 +127,7 @@
 	<iostream>
 	"listelement.hpp"
 
-1195475554 h:\projects\pmf-codeblocks\headers\listelement.hpp
+1210927930 h:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
 
 1202706066 h:\projects\pmf-codeblocks\headers\templatelist.hpp
@@ -147,14 +148,14 @@
 	"modifyheaps.hpp"
 	"rotate.cpp"
 
-1205964256 h:\projects\pmf-codeblocks\headers\birthslist.hpp
+1210927966 h:\projects\pmf-codeblocks\headers\birthslist.hpp
 	<stdio.h>
 	<iostream>
 	"point.hpp"
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1208803244 h:\projects\pmf-codeblocks\headers\blockslists.hpp
+1211018060 h:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
@@ -164,7 +165,7 @@
 	"point.hpp"
 	"templatelist.hpp"
 
-1208803244 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1210927864 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
@@ -258,10 +259,14 @@
 	"accesslists.hpp"
 	"PMF.hpp"
 
-1210927280 h:\projects\pmf-codeblocks\src\pmf.cpp
+1211020614 h:\projects\pmf-codeblocks\src\pmf.cpp
+	<iostream>
+	<fstream>
 	"generate.hpp"
+	"rotate.hpp"
+	"adding.hpp"
 
-1210927098 h:\projects\pmf-codeblocks\src\generate.hpp
+1211017976 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -271,4 +276,18 @@
 	"blockslists.hpp"
 	"probability.hpp"
 	"accesslists.hpp"
+
+1211017688 source:h:\projects\pmf-codeblocks\src\main-gen.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"PMF.hpp"
+
+1211020378 h:\projects\pmf-codeblocks\src\adding.hpp
+
+1211021026 h:\projects\pmf-codeblocks\src\rotate.hpp
 

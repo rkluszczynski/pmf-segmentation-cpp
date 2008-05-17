@@ -149,7 +149,7 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
     //ConfigurationList<T_REAL> *
     pmfConf = new ConfigurationList<T_REAL> (fieldWidth, fieldHeight);
     BlocksLists<T_REAL> *     blocksLists = NULL;
-    //if (bSize > 0.0)  { blocksLists = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize); }
+    if (bSize > 0.0)  { blocksLists = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize); }
 
     id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, blocksLists);
     pmf_point<T_REAL> * pop = NULL;

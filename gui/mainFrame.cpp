@@ -112,17 +112,19 @@ void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL
         wxString str1 = (gDialog.FieldSizeTextCtrl)->GetValue();
         wxString str2 = (gDialog.BlockSizeTextCtrl)->GetValue();
         wxString str3 = (gDialog.ScaleTextCtrl)->GetValue();
+        wxString str4 = (gDialog.SeedTextCtrl)->GetValue();
         bool check = (gDialog.UseBlocksCheckBox)->GetValue();
         double fieldSize, blockSize;
-        long scale;
-        if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize) && str3.ToLong(&scale))
+        long scale, seed;
+        if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize) && str3.ToLong(&scale) && str4.ToLong(&seed))
             if (fieldSize > 0.0  &&  blockSize > 0.0  &&  scale > 0)
             {
                 bool newPanel = (pmf == NULL) ? true : false;
 
                 if (newPanel)  pmf = new PMFPanel(myNotebook);
                 pmf->SetParameters(fieldSize, (check) ? blockSize : 0.0f, scale);
-                double genTime = pmf->GeneratePMF();
+
+                double genTime = pmf->GeneratePMF(seed);
                 if (! pmf->DrawGeneratedPMF()) {
                     ;
                 }
