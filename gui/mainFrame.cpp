@@ -128,7 +128,8 @@ void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL
                 if (! pmf->DrawGeneratedPMF()) {
                     ;
                 }
-                if (newPanel)  myNotebook->AddPage(pmf, wxT("[ PMF ] : Unnamed"), false, 2);
+                if (newPanel)
+                    myNotebook->AddPage(pmf, wxString::Format(wxT("[ PMF ] : Unnamed%d"), myNotebook->GetPageCount()), false, 2);
 
                 SetStatusText( wxString::Format(wxT("Generation time : %.3lf sec."), genTime), 0);
             }

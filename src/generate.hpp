@@ -17,7 +17,6 @@ using namespace std;
 #include "accesslists.hpp"
 
 #define REAL double
-#define PMF_POINT pmf_point<REAL>
 
 
 inline
@@ -35,7 +34,7 @@ long pmf_generate_initial_births (
     REAL vertical = Exp<REAL>(2.0);
     while (vertical <= fieldHeight) {
         //REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
-        PMF_POINT * pt = new PMF_POINT(0.0, vertical, 0.0, 0.0, ++id, PT_BIRTH_LEFT);
+        pmf_point<REAL> * pt = new pmf_point<REAL>(0.0, vertical, 0.0, 0.0, ++id, PT_BIRTH_LEFT);
         if (blocks) {
             pt->block = blocks->determine_point_block(pt);
             blocks->push(pt);
@@ -49,7 +48,7 @@ long pmf_generate_initial_births (
     while (horizontal <= fieldWidth) {
         REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         if (angle < 0.0) {
-            PMF_POINT * pt = new PMF_POINT(horizontal, 0.0, 0.0, 0.0, ++id, PT_BIRTH_UP);
+            pmf_point<REAL> * pt = new pmf_point<REAL>(horizontal, 0.0, 0.0, 0.0, ++id, PT_BIRTH_UP);
             if (blocks) {
                 pt->block = blocks->determine_point_block(pt);
                 blocks->push(pt);
@@ -64,7 +63,7 @@ long pmf_generate_initial_births (
     while (horizontal <= fieldWidth) {
         REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         if (angle > 0.0) {
-            PMF_POINT * pt = new PMF_POINT(horizontal, fieldWidth, 0.0, 0.0, ++id, PT_BIRTH_DOWN);
+            pmf_point<REAL> * pt = new pmf_point<REAL>(horizontal, fieldWidth, 0.0, 0.0, ++id, PT_BIRTH_DOWN);
             list->push_in_order(pt, blocks);
         }
         horizontal += Exp<REAL>(2.0);
@@ -107,32 +106,6 @@ void pmf_correct_intersection_point ( pmf_point<REAL> * pt, long id1, long id2 )
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
     }
-/*
-    if (pt->n1->n1 == NULL || pt->n1->n1->id == id1)
-    {
-        pt->n1->n1 = pt;
-        if (pt->n2->n1 == NULL || pt->n2->n1->id == id2)  pt->n2->n1 = pt;
-        if (pt->n2->n2 == NULL || pt->n2->n2->id == id2)  pt->n2->n2 = pt;
-    }
-    if (pt->n1->n2 == NULL || pt->n1->n2->id == id1)
-    {
-        pt->n1->n2 = pt;
-        if (pt->n2->n1 == NULL || pt->n2->n1->id == id2)  pt->n2->n1 = pt;
-        if (pt->n2->n2 == NULL || pt->n2->n2->id == id2)  pt->n2->n2 = pt;
-    }
-    if (pt->n1->n1 == NULL || pt->n1->n1->id == id2)
-    {
-        pt->n1->n1 = pt;
-        if (pt->n2->n1 == NULL || pt->n2->n1->id == id1)  pt->n2->n1 = pt;
-        if (pt->n2->n2 == NULL || pt->n2->n2->id == id1)  pt->n2->n2 = pt;
-    }
-    if (pt->n1->n2 == NULL || pt->n1->n2->id == id2)
-    {
-        pt->n1->n2 = pt;
-        if (pt->n2->n1 == NULL || pt->n2->n1->id == id1)  pt->n2->n1 = pt;
-        if (pt->n2->n2 == NULL || pt->n2->n2->id == id1)  pt->n2->n2 = pt;
-    }
- */
 }
 
 
@@ -212,15 +185,19 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
             T_REAL zmX, zmY;
             zmX = pt->x + upperLength * cos(upperAngle);
             zmY = pt->y + upperLength * sin(upperAngle);
+#if CHECK_ASSERTIONS
             // FIX IT :
             assert(zmX >= pt->x);
+#endif
             pmf_point<T_REAL> * newpt1 = new pmf_point<T_REAL>(zmX, zmY, pt, NULL, upperLength, 0.0, ++id, PT_UPDATE);
             pmf_store_points_in_blocks (newpt1, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 
             zmX = pt->x + lowerLength * cos(lowerAngle);
             zmY = pt->y + lowerLength * sin(lowerAngle);
+#if CHECK_ASSERTIONS
             // FIX IT :
             assert(zmX >= pt->x);
+#endif
             pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(zmX, zmY, pt, NULL, lowerLength, 0.0, ++id, PT_UPDATE);
             pmf_store_points_in_blocks (newpt2, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
 

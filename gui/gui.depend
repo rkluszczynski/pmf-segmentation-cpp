@@ -1953,7 +1953,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1210893766 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1210969536 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -1977,8 +1977,9 @@
 	"GenerateDialog.h"
 	<wx/xrc/xmlres.h>
 
-1210505276 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
+1210969662 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
 	"GenerateDialog.h"
+	<ctime>
 	<wx/xrc/xmlres.h>
 
 1210447904 source:h:\projects\pmf-codeblocks\gui\imagewindow.cpp
@@ -2003,7 +2004,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1210835590 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1210969514 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	<sys/timeb.h>
@@ -2011,7 +2012,7 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1210927704 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1210969526 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -2021,10 +2022,14 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1210927496 h:\projects\pmf-codeblocks\src\pmf.cpp
+1211020614 h:\projects\pmf-codeblocks\src\pmf.cpp
+	<iostream>
+	<fstream>
 	"generate.hpp"
+	"rotate.hpp"
+	"adding.hpp"
 
-1210927386 h:\projects\pmf-codeblocks\src\pmf.hpp
+1211020540 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	"configurationlist.hpp"
 	"PMF.cpp"
@@ -2065,7 +2070,7 @@
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1208803244 h:\projects\pmf-codeblocks\headers\blockslists.hpp
+1211018060 h:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
@@ -2121,7 +2126,7 @@
 	<wx/wx.h>
 	<wx/menu.h>
 
-1210927798 h:\projects\pmf-codeblocks\src\generate.hpp
+1211022890 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -2131,4 +2136,8 @@
 	"blockslists.hpp"
 	"probability.hpp"
 	"accesslists.hpp"
+
+1211021396 h:\projects\pmf-codeblocks\src\rotate.hpp
+
+1211020378 h:\projects\pmf-codeblocks\src\adding.hpp
 

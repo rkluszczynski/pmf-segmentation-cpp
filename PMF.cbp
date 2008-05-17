@@ -5,14 +5,14 @@
 		<Option title="PMF Project" />
 		<Option pch_mode="0" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="structures\;operations\;util\;structures\core\;structures\lists\;structures\blocks\;structures\heaps\;" />
+		<Option virtualFolders="structures\;operations\;util\;structures\core\;structures\lists\;structures\blocks\;structures\heaps\;mains\;old-files\;" />
 		<Build>
 			<Target title="default">
-				<Option output="PMF.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\PMF.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7" />
+				<Option parameters="-s 7 -o output/pmfclass.cf -f" />
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
@@ -25,68 +25,102 @@
 					<Add directory="objs" />
 				</Linker>
 			</Target>
+			<Target title="generator-debug">
+				<Option output="bin\PMF-gen" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="-s 7 -o output/pmfclass.cf -f" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="headers" />
+					<Add directory="src" />
+				</Compiler>
+			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
 		</VirtualTargets>
 		<Unit filename="headers\abstractheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\accesslists.hpp">
 			<Option virtualFolder="structures\lists\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\birthsheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\birthslist.hpp">
 			<Option virtualFolder="structures\lists\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\blocklist.hpp">
 			<Option virtualFolder="structures\blocks\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\blockslists.hpp">
 			<Option virtualFolder="structures\blocks\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\configurationlist.hpp">
 			<Option virtualFolder="structures\lists\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\crosselement.hpp">
 			<Option virtualFolder="structures\core\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\geometry.hpp">
 			<Option virtualFolder="util\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\intersectionsheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\intersectionslist.hpp">
 			<Option virtualFolder="structures\lists\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\listelement.hpp">
 			<Option virtualFolder="structures\core\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\modifyheaps.hpp">
 			<Option virtualFolder="structures\heaps\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\modifylists.hpp">
 			<Option virtualFolder="structures\lists\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\point.hpp">
 			<Option virtualFolder="structures\core\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\probability.hpp">
 			<Option virtualFolder="util\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="headers\templatelist.hpp">
 			<Option virtualFolder="structures\core\" />
+			<Option target="default" />
 		</Unit>
-		<Unit filename="main.cpp" />
+		<Unit filename="main.cpp">
+			<Option target="default" />
+		</Unit>
 		<Unit filename="src\PMF.cpp">
 			<Option virtualFolder="structures\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\PMF.hpp">
 			<Option virtualFolder="structures\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="src\add-rot.cpp">
 			<Option virtualFolder="operations\" />
@@ -94,19 +128,31 @@
 		</Unit>
 		<Unit filename="src\add.cpp">
 			<Option virtualFolder="operations\" />
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src\adding.hpp">
+			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\generate.cpp">
-			<Option virtualFolder="operations\" />
+			<Option virtualFolder="old-files\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="src\generate.hpp">
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src\operations.hpp">
-			<Option virtualFolder="operations\" />
+		<Unit filename="src\main-gen.cpp">
+			<Option virtualFolder="mains\" />
+			<Option target="generator-debug" />
 		</Unit>
 		<Unit filename="src\rotate.cpp">
+			<Option virtualFolder="old-files\" />
+			<Option target="default" />
+		</Unit>
+		<Unit filename="src\rotate.hpp">
 			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Extensions>
 			<code_completion />
