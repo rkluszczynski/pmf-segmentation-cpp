@@ -5,6 +5,8 @@
 
 #include "configurationlist.hpp"
 
+std::ostream out(std::cout.rdbuf());
+
 
 template <class T_REAL>
 class PMF

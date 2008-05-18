@@ -33,13 +33,17 @@ pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL angle, long & ptId, REAL sinL,
 
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
-#define LOG 0
 template <class T_REAL>
 void
 PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 {
-#if LOG
-    FILE * flog = freopen("output/log-add-rot.txt", "w", stdout);
+#if pmf_LOG_ADD
+//#ifdef pmf_LOG_ADD_FILENAME
+//    ofstream fout(pmf_LOG_ADD_FILENAME);
+//    ostream out(fout.rdbuf());
+//#else
+//    ostream out(std::cout.rdbuf());
+//#endif
     int iterationCounter = 0;
 #endif
     T_REAL fieldWidth  = pmfConf->get_field_width();
@@ -48,30 +52,31 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 
     long oldSize = pmfConf->get_size() + 1;
     long ptId = oldSize;
-    T_REAL  sinL = 0.0;//-1.0;
-    T_REAL  cosL = 1.0;//0.0;
 
-    //T_REAL alpha = -M_PI_2;
-    sinL = sin(alpha);
-    cosL = cos(alpha);
-    cerr << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << endl;
-    cerr << "[  sin ] : " << sinL << endl;
-    cerr << "[  cos ] : " << cosL << endl;
+    T_REAL sinL = sin(alpha);
+    T_REAL cosL = cos(alpha);
+#if pmf_LOG_ADD
+    out << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << std::endl;
+    out << "[  sin ] : " << sinL << std::endl;
+    out << "[  cos ] : " << cosL << std::endl;
+#endif
     if (alpha != 0.0) {
         //pmf_rotate_point_types(pmfConf, sinL, cosL);
         RotatePointTypes(sinL, cosL);
-        cerr << "[ SAVE ] : saving rotated configuration to a file" << endl;
-        ofstream fout("output/PMF-R.txt");
-        pmfConf->save_configuration(fout);
-        fout.close();
+#if pmf_LOG_ADD
+        out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
+        SaveConfiguration("output/PMF-R.txt");
+#endif
     }
 #if CHECK_ASSERTIONS
-    assert(sinL*sinL + cosL*cosL == 1.0);
+    //assert(sinL*sinL + cosL*cosL == 1.0);
+    assert( abs(sinL*sinL + cosL*cosL - 1.0) < EPSILON );
 #endif
     T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
-    cerr << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << endl;
-
+#if pmf_LOG_ADD
+    out << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << std::endl;
+#endif
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
 
@@ -88,42 +93,41 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
     pt = new pmf_point<T_REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
     {
-#if LOG
-        cout << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << endl;
+#if pmf_LOG_ADD
+        out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
 #endif
         //newPMF->push_in_order(bHeap->extract_min());
         pmfConf->push_back(bHeap->extract_min());
     }
-    //bHeap->insert(pt);
     pmfConf->push_back(pt);
-    cerr << bHeap << endl;
+#if pmf_LOG_ADD
+    out << bHeap << std::endl;
+#endif
 
     // Determining neighbors of a new point
     T_REAL lowerAngle, upperAngle;
     pmf_point<T_REAL> * newPt;
 
     determineBirthAngles(upperAngle, lowerAngle);
-
-    cerr << *pt << endl;
-
+#if pmf_LOG_ADD
+    out << *pt << endl;
+#endif
     newPt = pmf_put_new_neighbor(pt, upperAngle, ptId, sinL, cosL);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
-    // TODO: store point
     //bHeap->insert(newPt);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
-
-    cerr << *pt->n1 << endl;
-
+#if pmf_LOG_ADD
+    out << *pt->n1 << endl;
+#endif
     newPt = pmf_put_new_neighbor(pt, lowerAngle, ptId, sinL, cosL);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
-    // TODO: store point
     //bHeap->insert(newPt);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
-
-    cerr << *pt->n2 << endl;
-
+#if pmf_LOG_ADD
+    out << *pt->n2 << endl;
+#endif
     /* ************************************************************************************** */
     // and the riots start again ...
     long id1, id2;
@@ -134,14 +138,14 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
         id1 = id2 = 0;
         pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
         pmfConf->push_back(pt);
-#if LOG
+#if pmf_LOG_ADD
         ++iterationCounter;
-        cout << " ---------------------------------------------------------------------------" << endl;
-        cout << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << endl;
-        cout << *pt << "   ::  " << id1 << " , " << id2 << endl;
-        cout << bHeap << endl;
-        cout << iHeap << endl;
-        cerr << "[ STEP ] : " << iterationCounter << endl;
+        out << " ---------------------------------------------------------------------------" << std::endl;
+        out << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << std::endl;
+        out << *pt << "   ::  " << id1 << " , " << id2 << std::endl;
+        out << bHeap << std::endl;
+        out << iHeap << std::endl;
+        out << "[ STEP ] : " << iterationCounter << std::endl;
 #endif
         //*
         if (pt->id <= oldSize) {
@@ -180,7 +184,9 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
             }
             else if (pt->type == PT_INTERSECTION)
             {
-                cerr << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << endl;
+#if pmf_LOG_ADD
+                out << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << std::endl;
+#endif
                 pmf_correct_new_intersection_point(pt, id1, id2);
                 //assert(false == true);
 #if CHECK_ASSERTIONS
@@ -199,13 +205,15 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
     delete bHeap;
     delete iHeap;
 
+//#if pmf_LOG_ADD
+//	if (out.rdbuf() != std::cout.rdbuf()) { ((ofstream *)&out)->close(); }
+//#endif
     return;
 }
 #undef PT_LE
 #undef PT_LT
 #undef Y_ROTATED
 #undef X_ROTATED
-#undef LOG
 
 
 #endif // ADDING_HPP_INCLUDED
