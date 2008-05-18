@@ -20,7 +20,7 @@ class PMF
 
 		void Generate(T_REAL);
 		void RotatePointTypes(T_REAL, T_REAL);
-		void AddBirthPoint(T_REAL, T_REAL);
+		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 
 		void SetSeed(time_t);
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
@@ -29,6 +29,10 @@ class PMF
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };
+
+#ifndef CHECK_ASSERTIONS
+#error "Directive CHECK_ASSERTIONS not defined"
+#endif
 
 #include "PMF.cpp"
 

@@ -141,9 +141,11 @@ pmf_point<REAL> * pmf_delete_rotated_path (
 #endif
         if (dpt->n1 != NULL  &&  dpt->n2 != NULL) {
             if (dpt->type == PT_INTERSECTION) {
-                pmf_point<REAL> * dptn;
+                pmf_point<REAL> * dptn = NULL;
                 if (st.empty()) {
+#if CHECK_ASSERTIONS
                     assert(cpt != NULL);
+#endif
                     if (cpt->n1 != NULL  &&  cpt->n1->id == dpt->n1->id)  dptn = dpt->n2;
                     if (cpt->n1 != NULL  &&  cpt->n1->id == dpt->n2->id)  dptn = dpt->n1;
                     if (cpt->n2 != NULL  &&  cpt->n2->id == dpt->n1->id)  dptn = dpt->n2;
@@ -153,7 +155,9 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                     if (dpt->n1->id == st.top())  dptn = dpt->n2;
                     else  dptn = dpt->n1;
                 }
-
+#if CHECK_ASSERTIONS
+                assert(dptn != NULL);
+#endif
                 st.push(dpt->id);
                 newPt = new pmf_point<REAL>(dpt->x, dpt->y, dptn, NULL, 0.0, 0.0, dpt->id, PT_UPDATE);
                 if (dptn->n1 != NULL  &&  dptn->n1->id == dpt->id)  dptn->n1 = newPt;
@@ -167,7 +171,9 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                 if (PT_LT(dpt, dpt->n1, sinL, cosL)) { dpt = dpt->n1; continue; }
                 //if (dpt->n2->x > dpt->x) { dpt = dpt->n2; continue; }
                 if (PT_LT(dpt, dpt->n2, sinL, cosL)) { dpt = dpt->n2; continue; }
+#if CHECK_ASSERTIONS
                 assert(false);
+#endif
             }
         }
         else { st.push(dpt->id); }
@@ -187,7 +193,9 @@ pmf_point<REAL> * pmf_delete_rotated_path (
             continue;
         }
         /* It should never execute this */
+#if CHECK_ASSERTIONS
         assert(dpt->n1 || dpt->n2);
+#endif
         break;
     }
 
@@ -259,31 +267,17 @@ pmf_point<REAL> * pmf_do_heaps_get (
                     )
 {
     if (bHeap->empty() && iHeap->empty()) { return NULL; }
-    else if (!bHeap->empty() && iHeap->empty()) {
-        pmf_point<REAL> * pt = bHeap->extract_min();
-        return pt;
-    }
-    else if (bHeap->empty() && !iHeap->empty()) {
-        /*
-        pmf_point<REAL> * pt = iHeap->top();
-        id1 = iHeap->topP1();
-        id2 = iHeap->topP2();
-        return pt;
-        */
-        return iHeap->extract_min(id1, id2);
-    }
+    else
+        if (!bHeap->empty() && iHeap->empty()) { return bHeap->extract_min(); }
+    else
+        if (bHeap->empty() && !iHeap->empty()) { return iHeap->extract_min(id1, id2); }
     else {
         pmf_point<REAL> * bpt = bHeap->top();
         pmf_point<REAL> * ipt = iHeap->top();
-        if (PT_LE(bpt, ipt, sinL, cosL)) {
-            return bHeap->extract_min();
-        }
-        else {
-            return iHeap->extract_min(id1, id2);
-        }
+        if (PT_LE(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
+        else { return iHeap->extract_min(id1, id2); }
     }
 }
-
 
 #undef X_ROTATED
 #undef PT_LT

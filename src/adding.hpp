@@ -36,7 +36,7 @@ pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL angle, long & ptId, REAL sinL,
 #define LOG 0
 template <class T_REAL>
 void
-PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy)
+PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 {
 #if LOG
     FILE * flog = freopen("output/log-add-rot.txt", "w", stdout);
@@ -51,24 +51,26 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy)
     T_REAL  sinL = 0.0;//-1.0;
     T_REAL  cosL = 1.0;//0.0;
 
-    T_REAL alpha = -M_PI_2;
+    //T_REAL alpha = -M_PI_2;
     sinL = sin(alpha);
     cosL = cos(alpha);
     cerr << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << endl;
     cerr << "[  sin ] : " << sinL << endl;
     cerr << "[  cos ] : " << cosL << endl;
     if (alpha != 0.0) {
-        pmf_rotate_point_types(pmfConf, sinL, cosL);
+        //pmf_rotate_point_types(pmfConf, sinL, cosL);
+        RotatePointTypes(sinL, cosL);
         cerr << "[ SAVE ] : saving rotated configuration to a file" << endl;
         ofstream fout("output/PMF-R.txt");
         pmfConf->save_configuration(fout);
         fout.close();
     }
-
+#if CHECK_ASSERTIONS
     assert(sinL*sinL + cosL*cosL == 1.0);
+#endif
     T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
-    cerr << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << endl;
+    cerr << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << endl;
 
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
@@ -181,12 +183,12 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy)
                 cerr << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << endl;
                 pmf_correct_new_intersection_point(pt, id1, id2);
                 //assert(false == true);
+#if CHECK_ASSERTIONS
                 assert(bHeap->get_point_with_id(id1) != NULL);
                 assert(bHeap->get_point_with_id(id2) != NULL);
-                ;
+#endif
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
-
 
             bHeap->remove_point_with_id(pt->id);
             iHeap->remove_intersections_with_id(pt->id);

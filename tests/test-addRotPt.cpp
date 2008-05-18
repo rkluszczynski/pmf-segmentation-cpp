@@ -7,9 +7,8 @@
 #include <iostream>
 #include <fstream>
 
-#include "generate.cpp"
-#include "add-rot.cpp"
-
+#define CHECK_ASSERTIONS 1
+#include "PMF.hpp"
 
 #define REAL double
 int main (int argc, char *argv[])
@@ -24,29 +23,22 @@ int main (int argc, char *argv[])
 	fprintf(stderr, "[ INFO ] :        Seed (-e) = %li\n", seed);
 
 	/* Generating Polygonal Markov Field. */
-	ConfigurationList<REAL> * pmf = pmf_generate ( sizeArak, sizeArak, outputFile, seed );
-	ConfigurationList<REAL> * pmf2 = new ConfigurationList<REAL>(sizeArak, sizeArak);
-//*
-    ofstream fout("output/PMF-before-rot.txt");
-    pmf->set_points_ids();
-    pmf->save_configuration(fout);
-    //pmf->save_svg(fout);
-    fout.close();
-//*/
+	PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
+	pmf->SetSeed(seed);
+    pmf->Generate();
+
+    pmf->SaveConfiguration("output/PMF-before-rot.txt");
 
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
-    //pmf_add_rotated_point(pmf, pmf2, 1.1, 3.0);
-    pmf_add_rotated_point(pmf, pmf2, 0.2, 2.0);
-//*
+    double xx = 4.265;
+    double yy = 2.28;
+    double an = 3.511499;
+    pmf->AddBirthPoint(xx, yy, an);
+
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
-    ofstream fout2("output/PMF-after-rot.txt");
-    pmf2->set_points_ids();
-    pmf2->save_configuration(fout2);
-    //pmf2->save_svg(fout2);
-    fout2.close();
-//*/
+    pmf->SaveConfiguration("output/PMF-after-rot.txt");
+
 	delete pmf;
-	delete pmf2;
     return(0);
 }
 #undef REAL

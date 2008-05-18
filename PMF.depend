@@ -97,7 +97,7 @@
 
 1202056162 d:\projects\pmf-codeblocks\src\operations.hpp
 
-1211021002 source:h:\projects\pmf-codeblocks\main.cpp
+1211110268 source:h:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -113,7 +113,7 @@
 	"PMF.hpp"
 	"generate.cpp"
 
-1211020540 h:\projects\pmf-codeblocks\src\pmf.hpp
+1211110512 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	"configurationlist.hpp"
 	"PMF.cpp"
@@ -165,7 +165,7 @@
 	"point.hpp"
 	"templatelist.hpp"
 
-1210927864 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1211063116 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
@@ -207,8 +207,10 @@
 	<cmath>
 	"abstractheap.hpp"
 
-1210570814 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211062886 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
 	"modifylists.hpp"
 	<stack>
 
@@ -259,14 +261,14 @@
 	"accesslists.hpp"
 	"PMF.hpp"
 
-1211020614 h:\projects\pmf-codeblocks\src\pmf.cpp
+1211098630 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
 	"adding.hpp"
 
-1211017976 h:\projects\pmf-codeblocks\src\generate.hpp
+1211022890 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -287,7 +289,8 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 
-1211020378 h:\projects\pmf-codeblocks\src\adding.hpp
+1211106612 h:\projects\pmf-codeblocks\src\adding.hpp
+	"modifyheaps.hpp"
 
-1211021026 h:\projects\pmf-codeblocks\src\rotate.hpp
+1211106508 h:\projects\pmf-codeblocks\src\rotate.hpp
 

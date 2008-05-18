@@ -1,6 +1,8 @@
 #ifndef PMFPANEL_H
 #define PMFPANEL_H
 
+#define CHECK_ASSERTIONS 1
+
 #include "PMF.hpp"
 #include "PMFPopupMenu.h"
 #include <wx/dcmemory.h>
@@ -25,6 +27,7 @@ class PMFPanel: public wxPanel
 		void SetParameters(double, double, long);
 		double GeneratePMF(time_t);
         bool DrawGeneratedPMF();
+        void AddBirthPointToPMF(double, double, double);
 
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;

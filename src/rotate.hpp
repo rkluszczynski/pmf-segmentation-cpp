@@ -6,7 +6,7 @@
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: RotatePointTypes (T_REAL sinL, T_REAL cosL)
+PMF<T_REAL> :: RotatePointTypes (T_REAL sinL = 0.0, T_REAL cosL = 1.0)
 {
     Element<pmf_point<T_REAL> > * elem = pmfConf->getHead();
 #if PRINT_INFO

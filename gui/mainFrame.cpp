@@ -120,17 +120,17 @@ void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL
             if (fieldSize > 0.0  &&  blockSize > 0.0  &&  scale > 0)
             {
                 bool newPanel = (pmf == NULL) ? true : false;
+                if (newPanel) {
+                    pmf = new PMFPanel(myNotebook);
+                    myNotebook->AddPage(pmf, wxString::Format(wxT("[ PMF ] : Unnamed%d"), myNotebook->GetPageCount()), false, 2);
+                    myNotebook->Refresh();
+                }
 
-                if (newPanel)  pmf = new PMFPanel(myNotebook);
                 pmf->SetParameters(fieldSize, (check) ? blockSize : 0.0f, scale);
-
                 double genTime = pmf->GeneratePMF(seed);
                 if (! pmf->DrawGeneratedPMF()) {
                     ;
                 }
-                if (newPanel)
-                    myNotebook->AddPage(pmf, wxString::Format(wxT("[ PMF ] : Unnamed%d"), myNotebook->GetPageCount()), false, 2);
-
                 SetStatusText( wxString::Format(wxT("Generation time : %.3lf sec."), genTime), 0);
             }
             else {
@@ -267,12 +267,15 @@ void mainFrame::AddPointAction(wxCommandEvent& event, double xx, double yy)
         double xx, yy, bsize, angle;
 
         if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
-            if (bsize > 0.0)
+            if (bsize >= 0.0)
             {
                 if (!check) bsize = 0.0;
                 // TODO :
                 wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
                 ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
+
+                PMFPanel * pmf = (PMFPanel *) myNotebook->GetCurrentPage();
+                pmf->AddBirthPointToPMF(xx, yy, angle);
 
                 SetStatusText( ss, 0);
             }

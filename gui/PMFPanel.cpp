@@ -89,7 +89,7 @@ double PMFPanel::GeneratePMF(time_t sseed = 0)
     pmf->SetSeed(sseed);
 
     ftime(&tbeg);
-    pmf->Generate();
+    pmf->Generate(blockSize);
     ftime(&tend);
 
     double genTime = tend.time - tbeg.time;
@@ -134,6 +134,14 @@ void PMFPanel::OnRightUp(wxMouseEvent& event)
 }
 
 
+void PMFPanel::AddBirthPointToPMF(double xx, double yy, double alpha = 0.0)
+{
+    pmf->AddBirthPoint(xx, yy, alpha);
+    DrawGeneratedPMF();
+    Refresh();
+}
+
+
 void PMFPanel::OnLeftUp(wxMouseEvent& event)
 {
     double xx = double(event.GetX()+1) / double(scale);
@@ -161,3 +169,4 @@ void PMFPanel::OnLeftUp(wxMouseEvent& event)
     }
     ((mainFrame *) mframe)->SetStatusText(wstr, 0);
 }
+

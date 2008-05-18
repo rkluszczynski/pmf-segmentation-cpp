@@ -14,7 +14,8 @@
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
-					<Add option="-g" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O2" />
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
 					<Add directory="..\src" />
 					<Add directory="..\headers" />
@@ -23,6 +24,7 @@
 					<Add directory="$(#wx)\lib\gcc_dll\mswu" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-s" />
 					<Add library="libwxmsw28u.a" />
 					<Add directory="$(#wx)\lib\gcc_dll" />
 				</Linker>

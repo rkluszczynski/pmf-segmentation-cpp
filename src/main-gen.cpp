@@ -112,7 +112,9 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] : Blocks Size (-b) = %.2lf\n", blockSize);
 		fprintf(stderr, "\n");
 
-		/* Generating Polygonal Markov Field. */
+        /* -------------------------------------- */
+		/*   Generating Polygonal Markov Field.   */
+        /* -------------------------------------- */
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
 

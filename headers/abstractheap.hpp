@@ -72,7 +72,9 @@ template <class T_TYPE>
 T_TYPE
 AbstractHeap<T_TYPE>::extract_min ()
 {
+#if CHECK_ASSERTIONS
     assert(size() != 0);
+#endif
     T_TYPE topElement = (*data)[0];
     swap ((*data)[0], (*data)[size()-1]);
     data->pop_back();
