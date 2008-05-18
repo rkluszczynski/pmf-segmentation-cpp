@@ -28,7 +28,7 @@ bool IntersectionsList<T_REAL>::remove_intersection_with_id (long ptId, BlocksLi
     using std::cout;
     using std::endl;
     Element<CrosspointElement<T_REAL> > * iter = TemplateList<CrosspointElement<T_REAL> >::head;
-    Element<CrosspointElement<T_REAL> > * pop = iter, * tmp = iter;
+    Element<CrosspointElement<T_REAL> > * pop = iter;//, * tmp = iter;
     bool deleted = false;
     while (iter) {
         if (iter->data->p1 == ptId  ||  iter->data->p2 == ptId)

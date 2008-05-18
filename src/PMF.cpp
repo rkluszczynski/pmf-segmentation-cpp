@@ -27,9 +27,34 @@ PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 #include "generate.hpp"
 #include "rotate.hpp"
 #include "adding.hpp"
-/// TODO : to more operations
+/// TODO : do more operations
 //#include "update.hpp"
 //#include "delete.hpp"
+
+
+template <class T_REAL>
+pmf_point<T_REAL> *
+PMF<T_REAL> :: FindClosestTo(T_REAL xx, T_REAL yy)
+{
+    Element<pmf_point<T_REAL> > * iter = pmfConf->getHead();
+    double dist;
+    pmf_point<T_REAL> * result = NULL;
+
+    if (iter) {
+        result = iter->data;
+        dist = (result->x - xx)*(result->x - xx)+(result->y - yy)*(result->y - yy);
+        iter = iter->next;
+    }
+    while (iter) {
+        double tmp = (iter->data->x - xx)*(iter->data->x - xx)+(iter->data->y - yy)*(iter->data->y - yy);
+        if (tmp < dist) {
+            result = iter->data;
+            dist = tmp;
+        }
+        iter = iter->next;
+    }
+    return result;
+}
 
 
 template <class T_REAL>

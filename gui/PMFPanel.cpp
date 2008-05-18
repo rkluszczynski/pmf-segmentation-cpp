@@ -136,5 +136,28 @@ void PMFPanel::OnRightUp(wxMouseEvent& event)
 
 void PMFPanel::OnLeftUp(wxMouseEvent& event)
 {
-    ((mainFrame *) mframe)->SetStatusText(wxString::Format(wxT(" Left clicked at (%d,%d)"), event.GetX(), event.GetY()), 0);
+    double xx = double(event.GetX()+1) / double(scale);
+    double yy = double(event.GetY()+1) / double(scale);
+    pmf_point<double> * pt = pmf->FindClosestTo(xx, yy);
+    wxString wstr;
+    if (pt) {
+        wstr = wxString::Format(wxT(" Id = %li, ( %.3lf, %.3lf ), "), pt->id, pt->x, pt->y);
+        switch (pt->type) {
+            case   PT_BIRTH_DOWN: wstr += wxT("BRITH_DOWN"); break;
+            case   PT_BIRTH_LEFT: wstr += wxT("BIRTH_LEFT"); break;
+            case PT_BIRTH_NORMAL: wstr += wxT("BIRTH_NORM"); break;
+            case     PT_BIRTH_UP: wstr += wxT("BIRTH_UP"); break;
+            case       PT_BORDER: wstr += wxT("BORDER"); break;
+            case PT_INTERSECTION: wstr += wxT("INTERSECT"); break;
+            case       PT_UPDATE: wstr += wxT("UPDATE"); break;
+            default:  wstr += wxT("UNKNOWN");
+        }
+        wstr += wxString::Format(wxT(", [%li, %li]"), (pt->n1 ? pt->n1->id : 0), (pt->n2 ? pt->n2->id : 0));
+        wstr += wxString::Format(wxT(", { %.3lf, %.3lf }"), pt->l1, pt->l2);
+        wstr += wxString::Format(wxT(", oldId=%li"), pt->oid);
+    }
+    else {
+        wstr = wxString::Format(wxT(" Left clicked at (%d,%d)"), event.GetX(), event.GetY());
+    }
+    ((mainFrame *) mframe)->SetStatusText(wstr, 0);
 }

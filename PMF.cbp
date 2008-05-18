@@ -123,11 +123,11 @@
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src\add-rot.cpp">
-			<Option virtualFolder="operations\" />
+			<Option virtualFolder="old-files\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\add.cpp">
-			<Option virtualFolder="operations\" />
+			<Option virtualFolder="old-files\" />
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src\adding.hpp">

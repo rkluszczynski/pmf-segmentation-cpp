@@ -18,9 +18,12 @@ class PMF
         PMF(T_REAL, T_REAL);
 		virtual ~PMF();
 
-		void SetSeed(time_t);
 		void Generate(T_REAL);
 		void RotatePointTypes(T_REAL, T_REAL);
+		void AddBirthPoint(T_REAL, T_REAL);
+
+		void SetSeed(time_t);
+		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
 
 		bool SaveConfiguration(char *);
 

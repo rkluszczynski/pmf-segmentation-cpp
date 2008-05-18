@@ -2,6 +2,8 @@
 #define MODIFYHEAPS_HPP_INCLUDED
 
 #include "point.hpp"
+#include "birthsheap.hpp"
+#include "intersectionsheap.hpp"
 #include "modifylists.hpp"
 
 #define REAL double

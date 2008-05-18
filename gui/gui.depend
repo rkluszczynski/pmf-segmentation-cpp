@@ -1953,7 +1953,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1210969536 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1211023584 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2022,14 +2022,14 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211020614 h:\projects\pmf-codeblocks\src\pmf.cpp
+1211098630 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
 	"adding.hpp"
 
-1211020540 h:\projects\pmf-codeblocks\src\pmf.hpp
+1211097676 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	"configurationlist.hpp"
 	"PMF.cpp"
@@ -2080,7 +2080,7 @@
 	"point.hpp"
 	"templatelist.hpp"
 
-1210927864 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1211063116 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
@@ -2139,5 +2139,34 @@
 
 1211021396 h:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211020378 h:\projects\pmf-codeblocks\src\adding.hpp
+1211063062 h:\projects\pmf-codeblocks\src\adding.hpp
+	"modifyheaps.hpp"
+
+1211062886 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+	"point.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
+	"modifylists.hpp"
+	<stack>
+
+1210570744 h:\projects\pmf-codeblocks\headers\modifylists.hpp
+	"point.hpp"
+	<stack>
+	<vector>
+	<stack>
+
+1210187112 h:\projects\pmf-codeblocks\headers\birthsheap.hpp
+	<cmath>
+	<algorithm>
+	"abstractheap.hpp"
+
+1209419316 h:\projects\pmf-codeblocks\headers\abstractheap.hpp
+	<iostream>
+	<algorithm>
+	<vector>
+	<assert.h>
+
+1210187112 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+	<cmath>
+	"abstractheap.hpp"
 
