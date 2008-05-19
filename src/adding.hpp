@@ -72,9 +72,9 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
     //assert(sinL*sinL + cosL*cosL == 1.0);
     assert( abs(sinL*sinL + cosL*cosL - 1.0) < EPSILON );
 #endif
+#if pmf_LOG_ADD
     T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
-#if pmf_LOG_ADD
     out << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << std::endl;
 #endif
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);

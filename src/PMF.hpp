@@ -2,11 +2,14 @@
 #define PMF_HPP_INCLUDED
 
 #include <ctime>
+#include <ostream>
+#include <iostream>
 
 #include "configurationlist.hpp"
 
+#if pmf_LOG_ADD
 std::ostream out(std::cout.rdbuf());
-
+#endif
 
 template <class T_REAL>
 class PMF
