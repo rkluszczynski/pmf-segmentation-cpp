@@ -2034,8 +2034,10 @@
 	"rotate.hpp"
 	"adding.hpp"
 
-1211110536 h:\projects\pmf-codeblocks\src\pmf.hpp
+1211225860 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
+	<ostream>
+	<iostream>
 	"configurationlist.hpp"
 	"PMF.cpp"
 
@@ -2144,10 +2146,10 @@
 
 1211106508 h:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211116126 h:\projects\pmf-codeblocks\src\adding.hpp
+1211225860 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1211116322 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211320694 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"

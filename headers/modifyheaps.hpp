@@ -225,7 +225,8 @@ pmf_point<REAL> * pmf_delete_rotated_path (
     if (newPt)  out << " RENEW : " << *newPt << endl;
 #endif
     if (newPt != NULL)
-        pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, newPt->n1, ptId, fieldHeight, fieldWidth, blocks);
+        pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, newPt->n1, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
+
     return newPt;
 }
 

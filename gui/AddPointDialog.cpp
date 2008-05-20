@@ -162,8 +162,8 @@ void AddPointDialog::OnRadianAngleTextCtrlText(wxCommandEvent& event)
         RadianAngleTextCtrl->ChangeValue(wxT(""));
     }
     else {
-        wxMessageBox(wxT("BLAD"), wxT("ERROR"));
         RadianAngleTextCtrl->Undo();
+        wxMessageBox(wxT("BLAD"), wxT("ERROR"));
     }
 }
 #undef radians2degree

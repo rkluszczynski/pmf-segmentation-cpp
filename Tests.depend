@@ -54,7 +54,7 @@
 	<cmath>
 	"abstractheap.hpp"
 
-1210349864 source:h:\projects\pmf-codeblocks\tests\test-addrotpt.cpp
+1211151912 source:h:\projects\pmf-codeblocks\tests\test-addrotpt.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -63,8 +63,10 @@
 	<unistd.h>
 	<iostream>
 	<fstream>
-	"generate.cpp"
-	"add-rot.cpp"
+	<iostream>
+	<ostream>
+	<sstream>
+	"PMF.hpp"
 
 1210075596 source:d:\projects\pmf-codeblocks\tests\test-addrotpt.cpp
 	<cstdio>
