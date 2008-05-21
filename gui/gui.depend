@@ -528,7 +528,7 @@
 1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\theme.h
 	"wx/string.h"
 
-1210846078 d:\projects\pmf-codeblocks\gui\mainframe.h
+1211370350 d:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -3464,7 +3464,7 @@
 	"wx/bitmap.h"
 	"wx/colour.h"
 
-1211212570 d:\projects\pmf-codeblocks\gui\pmfpanel.h
+1211329718 d:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -3474,14 +3474,14 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211217588 d:\projects\pmf-codeblocks\src\pmf.hpp
+1211370662 d:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
 	"configurationlist.hpp"
 	"PMF.cpp"
 
-1208257630 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211329718 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -3499,7 +3499,7 @@
 	<fstream>
 	"listelement.hpp"
 
-1211212570 d:\projects\pmf-codeblocks\src\pmf.cpp
+1211370648 d:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -3560,7 +3560,7 @@
 1211216978 d:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1211212570 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211329718 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -4240,7 +4240,7 @@
 
 1186411252 d:\software\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
 
-1211027066 source:d:\projects\pmf-codeblocks\gui\addpointdialog.cpp
+1211329718 source:d:\projects\pmf-codeblocks\gui\addpointdialog.cpp
 	"AddPointDialog.h"
 	<cmath>
 	<wx/wx.h>

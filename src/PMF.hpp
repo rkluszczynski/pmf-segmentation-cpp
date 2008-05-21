@@ -31,7 +31,7 @@ class PMF
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
 
 		bool SaveConfiguration(const char *);
-		bool SaveConfigurationAsSVG(const char *, double);
+		bool SaveConfigurationAsSVG(const char *, double, double);
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };

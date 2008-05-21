@@ -72,12 +72,12 @@ PMF<T_REAL> :: SaveConfiguration (const char * filename)
 
 template <class T_REAL>
 bool
-PMF<T_REAL> :: SaveConfigurationAsSVG (const char * filename, double strokeWidth)
+PMF<T_REAL> :: SaveConfigurationAsSVG (const char * filename, double scale, double strokeWidth)
 {
     std::cerr << std::endl <<"[ SAVE ] : saving SVG graphics to a file '" << filename << "'" << std::endl;
     ofstream fout(filename);
     pmfConf->set_points_ids();
-    pmfConf->save_svg(fout, strokeWidth);
+    pmfConf->save_svg(fout, scale, strokeWidth);
     fout.close();
     return true;
 }

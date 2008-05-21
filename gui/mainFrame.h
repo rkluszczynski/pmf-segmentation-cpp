@@ -26,6 +26,7 @@ class mainFrame : public wxFrame
 		//(*Declarations(mainFrame)
 		wxMenu* Menu3;
 		wxMenu* Menu1;
+		wxMenuItem* savePMFMenuItem;
 		wxHtmlWindow* myHtmlWindow;
 		wxStatusBar* StatusBar1;
 		wxScrolledWindow* myScrolledWindow;

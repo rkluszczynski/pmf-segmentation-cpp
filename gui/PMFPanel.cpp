@@ -145,12 +145,14 @@ void PMFPanel::AddBirthPointToPMF(double xx, double yy, double alpha = 0.0)
 bool PMFPanel::SavePMF(wxString path, int index)
 {
     bool result = false;
-    std::string sstr = path.c_str();
-    const char * filepath = sstr.c_str();
-    wxMessageBox(_("TEST"), _("INFO"));
+
+    wxCSConv wxConvISO8859_2(wxT("iso8859-2"));
+    const wxCharBuffer wxbuf = wxConvISO8859_2.cWC2MB(path);
+    const char * filepath = (const char *)wxbuf;
+
     switch (index)
     {
-        case  1:  result = pmf->SaveConfigurationAsSVG(filepath, 0.15);  break;
+        case  1:  result = pmf->SaveConfigurationAsSVG(filepath, scale, 0.15);  break;
         default:  result = pmf->SaveConfiguration(filepath);
     }
     return result;

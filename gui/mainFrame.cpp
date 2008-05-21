@@ -27,6 +27,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
+	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
@@ -297,7 +298,7 @@ void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
     wxString wildcard = wxT("Configuration files (*.cf)|*.cf");
     wildcard += wxT("|SVG graphics files (*.svg)|*.svg");
     wildcard += wxT("|Text files (*.txt)|*.txt");
-    wxString defaultDir = wxT(".");
+    wxString defaultDir = wxT("../output");
     wxString defaultFilename = wxEmptyString;
 
     wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
@@ -310,14 +311,7 @@ void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
         wxString msg = _("Path = ") + path;
         msg += (_("\nFile = ") + file);
         msg += (_("\nFilterIndex = ") + wxString::Format(wxT("%d\n"), filterIndex));
-
-        const char * qq = "QQ";
-        msg += wxString::Format(wxT("\n%s\n"), qq);
-
-        const char * filepath = path.char_str();
-        msg += wxString::Format(wxT("\n%s\n"), filepath);
-
-        wxMessageBox(msg, _("INFO"));
+        //wxMessageBox(msg, _("INFO"));
 
         PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
         if (! pp->SavePMF(path, filterIndex))  wxMessageBox(_("Error during save"), _("Error"));
