@@ -29,6 +29,8 @@ class PMFPanel: public wxPanel
         bool DrawGeneratedPMF();
         void AddBirthPointToPMF(double, double, double);
 
+        bool SavePMF(wxString, int);
+
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;
 		wxStaticBitmap* staticBitmap;

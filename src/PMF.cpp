@@ -59,12 +59,25 @@ PMF<T_REAL> :: FindClosestTo(T_REAL xx, T_REAL yy)
 
 template <class T_REAL>
 bool
-PMF<T_REAL> :: SaveConfiguration (char * filename)
+PMF<T_REAL> :: SaveConfiguration (const char * filename)
 {
     std::cerr << std::endl <<"[ SAVE ] : saving configuration to a file '" << filename << "'" << std::endl;
     ofstream fout(filename);
     pmfConf->set_points_ids();
     pmfConf->save_configuration(fout);
+    fout.close();
+    return true;
+}
+
+
+template <class T_REAL>
+bool
+PMF<T_REAL> :: SaveConfigurationAsSVG (const char * filename, double strokeWidth)
+{
+    std::cerr << std::endl <<"[ SAVE ] : saving SVG graphics to a file '" << filename << "'" << std::endl;
+    ofstream fout(filename);
+    pmfConf->set_points_ids();
+    pmfConf->save_svg(fout, strokeWidth);
     fout.close();
     return true;
 }

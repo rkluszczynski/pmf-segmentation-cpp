@@ -142,6 +142,21 @@ void PMFPanel::AddBirthPointToPMF(double xx, double yy, double alpha = 0.0)
 }
 
 
+bool PMFPanel::SavePMF(wxString path, int index)
+{
+    bool result = false;
+    std::string sstr = path.c_str();
+    const char * filepath = sstr.c_str();
+    wxMessageBox(_("TEST"), _("INFO"));
+    switch (index)
+    {
+        case  1:  result = pmf->SaveConfigurationAsSVG(filepath, 0.15);  break;
+        default:  result = pmf->SaveConfiguration(filepath);
+    }
+    return result;
+}
+
+
 void PMFPanel::OnLeftUp(wxMouseEvent& event)
 {
     double xx = double(event.GetX()+1) / double(scale);

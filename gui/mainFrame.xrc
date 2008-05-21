@@ -27,6 +27,13 @@
 				<object class="wxMenuItem" name="ID_MENUITEM6">
 					<label>Load Image</label>
 				</object>
+				<object class="wxMenuItem" name="ID_MENUITEM2">
+					<label>Load PMF</label>
+					<enabled>0</enabled>
+				</object>
+				<object class="wxMenuItem" name="ID_SAVEPMF_MENUITEM">
+					<label>Save PMF</label>
+				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM7">
 					<label>Close</label>
 					<enabled>0</enabled>

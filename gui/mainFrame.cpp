@@ -33,6 +33,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
+	Connect(XRCID("ID_SAVEPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSavePMFMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM7"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
 	Connect(XRCID("ID_GENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
@@ -55,7 +56,11 @@ mainFrame::~mainFrame()
 
 void mainFrame::OnQuit(wxCommandEvent& event)
 {
-    Destroy();
+    wxMessageDialog dlg(this, _("Are you sure to quit?"), _("Quitting ..."), wxOK | wxCANCEL | wxICON_QUESTION);
+    if ( dlg.ShowModal() == wxID_OK )
+    {
+        Destroy();
+    }
 }
 
 
@@ -197,7 +202,7 @@ void mainFrame::OnLoadImageMenuItemSelected(wxCommandEvent& event)
     wxString defaultDir = wxT("C:\\Uzytki\\ImageJ\\images");
     wxString defaultFilename = wxEmptyString;
 
-    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxOPEN);
+    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
     if (dialog.ShowModal() == wxID_OK)
     {
         wxString path = dialog.GetPath();
@@ -225,6 +230,7 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
     GetMenuBar()->Enable(XRCID("ID_GENERATE_MENUITEM"), ! isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_REGENERATE_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_ADDPOINT_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_SAVEPMF_MENUITEM"), isClassPMFPanel);
     isClassPMFPanel = false;
     GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel);
@@ -274,13 +280,46 @@ void mainFrame::AddPointAction(wxCommandEvent& event, double xx, double yy)
                 wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
                 ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
 
-                PMFPanel * pmf = (PMFPanel *) myNotebook->GetCurrentPage();
-                pmf->AddBirthPointToPMF(xx, yy, angle);
+                PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+                pp->AddBirthPointToPMF(xx, yy, angle);
 
                 SetStatusText( ss, 0);
             }
             else {
                 wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
             }
+    }
+}
+
+void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
+{
+    wxString caption = wxT("Saving PMF Configuration ...");
+    wxString wildcard = wxT("Configuration files (*.cf)|*.cf");
+    wildcard += wxT("|SVG graphics files (*.svg)|*.svg");
+    wildcard += wxT("|Text files (*.txt)|*.txt");
+    wxString defaultDir = wxT(".");
+    wxString defaultFilename = wxEmptyString;
+
+    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        wxString path = dialog.GetPath();
+        wxString file = dialog.GetFilename();
+        int filterIndex = dialog.GetFilterIndex();
+
+        wxString msg = _("Path = ") + path;
+        msg += (_("\nFile = ") + file);
+        msg += (_("\nFilterIndex = ") + wxString::Format(wxT("%d\n"), filterIndex));
+
+        const char * qq = "QQ";
+        msg += wxString::Format(wxT("\n%s\n"), qq);
+
+        const char * filepath = path.char_str();
+        msg += wxString::Format(wxT("\n%s\n"), filepath);
+
+        wxMessageBox(msg, _("INFO"));
+
+        PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+        if (! pp->SavePMF(path, filterIndex))  wxMessageBox(_("Error during save"), _("Error"));
     }
 }

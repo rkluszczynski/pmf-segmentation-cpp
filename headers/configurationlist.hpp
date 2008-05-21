@@ -19,7 +19,7 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
 
         void set_points_ids ();
 		void save_configuration (std::ostream & out);
-		void save_svg (std::ostream & out, double scale = 100.0);
+		void save_svg (std::ostream & out, double scale = 100.0, double strokeWidth = 0.15);
 };
 
 
@@ -69,10 +69,9 @@ void ConfigurationList<T_REAL>::save_configuration (std::ostream & out)
 
 
 template <class T_REAL>
-void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale)
+void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale, double strokeWidth)
 {
     using std::endl;
-    double strokeWidth = 0.15;
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
 
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;

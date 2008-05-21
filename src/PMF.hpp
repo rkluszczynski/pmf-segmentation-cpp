@@ -30,7 +30,8 @@ class PMF
 		void SetSeed(time_t);
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
 
-		bool SaveConfiguration(char *);
+		bool SaveConfiguration(const char *);
+		bool SaveConfigurationAsSVG(const char *, double);
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };
