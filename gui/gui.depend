@@ -1194,7 +1194,7 @@
 1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagiff.h
 	"wx/image.h"
 
-1211212570 source:d:\projects\pmf-codeblocks\gui\mainframe.cpp
+1211370364 source:d:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -3481,7 +3481,7 @@
 	"configurationlist.hpp"
 	"PMF.cpp"
 
-1211329718 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211371652 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -3690,7 +3690,7 @@
 	"wx/geometry.h"
 	"wx/dynarray.h"
 
-1211212570 source:d:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1211370526 source:d:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	<sys/timeb.h>

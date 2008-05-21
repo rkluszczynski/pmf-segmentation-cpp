@@ -82,11 +82,22 @@ void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale, doub
     out << "<g style=\"stroke-width:" << strokeWidth << "; stroke:blue; fill:none;\">" << endl;
     while (iter) {
         pmf_point<T_REAL> * pt = iter->data;
-        if (pt->n1) {
+        if (pt->n1 && pt->n2) {
+            double hx1 = 0.5 * (pt->x - pt->n1->x) + pt->x;
+            double hy1 = 0.5 * (pt->y - pt->n1->y) + pt->y;
+            double hx2 = 0.5 * (pt->x - pt->n2->x) + pt->x;
+            double hy2 = 0.5 * (pt->y - pt->n2->y) + pt->y;
+
+            out << "\t<path d=\"M" << scale*hx1 << "," << scale*hy1;
+            out << "L" << scale*pt->x << "," << scale*pt->y;
+            out << " " << scale*hx2 << "," << scale*hy2;
+            out << "\"/>" << endl;
+        }
+        else if (pt->n1) {
             out << "\t<line x1=\"" << scale*pt->x << "\" y1=\"" << scale*pt->y << "\" ";
             out << "x2=\"" << scale*pt->n1->x << "\" y2=\"" << scale*pt->n1->y << "\"/>" << endl;
         }
-        if (pt->n2) {
+        else if (pt->n2) {
             out << "\t<line x1=\"" << scale*pt->x << "\" y1=\"" << scale*pt->y << "\" ";
             out << "x2=\"" << scale*pt->n2->x << "\" y2=\"" << scale*pt->n2->y << "\"/>" << endl;
         }
