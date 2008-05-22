@@ -8,7 +8,7 @@ PMF<T_REAL> :: PMF (T_REAL fWidth, T_REAL fHeight)
     fieldWidth  = fWidth;
     fieldHeight = fHeight;
     seed        = 0;
-    pmfConf     = NULL;
+    pmfConf     = new ConfigurationList<T_REAL> (fWidth, fHeight);//NULL;
 }
 
 
@@ -54,6 +54,20 @@ PMF<T_REAL> :: FindClosestTo(T_REAL xx, T_REAL yy)
         iter = iter->next;
     }
     return result;
+}
+
+
+template <class T_REAL>
+bool
+PMF<T_REAL> :: LoadConfiguration (const char * filename)
+{
+    std::cerr << std::endl <<"[ LOAD ] : loading configuration from a file '" << filename << "'" << std::endl;
+    ifstream fin(filename);
+    pmfConf->set_points_ids();
+    pmfConf->load_configuration(fin);
+    fin.close();
+    DetermineTypesFromLeftToRight();
+    return true;
 }
 
 

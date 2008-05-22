@@ -66,4 +66,49 @@ PMF<T_REAL> :: RotatePointTypes (T_REAL sinL = 0.0, T_REAL cosL = 1.0)
 #undef Y_ROTATED
 
 
+template <class T_REAL>
+void
+PMF<T_REAL> :: DetermineTypesFromLeftToRight ()
+{
+    Element<pmf_point<T_REAL> > * elem = pmfConf->getHead();
+    while (elem) {
+        pmf_point<T_REAL> * pt = elem->data;
+        pmf_point<T_REAL> * n1 = pt->n1;
+        pmf_point<T_REAL> * n2 = pt->n2;
+
+        if (n1 && n2)
+        {
+            if (pt->x < pt->n1->x) {
+                if (pt->x < pt->n2->x) pt->type = PT_BIRTH_NORMAL;
+                else pt->type = PT_UPDATE;
+            }
+            else {
+                if (pt->x < pt->n2->x) pt->type = PT_UPDATE;
+                else pt->type = PT_INTERSECTION;
+            }
+        }
+        else if (n1)
+        {
+#if CHECK_ASSERTIONS
+                assert(n2 == NULL);
+#endif
+            if (pt->x < pt->n1->x) {
+                if (pt->x == 0.0) pt->type = PT_BIRTH_LEFT;
+                else if (pt->y == 0.0) pt->type = PT_BIRTH_UP;
+                else pt->type = PT_BIRTH_DOWN;
+            }
+            else pt->type = PT_BORDER;
+        }
+        else {
+#if CHECK_ASSERTIONS
+                assert(n1 == NULL  &&  n2 == NULL  &&  false);
+#endif
+            ;
+        }
+        elem = elem->next;
+    }
+    return;
+}
+
+
 #endif // ROTATE_HPP_INCLUDED

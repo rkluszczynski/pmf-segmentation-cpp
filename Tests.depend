@@ -83,3 +83,17 @@
 1194013718 source:h:\projects\pmf-codeblocks\tests\test-polimorfizm.cpp
 	<iostream>
 
+1211469384 source:h:\projects\pmf-codeblocks\tests\test-loadingpmf.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	<iostream>
+	<ostream>
+	<sstream>
+	"PMF.hpp"
+

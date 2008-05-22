@@ -85,12 +85,14 @@ void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
     {
         long id;
         double x, y;
+        char tmp[128];
 
         in >> id;
         in >> x;
         in >> y;
         in >> firstIds[id];
         in >> secondIds[id];
+        in.getline(tmp, 128);
 #ifdef CHECK_ASSERTIONS
         assert(i == id);
 #endif
@@ -99,9 +101,12 @@ void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
 
     for (int i = 1; i <= ptNumber; i++)
     {
-        ptTab[i].n1 = (firstIds[i] > 0) ? ptTab[firstIds[i]] : NULL;
-        ptTab[i].n2 = (secondIds[i] > 0) ? ptTab[secondIds[i]] : NULL;
+        ptTab[i]->n1 = (firstIds[i] > 0) ? ptTab[firstIds[i]] : NULL;
+        ptTab[i]->n2 = (secondIds[i] > 0) ? ptTab[secondIds[i]] : NULL;
     }
+
+    for (int i = 1; i <= ptNumber; i++)
+        TemplateList<pmf_point<T_REAL> >::push_back(ptTab[i]);
 
     delete[] secondIds;
     delete[] firstIds;

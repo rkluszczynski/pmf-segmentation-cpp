@@ -26,10 +26,12 @@ class PMF
 		void Generate(T_REAL);
 		void RotatePointTypes(T_REAL, T_REAL);
 		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
+		void DetermineTypesFromLeftToRight();
 
 		void SetSeed(time_t);
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
 
+		bool LoadConfiguration(const char *);
 		bool SaveConfiguration(const char *);
 		bool SaveConfigurationAsSVG(const char *, double, double);
 
