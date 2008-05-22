@@ -295,9 +295,9 @@ void mainFrame::AddPointAction(wxCommandEvent& event, double xx, double yy)
 void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
 {
     wxString caption = wxT("Saving PMF Configuration ...");
-    wxString wildcard = wxT("Configuration files (*.cf)|*.cf");
-    wildcard += wxT("|SVG graphics files (*.svg)|*.svg");
-    wildcard += wxT("|Text files (*.txt)|*.txt");
+    wxString wildcard = wxT("Configuration file (*.cf)|*.cf");
+    wildcard += wxT("|SVG graphics file (*.svg)|*.svg");
+    wildcard += wxT("|Text file (*.txt)|*.txt");
     wxString defaultDir = wxT("../output");
     wxString defaultFilename = wxEmptyString;
 
@@ -314,6 +314,7 @@ void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
         //wxMessageBox(msg, _("INFO"));
 
         PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
-        if (! pp->SavePMF(path, filterIndex))  wxMessageBox(_("Error during save"), _("Error"));
+        if (! pp->SavePMF(path, filterIndex))  { wxMessageBox(_("Error during save"), _("Error")); }
+        else  { myNotebook->SetPageText(myNotebook->GetSelection(), wxT("[ PMF ] : ") + file); }
     }
 }

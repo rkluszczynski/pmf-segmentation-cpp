@@ -11,6 +11,9 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
     private :
         T_REAL fieldWidth, fieldHeight;
 
+        void destroy();
+
+
     public :
         ConfigurationList(T_REAL, T_REAL);
 
@@ -18,8 +21,11 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
         T_REAL get_field_height() { return fieldHeight; }
 
         void set_points_ids ();
+
 		void save_configuration (std::ostream & out);
 		void save_svg (std::ostream & out, double scale = 100.0, double strokeWidth = 0.15);
+
+		void load_configuration (std::istream & in);
 };
 
 
@@ -33,6 +39,22 @@ ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
 
 
 template <class T_REAL>
+void ConfigurationList<T_REAL>::destroy ()
+{
+    if (TemplateList<pmf_point<T_REAL> >::get_size() <= 0)  return;
+
+    while (! TemplateList<pmf_point<T_REAL> >::empty())
+    {
+        delete TemplateList<pmf_point<T_REAL> >::front();
+        TemplateList<pmf_point<T_REAL> >::pop_front();
+    }
+    TemplateList<pmf_point<T_REAL> >::head = NULL;
+    TemplateList<pmf_point<T_REAL> >::tail = NULL;
+    TemplateList<pmf_point<T_REAL> >::size = 0;
+}
+
+
+template <class T_REAL>
 void ConfigurationList<T_REAL>::set_points_ids ()
 {
     Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
@@ -42,6 +64,48 @@ void ConfigurationList<T_REAL>::set_points_ids ()
         (* iter->data).id = (++newID);
         iter = iter->next;
     }
+}
+
+
+template <class T_REAL>
+void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
+{
+    if (TemplateList<pmf_point<T_REAL> >::get_size() > 0)  destroy();
+
+    in >> fieldHeight;
+    in >> fieldWidth;
+    int ptNumber;
+    in >> ptNumber;
+
+    pmf_point<T_REAL> ** ptTab = new pmf_point<T_REAL> * [ptNumber+1];
+    long * firstIds = new long[ptNumber+1];
+    long * secondIds = new long[ptNumber+1];
+
+    for (int i = 1; i <= ptNumber; i++)
+    {
+        long id;
+        double x, y;
+
+        in >> id;
+        in >> x;
+        in >> y;
+        in >> firstIds[id];
+        in >> secondIds[id];
+#ifdef CHECK_ASSERTIONS
+        assert(i == id);
+#endif
+        ptTab[i] = new pmf_point<T_REAL>(x, y, NULL, NULL, 0.0, 0.0, id, PT_UNKNOWN);
+    }
+
+    for (int i = 1; i <= ptNumber; i++)
+    {
+        ptTab[i].n1 = (firstIds[i] > 0) ? ptTab[firstIds[i]] : NULL;
+        ptTab[i].n2 = (secondIds[i] > 0) ? ptTab[secondIds[i]] : NULL;
+    }
+
+    delete[] secondIds;
+    delete[] firstIds;
+    delete[] ptTab;
 }
 
 
@@ -79,6 +143,13 @@ void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale, doub
     out << "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns=\"http://www.w3.org/2000/svg\" ";
     out << "width=\"" << scale*fieldWidth << "\" height=\"" << scale*fieldHeight << "\">" << endl;
     out << endl;
+
+    // cornsilk, floralwhite, oldlace, papayawhip, whitesmoke
+    out << "<g style=\"stroke:none; fill:cornsilk;\">" << endl;
+    out << "\t<path d=\"M0,0 L" << scale*fieldWidth << ",0 " << scale*fieldWidth << ",";
+    out << scale*fieldHeight << " 0," << scale*fieldHeight << "z\"/>" << endl;
+    out << "</g>" << endl;
+
     out << "<g style=\"stroke-width:" << strokeWidth << "; stroke:blue; fill:none;\">" << endl;
     while (iter) {
         pmf_point<T_REAL> * pt = iter->data;
@@ -89,7 +160,7 @@ void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale, doub
             double hy2 = 0.5 * (pt->n2->y + pt->y);
 
             out << "\t<path d=\"M" << scale*hx1 << "," << scale*hy1;
-            out << "L" << scale*pt->x << "," << scale*pt->y;
+            out << " L" << scale*pt->x << "," << scale*pt->y;
             out << " " << scale*hx2 << "," << scale*hy2;
             out << "\"/>" << endl;
         }
@@ -109,7 +180,14 @@ void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale, doub
         }
         iter = iter->next;
     }
-    out << "</g>" << endl << "</svg>" << endl;
+    out << "</g>" << endl;
+
+    out << "<g style=\"stroke-width:" << 2.0*strokeWidth << "; stroke:black; fill:none;\">" << endl;
+    out << "\t<path d=\"M0,0 L" << scale*fieldWidth << ",0 " << scale*fieldWidth << ",";
+    out << scale*fieldHeight << " 0," << scale*fieldHeight << "z\"/>" << endl;
+    out << "</g>" << endl;
+
+    out << "</svg>" << endl;
 }
 
 

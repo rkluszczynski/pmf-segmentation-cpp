@@ -1957,7 +1957,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1211402444 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1211455022 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2041,7 +2041,7 @@
 	"configurationlist.hpp"
 	"PMF.cpp"
 
-1211403120 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211457632 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
