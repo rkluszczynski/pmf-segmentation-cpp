@@ -32,8 +32,8 @@ mainFrame::mainFrame(wxWindow* parent)
 
 	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
-	Connect(XRCID("ID_MENUITEM4"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnMenuItem1Selected);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
+	Connect(XRCID("ID_LOADPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadPMFMenuItemSelected);
 	Connect(XRCID("ID_SAVEPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSavePMFMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM7"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
@@ -316,5 +316,25 @@ void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
         PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
         if (! pp->SavePMF(path, filterIndex))  { wxMessageBox(_("Error during save"), _("Error")); }
         else  { myNotebook->SetPageText(myNotebook->GetSelection(), wxT("[ PMF ] : ") + file); }
+    }
+}
+
+void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
+{
+    wxString caption = wxT("Choose a configuration file");
+    wxString wildcard = wxT("Configuration files (*.cf)|*.cf;*.txt");
+    wxString defaultDir = wxT("../output");
+    wxString defaultFilename = wxEmptyString;
+
+    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        wxString path = dialog.GetPath();
+        //int fiterIndex = dialog.GetFilterIndex();
+
+        wxMessageBox(path, _("INFO"));
+        //ImagePanel * ip = new ImagePanel(myNotebook, wxID_ANY);
+        //ip->LoadFile(path);
+        ///myNotebook->AddPage(ip, wxT("[ PMF ] : ") + dialog.GetFilename(), false, 2);
     }
 }

@@ -13,7 +13,9 @@
 					<object class="wxScrolledWindow" name="ID_mySCROLLEDWINDOW">
 						<style>wxHSCROLL|wxVSCROLL|wxDOUBLE_BORDER|wxFULL_REPAINT_ON_RESIZE</style>
 					</object>
-					<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
+					<object class="wxHtmlWindow" name="ID_HTMLWINDOW1">
+						<size>-1,100</size>
+					</object>
 				</object>
 				<label>Generating PMF</label>
 			</object>
@@ -21,15 +23,11 @@
 		<object class="wxMenuBar">
 			<object class="wxMenu">
 				<label>File</label>
-				<object class="wxMenuItem" name="ID_MENUITEM4">
-					<label>Test Paint</label>
-				</object>
 				<object class="wxMenuItem" name="ID_MENUITEM6">
 					<label>Load Image</label>
 				</object>
-				<object class="wxMenuItem" name="ID_MENUITEM2">
+				<object class="wxMenuItem" name="ID_LOADPMF_MENUITEM">
 					<label>Load PMF</label>
-					<enabled>0</enabled>
 				</object>
 				<object class="wxMenuItem" name="ID_SAVEPMF_MENUITEM">
 					<label>Save PMF</label>

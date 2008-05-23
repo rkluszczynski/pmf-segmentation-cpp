@@ -10,13 +10,12 @@
 			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
 		</object>
 		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
-		<object name="ID_MENUITEM4" class="wxMenuItem" variable="MenuItem1" member="no">
-			<handler function="OnMenuItem1Selected" entry="EVT_MENU" />
-		</object>
 		<object name="ID_MENUITEM6" class="wxMenuItem" variable="loadImageMenuItem" member="no">
 			<handler function="OnLoadImageMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM2" class="wxMenuItem" variable="MenuItem2" member="no" />
+		<object name="ID_LOADPMF_MENUITEM" class="wxMenuItem" variable="loadPMFMenuItem" member="no">
+			<handler function="OnLoadPMFMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_SAVEPMF_MENUITEM" class="wxMenuItem" variable="savePMFMenuItem" member="yes">
 			<handler function="OnSavePMFMenuItemSelected" entry="EVT_MENU" />
 		</object>

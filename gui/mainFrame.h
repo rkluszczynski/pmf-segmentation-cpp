@@ -59,6 +59,7 @@ class mainFrame : public wxFrame
 		void OnAddPointMenuItemSelected(wxCommandEvent& event);
 		void OnRegenerateMenuItemSelected(wxCommandEvent& event);
 		void OnSavePMFMenuItemSelected(wxCommandEvent& event);
+		void OnLoadPMFMenuItemSelected(wxCommandEvent& event);
 		//*)
 
         void PaintScrolledWindowBackground(wxDC&);
