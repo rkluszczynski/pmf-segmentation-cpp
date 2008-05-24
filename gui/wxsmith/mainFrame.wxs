@@ -2,13 +2,9 @@
 <wxsmith>
 	<resource_extra>
 		<object root="1" />
-		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes">
-			<handler function="OnMyNotebookPageChanged" entry="EVT_NOTEBOOK_PAGE_CHANGED" />
-		</object>
+		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes" />
 		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes" />
-		<object name="ID_mySCROLLEDWINDOW" class="wxScrolledWindow" variable="myScrolledWindow" member="yes">
-			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
-		</object>
+		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes" />
 		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
 		<object name="ID_MENUITEM6" class="wxMenuItem" variable="loadImageMenuItem" member="no">
 			<handler function="OnLoadImageMenuItemSelected" entry="EVT_MENU" />

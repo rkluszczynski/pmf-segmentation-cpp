@@ -2,22 +2,27 @@
 <resource xmlns="http://www.wxwidgets.org/wxxrc">
 	<object class="wxFrame" name="mainFrame">
 		<title>PMF Application -- $Id$</title>
-		<size>600,500</size>
-		<object class="wxNotebook" name="ID_NOTEBOOK1">
-			<pos>136,176</pos>
-			<style>wxFULL_REPAINT_ON_RESIZE</style>
-			<object class="notebookpage">
-				<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1">
-					<sashpos>360</sashpos>
-					<minsize>10</minsize>
-					<object class="wxScrolledWindow" name="ID_mySCROLLEDWINDOW">
-						<style>wxHSCROLL|wxVSCROLL|wxDOUBLE_BORDER|wxFULL_REPAINT_ON_RESIZE</style>
-					</object>
-					<object class="wxHtmlWindow" name="ID_HTMLWINDOW1">
-						<size>-1,100</size>
+		<centered>1</centered>
+		<style>wxDEFAULT_FRAME_STYLE|wxFULL_REPAINT_ON_RESIZE</style>
+		<object class="wxFlexGridSizer">
+			<cols>1</cols>
+			<rows>1</rows>
+			<growablecols>0</growablecols>
+			<growablerows>0</growablerows>
+			<object class="sizeritem">
+				<object class="wxNotebook" name="ID_NOTEBOOK1">
+					<size>600,500</size>
+					<object class="notebookpage">
+						<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1">
+							<minsize>10</minsize>
+							<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" />
+							<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
+						</object>
+						<label>Page name</label>
 					</object>
 				</object>
-				<label>Generating PMF</label>
+				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<option>1</option>
 			</object>
 		</object>
 		<object class="wxMenuBar">

@@ -23,15 +23,13 @@ mainFrame::mainFrame(wxWindow* parent)
 {
 	//(*Initialize(mainFrame)
 	wxXmlResource::Get()->LoadObject(this,parent,_T("mainFrame"),_T("wxFrame"));
-	myScrolledWindow = (wxScrolledWindow*)FindWindow(XRCID("ID_mySCROLLEDWINDOW"));
+	myScrolledWindow = (wxScrolledWindow*)FindWindow(XRCID("ID_SCROLLEDWINDOW1"));
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
 	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
-	myScrolledWindow->Connect(XRCID("ID_mySCROLLEDWINDOW"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
-	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_LOADPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadPMFMenuItemSelected);
 	Connect(XRCID("ID_SAVEPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSavePMFMenuItemSelected);
@@ -43,6 +41,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
+	//Connect(wxID_ANY,wxEVT_SIZE,(wxObjectEventFunction)&mainFrame::OnSize);
 
 	SetStatusText(_T(" (c) 2008"), 2);
 }
@@ -337,4 +336,9 @@ void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
         //ip->LoadFile(path);
         ///myNotebook->AddPage(ip, wxT("[ PMF ] : ") + dialog.GetFilename(), false, 2);
     }
+}
+
+void mainFrame::OnSize(wxPaintEvent& event)
+{
+        wxMessageBox(_("RESIZE"), _("INFO"));
 }
