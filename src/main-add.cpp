@@ -18,6 +18,9 @@ void print_usage(char *prog_name)
 	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
+	fprintf(stderr, "       \t\t  [ -x coordinate X of point ]\n");
+	fprintf(stderr, "       \t\t  [ -y coordinate Y of point ]\n");
+	fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
 	fprintf(stderr, "\n");
 
     system("PAUSE");
@@ -32,13 +35,15 @@ int main (int argc, char *argv[])
 	double   sizeArak = 3.0;
 	char * outputFile = NULL;
 	double  blockSize = 0.0;
+	double      angle = 0.0;
+	double     x, y;
 	time_t     seed;
 	char c, *endptr;
 
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
-	while ((c = getopt(argc, argv, "s:o:e:b:f")) != EOF)
+	while ((c = getopt(argc, argv, "s:o:e:b:fx:y:a:")) != EOF)
 	{
 		switch (c)
 		{
@@ -64,6 +69,21 @@ int main (int argc, char *argv[])
 			case 'f': 	/* Force the save. */
                 opt |= 0x08;
                 break;
+			case 'x': 	/* Coordinate of point. */
+				opt |= 0x20;
+				x = strtod(optarg, &endptr);
+				if(*endptr == '\0') break;
+				else print_usage(argv[0]);
+			case 'y': 	/* Coordinate of point. */
+				opt |= 0x40;
+				y = strtod(optarg, &endptr);
+				if(*endptr == '\0') break;
+				else print_usage(argv[0]);
+			case 'a': 	/* Angle of direction. */
+				opt |= 0x80;
+				angle = strtod(optarg, &endptr);
+				if(*endptr == '\0') break;
+				else print_usage(argv[0]);
 			default :
 				print_usage(argv[0]);
 		}
@@ -99,6 +119,12 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ ERROR ] : Size of blocks must be positive !\n");
 		print_usage(argv[0]);
 	}
+	if(! ((opt & 0x20) && (opt & 0x40)))
+	{
+		fprintf(stderr, "[ ERROR ] : New point must have coordinates X and Y!\n");
+		print_usage(argv[0]);
+	}
+
 
 	/* -------------------------------------------------------------------- */
 	/*   Check existence of required parameters for the program.            */
@@ -108,20 +134,23 @@ int main (int argc, char *argv[])
         struct timeb tbeg, tend;
 
 		//fprintf(stderr, "TOTAL SUCCES (%x) !!\n", opt);
-		fprintf(stderr, "[ INFO ] :  Field Size (-s) = %.2lf\n", sizeArak);
-		fprintf(stderr, "[ INFO ] : Output File (-o) = '%s'\n", outputFile);
-		fprintf(stderr, "[ INFO ] :        Seed (-e) = %li\n", seed);
-		fprintf(stderr, "[ INFO ] : Blocks Size (-b) = %.2lf\n", blockSize);
+		fprintf(stderr, "[ INFO ] :   Field Size (-s) = %.2lf\n", sizeArak);
+		fprintf(stderr, "[ INFO ] :  Output File (-o) = '%s'\n", outputFile);
+		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n", seed);
+		fprintf(stderr, "[ INFO ] :  Blocks Size (-b) = %.2lf\n", blockSize);
+		fprintf(stderr, "\n");
+		fprintf(stderr, "[ INFO ] : Coordinate X (-x) = %.3lf\n", x);
+		fprintf(stderr, "[ INFO ] : Coordinate Y (-y) = %.3lf\n", y);
+		fprintf(stderr, "[ INFO ] :        Angle (-a) = %.3lf\n", angle);
 		fprintf(stderr, "\n");
 
-        /* -------------------------------------- */
-		/*   Generating Polygonal Markov Field.   */
-        /* -------------------------------------- */
+		/* Generating Polygonal Markov Field. */
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
+		pmf->Generate(blockSize);
 
         ftime(&tbeg);
-		pmf->Generate(blockSize);
+        pmf->AddBirthPoint(x, y, angle);
 	    ftime(&tend);
 
 		if (outputFile) pmf->SaveConfiguration(outputFile);
@@ -129,7 +158,7 @@ int main (int argc, char *argv[])
 
         double genTime = tend.time - tbeg.time;
         genTime += ((tend.millitm - tbeg.millitm) * 0.001);
-		fprintf(stderr, "\n[ DONE ] : time = %.3lf sec.\n", genTime);
+		fprintf(stderr, "\n[ DONE ] : modification time = %.3lf sec.\n", genTime);
 	}
 	else { print_usage(argv[0]); }
 

@@ -100,7 +100,7 @@ double PMFPanel::GeneratePMF(time_t sseed = 0)
 
 void PMFPanel::SetParameters(double fSize, double bSize, long sscale)
 {
-    if (fSize > 0.0)
+    if (fSize >= 0.0)
     {
         fieldSize = fSize;
         blockSize = bSize;
@@ -156,6 +156,28 @@ bool PMFPanel::SavePMF(wxString path, int index)
         default:  result = pmf->SaveConfiguration(filepath);
     }
     return result;
+}
+
+
+bool PMFPanel::LoadPMF(wxString path)
+{
+    wxCSConv wxConvISO8859_2(wxT("iso8859-2"));
+    const wxCharBuffer wxbuf = wxConvISO8859_2.cWC2MB(path);
+    const char * filepath = (const char *)wxbuf;
+
+    pmf = new PMF<double>(0.0, 0.0);
+    pmf->LoadConfiguration(filepath);
+
+        //wxMessageBox(wxString::Format(_("PMF width = %lf"), pmf->GetPMFWidth()), _("debug"));
+        int  width = int(double(scale) * pmf->GetPMFWidth());
+        int height = int(double(scale) * pmf->GetPMFHeight());
+
+        if (bmp) delete bmp;
+        bmp = new wxBitmap(width, height);
+        staticBitmap->SetBitmap(*bmp);
+        scrolledWindow->FitInside();
+
+    return true;
 }
 
 

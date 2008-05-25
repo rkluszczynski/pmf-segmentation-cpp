@@ -27,6 +27,7 @@ class PMF
 		void RotatePointTypes(T_REAL, T_REAL);
 		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 		void DetermineTypesFromLeftToRight();
+		void RedirectUpdatePoint(long, T_REAL);
 
 		void SetSeed(time_t);
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
@@ -34,6 +35,9 @@ class PMF
 		bool LoadConfiguration(const char *);
 		bool SaveConfiguration(const char *);
 		bool SaveConfigurationAsSVG(const char *, double, double);
+
+		inline T_REAL GetPMFWidth()  { return fieldWidth; }
+		inline T_REAL GetPMFHeight() { return fieldHeight; }
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };

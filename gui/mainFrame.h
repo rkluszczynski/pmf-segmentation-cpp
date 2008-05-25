@@ -45,6 +45,7 @@ class mainFrame : public wxFrame
 	private:
 
         double defaultX, defaultY;
+        int htmlWindowHeight;
 
 		//(*Handlers(mainFrame)
 		void OnQuit(wxCommandEvent& event);
@@ -60,6 +61,7 @@ class mainFrame : public wxFrame
 		void OnRegenerateMenuItemSelected(wxCommandEvent& event);
 		void OnSavePMFMenuItemSelected(wxCommandEvent& event);
 		void OnLoadPMFMenuItemSelected(wxCommandEvent& event);
+		void OnMySplitterWindowDClick(wxSplitterEvent& event);
 		//*)
 
         void PaintScrolledWindowBackground(wxDC&);

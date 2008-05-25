@@ -27,8 +27,8 @@ PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 #include "generate.hpp"
 #include "rotate.hpp"
 #include "adding.hpp"
+#include "update.hpp"
 /// TODO : do more operations
-//#include "update.hpp"
 //#include "delete.hpp"
 
 
@@ -67,6 +67,8 @@ PMF<T_REAL> :: LoadConfiguration (const char * filename)
     pmfConf->load_configuration(fin);
     fin.close();
     DetermineTypesFromLeftToRight();
+    fieldHeight = pmfConf->get_field_height();
+    fieldWidth  = pmfConf->get_field_width();
     return true;
 }
 

@@ -5,7 +5,9 @@
 		<object name="ID_NOTEBOOK1" class="wxNotebook" variable="myNotebook" member="yes">
 			<handler function="OnMyNotebookPageChanged" entry="EVT_NOTEBOOK_PAGE_CHANGED" />
 		</object>
-		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes" />
+		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes">
+			<handler function="OnMySplitterWindowDClick" entry="EVT_SPLITTER_DCLICK" />
+		</object>
 		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes">
 			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
 		</object>

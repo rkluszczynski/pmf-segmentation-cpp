@@ -37,10 +37,10 @@ int main (int argc, char *argv[])
 	fprintf(stderr, "[ SAVE ] : PMF before load");
 	delete pmf;
 
-	PMF<REAL> * pmf2 = new PMF<REAL>(sizeArak+1.0, sizeArak+1.0);
+	PMF<REAL> * pmf2 = new PMF<REAL>(0.0, 0.0);
     pmf2->LoadConfiguration("output/PMF-before-load.txt");
-    pmf2->SaveConfiguration("output/PMF-after-load.txt");
 	fprintf(stderr, "[ SAVE ] : PMF after load");
+    pmf2->SaveConfiguration("output/PMF-after-load.txt");
     delete pmf2;
 
     return(0);

@@ -31,6 +31,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	myScrolledWindow->Connect(XRCID("ID_SCROLLEDWINDOW1"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
+	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_LOADPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadPMFMenuItemSelected);
@@ -44,7 +45,9 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
 
-    mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - 100);
+    htmlWindowHeight = 100;
+
+    mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - htmlWindowHeight);
     mySplitterWindow->SetSashGravity(1.0);
 	SetStatusText(_T(" (c) 2008"), 2);
 }
@@ -325,17 +328,25 @@ void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
         wxString path = dialog.GetPath();
         //int fiterIndex = dialog.GetFilterIndex();
 
-        wxMessageBox(path, _("INFO"));
-        //ImagePanel * ip = new ImagePanel(myNotebook, wxID_ANY);
-        //ip->LoadFile(path);
-        ///myNotebook->AddPage(ip, wxT("[ PMF ] : ") + dialog.GetFilename(), false, 2);
+        PMFPanel * pp = new PMFPanel(myNotebook);
+        myNotebook->AddPage(pp, wxT("[ PMF ] : ") + dialog.GetFilename(), false, 2);
+        myNotebook->Refresh();
+
+        pp->SetParameters(0.0, 0.0, 200);
+        pp->LoadPMF(path);
+        if (! pp->DrawGeneratedPMF()) {
+            ;
+        }
+
+        myNotebook->SetSelection(myNotebook->GetPageCount() - 1);
+        wxString msg = wxT("Configuration file '") + dialog.GetFilename() + wxT("' loaded");
+        SetStatusText( msg , 0);
     }
 }
 
 
 void mainFrame::OnViewInfosMenuItemSelected(wxCommandEvent& event)
 {
-    int htmlWindowHeight  = 100;
     bool value = myHtmlWindow->IsShown();
 
     myHtmlWindow->Show((value) ? false : true);
@@ -346,3 +357,12 @@ void mainFrame::OnViewInfosMenuItemSelected(wxCommandEvent& event)
     mySplitterWindow->Refresh();
 }
 
+
+void mainFrame::OnMySplitterWindowDClick(wxSplitterEvent& event)
+{
+    if (mySplitterWindow->IsSplit())
+    {
+        mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - htmlWindowHeight, true);
+        mySplitterWindow->Refresh();
+    }
+}

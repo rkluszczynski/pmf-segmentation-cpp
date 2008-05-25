@@ -39,6 +39,20 @@
 					<Add directory="src" />
 				</Compiler>
 			</Target>
+			<Target title="adder-debug">
+				<Option output="bin\PMF-add" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="-s 7 -o output/pmfclass.cf -f" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="headers" />
+					<Add directory="src" />
+				</Compiler>
+			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
@@ -142,6 +156,10 @@
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src\main-add.cpp">
+			<Option virtualFolder="mains\" />
+			<Option target="adder-debug" />
+		</Unit>
 		<Unit filename="src\main-gen.cpp">
 			<Option virtualFolder="mains\" />
 			<Option target="generator-debug" />
@@ -151,6 +169,10 @@
 			<Option target="default" />
 		</Unit>
 		<Unit filename="src\rotate.hpp">
+			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="src\update.hpp">
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

@@ -30,6 +30,8 @@ class PMFPanel: public wxPanel
         void AddBirthPointToPMF(double, double, double);
 
         bool SavePMF(wxString, int);
+        bool LoadPMF(wxString);
+        //void SetScale(long);
 
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;
