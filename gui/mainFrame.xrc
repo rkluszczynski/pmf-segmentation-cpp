@@ -18,7 +18,7 @@
 							<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" />
 							<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
 						</object>
-						<label>Page name</label>
+						<label>Start</label>
 					</object>
 				</object>
 				<flag>wxALL|wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>

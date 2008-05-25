@@ -60,7 +60,6 @@ class mainFrame : public wxFrame
 		void OnRegenerateMenuItemSelected(wxCommandEvent& event);
 		void OnSavePMFMenuItemSelected(wxCommandEvent& event);
 		void OnLoadPMFMenuItemSelected(wxCommandEvent& event);
-		void OnSize(wxPaintEvent& event);
 		//*)
 
         void PaintScrolledWindowBackground(wxDC&);

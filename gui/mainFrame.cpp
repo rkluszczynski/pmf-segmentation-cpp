@@ -30,6 +30,8 @@ mainFrame::mainFrame(wxWindow* parent)
 	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
+	myScrolledWindow->Connect(XRCID("ID_SCROLLEDWINDOW1"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
+	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_LOADPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadPMFMenuItemSelected);
 	Connect(XRCID("ID_SAVEPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSavePMFMenuItemSelected);
@@ -41,8 +43,9 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
-	//Connect(wxID_ANY,wxEVT_SIZE,(wxObjectEventFunction)&mainFrame::OnSize);
 
+    mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - 100);
+    mySplitterWindow->SetSashGravity(1.0);
 	SetStatusText(_T(" (c) 2008"), 2);
 }
 
@@ -181,15 +184,6 @@ void mainFrame::OnMyScrolledWindowPaint(wxPaintEvent& event)
     int y = wxMax(0, (sz.GetY() - h)/2);
     wxRect rectToDraw(x, y, w, h);
     if (myScrolledWindow->IsExposed(rectToDraw)) dc.DrawRectangle(rectToDraw);
-}
-
-
-void mainFrame::OnViewInfosMenuItemSelected(wxCommandEvent& event)
-{
-    bool value = myHtmlWindow->IsShown();
-    myHtmlWindow->Show((value) ? false : true);
-    wxMessageBox(((value) ? _("TRUE") : _("FALSE")), _("INFO"));
-    myHtmlWindow->Refresh();
 }
 
 
@@ -338,7 +332,17 @@ void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
     }
 }
 
-void mainFrame::OnSize(wxPaintEvent& event)
+
+void mainFrame::OnViewInfosMenuItemSelected(wxCommandEvent& event)
 {
-        wxMessageBox(_("RESIZE"), _("INFO"));
+    int htmlWindowHeight  = 100;
+    bool value = myHtmlWindow->IsShown();
+
+    myHtmlWindow->Show((value) ? false : true);
+    //wxMessageBox(((value) ? _("TRUE") : _("FALSE")), _("INFO"));
+    if (mySplitterWindow->IsSplit()) mySplitterWindow->Unsplit();
+    else mySplitterWindow->SplitHorizontally(myScrolledWindow, myHtmlWindow);
+    mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - htmlWindowHeight, true);
+    mySplitterWindow->Refresh();
 }
+

@@ -1947,7 +1947,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1211642366 h:\projects\pmf-codeblocks\gui\mainframe.h
+1211673812 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1957,7 +1957,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1211455022 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1211672748 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
