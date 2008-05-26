@@ -51,12 +51,12 @@ bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bo
   {
     qB->put( Hist->get() );
   }
-  //*
-  fprintf(fstep, "\nZMIENIAM PKT : %3li ", pkt->id);
-  fprintf(fstep, "[%.3f;%.3f;%li;%li]\n", pkt->x, pkt->y,
-	  (pkt->r1) ? pkt->r1->id : 0,
-	  (pkt->r2) ? pkt->r2->id : 0);
-  //*
+  //
+  //fprintf(fstep, "\nZMIENIAM PKT : %3li ", pkt->id);
+  //fprintf(fstep, "[%.3f;%.3f;%li;%li]\n", pkt->x, pkt->y,
+	//  (pkt->r1) ? pkt->r1->id : 0,
+	//  (pkt->r2) ? pkt->r2->id : 0);
+  //
   los = pkt->id - 1;
   tmp = allocPoint(pkt->x, pkt->y, pkt, NULL, 0, 0, &los);
 
@@ -97,7 +97,7 @@ bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bo
 	)
       {
 	if(ABS(akt->x - akt->r1->x) < EPSILON) {
-	  //* fprintf(stderr, "\n [OLD] UPSY DAIZY!\n"); //*
+	  // fprintf(stderr, "\n [OLD] UPSY DAIZY!\n");
 	  if(akt->y > akt->r1->y)  kat = 0.5*M_PI;
 	  else kat = -0.5*M_PI;
 	}

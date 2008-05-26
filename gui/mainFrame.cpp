@@ -44,6 +44,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
+	//Connect(wxID_ANY,wxEVT_SIZE,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowSize);
 
     htmlWindowHeight = 100;
 
@@ -366,3 +367,18 @@ void mainFrame::OnMySplitterWindowDClick(wxSplitterEvent& event)
         mySplitterWindow->Refresh();
     }
 }
+
+/*
+void mainFrame::OnMyScrolledWindowSize(wxSizeEvent& event)
+{
+    wxTopLevelWindow::OnSize(event);
+    int width, height;
+
+    width = myScrolledWindow->GetSize().GetWidth() - 10;
+    height = myScrolledWindow->GetSize().GetHeight() - 10;
+
+    wxBitmap bbmp(StaticBitmap1->GetBitmap().ConvertToImage().Scale(width, height));
+    StaticBitmap1->SetBitmap(bbmp);
+    myScrolledWindow->Refresh();
+}
+*/

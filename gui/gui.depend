@@ -1948,7 +1948,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1211763580 h:\projects\pmf-codeblocks\gui\mainframe.h
+1211816420 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -2029,13 +2029,14 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211709386 h:\projects\pmf-codeblocks\src\pmf.cpp
+1211814486 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
 	"adding.hpp"
 	"update.hpp"
+	"delete.hpp"
 
 1211708890 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
@@ -4251,7 +4252,9 @@
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1211698582 h:\projects\pmf-codeblocks\src\update.hpp
+1211816382 h:\projects\pmf-codeblocks\src\update.hpp
 
 1211761106 d:\projects\pmf-codeblocks\src\update.hpp
+
+1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
 

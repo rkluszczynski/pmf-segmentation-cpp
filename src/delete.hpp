@@ -95,7 +95,7 @@ bool removePoint(PMF *Hist, PMF *newHist, int PointThre, int zap, struct borderP
 	)
       {
 	if(ABS(akt->x - akt->r1->x) < EPSILON) {
-	  //* fprintf(stderr, "\n [OLD] UPSY DAIZY!\n"); //*
+	  // fprintf(stderr, "\n [OLD] UPSY DAIZY!\n");
 	  if(akt->y > akt->r1->y)  kat = 0.5*M_PI;
 	  else kat = -0.5*M_PI;
 	}

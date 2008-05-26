@@ -65,6 +65,7 @@ class mainFrame : public wxFrame
 		void OnLoadPMFMenuItemSelected(wxCommandEvent& event);
 		void OnMySplitterWindowDClick(wxSplitterEvent& event);
 		//*)
+		void OnMyScrolledWindowSize(wxSizeEvent& event);
 
         void PaintScrolledWindowBackground(wxDC&);
         void GeneratingPMFAction(wxCommandEvent&, PMFPanel *);
