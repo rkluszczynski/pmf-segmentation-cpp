@@ -199,7 +199,7 @@ void PMFPanel::OnLeftUp(wxMouseEvent& event)
             case       PT_UPDATE: wstr += wxT("UPDATE"); break;
             default:  wstr += wxT("UNKNOWN");
         }
-        wstr += wxString::Format(wxT(", [%li, %li]"), (pt->n1 ? pt->n1->id : 0), (pt->n2 ? pt->n2->id : 0));
+        wstr += wxString::Format(wxT(" [%li] [%li]"), (pt->n1 ? pt->n1->id : 0), (pt->n2 ? pt->n2->id : 0));
         wstr += wxString::Format(wxT(", { %.3lf, %.3lf }"), pt->l1, pt->l2);
         wstr += wxString::Format(wxT(", oldId=%li"), pt->oid);
     }

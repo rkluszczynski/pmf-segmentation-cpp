@@ -1948,17 +1948,18 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1211699266 h:\projects\pmf-codeblocks\gui\mainframe.h
+1211763580 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
 	<wx/splitter.h>
+	<wx/statbmp.h>
 	<wx/frame.h>
 	<wx/html/htmlwin.h>
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1211708092 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1211709616 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2010,7 +2011,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211709442 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1211752120 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	<sys/timeb.h>
