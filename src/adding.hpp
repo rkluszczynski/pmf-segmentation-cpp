@@ -30,6 +30,8 @@ pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL angle, long & ptId, REAL sinL,
 }
 #undef REAL
 
+#include "evolve.hpp"
+
 
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
@@ -129,10 +131,13 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
     out << *pt->n2 << endl;
 #endif
     /* ************************************************************************************** */
+
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
+
     // and the riots start again ...
     long id1, id2;
     double angle, newAngle;
-//*
+/*
     while (!bHeap->empty()  ||  !iHeap->empty())
     {
         id1 = id2 = 0;
@@ -147,7 +152,7 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
         out << iHeap << std::endl;
         out << "[ STEP ] : " << iterationCounter << std::endl;
 #endif
-        //*
+        //
         if (pt->id <= oldSize) {
             if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
             {
@@ -200,8 +205,8 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
             iHeap->remove_intersections_with_id(pt->id);
             }
         }
-        //*/
     }
+    //*/
     delete bHeap;
     delete iHeap;
 

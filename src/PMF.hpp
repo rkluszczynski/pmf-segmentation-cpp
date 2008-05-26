@@ -6,6 +6,9 @@
 #include <iostream>
 
 #include "configurationlist.hpp"
+#include "birthsheap.hpp"
+#include "intersectionsheap.hpp"
+
 
 #if pmf_LOG_ADD
 std::ostream out(std::cout.rdbuf());
@@ -14,6 +17,14 @@ std::ostream out(std::cout.rdbuf());
 template <class T_REAL>
 class PMF
 {
+    private :
+        inline
+        void EvolveRestOfField(
+                            BirthsHeap<T_REAL> * bHeap,
+                            IntersectionsHeap<T_REAL> * iHeap,
+                            T_REAL, T_REAL, long, long &
+        );
+
     protected :
         T_REAL fieldWidth, fieldHeight;
         time_t seed;

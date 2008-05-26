@@ -2,6 +2,7 @@
 #define INTERSECTIONSHEAP_HPP_INCLUDED
 
 #include <cmath>
+#include "crosselement.hpp"
 #include "abstractheap.hpp"
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
