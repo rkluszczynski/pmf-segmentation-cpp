@@ -17,30 +17,10 @@
 							<minsize>10</minsize>
 							<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1">
 								<object class="wxFlexGridSizer">
-									<cols>3</cols>
-									<rows>3</rows>
-									<growablecols>0,2</growablecols>
-									<growablerows>0,2</growablerows>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
+									<cols>1</cols>
+									<rows>1</rows>
+									<growablecols>0</growablecols>
+									<growablerows>0</growablerows>
 									<object class="sizeritem">
 										<object class="wxStaticBitmap" name="ID_STATICBITMAP1">
 											<bitmap>../graphics/pmf.png</bitmap>
@@ -49,29 +29,11 @@
 										<border>5</border>
 										<option>1</option>
 									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
-									<object class="spacer">
-										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-										<border>5</border>
-										<option>1</option>
-									</object>
 								</object>
 							</object>
-							<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
+							<object class="wxHtmlWindow" name="ID_HTMLWINDOW1">
+								<htmlcode>&lt;p align=&quot;center&quot;&gt;&lt;i&gt;&#x0A;&lt;b&gt;P&lt;/b&gt;olygonal &lt;b&gt;M&lt;/b&gt;arkov &lt;b&gt;F&lt;/b&gt;ields Application&#x0A;&lt;/i&gt;&lt;/p&gt;&#x0A;&lt;p align=&quot;center&quot;&gt;&lt;small&gt;&#x0A;Rafał Kluszczyński &amp;copy; 2008&#x0A;&lt;/small&gt;&#x0A;&lt;/p&gt;&#x0A;&#x0A;</htmlcode>
+							</object>
 						</object>
 						<label>START</label>
 					</object>
@@ -83,7 +45,7 @@
 		<object class="wxMenuBar">
 			<object class="wxMenu">
 				<label>File</label>
-				<object class="wxMenuItem" name="ID_MENUITEM6">
+				<object class="wxMenuItem" name="ID_LOADIMAGE_MENUITEM">
 					<label>Load Image</label>
 				</object>
 				<object class="wxMenuItem" name="ID_LOADPMF_MENUITEM">
@@ -93,12 +55,12 @@
 					<label>Save PMF</label>
 					<enabled>0</enabled>
 				</object>
-				<object class="wxMenuItem" name="ID_MENUITEM7">
+				<object class="wxMenuItem" name="ID_CLOSE_MENUITEM">
 					<label>Close</label>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />
-				<object class="wxMenuItem" name="ID_MENUITEM1">
+				<object class="wxMenuItem" name="ID_QUIT_MENUITEM">
 					<label>Quit</label>
 				</object>
 			</object>
@@ -127,8 +89,8 @@
 			</object>
 			<object class="wxMenu">
 				<label>Window</label>
-				<object class="wxMenuItem" name="ID_MENUITEM5">
-					<label>View Infos</label>
+				<object class="wxMenuItem" name="ID_LOG_MENUITEM">
+					<label>Toggle Logs</label>
 				</object>
 			</object>
 			<object class="wxMenu">

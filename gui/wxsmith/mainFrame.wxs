@@ -8,12 +8,10 @@
 		<object name="ID_SPLITTERWINDOW1" class="wxSplitterWindow" variable="mySplitterWindow" member="yes">
 			<handler function="OnMySplitterWindowDClick" entry="EVT_SPLITTER_DCLICK" />
 		</object>
-		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes">
-			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
-		</object>
+		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes" />
 		<object name="ID_STATICBITMAP1" class="wxStaticBitmap" variable="StaticBitmap1" member="yes" />
 		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
-		<object name="ID_MENUITEM6" class="wxMenuItem" variable="loadImageMenuItem" member="no">
+		<object name="ID_LOADIMAGE_MENUITEM" class="wxMenuItem" variable="loadImageMenuItem" member="no">
 			<handler function="OnLoadImageMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_LOADPMF_MENUITEM" class="wxMenuItem" variable="loadPMFMenuItem" member="no">
@@ -22,10 +20,10 @@
 		<object name="ID_SAVEPMF_MENUITEM" class="wxMenuItem" variable="savePMFMenuItem" member="yes">
 			<handler function="OnSavePMFMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM7" class="wxMenuItem" variable="closeImageMenuItem" member="no">
+		<object name="ID_CLOSE_MENUITEM" class="wxMenuItem" variable="closeImageMenuItem" member="no">
 			<handler function="OnCloseImageMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM1" class="wxMenuItem" variable="quitMenuItem" member="no">
+		<object name="ID_QUIT_MENUITEM" class="wxMenuItem" variable="quitMenuItem" member="no">
 			<handler function="OnQuit" entry="EVT_MENU" />
 		</object>
 		<object name="ID_GENERATE_MENUITEM" class="wxMenuItem" variable="generateMenuItem" member="no">
@@ -39,7 +37,7 @@
 		</object>
 		<object name="ID_UPDPOINT_MENUITEM" class="wxMenuItem" variable="updatePointMenuItem" member="no" />
 		<object name="ID_DELPOINT_MENUITEM" class="wxMenuItem" variable="deletePointMenuItem" member="no" />
-		<object name="ID_MENUITEM5" class="wxMenuItem" variable="viewInfosMenuItem" member="no">
+		<object name="ID_LOG_MENUITEM" class="wxMenuItem" variable="toggleLogsMenuItem" member="no">
 			<handler function="OnViewInfosMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="no">

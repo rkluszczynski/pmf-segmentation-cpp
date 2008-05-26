@@ -44,7 +44,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -o output/pmfclass.cf -f" />
+				<Option parameters="-i output/test.cf -o output/adder-output.cf -f -x 0.2 -y 2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-Wall" />

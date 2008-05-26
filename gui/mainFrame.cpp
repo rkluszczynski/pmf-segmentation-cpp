@@ -31,22 +31,21 @@ mainFrame::mainFrame(wxWindow* parent)
 	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
-	myScrolledWindow->Connect(XRCID("ID_SCROLLEDWINDOW1"),wxEVT_PAINT,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowPaint,0,this);
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
-	Connect(XRCID("ID_MENUITEM6"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
+	Connect(XRCID("ID_LOADIMAGE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_LOADPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadPMFMenuItemSelected);
 	Connect(XRCID("ID_SAVEPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSavePMFMenuItemSelected);
-	Connect(XRCID("ID_MENUITEM7"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
-	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
+	Connect(XRCID("ID_CLOSE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
+	Connect(XRCID("ID_QUIT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
 	Connect(XRCID("ID_GENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
 	Connect(XRCID("ID_REGENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRegenerateMenuItemSelected);
 	Connect(XRCID("ID_ADDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddPointMenuItemSelected);
-	Connect(XRCID("ID_MENUITEM5"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
+	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
 
-    htmlWindowHeight = 140;
+    htmlWindowHeight = 100;
 
     mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - htmlWindowHeight);
     mySplitterWindow->SetSashGravity(1.0);
@@ -63,7 +62,7 @@ mainFrame::~mainFrame()
 
 void mainFrame::OnQuit(wxCommandEvent& event)
 {
-    wxMessageDialog dlg(this, _("Are you sure to quit?"), _("Quitting ..."), wxOK | wxCANCEL | wxICON_QUESTION);
+    wxMessageDialog dlg(this, _("Are you sure to quit?"), _("Quitting ..."), wxOK | wxCANCEL | wxICON_WARNING);
     if ( dlg.ShowModal() == wxID_OK )
     {
         Destroy();
@@ -219,19 +218,19 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
     bool isClassImagePanel = w->IsKindOf(CLASSINFO(ImagePanel));
     bool isClassPMFPanel = w->IsKindOf(CLASSINFO(PMFPanel));
 
-    if (isClassPMFPanel)
-    {
-        printf("Changed to ImagePanel ...\n");
-    }
-    GetMenuBar()->Enable(XRCID("ID_MENUITEM7"), isClassImagePanel || isClassPMFPanel);
-    // PMFPanel options
+    // PMFPanel and ImagePanel options
+    GetMenuBar()->Enable(XRCID("ID_CLOSE_MENUITEM"), isClassImagePanel || isClassPMFPanel);
+
+    // Only PMFPanel options
     GetMenuBar()->Enable(XRCID("ID_GENERATE_MENUITEM"), ! isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_REGENERATE_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_ADDPOINT_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_SAVEPMF_MENUITEM"), isClassPMFPanel);
-    isClassPMFPanel = false;
-    GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel);
-    GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel && false);
+    GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel && false);
+
+    // START panel options
+    GetMenuBar()->Enable(XRCID("ID_LOG_MENUITEM"), !(isClassPMFPanel || isClassImagePanel));
 }
 
 
