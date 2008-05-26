@@ -1,43 +1,41 @@
-#ifndef UPDATE_HPP_INCLUDED
-#define UPDATE_HPP_INCLUDED
+#ifndef DELETE_HPP_INCLUDED
+#define DELETE_HPP_INCLUDED
 
-
-template <class T_REAL>
-void
-PMF<T_REAL> :: RedirectUpdatePoint(long id, T_REAL alpha = 0.0)
-{
-    return;
-}
 
 
 /**
  *
+
 #define ABS(x) (((x) > 0) ? (x) : (-(x)))
-bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bord)
+bool removePoint(PMF *Hist, PMF *newHist, int PointThre, int zap, struct borderPoint * Bord)
 {
-  float kg, kd, kat, nkat, len, zmX, zmY;
+  float kg, kd, kat, nkat, len, zmX, zmY, cosinus;
   long oldSize, idPktu, zm, i1, i2, id1, id2;
   struct Tpoint *pkt, *nowy, *akt, *tmp;
-  long los, k, turns;
+  long los, k, births;
   int changed;
   bool restore;
 
   Hist->setPointIDs();		// To jest BARDZO wazne tutaj !!!
+
+  FILE *fstep;
+  if(zap == 1) {
+      fstep = fopen("STEPSSeed1Iter981.txt", "w");
+      writeConf(fstep, Hist);
+      fflush(fstep);
+  }
+
   oldSize = Hist->getSize();
   if(oldSize == 0) return(restore);
+  births = Hist->countBirths();
   idPktu = oldSize;
-  turns = Hist->countTurns();
-  los = (rand() % turns) + 1;
+  los = rand() % births + 1;
   //los = 1;
   k = 0;
   while( k < los  &&  (pkt = Hist->get()) != NULL )
   {
-    if(pkt->r1 != NULL  &&  pkt->r2 != NULL  &&
-	( (pkt->r1->x < pkt->x  &&  pkt->x < pkt->r2->x)
-	  ||
-	  (pkt->r2->x < pkt->x  &&  pkt->x < pkt->r1->x)
-	)
-      )
+    if(pkt->r1 != NULL  &&  pkt->r2 != NULL
+	&&  pkt->x < pkt->r1->x  &&  pkt->x < pkt->r2->x)
     {
       k++;
       if(k == los) break;
@@ -51,36 +49,36 @@ bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bo
   {
     qB->put( Hist->get() );
   }
-  //*
-  fprintf(fstep, "\nZMIENIAM PKT : %3li ", pkt->id);
-  fprintf(fstep, "[%.3f;%.3f;%li;%li]\n", pkt->x, pkt->y,
-	  (pkt->r1) ? pkt->r1->id : 0,
-	  (pkt->r2) ? pkt->r2->id : 0);
-  //*
+
+  struct Tpoint *tmp1, *tmp2;
+  if (zap == 1)
+  {
+      fprintf(fstep, "\nUSUWAM PKT : %3li ", pkt->id);
+      fprintf(fstep, "[%.3f;%.3f;%li;%li]\n", pkt->x, pkt->y,
+	      (pkt->r1) ? pkt->r1->id : 0,
+	      (pkt->r2) ? pkt->r2->id : 0);
+      qB->write(fstep);
+      qI->write(fstep);
+      fflush(fstep);
+  }
   los = pkt->id - 1;
   tmp = allocPoint(pkt->x, pkt->y, pkt, NULL, 0, 0, &los);
 
-  id1 = ((pkt->x < pkt->r1->x) ? pkt->r1->id : pkt->r2->id);
-  if(pkt->x < pkt->r1->x)
-  {
-    id1 = pkt->r1->id;
-    pkt->r1 = pkt->r2;
-    pkt->r2 = NULL;
-  }
-  else {
-    id1 = pkt->r2->id;
-    pkt->r2 = NULL;
-  }
+  id1 = pkt->r1->id;
   delPathS(tmp, id1, qB, qI, &idPktu, Bord);
+
+  tmp->r1 = NULL;
+  tmp->r2 = pkt;
+  id2 = pkt->r2->id;
+  delPathS(tmp, id2, qB, qI, &idPktu, Bord);
+  delete(pkt);
   delete(tmp);
-  storePoints2(pkt, qB, qI, &idPktu, Bord);
 
   long qq = 0;
   restore = false;
   changed = 0;
   while( !qB->empty() || !qI->empty() )
   {
-    qq++;
     akt = doGet( qB, qI, &id1, &id2 );
     newHist->addPoint(akt);
     if( akt->id > oldSize )
@@ -177,10 +175,26 @@ bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bo
     qB->remove(akt->id);
     qI->remove(akt->id);
 
+    if(zap == 1) {
+	fprintf(fstep, "\n\n\nKONFIGURACJA w kroku %li\n\n", qq);
+	writeConf(fstep, newHist);
+	qB->write(fstep);
+	qI->write(fstep);
+	fflush(fstep);
+    }
+
+    qq++;
     checkPoint(akt, qq);
+    detectSegment(akt, qq);
   }
   qB->free();  qI->free();
   delete(qB);  delete(qI);
+
+  if(zap == 1) {
+      writeConf(fstep, Hist);
+      fclose(fstep);
+      fflush(fstep);
+  }
 
 
   fprintf(stderr, "?");  fflush(stderr);
@@ -188,6 +202,7 @@ bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bo
   while(ptr)
   {
     checkPoint(ptr->point, 0);
+    detectSegment(ptr->point, 0);
     ptr = ptr->next;
   }
 
@@ -196,4 +211,4 @@ bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bo
 #undef ABS
  */
 
-#endif // UPDATE_HPP_INCLUDED
+#endif // DELETE_HPP_INCLUDED

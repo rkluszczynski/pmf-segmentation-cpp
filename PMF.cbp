@@ -148,6 +148,10 @@
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src\delete.hpp">
+			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src\generate.cpp">
 			<Option virtualFolder="old-files\" />
 			<Option target="default" />

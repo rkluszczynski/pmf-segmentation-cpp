@@ -27,9 +27,9 @@ PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 #include "generate.hpp"
 #include "rotate.hpp"
 #include "adding.hpp"
-#include "update.hpp"
 /// TODO : do more operations
-//#include "delete.hpp"
+#include "update.hpp"
+#include "delete.hpp"
 
 
 template <class T_REAL>

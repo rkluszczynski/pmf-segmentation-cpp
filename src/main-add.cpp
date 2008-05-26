@@ -42,6 +42,7 @@ int main (int argc, char *argv[])
 	time_t        seed;
 	char    c, *endptr;
 
+
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
@@ -94,6 +95,7 @@ int main (int argc, char *argv[])
 				print_usage(argv[0]);
 		}
 	}
+
 
 	/* -------------------------------------------------------------------- */
 	/*   Testing values of parameters.                                      */
