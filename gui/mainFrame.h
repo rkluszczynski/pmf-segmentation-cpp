@@ -6,6 +6,7 @@
 #include <wx/notebook.h>
 #include <wx/menu.h>
 #include <wx/splitter.h>
+#include <wx/statbmp.h>
 #include <wx/frame.h>
 #include <wx/html/htmlwin.h>
 #include <wx/statusbr.h>
@@ -25,6 +26,7 @@ class mainFrame : public wxFrame
 
 		//(*Declarations(mainFrame)
 		wxMenu* Menu3;
+		wxStaticBitmap* StaticBitmap1;
 		wxMenu* Menu1;
 		wxMenuItem* savePMFMenuItem;
 		wxHtmlWindow* myHtmlWindow;

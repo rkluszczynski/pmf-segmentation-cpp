@@ -11,6 +11,7 @@
 		<object name="ID_SCROLLEDWINDOW1" class="wxScrolledWindow" variable="myScrolledWindow" member="yes">
 			<handler function="OnMyScrolledWindowPaint" entry="EVT_PAINT" />
 		</object>
+		<object name="ID_STATICBITMAP1" class="wxStaticBitmap" variable="StaticBitmap1" member="yes" />
 		<object name="ID_HTMLWINDOW1" class="wxHtmlWindow" variable="myHtmlWindow" member="yes" />
 		<object name="ID_MENUITEM6" class="wxMenuItem" variable="loadImageMenuItem" member="no">
 			<handler function="OnLoadImageMenuItemSelected" entry="EVT_MENU" />

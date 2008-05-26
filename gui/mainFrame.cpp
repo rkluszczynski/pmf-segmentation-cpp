@@ -23,6 +23,7 @@ mainFrame::mainFrame(wxWindow* parent)
 {
 	//(*Initialize(mainFrame)
 	wxXmlResource::Get()->LoadObject(this,parent,_T("mainFrame"),_T("wxFrame"));
+	StaticBitmap1 = (wxStaticBitmap*)FindWindow(XRCID("ID_STATICBITMAP1"));
 	myScrolledWindow = (wxScrolledWindow*)FindWindow(XRCID("ID_SCROLLEDWINDOW1"));
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
@@ -45,7 +46,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
 
-    htmlWindowHeight = 100;
+    htmlWindowHeight = 140;
 
     mySplitterWindow->SetSashPosition(mySplitterWindow->GetSize().GetHeight() - htmlWindowHeight);
     mySplitterWindow->SetSashGravity(1.0);

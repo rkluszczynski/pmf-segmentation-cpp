@@ -11,11 +11,66 @@
 			<growablerows>0</growablerows>
 			<object class="sizeritem">
 				<object class="wxNotebook" name="ID_NOTEBOOK1">
-					<size>600,500</size>
+					<size>650,500</size>
 					<object class="notebookpage">
 						<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1">
 							<minsize>10</minsize>
-							<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1" />
+							<object class="wxScrolledWindow" name="ID_SCROLLEDWINDOW1">
+								<object class="wxFlexGridSizer">
+									<cols>3</cols>
+									<rows>3</rows>
+									<growablecols>0,2</growablecols>
+									<growablerows>0,2</growablerows>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="sizeritem">
+										<object class="wxStaticBitmap" name="ID_STATICBITMAP1">
+											<bitmap>../graphics/pmf.png</bitmap>
+										</object>
+										<flag>wxALL|wxEXPAND|wxSHAPED|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+									<object class="spacer">
+										<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<option>1</option>
+									</object>
+								</object>
+							</object>
 							<object class="wxHtmlWindow" name="ID_HTMLWINDOW1" />
 						</object>
 						<label>START</label>
