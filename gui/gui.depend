@@ -528,7 +528,7 @@
 1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\theme.h
 	"wx/string.h"
 
-1211761250 d:\projects\pmf-codeblocks\gui\mainframe.h
+1211830148 d:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1195,7 +1195,7 @@
 1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagiff.h
 	"wx/image.h"
 
-1211762876 source:d:\projects\pmf-codeblocks\gui\mainframe.cpp
+1211830148 source:d:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -3503,15 +3503,16 @@
 	<fstream>
 	"listelement.hpp"
 
-1211761106 d:\projects\pmf-codeblocks\src\pmf.cpp
+1211830148 d:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
 	"adding.hpp"
 	"update.hpp"
+	"delete.hpp"
 
-1211027068 d:\projects\pmf-codeblocks\src\generate.hpp
+1211831944 d:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -3695,7 +3696,7 @@
 	"wx/geometry.h"
 	"wx/dynarray.h"
 
-1211761104 source:d:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1211794510 source:d:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	<sys/timeb.h>
@@ -4254,7 +4255,9 @@
 
 1211816382 h:\projects\pmf-codeblocks\src\update.hpp
 
-1211761106 d:\projects\pmf-codeblocks\src\update.hpp
+1211830148 d:\projects\pmf-codeblocks\src\update.hpp
 
 1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
+
+1211830148 d:\projects\pmf-codeblocks\src\delete.hpp
 

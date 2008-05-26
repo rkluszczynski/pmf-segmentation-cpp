@@ -82,29 +82,33 @@ void pmf_correct_intersection_point ( pmf_point<REAL> * pt, long id1, long id2 )
     {
         //cout << "########### 1" << endl;
         pt->n1->n1 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l1;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id1)
     {
         //cout << "########### 2" << endl;
         pt->n1->n2 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l2;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id2)
     {
         //cout << "########### 3" << endl;
         pt->n1->n1 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l1;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id2)
     {
         //cout << "########### 4" << endl;
         pt->n1->n2 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l2;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
 }
 
