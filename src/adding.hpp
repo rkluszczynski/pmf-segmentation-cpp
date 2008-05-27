@@ -12,15 +12,6 @@ template <class T_REAL>
 void
 PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 {
-#if pmf_LOG_ADD
-//#ifdef pmf_LOG_ADD_FILENAME
-//    ofstream fout(pmf_LOG_ADD_FILENAME);
-//    ostream out(fout.rdbuf());
-//#else
-//    ostream out(std::cout.rdbuf());
-//#endif
-    int iterationCounter = 0;
-#endif
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
     pmfConf->set_points_ids();

@@ -164,6 +164,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                 st.push(dpt->id);
                 REAL length1 = (dptn->n1->id == dpt->id) ? dptn->l1 : dptn->l2;
                 REAL length2 = (dptn->n1->id == dpt->id) ? dptn->l2 : dptn->l1;
+                /// TODO: use length
                 newPt = new pmf_point<REAL>(dpt->x, dpt->y, dptn, NULL, length1, length2, dpt->id, PT_UPDATE);
                 if (dptn->n1 != NULL  &&  dptn->n1->id == dpt->id)  dptn->n1 = newPt;
                 else

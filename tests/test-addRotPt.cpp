@@ -28,6 +28,8 @@ int main (int argc, char *argv[])
     double y = 2.28;
     double angle = 3.511499;
 
+    x = 1.375; y = 0.085; angle = 0.0;
+
 	fprintf(stderr, "[ INFO ] :  Field Size (-s) = %.2lf\n", sizeArak);
 	fprintf(stderr, "[ INFO ] : Output File (-o) = '%s'\n", outputFile);
 	fprintf(stderr, "[ INFO ] :        Seed (-e) = %li\n", seed);

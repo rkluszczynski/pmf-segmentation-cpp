@@ -3478,14 +3478,16 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211761106 d:\projects\pmf-codeblocks\src\pmf.hpp
+1211847362 d:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
 	"configurationlist.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
 	"PMF.cpp"
 
-1211761106 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211874320 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -3503,14 +3505,15 @@
 	<fstream>
 	"listelement.hpp"
 
-1211830148 d:\projects\pmf-codeblocks\src\pmf.cpp
+1211847362 d:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
+	"evolve.hpp"
 	"adding.hpp"
-	"update.hpp"
-	"delete.hpp"
+	"change.hpp"
+	"remove.hpp"
 
 1211831944 d:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
@@ -3563,10 +3566,10 @@
 
 1211761106 d:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211216978 d:\projects\pmf-codeblocks\src\adding.hpp
+1211872454 d:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1211329718 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211849312 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -3584,11 +3587,12 @@
 	<vector>
 	<assert.h>
 
-1210173788 d:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+1211847362 d:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
 	<cmath>
+	"crosselement.hpp"
 	"abstractheap.hpp"
 
-1210610610 d:\projects\pmf-codeblocks\headers\modifylists.hpp
+1211848906 d:\projects\pmf-codeblocks\headers\modifylists.hpp
 	"point.hpp"
 	<stack>
 	<vector>
@@ -4260,4 +4264,10 @@
 1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
 
 1211830148 d:\projects\pmf-codeblocks\src\delete.hpp
+
+1211872464 d:\projects\pmf-codeblocks\src\evolve.hpp
+
+1211847362 d:\projects\pmf-codeblocks\src\change.hpp
+
+1211847362 d:\projects\pmf-codeblocks\src\remove.hpp
 

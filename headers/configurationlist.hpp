@@ -84,7 +84,7 @@ void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
     for (int i = 1; i <= ptNumber; i++)
     {
         long id;
-        double x, y;
+        double x, y, l1, l2;
         char tmp[128];
 
         in >> id;
@@ -92,11 +92,13 @@ void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
         in >> y;
         in >> firstIds[id];
         in >> secondIds[id];
+        in >> l1;
+        in >> l2;
         in.getline(tmp, 128);
 #ifdef CHECK_ASSERTIONS
         assert(i == id);
 #endif
-        ptTab[i] = new pmf_point<T_REAL>(x, y, NULL, NULL, 0.0, 0.0, id, PT_UNKNOWN);
+        ptTab[i] = new pmf_point<T_REAL>(x, y, NULL, NULL, l1, l2, id, PT_UNKNOWN);
     }
 
     for (int i = 1; i <= ptNumber; i++)
@@ -123,14 +125,17 @@ void ConfigurationList<T_REAL>::save_configuration (std::ostream & out)
     out << TemplateList<pmf_point<T_REAL> >::size << endl;
     while (iter) {
         pmf_point<T_REAL> * pt = iter->data;
-        out << pt->id << " ";
-        out << pt->x << " " << pt->y << " ";
-        //out << pt->l1 << " " << pt->l2 << " ";
-        out << ((pt->n1) ? pt->n1->id : 0) << " ";
-        out << ((pt->n2) ? pt->n2->id : 0) << " ";
-        out << pt->type << " ";
-        out << pt->block << " ";
-        out << pt->oid << " ";
+        out.precision(7);
+        out.width(4);   out << pt->id << " ";
+        out.width(11);  out << pt->x << " ";
+        out.width(11);  out << pt->y << " ";
+        out.width(4);   out << ((pt->n1) ? pt->n1->id : 0) << " ";
+        out.width(4);   out << ((pt->n2) ? pt->n2->id : 0) << " ";
+        out.width(11);  out << pt->l1 << " ";
+        out.width(11);  out << pt->l2 << " ";
+        out.width(2);   out << pt->type << " ";
+        out.width(3);   out << pt->block << " ";
+        out.width(4);   out << pt->oid << " ";
         out << endl;
         iter = iter->next;
     }

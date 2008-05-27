@@ -181,6 +181,7 @@ bool PMFPanel::LoadPMF(wxString path)
 }
 
 
+#define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
 void PMFPanel::OnLeftUp(wxMouseEvent& event)
 {
     double xx = double(event.GetX()+1) / double(scale);
@@ -202,10 +203,12 @@ void PMFPanel::OnLeftUp(wxMouseEvent& event)
         wstr += wxString::Format(wxT(" [%li] [%li]"), (pt->n1 ? pt->n1->id : 0), (pt->n2 ? pt->n2->id : 0));
         wstr += wxString::Format(wxT(", { %.3lf, %.3lf }"), pt->l1, pt->l2);
         wstr += wxString::Format(wxT(", oldId=%li"), pt->oid);
+        wstr += wxString::Format(wxT("  // %.3lf : %.3lf"), (pt->n1) ? DIST(pt, pt->n1) : -1.0, (pt->n2) ? DIST(pt, pt->n2) : -1.0);
     }
     else {
         wstr = wxString::Format(wxT(" Left clicked at (%d,%d)"), event.GetX(), event.GetY());
     }
     ((mainFrame *) mframe)->SetStatusText(wstr, 0);
 }
+#undef DIST
 

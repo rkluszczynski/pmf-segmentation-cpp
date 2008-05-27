@@ -43,6 +43,15 @@ PMF<T_REAL> :: EvolveRestOfField (
                         )
 {
     // Do the evolution!
+#if pmf_LOG_ADD
+//#ifdef pmf_LOG_ADD_FILENAME
+//    ofstream fout(pmf_LOG_ADD_FILENAME);
+//    ostream out(fout.rdbuf());
+//#else
+//    ostream out(std::cout.rdbuf());
+//#endif
+    int iterationCounter = 0;
+#endif
     long id1, id2;
     double angle, newAngle;
 //*
