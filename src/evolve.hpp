@@ -1,6 +1,34 @@
 #ifndef EVOLVE_HPP_INCLUDED
 #define EVOLVE_HPP_INCLUDED
 
+#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
+#define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
+template <class T_REAL>
+inline
+pmf_point<T_REAL> *
+pmf_put_new_neighbor (pmf_point<T_REAL> * ppt, T_REAL angle, long & ptId, T_REAL sinL, T_REAL cosL)
+{
+    T_REAL length = Exp<REAL>(2.0);
+    //cerr << " LENGTH = " << length << endl;
+
+    T_REAL rotx = X_ROTATED(ppt->x, ppt->y, sinL, cosL);
+    T_REAL roty = Y_ROTATED(ppt->x, ppt->y, sinL, cosL);
+    //cerr << rotx << "  " << roty << endl;
+
+    T_REAL coordX = rotx + length * cos(angle);
+    T_REAL coordY = roty + length * sin(angle);
+    //cerr << coordX << "  " << coordY << endl;
+
+    T_REAL newX = X_ROTATED(coordX, coordY, -sinL, cosL);
+    T_REAL newY = Y_ROTATED(coordX, coordY, -sinL, cosL);
+    //cerr << newX << "  " << newY << endl;
+
+    pmf_point<REAL> * newPt = new pmf_point<REAL>(newX, newY, ppt, NULL, length, 0.0, ++ptId, PT_UPDATE);
+    return newPt;
+}
+#undef Y_ROTATED
+#undef X_ROTATED
+
 
 template <class T_REAL>
 inline
@@ -14,7 +42,7 @@ PMF<T_REAL> :: EvolveRestOfField (
                             long & ptId
                         )
 {
-
+    // Do the evolution!
     long id1, id2;
     double angle, newAngle;
 //*

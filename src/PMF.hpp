@@ -19,11 +19,7 @@ class PMF
 {
     private :
         inline
-        void EvolveRestOfField(
-                            BirthsHeap<T_REAL> * bHeap,
-                            IntersectionsHeap<T_REAL> * iHeap,
-                            T_REAL, T_REAL, long, long &
-        );
+        void EvolveRestOfField(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, T_REAL, T_REAL, long, long &);
 
     protected :
         T_REAL fieldWidth, fieldHeight;
@@ -38,7 +34,9 @@ class PMF
 		void RotatePointTypes(T_REAL, T_REAL);
 		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 		void DetermineTypesFromLeftToRight();
-		void RedirectUpdatePoint(long, T_REAL);
+		//void RedirectUpdatePoint(long, T_REAL);
+		void ChangePointVelocity(long, T_REAL);
+		void RemoveBirthPoint(long, T_REAL);
 
 		void SetSeed(time_t);
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);

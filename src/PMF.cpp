@@ -26,10 +26,12 @@ PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 
 #include "generate.hpp"
 #include "rotate.hpp"
+
+#include "evolve.hpp"
 #include "adding.hpp"
 /// TODO : do more operations
-#include "update.hpp"
-#include "delete.hpp"
+#include "change.hpp"
+#include "remove.hpp"
 
 
 template <class T_REAL>

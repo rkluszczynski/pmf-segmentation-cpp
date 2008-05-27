@@ -165,7 +165,7 @@ int main (int argc, char *argv[])
             pmf->Generate(blockSize);
 
         ftime(&tbeg);
-        pmf->RedirectUpdatePoint(pointId, angle);
+        pmf->ChangePointVelocity(pointId, angle);
 	    ftime(&tend);
 
 		if (outputFile) pmf->SaveConfiguration(outputFile);

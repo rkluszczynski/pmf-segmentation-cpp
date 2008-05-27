@@ -5,39 +5,11 @@
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
-#define REAL double
-inline
-pmf_point<REAL> *
-pmf_put_new_neighbor (pmf_point<REAL> * ppt, REAL angle, long & ptId, REAL sinL, REAL cosL)
-{
-    REAL length = Exp<REAL>(2.0);
-    //cerr << " LENGTH = " << length << endl;
-
-    REAL rotx = X_ROTATED(ppt->x, ppt->y, sinL, cosL);
-    REAL roty = Y_ROTATED(ppt->x, ppt->y, sinL, cosL);
-    //cerr << rotx << "  " << roty << endl;
-
-    REAL coordX = rotx + length * cos(angle);
-    REAL coordY = roty + length * sin(angle);
-    //cerr << coordX << "  " << coordY << endl;
-
-    REAL newX = X_ROTATED(coordX, coordY, -sinL, cosL);
-    REAL newY = Y_ROTATED(coordX, coordY, -sinL, cosL);
-    //cerr << newX << "  " << newY << endl;
-
-    pmf_point<REAL> * newPt = new pmf_point<REAL>(newX, newY, ppt, NULL, length, 0.0, ++ptId, PT_UPDATE);
-    return newPt;
-}
-#undef REAL
-
-#include "evolve.hpp"
-
-
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
+PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 {
 #if pmf_LOG_ADD
 //#ifdef pmf_LOG_ADD_FILENAME
@@ -114,7 +86,7 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 #if pmf_LOG_ADD
     out << *pt << endl;
 #endif
-    newPt = pmf_put_new_neighbor(pt, upperAngle, ptId, sinL, cosL);
+    newPt = pmf_put_new_neighbor<T_REAL>(pt, upperAngle, ptId, sinL, cosL);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
     //bHeap->insert(newPt);
@@ -122,7 +94,7 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 #if pmf_LOG_ADD
     out << *pt->n1 << endl;
 #endif
-    newPt = pmf_put_new_neighbor(pt, lowerAngle, ptId, sinL, cosL);
+    newPt = pmf_put_new_neighbor<T_REAL>(pt, lowerAngle, ptId, sinL, cosL);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
     //bHeap->insert(newPt);
@@ -130,89 +102,14 @@ PMF<T_REAL> :: AddBirthPoint(T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 #if pmf_LOG_ADD
     out << *pt->n2 << endl;
 #endif
-    /* ************************************************************************************** */
 
+    /* ************************************************************************************** */
+    // and the riots start again ...
     EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
 
-    // and the riots start again ...
-    long id1, id2;
-    double angle, newAngle;
-/*
-    while (!bHeap->empty()  ||  !iHeap->empty())
-    {
-        id1 = id2 = 0;
-        pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
-        pmfConf->push_back(pt);
-#if pmf_LOG_ADD
-        ++iterationCounter;
-        out << " ---------------------------------------------------------------------------" << std::endl;
-        out << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << std::endl;
-        out << *pt << "   ::  " << id1 << " , " << id2 << std::endl;
-        out << bHeap << std::endl;
-        out << iHeap << std::endl;
-        out << "[ STEP ] : " << iterationCounter << std::endl;
-#endif
-        //
-        if (pt->id <= oldSize) {
-            if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
-            {
-                //assert(false == true);
-                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
-                determineUpdateAngle(newAngle);
-                newAngle += angle;
-                if (newAngle > M_PI_2)  newAngle -= M_PI;
-                if (newAngle < -M_PI_2)  newAngle += M_PI;
-
-                newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
-                // TODO: store point
-                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
-
-                pt->n2 = newPt;
-                pt->l2 = 17.17; //TODO
-            }
-        }
-        else {
-            if (pt->type == PT_UPDATE)
-            {
-                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
-                determineUpdateAngle<T_REAL>(newAngle);
-                newAngle += angle;
-                if (newAngle > M_PI_2)  newAngle -= M_PI;
-                if (newAngle < -M_PI_2)  newAngle += M_PI;
-
-                newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
-                // TODO: store point
-                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
-
-                pt->n2 = newPt;
-                pt->l2 = 17.17; //TODO
-            }
-            else if (pt->type == PT_INTERSECTION)
-            {
-#if pmf_LOG_ADD
-                out << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << std::endl;
-#endif
-                pmf_correct_new_intersection_point(pt, id1, id2);
-                //assert(false == true);
-#if CHECK_ASSERTIONS
-                assert(bHeap->get_point_with_id(id1) != NULL);
-                assert(bHeap->get_point_with_id(id2) != NULL);
-#endif
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
-
-            bHeap->remove_point_with_id(pt->id);
-            iHeap->remove_intersections_with_id(pt->id);
-            }
-        }
-    }
-    //*/
     delete bHeap;
     delete iHeap;
 
-//#if pmf_LOG_ADD
-//	if (out.rdbuf() != std::cout.rdbuf()) { ((ofstream *)&out)->close(); }
-//#endif
     return;
 }
 #undef PT_LE
