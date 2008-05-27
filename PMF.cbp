@@ -12,7 +12,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -o output/pmfclass.cf -f" />
+				<Option parameters="-s 7 -e 0 -o output/pmfclass.cf -f -u 34" />
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />

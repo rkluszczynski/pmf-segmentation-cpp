@@ -99,6 +99,17 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
+			<Target title="test-chgRotatedPoint">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
@@ -128,7 +139,11 @@
 		</Unit>
 		<Unit filename="tests\test-addRotPt.cpp">
 			<Option virtualFolder="mains\" />
-			<Option target="test-addRotatedPoint" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="tests\test-chgRotPt.cpp">
+			<Option virtualFolder="mains\" />
+			<Option target="test-chgRotatedPoint" />
 		</Unit>
 		<Unit filename="tests\test-heap.cpp">
 			<Option target="test-heap" />

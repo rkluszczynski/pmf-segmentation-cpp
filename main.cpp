@@ -7,6 +7,8 @@
 #include <sys/timeb.h>
 
 #define CHECK_ASSERTIONS 1
+#define pmf_LOG_ADD 1
+#define DEL_PATH_LOG 1
 
 #include "PMF.hpp"
 
@@ -50,7 +52,7 @@ int main (int argc, char *argv[])
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
-	while ((c = getopt(argc, argv, "s:i:o:e:b:fx:y:a:")) != EOF)
+	while ((c = getopt(argc, argv, "s:e:b:fo:u:a:i:")) != EOF)
 	{
 		switch (c)
 		{
@@ -164,9 +166,14 @@ int main (int argc, char *argv[])
 		else
             pmf->Generate(blockSize);
 
+        ofstream fout("output/log-chg-rot.txt");
+        out.rdbuf(fout.rdbuf());
+
         ftime(&tbeg);
         pmf->ChangePointVelocity(pointId, angle);
 	    ftime(&tend);
+
+	    fout.close();
 
 		if (outputFile) pmf->SaveConfiguration(outputFile);
 		delete pmf;

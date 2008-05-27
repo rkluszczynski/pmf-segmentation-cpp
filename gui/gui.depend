@@ -3566,10 +3566,10 @@
 
 1211761106 d:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211872454 d:\projects\pmf-codeblocks\src\adding.hpp
+1211884024 d:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1211849312 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211876308 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -3700,7 +3700,7 @@
 	"wx/geometry.h"
 	"wx/dynarray.h"
 
-1211794510 source:d:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1211875004 source:d:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	<sys/timeb.h>
@@ -4267,7 +4267,7 @@
 
 1211872464 d:\projects\pmf-codeblocks\src\evolve.hpp
 
-1211847362 d:\projects\pmf-codeblocks\src\change.hpp
+1211909104 d:\projects\pmf-codeblocks\src\change.hpp
 
 1211847362 d:\projects\pmf-codeblocks\src\remove.hpp
 

@@ -53,8 +53,8 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
         pmfConf->pop_front();
         bHeap->insert(pt);
     }
-    //bHeap->remove_point_with_id(8);
 
+    /* ************************************************************************************** */
     // Creating new point
     pt = new pmf_point<T_REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
@@ -81,7 +81,6 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
     newPt = pmf_put_new_neighbor<T_REAL>(pt, upperAngle, ptId, sinL, cosL);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
-    //bHeap->insert(newPt);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n1 << endl;
@@ -89,7 +88,6 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
     newPt = pmf_put_new_neighbor<T_REAL>(pt, lowerAngle, ptId, sinL, cosL);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
-    //bHeap->insert(newPt);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n2 << endl;

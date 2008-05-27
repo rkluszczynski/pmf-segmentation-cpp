@@ -2,198 +2,125 @@
 #define CHANGE_HPP_INCLUDED
 
 
+#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
+#define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 template <class T_REAL>
 void
 PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
 {
-    return;
-}
+    T_REAL fieldWidth  = pmfConf->get_field_width();
+    T_REAL fieldHeight = pmfConf->get_field_height();
+    pmfConf->set_points_ids();
 
+    long oldSize = pmfConf->get_size() + 1;
+    long ptId = oldSize;
 
-/**
- *
-#define ABS(x) (((x) > 0) ? (x) : (-(x)))
-bool changeAngle(PMF *Hist, PMF *newHist, int PointThre, struct borderPoint * Bord)
-{
-  float kg, kd, kat, nkat, len, zmX, zmY;
-  long oldSize, idPktu, zm, i1, i2, id1, id2;
-  struct Tpoint *pkt, *nowy, *akt, *tmp;
-  long los, k, turns;
-  int changed;
-  bool restore;
-
-  Hist->setPointIDs();		// To jest BARDZO wazne tutaj !!!
-  oldSize = Hist->getSize();
-  if(oldSize == 0) return(restore);
-  idPktu = oldSize;
-  turns = Hist->countTurns();
-  los = (rand() % turns) + 1;
-  //los = 1;
-  k = 0;
-  while( k < los  &&  (pkt = Hist->get()) != NULL )
-  {
-    if(pkt->r1 != NULL  &&  pkt->r2 != NULL  &&
-	( (pkt->r1->x < pkt->x  &&  pkt->x < pkt->r2->x)
-	  ||
-	  (pkt->r2->x < pkt->x  &&  pkt->x < pkt->r1->x)
-	)
-      )
-    {
-      k++;
-      if(k == los) break;
+    T_REAL sinL = sin(alpha);
+    T_REAL cosL = cos(alpha);
+#if pmf_LOG_ADD
+    out << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << std::endl;
+    out << "[  sin ] : " << sinL << std::endl;
+    out << "[  cos ] : " << cosL << std::endl;
+#endif
+    if (alpha != 0.0) {
+        RotatePointTypes(sinL, cosL);
+#if pmf_LOG_ADD
+        out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
+        SaveConfiguration("output/PMF-R.txt");
+#endif
     }
-    newHist->addPoint(pkt);
-  }
+#if CHECK_ASSERTIONS
+    //assert(sinL*sinL + cosL*cosL == 1.0);
+    assert( abs(sinL*sinL + cosL*cosL - 1.0) < EPSILON );
+#endif
+    BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
+    IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
 
-  listB *qB = new listB();	// Lista punktow wylosowanych
-  listI *qI = new listI();	// Lista punktow przeciecia
-  while(!Hist->empty())
-  {
-    qB->put( Hist->get() );
-  }
-  //
-  //fprintf(fstep, "\nZMIENIAM PKT : %3li ", pkt->id);
-  //fprintf(fstep, "[%.3f;%.3f;%li;%li]\n", pkt->x, pkt->y,
-	//  (pkt->r1) ? pkt->r1->id : 0,
-	//  (pkt->r2) ? pkt->r2->id : 0);
-  //
-  los = pkt->id - 1;
-  tmp = allocPoint(pkt->x, pkt->y, pkt, NULL, 0, 0, &los);
-
-  id1 = ((pkt->x < pkt->r1->x) ? pkt->r1->id : pkt->r2->id);
-  if(pkt->x < pkt->r1->x)
-  {
-    id1 = pkt->r1->id;
-    pkt->r1 = pkt->r2;
-    pkt->r2 = NULL;
-  }
-  else {
-    id1 = pkt->r2->id;
-    pkt->r2 = NULL;
-  }
-  delPathS(tmp, id1, qB, qI, &idPktu, Bord);
-  delete(tmp);
-  storePoints2(pkt, qB, qI, &idPktu, Bord);
-
-  long qq = 0;
-  restore = false;
-  changed = 0;
-  while( !qB->empty() || !qI->empty() )
-  {
-    qq++;
-    akt = doGet( qB, qI, &id1, &id2 );
-    newHist->addPoint(akt);
-    if( akt->id > oldSize )
-	if( (++changed) > PointThre )
-	{
-	    restore = true;
-	    break;
-	}
-
-    if( akt->id <= oldSize )
+    pmf_point<T_REAL> * pt;
+    while (! pmfConf->empty())
     {
-      if(akt->r1 != NULL  &&  akt->r2 == NULL  &&  isInsideBorder(akt->x,akt->y,Bord) == 0
-	  &&  isOnBorder(akt->x,akt->y,Bord) < 0
-	)
-      {
-	if(ABS(akt->x - akt->r1->x) < EPSILON) {
-	  // fprintf(stderr, "\n [OLD] UPSY DAIZY!\n");
-	  if(akt->y > akt->r1->y)  kat = 0.5*M_PI;
-	  else kat = -0.5*M_PI;
-	}
-	else
-	  kat = atan((akt->y - akt->r1->y) / (akt->x - akt->r1->x));
-	determineUpdateAngle(&nkat);
-	nkat += kat;
-	if(nkat > M_PI/2.0) nkat -= M_PI;
-	if(nkat < -M_PI/2.0) nkat += M_PI;
+        pt = pmfConf->front();
+        pmfConf->pop_front();
+        bHeap->insert(pt);
+    }
 
-	len = E(2);
-	zmX = akt->x + len*cos(nkat);
-	zmY = akt->y + len*sin(nkat);
-	nowy = allocPoint(zmX, zmY, akt, NULL, 0, 0, &idPktu);
-	storePoints2(nowy, qB, qI, &idPktu, Bord);
-	akt->r2 = nowy;
-      }
+    /* ************************************************************************************** */
+    // Looking for update point number id
+#if pmf_LOG_ADD
+    out << "[  CHG ] : oldSize = " << ptId << "   [ " << id << " ]" << std::endl;
+#endif
+    long updatePointCounter = 0;
+    while (! bHeap->empty())
+    {
+#if pmf_LOG_ADD
+        out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
+#endif
+        pt = bHeap->extract_min();
+        if (pt->type == PT_UPDATE)
+        {
+            ++updatePointCounter;
+            if (updatePointCounter == id) break;
+        }
+        pmfConf->push_back(pt);
+    }
+#if pmf_LOG_ADD
+    out << bHeap << std::endl;
+    out << "[ CHANGING POINT ] : " << *pt << std::endl << std::endl;
+#endif
+
+    // Tricky trick : duplicate update point and delete its path,
+    //                then put the original one into brith heap
+    pmf_point<T_REAL> * tmp = new pmf_point<T_REAL>(pt->x, pt->y, pt, NULL, 0.0, 0.0, pt->id, PT_UPDATE);
+    pmf_point<T_REAL> * qq = NULL;
+    long idik;
+    if (PT_LT(pt, pt->n1, sinL, cosL))
+    {
+        idik = pt->n1->id;
+        pt->n1 = pt->n2;
+        pt->n2 = NULL;
     }
     else {
-      if(akt->r1 != NULL  &&  akt->r2 == NULL  &&  isInsideBorder(akt->x,akt->y,Bord) == 0
-	  &&  isOnBorder(akt->x,akt->y,Bord) < 0
-	)
-      {
-	if(ABS(akt->x - akt->r1->x) < EPSILON) {
-	  if(akt->y > akt->r1->y)  kat = 0.5*M_PI;
-	  else kat = -0.5*M_PI;
-	}
-	else
-	  kat = atan((akt->y - akt->r1->y) / (akt->x - akt->r1->x));
-	determineUpdateAngle(&nkat);
-	nkat += kat;
-	if(nkat > M_PI/2.0) nkat -= M_PI;
-	if(nkat < -M_PI/2.0) nkat+= M_PI;
-
-	len = E(2);
-	zmX = akt->x + len*cos(nkat);
-	zmY = akt->y + len*sin(nkat);
-	nowy = allocPoint(zmX, zmY, akt, NULL, 0, 0, &idPktu);
-	storePoints2(nowy, qB, qI, &idPktu, Bord);
-	akt->r2 = nowy;
-      }
-      if(akt->r1 != NULL  &&  akt->r2 != NULL
-	  &&  akt->r1->x < akt->x  &&  akt->r2->x < akt->x)
-      {
-	// isIDaNeighbor
-	int i1, i2;
-	if( (i1 = isIDaNeighbor(akt->r1, id1)) > 0
-	    &&  (i2 = isIDaNeighbor(akt->r2, id2)) > 0 )
-	{
-	  if(i1 == 1)  akt->r1->r1 = akt;
-	  else if(i1 == 2)  akt->r1->r2 = akt;
-	  else fprintf(stderr, "&1");
-
-	  if(i2 == 1)  akt->r2->r1 = akt;
-	  else if(i2 == 2)  akt->r2->r2 = akt;
-	  else fprintf(stderr, "&2");
-	}
-	else
-	if( (i1 = isIDaNeighbor(akt->r1, id2)) > 0
-	    &&  (i2 = isIDaNeighbor(akt->r2, id1)) > 0)
-	{
-	  if(i1 == 1)  akt->r1->r1 = akt;
-	  else if(i1 == 2)  akt->r1->r2 = akt;
-	  else fprintf(stderr, "&1");
-
-	  if(i2 == 1)  akt->r2->r1 = akt;
-	  else if(i2 == 2)  akt->r2->r2 = akt;
-	  else fprintf(stderr, "&2");
-	}
-	else
-	  fprintf(stderr, "#");
-
-	delPathS(akt, id1, qB, qI, &idPktu, Bord);
-	delPathS(akt, id2, qB, qI, &idPktu, Bord);
-      }
+        idik = pt->n2->id;
+        pt->n2 = NULL;
     }
-    qB->remove(akt->id);
-    qI->remove(akt->id);
+    pmf_delete_rotated_path(pt, bHeap->get_point_with_id(idik), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
+    delete tmp;
+    bHeap->insert(pt);
+    //pmfConf->push_back(pt);
+#if pmf_LOG_ADD
+    out << bHeap << std::endl;
+#endif
+    /**
+          los = pkt->id - 1;
+          tmp = allocPoint(pkt->x, pkt->y, pkt, NULL, 0, 0, &los);
 
-    checkPoint(akt, qq);
-  }
-  qB->free();  qI->free();
-  delete(qB);  delete(qI);
+          id1 = ((pkt->x < pkt->r1->x) ? pkt->r1->id : pkt->r2->id);
+          if(pkt->x < pkt->r1->x)
+          {
+            id1 = pkt->r1->id;
+            pkt->r1 = pkt->r2;
+            pkt->r2 = NULL;
+          }
+          else {
+            id1 = pkt->r2->id;
+            pkt->r2 = NULL;
+          }
+          delPathS(tmp, id1, qB, qI, &idPktu, Bord);
+          delete(tmp);
+          storePoints2(pkt, qB, qI, &idPktu, Bord);
+    */
 
+    /* ************************************************************************************** */
+    // and the riots start again ...
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
 
-  fprintf(stderr, "?");  fflush(stderr);
-  struct T_PMFElement *ptr = newHist->giveHead();
-  while(ptr)
-  {
-    checkPoint(ptr->point, 0);
-    ptr = ptr->next;
-  }
+    delete bHeap;
+    delete iHeap;
 
-  return(restore);
-} // end function removePoint
-#undef ABS
- */
+    return;
+}
+#undef PT_LT
+#undef X_ROTATED
+
 
 #endif // CHANGE_HPP_INCLUDED
