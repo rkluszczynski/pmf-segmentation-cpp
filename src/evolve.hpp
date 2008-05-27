@@ -6,9 +6,9 @@
 template <class T_REAL>
 inline
 pmf_point<T_REAL> *
-pmf_put_new_neighbor (pmf_point<T_REAL> * ppt, T_REAL angle, long & ptId, T_REAL sinL, T_REAL cosL)
+pmf_put_new_neighbor (pmf_point<T_REAL> * ppt, T_REAL angle, long & ptId, T_REAL sinL, T_REAL cosL, T_REAL llength = 0.0)
 {
-    T_REAL length = Exp<REAL>(2.0);
+    T_REAL length = (llength == 0.0) ? Exp<REAL>(2.0) : llength;
     //cerr << " LENGTH = " << length << endl;
 
     T_REAL rotx = X_ROTATED(ppt->x, ppt->y, sinL, cosL);
@@ -64,19 +64,22 @@ PMF<T_REAL> :: EvolveRestOfField (
         if (pt->id <= oldSize) {
             if (pt->type == PT_UPDATE  &&  pt->n2 == NULL)
             {
+#if CHECK_ASSERTIONS
                 //assert(false == true);
+                assert(pt->l1 > 0.0);
+                assert(pt->l2 > 0.0);
+#endif
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
                 determineUpdateAngle(newAngle);
                 newAngle += angle;
                 if (newAngle > M_PI_2)  newAngle -= M_PI;
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
-                pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
-                // TODO: store point
+                pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL, pt->l2);
                 pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
                 pt->n2 = newPt;
-                pt->l2 = 17.17; //TODO
+                pt->l2 = newPt->l1;
             }
         }
         else {
@@ -89,11 +92,10 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
-                // TODO: store point
                 pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
 
                 pt->n2 = newPt;
-                pt->l2 = 17.17; //TODO
+                pt->l2 = newPt->l1;
             }
             else if (pt->type == PT_INTERSECTION)
             {

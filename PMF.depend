@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1202056100 source:d:\projects\pmf-codeblocks\main.cpp
+1211847362 source:d:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
 	<csignal>
 	<ctime>
 	<unistd.h>
-	"operations.hpp"
+	<sys/timeb.h>
+	"PMF.hpp"
 
 1202049866 d:\projects\pmf-codeblocks\src\generate.cpp
 	<iostream>
@@ -19,7 +20,7 @@
 	"probability.hpp"
 	"accesslists.hpp"
 
-1200766472 d:\projects\pmf-codeblocks\headers\birthslist.hpp
+1211027068 d:\projects\pmf-codeblocks\headers\birthslist.hpp
 	<stdio.h>
 	<iostream>
 	"point.hpp"
@@ -31,7 +32,7 @@
 	<iostream>
 	"listelement.hpp"
 
-1195475554 d:\projects\pmf-codeblocks\headers\listelement.hpp
+1211027068 d:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
 
 1202706066 d:\projects\pmf-codeblocks\headers\templatelist.hpp
@@ -40,17 +41,17 @@
 	<fstream>
 	"listelement.hpp"
 
-1202046702 d:\projects\pmf-codeblocks\headers\blockslists.hpp
+1211027068 d:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
 	"blocklist.hpp"
 
-1202706952 d:\projects\pmf-codeblocks\headers\blocklist.hpp
+1208384806 d:\projects\pmf-codeblocks\headers\blocklist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
-1202706988 d:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1211212570 d:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
@@ -61,7 +62,7 @@
 	<cstdio>
 	"point.hpp"
 
-1202705980 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211761106 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -70,10 +71,10 @@
 	<cmath>
 	<algorithm>
 
-1202708296 d:\projects\pmf-codeblocks\headers\accesslists.hpp
+1210671598 d:\projects\pmf-codeblocks\headers\accesslists.hpp
 	"geometry.hpp"
 
-1195484144 d:\projects\pmf-codeblocks\headers\geometry.hpp
+1210671598 d:\projects\pmf-codeblocks\headers\geometry.hpp
 
 1202707988 source:d:\projects\pmf-codeblocks\src\add.cpp
 	"configurationlist.hpp"
@@ -317,4 +318,84 @@
 1211845816 h:\projects\pmf-codeblocks\src\evolve.hpp
 
 1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
+
+1211847362 d:\projects\pmf-codeblocks\src\pmf.hpp
+	<ctime>
+	<ostream>
+	<iostream>
+	"configurationlist.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
+	"PMF.cpp"
+
+1210170568 d:\projects\pmf-codeblocks\headers\birthsheap.hpp
+	<cmath>
+	<algorithm>
+	"abstractheap.hpp"
+
+1211212570 d:\projects\pmf-codeblocks\headers\abstractheap.hpp
+	<iostream>
+	<algorithm>
+	<vector>
+	<assert.h>
+
+1211847362 d:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+	<cmath>
+	"crosselement.hpp"
+	"abstractheap.hpp"
+
+1211847362 d:\projects\pmf-codeblocks\src\pmf.cpp
+	<iostream>
+	<fstream>
+	"generate.hpp"
+	"rotate.hpp"
+	"evolve.hpp"
+	"adding.hpp"
+	"change.hpp"
+	"remove.hpp"
+
+1211831944 d:\projects\pmf-codeblocks\src\generate.hpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+
+1211761106 d:\projects\pmf-codeblocks\src\rotate.hpp
+
+1211849744 d:\projects\pmf-codeblocks\src\evolve.hpp
+
+1211847606 d:\projects\pmf-codeblocks\src\adding.hpp
+	"modifyheaps.hpp"
+
+1211849312 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+	"point.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
+	"modifylists.hpp"
+	<stack>
+
+1211848906 d:\projects\pmf-codeblocks\headers\modifylists.hpp
+	"point.hpp"
+	<stack>
+	<vector>
+	<stack>
+
+1211847362 d:\projects\pmf-codeblocks\src\change.hpp
+
+1211847362 d:\projects\pmf-codeblocks\src\remove.hpp
+
+1211830148 source:d:\projects\pmf-codeblocks\src\main-add.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"PMF.hpp"
 

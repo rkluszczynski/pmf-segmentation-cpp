@@ -19,12 +19,12 @@ void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id
     int i1 = pmf_which_neighbor_is_id (pt->n1, id1);
     int i2 = pmf_which_neighbor_is_id (pt->n2, id2);
     if (i1 > 0  &&  i2 > 0) {
-        if (i1 == 1)  pt->n1->n1 = pt;
-        else if (i1 == 2)  pt->n1->n2 = pt;
+        if (i1 == 1)  { pt->n1->n1 = pt;  pt->l1 = pt->n1->l1; }
+        else if (i1 == 2)  { pt->n1->n2 = pt;  pt->l1 = pt->n1->l2; }
         else assert(false);
 
-        if (i2 == 1)  pt->n2->n1 = pt;
-        else if (i2 == 2)  pt->n2->n2 = pt;
+        if (i2 == 1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        else if (i2 == 2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
         else assert(false);
 
         return;
@@ -32,12 +32,12 @@ void pmf_correct_new_intersection_point (pmf_point<REAL> * pt, long id1, long id
     i1 = pmf_which_neighbor_is_id (pt->n1, id2);
     i2 = pmf_which_neighbor_is_id (pt->n2, id1);
     if (i1 > 0  &&  i2 > 0) {
-        if (i1 == 1)  pt->n1->n1 = pt;
-        else if (i1 == 2)  pt->n1->n2 = pt;
+        if (i1 == 1)  { pt->n1->n1 = pt;  pt->l1 = pt->n1->l1; }
+        else if (i1 == 2)  { pt->n1->n2 = pt;  pt->l1 = pt->n1->l2; }
         else assert(false);
 
-        if (i2 == 1)  pt->n2->n1 = pt;
-        else if (i2 == 2)  pt->n2->n2 = pt;
+        if (i2 == 1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        else if (i2 == 2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
         else assert(false);
 
         return;
