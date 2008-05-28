@@ -13,35 +13,13 @@
 #include "PMF.hpp"
 
 
-void print_usage(char *prog_name, bool cond = false)
-{
-    if (cond) {
-		fprintf(stderr, "\n");
-        fprintf(stderr, "[ ERROR ] : Parameters: -s or -l, and -u are mandatory !\n");
-    }
-
-	fprintf(stderr, "\n[ USAGE ] :  %s  [-f]\n", prog_name);
-	fprintf(stderr, "       \t\t  [ -s size of field ]\n");
-	fprintf(stderr, "       \t\t  [ -i file with initial configuration ]\n");
-	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
-	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
-	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
-	fprintf(stderr, "       \t\t  [ -u id of point to update ]\n");
-	fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
-	fprintf(stderr, "\n");
-
-    system("PAUSE");
-	exit(1);
-}
-
-
 #define REAL double
 int main ()
 {
 	double    sizeArak = 7.0;
 	double   blockSize = 0.0;
 	double       angle = 0.0;
-	// 93, 109
+	// 93(id=187), 109(id=223)
     long       pointId = 93;
 	time_t        seed = 0;
     struct timeb tbeg, tend;

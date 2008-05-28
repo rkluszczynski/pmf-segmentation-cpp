@@ -2011,7 +2011,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211752120 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1211877904 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	<sys/timeb.h>
@@ -2029,23 +2029,26 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211814486 h:\projects\pmf-codeblocks\src\pmf.cpp
+1211847042 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
+	"evolve.hpp"
 	"adding.hpp"
-	"update.hpp"
-	"delete.hpp"
+	"change.hpp"
+	"remove.hpp"
 
-1211708890 h:\projects\pmf-codeblocks\src\pmf.hpp
+1211847026 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
 	"configurationlist.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
 	"PMF.cpp"
 
-1211469856 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211877904 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -2150,17 +2153,17 @@
 
 1211471910 h:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211225860 h:\projects\pmf-codeblocks\src\adding.hpp
+1211912354 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1211320694 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211877904 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
 	"modifylists.hpp"
 	<stack>
 
-1210570744 h:\projects\pmf-codeblocks\headers\modifylists.hpp
+1211877904 h:\projects\pmf-codeblocks\headers\modifylists.hpp
 	"point.hpp"
 	<stack>
 	<vector>
@@ -2177,8 +2180,9 @@
 	<vector>
 	<assert.h>
 
-1210187112 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+1211844152 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
 	<cmath>
+	"crosselement.hpp"
 	"abstractheap.hpp"
 
 1186411290 d:\software\codeblocks\wxwidgets-2.8.7\include\wx\stattext.h
@@ -4270,4 +4274,10 @@
 1211909104 d:\projects\pmf-codeblocks\src\change.hpp
 
 1211847362 d:\projects\pmf-codeblocks\src\remove.hpp
+
+1211877904 h:\projects\pmf-codeblocks\src\evolve.hpp
+
+1211912656 h:\projects\pmf-codeblocks\src\change.hpp
+
+1211847108 h:\projects\pmf-codeblocks\src\remove.hpp
 

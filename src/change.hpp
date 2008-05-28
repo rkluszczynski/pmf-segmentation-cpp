@@ -70,24 +70,29 @@ PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
 
     // Tricky trick : duplicate update point and delete its path,
     //                then put the original one into brith heap
-    pmf_point<T_REAL> * tmp = new pmf_point<T_REAL>(pt->x, pt->y, pt, NULL, 0.0, 0.0, pt->id, PT_UPDATE);
-    pmf_point<T_REAL> * qq = NULL;
-    long idik;
+    pmf_point<T_REAL> * tricky = new pmf_point<T_REAL>(pt->x, pt->y, pt, NULL, 0.0, 0.0, pt->id, PT_UNKNOWN);
+    pmf_point<T_REAL> * tmp;
+#if CHECK_ASSERTIONS
+    assert( PT_LT(pt, pt->n1, sinL, cosL) || PT_LT(pt, pt->n2, sinL, cosL) );
+#endif
     if (PT_LT(pt, pt->n1, sinL, cosL))
     {
-        idik = pt->n1->id;
+        //idik = pt->n1->id;
+        tmp = pt->n1;
         pt->n1 = pt->n2;
         pt->n2 = NULL;
     }
-    else {
-        idik = pt->n2->id;
+    else //if (PT_LT(pt, pt->n2, sinL, cosL))
+    {
+        //idik = pt->n2->id;
+        tmp = pt->n2;
         pt->n2 = NULL;
     }
-    pmf_delete_rotated_path(pt, bHeap->get_point_with_id(idik), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
-    delete tmp;
+    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
+    delete tricky;
     bHeap->insert(pt);
-    //pmfConf->push_back(pt);
 #if pmf_LOG_ADD
+    out << " WAS TO DELETE : " << *tmp << std::endl << std::endl;
     out << bHeap << std::endl;
 #endif
     /**
