@@ -53,11 +53,14 @@ class PMFPanel: public wxPanel
 
         PMFPopupMenu * pmfPopupMenu;
         void * mframe;
+        bool doubleClicked;
 
 		//(*Handlers(PMFPanel)
 		void OnRightUp(wxMouseEvent& event);
 		void OnLeftUp(wxMouseEvent& event);
+		void OnLeftDClick(wxMouseEvent& event);
 		//*)
+		void IterateAndDrawConfiguration(wxMemoryDC& dc);
 
 	DECLARE_EVENT_TABLE()
 };

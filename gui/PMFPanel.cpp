@@ -28,6 +28,7 @@ PMFPanel::PMFPanel(wxWindow* parent)
 	//*)
 	staticBitmap->Connect(XRCID("ID_STATICBITMAP1"),wxEVT_RIGHT_UP,(wxObjectEventFunction)&PMFPanel::OnRightUp,0,this);
 	staticBitmap->Connect(XRCID("ID_STATICBITMAP1"),wxEVT_LEFT_UP,(wxObjectEventFunction)&PMFPanel::OnLeftUp,0,this);
+	staticBitmap->Connect(XRCID("ID_STATICBITMAP1"),wxEVT_LEFT_DCLICK,(wxObjectEventFunction)&PMFPanel::OnLeftDClick,0,this);
 
 	fieldSize = blockSize = 0.0;
 	pmf = NULL;
@@ -37,6 +38,7 @@ PMFPanel::PMFPanel(wxWindow* parent)
 
     mframe = (void *)GetParent()->GetParent();
     pmfPopupMenu = new PMFPopupMenu(mframe);
+    doubleClicked = false;
 }
 
 
@@ -48,15 +50,8 @@ PMFPanel::~PMFPanel()
 }
 
 
-bool PMFPanel::DrawGeneratedPMF()
+void PMFPanel::IterateAndDrawConfiguration(wxMemoryDC& dc)
 {
-    if (pmf == NULL  ||  bmp == NULL)  return false;
-
-    wxMemoryDC dc(*bmp);
-    dc.SetBackground(*wxWHITE_BRUSH);
-    dc.Clear();
-    //dc.SelectObject(wxNullBitmap);
-
     Element<pmf_point<double> > * iter = pmf->getFirstElement();
     while (iter) {
         pmf_point<double> * pt = iter->data;
@@ -74,7 +69,18 @@ bool PMFPanel::DrawGeneratedPMF()
         }
         iter = iter->next;
     }
+}
 
+
+bool PMFPanel::DrawGeneratedPMF()
+{
+    if (pmf == NULL  ||  bmp == NULL)  return false;
+
+    wxMemoryDC dc(*bmp);
+    dc.SetBackground(*wxWHITE_BRUSH);
+    dc.Clear();
+    //dc.SelectObject(wxNullBitmap);
+    IterateAndDrawConfiguration(dc);
     staticBitmap->SetBitmap(*bmp);
     return true;
 }
@@ -184,11 +190,55 @@ bool PMFPanel::LoadPMF(wxString path)
 #define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
 void PMFPanel::OnLeftUp(wxMouseEvent& event)
 {
+    if (doubleClicked) { doubleClicked = false;  return; }
+    //wxString qqq = (doubleClicked) ? doubleClicked = false, wxT("DOUBLE") : wxT("SINGLE");
+    //wxMessageBox(qqq, wxT("test"));
+    //((mainFrame *) mframe)->SetStatusText(qqq, 0);
+    //return;
     double xx = double(event.GetX()+1) / double(scale);
     double yy = double(event.GetY()+1) / double(scale);
     pmf_point<double> * pt = pmf->FindClosestTo(xx, yy);
     wxString wstr;
-    if (pt) {
+    if (pt)
+    {
+        int x0 = int(pt->x * double(scale));
+        int y0 = int(pt->y * double(scale));
+
+        wxMemoryDC dc(*bmp);
+        dc.SetBackground(*wxWHITE_BRUSH);
+        dc.Clear();
+        IterateAndDrawConfiguration(dc);
+
+        wxColor cc(128,128,255);
+        //wxPen pen(*wxRED, 3); // red pen of width 1
+        wxPen pen(cc, 3);
+        dc.SetPen(pen);
+        dc.SetBrush(*wxTRANSPARENT_BRUSH);
+        dc.DrawCircle(x0, y0, 5);
+        dc.DrawCircle(x0, y0, 1);
+
+        wxColor cb(0,0,0);
+        wxPen blackPen(cb, 2);
+        dc.SetPen(blackPen);
+        if (pt->n1) {
+            int x1 = int(pt->n1->x * double(scale));
+            int y1 = int(pt->n1->y * double(scale));
+            dc.DrawLine(x0, y0, x1, y1);
+        }
+        if (pt->n2) {
+            int x2 = int(pt->n2->x * double(scale));
+            int y2 = int(pt->n2->y * double(scale));
+            dc.DrawLine(x0, y0, x2, y2);
+        }
+
+        dc.DrawPoint(x0, y0);
+        dc.SetPen(wxNullPen);
+        dc.SetBrush(wxNullBrush);
+
+        staticBitmap->SetBitmap(*bmp);
+        staticBitmap->Refresh();
+
+
         wstr = wxString::Format(wxT(" Id = %li, ( %.3lf, %.3lf ), "), pt->id, pt->x, pt->y);
         switch (pt->type) {
             case   PT_BIRTH_DOWN: wstr += wxT("BRITH_DOWN"); break;
@@ -208,7 +258,35 @@ void PMFPanel::OnLeftUp(wxMouseEvent& event)
     else {
         wstr = wxString::Format(wxT(" Left clicked at (%d,%d)"), event.GetX(), event.GetY());
     }
+
     ((mainFrame *) mframe)->SetStatusText(wstr, 0);
 }
 #undef DIST
 
+
+void PMFPanel::OnLeftDClick(wxMouseEvent& event)
+{
+    doubleClicked = true;
+    //wxMessageBox(_("DClick"), _("info"));
+    //return;
+
+    wxMemoryDC dc(*bmp);
+    dc.SetBackground(*wxWHITE_BRUSH);
+    dc.Clear();
+    IterateAndDrawConfiguration(dc);
+
+    wxColor cc(128,128,255);
+    //wxPen pen(*wxRED, 3); // red pen of width 1
+    wxPen pen(cc, 3);
+    dc.SetPen(pen);
+    dc.SetBrush(*wxTRANSPARENT_BRUSH);
+    dc.DrawCircle(event.GetX(), event.GetY(), 5);
+    dc.DrawCircle(event.GetX(), event.GetY(), 1);
+    dc.SetPen(*wxBLACK_PEN);
+    dc.DrawPoint(event.GetPosition());
+    dc.SetPen(wxNullPen);
+    dc.SetBrush(wxNullBrush);
+
+    staticBitmap->SetBitmap(*bmp);
+    staticBitmap->Refresh();
+}

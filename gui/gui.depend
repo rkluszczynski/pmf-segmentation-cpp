@@ -2019,7 +2019,7 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1211708016 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1212126204 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -4277,7 +4277,7 @@
 
 1211877904 h:\projects\pmf-codeblocks\src\evolve.hpp
 
-1211912656 h:\projects\pmf-codeblocks\src\change.hpp
+1211955852 h:\projects\pmf-codeblocks\src\change.hpp
 
-1211847108 h:\projects\pmf-codeblocks\src\remove.hpp
+1211956752 h:\projects\pmf-codeblocks\src\remove.hpp
 
