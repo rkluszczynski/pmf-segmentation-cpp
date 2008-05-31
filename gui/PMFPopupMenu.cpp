@@ -16,19 +16,30 @@ BEGIN_EVENT_TABLE(PMFPopupMenu,wxMenu)
 END_EVENT_TABLE()
 
 
-PMFPopupMenu::PMFPopupMenu(void *frame)
+#define ITEM1_TEXT "Add point ..."
+#define ITEM2_TEXT "Update point ..."
+#define ITEM3_TEXT "Remove point ..."
+#define ITEM4_TEXT "Clear"
+
+
+PMFPopupMenu::PMFPopupMenu(void *frame, const PMFPanel * pp)
 {
     AppendSeparator();
-    Append(wxID_ANY, wxT("Add point ..."));
-    Append(wxID_ANY, wxT("Update point ..."));
-    Append(wxID_ANY, wxT("Delete point ..."));
+    Append(wxID_ANY, wxT(ITEM1_TEXT));
+    Append(wxID_ANY, wxT(ITEM2_TEXT));
+    Append(wxID_ANY, wxT(ITEM3_TEXT));
+    AppendSeparator();
+    Append(wxID_ANY, wxT(ITEM4_TEXT));
     AppendSeparator();
 
-    Connect(FindItem(wxT("Add point ...")),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnAddPointPopupMenuItemSelected);
-    Enable(FindItem(wxT("Update point ...")), false);
-    Enable(FindItem(wxT("Delete point ...")), false);
+    Connect(FindItem(wxT(ITEM1_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnAddPointPopupMenuItemSelected);
+    Connect(FindItem(wxT(ITEM4_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnClearPopupMenuItemSelected);
+    Enable(FindItem(wxT(ITEM2_TEXT)), false);
+    Enable(FindItem(wxT(ITEM3_TEXT)), false);
+    Enable(FindItem(wxT(ITEM4_TEXT)), false);
 
     mframe = frame;
+    pmfPanel = (PMFPanel *)pp;
 }
 
 
@@ -39,10 +50,52 @@ PMFPopupMenu::~PMFPopupMenu()
 }
 
 
+void PMFPopupMenu::Reinitialize()
+{
+    pmf_point<double> * pmfPoint = pmfPanel->GetSelectedPMFPoint();
+    wxPoint clickedPoint = pmfPanel->GetNewPMFPointLocation();
+
+    if (clickedPoint.x >= 0  &&  clickedPoint.y >= 0)
+    {
+        double xx = double(clickedPoint.x+1) / double(pmfPanel->GetScale());
+        double yy = double(clickedPoint.y+1) / double(pmfPanel->GetScale());
+
+        SetPoint(xx, yy);
+        Enable(FindItem(wxT(ITEM1_TEXT)), true);
+        Enable(FindItem(wxT(ITEM2_TEXT)), false);
+        Enable(FindItem(wxT(ITEM3_TEXT)), false);
+        Enable(FindItem(wxT(ITEM4_TEXT)), true);
+    }
+    else if (pmfPoint != NULL)
+    {
+        Enable(FindItem(wxT(ITEM1_TEXT)), false);
+        Enable(FindItem(wxT(ITEM2_TEXT)), true);
+        Enable(FindItem(wxT(ITEM3_TEXT)), true);
+        Enable(FindItem(wxT(ITEM4_TEXT)), true);
+    }
+    else {
+        bool value = false;
+        Enable(FindItem(wxT(ITEM1_TEXT)), value);
+        Enable(FindItem(wxT(ITEM2_TEXT)), value);
+        Enable(FindItem(wxT(ITEM3_TEXT)), value);
+        Enable(FindItem(wxT(ITEM4_TEXT)), false);
+    }
+}
+
+
 void PMFPopupMenu::OnAddPointPopupMenuItemSelected(wxCommandEvent& event)
 {
     //wxMessageBox(wxString::Format(wxT("%lf --- %lf"), x, y), wxT("vfegre"));
-    ((mainFrame *) mframe)->AddPointAction(event, x, y);
+    //((mainFrame *) mframe)->AddPointAction(event, x, y);
+    double xx = 0.17;
+    double yy = 1.17;
+    pmfPanel->AddBirthPointToPMF(x, y, 0.0);
+}
+
+
+void PMFPopupMenu::OnClearPopupMenuItemSelected(wxCommandEvent& event)
+{
+    ;
 }
 
 

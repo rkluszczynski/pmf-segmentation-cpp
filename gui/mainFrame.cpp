@@ -244,7 +244,9 @@ void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
 
 void mainFrame::OnAddPointMenuItemSelected(wxCommandEvent& event)
 {
-    AddPointAction(event, 0.2, 2.0);
+    PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+    pp->AddBirthPointToPMF(0.2, 2.0, 0.0);
+    //AddPointAction(event, 0.2, 2.0);
 }
 
 
@@ -255,39 +257,6 @@ void mainFrame::OnRegenerateMenuItemSelected(wxCommandEvent& event)
     pmf->Refresh();
 }
 
-
-void mainFrame::AddPointAction(wxCommandEvent& event, double xx, double yy)
-{
-    AddPointDialog gDialog(this);
-    gDialog.SetPointCoordinates(xx, yy);
-    gDialog.ShowModal();
-    if ( gDialog.isOk() )
-    {
-        wxString strX = (gDialog.CoordinateXTextCtrl)->GetValue();
-        wxString strY = (gDialog.CoordinateYTextCtrl)->GetValue();
-        wxString strB = (gDialog.BlockSizeTextCtrl)->GetValue();
-        wxString strA = (gDialog.RadianAngleTextCtrl)->GetValue();
-        bool check = (gDialog.UseBlocksCheckBox)->GetValue();
-        double xx, yy, bsize, angle;
-
-        if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
-            if (bsize >= 0.0)
-            {
-                if (!check) bsize = 0.0;
-                // TODO :
-                wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
-                ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
-
-                PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
-                pp->AddBirthPointToPMF(xx, yy, angle);
-
-                SetStatusText( ss, 0);
-            }
-            else {
-                wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
-            }
-    }
-}
 
 void mainFrame::OnSavePMFMenuItemSelected(wxCommandEvent& event)
 {

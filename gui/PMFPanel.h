@@ -33,6 +33,10 @@ class PMFPanel: public wxPanel
         bool LoadPMF(wxString);
         //void SetScale(long);
 
+        pmf_point<double> * GetSelectedPMFPoint();
+        wxPoint & GetNewPMFPointLocation();
+        long GetScale();
+
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;
 		wxStaticBitmap* staticBitmap;
@@ -47,6 +51,8 @@ class PMFPanel: public wxPanel
 
         double fieldSize, blockSize;
         PMF<double> * pmf;
+        pmf_point<double> * choosenPoint;
+        wxPoint setNewPointLocation;
 
         wxBitmap * bmp;
         long scale;
@@ -61,6 +67,7 @@ class PMFPanel: public wxPanel
 		void OnLeftDClick(wxMouseEvent& event);
 		//*)
 		void IterateAndDrawConfiguration(wxMemoryDC& dc);
+		void ClearPopupOperations();
 
 	DECLARE_EVENT_TABLE()
 };

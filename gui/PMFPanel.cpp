@@ -1,5 +1,6 @@
 #include "PMFPanel.h"
 #include "mainFrame.h"
+#include "AddPointDialog.h"
 #include <sys/timeb.h>
 #include <wx/wx.h>
 #include <wx/string.h>
@@ -32,12 +33,14 @@ PMFPanel::PMFPanel(wxWindow* parent)
 
 	fieldSize = blockSize = 0.0;
 	pmf = NULL;
+	choosenPoint = NULL;
+	setNewPointLocation = wxPoint(-1,-1);
 	scale = 100;
 	bmp = NULL;
 	scrolledWindow->SetScrollRate(1, 1);
 
     mframe = (void *)GetParent()->GetParent();
-    pmfPopupMenu = new PMFPopupMenu(mframe);
+    pmfPopupMenu = new PMFPopupMenu(mframe, this);
     doubleClicked = false;
 }
 
@@ -127,7 +130,8 @@ void PMFPanel::OnRightUp(wxMouseEvent& event)
 {
     double xx = double(event.GetX()+1) / double(scale);
     double yy = double(event.GetY()+1) / double(scale);
-    pmfPopupMenu->SetPoint(xx, yy);
+
+    //pmfPopupMenu->SetPoint(xx, yy);
     ((mainFrame *) mframe)->SetStatusText(wxString::Format(wxT(" Clicked at (%d,%d)"), event.GetX()+1, event.GetY()+1), 0);
     //PopupMenu(pmfPopupMenu, event.GetPosition());
     int offsetX, offsetY;
@@ -136,15 +140,49 @@ void PMFPanel::OnRightUp(wxMouseEvent& event)
     popupPoint.x -= offsetX;
     popupPoint.y -= offsetY;
     //offsetX.x += staticBitmap->GetWindowBorderSize().GetWidth();
+
+    pmfPopupMenu->Reinitialize();
+    xx = double(setNewPointLocation.x+1) / double(scale);
+    yy = double(setNewPointLocation.y+1) / double(scale);
+    pmfPopupMenu->SetPoint(xx, yy);
     PopupMenu(pmfPopupMenu, popupPoint);
 }
 
 
 void PMFPanel::AddBirthPointToPMF(double xx, double yy, double alpha = 0.0)
 {
-    pmf->AddBirthPoint(xx, yy, alpha);
-    DrawGeneratedPMF();
-    Refresh();
+    AddPointDialog gDialog(this);
+    gDialog.SetPointCoordinates(xx, yy);
+    gDialog.ShowModal();
+    if ( gDialog.isOk() )
+    {
+        wxString strX = (gDialog.CoordinateXTextCtrl)->GetValue();
+        wxString strY = (gDialog.CoordinateYTextCtrl)->GetValue();
+        wxString strB = (gDialog.BlockSizeTextCtrl)->GetValue();
+        wxString strA = (gDialog.RadianAngleTextCtrl)->GetValue();
+        bool check = (gDialog.UseBlocksCheckBox)->GetValue();
+        double xx, yy, bsize, angle;
+
+        if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
+            if (bsize >= 0.0)
+            {
+                if (!check) bsize = 0.0;
+                // TODO :
+                wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
+                ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
+
+                //pmfPanel->AddBirthPointToPMF(xx, yy, angle);
+                pmf->AddBirthPoint(xx, yy, angle);
+                DrawGeneratedPMF();
+                Refresh();
+                ClearPopupOperations();
+
+                ((mainFrame *) mframe)->SetStatusText( ss, 0);
+            }
+            else {
+                wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
+            }
+    }
 }
 
 
@@ -198,6 +236,10 @@ void PMFPanel::OnLeftUp(wxMouseEvent& event)
     double xx = double(event.GetX()+1) / double(scale);
     double yy = double(event.GetY()+1) / double(scale);
     pmf_point<double> * pt = pmf->FindClosestTo(xx, yy);
+
+    choosenPoint = pt;
+    setNewPointLocation = wxPoint(-1,-1);
+
     wxString wstr;
     if (pt)
     {
@@ -287,6 +329,23 @@ void PMFPanel::OnLeftDClick(wxMouseEvent& event)
     dc.SetPen(wxNullPen);
     dc.SetBrush(wxNullBrush);
 
+    choosenPoint = NULL;
+    setNewPointLocation = event.GetPosition();
+
     staticBitmap->SetBitmap(*bmp);
     staticBitmap->Refresh();
 }
+
+
+pmf_point<double> * PMFPanel::GetSelectedPMFPoint() { return choosenPoint; }
+
+wxPoint & PMFPanel::GetNewPMFPointLocation() { return setNewPointLocation; }
+
+long PMFPanel::GetScale() { return scale; }
+
+void PMFPanel::ClearPopupOperations()
+{
+    choosenPoint = NULL;
+    setNewPointLocation = wxPoint(-1,-1);
+}
+
