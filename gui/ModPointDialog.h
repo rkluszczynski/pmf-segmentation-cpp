@@ -52,6 +52,8 @@ class ModPointDialog: public wxDialog
 
 	private:
 
+        pmf_point<double> * selectedPoint;
+
         bool clickedOK;
         int x0, y0, x, y;
         double angle, sinus, cosinus;

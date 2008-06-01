@@ -39,7 +39,7 @@ ModPointDialog::ModPointDialog(wxWindow* parent)
 	okButton = (wxButton*)FindWindow(XRCID("ID_OK_BUTTON"));
 	cancelButton = (wxButton*)FindWindow(XRCID("ID_CANCEL_BUTTON"));
 	bottomPanel = (wxPanel*)FindWindow(XRCID("ID_BOTTOM_PANEL"));
-	
+
 	Connect(XRCID("ID_USE_BLOCKS_CHECKBOX"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&ModPointDialog::OnUseBlocksCheckBoxClick);
 	Connect(XRCID("ID_RADIAN_TEXTCTRL"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&ModPointDialog::OnRadianAngleTextCtrlText);
 	Connect(XRCID("ID_DEGREE_TEXTCTRL"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&ModPointDialog::OnDegreeAngleTextCtrlText);
@@ -190,6 +190,7 @@ void ModPointDialog::OnRadianAngleTextCtrlText(wxCommandEvent& event)
 
 void ModPointDialog::SetPMFPointData(pmf_point<double> * pt)
 {
+    selectedPoint = pt;
     if (pt) {
         pointIdTextCtrl->ChangeValue(wxString::Format(wxT("%li"), pt->id));
         wxString coord(wxString::Format(wxT(" x = %.3lf  ;  y = %.3lf "), pt->x, pt->y));
