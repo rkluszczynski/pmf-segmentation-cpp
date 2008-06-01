@@ -28,6 +28,7 @@ class PMFPanel: public wxPanel
 		double GeneratePMF(time_t);
         bool DrawGeneratedPMF(bool configurationLowerLayer);
         void AddBirthPointToPMF(double, double);
+        void UpdatePointInsidePMF();
 
         bool SavePMF(wxString, int);
         bool LoadPMF(wxString);

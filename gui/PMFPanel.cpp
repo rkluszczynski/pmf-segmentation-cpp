@@ -1,6 +1,7 @@
 #include "PMFPanel.h"
 #include "mainFrame.h"
 #include "AddPointDialog.h"
+#include "ModPointDialog.h"
 #include <sys/timeb.h>
 #include <wx/wx.h>
 #include <wx/string.h>
@@ -343,3 +344,41 @@ void PMFPanel::ClearConfigurationSelection()
     setNewPointLocation = wxPoint(-1,-1);
 }
 
+
+void PMFPanel::UpdatePointInsidePMF()
+{
+    ModPointDialog gDialog(this);
+    //gDialog.SetPointCoordinates(xx, yy);
+    gDialog.ShowModal();
+    if ( gDialog.isOk() )
+    {
+        ;
+        /*
+        wxString strX = (gDialog.CoordinateXTextCtrl)->GetValue();
+        wxString strY = (gDialog.CoordinateYTextCtrl)->GetValue();
+        wxString strB = (gDialog.BlockSizeTextCtrl)->GetValue();
+        wxString strA = (gDialog.RadianAngleTextCtrl)->GetValue();
+        bool check = (gDialog.UseBlocksCheckBox)->GetValue();
+        double xx, yy, bsize, angle;
+
+        if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
+            if (bsize >= 0.0)
+            {
+                if (!check) bsize = 0.0;
+                // TODO :
+                wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
+                ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
+
+                //pmfPanel->AddBirthPointToPMF(xx, yy, angle);
+                pmf->AddBirthPoint(xx, yy, angle);
+                DrawGeneratedPMF(false);
+                ClearConfigurationSelection();
+
+                ((mainFrame *) mframe)->SetStatusText( ss, 0);
+            }
+            else {
+                wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
+            }
+        */
+    }
+}

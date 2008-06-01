@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<resource_extra>
+		<object root="1" />
+		<object name="ID_TOP_PANEL" class="wxPanel" variable="topPanel" member="yes" />
+		<object name="ID_LEFT_PANEL" class="wxPanel" variable="leftPanel" member="yes" />
+		<object name="ID_STATICTEXT5" class="wxStaticText" variable="StaticText5" member="yes" />
+		<object name="ID_STATICTEXT6" class="wxStaticText" variable="StaticText6" member="yes" />
+		<object name="ID_POINTID_TEXTCTRL" class="wxTextCtrl" variable="pointIdTextCtrl" member="yes" />
+		<object name="ID_USE_BLOCKS_CHECKBOX" class="wxCheckBox" variable="useBlocksCheckBox" member="yes">
+			<handler function="OnUseBlocksCheckBoxClick" entry="EVT_CHECKBOX" />
+		</object>
+		<object name="ID_STATICTEXT2" class="wxStaticText" variable="StaticText2" member="yes" />
+		<object name="ID_BLOCKSIZE_TEXTCTRL" class="wxTextCtrl" variable="blockSizeTextCtrl" member="yes" />
+		<object name="ID_STATICTEXT3" class="wxStaticText" variable="StaticText3" member="yes" />
+		<object name="ID_RADIAN_TEXTCTRL" class="wxTextCtrl" variable="radianAngleTextCtrl" member="yes">
+			<handler function="OnRadianAngleTextCtrlText" entry="EVT_TEXT" />
+		</object>
+		<object name="ID_STATICTEXT4" class="wxStaticText" variable="StaticText4" member="yes" />
+		<object name="ID_DEGREE_TEXTCTRL" class="wxTextCtrl" variable="degreeAngleTextCtrl" member="yes">
+			<handler function="OnDegreeAngleTextCtrlText" entry="EVT_TEXT" />
+		</object>
+		<object name="ID_ORIENTATION_PANEL" class="wxPanel" variable="orientationPanel" member="yes" />
+		<object name="ID_STATICTEXT1" class="wxStaticText" variable="StaticText1" member="yes" />
+		<object name="ID_CIRCLE_PANEL" class="wxPanel" variable="angleCirclePanel" member="yes">
+			<handler function="OnAngleCirclePanelPaint" entry="EVT_PAINT" />
+			<handler function="OnAngleCirclePanelLeftUp" entry="EVT_LEFT_UP" />
+		</object>
+		<object name="ID_SIN_STATICTEXT" class="wxStaticText" variable="sinStaticText" member="yes" />
+		<object name="ID_COS_STATICTEXT" class="wxStaticText" variable="cosStaticText" member="yes" />
+		<object name="ID_BOTTOM_PANEL" class="wxPanel" variable="bottomPanel" member="yes" />
+		<object name="ID_OK_BUTTON" class="wxButton" variable="okButton" member="yes">
+			<handler function="OnOkButtonClick" entry="EVT_BUTTON" />
+		</object>
+		<object name="ID_CANCEL_BUTTON" class="wxButton" variable="cancelButton" member="yes">
+			<handler function="OnCancelButtonClick" entry="EVT_BUTTON" />
+		</object>
+	</resource_extra>
+</wxsmith>

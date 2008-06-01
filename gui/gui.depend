@@ -1939,7 +1939,7 @@
 
 1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
 
-1210632194 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
+1212317108 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
 	"PMFApplication.h"
 	"mainFrame.h"
 	<wx/xrc/xmlres.h>
@@ -2011,16 +2011,17 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212267982 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1212320858 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
+	"ModPointDialog.h"
 	<sys/timeb.h>
 	<wx/wx.h>
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1212267940 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1212320818 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -2030,17 +2031,18 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1211847042 h:\projects\pmf-codeblocks\src\pmf.cpp
+1212304252 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
+	"prepare.hpp"
 	"evolve.hpp"
 	"adding.hpp"
-	"change.hpp"
+	"update.hpp"
 	"remove.hpp"
 
-1211847026 h:\projects\pmf-codeblocks\src\pmf.hpp
+1212303944 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -2124,17 +2126,17 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1211322660 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
+1212316854 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
 	"AddPointDialog.h"
 	<cmath>
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212239974 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
+1212321036 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
 
-1212266504 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
+1212321002 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
 	"PMFPopupMenu.h"
 	"mainFrame.h"
 	<cmath>
@@ -2154,7 +2156,7 @@
 
 1211471910 h:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211912354 h:\projects\pmf-codeblocks\src\adding.hpp
+1212304316 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
 1211877904 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
@@ -4262,7 +4264,7 @@
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1211816382 h:\projects\pmf-codeblocks\src\update.hpp
+1212303892 h:\projects\pmf-codeblocks\src\update.hpp
 
 1211830148 d:\projects\pmf-codeblocks\src\update.hpp
 
@@ -4280,5 +4282,21 @@
 
 1211955852 h:\projects\pmf-codeblocks\src\change.hpp
 
-1211956752 h:\projects\pmf-codeblocks\src\remove.hpp
+1212315772 h:\projects\pmf-codeblocks\src\remove.hpp
+
+1212303990 h:\projects\pmf-codeblocks\src\prepare.hpp
+
+1212320758 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
+	"ModPointDialog.h"
+	<wx/wx.h>
+	<wx/dcbuffer.h>
+	<wx/xrc/xmlres.h>
+
+1212322032 h:\projects\pmf-codeblocks\gui\modpointdialog.h
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/checkbox.h>
+	<wx/panel.h>
+	<wx/button.h>
+	<wx/dialog.h>
 

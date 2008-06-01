@@ -33,6 +33,7 @@ PMFPopupMenu::PMFPopupMenu(void *frame, const PMFPanel * pp)
     AppendSeparator();
 
     Connect(FindItem(wxT(ITEM1_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnAddPointPopupMenuItemSelected);
+    Connect(FindItem(wxT(ITEM2_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnUpdatePointPopupMenuItemSelected);
     Connect(FindItem(wxT(ITEM4_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnClearPopupMenuItemSelected);
     Enable(FindItem(wxT(ITEM2_TEXT)), false);
     Enable(FindItem(wxT(ITEM3_TEXT)), false);
@@ -86,6 +87,12 @@ void PMFPopupMenu::Reinitialize()
 void PMFPopupMenu::OnAddPointPopupMenuItemSelected(wxCommandEvent& event)
 {
     pmfPanel->AddBirthPointToPMF(x, y);
+}
+
+
+void PMFPopupMenu::OnUpdatePointPopupMenuItemSelected(wxCommandEvent& event)
+{
+    pmfPanel->UpdatePointInsidePMF();
 }
 
 

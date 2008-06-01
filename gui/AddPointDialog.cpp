@@ -42,7 +42,7 @@ AddPointDialog::AddPointDialog(wxWindow* parent)
 	Button1 = (wxButton*)FindWindow(XRCID("ID_BUTTON1"));
 	Button2 = (wxButton*)FindWindow(XRCID("ID_BUTTON2"));
 	Panel2 = (wxPanel*)FindWindow(XRCID("ID_PANEL2"));
-
+	
 	Connect(XRCID("ID_CHECKBOX1"),wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&AddPointDialog::OnCheckBox1Click);
 	Connect(XRCID("ID_TEXTCTRL1"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&AddPointDialog::OnRadianAngleTextCtrlText);
 	Connect(XRCID("ID_TEXTCTRL4"),wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&AddPointDialog::OnTextCtrl4Text);

@@ -83,6 +83,12 @@
 		<Unit filename="ImagePanel.h">
 			<Option virtualFolder="panels\" />
 		</Unit>
+		<Unit filename="ModPointDialog.cpp">
+			<Option virtualFolder="dialogs\" />
+		</Unit>
+		<Unit filename="ModPointDialog.h">
+			<Option virtualFolder="dialogs\" />
+		</Unit>
 		<Unit filename="PMFApplication.cpp" />
 		<Unit filename="PMFApplication.h" />
 		<Unit filename="PMFPanel.cpp">
@@ -105,6 +111,7 @@
 		<Unit filename="wxsmith\AddPointDialog.wxs" />
 		<Unit filename="wxsmith\GenerateDialog.wxs" />
 		<Unit filename="wxsmith\ImagePanel.wxs" />
+		<Unit filename="wxsmith\ModPointDialog.wxs" />
 		<Unit filename="wxsmith\PMFPanel.wxs" />
 		<Unit filename="wxsmith\mainFrame.wxs" />
 		<Extensions>
@@ -117,6 +124,7 @@
 					<load_resource file="GenerateDialog.xrc" />
 					<load_resource file="PMFPanel.xrc" />
 					<load_resource file="AddPointDialog.xrc" />
+					<load_resource file="ModPointDialog.xrc" />
 				</gui>
 				<resources>
 					<wxFrame wxs="wxsmith/mainFrame.wxs" src="mainFrame.cpp" hdr="mainFrame.h" xrc="mainFrame.xrc" name="mainFrame" language="CPP" />
@@ -124,6 +132,7 @@
 					<wxPanel wxs="wxsmith/ImagePanel.wxs" src="ImagePanel.cpp" hdr="ImagePanel.h" name="ImagePanel" language="CPP" />
 					<wxPanel wxs="wxsmith/PMFPanel.wxs" src="PMFPanel.cpp" hdr="PMFPanel.h" xrc="PMFPanel.xrc" name="PMFPanel" language="CPP" />
 					<wxDialog wxs="wxsmith/AddPointDialog.wxs" src="AddPointDialog.cpp" hdr="AddPointDialog.h" xrc="AddPointDialog.xrc" name="AddPointDialog" language="CPP" />
+					<wxDialog wxs="wxsmith/ModPointDialog.wxs" src="ModPointDialog.cpp" hdr="ModPointDialog.h" xrc="ModPointDialog.xrc" name="ModPointDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 		</Extensions>
