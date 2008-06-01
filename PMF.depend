@@ -114,7 +114,7 @@
 	"PMF.hpp"
 	"generate.cpp"
 
-1211845234 h:\projects\pmf-codeblocks\src\pmf.hpp
+1212303944 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -123,7 +123,7 @@
 	"intersectionsheap.hpp"
 	"PMF.cpp"
 
-1211469856 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1211877904 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
@@ -191,7 +191,7 @@
 
 1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
-1210570744 h:\projects\pmf-codeblocks\headers\modifylists.hpp
+1211877904 h:\projects\pmf-codeblocks\headers\modifylists.hpp
 	"point.hpp"
 	<stack>
 	<vector>
@@ -213,7 +213,7 @@
 	"crosselement.hpp"
 	"abstractheap.hpp"
 
-1211320694 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1211877904 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -267,15 +267,16 @@
 	"accesslists.hpp"
 	"PMF.hpp"
 
-1211845060 h:\projects\pmf-codeblocks\src\pmf.cpp
+1212304252 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
 	"rotate.hpp"
+	"prepare.hpp"
 	"evolve.hpp"
 	"adding.hpp"
 	"update.hpp"
-	"delete.hpp"
+	"remove.hpp"
 
 1211832566 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
@@ -288,7 +289,7 @@
 	"probability.hpp"
 	"accesslists.hpp"
 
-1211017688 source:h:\projects\pmf-codeblocks\src\main-gen.cpp
+1211698702 source:h:\projects\pmf-codeblocks\src\main-gen.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -298,12 +299,12 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 
-1211845530 h:\projects\pmf-codeblocks\src\adding.hpp
+1212304316 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
 1211471910 h:\projects\pmf-codeblocks\src\rotate.hpp
 
-1211816382 h:\projects\pmf-codeblocks\src\update.hpp
+1212303892 h:\projects\pmf-codeblocks\src\update.hpp
 
 1211813490 source:h:\projects\pmf-codeblocks\src\main-add.cpp
 	<cstdio>
@@ -315,7 +316,7 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 
-1211845816 h:\projects\pmf-codeblocks\src\evolve.hpp
+1211877904 h:\projects\pmf-codeblocks\src\evolve.hpp
 
 1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
 
@@ -398,4 +399,28 @@
 	<unistd.h>
 	<sys/timeb.h>
 	"PMF.hpp"
+
+1212301838 source:h:\projects\pmf-codeblocks\src\main-upd.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"PMF.hpp"
+
+1212303374 h:\projects\pmf-codeblocks\src\remove.hpp
+
+1212301494 source:h:\projects\pmf-codeblocks\src\main-rem.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"PMF.hpp"
+
+1212303990 h:\projects\pmf-codeblocks\src\prepare.hpp
 

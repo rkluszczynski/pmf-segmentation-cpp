@@ -14,49 +14,27 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
-    pmfConf->set_points_ids();
 
     long oldSize = pmfConf->get_size() + 1;
     long ptId = oldSize;
 
     T_REAL sinL = sin(alpha);
     T_REAL cosL = cos(alpha);
-#if pmf_LOG_ADD
-    out << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << std::endl;
-    out << "[  sin ] : " << sinL << std::endl;
-    out << "[  cos ] : " << cosL << std::endl;
-#endif
-    if (alpha != 0.0) {
-        //pmf_rotate_point_types(pmfConf, sinL, cosL);
-        RotatePointTypes(sinL, cosL);
-#if pmf_LOG_ADD
-        out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
-        SaveConfiguration("output/PMF-R.txt");
-#endif
-    }
-#if CHECK_ASSERTIONS
-    //assert(sinL*sinL + cosL*cosL == 1.0);
-    assert( abs(sinL*sinL + cosL*cosL - 1.0) < EPSILON );
-#endif
+
+    BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
+    IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
+
+    PrepareEvolution(bHeap, alpha, sinL, cosL);
+
+    /* ************************************************************************************** */
 #if pmf_LOG_ADD
     T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
     out << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << std::endl;
 #endif
-    BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
-    IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
 
-    pmf_point<T_REAL> * pt;
-    while (! pmfConf->empty())
-    {
-        pt = pmfConf->front();
-        pmfConf->pop_front();
-        bHeap->insert(pt);
-    }
-
-    /* ************************************************************************************** */
     // Creating new point
-    pt = new pmf_point<T_REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
+    pmf_point<T_REAL> * pt = new pmf_point<T_REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
     {
 #if pmf_LOG_ADD

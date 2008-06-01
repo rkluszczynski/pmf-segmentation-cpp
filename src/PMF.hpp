@@ -19,6 +19,8 @@ class PMF
 {
     private :
         inline
+        void PrepareEvolution(BirthsHeap<T_REAL> *, T_REAL, T_REAL, T_REAL);
+        inline
         void EvolveRestOfField(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, T_REAL, T_REAL, long, long &);
 
     protected :

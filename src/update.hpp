@@ -10,47 +10,25 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
-    pmfConf->set_points_ids();
 
     long oldSize = pmfConf->get_size() + 1;
     long ptId = oldSize;
 
     T_REAL sinL = sin(alpha);
     T_REAL cosL = cos(alpha);
-#if pmf_LOG_ADD
-    out << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << std::endl;
-    out << "[  sin ] : " << sinL << std::endl;
-    out << "[  cos ] : " << cosL << std::endl;
-#endif
-    if (alpha != 0.0) {
-        RotatePointTypes(sinL, cosL);
-#if pmf_LOG_ADD
-        out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
-        SaveConfiguration("output/PMF-R.txt");
-#endif
-    }
-#if CHECK_ASSERTIONS
-    //assert(sinL*sinL + cosL*cosL == 1.0);
-    assert( abs(sinL*sinL + cosL*cosL - 1.0) < EPSILON );
-#endif
+
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
 
-    pmf_point<T_REAL> * pt;
-    while (! pmfConf->empty())
-    {
-        pt = pmfConf->front();
-        pmfConf->pop_front();
-        bHeap->insert(pt);
-    }
-
+    PrepareEvolution(bHeap, alpha, sinL, cosL);
 
     /* ************************************************************************************** */
     // Looking for update point number id
 #if pmf_LOG_ADD
-    out << "[  CHG ] : oldSize = " << ptId << "   [ " << id << " ]" << std::endl;
+    out << "[  UPD ] : oldSize = " << ptId << "   [ " << id << " ]" << std::endl;
 #endif
     long updatePointCounter = 0;
+    pmf_point<T_REAL> * pt;
     while (! bHeap->empty())
     {
 #if pmf_LOG_ADD
