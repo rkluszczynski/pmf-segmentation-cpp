@@ -35,7 +35,7 @@ class PMF
 		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 		void DetermineTypesFromLeftToRight();
 		//void RedirectUpdatePoint(long, T_REAL);
-		void ChangePointVelocity(long, T_REAL);
+		void UpdatePointVelocity(long, T_REAL);
 		void RemoveBirthPoint(long, T_REAL);
 
 		void SetSeed(time_t);

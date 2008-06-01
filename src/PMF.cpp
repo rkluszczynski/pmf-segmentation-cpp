@@ -30,7 +30,7 @@ PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 #include "evolve.hpp"
 #include "adding.hpp"
 /// TODO : do more operations
-#include "change.hpp"
+#include "update.hpp"
 #include "remove.hpp"
 
 

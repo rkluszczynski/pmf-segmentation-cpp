@@ -26,12 +26,14 @@ class PMFPanel: public wxPanel
 
 		void SetParameters(double, double, long);
 		double GeneratePMF(time_t);
-        bool DrawGeneratedPMF();
-        void AddBirthPointToPMF(double, double, double);
+        bool DrawGeneratedPMF(bool configurationLowerLayer);
+        void AddBirthPointToPMF(double, double);
 
         bool SavePMF(wxString, int);
         bool LoadPMF(wxString);
         //void SetScale(long);
+
+		void ClearConfigurationSelection();
 
         pmf_point<double> * GetSelectedPMFPoint();
         wxPoint & GetNewPMFPointLocation();
@@ -67,7 +69,6 @@ class PMFPanel: public wxPanel
 		void OnLeftDClick(wxMouseEvent& event);
 		//*)
 		void IterateAndDrawConfiguration(wxMemoryDC& dc);
-		void ClearPopupOperations();
 
 	DECLARE_EVENT_TABLE()
 };

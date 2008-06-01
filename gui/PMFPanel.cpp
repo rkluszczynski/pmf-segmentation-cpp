@@ -75,7 +75,7 @@ void PMFPanel::IterateAndDrawConfiguration(wxMemoryDC& dc)
 }
 
 
-bool PMFPanel::DrawGeneratedPMF()
+bool PMFPanel::DrawGeneratedPMF(bool configurationLowerLayer = true)
 {
     if (pmf == NULL  ||  bmp == NULL)  return false;
 
@@ -83,8 +83,64 @@ bool PMFPanel::DrawGeneratedPMF()
     dc.SetBackground(*wxWHITE_BRUSH);
     dc.Clear();
     //dc.SelectObject(wxNullBitmap);
-    IterateAndDrawConfiguration(dc);
+
+    if (configurationLowerLayer) IterateAndDrawConfiguration(dc);
+
+    if (setNewPointLocation.x != -1  &&  setNewPointLocation.y != -1)
+    {
+        wxColor cc(128,128,255);
+        //wxPen pen(*wxRED, 3); // red pen of width 1
+        wxPen pen(cc, 3);
+        dc.SetPen(pen);
+        dc.SetBrush(*wxTRANSPARENT_BRUSH);
+        dc.DrawCircle(setNewPointLocation.x, setNewPointLocation.y, 5);
+        dc.DrawCircle(setNewPointLocation.x, setNewPointLocation.y, 1);
+        dc.SetPen(*wxBLACK_PEN);
+        dc.DrawPoint(setNewPointLocation);
+        dc.SetPen(wxNullPen);
+        dc.SetBrush(wxNullBrush);
+    }
+    else if (choosenPoint != NULL)
+    {
+        int x0 = int(choosenPoint->x * double(scale));
+        int y0 = int(choosenPoint->y * double(scale));
+
+        wxMemoryDC dc(*bmp);
+        dc.SetBackground(*wxWHITE_BRUSH);
+        dc.Clear();
+        IterateAndDrawConfiguration(dc);
+
+        wxColor cc(128,128,255);
+        //wxPen pen(*wxRED, 3); // red pen of width 1
+        wxPen pen(cc, 3);
+        dc.SetPen(pen);
+        dc.SetBrush(*wxTRANSPARENT_BRUSH);
+        dc.DrawCircle(x0, y0, 5);
+        dc.DrawCircle(x0, y0, 1);
+
+        wxColor cb(0,0,0);
+        wxPen blackPen(cb, 2);
+        dc.SetPen(blackPen);
+        if (choosenPoint->n1) {
+            int x1 = int(choosenPoint->n1->x * double(scale));
+            int y1 = int(choosenPoint->n1->y * double(scale));
+            dc.DrawLine(x0, y0, x1, y1);
+        }
+        if (choosenPoint->n2) {
+            int x2 = int(choosenPoint->n2->x * double(scale));
+            int y2 = int(choosenPoint->n2->y * double(scale));
+            dc.DrawLine(x0, y0, x2, y2);
+        }
+
+        dc.DrawPoint(x0, y0);
+        dc.SetPen(wxNullPen);
+        dc.SetBrush(wxNullBrush);
+    }
+
+    if (! configurationLowerLayer) IterateAndDrawConfiguration(dc);
+
     staticBitmap->SetBitmap(*bmp);
+    staticBitmap->Refresh();
     return true;
 }
 
@@ -128,28 +184,22 @@ void PMFPanel::SetParameters(double fSize, double bSize, long sscale)
 
 void PMFPanel::OnRightUp(wxMouseEvent& event)
 {
-    double xx = double(event.GetX()+1) / double(scale);
-    double yy = double(event.GetY()+1) / double(scale);
-
-    //pmfPopupMenu->SetPoint(xx, yy);
     ((mainFrame *) mframe)->SetStatusText(wxString::Format(wxT(" Clicked at (%d,%d)"), event.GetX()+1, event.GetY()+1), 0);
-    //PopupMenu(pmfPopupMenu, event.GetPosition());
     int offsetX, offsetY;
     scrolledWindow->GetViewStart(&offsetX, &offsetY);
     wxPoint popupPoint = event.GetPosition();
     popupPoint.x -= offsetX;
     popupPoint.y -= offsetY;
-    //offsetX.x += staticBitmap->GetWindowBorderSize().GetWidth();
 
     pmfPopupMenu->Reinitialize();
-    xx = double(setNewPointLocation.x+1) / double(scale);
-    yy = double(setNewPointLocation.y+1) / double(scale);
+    double xx = double(setNewPointLocation.x+1) / double(scale);
+    double yy = double(setNewPointLocation.y+1) / double(scale);
     pmfPopupMenu->SetPoint(xx, yy);
     PopupMenu(pmfPopupMenu, popupPoint);
 }
 
 
-void PMFPanel::AddBirthPointToPMF(double xx, double yy, double alpha = 0.0)
+void PMFPanel::AddBirthPointToPMF(double xx, double yy)
 {
     AddPointDialog gDialog(this);
     gDialog.SetPointCoordinates(xx, yy);
@@ -173,9 +223,8 @@ void PMFPanel::AddBirthPointToPMF(double xx, double yy, double alpha = 0.0)
 
                 //pmfPanel->AddBirthPointToPMF(xx, yy, angle);
                 pmf->AddBirthPoint(xx, yy, angle);
-                DrawGeneratedPMF();
-                Refresh();
-                ClearPopupOperations();
+                DrawGeneratedPMF(false);
+                ClearConfigurationSelection();
 
                 ((mainFrame *) mframe)->SetStatusText( ss, 0);
             }
@@ -243,43 +292,7 @@ void PMFPanel::OnLeftUp(wxMouseEvent& event)
     wxString wstr;
     if (pt)
     {
-        int x0 = int(pt->x * double(scale));
-        int y0 = int(pt->y * double(scale));
-
-        wxMemoryDC dc(*bmp);
-        dc.SetBackground(*wxWHITE_BRUSH);
-        dc.Clear();
-        IterateAndDrawConfiguration(dc);
-
-        wxColor cc(128,128,255);
-        //wxPen pen(*wxRED, 3); // red pen of width 1
-        wxPen pen(cc, 3);
-        dc.SetPen(pen);
-        dc.SetBrush(*wxTRANSPARENT_BRUSH);
-        dc.DrawCircle(x0, y0, 5);
-        dc.DrawCircle(x0, y0, 1);
-
-        wxColor cb(0,0,0);
-        wxPen blackPen(cb, 2);
-        dc.SetPen(blackPen);
-        if (pt->n1) {
-            int x1 = int(pt->n1->x * double(scale));
-            int y1 = int(pt->n1->y * double(scale));
-            dc.DrawLine(x0, y0, x1, y1);
-        }
-        if (pt->n2) {
-            int x2 = int(pt->n2->x * double(scale));
-            int y2 = int(pt->n2->y * double(scale));
-            dc.DrawLine(x0, y0, x2, y2);
-        }
-
-        dc.DrawPoint(x0, y0);
-        dc.SetPen(wxNullPen);
-        dc.SetBrush(wxNullBrush);
-
-        staticBitmap->SetBitmap(*bmp);
-        staticBitmap->Refresh();
-
+        DrawGeneratedPMF();
 
         wstr = wxString::Format(wxT(" Id = %li, ( %.3lf, %.3lf ), "), pt->id, pt->x, pt->y);
         switch (pt->type) {
@@ -311,29 +324,10 @@ void PMFPanel::OnLeftDClick(wxMouseEvent& event)
     doubleClicked = true;
     //wxMessageBox(_("DClick"), _("info"));
     //return;
-
-    wxMemoryDC dc(*bmp);
-    dc.SetBackground(*wxWHITE_BRUSH);
-    dc.Clear();
-    IterateAndDrawConfiguration(dc);
-
-    wxColor cc(128,128,255);
-    //wxPen pen(*wxRED, 3); // red pen of width 1
-    wxPen pen(cc, 3);
-    dc.SetPen(pen);
-    dc.SetBrush(*wxTRANSPARENT_BRUSH);
-    dc.DrawCircle(event.GetX(), event.GetY(), 5);
-    dc.DrawCircle(event.GetX(), event.GetY(), 1);
-    dc.SetPen(*wxBLACK_PEN);
-    dc.DrawPoint(event.GetPosition());
-    dc.SetPen(wxNullPen);
-    dc.SetBrush(wxNullBrush);
-
     choosenPoint = NULL;
     setNewPointLocation = event.GetPosition();
 
-    staticBitmap->SetBitmap(*bmp);
-    staticBitmap->Refresh();
+    DrawGeneratedPMF();
 }
 
 
@@ -343,7 +337,7 @@ wxPoint & PMFPanel::GetNewPMFPointLocation() { return setNewPointLocation; }
 
 long PMFPanel::GetScale() { return scale; }
 
-void PMFPanel::ClearPopupOperations()
+void PMFPanel::ClearConfigurationSelection()
 {
     choosenPoint = NULL;
     setNewPointLocation = wxPoint(-1,-1);

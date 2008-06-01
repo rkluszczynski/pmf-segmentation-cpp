@@ -20,7 +20,7 @@ int main ()
 	double   blockSize = 0.0;
 	double       angle = 0.0;
 	// 93(id=187), 109(id=223)
-    long       pointId = 93;
+    long       pointId = 223;
 	time_t        seed = 0;
     struct timeb tbeg, tend;
 
@@ -32,7 +32,7 @@ int main ()
 		fprintf(stderr, "[ INFO ] :        Angle (-a) = %.3lf\n", angle);
 		fprintf(stderr, "\n");
 
-    ofstream fout("output/log-chg-rot.txt");
+    ofstream fout("output/log-upd-rot.txt");
     out.rdbuf(fout.rdbuf());
 
     /* Generating Polygonal Markov Field. */
@@ -41,15 +41,15 @@ int main ()
     //pmf->LoadConfiguration(initialFile);
     pmf->Generate(blockSize);
 
-    pmf->SaveConfiguration("output/PMF-before-chg.txt");
+    pmf->SaveConfiguration("output/PMF-before-upd.txt");
 
 	fprintf(stderr, "[ INFO ] : changing point direction\n");
     ftime(&tbeg);
-    pmf->ChangePointVelocity(pointId, angle);
+    pmf->UpdatePointVelocity(pointId, angle);
 	ftime(&tend);
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;
-    pmf->SaveConfiguration("output/PMF-after-chg.txt");
+    pmf->SaveConfiguration("output/PMF-after-upd.txt");
 
 	delete pmf;
     fout.close();

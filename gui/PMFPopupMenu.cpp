@@ -85,17 +85,14 @@ void PMFPopupMenu::Reinitialize()
 
 void PMFPopupMenu::OnAddPointPopupMenuItemSelected(wxCommandEvent& event)
 {
-    //wxMessageBox(wxString::Format(wxT("%lf --- %lf"), x, y), wxT("vfegre"));
-    //((mainFrame *) mframe)->AddPointAction(event, x, y);
-    double xx = 0.17;
-    double yy = 1.17;
-    pmfPanel->AddBirthPointToPMF(x, y, 0.0);
+    pmfPanel->AddBirthPointToPMF(x, y);
 }
 
 
 void PMFPopupMenu::OnClearPopupMenuItemSelected(wxCommandEvent& event)
 {
-    ;
+    pmfPanel->ClearConfigurationSelection();
+    pmfPanel->DrawGeneratedPMF(true);
 }
 
 

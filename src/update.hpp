@@ -1,12 +1,12 @@
-#ifndef CHANGE_HPP_INCLUDED
-#define CHANGE_HPP_INCLUDED
+#ifndef UPDATE_HPP_INCLUDED
+#define UPDATE_HPP_INCLUDED
 
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
+PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
@@ -44,6 +44,7 @@ PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
         bHeap->insert(pt);
     }
 
+
     /* ************************************************************************************** */
     // Looking for update point number id
 #if pmf_LOG_ADD
@@ -59,7 +60,8 @@ PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
         if (pt->type == PT_UPDATE)
         {
             ++updatePointCounter;
-            if (updatePointCounter == id) break;
+            //if (updatePointCounter == id) break;
+            if (pt->id == id)  break;
         }
         pmfConf->push_back(pt);
     }
@@ -95,25 +97,7 @@ PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
     out << " WAS TO DELETE : " << *tmp << std::endl << std::endl;
     out << bHeap << std::endl;
 #endif
-    /**
-          los = pkt->id - 1;
-          tmp = allocPoint(pkt->x, pkt->y, pkt, NULL, 0, 0, &los);
 
-          id1 = ((pkt->x < pkt->r1->x) ? pkt->r1->id : pkt->r2->id);
-          if(pkt->x < pkt->r1->x)
-          {
-            id1 = pkt->r1->id;
-            pkt->r1 = pkt->r2;
-            pkt->r2 = NULL;
-          }
-          else {
-            id1 = pkt->r2->id;
-            pkt->r2 = NULL;
-          }
-          delPathS(tmp, id1, qB, qI, &idPktu, Bord);
-          delete(tmp);
-          storePoints2(pkt, qB, qI, &idPktu, Bord);
-    */
 
     /* ************************************************************************************** */
     // and the riots start again ...
@@ -128,4 +112,4 @@ PMF<T_REAL> :: ChangePointVelocity (long id, T_REAL alpha = 0.0)
 #undef X_ROTATED
 
 
-#endif // CHANGE_HPP_INCLUDED
+#endif // UPDATE_HPP_INCLUDED

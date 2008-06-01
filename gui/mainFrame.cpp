@@ -140,7 +140,7 @@ void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL
 
                 pmf->SetParameters(fieldSize, (check) ? blockSize : 0.0f, scale);
                 double genTime = pmf->GeneratePMF(seed);
-                if (! pmf->DrawGeneratedPMF()) {
+                if (! pmf->DrawGeneratedPMF(true)) {
                     ;
                 }
                 SetStatusText( wxString::Format(wxT("Generation time : %.3lf sec."), genTime), 0);
@@ -245,8 +245,7 @@ void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
 void mainFrame::OnAddPointMenuItemSelected(wxCommandEvent& event)
 {
     PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
-    pp->AddBirthPointToPMF(0.2, 2.0, 0.0);
-    //AddPointAction(event, 0.2, 2.0);
+    pp->AddBirthPointToPMF(0.2, 2.0);
 }
 
 
@@ -304,7 +303,7 @@ void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
 
         pp->SetParameters(0.0, 0.0, 200);
         pp->LoadPMF(path);
-        if (! pp->DrawGeneratedPMF()) {
+        if (! pp->DrawGeneratedPMF(true)) {
             ;
         }
 

@@ -1959,7 +1959,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1212240062 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1212267760 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2011,7 +2011,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212239796 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1212267982 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
@@ -2020,7 +2020,7 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1212239714 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1212267940 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -2134,7 +2134,7 @@
 1212239974 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
 
-1212246594 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
+1212266504 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
 	"PMFPopupMenu.h"
 	"mainFrame.h"
 	<cmath>

@@ -26,8 +26,8 @@ void print_usage(char *prog_name, bool cond = false)
 	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
-	//fprintf(stderr, "       \t\t  [ -u id of point to update ]\n");
-	//fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
+	fprintf(stderr, "       \t\t  [ -u id of point to update ]\n");
+	fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
 	fprintf(stderr, "\n");
 
     system("PAUSE");
