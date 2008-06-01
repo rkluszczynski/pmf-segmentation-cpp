@@ -12,7 +12,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -e 0 -o output/pmfclass.cf -f -u 34" />
+				<Option parameters="-s 7 -e 0 -o output/pmf.cf -f -u 34" />
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
@@ -30,7 +30,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -o output/pmfclass.cf -f" />
+				<Option parameters="-s 7 -e 0 -o output/result-gen.cf -f" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-Wall" />
@@ -44,7 +44,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -e 0 -o output/adder-output.cf -f -x 4.265 -y 2.28 -a 3.511499" />
+				<Option parameters="-s 7 -e 0 -o output/result-add.cf -f -x 4.265 -y 2.28 -a 3.511499" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-Wall" />
@@ -72,7 +72,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -e 0 -o output/adder-output.cf -f -x 4.265 -y 2.28 -a 3.511499" />
+				<Option parameters="-s 7 -e 0 -o output/result-rem.cf -f -r 296" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-Wall" />
@@ -203,6 +203,10 @@
 		<Unit filename="src\main-upd.cpp">
 			<Option virtualFolder="mains\" />
 			<Option target="updater-debug" />
+		</Unit>
+		<Unit filename="src\prepare.hpp">
+			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\remove.hpp">
 			<Option virtualFolder="operations\" />

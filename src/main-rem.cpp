@@ -17,7 +17,7 @@ void print_usage(char *prog_name, bool cond = false)
 {
     if (cond) {
 		fprintf(stderr, "\n");
-        fprintf(stderr, "[ ERROR ] : Parameters: -s or -l, and -u are mandatory !\n");
+        fprintf(stderr, "[ ERROR ] : Parameters: -s or -i, and -r are mandatory !\n");
     }
 
 	fprintf(stderr, "\n[ USAGE ] :  %s  [-f]\n", prog_name);
@@ -26,7 +26,7 @@ void print_usage(char *prog_name, bool cond = false)
 	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
-	fprintf(stderr, "       \t\t  [ -u id of point to update ]\n");
+	fprintf(stderr, "       \t\t  [ -r id of point to remove ]\n");
 	fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
 	fprintf(stderr, "\n");
 
@@ -52,7 +52,7 @@ int main (int argc, char *argv[])
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
-	while ((c = getopt(argc, argv, "s:e:b:fo:u:a:i:")) != EOF)
+	while ((c = getopt(argc, argv, "s:e:b:fo:r:a:i:")) != EOF)
 	{
 		switch (c)
 		{
@@ -78,7 +78,7 @@ int main (int argc, char *argv[])
 				opt |= 0x010;
 				outputFile = strdup(optarg);
 				break;
-			case 'u': 	/* Id of point to update. */
+			case 'r': 	/* Id of point to remove. */
 				opt |= 0x020;
 				pointId = strtol(optarg, &endptr, 10);
 				if(*endptr == '\0') break;
@@ -130,7 +130,7 @@ int main (int argc, char *argv[])
 	}
 	if((opt & 0x020) && (pointId <= 0))
 	{
-		fprintf(stderr, "[ ERROR ] : Id of point to update must be positive !\n");
+		fprintf(stderr, "[ ERROR ] : Id of point to remove must be positive !\n");
 		print_usage(argv[0]);
 	}
     if((opt & 0x100) && (access(initialFile, R_OK) != 0))
@@ -154,7 +154,7 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n", seed);
 		fprintf(stderr, "[ INFO ] :  Blocks Size (-b) = %.2lf\n", blockSize);
 		fprintf(stderr, "\n");
-		fprintf(stderr, "[ INFO ] :  Id of point (-u) = %li\n", pointId);
+		fprintf(stderr, "[ INFO ] :  Id of point (-r) = %li\n", pointId);
 		fprintf(stderr, "[ INFO ] :        Angle (-a) = %.3lf\n", angle);
 		fprintf(stderr, "\n");
 
@@ -166,11 +166,11 @@ int main (int argc, char *argv[])
 		else
             pmf->Generate(blockSize);
 
-        ofstream fout("output/log-upd-rot.txt");
+        ofstream fout("output/log-rem-rot.txt");
         out.rdbuf(fout.rdbuf());
 
         ftime(&tbeg);
-        pmf->UpdatePointVelocity(pointId, angle);
+        pmf->RemoveBirthPoint(pointId, angle);
 	    ftime(&tend);
 
 	    fout.close();
