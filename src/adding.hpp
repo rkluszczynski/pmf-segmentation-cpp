@@ -23,6 +23,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
+    /// TODO : BlocksLists<T_REAL> *      blocks = NULL;
 
     PrepareEvolution(bHeap, alpha, sinL, cosL);
 

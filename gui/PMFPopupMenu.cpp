@@ -34,13 +34,13 @@ PMFPopupMenu::PMFPopupMenu(void *frame, const PMFPanel * pp)
 
     Connect(FindItem(wxT(ITEM1_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnAddPointPopupMenuItemSelected);
     Connect(FindItem(wxT(ITEM2_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnUpdatePointPopupMenuItemSelected);
+    Connect(FindItem(wxT(ITEM3_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnRemovePointPopupMenuItemSelected);
     Connect(FindItem(wxT(ITEM4_TEXT)),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&PMFPopupMenu::OnClearPopupMenuItemSelected);
-    Enable(FindItem(wxT(ITEM2_TEXT)), false);
-    Enable(FindItem(wxT(ITEM3_TEXT)), false);
-    Enable(FindItem(wxT(ITEM4_TEXT)), false);
 
     mframe = frame;
     pmfPanel = (PMFPanel *)pp;
+
+    Reinitialize();
 }
 
 
@@ -93,6 +93,12 @@ void PMFPopupMenu::OnAddPointPopupMenuItemSelected(wxCommandEvent& event)
 void PMFPopupMenu::OnUpdatePointPopupMenuItemSelected(wxCommandEvent& event)
 {
     pmfPanel->UpdatePointInsidePMF();
+}
+
+
+void PMFPopupMenu::OnRemovePointPopupMenuItemSelected(wxCommandEvent& event)
+{
+    pmfPanel->RemovePointFromPMF();
 }
 
 

@@ -2011,7 +2011,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212320858 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1212336886 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
@@ -2021,7 +2021,7 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1212320818 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1212327266 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -2133,17 +2133,17 @@
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212321036 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
+1212326454 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
 
-1212321002 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
+1212326678 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
 	"PMFPopupMenu.h"
 	"mainFrame.h"
 	<cmath>
 	<wx/wx.h>
 	<wx/menu.h>
 
-1211832566 h:\projects\pmf-codeblocks\src\generate.hpp
+1212333634 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -2156,7 +2156,7 @@
 
 1211471910 h:\projects\pmf-codeblocks\src\rotate.hpp
 
-1212304316 h:\projects\pmf-codeblocks\src\adding.hpp
+1212338588 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
 1211877904 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
@@ -4264,7 +4264,7 @@
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212303892 h:\projects\pmf-codeblocks\src\update.hpp
+1212338586 h:\projects\pmf-codeblocks\src\update.hpp
 
 1211830148 d:\projects\pmf-codeblocks\src\update.hpp
 
@@ -4278,21 +4278,22 @@
 
 1211847362 d:\projects\pmf-codeblocks\src\remove.hpp
 
-1211877904 h:\projects\pmf-codeblocks\src\evolve.hpp
+1212333820 h:\projects\pmf-codeblocks\src\evolve.hpp
 
 1211955852 h:\projects\pmf-codeblocks\src\change.hpp
 
-1212315772 h:\projects\pmf-codeblocks\src\remove.hpp
+1212338578 h:\projects\pmf-codeblocks\src\remove.hpp
 
-1212303990 h:\projects\pmf-codeblocks\src\prepare.hpp
+1212337460 h:\projects\pmf-codeblocks\src\prepare.hpp
 
-1212320758 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
+1212332966 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
 	"ModPointDialog.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212322032 h:\projects\pmf-codeblocks\gui\modpointdialog.h
+1212327624 h:\projects\pmf-codeblocks\gui\modpointdialog.h
+	"point.hpp"
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>

@@ -1,6 +1,7 @@
 #ifndef MODPOINTDIALOG_H
 #define MODPOINTDIALOG_H
 
+#include "point.hpp"
 //(*Headers(ModPointDialog)
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
@@ -18,6 +19,7 @@ class ModPointDialog: public wxDialog
 		virtual ~ModPointDialog();
 
         bool isOk();
+        void SetPMFPointData(pmf_point<double> *);
 
 		//(*Declarations(ModPointDialog)
 		wxTextCtrl* degreeAngleTextCtrl;
@@ -31,6 +33,7 @@ class ModPointDialog: public wxDialog
 		wxPanel* topPanel;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText3;
+		wxStaticText* pointInfoStaticText;
 		wxPanel* angleCirclePanel;
 		wxStaticText* StaticText5;
 		wxTextCtrl* pointIdTextCtrl;

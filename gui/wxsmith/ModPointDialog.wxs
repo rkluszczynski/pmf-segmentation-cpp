@@ -7,6 +7,7 @@
 		<object name="ID_STATICTEXT5" class="wxStaticText" variable="StaticText5" member="yes" />
 		<object name="ID_STATICTEXT6" class="wxStaticText" variable="StaticText6" member="yes" />
 		<object name="ID_POINTID_TEXTCTRL" class="wxTextCtrl" variable="pointIdTextCtrl" member="yes" />
+		<object name="ID_POINTINFO_STATICTEXT" class="wxStaticText" variable="pointInfoStaticText" member="yes" />
 		<object name="ID_USE_BLOCKS_CHECKBOX" class="wxCheckBox" variable="useBlocksCheckBox" member="yes">
 			<handler function="OnUseBlocksCheckBoxClick" entry="EVT_CHECKBOX" />
 		</object>

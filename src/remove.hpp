@@ -19,6 +19,7 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
 
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
+    /// TODO : BlocksLists<T_REAL> *      blocks = NULL;
 
     PrepareEvolution(bHeap, alpha, sinL, cosL );
 
@@ -52,8 +53,7 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
     out << "[ REMOVING POINT ] : " << *pt << std::endl << std::endl;
 #endif
 
-    // Tricky trick : duplicate update point and delete its path,
-    //                then put the original one into brith heap
+    // Tricky trick : duplicate point to remove to delete its paths
     pmf_point<T_REAL> * tricky = new pmf_point<T_REAL>(pt->x, pt->y, pt, NULL, 0.0, 0.0, pt->id, PT_UNKNOWN);
     pmf_point<T_REAL> * tmp;
 #if CHECK_ASSERTIONS

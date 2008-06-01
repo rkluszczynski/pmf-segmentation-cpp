@@ -21,6 +21,7 @@ ModPointDialog::ModPointDialog(wxWindow* parent)
 	StaticText5 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT5"));
 	StaticText6 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT6"));
 	pointIdTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_POINTID_TEXTCTRL"));
+	pointInfoStaticText = (wxStaticText*)FindWindow(XRCID("ID_POINTINFO_STATICTEXT"));
 	useBlocksCheckBox = (wxCheckBox*)FindWindow(XRCID("ID_USE_BLOCKS_CHECKBOX"));
 	StaticText2 = (wxStaticText*)FindWindow(XRCID("ID_STATICTEXT2"));
 	blockSizeTextCtrl = (wxTextCtrl*)FindWindow(XRCID("ID_BLOCKSIZE_TEXTCTRL"));
@@ -187,9 +188,36 @@ void ModPointDialog::OnRadianAngleTextCtrlText(wxCommandEvent& event)
 #undef degree2radians
 
 
+void ModPointDialog::SetPMFPointData(pmf_point<double> * pt)
+{
+    if (pt) {
+        pointIdTextCtrl->ChangeValue(wxString::Format(wxT("%li"), pt->id));
+        wxString coord(wxString::Format(wxT(" x = %.3lf  ;  y = %.3lf "), pt->x, pt->y));
+        wxString info;
+        switch (pt->type)
+        {
+            case  1 :  info = _("BRITH_NORMAL");  break;
+            case  2 :  info = _(" BIRTH_LEFT ");  break;
+            case  3 :  info = _("  BIRTH_UP  ");  break;
+            case  4 :  info = _(" BIRTH_DOWN ");  break;
+            case  5 :  info = _("   BORDER   ");  break;
+            case  6 :  info = _("INTERSECTION");  break;
+            case  7 :  info = _("   UPDATE   ");  break;
+            default :  info = _("  UNKNOWN   ");
+        }
+        pointInfoStaticText->SetLabel(wxString::Format(wxT("%s\n%s"), coord.c_str(), info.c_str()));
+    }
+    else {
+        pointIdTextCtrl->ChangeValue(wxT("(Enter ID)"));
+        pointInfoStaticText->SetLabel(wxT("---\n-"));
+    }
+}
+
+
 void ModPointDialog::OnUseBlocksCheckBoxClick(wxCommandEvent& event)
 {
     bool value = event.IsChecked();
     StaticText2->Enable(value);
     blockSizeTextCtrl->Enable(value);
 }
+

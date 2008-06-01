@@ -127,6 +127,8 @@ PMF<T_REAL> :: EvolveRestOfField (
         //*/
     }
 
+    /* Renumbering points' IDs starting from 1. */
+    pmfConf->set_points_ids();
 }
 
 
