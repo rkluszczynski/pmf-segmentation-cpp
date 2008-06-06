@@ -281,7 +281,8 @@ pmf_point<REAL> * pmf_do_heaps_get (
     else {
         pmf_point<REAL> * bpt = bHeap->top();
         pmf_point<REAL> * ipt = iHeap->top();
-        if (PT_LE(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
+        //if (PT_LE(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
+        if (PT_LT(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
         else { return iHeap->extract_min(id1, id2); }
     }
 }

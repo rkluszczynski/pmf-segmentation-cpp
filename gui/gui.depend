@@ -2031,7 +2031,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212304252 h:\projects\pmf-codeblocks\src\pmf.cpp
+1212695006 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -2041,8 +2041,9 @@
 	"adding.hpp"
 	"update.hpp"
 	"remove.hpp"
+	"segment.hpp"
 
-1212303944 h:\projects\pmf-codeblocks\src\pmf.hpp
+1212694826 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -4278,7 +4279,7 @@
 
 1211847362 d:\projects\pmf-codeblocks\src\remove.hpp
 
-1212333820 h:\projects\pmf-codeblocks\src\evolve.hpp
+1212342108 h:\projects\pmf-codeblocks\src\evolve.hpp
 
 1211955852 h:\projects\pmf-codeblocks\src\change.hpp
 
@@ -4292,7 +4293,7 @@
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212327624 h:\projects\pmf-codeblocks\gui\modpointdialog.h
+1212358846 h:\projects\pmf-codeblocks\gui\modpointdialog.h
 	"point.hpp"
 	<wx/stattext.h>
 	<wx/textctrl.h>
@@ -4300,4 +4301,6 @@
 	<wx/panel.h>
 	<wx/button.h>
 	<wx/dialog.h>
+
+1212694962 h:\projects\pmf-codeblocks\src\segment.hpp
 

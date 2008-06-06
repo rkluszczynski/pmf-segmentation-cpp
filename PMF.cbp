@@ -220,6 +220,10 @@
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src\segment.hpp">
+			<Option virtualFolder="operations\" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src\update.hpp">
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />

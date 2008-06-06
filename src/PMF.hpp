@@ -39,6 +39,7 @@ class PMF
 		//void RedirectUpdatePoint(long, T_REAL);
 		void UpdatePointVelocity(long, T_REAL);
 		void RemoveBirthPoint(long, T_REAL);
+		void AddBirthSegment(T_REAL, T_REAL, T_REAL);
 
 		void SetSeed(time_t);
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);

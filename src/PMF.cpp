@@ -29,9 +29,12 @@ PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 
 #include "prepare.hpp"
 #include "evolve.hpp"
+
 #include "adding.hpp"
 #include "update.hpp"
 #include "remove.hpp"
+
+#include "segment.hpp"
 
 
 template <class T_REAL>

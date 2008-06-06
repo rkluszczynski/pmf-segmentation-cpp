@@ -109,3 +109,17 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 
+1212695328 source:h:\projects\pmf-codeblocks\tests\test-addrotseg.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	<iostream>
+	<ostream>
+	<sstream>
+	"PMF.hpp"
+
