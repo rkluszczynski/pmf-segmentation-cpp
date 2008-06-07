@@ -28,7 +28,7 @@ int main ()
     double angle = 3.511499;
 
     x = 1.375; y = 0.085; angle = 0.0;
-    x = 1.0; y = 1.0; angle = M_PI_2;
+    x = 1.0; y = 1.0; angle = M_PI+M_PI_2;
 
 	fprintf(stderr, "[ INFO ] :  Field Size (-s) = %.2lf\n", sizeArak);
 	fprintf(stderr, "[ INFO ] : Output File (-o) = '%s'\n", outputFile);

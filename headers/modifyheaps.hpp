@@ -174,9 +174,11 @@ pmf_point<REAL> * pmf_delete_rotated_path (
             else {
                 st.push(dpt->id);
                 //if (dpt->n1->x > dpt->x) { dpt = dpt->n1; continue; }
-                if (PT_LT(dpt, dpt->n1, sinL, cosL)) { dpt = dpt->n1; continue; }
+                //if (PT_LT(dpt, dpt->n1, sinL, cosL)) { dpt = dpt->n1; continue; }
+                if (PT_LE(dpt, dpt->n1, sinL, cosL)) { dpt = dpt->n1; continue; }
                 //if (dpt->n2->x > dpt->x) { dpt = dpt->n2; continue; }
-                if (PT_LT(dpt, dpt->n2, sinL, cosL)) { dpt = dpt->n2; continue; }
+                //if (PT_LT(dpt, dpt->n2, sinL, cosL)) { dpt = dpt->n2; continue; }
+                if (PT_LE(dpt, dpt->n2, sinL, cosL)) { dpt = dpt->n2; continue; }
 #if CHECK_ASSERTIONS
                 assert(false);
 #endif
