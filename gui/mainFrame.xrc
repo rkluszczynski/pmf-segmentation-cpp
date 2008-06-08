@@ -86,6 +86,11 @@
 					<label>Delete point ...</label>
 					<enabled>0</enabled>
 				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ID_ADDSEGMENT_MENUITEM">
+					<label>Add segment ...</label>
+					<enabled>0</enabled>
+				</object>
 			</object>
 			<object class="wxMenu">
 				<label>Window</label>

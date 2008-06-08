@@ -1948,7 +1948,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1211816420 h:\projects\pmf-codeblocks\gui\mainframe.h
+1212884398 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1959,7 +1959,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1212267760 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1212884018 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2011,7 +2011,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212336886 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1212883776 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
@@ -2021,7 +2021,7 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1212327266 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1212883740 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -2043,7 +2043,7 @@
 	"remove.hpp"
 	"segment.hpp"
 
-1212694826 h:\projects\pmf-codeblocks\src\pmf.hpp
+1212877862 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -2134,10 +2134,10 @@
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212326454 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
+1212880156 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
 
-1212326678 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
+1212881006 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
 	"PMFPopupMenu.h"
 	"mainFrame.h"
 	<cmath>
@@ -2160,7 +2160,7 @@
 1212338588 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1211877904 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1212810602 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -4287,7 +4287,7 @@
 
 1212337460 h:\projects\pmf-codeblocks\src\prepare.hpp
 
-1212332966 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
+1212358856 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
 	"ModPointDialog.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -4302,5 +4302,5 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1212694962 h:\projects\pmf-codeblocks\src\segment.hpp
+1212879694 h:\projects\pmf-codeblocks\src\segment.hpp
 

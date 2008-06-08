@@ -197,39 +197,10 @@ void PMFPanel::OnRightUp(wxMouseEvent& event)
 }
 
 
-void PMFPanel::AddBirthPointToPMF(double xx, double yy)
+std::pair<double, double> PMFPanel::GetPMFSize()
 {
-    AddPointDialog gDialog(this);
-    gDialog.SetPointCoordinates(xx, yy);
-    gDialog.ShowModal();
-    if ( gDialog.isOk() )
-    {
-        wxString strX = (gDialog.CoordinateXTextCtrl)->GetValue();
-        wxString strY = (gDialog.CoordinateYTextCtrl)->GetValue();
-        wxString strB = (gDialog.BlockSizeTextCtrl)->GetValue();
-        wxString strA = (gDialog.RadianAngleTextCtrl)->GetValue();
-        bool check = (gDialog.UseBlocksCheckBox)->GetValue();
-        double xx, yy, bsize, angle;
-
-        if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
-            if (bsize >= 0.0)
-            {
-                if (!check) bsize = 0.0;
-                // TODO :
-                wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
-                ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
-
-                //pmfPanel->AddBirthPointToPMF(xx, yy, angle);
-                pmf->AddBirthPoint(xx, yy, angle);
-                DrawGeneratedPMF(false);
-                ClearConfigurationSelection();
-
-                ((mainFrame *) mframe)->SetStatusText( ss, 0);
-            }
-            else {
-                wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
-            }
-    }
+    std::pair<double, double>  coord(pmf->GetPMFWidth(), pmf->GetPMFHeight());
+    return coord;
 }
 
 
@@ -346,8 +317,55 @@ void PMFPanel::ClearConfigurationSelection()
 }
 
 
-#define __OP_UPDATE 0
-#define __OP_REMOVE 1
+#define __OP_BIRTH_POINT   0
+#define __OP_BIRTH_SEGMENT 1
+#define __OP_UPDATE_POINT  2
+#define __OP_REMOVE_POINT  3
+void PMFPanel::ExecutePointBirthsDialog(double xx, double yy, long op, wxString & title)
+{
+    AddPointDialog gDialog(this);
+    gDialog.SetTitle(title);
+    gDialog.SetPointCoordinates(xx, yy);
+    gDialog.ShowModal();
+    if ( gDialog.isOk() )
+    {
+        wxString strX = (gDialog.CoordinateXTextCtrl)->GetValue();
+        wxString strY = (gDialog.CoordinateYTextCtrl)->GetValue();
+        wxString strB = (gDialog.BlockSizeTextCtrl)->GetValue();
+        wxString strA = (gDialog.RadianAngleTextCtrl)->GetValue();
+        bool check = (gDialog.UseBlocksCheckBox)->GetValue();
+        double xx, yy, bsize, angle;
+
+        if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
+            if (bsize >= 0.0)
+            {
+                if (!check) bsize = 0.0;
+                // TODO :
+                wxString ss = wxString::Format(wxT(" point ( %.3lf, %.3lf ), block = %.3lf"), xx, yy, bsize);
+                ss += wxString::Format(wxT(",   angle = %.3lf,   sinL = %.3lf ,   cosL = %.3lf"), angle, sin(angle), cos(angle));
+
+                switch (op)
+                {
+                    case __OP_BIRTH_POINT :
+                                        pmf->AddBirthPoint(xx, yy, angle);
+                                        break;
+                    case __OP_BIRTH_SEGMENT :
+                                        pmf->AddBirthSegment(xx, yy, angle);
+                                        break;
+                }
+                ClearConfigurationSelection();
+                DrawGeneratedPMF(false);
+                ClearConfigurationSelection();
+
+                ((mainFrame *) mframe)->SetStatusText( ss, 0);
+            }
+            else {
+                wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
+            }
+    }
+}
+
+
 void PMFPanel::ExecutePointModificationDialog(long op, wxString & title)
 {
     ModPointDialog gDialog(this);
@@ -373,10 +391,10 @@ void PMFPanel::ExecutePointModificationDialog(long op, wxString & title)
 
                 switch (op)
                 {
-                    case __OP_UPDATE :
+                    case __OP_UPDATE_POINT :
                                         pmf->UpdatePointVelocity(pointID, angle);
                                         break;
-                    case __OP_REMOVE :
+                    case __OP_REMOVE_POINT :
                                         pmf->RemoveBirthPoint(pointID, angle);
                                         break;
                 }
@@ -394,17 +412,33 @@ void PMFPanel::ExecutePointModificationDialog(long op, wxString & title)
 }
 
 
+void PMFPanel::AddBirthPointToPMF(double xx, double yy)
+{
+    wxString title = wxT("Add birth point ...");
+    ExecutePointBirthsDialog(xx, yy, __OP_BIRTH_POINT, title);
+}
+
+
 void PMFPanel::UpdatePointInsidePMF()
 {
     wxString title = wxT("Update point velocity ...");
-    ExecutePointModificationDialog(__OP_UPDATE, title);
+    ExecutePointModificationDialog(__OP_UPDATE_POINT, title);
 }
 
 
 void PMFPanel::RemovePointFromPMF()
 {
     wxString title = wxT("Remove birth point ...");
-    ExecutePointModificationDialog(__OP_REMOVE, title);
+    ExecutePointModificationDialog(__OP_REMOVE_POINT, title);
 }
-#undef __OP_UPDATE
-#undef __OP_REMOVE
+
+
+void PMFPanel::AddBirthSegmentToPMF(double xx, double yy)
+{
+    wxString title = wxT("Add birth segment ...");
+    ExecutePointBirthsDialog(xx, yy, __OP_BIRTH_SEGMENT, title);
+}
+#undef __OP_BIRTH_POINT
+#undef __OP_BIRTH_SEGMENT
+#undef __OP_UPDATE_POINT
+#undef __OP_REMOVE_POINT

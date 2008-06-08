@@ -41,6 +41,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_GENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
 	Connect(XRCID("ID_REGENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRegenerateMenuItemSelected);
 	Connect(XRCID("ID_ADDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddPointMenuItemSelected);
+	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
@@ -223,12 +224,13 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
     GetMenuBar()->Enable(XRCID("ID_CLOSE_MENUITEM"), isClassImagePanel || isClassPMFPanel);
 
     // Only PMFPanel options
+    GetMenuBar()->Enable(XRCID("ID_SAVEPMF_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_GENERATE_MENUITEM"), ! isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_REGENERATE_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_ADDPOINT_MENUITEM"), isClassPMFPanel);
-    GetMenuBar()->Enable(XRCID("ID_SAVEPMF_MENUITEM"), isClassPMFPanel);
-    GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel && false);
-    GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel && false);
+    GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_ADDSEGMENT_MENUITEM"), isClassPMFPanel);
 
     // START panel options
     GetMenuBar()->Enable(XRCID("ID_LOG_MENUITEM"), !(isClassPMFPanel || isClassImagePanel));
@@ -245,7 +247,48 @@ void mainFrame::OnCloseImageMenuItemSelected(wxCommandEvent& event)
 void mainFrame::OnAddPointMenuItemSelected(wxCommandEvent& event)
 {
     PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
-    pp->AddBirthPointToPMF(0.2, 2.0);
+    double dscale = double(pp->GetScale());
+    wxPoint spt = pp->GetNewPMFPointLocation();
+    std::pair<double, double> coord = pp->GetPMFSize();
+
+    double xx, yy;
+    if (spt.x == -1 && spt.y == -1)
+    {
+        long widthRange = long(coord.first * dscale);
+        long heightRange = long(coord.second * dscale);
+
+        xx = double(rand() % widthRange) / dscale;
+        yy = double(rand() % heightRange) / dscale;
+    }
+    else {
+        xx = double(spt.x+1) / dscale;
+        yy = double(spt.y+1) / dscale;
+    }
+    pp->AddBirthPointToPMF(xx, yy);
+}
+
+
+void mainFrame::OnAddSegmentMenuItemSelected(wxCommandEvent& event)
+{
+    PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+    double dscale = double(pp->GetScale());
+    wxPoint spt = pp->GetNewPMFPointLocation();
+    std::pair<double, double> coord = pp->GetPMFSize();
+
+    double xx, yy;
+    if (spt.x == -1 && spt.y == -1)
+    {
+        long widthRange = long(coord.first * dscale);
+        long heightRange = long(coord.second * dscale);
+
+        xx = double(rand() % widthRange) / dscale;
+        yy = double(rand() % heightRange) / dscale;
+    }
+    else {
+        xx = double(spt.x+1) / dscale;
+        yy = double(spt.y+1) / dscale;
+    }
+    pp->AddBirthSegmentToPMF(xx, yy);
 }
 
 
@@ -350,3 +393,4 @@ void mainFrame::OnMyScrolledWindowSize(wxSizeEvent& event)
     myScrolledWindow->Refresh();
 }
 */
+

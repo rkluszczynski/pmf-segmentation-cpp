@@ -22,6 +22,8 @@ class PMF
         void PrepareEvolution(BirthsHeap<T_REAL> *, T_REAL, T_REAL, T_REAL);
         inline
         void EvolveRestOfField(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, T_REAL, T_REAL, long, long &);
+        inline
+        void SetPerpendicularNeighbor(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, pmf_point<T_REAL> *, pmf_point<T_REAL> *, long &, T_REAL, T_REAL);
 
     protected :
         T_REAL fieldWidth, fieldHeight;

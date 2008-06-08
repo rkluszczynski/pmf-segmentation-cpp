@@ -27,6 +27,7 @@ class PMFPopupMenu : public wxMenu
         void OnUpdatePointPopupMenuItemSelected(wxCommandEvent& event);
         void OnRemovePointPopupMenuItemSelected(wxCommandEvent& event);
         void OnClearPopupMenuItemSelected(wxCommandEvent& event);
+        void OnAddSegmentPopupMenuItemSelected(wxCommandEvent& event);
 
 
     DECLARE_EVENT_TABLE()

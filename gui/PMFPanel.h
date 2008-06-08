@@ -30,6 +30,7 @@ class PMFPanel: public wxPanel
         void AddBirthPointToPMF(double, double);
         void UpdatePointInsidePMF();
         void RemovePointFromPMF();
+        void AddBirthSegmentToPMF(double, double);
 
         bool SavePMF(wxString, int);
         bool LoadPMF(wxString);
@@ -40,6 +41,7 @@ class PMFPanel: public wxPanel
         pmf_point<double> * GetSelectedPMFPoint();
         wxPoint & GetNewPMFPointLocation();
         long GetScale();
+        std::pair<double, double> GetPMFSize();
 
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;
@@ -72,6 +74,7 @@ class PMFPanel: public wxPanel
 		//*)
 		void IterateAndDrawConfiguration(wxMemoryDC& dc);
 		void ExecutePointModificationDialog(long, wxString &);
+		void ExecutePointBirthsDialog(double, double, long, wxString &);
 
 	DECLARE_EVENT_TABLE()
 };

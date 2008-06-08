@@ -2,16 +2,78 @@
 #define SEGMENT_HPP_INCLUDED
 
 
+#define PT_DIST2(PT1, PT2) (((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y))
+template <class T_REAL>
+inline
+void
+PMF<T_REAL> :: SetPerpendicularNeighbor (
+                            BirthsHeap<T_REAL> * bbHeap,
+                            IntersectionsHeap<T_REAL> * iiHeap,
+                            pmf_point<T_REAL> * npt,
+                            pmf_point<T_REAL> * ppt,
+                            long &ptId,
+                            T_REAL ssinL,
+                            T_REAL ccosL
+                        )
+{
+    T_REAL fHeight = pmfConf->get_field_height();
+    T_REAL  fWidth = pmfConf->get_field_width();
+
+    IntersectionsHeap<T_REAL> * tmp_iHeap = new IntersectionsHeap<T_REAL> (ssinL, ccosL);
+
+    pmf_store_rotated_point_in_blocks(npt, bbHeap, tmp_iHeap, ppt, ptId, fHeight, fWidth, NULL, ssinL, ccosL);
+    if (! tmp_iHeap->empty())
+    {
+#if pmf_LOG_ADD
+        out << "PRZECIECIE : " << *npt << endl;
+        out << tmp_iHeap << endl;
+#endif
+        long id1, id2;
+        pmf_point<T_REAL> * pt_min = tmp_iHeap->extract_min(id1, id2);
+        T_REAL dist_min = PT_DIST2(ppt, pt_min);
+        while (! tmp_iHeap->empty())
+        {
+            if (PT_DIST2(ppt, tmp_iHeap->top()) < dist_min)
+            {
+                dist_min = PT_DIST2(ppt, tmp_iHeap->top());
+                delete pt_min;
+                pt_min = tmp_iHeap->extract_min(id1, id2);
+            }
+            else {
+                long tmp1, tmp2;
+                delete tmp_iHeap->extract_min(tmp1, tmp2);
+            }
+        }
+        pmf_correct_new_intersection_point(pt_min, id1, id2);
+        long id = (id1 == npt->id) ? id2 : id1;
+#if pmf_LOG_ADD
+        out << "PRZECIECIA : " << id << endl;
+        out << tmp_iHeap << endl;
+#endif
+#if CHECK_ASSERTIONS
+        assert(tmp_iHeap->empty());
+        assert(id != npt->id);
+        assert(bbHeap->get_point_with_id(id) != NULL);
+#endif
+        pmf_delete_rotated_path(pt_min, bbHeap->get_point_with_id(id), bbHeap, iiHeap, NULL, ptId, fHeight, fWidth, ssinL, ccosL);
+        bbHeap->remove_point_with_id((id == id1) ? id2 : id1);
+
+        pmfConf->push_back(pt_min);
+    }
+    delete tmp_iHeap;
+}
+#undef PT_DIST2
+
+
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
-#define PT_DIST(PT1, PT2) (((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y))
 template <class T_REAL>
 void
 PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
 {
-    T_REAL fieldWidth  = pmfConf->get_field_width();
-    T_REAL fieldHeight = pmfConf->get_field_height();
+    //T_REAL fieldWidth  = pmfConf->get_field_width();
+    //T_REAL fieldHeight = pmfConf->get_field_height();
 
     long oldSize = pmfConf->get_size() + 1;
     long ptId = oldSize;
@@ -27,8 +89,6 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
 
 
     /* ************************************************************************************** */
-    RotatePointTypes(sinL, cosL);
-
 #if pmf_LOG_ADD
     T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
     T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
@@ -64,49 +124,8 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
     out << "----<" << endl;
 #endif
 
-    pmf_store_rotated_point_in_blocks(pt1, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
-    if (iHeap->size() > 0)
-    {
-        out << "PRZECIECIE 1" << endl;
-        out << iHeap << endl;
-        long id1, id2;
-        pmf_point<T_REAL> * pt_min = iHeap->extract_min(id1, id2);
-        T_REAL dist_min = PT_DIST(pt, pt_min);
-        while (! iHeap->empty())
-        {
-            if (PT_DIST(pt, iHeap->top()) < dist_min)
-            {
-                dist_min = PT_DIST(pt, iHeap->top());
-                delete pt_min;
-                pt_min = iHeap->extract_min(id1, id2);
-            }
-            else {
-                long tmp1, tmp2;
-                delete iHeap->extract_min(tmp1, tmp2);
-            }
-        }
-
-        pmf_correct_new_intersection_point(pt_min, id1, id2);
-        long id = (id1 == pt1->id) ? id2 : id1;
-
-        out << "PRZECIECIA : " << id << endl;
-        out << iHeap << endl;
-#if CHECK_ASSERTIONS
-        assert(iHeap->empty());
-        assert(id != pt1->id);
-        assert(bHeap->get_point_with_id(id) != NULL);
-#endif
-        pmf_delete_rotated_path(pt_min, bHeap->get_point_with_id(id), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
-        bHeap->remove_point_with_id((id == id1) ? id2 : id1);
-
-        pmfConf->push_back(pt_min);
-    }
-    pmf_store_rotated_point_in_blocks(pt2, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
-    if (iHeap->size() > 0)
-    {
-        /// TODO
-        ;
-    }
+    SetPerpendicularNeighbor(bHeap, iHeap, pt1, pt, ptId, sinL, cosL);
+    SetPerpendicularNeighbor(bHeap, iHeap, pt2, pt, ptId, sinL, cosL);
 
 #if pmf_LOG_ADD
     out << *pt1 << endl;
@@ -114,7 +133,6 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
     out << " --- " << endl;
     out << iHeap << endl;
 #endif
-
 
     /* ************************************************************************************** */
     // and the riots start again ...
@@ -125,7 +143,6 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
 
     return;
 }
-#undef PT_DIST
 #undef PT_LT
 #undef Y_ROTATED
 #undef X_ROTATED
