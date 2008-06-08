@@ -42,6 +42,9 @@ class PMFPanel: public wxPanel
         wxPoint & GetNewPMFPointLocation();
         long GetScale();
         std::pair<double, double> GetPMFSize();
+        long GetConfigurationSize();
+
+        void SetSelectedPMFPoint(long);
 
 		//(*Declarations(PMFPanel)
 		wxScrolledWindow* scrolledWindow;

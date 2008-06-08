@@ -63,6 +63,24 @@ PMF<T_REAL> :: FindClosestTo(T_REAL xx, T_REAL yy)
 
 
 template <class T_REAL>
+pmf_point<T_REAL> *
+PMF<T_REAL> :: GetPointWithId(long ptid)
+{
+    Element<pmf_point<T_REAL> > * iter = pmfConf->getHead();
+    pmf_point<T_REAL> * result = NULL;
+
+    while (iter) {
+        if (iter->data->id == ptid) {
+            result = iter->data;
+            break;
+        }
+        iter = iter->next;
+    }
+    return result;
+}
+
+
+template <class T_REAL>
 bool
 PMF<T_REAL> :: LoadConfiguration (const char * filename)
 {

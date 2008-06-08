@@ -41,6 +41,8 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_GENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGenerateMenuItemSelected);
 	Connect(XRCID("ID_REGENERATE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRegenerateMenuItemSelected);
 	Connect(XRCID("ID_ADDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddPointMenuItemSelected);
+	Connect(XRCID("ID_UPDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnUpdatePointMenuItemSelected);
+	Connect(XRCID("ID_REMPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRemovePointMenuItemSelected);
 	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
@@ -229,7 +231,7 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
     GetMenuBar()->Enable(XRCID("ID_REGENERATE_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_ADDPOINT_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_UPDPOINT_MENUITEM"), isClassPMFPanel);
-    GetMenuBar()->Enable(XRCID("ID_DELPOINT_MENUITEM"), isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_REMPOINT_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_ADDSEGMENT_MENUITEM"), isClassPMFPanel);
 
     // START panel options
@@ -394,3 +396,34 @@ void mainFrame::OnMyScrolledWindowSize(wxSizeEvent& event)
 }
 */
 
+
+void mainFrame::OnUpdatePointMenuItemSelected(wxCommandEvent& event)
+{
+    PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+    pmf_point<double> * pt = pp->GetSelectedPMFPoint();
+
+    if (pt == NULL)
+    {
+        long csize = pp->GetConfigurationSize();
+        long rnum = rand() % csize + 1;
+        pp->SetSelectedPMFPoint(rnum);
+    }
+    pp->UpdatePointInsidePMF();
+    pp->ClearConfigurationSelection();
+}
+
+
+void mainFrame::OnRemovePointMenuItemSelected(wxCommandEvent& event)
+{
+    PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+    pmf_point<double> * pt = pp->GetSelectedPMFPoint();
+
+    if (pt == NULL)
+    {
+        long csize = pp->GetConfigurationSize();
+        long rnum = rand() % csize + 1;
+        pp->SetSelectedPMFPoint(rnum);
+    }
+    pp->RemovePointFromPMF();
+    pp->ClearConfigurationSelection();
+}

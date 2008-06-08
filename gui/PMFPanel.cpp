@@ -304,11 +304,15 @@ void PMFPanel::OnLeftDClick(wxMouseEvent& event)
 }
 
 
+void PMFPanel::SetSelectedPMFPoint(long ptid) { choosenPoint = pmf->GetPointWithId(ptid); }
+
 pmf_point<double> * PMFPanel::GetSelectedPMFPoint() { return choosenPoint; }
 
 wxPoint & PMFPanel::GetNewPMFPointLocation() { return setNewPointLocation; }
 
 long PMFPanel::GetScale() { return scale; }
+
+long PMFPanel::GetConfigurationSize() { return pmf->GetPMFPointsNumber(); }
 
 void PMFPanel::ClearConfigurationSelection()
 {

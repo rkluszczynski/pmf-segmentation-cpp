@@ -65,6 +65,8 @@ class mainFrame : public wxFrame
 		void OnLoadPMFMenuItemSelected(wxCommandEvent& event);
 		void OnMySplitterWindowDClick(wxSplitterEvent& event);
 		void OnAddSegmentMenuItemSelected(wxCommandEvent& event);
+		void OnUpdatePointMenuItemSelected(wxCommandEvent& event);
+		void OnRemovePointMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

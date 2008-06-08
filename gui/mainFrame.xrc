@@ -82,8 +82,8 @@
 					<label>Update point ...</label>
 					<enabled>0</enabled>
 				</object>
-				<object class="wxMenuItem" name="ID_DELPOINT_MENUITEM">
-					<label>Delete point ...</label>
+				<object class="wxMenuItem" name="ID_REMPOINT_MENUITEM">
+					<label>Remove point ...</label>
 					<enabled>0</enabled>
 				</object>
 				<object class="separator" />

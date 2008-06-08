@@ -1948,7 +1948,7 @@
 1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1212884398 h:\projects\pmf-codeblocks\gui\mainframe.h
+1212919428 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -1959,7 +1959,7 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1212884018 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1212919776 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -2011,7 +2011,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212883776 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1212919050 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
@@ -2021,7 +2021,7 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1212883740 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1212918984 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -2031,7 +2031,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212695006 h:\projects\pmf-codeblocks\src\pmf.cpp
+1212918908 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -2043,7 +2043,7 @@
 	"remove.hpp"
 	"segment.hpp"
 
-1212877862 h:\projects\pmf-codeblocks\src\pmf.hpp
+1212918700 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>

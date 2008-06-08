@@ -18,6 +18,7 @@ template <class T_REAL>
 class PMF
 {
     private :
+        /* PMF modification helpers */
         inline
         void PrepareEvolution(BirthsHeap<T_REAL> *, T_REAL, T_REAL, T_REAL);
         inline
@@ -36,22 +37,24 @@ class PMF
 
 		void Generate(T_REAL);
 		void RotatePointTypes(T_REAL, T_REAL);
-		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 		void DetermineTypesFromLeftToRight();
-		//void RedirectUpdatePoint(long, T_REAL);
+
+		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 		void UpdatePointVelocity(long, T_REAL);
 		void RemoveBirthPoint(long, T_REAL);
 		void AddBirthSegment(T_REAL, T_REAL, T_REAL);
 
 		void SetSeed(time_t);
-		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
-
 		bool LoadConfiguration(const char *);
 		bool SaveConfiguration(const char *);
 		bool SaveConfigurationAsSVG(const char *, double, double);
 
+		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
+		pmf_point<T_REAL> * GetPointWithId(long);
+
 		inline T_REAL GetPMFWidth()  { return fieldWidth; }
 		inline T_REAL GetPMFHeight() { return fieldHeight; }
+		inline long GetPMFPointsNumber() { return pmfConf->get_size(); }
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 };

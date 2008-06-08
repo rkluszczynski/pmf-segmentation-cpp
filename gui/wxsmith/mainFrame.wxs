@@ -35,8 +35,12 @@
 		<object name="ID_ADDPOINT_MENUITEM" class="wxMenuItem" variable="addPointMenuItem" member="no">
 			<handler function="OnAddPointMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_UPDPOINT_MENUITEM" class="wxMenuItem" variable="updatePointMenuItem" member="no" />
-		<object name="ID_DELPOINT_MENUITEM" class="wxMenuItem" variable="deletePointMenuItem" member="no" />
+		<object name="ID_UPDPOINT_MENUITEM" class="wxMenuItem" variable="updatePointMenuItem" member="no">
+			<handler function="OnUpdatePointMenuItemSelected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_REMPOINT_MENUITEM" class="wxMenuItem" variable="removePointMenuItem" member="no">
+			<handler function="OnRemovePointMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_ADDSEGMENT_MENUITEM" class="wxMenuItem" variable="addSegmentMenuItem" member="no">
 			<handler function="OnAddSegmentMenuItemSelected" entry="EVT_MENU" />
 		</object>
