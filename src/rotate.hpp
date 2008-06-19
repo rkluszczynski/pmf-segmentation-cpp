@@ -1,6 +1,8 @@
 #ifndef ROTATE_HPP_INCLUDED
 #define ROTATE_HPP_INCLUDED
 
+#include "point.hpp"
+
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (CCOS) - (YY) * (SSIN))
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
@@ -28,16 +30,18 @@ PMF<T_REAL> :: RotatePointTypes (T_REAL sinL = 0.0, T_REAL cosL = 1.0)
                 assert(n1 != NULL);
                 assert(n2 != NULL);
 #endif
-                T_REAL rotX1 = X_ROTATED(n1->x, n1->y, sinL, cosL);
-                T_REAL rotX2 = X_ROTATED(n2->x, n2->y, sinL, cosL);
+                {
+                    T_REAL rotX1 = X_ROTATED(n1->x, n1->y, sinL, cosL);
+                    T_REAL rotX2 = X_ROTATED(n2->x, n2->y, sinL, cosL);
 
-                if (rotX < rotX1) {
-                    if (rotX < rotX2)  pt->type = PT_BIRTH_NORMAL;
-                    else  pt->type = PT_UPDATE;
-                }
-                else {
-                    if (rotX < rotX2)  pt->type = PT_UPDATE;
-                    else  pt->type = PT_INTERSECTION;
+                    if (rotX < rotX1) {
+                        if (rotX < rotX2)  pt->type = PT_BIRTH_NORMAL;
+                        else  pt->type = PT_UPDATE;
+                    }
+                    else {
+                        if (rotX < rotX2)  pt->type = PT_UPDATE;
+                        else  pt->type = PT_INTERSECTION;
+                    }
                 }
                 break;;
             case PT_BIRTH_LEFT :
@@ -48,10 +52,12 @@ PMF<T_REAL> :: RotatePointTypes (T_REAL sinL = 0.0, T_REAL cosL = 1.0)
                 assert(n1 != NULL);
                 assert(n2 == NULL);
 #endif
-                T_REAL rotX0 = X_ROTATED(n1->x, n1->y, sinL, cosL);
+                {
+                    T_REAL rotX0 = X_ROTATED(n1->x, n1->y, sinL, cosL);
 
-                if (rotX < rotX0)  pt->type = PT_BIRTH_LEFT;
-                else  pt->type = PT_BORDER;
+                    if (rotX < rotX0)  pt->type = PT_BIRTH_LEFT;
+                    else  pt->type = PT_BORDER;
+                }
                 break;;
 #if CHECK_ASSERTIONS
             default :

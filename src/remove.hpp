@@ -58,6 +58,7 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
     pmf_point<T_REAL> * tmp;
 #if CHECK_ASSERTIONS
     assert( PT_LT(pt, pt->n1, sinL, cosL) );
+    //assert( ! PT_LT(pt->n1, pt, sinL, cosL) );
     if (pt->n2)  assert( PT_LT(pt, pt->n2, sinL, cosL) );
 #endif
 

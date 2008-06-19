@@ -106,6 +106,7 @@ int main (int argc, char *argv[])
 		print_usage(argv[0]);
 	}
     if((opt & 0x010) && (access(outputFile, F_OK) == 0))
+    {
         if((opt & 0x008))
         {
             fprintf(stderr, "[ WARN ] : Forcing saving file '%s'!\n", outputFile);
@@ -121,6 +122,7 @@ int main (int argc, char *argv[])
             fprintf(stderr, "[ ERROR ] : Output file '%s' exist !\n", outputFile);
             print_usage(argv[0]);
         }
+    }
 	if(! (opt & 0x002)) { seed = time(NULL); }
 	if((opt & 0x004) && (blockSize < 0.0))
 	{

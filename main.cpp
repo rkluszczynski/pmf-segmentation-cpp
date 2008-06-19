@@ -26,11 +26,11 @@ void print_usage(char *prog_name, bool cond = false)
 	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
-	//fprintf(stderr, "       \t\t  [ -u id of point to update ]\n");
+	fprintf(stderr, "       \t\t  [ -p points for edges ]\n");
 	//fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
 	fprintf(stderr, "\n");
 
-    system("PAUSE");
+    system("pause");
 	exit(1);
 }
 
@@ -42,6 +42,7 @@ int main (int argc, char *argv[])
 	double    sizeArak = 0.0;
 	char * initialFile = NULL;
 	char *  outputFile = NULL;
+	char *  pointsFile = NULL;
 	double   blockSize = 0.0;
 	double       angle = 0.0;
     long       pointId = 0;
@@ -52,7 +53,7 @@ int main (int argc, char *argv[])
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
-	while ((c = getopt(argc, argv, "s:e:b:fo:u:a:i:")) != EOF)
+	while ((c = getopt(argc, argv, "s:e:b:fo:p:i:")) != EOF)
 	{
 		switch (c)
 		{
@@ -78,16 +79,10 @@ int main (int argc, char *argv[])
 				opt |= 0x010;
 				outputFile = strdup(optarg);
 				break;
-			case 'u': 	/* Id of point to update. */
+			case 'p':
 				opt |= 0x020;
-				pointId = strtol(optarg, &endptr, 10);
-				if(*endptr == '\0') break;
-				else print_usage(argv[0]);
-			case 'a': 	/* Angle of direction. */
-				opt |= 0x080;
-				angle = strtod(optarg, &endptr);
-				if(*endptr == '\0') break;
-				else print_usage(argv[0]);
+				pointsFile = strdup(optarg);
+				break;
 			case 'i': 	/* Path to initial file. */
 				opt |= 0x100;
 				initialFile = strdup(optarg);
@@ -133,6 +128,11 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ ERROR ] : Id of point to update must be positive !\n");
 		print_usage(argv[0]);
 	}
+    if((opt & 0x020) && (access(pointsFile, R_OK) != 0))
+    {
+        fprintf(stderr, "[ ERROR ] : Can't read points for edges ('%s') !\n", initialFile);
+        print_usage(argv[0]);
+    }
     if((opt & 0x100) && (access(initialFile, R_OK) != 0))
     {
         fprintf(stderr, "[ ERROR ] : Can't read configuration file '%s' !\n", initialFile);
@@ -153,9 +153,8 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] :  Output File (-o) = '%s'\n", outputFile);
 		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n", seed);
 		fprintf(stderr, "[ INFO ] :  Blocks Size (-b) = %.2lf\n", blockSize);
-		fprintf(stderr, "\n");
-		fprintf(stderr, "[ INFO ] :  Id of point (-u) = %li\n", pointId);
-		fprintf(stderr, "[ INFO ] :        Angle (-a) = %.3lf\n", angle);
+		//fprintf(stderr, "\n");
+		fprintf(stderr, "[ INFO ] :  Points File (-p) = '%s'\n", pointsFile);
 		fprintf(stderr, "\n");
 
 		/* Generating Polygonal Markov Field. */

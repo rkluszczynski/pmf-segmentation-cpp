@@ -1,6 +1,8 @@
 #ifndef CONFIGURATIONLIST_HPP_INCLUDED
 #define CONFIGURATIONLIST_HPP_INCLUDED
 
+#include <assert.h>
+
 #include "point.hpp"
 #include "templatelist.hpp"
 
