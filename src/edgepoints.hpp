@@ -5,6 +5,9 @@
 template <class T_REAL>
 class EdgePoints
 {
+    private :
+        long PointsNumber = 0;
+
     public :
         EdgePoints();
         virtual ~EdgePoints();
