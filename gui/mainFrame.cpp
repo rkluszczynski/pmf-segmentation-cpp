@@ -132,12 +132,13 @@ void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL
         double fieldSize, blockSize;
         long scale, seed;
         if (str1.ToDouble(&fieldSize) && str2.ToDouble(&blockSize) && str3.ToLong(&scale) && str4.ToLong(&seed))
+        {
             if (fieldSize > 0.0  &&  blockSize > 0.0  &&  scale > 0)
             {
                 bool newPanel = (pmf == NULL) ? true : false;
                 if (newPanel) {
                     pmf = new PMFPanel(myNotebook);
-                    myNotebook->AddPage(pmf, wxString::Format(wxT("[ PMF ] : Unnamed%d"), myNotebook->GetPageCount()), false, 2);
+                    myNotebook->AddPage(pmf, wxString::Format(wxT("[ PMF ] : Unnamed%d"), myNotebook->GetPageCount()), false, -1);
                     myNotebook->Refresh();
                 }
 
@@ -151,6 +152,8 @@ void mainFrame::GeneratingPMFAction(wxCommandEvent& event, PMFPanel * pmf = NULL
             else {
                 wxMessageBox(_("Field and block sizes should be positive!"), _("Wrong values!"));
             }
+        }
+
     }
 }
 
@@ -211,7 +214,7 @@ void mainFrame::OnLoadImageMenuItemSelected(wxCommandEvent& event)
 
         ImagePanel * ip = new ImagePanel(myNotebook, wxID_ANY);
         ip->LoadFile(path);
-        myNotebook->AddPage(ip, wxT("[ IMAGE ] : ") + dialog.GetFilename(), false, 2);
+        myNotebook->AddPage(ip, wxT("[ IMAGE ] : ") + dialog.GetFilename(), false, -1);
     }
 }
 
@@ -343,7 +346,7 @@ void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
         //int fiterIndex = dialog.GetFilterIndex();
 
         PMFPanel * pp = new PMFPanel(myNotebook);
-        myNotebook->AddPage(pp, wxT("[ PMF ] : ") + dialog.GetFilename(), false, 2);
+        myNotebook->AddPage(pp, wxT("[ PMF ] : ") + dialog.GetFilename(), false, -1);
         myNotebook->Refresh();
 
         pp->SetParameters(0.0, 0.0, 200);

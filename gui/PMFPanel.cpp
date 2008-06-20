@@ -341,6 +341,7 @@ void PMFPanel::ExecutePointBirthsDialog(double xx, double yy, long op, wxString 
         double xx, yy, bsize, angle;
 
         if (strX.ToDouble(&xx) && strY.ToDouble(&yy) && strB.ToDouble(&bsize) && strA.ToDouble(&angle))
+        {
             if (bsize >= 0.0)
             {
                 if (!check) bsize = 0.0;
@@ -366,6 +367,7 @@ void PMFPanel::ExecutePointBirthsDialog(double xx, double yy, long op, wxString 
             else {
                 wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
             }
+        }
     }
 }
 
@@ -386,6 +388,7 @@ void PMFPanel::ExecutePointModificationDialog(long op, wxString & title)
         double bsize, angle;
 
         if (strID.ToLong(&pointID) && strBS.ToDouble(&bsize) && strA.ToDouble(&angle))
+        {
             if (bsize >= 0.0)
             {
                 if (!check) bsize = 0.0;
@@ -412,6 +415,7 @@ void PMFPanel::ExecutePointModificationDialog(long op, wxString & title)
             else {
                 wxMessageBox(_("Block size should be positive!"), _("Wrong values!"));
             }
+        }
     }
 }
 
