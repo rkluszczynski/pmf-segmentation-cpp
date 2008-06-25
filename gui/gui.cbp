@@ -38,11 +38,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="`wx-config --cflags`" />
 		</Compiler>
-		<Linker>
-			<Add option="`wx-config --libs`" />
-		</Linker>
 		<Unit filename="AddPointDialog.cpp">
 			<Option virtualFolder="dialogs/" />
 		</Unit>
