@@ -130,7 +130,7 @@ int main (int argc, char *argv[])
 	}
     if((opt & 0x020) && (access(pointsFile, R_OK) != 0))
     {
-        fprintf(stderr, "[ ERROR ] : Can't read points for edges ('%s') !\n", initialFile);
+        fprintf(stderr, "[ ERROR ] : Can't read points for edges ('%s') !\n", pointsFile);
         print_usage(argv[0]);
     }
     if((opt & 0x100) && (access(initialFile, R_OK) != 0))
