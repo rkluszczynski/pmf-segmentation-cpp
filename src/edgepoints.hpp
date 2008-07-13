@@ -10,17 +10,25 @@ template <class T_REAL>
 class EdgePoints
 {
     private :
-        long PointsNumber = 0;
+        //long PointsNumber;
         T_REAL size_x, size_y;
         int angleType;
 
-        std::vector<pmf_point *> PointsVector;
+        std::vector<pmf_point<T_REAL> *> PointsVector;
+        std::vector<T_REAL> xx;
+        std::vector<T_REAL> yy;
+        std::vector<T_REAL> aa;
+
+
+        inline long getPointsNumber() { return PointsVector.size(); }
+
 
     public :
         EdgePoints();
         virtual ~EdgePoints();
 
         bool LoadData(const char *);
+        void PrintData(std::ostream &);
 
 };
 

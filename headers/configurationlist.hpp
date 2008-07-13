@@ -19,6 +19,8 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
     public :
         ConfigurationList(T_REAL, T_REAL);
 
+        void clone_to ( ConfigurationList<T_REAL> * clone );
+
         T_REAL get_field_width()  { return  fieldWidth; }
         T_REAL get_field_height() { return fieldHeight; }
 
@@ -37,6 +39,28 @@ ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
 {
     fieldWidth = width;
     fieldHeight = height;
+}
+
+
+template <class T_REAL>
+void ConfigurationList<T_REAL>::clone_to ( ConfigurationList<T_REAL> * cclone )
+{
+    if (cclone == NULL) return;
+
+    TemplateList<pmf_point<T_REAL> >::head = NULL;
+    TemplateList<pmf_point<T_REAL> >::tail = NULL;
+    TemplateList<pmf_point<T_REAL> >::size = 0;
+
+    /// TODO : clone the list
+
+    Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
+    while (iter) {
+        pmf_point<T_REAL> * opt = iter->data;
+        pmf_point<T_REAL> * npt = new pmf_point<T_REAL>();
+
+        cclone->push_back( npt );
+        iter = iter->next;
+    }
 }
 
 

@@ -35,6 +35,7 @@ class PMF
         PMF(T_REAL, T_REAL);
 		virtual ~PMF();
 
+        PMF<T_REAL> * Clone();
 		void Generate(T_REAL);
 		void RotatePointTypes(T_REAL, T_REAL);
 		void DetermineTypesFromLeftToRight();
@@ -52,6 +53,7 @@ class PMF
 		pmf_point<T_REAL> * FindClosestTo(T_REAL, T_REAL);
 		pmf_point<T_REAL> * GetPointWithId(long);
 
+		inline ConfigurationList<T_REAL> * GetPMFConfiguration()  { return pmfConf; }
 		inline T_REAL GetPMFWidth()  { return fieldWidth; }
 		inline T_REAL GetPMFHeight() { return fieldHeight; }
 		inline long GetPMFPointsNumber() { return pmfConf->get_size(); }

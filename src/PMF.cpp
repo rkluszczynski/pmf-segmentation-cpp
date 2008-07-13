@@ -24,6 +24,19 @@ void
 PMF<T_REAL> :: SetSeed (time_t sseed) { seed = sseed; }
 
 
+template <class T_REAL>
+PMF<T_REAL> *
+PMF<T_REAL> :: Clone () {
+    PMF<T_REAL> * newPMF = new PMF<T_REAL> (fieldWidth, fieldHeight);
+    newPMF->SetSeed(seed);
+
+    SaveConfiguration("output/tmp.txt");
+    newPMF->LoadConfiguration("output/tmp.txt");
+    //pmfConf->clone_to(newPMF->GetPMFConfiguration());
+    //DetermineTypesFromLeftToRight();
+    return newPMF;
+}
+
 #include "generate.hpp"
 #include "rotate.hpp"
 

@@ -11,6 +11,7 @@
 #define DEL_PATH_LOG 1
 
 #include "PMF.hpp"
+#include "edgepoints.hpp"
 
 
 void print_usage(char *prog_name, bool cond = false)
@@ -40,7 +41,7 @@ int main ()
 {
 	double    sizeArak = 7.0;
 	char * initialFile = NULL;
-	char *  outputFile = NULL;
+	char *  outputFile = "output/pmf1.txt";
 	const char *  pointsFile = "output/edges.txt";
 	double   blockSize = 0.0;
 	//double       angle = 0.0;
@@ -64,34 +65,34 @@ int main ()
 		fprintf(stderr, "\n");
 
 
-		/* Generating Polygonal Markov Field. */
+        EdgePoints<double> ep;
+        ep.LoadData("output/edges.txt");
+        ep.PrintData();
+
+		/*
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
-
 //        pmf->LoadConfiguration(initialFile);
         pmf->Generate(blockSize);
 
         //ofstream fout("output/log-upd-rot.txt");
         //out.rdbuf(fout.rdbuf());
-
         ftime(&tbeg);
 
-
-        //pmf->UpdatePointVelocity(pointId, angle);
-
+        PMF<REAL> * pmf2 = pmf->Clone();
+        pmf2->SaveConfiguration("output/pmf2.txt");
+        delete pmf2;
 
 	    ftime(&tend);
-
 	    //fout.close();
 
-		if (outputFile) pmf->SaveConfiguration(outputFile);
+		pmf->SaveConfiguration(outputFile);
 		delete pmf;
-
 
         double modTime = tend.time - tbeg.time;
         modTime += ((tend.millitm - tbeg.millitm) * 0.001);
 		fprintf(stderr, "\n[ DONE ] : modification time = %.3lf sec.\n", modTime);
-
+        //*/
     return(0);
 }
 #undef REAL
