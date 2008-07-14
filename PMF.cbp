@@ -176,6 +176,10 @@
 			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src\edgeelement.hpp">
+			<Option virtualFolder="structures\edges\" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src\edgepoints.cpp">
 			<Option virtualFolder="structures\edges\" />
 			<Option target="&lt;{~None~}&gt;" />

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "point.hpp"
+#include "edgeelement.hpp"
 
 
 template <class T_REAL>
@@ -14,10 +15,7 @@ class EdgePoints
         T_REAL size_x, size_y;
         int angleType;
 
-        std::vector<pmf_point<T_REAL> *> PointsVector;
-        std::vector<T_REAL> xx;
-        std::vector<T_REAL> yy;
-        std::vector<T_REAL> aa;
+        std::vector<edge_element<T_REAL> *> PointsVector;
 
 
         inline long getPointsNumber() { return PointsVector.size(); }

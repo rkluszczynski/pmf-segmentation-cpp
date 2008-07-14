@@ -22,26 +22,15 @@ EdgePoints<T_REAL> :: LoadData (const char * filename)
     ifstream fin(filename);
     long amount = 0;
 
-    fin >> size_x;
-    fin >> size_y;
-    fin >> amount;
-
+    fin >> size_x >> size_y >> amount;
     long angleType;
-    fin >> angleType;
+    //fin >> angleType;
 
     for (int i = 0; i < amount; i++) {
         double xxx, yyy, aaa;
-        fin >> xxx;
-        fin >> yyy;
-        fin >> aaa;
-
-        xx.push_back(xxx);
-        yy.push_back(yyy);
-        aa.push_back(aaa);
-/*
-        pmf_point<T_REAL> * pp = new pmf_point<T_REAL>(xxx, yyy, 0.0, 0.0, i);
-*/
-        PointsVector.push_back(NULL);
+        fin >> xxx >> yyy >> aaa;
+        edge_element<T_REAL> * nee = new edge_element<T_REAL>(xxx, yyy, aaa);
+        PointsVector.push_back(nee);
     }
     fin.close();
     return true;
@@ -59,24 +48,7 @@ EdgePoints<T_REAL> :: PrintData (std::ostream & out = std::cout)
     out << "  size = " << size_x << " x " << size_y  << endl;
 
     for (int i = 0; i < getPointsNumber(); i++) {
-        //*
         out.width(4);
-        out << i;
-        out << "  :  ";
-        out.width(7);
-        out.precision(3);   out << xx[i];
-        out << "  ";
-        out.width(7);
-        out.precision(3);   out << yy[i];
-        out << "  ";
-        out.width(7);
-        out.precision(3);   out << aa[i];
-        out << endl;
-        //*/
-        /*
-        pmf_point<T_REAL> * ptmp = PointsVector[i];
-        out.width(4);
-        out << i << "  :  " << ptmp << endl;
-        //*/
+        out << i << "  :  " << PointsVector[i] << endl;
     }
 }
