@@ -38,8 +38,8 @@ int main ()
 {
 	double    sizeArak = 7.0;
 	char * initialFile = NULL;
-	char *  outputFile = "output/pmf1.txt";
-	char *  pointsFile = "output/edges.txt";
+	const char *  outputFile = "output/pmf1.txt";
+	const char *  pointsFile = "output/edges.txt";
 	double   blockSize = 0.0;
 	time_t        seed = 0;
 
@@ -69,7 +69,7 @@ int main ()
 
     ftime(&tbeg);
     //SimulateAddingEdges ( pointsFile, initialFile, sizeArak, sizeArak, seed, blockSize, outputFile );
-    SimulateAddingEdges ( pointsFile, pmf );
+    SimulateAddingEdges ( (char *) pointsFile, pmf );
     ftime(&tend);
 
 	pmf->SaveConfiguration(outputFile);
