@@ -18,15 +18,15 @@ class EdgePoints
         std::vector<edge_element<T_REAL> *> PointsVector;
 
 
-        inline long getPointsNumber() { return PointsVector.size(); }
-
-
     public :
         EdgePoints();
         virtual ~EdgePoints();
 
         bool LoadData(const char *);
         void PrintData(std::ostream &);
+
+        inline long getPointsNumber() { return PointsVector.size(); }
+        inline edge_element<T_REAL> * get(int i) { return PointsVector[i]; }
 
 };
 

@@ -5,14 +5,20 @@
 	"blockslists.hpp"
 	"probability.hpp"
 
+1200690590 ty.hpp"
+
 1195476144 source:d:\projects\pmf-codeblocks\tests\test-templatelist.cpp
 	<cstdio>
 	<iostream>
 	"templatelist.hpp"
 
+1195476144 ist.hpp"
+
 1201618298 source:d:\projects\pmf-codeblocks\tests\test-bothlists.cpp
 	<iostream>
 	"generate.cpp"
+
+1208384196 cpp"
 
 1208384196 source:d:\projects\pmf-codeblocks\tests\test-addpoint.cpp
 	<cstdio>
@@ -37,6 +43,8 @@
 	"generate.cpp"
 	"add.cpp"
 
+1212737266 
+
 1206973044 source:d:\projects\pmf-codeblocks\tests\test-rotatetypes.cpp
 	<cstdio>
 	<cstdlib>
@@ -49,10 +57,14 @@
 	"generate.cpp"
 	"rotate.cpp"
 
+1206973044 p"
+
 1208987806 source:h:\projects\pmf-codeblocks\tests\test-pmfheap.cpp
 	<iostream>
 	<cmath>
 	"abstractheap.hpp"
+
+1208987806 eap.hpp"
 
 1211151912 source:h:\projects\pmf-codeblocks\tests\test-addrotpt.cpp
 	<cstdio>
@@ -84,6 +96,8 @@
 
 1194013718 source:h:\projects\pmf-codeblocks\tests\test-polimorfizm.cpp
 	<iostream>
+
+1194013718 
 
 1211469384 source:h:\projects\pmf-codeblocks\tests\test-loadingpmf.cpp
 	<cstdio>
@@ -133,4 +147,16 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 	"edgepoints.hpp"
+
+1215963796 s.hpp"
+
+1216211839 source:/home/klusi/PROJECTS/PMF-CodeBlocks/tests/test-edgepoints.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"sim-edge.cpp"
 
