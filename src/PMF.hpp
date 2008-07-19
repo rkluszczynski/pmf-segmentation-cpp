@@ -8,6 +8,7 @@
 #include "configurationlist.hpp"
 #include "birthsheap.hpp"
 #include "intersectionsheap.hpp"
+#include "edgepoints.hpp"
 
 
 #if pmf_LOG_ADD
@@ -43,7 +44,7 @@ class PMF
 		void AddBirthPoint(T_REAL, T_REAL, T_REAL);
 		void UpdatePointVelocity(long, T_REAL);
 		void RemoveBirthPoint(long, T_REAL);
-		void AddBirthSegment(T_REAL, T_REAL, T_REAL);
+		void AddBirthSegment(T_REAL, T_REAL, T_REAL, EdgePoints<T_REAL> *);
 
 		void SetSeed(time_t);
 		bool LoadConfiguration(const char *);

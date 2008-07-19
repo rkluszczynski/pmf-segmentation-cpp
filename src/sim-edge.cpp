@@ -22,6 +22,8 @@ void SimulateAddingEdges (
         cerr << "( " << ep.get(i)->x << " ; " << ep.get(i)->y << " )   ";
         cerr << ep.get(i)->angle << " ~ " << degree2radians(ep.get(i)->angle) << endl;
 
+        pmf->AddBirthSegment( ep.get(i)->x, ep.get(i)->y, degree2radians(ep.get(i)->angle) );
+
         sprintf(plik, "output/edge-iter-%d.txt", i);
         cerr << plik << endl;
         pmf->SaveConfiguration(plik);

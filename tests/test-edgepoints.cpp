@@ -57,8 +57,8 @@ int main ()
 	fprintf(stderr, "\n");
 
     struct timeb tbeg, tend;
-    //ofstream fout("output/log-upd-rot.txt");
-    //out.rdbuf(fout.rdbuf());
+    ofstream fout("output/log-seg.txt");
+    out.rdbuf(fout.rdbuf());
 
 	PMF<double> * pmf = new PMF<double>(sizeArak, sizeArak);
 	pmf->SetSeed(seed);
@@ -74,7 +74,7 @@ int main ()
 
 	pmf->SaveConfiguration(outputFile);
 	delete pmf;
-	//fout.close();
+	fout.close();
 
     double modTime = tend.time - tbeg.time;
     modTime += ((tend.millitm - tbeg.millitm) * 0.001);

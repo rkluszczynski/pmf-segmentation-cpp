@@ -70,7 +70,7 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
+PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T_REAL> * ep = NULL)
 {
     //T_REAL fieldWidth  = pmfConf->get_field_width();
     //T_REAL fieldHeight = pmfConf->get_field_height();
@@ -97,6 +97,9 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha)
 
     // Creating new point
     pmf_point<T_REAL> * pt = new pmf_point<T_REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
+    if (ep != NULL) {
+        /// TODO : set the point in edge_element
+    }
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
     {
 #if pmf_LOG_ADD
