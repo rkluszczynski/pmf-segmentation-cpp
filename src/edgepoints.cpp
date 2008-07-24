@@ -52,3 +52,25 @@ EdgePoints<T_REAL> :: PrintData (std::ostream & out = std::cout)
         out << i << "  :  " << PointsVector[i] << endl;
     }
 }
+
+
+template <class T_REAL>
+int
+EdgePoints<T_REAL> :: getPointIndex (T_REAL xx, T_REAL yy)
+{
+    for (int i = 0; i < getPointsNumber(); i++)
+        if (PointsVector[i]->x == xx  &&  PointsVector[i]->y == yy)
+            return i;
+    return -1;
+}
+
+
+template <class T_REAL>
+long
+EdgePoints<T_REAL> :: hasPointWithID (long id)
+{
+    for (int i = 0; i < getPointsNumber(); i++)
+        if (PointsVector[i]->pt != NULL)
+            if (PointsVector[i]->pt->id == id) return i;
+    return -1;
+}

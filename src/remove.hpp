@@ -65,11 +65,11 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
     if (pt->n2) {
         tmp = pt->n2;
         pt->n2 = NULL;
-        pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
+        pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
     }
     tmp = pt->n1;
     pt->n1 = NULL;
-    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
+    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
 
     delete tricky;
     delete pt;

@@ -25,6 +25,9 @@ class EdgePoints
         bool LoadData(const char *);
         void PrintData(std::ostream &);
 
+        int getPointIndex(T_REAL, T_REAL);
+        long hasPointWithID(long);
+
         inline long getPointsNumber() { return PointsVector.size(); }
         inline edge_element<T_REAL> * get(int i) { return PointsVector[i]; }
 

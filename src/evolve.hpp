@@ -39,7 +39,8 @@ PMF<T_REAL> :: EvolveRestOfField (
                             T_REAL sinL,
                             T_REAL cosL,
                             long oldSize,
-                            long & ptId
+                            long & ptId,
+                            EdgePoints<T_REAL> * ep = NULL
                         )
 {
     // Do the evolution!
@@ -117,8 +118,8 @@ PMF<T_REAL> :: EvolveRestOfField (
                 assert(bHeap->get_point_with_id(id1) != NULL);
                 assert(bHeap->get_point_with_id(id2) != NULL);
 #endif
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, fieldHeight, fieldWidth, sinL, cosL);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
 
             bHeap->remove_point_with_id(pt->id);
             iHeap->remove_intersections_with_id(pt->id);

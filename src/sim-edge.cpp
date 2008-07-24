@@ -22,7 +22,15 @@ void SimulateAddingEdges (
         cerr << "( " << ep.get(i)->x << " ; " << ep.get(i)->y << " )   ";
         cerr << ep.get(i)->angle << " ~ " << degree2radians(ep.get(i)->angle) << endl;
 
-        pmf->AddBirthSegment( ep.get(i)->x, ep.get(i)->y, degree2radians(ep.get(i)->angle) );
+        pmf->AddBirthSegment( ep.get(i)->x, ep.get(i)->y, degree2radians(ep.get(i)->angle), &ep );
+
+        cerr << "[ EDGE ] : checking ... ";
+        for (int k = 0; k < i; k++) {
+            cerr << k;
+            if (ep.get(k)->pt == NULL)  cerr << "-ERR";
+            cerr << " ... ";
+        }
+        cerr << " done" << endl;
 
         sprintf(plik, "output/edge-iter-%d.txt", i);
         cerr << plik << endl;

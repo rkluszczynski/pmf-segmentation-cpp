@@ -12,6 +12,7 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
                             pmf_point<T_REAL> * npt,
                             pmf_point<T_REAL> * ppt,
                             long &ptId,
+                            EdgePoints<T_REAL> * ep,
                             T_REAL ssinL,
                             T_REAL ccosL
                         )
@@ -50,12 +51,15 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
         out << "PRZECIECIA : " << id << endl;
         out << tmp_iHeap << endl;
 #endif
+
+        bbHeap->remove_point_with_id(npt->id);
+
 #if CHECK_ASSERTIONS
         assert(tmp_iHeap->empty());
         assert(id != npt->id);
         assert(bbHeap->get_point_with_id(id) != NULL);
 #endif
-        pmf_delete_rotated_path(pt_min, bbHeap->get_point_with_id(id), bbHeap, iiHeap, NULL, ptId, fHeight, fWidth, ssinL, ccosL);
+        pmf_delete_rotated_path(pt_min, bbHeap->get_point_with_id(id), bbHeap, iiHeap, NULL, ptId, ep, fHeight, fWidth, ssinL, ccosL);
         bbHeap->remove_point_with_id((id == id1) ? id2 : id1);
 
         pmfConf->push_back(pt_min);
@@ -97,9 +101,14 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
 
     // Creating new point
     pmf_point<T_REAL> * pt = new pmf_point<T_REAL>(xx, yy, NULL, NULL, 0.0, 0.0, ++ptId, PT_BIRTH_NORMAL);
+
     if (ep != NULL) {
         /// TODO : set the point in edge_element
+        int index = ep->getPointIndex(xx, yy);
+        assert(index >= 0);
+        ep->get(index)->pt = pt;
     }
+
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
     {
 #if pmf_LOG_ADD
@@ -127,8 +136,8 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
     out << "----<" << endl;
 #endif
 
-    SetPerpendicularNeighbor(bHeap, iHeap, pt1, pt, ptId, sinL, cosL);
-    SetPerpendicularNeighbor(bHeap, iHeap, pt2, pt, ptId, sinL, cosL);
+    SetPerpendicularNeighbor(bHeap, iHeap, pt1, pt, ptId, ep, sinL, cosL);
+    SetPerpendicularNeighbor(bHeap, iHeap, pt2, pt, ptId, ep, sinL, cosL);
 
 #if pmf_LOG_ADD
     out << *pt1 << endl;
@@ -139,7 +148,7 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
 
     /* ************************************************************************************** */
     // and the riots start again ...
-    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, ep);
 
     delete bHeap;
     delete iHeap;

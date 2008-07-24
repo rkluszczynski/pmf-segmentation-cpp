@@ -43,7 +43,7 @@
 	"generate.cpp"
 	"add.cpp"
 
-1212737266 
+1194013718 
 
 1206973044 source:d:\projects\pmf-codeblocks\tests\test-rotatetypes.cpp
 	<cstdio>
@@ -97,8 +97,6 @@
 1194013718 source:h:\projects\pmf-codeblocks\tests\test-polimorfizm.cpp
 	<iostream>
 
-1194013718 
-
 1211469384 source:h:\projects\pmf-codeblocks\tests\test-loadingpmf.cpp
 	<cstdio>
 	<cstdlib>
@@ -137,7 +135,7 @@
 	<sstream>
 	"PMF.hpp"
 
-1215963796 source:h:\projects\pmf-codeblocks\tests\test-edgepoints.cpp
+1216816808 source:h:\projects\pmf-codeblocks\tests\test-edgepoints.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -145,8 +143,7 @@
 	<ctime>
 	<unistd.h>
 	<sys/timeb.h>
-	"PMF.hpp"
-	"edgepoints.hpp"
+	"sim-edge.cpp"
 
 1215963796 s.hpp"
 
