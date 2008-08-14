@@ -10,7 +10,7 @@
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
+PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL bSize = 0.0)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
@@ -23,7 +23,11 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
-    /// TODO : BlocksLists<T_REAL> *      blocks = NULL;
+    /// TODO :
+    BlocksLists<T_REAL> *      blocks = NULL;
+    if (bSize > 0.0) {
+        blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
+    }
 
     PrepareEvolution(bHeap, alpha, sinL, cosL);
 
@@ -78,6 +82,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0)
 
     delete bHeap;
     delete iHeap;
+    if (blocks) delete blocks;
 
     return;
 }

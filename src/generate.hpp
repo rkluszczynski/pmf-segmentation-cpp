@@ -219,7 +219,7 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
     }
     delete birthList;
     delete crossList;
-    delete blocksLists;
+    if (blocksLists) delete blocksLists;
 
     pmfConf->set_points_ids();
 }

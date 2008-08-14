@@ -3904,7 +3904,7 @@
 	<cstdio>
 	"point.hpp"
 
-1216816968 h:\projects\pmf-codeblocks\src\edgepoints.hpp
+1216893566 h:\projects\pmf-codeblocks\src\edgepoints.hpp
 	<iostream>
 	<vector>
 	"point.hpp"
@@ -3913,7 +3913,7 @@
 
 1216023390 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1216817088 h:\projects\pmf-codeblocks\src\edgepoints.cpp
+1216893600 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
 1215955750 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
@@ -3982,7 +3982,7 @@
 1212338588 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1216833158 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1216893660 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -3999,8 +3999,56 @@
 
 1216833384 h:\projects\pmf-codeblocks\src\remove.hpp
 
-1216833286 h:\projects\pmf-codeblocks\src\segment.hpp
+1216892994 h:\projects\pmf-codeblocks\src\segment.hpp
 
 1212880156 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
+
+1213976300 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+	"PMFPanel.h"
+	"mainFrame.h"
+	"AddPointDialog.h"
+	"ModPointDialog.h"
+	<sys/timeb.h>
+	<wx/wx.h>
+	<wx/string.h>
+	<wx/xrc/xmlres.h>
+
+1212881006 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
+	"PMFPopupMenu.h"
+	"mainFrame.h"
+	<cmath>
+	<wx/wx.h>
+	<wx/menu.h>
+
+1214664528 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+	"mainFrame.h"
+	<wx/wx.h>
+	<wx/dcbuffer.h>
+	"GenerateDialog.h"
+	"ImagePanel.h"
+	"PMFPanel.h"
+	"AddPointDialog.h"
+	<wx/xrc/xmlres.h>
+
+1193991320 source:h:\projects\pmf-codeblocks\gui\resource.rc
+	"wx/msw/wx.rc"
+
+1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wx.rc
+	<winresrc.h>
+	<windows.h>
+	"wx/msw/wince/wince.rc"
+	"wx/msw/rcdefs.h"
+
+1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\wince.rc
+	<commctrl.h>
+	"wx/msw/wince/smartphone.rc"
+
+1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\smartphone.rc
+	<aygshell.h>
+	"wx/msw/wince/resources.h"
+
+1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\resources.h
+
+1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
 

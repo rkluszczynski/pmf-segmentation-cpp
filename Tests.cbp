@@ -161,7 +161,7 @@
 		</Unit>
 		<Unit filename="tests\test-addRotPt.cpp">
 			<Option virtualFolder="mains\" />
-			<Option target="&lt;{~None~}&gt;" />
+			<Option target="test-addRotatedPoint" />
 		</Unit>
 		<Unit filename="tests\test-addRotSeg.cpp">
 			<Option virtualFolder="mains\" />
