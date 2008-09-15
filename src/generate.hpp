@@ -125,8 +125,9 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
     IntersectionsList<T_REAL> * crossList = new IntersectionsList<T_REAL> ();
     //ConfigurationList<T_REAL> *
     pmfConf = new ConfigurationList<T_REAL> (fieldWidth, fieldHeight);
-    BlocksLists<T_REAL> *     blocksLists = NULL;
-    if (bSize > 0.0)  { blocksLists = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize); }
+    //BlocksLists<T_REAL> *     blocksLists = NULL;
+    if (bSize > 0.0)
+        blocksLists = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
 
     id = pmf_generate_initial_births (birthList, fieldHeight, fieldWidth, blocksLists);
     pmf_point<T_REAL> * pop = NULL;
@@ -219,7 +220,7 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
     }
     delete birthList;
     delete crossList;
-    if (blocksLists) delete blocksLists;
+    //if (blocksLists) delete blocksLists;
 
     pmfConf->set_points_ids();
 }

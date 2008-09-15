@@ -111,6 +111,10 @@ pmf_store_rotated_point_in_blocks (
 #if pmf_LOG_ADD
     out << " --- INS --- : " << *newPt << std::endl;
 #endif
+    if (blocks) {
+        pt->block = blocks->determine_point_block(pt);
+        blocks->push(pt);
+    }
     bHeap->insert(newPt);
     //bHeap->insert(newPt, blocks);
     return true;

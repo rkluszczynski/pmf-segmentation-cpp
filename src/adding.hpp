@@ -24,7 +24,8 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
     /// TODO :
-    BlocksLists<T_REAL> *      blocks = NULL;
+    if (bSize > 0.0)  assert(blocksLists != NULL);
+    BlocksLists<T_REAL> * blocks = NULL;
     if (bSize > 0.0) {
         blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
     }
@@ -45,8 +46,17 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
 #if pmf_LOG_ADD
         out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
 #endif
+        pmf_point<T_REAL> * pt = bHeap->extract_min();
         //newPMF->push_in_order(bHeap->extract_min());
-        pmfConf->push_back(bHeap->extract_min());
+        if (blocks) {
+            pt->block = blocks->determine_point_block(pt);
+            blocks->push(pt);
+        }
+        pmfConf->push_back(pt);
+    }
+    if (blocks) {
+        pt->block = blocks->determine_point_block(pt);
+        blocks->push(pt);
     }
     pmfConf->push_back(pt);
 #if pmf_LOG_ADD
@@ -64,14 +74,14 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     newPt = pmf_put_new_neighbor<T_REAL>(pt, upperAngle, ptId, sinL, cosL);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
-    pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
+    pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n1 << endl;
 #endif
     newPt = pmf_put_new_neighbor<T_REAL>(pt, lowerAngle, ptId, sinL, cosL);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
-    pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
+    pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n2 << endl;
 #endif

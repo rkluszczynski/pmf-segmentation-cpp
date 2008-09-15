@@ -9,6 +9,7 @@
 #include "birthsheap.hpp"
 #include "intersectionsheap.hpp"
 #include "edgepoints.hpp"
+#include "blockslists.hpp"
 
 
 #if pmf_LOG_ADD
@@ -27,10 +28,13 @@ class PMF
         inline
         void SetPerpendicularNeighbor(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, pmf_point<T_REAL> *, pmf_point<T_REAL> *, long &, EdgePoints<T_REAL> *, T_REAL, T_REAL);
 
+
     protected :
         T_REAL fieldWidth, fieldHeight;
         time_t seed;
         ConfigurationList<T_REAL> * pmfConf;
+        BlocksLists<T_REAL> *   blocksLists;
+
 
     public :
         PMF(T_REAL, T_REAL);

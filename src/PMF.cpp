@@ -9,13 +9,17 @@ PMF<T_REAL> :: PMF (T_REAL fWidth, T_REAL fHeight)
     fieldHeight = fHeight;
     seed        = 0;
     pmfConf     = new ConfigurationList<T_REAL> (fWidth, fHeight);//NULL;
+    blocksLists = NULL;
+    std::cerr << "[ PMF ] : class created" << std::endl;
 }
 
 
 template <class T_REAL>
 PMF<T_REAL> :: ~PMF ()
 {
-    ;
+    delete pmfConf;
+    if (blocksLists) delete blocksLists;
+    std::cerr << "[ PMF ] : class deleted" << std::endl;
 }
 
 
