@@ -29,7 +29,7 @@ class IntersectionsHeap : public AbstractHeap<CrosspointElement<T_REAL> *>
         pmf_point<T_REAL> * extract_min (long & , long & );
         void insert (pmf_point<T_REAL> *, long , long );
 
-        bool remove_intersections_with_id(long);
+        bool remove_intersections_with_id(long, BlocksLists<T_REAL> *);
 
 		friend std::ostream & operator << (std::ostream & out, IntersectionsHeap<T_REAL> * iHeap)
 		{
@@ -44,16 +44,16 @@ class IntersectionsHeap : public AbstractHeap<CrosspointElement<T_REAL> *>
 
 template <class T_REAL>
 bool
-IntersectionsHeap<T_REAL>::remove_intersections_with_id (long ptId)
+IntersectionsHeap<T_REAL>::remove_intersections_with_id (long ptId, BlocksLists<T_REAL> * blocks = NULL)
 {
     bool deleted = false;
     for (int i = 0; i < AbstractHeap<CrosspointElement<T_REAL> *>::size(); i++)
     {
         CrosspointElement<T_REAL> * cEl = AbstractHeap<CrosspointElement<T_REAL> *>::get(i);
         if (cEl->p1 == ptId  ||  cEl->p2 == ptId) {
-            //if (blocksLists)  blocksLists->pop(iter->data);
             std::swap ((*AbstractHeap<CrosspointElement<T_REAL> *>::data)[i], (*AbstractHeap<CrosspointElement<T_REAL> *>::data)[AbstractHeap<CrosspointElement<T_REAL> *>::size()-1]);
             AbstractHeap<CrosspointElement<T_REAL> *>::data->pop_back();
+            if (blocks)  blocks->pop(cEl->pt);
             AbstractHeap<CrosspointElement<T_REAL> *>::min_heapify (i);
             --i;
             deleted = true;

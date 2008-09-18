@@ -8,6 +8,102 @@
 
 #define REAL double
 
+
+template <class T_REAL>
+inline
+void pmf_check_crossings (
+                            pmf_point<T_REAL> * newPt,
+                            IntersectionsHeap<T_REAL> * iHeap,
+                            long & id,
+                            pmf_point<T_REAL> * parentPt,
+                            BlocksLists<T_REAL> * blocks,
+                            int index
+                        )
+{
+    Element<pmf_point<T_REAL> > * iter = blocks->getBlockList(index)->getHead();
+    assert(parentPt == newPt->n1);
+    while (iter) {
+        pmf_point<T_REAL> * pt = iter->data;
+        switch (pt->type) {
+            case PT_BIRTH_NORMAL :
+                if (pt->n1)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
+                    {
+                        T_REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~1:" << pt->id << "-" << pt->n1->id << " " << endl;
+#endif
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iHeap->insert(newpt2, newPt->id, pt->n1->id);
+                    }
+                }
+                if (pt->n2)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y) == 1)
+                    {
+                        T_REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~2:" << pt->id << "-" << pt->n2->id << " " << endl;
+#endif
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iHeap->insert(newpt2, newPt->id, pt->n1->id);
+                    }
+                }
+                break;;
+            case PT_BIRTH_LEFT   :
+            case PT_BIRTH_UP     :
+            case PT_BIRTH_DOWN   :
+                if (pt->n1)//&&  newPt != pt->n1 && pt != newPt)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y) == 1)
+                    {
+                        T_REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~0:" << pt->id << "-" << pt->n1->id << " " << endl;
+#endif
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iHeap->insert(newpt2, newPt->id, pt->n1->id);
+                    }
+                }
+                break;;
+            case PT_UPDATE       :
+                if (pt->n2)//&&  newPt != pt->n1 && pt != newPt)
+                {
+                    if (cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y) == 1)
+                    {
+                        T_REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
+#ifdef DEBUG
+                        cout << " CROSSED~U:" << pt->id << "-" << pt->n2->id << " " << endl;
+#endif
+                        pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        newpt2->block = blocks->determine_point_block(newpt2);
+                        blocks->push(newpt2);
+                        iHeap->insert(newpt2, newPt->id, pt->n1->id);
+                    }
+                }
+            case PT_UNKNOWN      :
+            case PT_BORDER       :
+            case PT_INTERSECTION :
+            default :
+                ;;
+        }
+        iter = iter->next;
+    }
+    return;
+}
+
+
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
@@ -68,7 +164,44 @@ pmf_store_rotated_point_in_blocks (
         /* Check if pointer to blocks is NULL */
         if (blocks)
         {
-            assert(false);
+            /// TODO
+            //assert(false);
+
+            int block = blocks->determine_point_block(newPt);
+            newPt->block = block;
+
+            // Calculate intersection points with other segments in neighbours' blocks
+            int ll, rr, uu, dd;
+            block = parentPt->block;
+            ll = blocks->left_from(block);
+            rr = blocks->right_from(block);
+            uu = blocks->up_from(block);
+            dd = blocks->down_from(block);
+
+            if (uu != BLOCK_UNDEFINED) {
+                int lll = uu-1, rrr = uu+1;
+                if (ll == BLOCK_UNDEFINED) lll = uu;
+                if (rr == BLOCK_UNDEFINED) rrr = uu;
+
+                //  for i = lll .. rrr
+                for (int index = lll; index <= rrr; index++)
+                    pmf_check_crossings<REAL> (newPt, iHeap, id, parentPt, blocks, index);
+            }
+            if (dd != BLOCK_UNDEFINED) {
+                int lll = dd-1, rrr = dd+1;
+                if (ll == BLOCK_UNDEFINED) lll = dd;
+                if (rr == BLOCK_UNDEFINED) rrr = dd;
+
+                //  for i = lll .. rrr
+                for (int index = lll; index <= rrr; index++)
+                    pmf_check_crossings (newPt, iHeap, id, parentPt, blocks, index);
+            }
+            if (ll == BLOCK_UNDEFINED) ll = block;
+            if (rr == BLOCK_UNDEFINED) rr = block;
+
+            //  for i = ll .. rr
+            for (int index = ll; index <= rr; index++)
+                pmf_check_crossings (newPt, iHeap, id, parentPt, blocks, index);
         }
         else {
             for (int i = 0; i < bHeap->size(); i++)
@@ -112,8 +245,8 @@ pmf_store_rotated_point_in_blocks (
     out << " --- INS --- : " << *newPt << std::endl;
 #endif
     if (blocks) {
-        pt->block = blocks->determine_point_block(pt);
-        blocks->push(pt);
+        newPt->block = blocks->determine_point_block( newPt );
+        blocks->push( newPt );
     }
     bHeap->insert(newPt);
     //bHeap->insert(newPt, blocks);
@@ -232,10 +365,10 @@ pmf_point<REAL> * pmf_delete_rotated_path (
             }
         }
 // TODO:
-        //bHeap->remove_point_with_id(id, blocks);
-        //iHeap->remove_intersection_with_id(id, blocks);
-        bHeap->remove_point_with_id(id);
-        iHeap->remove_intersections_with_id(id);
+        bHeap->remove_point_with_id(id, blocks);
+        iHeap->remove_intersections_with_id(id, blocks);
+        //bHeap->remove_point_with_id(id);
+        //iHeap->remove_intersections_with_id(id);
     }
 
 #if DEL_PATH_LOG

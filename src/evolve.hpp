@@ -40,6 +40,7 @@ PMF<T_REAL> :: EvolveRestOfField (
                             T_REAL cosL,
                             long oldSize,
                             long & ptId,
+                            BlocksLists<T_REAL> * blocks = NULL,
                             EdgePoints<T_REAL> * ep = NULL
                         )
 {
@@ -86,7 +87,7 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL, pt->l2);
-                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
+                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 
                 pt->n2 = newPt;
                 pt->l2 = newPt->l1;
@@ -102,7 +103,7 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
-                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, NULL, sinL, cosL);
+                pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 
                 pt->n2 = newPt;
                 pt->l2 = newPt->l1;
@@ -118,11 +119,11 @@ PMF<T_REAL> :: EvolveRestOfField (
                 assert(bHeap->get_point_with_id(id1) != NULL);
                 assert(bHeap->get_point_with_id(id2) != NULL);
 #endif
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, NULL, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
-                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, NULL, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, blocks, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
+                pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, blocks, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
 
-            bHeap->remove_point_with_id(pt->id);
-            iHeap->remove_intersections_with_id(pt->id);
+            bHeap->remove_point_with_id(pt->id, blocks);
+            iHeap->remove_intersections_with_id(pt->id, blocks);
             }
         }
         //*/

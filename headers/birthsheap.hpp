@@ -4,6 +4,7 @@
 #include <cmath>
 #include <algorithm>
 #include "abstractheap.hpp"
+#include "blockslists.hpp"
 
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 
@@ -22,7 +23,7 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
         BirthsHeap() : sinL(0.0), cosL(1.0) {};
         BirthsHeap(double ssinL, double ccosL) : sinL(ssinL), cosL(ccosL) {};
 
-        bool remove_point_with_id(long);
+        bool remove_point_with_id(long, BlocksLists<T_REAL> *);
         pmf_point<T_REAL> * get_point_with_id(long);
 
 		friend std::ostream & operator << (std::ostream & out, BirthsHeap<T_REAL> * bHeap)
@@ -38,15 +39,15 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
 
 template <class T_REAL>
 bool
-BirthsHeap<T_REAL>::remove_point_with_id (long ptId)
+BirthsHeap<T_REAL>::remove_point_with_id (long ptId, BlocksLists<T_REAL> * blocks = NULL)
 {
     for (int i = 0; i < AbstractHeap<pmf_point<T_REAL> *>::size(); i++)
     {
         pmf_point<T_REAL> * pt = AbstractHeap<pmf_point<T_REAL> *>::get(i);
         if (pt->id == ptId) {
-            //if (blocksLists)  blocksLists->pop(iter->data);
             std::swap ((*AbstractHeap<pmf_point<T_REAL> *>::data)[i], (*AbstractHeap<pmf_point<T_REAL> *>::data)[AbstractHeap<pmf_point<T_REAL> *>::size()-1]);
             AbstractHeap<pmf_point<T_REAL> *>::data->pop_back();
+            if (blocks)  blocks->pop (pt);
             AbstractHeap<pmf_point<T_REAL> *>::min_heapify (i);
             return true;
         }

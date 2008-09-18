@@ -148,7 +148,7 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
 
     /* ************************************************************************************** */
     // and the riots start again ...
-    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, ep);
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, NULL, ep);
 
     delete bHeap;
     delete iHeap;

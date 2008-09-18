@@ -24,7 +24,7 @@ class PMF
         inline
         void PrepareEvolution(BirthsHeap<T_REAL> *, T_REAL, T_REAL, T_REAL);
         inline
-        void EvolveRestOfField(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, T_REAL, T_REAL, long, long &, EdgePoints<T_REAL> *);
+        void EvolveRestOfField(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, T_REAL, T_REAL, long, long &, BlocksLists<T_REAL> *, EdgePoints<T_REAL> *);
         inline
         void SetPerpendicularNeighbor(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, pmf_point<T_REAL> *, pmf_point<T_REAL> *, long &, EdgePoints<T_REAL> *, T_REAL, T_REAL);
 

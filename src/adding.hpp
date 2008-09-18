@@ -24,7 +24,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
     /// TODO :
-    if (bSize > 0.0)  assert(blocksLists != NULL);
+    //if (bSize > 0.0)  assert(blocksLists != NULL);
     BlocksLists<T_REAL> * blocks = NULL;
     if (bSize > 0.0) {
         blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
@@ -88,7 +88,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
 
     /* ************************************************************************************** */
     // and the riots start again ...
-    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, blocks);
 
     delete bHeap;
     delete iHeap;
