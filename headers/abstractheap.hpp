@@ -48,7 +48,26 @@ AbstractHeap<T_TYPE>::AbstractHeap ()
 	std::cout << "[ PMF HEAP ]  created" << std::endl;
 };
 
+//*
+template <class T_TYPE>
+void
+AbstractHeap<T_TYPE>::min_heapify (long index)
+{
+    while (true)
+    {
+        long l = PMF_HEAP_LEFT(index);
+        long r = PMF_HEAP_RIGHT(index);
+        long best = index;
 
+        if (l < size()  &&  __less_then((*data)[l], (*data)[best]))  best = l;
+        if (r < size()  &&  __less_then((*data)[r], (*data)[best]))  best = r;
+        if (best == index)  break;
+
+        swap((*data)[index], (*data)[best]);
+        index = best;
+    }
+}//*/
+/*
 template <class T_TYPE>
 void
 AbstractHeap<T_TYPE>::min_heapify (long index)
@@ -66,7 +85,7 @@ AbstractHeap<T_TYPE>::min_heapify (long index)
         min_heapify(best);
     }
 }
-
+//*/
 
 template <class T_TYPE>
 T_TYPE
