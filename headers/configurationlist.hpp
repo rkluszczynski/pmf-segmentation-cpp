@@ -5,6 +5,7 @@
 
 #include "point.hpp"
 #include "templatelist.hpp"
+#include "blockslists.hpp"
 
 
 template <class T_REAL>
@@ -19,8 +20,9 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
     public :
         ConfigurationList(T_REAL, T_REAL);
 
-        void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
-        void clone_to ( ConfigurationList<T_REAL> * clone );
+        inline void push_back ( pmf_point<T_REAL> * );
+        inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
+        inline void clone_to ( ConfigurationList<T_REAL> * clone );
 
         T_REAL get_field_width()  { return  fieldWidth; }
         T_REAL get_field_height() { return fieldHeight; }
@@ -44,6 +46,15 @@ ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
 
 
 template <class T_REAL>
+inline
+void ConfigurationList<T_REAL>::push_back (pmf_point<T_REAL> * pt)
+{
+    TemplateList<pmf_point<T_REAL> >::push_back (pt);
+}
+
+
+template <class T_REAL>
+inline
 void ConfigurationList<T_REAL>::push_back (pmf_point<T_REAL> * pt, BlocksLists<T_REAL> * blocks)
 {
     if (blocks) {
@@ -55,6 +66,7 @@ void ConfigurationList<T_REAL>::push_back (pmf_point<T_REAL> * pt, BlocksLists<T
 
 
 template <class T_REAL>
+inline
 void ConfigurationList<T_REAL>::clone_to ( ConfigurationList<T_REAL> * cclone )
 {
     if (cclone == NULL) return;
