@@ -51,7 +51,7 @@ int main (int argc, char *argv[])
     //pmf->SaveConfiguration("output/PMF-before-rot.txt");
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
 	double bSize = 0.0;
-	//bSize = 1.4;
+	bSize = 1.4;
     pmf->AddBirthPoint(x, y, angle, bSize);
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;

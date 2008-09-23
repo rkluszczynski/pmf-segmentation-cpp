@@ -46,8 +46,22 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
 #endif
         pmf_point<T_REAL> * pt = bHeap->extract_min();
         pmfConf->push_back(pt, blocks);
+        /*
+        if (blocks) {
+            pt->block = blocks->determine_point_block(pt);
+            blocks->push(pt);
+        }
+        pmfConf->push_back(pt);
+        //*/
     }
     pmfConf->push_back(pt, blocks);
+    /*
+    if (blocks) {
+        pt->block = blocks->determine_point_block(pt);
+        blocks->push(pt);
+    }
+    pmfConf->push_back(pt);
+    //*/
 #if pmf_LOG_ADD
     out << bHeap << std::endl;
 #endif

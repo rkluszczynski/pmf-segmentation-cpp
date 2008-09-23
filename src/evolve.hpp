@@ -61,7 +61,7 @@ PMF<T_REAL> :: EvolveRestOfField (
     {
         id1 = id2 = 0;
         pmf_point<T_REAL> * pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
-        pmfConf->push_back(pt);
+        pmfConf->push_back(pt, NULL);
 #if pmf_LOG_ADD
         ++iterationCounter;
         out << " ---------------------------------------------------------------------------" << std::endl;
