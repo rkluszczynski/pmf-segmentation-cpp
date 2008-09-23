@@ -122,8 +122,8 @@ PMF<T_REAL> :: EvolveRestOfField (
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id1), bHeap, iHeap, blocks, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
                 pmf_delete_rotated_path(pt, bHeap->get_point_with_id(id2), bHeap, iHeap, blocks, ptId, ep, fieldHeight, fieldWidth, sinL, cosL);
 
-            bHeap->remove_point_with_id(pt->id, blocks);
-            iHeap->remove_intersections_with_id(pt->id, blocks);
+                bHeap->remove_point_with_id(pt->id, blocks);
+                iHeap->remove_intersections_with_id(pt->id, blocks);
             }
         }
         //*/

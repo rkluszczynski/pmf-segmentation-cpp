@@ -24,11 +24,14 @@ int main (int argc, char *argv[])
 	double   sizeArak = 7.0;
 	char * outputFile = NULL;
 	time_t       seed = 0;//time(NULL);
+	double bSize = 0.0;
+
     double x = 4.265;
     double y = 2.28;
     double angle = 3.511499;
 
-    x = 1.375; y = 0.085; angle = 0.0;
+	bSize = 1.3;
+    //x = 1.375; y = 0.085; angle = 0.0;
 
 	fprintf(stderr, "[ INFO ] :  Field Size (-s) = %.2lf\n", sizeArak);
 	fprintf(stderr, "[ INFO ] : Output File (-o) = '%s'\n", outputFile);
@@ -48,10 +51,9 @@ int main (int argc, char *argv[])
     //pmf->Generate();
     pmf->LoadConfiguration("input/test.cf");
 
-    //pmf->SaveConfiguration("output/PMF-before-rot.txt");
+    pmf->SaveConfiguration("output/PMF-before-add.txt");
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");
-	double bSize = 0.0;
-	bSize = 1.4;
+
     pmf->AddBirthPoint(x, y, angle, bSize);
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;

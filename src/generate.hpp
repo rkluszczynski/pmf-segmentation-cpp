@@ -150,7 +150,7 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
             }
         }
         pt = pmf_do_get(birthList, crossList, id1, id2);
-        pmfConf->push_back(pt);
+        pmfConf->push_back(pt, NULL);
 
         if (pt->type == PT_UPDATE || pt->type == PT_BIRTH_LEFT || pt->type == PT_BIRTH_DOWN || pt->type == PT_BIRTH_UP) {
             T_REAL angle, newAngle;

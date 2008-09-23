@@ -8,7 +8,8 @@
 
 #define REAL double
 
-
+#define DEBUG 1
+//#undef DEBUG
 template <class T_REAL>
 inline
 void pmf_check_crossings (
@@ -33,7 +34,7 @@ void pmf_check_crossings (
                         T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
 #ifdef DEBUG
-                        cout << " CROSSED~1:" << pt->id << "-" << pt->n1->id << " " << endl;
+                        out << " CROSSED~1:" << pt->id << "-" << pt->n1->id << " " << endl;
 #endif
                         pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
@@ -48,7 +49,7 @@ void pmf_check_crossings (
                         T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
 #ifdef DEBUG
-                        cout << " CROSSED~2:" << pt->id << "-" << pt->n2->id << " " << endl;
+                        out << " CROSSED~2:" << pt->id << "-" << pt->n2->id << " " << endl;
 #endif
                         pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
@@ -67,7 +68,7 @@ void pmf_check_crossings (
                         T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n1->x, pt->n1->y, xx, yy);
 #ifdef DEBUG
-                        cout << " CROSSED~0:" << pt->id << "-" << pt->n1->id << " " << endl;
+                        out << " CROSSED~0:" << pt->id << "-" << pt->n1->id << " " << endl;
 #endif
                         pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
@@ -84,12 +85,12 @@ void pmf_check_crossings (
                         T_REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pt->x, pt->y, pt->n2->x, pt->n2->y, xx, yy);
 #ifdef DEBUG
-                        cout << " CROSSED~U:" << pt->id << "-" << pt->n2->id << " " << endl;
+                        out << " CROSSED~U:" << pt->id << "-" << pt->n2->id << " " << endl;
 #endif
                         pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
-                        iHeap->insert(newpt2, newPt->id, pt->n1->id);
+                        iHeap->insert(newpt2, newPt->id, pt->n2->id);
                     }
                 }
             case PT_UNKNOWN      :
@@ -244,12 +245,14 @@ pmf_store_rotated_point_in_blocks (
 #if pmf_LOG_ADD
     out << " --- INS --- : " << *newPt << std::endl;
 #endif
+    //bHeap->insert(newPt, blocks);
+    //*
     if (blocks) {
         newPt->block = blocks->determine_point_block( newPt );
         blocks->push( newPt );
     }
     bHeap->insert(newPt);
-    //bHeap->insert(newPt, blocks);
+    //*/
     return true;
 }
 

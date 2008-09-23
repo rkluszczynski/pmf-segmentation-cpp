@@ -109,7 +109,7 @@ int main (int argc, char *argv[])
     {
         if((opt & 0x008))
         {
-            fprintf(stderr, "[ WARN ] : Forcing saving file '%s'!\n", outputFile);
+            fprintf(stderr, "[ WARN ] : Forcing saving to file '%s'!\n", outputFile);
             char * backupedFile = (char *) malloc( (strlen(outputFile)+5)*sizeof(char) );
             strcpy(backupedFile, outputFile);
             strcat(backupedFile, ".old");
@@ -148,7 +148,6 @@ int main (int argc, char *argv[])
 	{
         struct timeb tbeg, tend;
 
-		//fprintf(stderr, "TOTAL SUCCES (%x) !!\n", opt);
 		fprintf(stderr, "[ INFO ] :   Field Size (-s) = %.2lf\n", sizeArak);
 		fprintf(stderr, "[ INFO ] : Initial File (-i) = '%s'\n", initialFile);
 		fprintf(stderr, "[ INFO ] :  Output File (-o) = '%s'\n", outputFile);
@@ -160,7 +159,7 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] :        Angle (-a) = %.3lf\n", angle);
 		fprintf(stderr, "\n");
 
-		/* Generating Polygonal Markov Field. */
+		/* Getting Polygonal Markov Field realization. */
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
 		if (opt & 0x100)
@@ -168,8 +167,9 @@ int main (int argc, char *argv[])
 		else
             pmf->Generate(blockSize);
 
+        /* Adding a Birth Site to PMF. */
         ftime(&tbeg);
-        pmf->AddBirthPoint(x, y, angle);
+        pmf->AddBirthPoint(x, y, angle, blockSize);
 	    ftime(&tend);
 
 		if (outputFile) pmf->SaveConfiguration(outputFile);

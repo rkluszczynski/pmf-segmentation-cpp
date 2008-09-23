@@ -87,6 +87,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n2 << endl;
+    out << pmfConf << std::endl;
 #endif
 
     /* ************************************************************************************** */

@@ -3863,7 +3863,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1216833262 h:\projects\pmf-codeblocks\src\pmf.hpp
+1221728320 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -3871,12 +3871,14 @@
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
 	"edgepoints.hpp"
+	"blockslists.hpp"
 	"PMF.cpp"
 
-1215955812 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1222161614 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
+	"blockslists.hpp"
 
 1202706066 h:\projects\pmf-codeblocks\headers\templatelist.hpp
 	<cstdio>
@@ -3884,18 +3886,19 @@
 	<fstream>
 	"listelement.hpp"
 
-1210187112 h:\projects\pmf-codeblocks\headers\birthsheap.hpp
+1221732112 h:\projects\pmf-codeblocks\headers\birthsheap.hpp
 	<cmath>
 	<algorithm>
 	"abstractheap.hpp"
+	"blockslists.hpp"
 
-1211116384 h:\projects\pmf-codeblocks\headers\abstractheap.hpp
+1221918800 h:\projects\pmf-codeblocks\headers\abstractheap.hpp
 	<iostream>
 	<algorithm>
 	<vector>
 	<assert.h>
 
-1211844152 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+1221732022 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
 	<cmath>
 	"crosselement.hpp"
 	"abstractheap.hpp"
@@ -3915,7 +3918,7 @@
 
 1216893600 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
-1215955750 h:\projects\pmf-codeblocks\src\pmf.cpp
+1221400956 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -3927,7 +3930,7 @@
 	"remove.hpp"
 	"segment.hpp"
 
-1212333634 h:\projects\pmf-codeblocks\src\generate.hpp
+1222166416 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -3972,17 +3975,17 @@
 
 1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
-1213914726 h:\projects\pmf-codeblocks\src\rotate.hpp
+1221916600 h:\projects\pmf-codeblocks\src\rotate.hpp
 	"point.hpp"
 
 1212337460 h:\projects\pmf-codeblocks\src\prepare.hpp
 
-1216833134 h:\projects\pmf-codeblocks\src\evolve.hpp
+1222175852 h:\projects\pmf-codeblocks\src\evolve.hpp
 
-1212338588 h:\projects\pmf-codeblocks\src\adding.hpp
+1222172032 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1216893660 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1222176290 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -3995,11 +3998,11 @@
 	<vector>
 	<stack>
 
-1216833364 h:\projects\pmf-codeblocks\src\update.hpp
+1222176372 h:\projects\pmf-codeblocks\src\update.hpp
 
-1216833384 h:\projects\pmf-codeblocks\src\remove.hpp
+1222176380 h:\projects\pmf-codeblocks\src\remove.hpp
 
-1216892994 h:\projects\pmf-codeblocks\src\segment.hpp
+1222176388 h:\projects\pmf-codeblocks\src\segment.hpp
 
 1212880156 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>

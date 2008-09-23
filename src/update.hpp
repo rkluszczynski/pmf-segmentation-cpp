@@ -42,7 +42,7 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
             //if (updatePointCounter == id) break;
             if (pt->id == id)  break;
         }
-        pmfConf->push_back(pt);
+        pmfConf->push_back(pt, NULL);
     }
 #if pmf_LOG_ADD
     out << bHeap << std::endl;
