@@ -20,13 +20,12 @@ PMF<T_REAL> :: PrepareEvolution (
     out << "[  cos ] : " << cosL << std::endl;
 #endif
 
-    //if (alpha != 0.0) {
-        RotatePointTypes(sinL, cosL);
+    RotatePointTypes(sinL, cosL);
 #if pmf_LOG_ADD
-        out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
-        SaveConfiguration("output/PMF-R.txt");
+    out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
+    SaveConfiguration("output/PMF-R.txt");
 #endif
-    //}
+
 #if CHECK_ASSERTIONS
     //assert(sinL*sinL + cosL*cosL == 1.0);
     assert( abs(sinL*sinL + cosL*cosL - 1.0) < EPSILON );
