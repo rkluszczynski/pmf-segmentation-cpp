@@ -22,7 +22,7 @@ class PMF
     private :
         /* PMF modification helpers */
         inline
-        void PrepareEvolution(BirthsHeap<T_REAL> *, T_REAL, T_REAL, T_REAL);
+        void PrepareEvolution(BirthsHeap<T_REAL> *, T_REAL, T_REAL, T_REAL, BlocksLists<T_REAL> *);
         inline
         void EvolveRestOfField(BirthsHeap<T_REAL> *, IntersectionsHeap<T_REAL> *, T_REAL, T_REAL, long, long &, BlocksLists<T_REAL> *, EdgePoints<T_REAL> *);
         inline
@@ -46,8 +46,8 @@ class PMF
 		void DetermineTypesFromLeftToRight();
 
 		void AddBirthPoint(T_REAL, T_REAL, T_REAL, T_REAL);
-		void UpdatePointVelocity(long, T_REAL);
-		void RemoveBirthPoint(long, T_REAL);
+		void UpdatePointVelocity(long, T_REAL, T_REAL);
+		void RemoveBirthPoint(long, T_REAL, T_REAL);
 		void AddBirthSegment(T_REAL, T_REAL, T_REAL, EdgePoints<T_REAL> *);
 
 		void SetSeed(time_t);

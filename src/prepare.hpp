@@ -9,7 +9,8 @@ PMF<T_REAL> :: PrepareEvolution (
                             BirthsHeap<T_REAL> * bHeap,
                             T_REAL alpha,
                             T_REAL sinL,
-                            T_REAL cosL
+                            T_REAL cosL,
+                            BlocksLists<T_REAL> * blocks = NULL
                         )
 {
     //pmfConf->set_points_ids();
@@ -36,6 +37,11 @@ PMF<T_REAL> :: PrepareEvolution (
     {
         pt = pmfConf->front();
         pmfConf->pop_front();
+
+        if (blocks) {
+            pt->block = blocks->determine_point_block(pt);
+            blocks->push(pt);
+        }
         bHeap->insert(pt);
     }
 }

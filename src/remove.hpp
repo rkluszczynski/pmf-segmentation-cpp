@@ -6,7 +6,7 @@
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
+PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
@@ -19,9 +19,12 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
 
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
-    /// TODO : BlocksLists<T_REAL> *      blocks = NULL;
 
-    PrepareEvolution(bHeap, alpha, sinL, cosL );
+    BlocksLists<T_REAL> * blocks = NULL;
+    if (bSize > 0.0)
+        blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
+
+    PrepareEvolution(bHeap, alpha, sinL, cosL, blocks);
 
     /* ************************************************************************************** */
     /// Removing a birth site
@@ -86,6 +89,7 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0)
 
     delete bHeap;
     delete iHeap;
+    if (blocks) delete blocks;
 
     return;
 }

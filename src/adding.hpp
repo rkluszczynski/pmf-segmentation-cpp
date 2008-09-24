@@ -28,7 +28,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     if (bSize > 0.0)
         blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
 
-    PrepareEvolution(bHeap, alpha, sinL, cosL);
+    PrepareEvolution(bHeap, alpha, sinL, cosL, blocks);
 
     /* ************************************************************************************** */
 #if pmf_LOG_ADD
@@ -44,8 +44,9 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
 #if pmf_LOG_ADD
         out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
 #endif
-        pmf_point<T_REAL> * pt = bHeap->extract_min();
-        pmfConf->push_back(pt, blocks);
+        pmf_point<T_REAL> * ppt = bHeap->extract_min();
+        //pmfConf->push_back(pt, blocks);
+        pmfConf->push_back(ppt);
         /*
         if (blocks) {
             pt->block = blocks->determine_point_block(pt);
@@ -54,8 +55,8 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
         pmfConf->push_back(pt);
         //*/
     }
-    pmfConf->push_back(pt, blocks);
-    /*
+    //pmfConf->push_back(pt, blocks);
+    //*
     if (blocks) {
         pt->block = blocks->determine_point_block(pt);
         blocks->push(pt);

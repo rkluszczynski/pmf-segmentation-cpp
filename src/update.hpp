@@ -6,7 +6,7 @@
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
+PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
@@ -19,9 +19,12 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
 
     BirthsHeap<T_REAL> *        bHeap = new BirthsHeap<T_REAL> (sinL, cosL);
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
-    /// TODO : BlocksLists<T_REAL> *      blocks = NULL;
 
-    PrepareEvolution(bHeap, alpha, sinL, cosL);
+    BlocksLists<T_REAL> * blocks = NULL;
+    if (bSize > 0.0)
+        blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
+
+    PrepareEvolution(bHeap, alpha, sinL, cosL, blocks);
 
     /* ************************************************************************************** */
     // Looking for update point number id
@@ -42,7 +45,7 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
             //if (updatePointCounter == id) break;
             if (pt->id == id)  break;
         }
-        pmfConf->push_back(pt, NULL);
+        pmfConf->push_back(pt);
     }
 #if pmf_LOG_ADD
     out << bHeap << std::endl;
@@ -50,7 +53,7 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
 #endif
 
     // Tricky trick : duplicate update point and delete its path,
-    //                then put the original one into brith heap
+    //                then put the original one into birth heap
     pmf_point<T_REAL> * tricky = new pmf_point<T_REAL>(pt->x, pt->y, pt, NULL, 0.0, 0.0, pt->id, PT_UNKNOWN);
     pmf_point<T_REAL> * tmp;
 #if CHECK_ASSERTIONS
@@ -80,10 +83,11 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0)
 
     /* ************************************************************************************** */
     // and the riots start again ...
-    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, blocks);
 
     delete bHeap;
     delete iHeap;
+    if (blocks) delete blocks;
 
     return;
 }

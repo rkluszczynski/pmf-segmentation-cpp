@@ -54,7 +54,7 @@ void pmf_check_crossings (
                         pmf_point<T_REAL> * newpt2 = new pmf_point<T_REAL>(xx, yy, parentPt, pt, 0.0, 0.0, ++id, PT_INTERSECTION);
                         newpt2->block = blocks->determine_point_block(newpt2);
                         blocks->push(newpt2);
-                        iHeap->insert(newpt2, newPt->id, pt->n1->id);
+                        iHeap->insert(newpt2, newPt->id, pt->n2->id);
                     }
                 }
                 break;;
@@ -167,14 +167,13 @@ pmf_store_rotated_point_in_blocks (
         {
             /// TODO
             //assert(false);
-            out << "  [STORE:" << *newPt << "]  ";
+            //out << "  [STORE:" << *newPt << "]  ";
 
-            int block = blocks->determine_point_block(newPt);
-            newPt->block = block;
+            newPt->block = blocks->determine_point_block(newPt);
 
             // Calculate intersection points with other segments in neighbours' blocks
             int ll, rr, uu, dd;
-            block = parentPt->block;
+            int block = parentPt->block;
             ll = blocks->left_from(block);
             rr = blocks->right_from(block);
             uu = blocks->up_from(block);
@@ -185,7 +184,7 @@ pmf_store_rotated_point_in_blocks (
                 if (ll == BLOCK_UNDEFINED) lll = uu;
                 if (rr == BLOCK_UNDEFINED) rrr = uu;
 
-                out << " _" << lll << "-" << rrr << "_ ";
+                //out << " _" << lll << "-" << rrr << "_ ";
 
                 //  for i = lll .. rrr
                 for (int index = lll; index <= rrr; index++)
@@ -196,7 +195,7 @@ pmf_store_rotated_point_in_blocks (
                 if (ll == BLOCK_UNDEFINED) lll = dd;
                 if (rr == BLOCK_UNDEFINED) rrr = dd;
 
-                out << " _" << lll << "-" << rrr << "_ ";
+                //out << " _" << lll << "-" << rrr << "_ ";
 
                 //  for i = lll .. rrr
                 for (int index = lll; index <= rrr; index++)
@@ -205,11 +204,13 @@ pmf_store_rotated_point_in_blocks (
             if (ll == BLOCK_UNDEFINED) ll = block;
             if (rr == BLOCK_UNDEFINED) rr = block;
 
-            out << " _" << ll << "-" << rr << "_ ";
+            //out << " _" << ll << "-" << rr << "_ ";
 
             //  for i = ll .. rr
             for (int index = ll; index <= rr; index++)
                 pmf_check_crossings (newPt, iHeap, id, parentPt, blocks, index);
+
+            blocks->push( newPt );
         }
         else {
             for (int i = 0; i < bHeap->size(); i++)
@@ -254,10 +255,6 @@ pmf_store_rotated_point_in_blocks (
 #endif
     //bHeap->insert(newPt, blocks);
     //*
-    if (blocks) {
-        newPt->block = blocks->determine_point_block( newPt );
-        blocks->push( newPt );
-    }
     bHeap->insert(newPt);
     //*/
     return true;
