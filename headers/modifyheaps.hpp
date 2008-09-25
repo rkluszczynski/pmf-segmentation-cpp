@@ -8,8 +8,8 @@
 
 #define REAL double
 
-#define DEBUG 1
-//#undef DEBUG
+
+//#define DEBUG 1
 template <class T_REAL>
 inline
 void pmf_check_crossings (

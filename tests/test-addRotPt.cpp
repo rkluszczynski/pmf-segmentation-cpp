@@ -48,8 +48,8 @@ int main (int argc, char *argv[])
 	/* Generating Polygonal Markov Field. */
 	PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 	pmf->SetSeed(seed);
-    //pmf->Generate();
-    pmf->LoadConfiguration("input/test.cf");
+    pmf->Generate();
+    //pmf->LoadConfiguration("input/test.cf");
 
     pmf->SaveConfiguration("output/PMF-before-add.txt");
 	fprintf(stderr, "[ INFO ] : adding point to generated configuration\n");

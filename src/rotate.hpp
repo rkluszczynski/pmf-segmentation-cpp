@@ -36,12 +36,15 @@ PMF<T_REAL> :: RotatePointTypes (T_REAL sinL = 0.0, T_REAL cosL = 1.0)
 
                     if (rotX < rotX1) {
                         if (rotX < rotX2)  { pt->type = PT_BIRTH_NORMAL; }
-                        else  { pt->type = PT_UPDATE; }
+                        else  {
+                            pt->type = PT_UPDATE;
+                            std::swap(pt->n1, pt->n2);
+                        }
                     }
                     else {
                         if (rotX < rotX2)  {
                             pt->type = PT_UPDATE;
-                            std::swap(pt->n1, pt->n2);
+                            //std::swap(pt->n1, pt->n2);
                         }
                         else  { pt->type = PT_INTERSECTION; }
                     }
