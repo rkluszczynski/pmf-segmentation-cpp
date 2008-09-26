@@ -165,10 +165,6 @@ pmf_store_rotated_point_in_blocks (
         /* Check if pointer to blocks is NULL */
         if (blocks)
         {
-            /// TODO
-            //assert(false);
-            //out << "  [STORE:" << *newPt << "]  ";
-
             newPt->block = blocks->determine_point_block(newPt);
 
             // Calculate intersection points with other segments in neighbours' blocks
@@ -184,8 +180,6 @@ pmf_store_rotated_point_in_blocks (
                 if (ll == BLOCK_UNDEFINED) lll = uu;
                 if (rr == BLOCK_UNDEFINED) rrr = uu;
 
-                //out << " _" << lll << "-" << rrr << "_ ";
-
                 //  for i = lll .. rrr
                 for (int index = lll; index <= rrr; index++)
                     pmf_check_crossings<REAL> (newPt, iHeap, id, parentPt, blocks, index);
@@ -195,16 +189,12 @@ pmf_store_rotated_point_in_blocks (
                 if (ll == BLOCK_UNDEFINED) lll = dd;
                 if (rr == BLOCK_UNDEFINED) rrr = dd;
 
-                //out << " _" << lll << "-" << rrr << "_ ";
-
                 //  for i = lll .. rrr
                 for (int index = lll; index <= rrr; index++)
                     pmf_check_crossings (newPt, iHeap, id, parentPt, blocks, index);
             }
             if (ll == BLOCK_UNDEFINED) ll = block;
             if (rr == BLOCK_UNDEFINED) rr = block;
-
-            //out << " _" << ll << "-" << rr << "_ ";
 
             //  for i = ll .. rr
             for (int index = ll; index <= rr; index++)

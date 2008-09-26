@@ -72,12 +72,14 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 
         tmp = pt->n2;
         pt->n2 = NULL;
     }
-    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
+    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, blocks, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
     delete tricky;
+
     bHeap->insert(pt);
 #if pmf_LOG_ADD
     out << " WAS TO DELETE : " << *tmp << std::endl << std::endl;
     out << bHeap << std::endl;
+    if (blocks)  out << blocks << std::endl;
 #endif
 
 

@@ -62,7 +62,7 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
         pmf_delete_rotated_path(pt_min, bbHeap->get_point_with_id(id), bbHeap, iiHeap, NULL, ptId, ep, fHeight, fWidth, ssinL, ccosL);
         bbHeap->remove_point_with_id((id == id1) ? id2 : id1);
 
-        pmfConf->push_back(pt_min, NULL);
+        pmfConf->push_back(pt_min);
     }
     delete tmp_iHeap;
 }
@@ -115,9 +115,9 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
         out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
 #endif
         //newPMF->push_in_order(bHeap->extract_min());
-        pmfConf->push_back(bHeap->extract_min(), NULL);
+        pmfConf->push_back(bHeap->extract_min());
     }
-    pmfConf->push_back(pt, NULL);
+    pmfConf->push_back(pt);
 #if pmf_LOG_ADD
     out << bHeap << std::endl;
 #endif

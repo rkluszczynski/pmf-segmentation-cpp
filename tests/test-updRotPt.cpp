@@ -19,10 +19,14 @@ int main ()
 	double    sizeArak = 7.0;
 	double   blockSize = 0.0;
 	double       angle = 0.0;
-	// 93(id=187), 109(id=223)
     long       pointId = 223;
 	time_t        seed = 0;
     struct timeb tbeg, tend;
+    double       bSize = 0.0;
+
+	// 93(id=187), 109(id=223)
+    //pointId = 187;
+    bSize = 1.3;
 
 		fprintf(stderr, "[ INFO ] :   Field Size (-s) = %.2lf\n", sizeArak);
 		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n", seed);
@@ -45,7 +49,7 @@ int main ()
 
 	fprintf(stderr, "[ INFO ] : changing point direction\n");
     ftime(&tbeg);
-    pmf->UpdatePointVelocity(pointId, angle);
+    pmf->UpdatePointVelocity(pointId, angle, bSize);
 	ftime(&tend);
 
     cerr << "[ SAVE ] : saving modified configuration to a file" << endl;

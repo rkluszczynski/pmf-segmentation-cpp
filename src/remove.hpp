@@ -49,7 +49,7 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0
             //if (updatePointCounter == id) break;
             if (pt->id == id)  break;
         }
-        pmfConf->push_back(pt, NULL);
+        pmfConf->push_back(pt);
     }
 #if pmf_LOG_ADD
     out << bHeap << std::endl;
@@ -68,24 +68,26 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0
     if (pt->n2) {
         tmp = pt->n2;
         pt->n2 = NULL;
-        pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
+        pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, blocks, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
     }
     tmp = pt->n1;
     pt->n1 = NULL;
-    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, NULL, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
+    pmf_delete_rotated_path(tricky, tmp, bHeap, iHeap, blocks, ptId, NULL, fieldHeight, fieldWidth, sinL, cosL);
 
     delete tricky;
+    if (blocks)  blocks->pop (pt);
     delete pt;
 
 #if pmf_LOG_ADD
     //out << " WAS TO DELETE : " << *tmp << std::endl << std::endl;
     out << bHeap << std::endl;
+    if (blocks)  out << blocks << std::endl;
 #endif
 
 
     /* ************************************************************************************** */
     // and the riots start again ...
-    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId);
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, blocks);
 
     delete bHeap;
     delete iHeap;
