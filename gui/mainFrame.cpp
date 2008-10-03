@@ -1,6 +1,7 @@
 #include "mainFrame.h"
 #include <wx/wx.h>
 #include <wx/dcbuffer.h>
+#include <wx/progdlg.h>
 #include "GenerateDialog.h"
 #include "ImagePanel.h"
 #include "PMFPanel.h"
@@ -28,7 +29,8 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
+	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
+	MenuItem1 = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
@@ -45,6 +47,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_REMPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRemovePointMenuItemSelected);
 	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
+	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnShowProgressMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
 	//Connect(wxID_ANY,wxEVT_SIZE,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowSize);
@@ -414,6 +417,50 @@ void mainFrame::OnUpdatePointMenuItemSelected(wxCommandEvent& event)
     }
     pp->UpdatePointInsidePMF();
     pp->ClearConfigurationSelection();
+}
+
+
+
+void mainFrame::OnShowProgressMenuItemSelected(wxCommandEvent& event)
+{
+    static const int max = 10;
+
+    wxProgressDialog dialog(wxT("Progress dialog example"),
+                            wxT("An informative message"),
+                            max, // range
+                            this, // parent
+                            wxPD_CAN_ABORT |
+                            wxPD_APP_MODAL |
+                            wxPD_ELAPSED_TIME |
+                            wxPD_ESTIMATED_TIME |
+                            wxPD_REMAINING_TIME);
+    bool cont = true;
+    for ( int i = 0; i <= max; i++ )
+    {
+        wxSleep(1);
+        if ( i == max )
+            //cont = dialog.Update(i, wxT("To wszystko!"));
+            cont = dialog.Pulse(wxT("To wszystko!"));
+        else if ( i == max / 2 )
+            //cont = dialog.Update(i, wxT("Polowa za nami!"));
+            cont = dialog.Pulse(wxT("Polowa za nami!"));
+        else
+            //cont = dialog.Update(i);
+            cont = dialog.Pulse();
+        if ( !cont )
+        {
+            if ( wxMessageBox(wxT("Do you really want to cancel?"),
+                              wxT("Progress dialog question"),
+                              wxYES_NO | wxICON_QUESTION) == wxYES )
+                break;
+            dialog.Resume();
+        }
+    }
+
+    if ( !cont )
+        wxLogStatus(wxT("Progress dialog aborted!"));
+    else
+        wxLogStatus(wxT("Countdown from %d finished"), max);
 }
 
 

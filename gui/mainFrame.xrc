@@ -111,6 +111,12 @@
 				</object>
 			</object>
 			<object class="wxMenu">
+				<label>Test</label>
+				<object class="wxMenuItem" name="ID_MENUITEM1">
+					<label>ShowProgress</label>
+				</object>
+			</object>
+			<object class="wxMenu">
 				<label>Help</label>
 				<object class="wxMenuItem" name="ID_MENUITEM3">
 					<label>About</label>

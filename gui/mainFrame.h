@@ -27,6 +27,7 @@ class mainFrame : public wxFrame
 		//(*Declarations(mainFrame)
 		wxMenu* Menu3;
 		wxStaticBitmap* StaticBitmap1;
+		wxMenuItem* MenuItem1;
 		wxMenu* Menu1;
 		wxMenuItem* savePMFMenuItem;
 		wxHtmlWindow* myHtmlWindow;
@@ -36,6 +37,7 @@ class mainFrame : public wxFrame
 		wxMenuBar* MenuBar1;
 		wxNotebook* myNotebook;
 		wxMenu* Menu2;
+		wxMenu* Menu5;
 		wxMenu* Menu4;
 		//*)
 
@@ -67,6 +69,8 @@ class mainFrame : public wxFrame
 		void OnAddSegmentMenuItemSelected(wxCommandEvent& event);
 		void OnUpdatePointMenuItemSelected(wxCommandEvent& event);
 		void OnRemovePointMenuItemSelected(wxCommandEvent& event);
+
+		void OnShowProgressMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

@@ -47,6 +47,9 @@
 		<object name="ID_LOG_MENUITEM" class="wxMenuItem" variable="toggleLogsMenuItem" member="no">
 			<handler function="OnViewInfosMenuItemSelected" entry="EVT_MENU" />
 		</object>
+		<object name="ID_MENUITEM1" class="wxMenuItem" variable="MenuItem1" member="yes">
+			<handler function="OnShowProgressMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="no">
 			<handler function="OnAbout" entry="EVT_MENU" />
 		</object>
