@@ -129,6 +129,10 @@
 			<Option virtualFolder="util\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="headers\grayscaleimage.hpp">
+			<Option virtualFolder="image\" />
+			<Option target="default" />
+		</Unit>
 		<Unit filename="headers\intersectionsheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />

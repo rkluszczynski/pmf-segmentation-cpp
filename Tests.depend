@@ -157,3 +157,8 @@
 	<sys/timeb.h>
 	"sim-edge.cpp"
 
+1223902584 source:h:\projects\pmf-codeblocks\tests\test-imageobjects.cpp
+	<iostream>
+	"grayscaleimage.hpp"
+	"CImg.h"
+

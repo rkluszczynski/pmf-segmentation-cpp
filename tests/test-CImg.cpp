@@ -2,7 +2,7 @@
   using namespace cimg_library;
 
   int main() {
-    CImg<unsigned char> image("C:/Documents and Settings/Rafel/Pulpit/CImg-1.2.9/examples/img/milla.bmp"), visu(500,400,1,3,0);
+    CImg<unsigned char> image("input/szary.bmp"), visu(500,400,1,3,0);
     const unsigned char red[] = { 255,0,0 }, green[] = { 0,255,0 }, blue[] = { 0,0,255 };
     image.blur(2.5);
     CImgDisplay main_disp(image,"Click a point"), draw_disp(visu,"Intensity profile");
