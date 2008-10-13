@@ -15,8 +15,6 @@ class GrayScaleImage
         int ** data;
         int x, y, v, z;
 
-        void ScanVerticalLine(PMF<double> *, double);
-
 
     public :
         GrayScaleImage(const char *);
@@ -26,6 +24,8 @@ class GrayScaleImage
         inline int GetHeight()  { return y; }
 
         inline int GetPixel(int xx, int yy) { return data[xx][yy]; }
+
+        double ScanVerticalLine(PMF<double> *, double);
 
         double CalculateEnergy(PMF<double> *);
 };
@@ -100,16 +100,14 @@ float monte2(qTab *Conf, int orientation)
 
 #define ABS(x)   ( ((x)>0) ? (x) : (-(x)) )
 #define MAX(x,y) ( ((x)>(y)) ? (x) : (y) )
-void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx)
+double GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx)
 {
     Element<pmf_point<double> > * head = pmf->getFirstElement();
+    priority_queue<pair<double, double>, vector<pair<double, double> >, greater<pair<double, double> > > pq;
 
-    priority_queue<pair<double, double> > pq;
-
-
-    //* Wyszukujemy krawedzie przecinajace sie *
+    //* Searching for segments crossing with vertical line *
     double ymax    = pmf->GetPMFHeight();
-    int amountXeq0 = 0;
+    int amountYeq0 = 0;
     for (Element<pmf_point<double> > * temp = head; temp; temp = temp->next)
     {
         if (temp->data->n1)
@@ -136,41 +134,42 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx)
                     pq.push(cpt);
                 }
             }
-        if (temp->data->x == 0.0)  amountXeq0++;
+        if (temp->data->y == 0.0  &&  temp->data->x <= xx)  amountYeq0++;
     }
 
+    double scaleX = GetWidth()  / pmf->GetPMFWidth();
+    double scaleY = GetHeight() / pmf->GetPMFHeight();
 
-    double    amount[2] = { 0.0, 0.0 };
-    int bottomLeftColor = amountXeq0 % 2;
+    int     amount[2] = { 0, 0 };
+    int startTopColor = (amountYeq0 % 2 == 0) ? 0 : 255;
+    double         yy = 0.0;
+    //cout << "[ StartTopColor ] = " << startTopColor << "   [ " << amountYeq0 << " ]" << endl;
 
+    //* Counting matching pixels *
     while (! pq.empty())
     {
         pair<double, double> pt = pq.top();
         pq.pop();
+        //cout << " [ POINT ] : " << pt.first << "  x  " << pt.second << endl;
 
-/*
+        while (yy < pt.second)
+        {
+            int pixel = GetPixel(int(xx * scaleX), int(yy * scaleY));
+            int  dist = ABS(pixel - startTopColor);
 
-    while( // xp < pkt.x  &&    yp < pkt.y )
-    {
-      pic_x = (int)floor(xp*scaleX);
-      if (orientation == -1)  pic_x = PIC_WIDTH - pic_x;
-      pic_y = (int)floor(yp*scaleY);
-      in_pic = PICTURE[pic_y][pic_x];
-      dist = ABS(in_pic-(float)kolor);
-      if (dist > 0.5) ilosc[0]+=dist;
-      else ilosc[1]+=(1.0-dist);
-//      if(in_pic == kolor) ilosc[0]++;
-//      else ilosc[1]++;
-      xp += 0.0; yp += 0.05;
-    }
-//    cout << "      :   0 -> " << ilosc[0] << "   1 -> " << ilosc[1] << endl;
-//    xp = pkt.x;  yp = pkt.y;
-    kolor = 1 - kolor;
-  }
-*/
+            if (dist < 128) amount[0] += dist;
+            else    amount[1] += (255 - dist);
 
+            yy += 0.02;
+        }
+        startTopColor = 255 - startTopColor;
     }
 
+    cout << " ZBADANYCH PIKSELI = " << amount[0]+amount[1] << endl;
+    cout << " - zgodne z pokolorowaniem OBLACK = " << amount[0] << endl;
+    cout << " - zgodne z pokolorowaniem OWHITE = " << amount[1] << endl;
+
+    return(amount[0]+amount[1]);
 }
 #undef MAX
 #undef ABS

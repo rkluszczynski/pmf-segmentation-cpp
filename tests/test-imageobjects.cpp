@@ -15,10 +15,17 @@ int main()
     std::cout << gsimg.GetPixel(1, 179) << std::endl;
     std::cout << gsimg.GetPixel(179, 1) << std::endl;
     std::cout << gsimg.GetPixel(179, 179) << std::endl;
-    std::cout << std::endl;
     //*/
 
+    PMF<double> pmf(7.0, 7.0);
+    pmf.LoadConfiguration("input/test.cf");
+
+    gsimg.ScanVerticalLine(&pmf, 0.6);
+
+    gsimg.ScanVerticalLine(&pmf, 6.0);
+
     std::pair<int,int> a(1,2), b(1,1), c(2,1);
+    std::cout << std::endl;
     std::cout << ((a<b) ? "TAK" : "NIE") << std::endl;
     std::cout << ((a<c) ? "TAK" : "NIE") << std::endl;
     std::cout << ((b<c) ? "TAK" : "NIE") << std::endl;
