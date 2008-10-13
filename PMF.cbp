@@ -97,10 +97,6 @@
 			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers\binaryimage.hpp">
-			<Option virtualFolder="image\" />
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="headers\birthsheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
@@ -251,6 +247,10 @@
 		<Unit filename="src\sim-edge.cpp">
 			<Option virtualFolder="simulations\" />
 			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="src\sim-segm.cpp">
+			<Option virtualFolder="simulations\" />
+			<Option target="default" />
 		</Unit>
 		<Unit filename="src\update.hpp">
 			<Option virtualFolder="operations\" />

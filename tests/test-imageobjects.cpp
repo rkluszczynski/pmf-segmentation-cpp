@@ -20,9 +20,10 @@ int main()
     PMF<double> pmf(7.0, 7.0);
     pmf.LoadConfiguration("input/test.cf");
 
-    gsimg.ScanVerticalLine(&pmf, 0.6);
+    //gsimg.ScanVerticalLine(&pmf, 0.6);
+    //gsimg.ScanVerticalLine(&pmf, 6.0);
 
-    gsimg.ScanVerticalLine(&pmf, 6.0);
+    std::cout << std::endl << "[ ENERGY ] : " << gsimg.CalculateScanLinesEnergy(&pmf) << std::endl;
 
     std::pair<int,int> a(1,2), b(1,1), c(2,1);
     std::cout << std::endl;
