@@ -81,6 +81,36 @@
 					<Add directory="src" />
 				</Compiler>
 			</Target>
+			<Target title="segmentation-debug">
+				<Option output="bin\pmf-sim-segm" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="headers" />
+					<Add directory="src" />
+				</Compiler>
+				<Linker>
+					<Add option="-lgdi32" />
+				</Linker>
+			</Target>
+			<Target title="edgeapplier-debug">
+				<Option output="bin\pmf-sim-edge" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="-s 7 -e 0 -o output/pmf.cf -f -u 34" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="headers" />
+					<Add directory="src" />
+				</Compiler>
+			</Target>
 		</Build>
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
@@ -223,6 +253,15 @@
 		<Unit filename="src\main-upd.cpp">
 			<Option virtualFolder="mains\" />
 			<Option target="updater-debug" />
+		</Unit>
+		<Unit filename="src\mainEdge.cpp">
+			<Option virtualFolder="mains\" />
+			<Option target="default" />
+			<Option target="edgeapplier-debug" />
+		</Unit>
+		<Unit filename="src\mainSegm.cpp">
+			<Option virtualFolder="mains\" />
+			<Option target="segmentation-debug" />
 		</Unit>
 		<Unit filename="src\prepare.hpp">
 			<Option virtualFolder="operations\" />
