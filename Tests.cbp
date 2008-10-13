@@ -132,6 +132,16 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
+			<Target title="test-CImg">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Linker>
+					<Add option="-lgdi32" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
@@ -145,6 +155,9 @@
 		</Unit>
 		<Unit filename="tests\test-BothLists.cpp">
 			<Option target="test-BothLists" />
+		</Unit>
+		<Unit filename="tests\test-CImg.cpp">
+			<Option target="test-CImg" />
 		</Unit>
 		<Unit filename="tests\test-PMFHeap.cpp">
 			<Option target="test-templateHeap" />

@@ -2,7 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="PMF Workspace">
 		<Project filename="PMF.cbp" />
-		<Project filename="Tests.cbp" />
-		<Project filename="gui\gui.cbp" active="1" />
+		<Project filename="Tests.cbp" active="1" />
+		<Project filename="gui\gui.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
