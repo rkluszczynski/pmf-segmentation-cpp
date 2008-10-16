@@ -117,6 +117,7 @@ int main (int argc, char *argv[])
 		print_usage(argv[0]);
 	}
     if((opt & 0x010) && (access(outputFile, F_OK) == 0))
+    {
         if((opt & 0x008))
         {
             fprintf(stderr, "[ WARN ] : Forcing saving file '%s' !\n", outputFile);
@@ -132,6 +133,7 @@ int main (int argc, char *argv[])
             fprintf(stderr, "[ ERROR ] : Output file '%s' exist !\n", outputFile);
             print_usage(argv[0]);
         }
+    }
     if((opt & 0x020) && (access(pictureFile, R_OK) != 0))
     {
         fprintf(stderr, "[ ERROR ] : Can't read picture file ('%s') !\n", pictureFile);
