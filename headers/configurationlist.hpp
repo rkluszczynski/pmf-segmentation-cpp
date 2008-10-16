@@ -23,6 +23,8 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
         //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
         void clone_to ( ConfigurationList<T_REAL> * clone );
 
+        void calculate_statistics (int *);
+
         T_REAL get_field_width()  { return  fieldWidth; }
         T_REAL get_field_height() { return fieldHeight; }
 
@@ -41,6 +43,19 @@ ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
 {
     fieldWidth = width;
     fieldHeight = height;
+}
+
+
+template <class T_REAL>
+void ConfigurationList<T_REAL>::calculate_statistics ( int * stats )
+{
+    for (int i = 0; i < PT_MAX_NUMBER; i++)  stats[i] = 0;
+
+    Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
+    while (iter) {
+        stats[iter->data->type]++;
+        iter = iter->next;
+    }
 }
 
 /*

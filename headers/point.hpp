@@ -12,6 +12,7 @@
 #define PT_BORDER		     5
 #define PT_INTERSECTION		 6
 #define PT_UPDATE		     7
+#define PT_MAX_NUMBER        8
 
 #define BLOCK_UNDEFINED     -1
 
