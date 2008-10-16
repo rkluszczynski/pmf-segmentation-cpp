@@ -53,7 +53,6 @@ void SimulateBinarySegmentation (
     //* Initializing some variables. *
     GrayScaleImage gsimg(imageFileName);
 
-
     double    beta_1 = 20.0;
     double    beta_2 = 0.0;
     double areaOfPMF = M_PI * pmf->GetPMFHeight() * pmf->GetPMFWidth();
@@ -64,7 +63,7 @@ void SimulateBinarySegmentation (
 
     double engH = beta_1 * storedArea + beta_2 * storedELen;
 
-
+    return;
     // * Main loop of brilliant, image segmentation algorithm:-) *
     long loopIteration = 1;				// * Iteration counter *
     bool runSimulation = false;

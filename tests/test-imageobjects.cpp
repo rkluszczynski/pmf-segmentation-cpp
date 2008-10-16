@@ -4,9 +4,19 @@
 
 #include "grayscaleimage.hpp"
 
+void printStatistics(PMF<double> & pmf, double angle = 0.0)
+{
+    pmf.RotatePointTypes(sin(angle), cos (angle));
+    std::cout << std::endl << "[ STATISTICS ]" << std::endl;
+    int stats[PT_MAX_NUMBER];
+    pmf.GetPMFConfiguration()->calculate_statistics(stats);
+    for (int i = 0; i < PT_MAX_NUMBER; i++)  std::cout << "  " << "[" << i << "]=" << stats[i];
+    std::cout << std::endl;
+}
+
 int main()
 {
-    GrayScaleImage gsimg("input/szary.bmp");
+    GrayScaleImage gsimg("input/shape.bmp");
 
     std::cout << "ROZMIAR : ";
     std::cout << gsimg.GetWidth() << " x " << gsimg.GetHeight() << std::endl;
@@ -24,6 +34,9 @@ int main()
     //gsimg.ScanVerticalLine(&pmf, 6.0);
 
     std::cout << std::endl << "[ ENERGY ] : " << gsimg.CalculateScanLinesEnergy(&pmf) << std::endl;
+
+    printStatistics(pmf);
+    printStatistics(pmf, M_PI);
 
     std::pair<int,int> a(1,2), b(1,1), c(2,1);
     std::cout << std::endl;

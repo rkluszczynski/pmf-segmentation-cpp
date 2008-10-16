@@ -13,21 +13,21 @@
 #include "sim-segm.cpp"
 
 
-void print_usage(char *prog_name, bool cond = false)
+void print_usage(char * prog_name, bool cond = false)
 {
     if (cond) {
 		fprintf(stderr, "\n");
-        fprintf(stderr, "[ ERROR ] : Parameters: -s or -l, and -u are mandatory !\n");
+        fprintf(stderr, "[ ERROR ] : Parameters: -s or -i, -n or -r and -p are mandatory !\n");
     }
-
 	fprintf(stderr, "\n[ USAGE ] :  %s  [-f]\n", prog_name);
 	fprintf(stderr, "       \t\t  [ -s size of field ]\n");
 	fprintf(stderr, "       \t\t  [ -i file with initial configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
-	fprintf(stderr, "       \t\t  [ -p points for edges ]\n");
-	//fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
+    fprintf(stderr, "       \t\t  [ -r misclassification rate ]\n");
+	fprintf(stderr, "       \t\t  [ -n number of iterations ]\n");
+	fprintf(stderr, "       \t\t  [ -p picture to simulate ]\n");
 	fprintf(stderr, "\n");
 
     system("pause");
@@ -42,18 +42,18 @@ int main (int argc, char *argv[])
 	double    sizeArak = 0.0;
 	char * initialFile = NULL;
 	char *  outputFile = NULL;
-	char *  pointsFile = NULL;
+	char * pictureFile = NULL;
 	double   blockSize = 0.0;
-	double       angle = 0.0;
-    long       pointId = 0;
-	time_t        seed;
+    long    iterations = 0;
+    double     pmrStop = 0.0;
+	time_t        seed = time(NULL);
 	char    c, *endptr;
 
 
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
-	while ((c = getopt(argc, argv, "s:e:b:fo:p:i:")) != EOF)
+	while ((c = getopt(argc, argv, "s:e:b:fo:p:i:r:n:")) != EOF)
 	{
 		switch (c)
 		{
@@ -79,10 +79,20 @@ int main (int argc, char *argv[])
 				opt |= 0x010;
 				outputFile = strdup(optarg);
 				break;
-			case 'p':
+			case 'p':   /* Path to picture file. */
 				opt |= 0x020;
-				pointsFile = strdup(optarg);
+				pictureFile = strdup(optarg);
 				break;
+			case 'r': 	/* Stopping PMR. */
+				opt |= 0x040;
+				pmrStop = strtod(optarg, &endptr);
+				if(*endptr == '\0') break;
+				else print_usage(argv[0]);
+			case 'n': 	/* Number of iterations. */
+				opt |= 0x080;
+				iterations = strtol(optarg, &endptr, 10);
+				if(*endptr == '\0') break;
+				else print_usage(argv[0]);
 			case 'i': 	/* Path to initial file. */
 				opt |= 0x100;
 				initialFile = strdup(optarg);
@@ -101,10 +111,15 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ ERROR ] : Size of the Polygonal Field must be positive !\n");
 		print_usage(argv[0]);
 	}
+	if((opt & 0x004) && (blockSize <= 0.0  ||  blockSize > sizeArak))
+	{
+		fprintf(stderr, "[ ERROR ] : Size of blocks must be positive and less than size of filed !\n");
+		print_usage(argv[0]);
+	}
     if((opt & 0x010) && (access(outputFile, F_OK) == 0))
         if((opt & 0x008))
         {
-            fprintf(stderr, "[ WARN ] : Forcing saving file '%s'!\n", outputFile);
+            fprintf(stderr, "[ WARN ] : Forcing saving file '%s' !\n", outputFile);
             char * backupedFile = (char *) malloc( (strlen(outputFile)+5)*sizeof(char) );
             strcpy(backupedFile, outputFile);
             strcat(backupedFile, ".old");
@@ -117,22 +132,21 @@ int main (int argc, char *argv[])
             fprintf(stderr, "[ ERROR ] : Output file '%s' exist !\n", outputFile);
             print_usage(argv[0]);
         }
-	if(! (opt & 0x002)) { seed = time(NULL); }
-	if((opt & 0x004) && (blockSize < 0.0))
-	{
-		fprintf(stderr, "[ ERROR ] : Size of blocks must be positive !\n");
-		print_usage(argv[0]);
-	}
-	if((opt & 0x020) && (pointId <= 0))
-	{
-		fprintf(stderr, "[ ERROR ] : Id of point to update must be positive !\n");
-		print_usage(argv[0]);
-	}
-    if((opt & 0x020) && (access(pointsFile, R_OK) != 0))
+    if((opt & 0x020) && (access(pictureFile, R_OK) != 0))
     {
-        fprintf(stderr, "[ ERROR ] : Can't read points for edges ('%s') !\n", pointsFile);
+        fprintf(stderr, "[ ERROR ] : Can't read picture file ('%s') !\n", pictureFile);
         print_usage(argv[0]);
     }
+	if((opt & 0x040) && (pmrStop <= 0.0 || pmrStop > 1.0))
+	{
+		fprintf(stderr, "[ ERROR ] : PMR must be beetween 0.0 and 1.0 !\n");
+		print_usage(argv[0]);
+	}
+	if((opt & 0x080) && (iterations <= 0))
+	{
+		fprintf(stderr, "[ ERROR ] : Number of iterations should be positive !\n");
+		print_usage(argv[0]);
+	}
     if((opt & 0x100) && (access(initialFile, R_OK) != 0))
     {
         fprintf(stderr, "[ ERROR ] : Can't read configuration file '%s' !\n", initialFile);
@@ -143,43 +157,47 @@ int main (int argc, char *argv[])
 	/* -------------------------------------------------------------------- */
 	/*   Check existence of required parameters for the program.            */
 	/* -------------------------------------------------------------------- */
-	if((opt & 0x101) && (opt & 0x020))
+	if((opt & 0x101) && (opt & 0x020) && (opt & 0x0B0))
 	{
         struct timeb tbeg, tend;
-
 		//fprintf(stderr, "TOTAL SUCCES (%x) !!\n", opt);
 		fprintf(stderr, "[ INFO ] :   Field Size (-s) = %.2lf\n", sizeArak);
-		fprintf(stderr, "[ INFO ] : Initial File (-i) = '%s'\n", initialFile);
-		fprintf(stderr, "[ INFO ] :  Output File (-o) = '%s'\n", outputFile);
-		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n", seed);
+		fprintf(stderr, "[ INFO ] : Initial File (-i) = '%s'\n" , initialFile);
+		fprintf(stderr, "[ INFO ] :  Output File (-o) = '%s'\n" , outputFile);
+		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n"  , seed);
 		fprintf(stderr, "[ INFO ] :  Blocks Size (-b) = %.2lf\n", blockSize);
-		//fprintf(stderr, "\n");
-		fprintf(stderr, "[ INFO ] :  Points File (-p) = '%s'\n", pointsFile);
+		fprintf(stderr, "[ INFO ] : Picture File (-p) = '%s'\n" , pictureFile);
+		fprintf(stderr, "[ INFO ] :   Iterations (-n) = %li\n"  , iterations);
+		fprintf(stderr, "[ INFO ] : Stopping PMR (-r) = %.2lf\n", pmrStop);
 		fprintf(stderr, "\n");
 
-		/* Generating Polygonal Markov Field. */
+        // * Determining starting configuration. *
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
 		if (opt & 0x100)
             pmf->LoadConfiguration(initialFile);
 		else
             pmf->Generate(blockSize);
-
+        /*
         ofstream fout("output/log-upd-rot.txt");
         out.rdbuf(fout.rdbuf());
-
+        //*/
+        // * Do the fun staff (simulation). *
         ftime(&tbeg);
-        pmf->UpdatePointVelocity(pointId, angle);
+        SimulateBinarySegmentation(pictureFile, pmf, iterations, pmrStop, blockSize);
 	    ftime(&tend);
-
+        /*
 	    fout.close();
+        //*/
 
+        // * Saving or not the results. *
 		if (outputFile) pmf->SaveConfiguration(outputFile);
 		delete pmf;
 
-        double modTime = tend.time - tbeg.time;
-        modTime += ((tend.millitm - tbeg.millitm) * 0.001);
-		fprintf(stderr, "\n[ DONE ] : modification time = %.3lf sec.\n", modTime);
+        // * How long was I unconscious? *
+        double simTime = tend.time - tbeg.time;
+        simTime += ((tend.millitm - tbeg.millitm) * 0.001);
+		fprintf(stderr, "\n[ DONE ] : simulation time = %.3lf sec.\n", simTime);
 	}
 	else { print_usage(argv[0], true); }
 
