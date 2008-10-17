@@ -28,7 +28,7 @@ class AbstractHeap
         virtual ~AbstractHeap()
         {
             delete data;
-            std::cout << "[ PMF HEAP ]  destroyed" << std::endl;
+            //std::cout << "[ PMF HEAP ]  destroyed" << std::endl;
         };
 
         inline long   size() { return data->size(); }
@@ -45,7 +45,7 @@ template <class T_TYPE>
 AbstractHeap<T_TYPE>::AbstractHeap ()
 {
     data = new vector<T_TYPE> ();
-	std::cout << "[ PMF HEAP ]  created" << std::endl;
+	//std::cout << "[ PMF HEAP ]  created" << std::endl;
 };
 
 //*

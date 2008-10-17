@@ -2,12 +2,13 @@
 #include "grayscaleimage.hpp"
 
 
-inline void CALCULATE_LIMITS (PMF<double> * pmf, double areaOfPMF, double angle, double *limit1, double *limit2)
+inline bool MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double bSize)
 {
     double sinL = sin(angle);
     double cosL = cos(angle);
     int pmfStatistic[PT_MAX_NUMBER];
 
+    // * Determinig limits for random move. *
     pmf->RotatePointTypes(sinL, cosL);
     pmf->GetPMFConfiguration()->calculate_statistics(pmfStatistic);
 
@@ -16,35 +17,69 @@ inline void CALCULATE_LIMITS (PMF<double> * pmf, double areaOfPMF, double angle,
     double    noOfTurns = 0.5 * double(pmfStatistic[PT_UPDATE]);
     double denominatorZ = 1.0 / (areaOfPMF + noOfBirths + noOfTurns);
 
-    *limit1 = areaOfPMF * denominatorZ;
-    *limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
+    double limit1 = areaOfPMF * denominatorZ;
+    double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
 
-    return;
-}
-
-
-inline bool MODIFY_CONFIGURATION (PMF<double> * pmf, double angle, double chance, double limit1, double limit2, double bSize)
-{
-    int ID = 0;
-
-    if (chance < limit1) {  //ADD
+    // * Applying random operation. *
+    double chance = Uniform(0.0, 1.0);
+    if (chance < limit1)  //ADD
+    {
         double x = Uniform(0.0, pmf->GetPMFWidth());
         double y = Uniform(0.0, pmf->GetPMFHeight());
         pmf->AddBirthPoint(x, y, angle, bSize);
     }
-    else if(chance < limit2) { //REM
+    else if(chance < limit2) //REM
+    {
+        int number = rand() % int(noOfBirths);
+        int ID = 0;
+
+        Element<pmf_point<double> > * iter = pmf->GetPMFConfiguration()->getHead();
+        long typePointCounter = 0;
+        while (iter)
+        {
+            pmf_point<double> * pt = iter->data;
+            if (pt->type == PT_BIRTH_NORMAL  ||  pt->type == PT_BIRTH_LEFT
+                ||  pt->type == PT_BIRTH_UP  ||  pt->type == PT_BIRTH_DOWN)
+            {
+                if (typePointCounter == number) {
+                    ID = pt->id;
+                    break;
+                }
+                ++typePointCounter;
+            }
+            iter = iter->next;
+        }
         pmf->RemoveBirthPoint(ID, angle, bSize);
     }
-    else { //UPD
+    else //UPD
+    {
+        int number = rand() % int(noOfTurns);
+        int ID = 0;
+
+        Element<pmf_point<double> > * iter = pmf->GetPMFConfiguration()->getHead();
+        long typePointCounter = 0;
+        while (iter)
+        {
+            pmf_point<double> * pt = iter->data;
+            if (pt->type == PT_UPDATE)
+            {
+                if (typePointCounter == number) {
+                    ID = pt->id;
+                    break;
+                }
+                ++typePointCounter;
+            }
+            iter = iter->next;
+        }
         pmf->UpdatePointVelocity(ID, angle, bSize);
     }
     return false;
 }
 
-
+#include <cstdio>
 void SimulateBinarySegmentation (
                             char * imageFileName,
-                            PMF<double> * pmf,
+                            PMF<double> * & pmf,
                             long iterations,
                             double PMFRate,
                             double bSize
@@ -62,12 +97,13 @@ void SimulateBinarySegmentation (
     tmpELen = storedELen = 0.0; //estimateEdgesLen(Hist);
 
     double engH = beta_1 * storedArea + beta_2 * storedELen;
+    fprintf(stderr, "[ ENERGY ] : %lf  (%.2lf)", engH, tmpArea);  fflush(stderr);
 
-    return;
-    // * Main loop of brilliant, image segmentation algorithm:-) *
+    //return;
+    // * Main loop of brilliant, image segmentation algorithm :-) *
     long loopIteration = 1;				// * Iteration counter *
-    bool runSimulation = false;
-    if(iterations == 0  &&  PMFRate == 0.0)  runSimulation = true;
+    bool runSimulation = true;
+    if(iterations == 0  &&  PMFRate == 0.0) runSimulation = false;
                                           // * ----------------- *
                                           // *  Simulation loop  *
                                           // * ----------------- *
@@ -84,16 +120,14 @@ void SimulateBinarySegmentation (
         double angle = Uniform(0.0, 2.0*M_PI);
 
         // * Random choice of the operation for PMF modification. *
-        double limit1, limit2;
-        CALCULATE_LIMITS (pmf, areaOfPMF, angle, &limit1, &limit2);
-
-        bool restore = MODIFY_CONFIGURATION (pmf, angle, Uniform(0.0, 1.0), limit1, limit2, bSize);
+        bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
+        fprintf(stderr, "Zostaw:%s ", restore ? "TAK" : "NIE");  fflush(stderr);
         if (restore == false)
         {
             // * Calculating energy of modified configuration. *
             tmpArea = gsimg.CalculateScanLinesEnergy(pmf);
             tmpELen = 0.0;
-            //fprintf(stderr, "[%.2f].", tmpArea);  fflush(stderr);
+            fprintf(stderr, "[%.2lf]", tmpArea);  fflush(stderr);
 
             double newH = beta_1 * tmpArea + beta_2 * tmpELen;
 
@@ -102,7 +136,7 @@ void SimulateBinarySegmentation (
             {
                 storedArea = tmpArea;
                 storedELen = tmpELen;
-                //fprintf(stderr, "(%.0f-%1.4f)", size, storedArea);
+                //fprintf(stderr, "(%.0f-%1.4f)", pmf->GetPMFPointsNumber(), storedArea);
             }
             else {
                 double  limit = exp(- (newH - engH));
@@ -117,6 +151,7 @@ void SimulateBinarySegmentation (
         }
 
         if (restore == true) {
+            fprintf(stderr, "{Getting back pmf}");  fflush(stderr);
             swap(pmf, clone);
             delete clone;
         }
@@ -129,15 +164,14 @@ void SimulateBinarySegmentation (
         }
         //*/
         // * Testing conditions for stoping simulation. *
-        fprintf(stderr, ".");  fflush(stderr);
-        loopIteration++;
+        fprintf(stderr, ".\n");  fflush(stderr);
 
         if (iterations > 0  &&  loopIteration >= iterations)  runSimulation = false;
         if (PMFRate > 0.0  &&  PMFRate > storedArea) runSimulation = false;
+        loopIteration++;
     }
-    //* ------------------------- *
-    //*  End of simulation loop.  *
-    //* ------------------------- *
-
+    // * ------------------------- *
+    // *  End of simulation loop.  *
+    // * ------------------------- *
     return;
 }

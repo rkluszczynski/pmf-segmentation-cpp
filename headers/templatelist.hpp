@@ -67,7 +67,7 @@ template <class T_TYPE> class TemplateList
 template <class T_TYPE>
 TemplateList<T_TYPE>::TemplateList () : head(null), tail(null), size(0)
 {
-	std::cout << "[ LIST ]  created" << std::endl;
+	;//std::cout << "[ LIST ]  created" << std::endl;
 };
 
 

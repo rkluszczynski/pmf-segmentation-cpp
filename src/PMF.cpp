@@ -10,7 +10,7 @@ PMF<T_REAL> :: PMF (T_REAL fWidth, T_REAL fHeight)
     seed        = 0;
     pmfConf     = new ConfigurationList<T_REAL> (fWidth, fHeight);//NULL;
     blocksLists = NULL;
-    std::cerr << "[ PMF ] : class created" << std::endl;
+    //std::cerr << "[ PMF ] : class created" << std::endl;
 }
 
 
@@ -19,7 +19,7 @@ PMF<T_REAL> :: ~PMF ()
 {
     delete pmfConf;
     if (blocksLists) delete blocksLists;
-    std::cerr << "[ PMF ] : class deleted" << std::endl;
+    //std::cerr << "[ PMF ] : class deleted" << std::endl;
 }
 
 

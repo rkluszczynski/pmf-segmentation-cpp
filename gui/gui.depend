@@ -1888,14 +1888,14 @@
 	"AddPointDialog.h"
 	<wx/xrc/xmlres.h>
 
-1212316854 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\addpointdialog.cpp
 	"AddPointDialog.h"
 	<cmath>
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1210893240 h:\projects\pmf-codeblocks\gui\addpointdialog.h
+1223887094 h:\projects\pmf-codeblocks\gui\addpointdialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
@@ -3676,38 +3676,38 @@
 	"wx/object.h"
 	"wx/list.h"
 
-1210969662 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\generatedialog.cpp
 	"GenerateDialog.h"
 	<ctime>
 	<wx/xrc/xmlres.h>
 
-1210968528 h:\projects\pmf-codeblocks\gui\generatedialog.h
+1223887094 h:\projects\pmf-codeblocks\gui\generatedialog.h
 	<wx/stattext.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
 	<wx/button.h>
 	<wx/dialog.h>
 
-1210625760 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/bitmap.h>
 	<wx/image.h>
 	"ImagePanel.h"
 
-1210622472 h:\projects\pmf-codeblocks\gui\imagepanel.h
+1223887094 h:\projects\pmf-codeblocks\gui\imagepanel.h
 	<wx/scrolwin.h>
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1212358856 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
 	"ModPointDialog.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
 	<wx/xrc/xmlres.h>
 
-1212358846 h:\projects\pmf-codeblocks\gui\modpointdialog.h
+1223887094 h:\projects\pmf-codeblocks\gui\modpointdialog.h
 	"point.hpp"
 	<wx/stattext.h>
 	<wx/textctrl.h>
@@ -3716,24 +3716,24 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1201531284 h:\projects\pmf-codeblocks\headers\point.hpp
+1224112758 h:\projects\pmf-codeblocks\headers\point.hpp
 	<cstdio>
 	<iostream>
 	"listelement.hpp"
 
-1210927930 h:\projects\pmf-codeblocks\headers\listelement.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
 
-1212317108 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\pmfapplication.cpp
 	"PMFApplication.h"
 	"mainFrame.h"
 	<wx/xrc/xmlres.h>
 	<wx/image.h>
 
-1201522014 h:\projects\pmf-codeblocks\gui\pmfapplication.h
+1223887094 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1223017280 h:\projects\pmf-codeblocks\gui\mainframe.h
+1223887094 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -3853,7 +3853,7 @@
 	"wx/defs.h"
 	"wx/filesys.h"
 
-1212918984 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1223887094 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -3863,7 +3863,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1222292102 h:\projects\pmf-codeblocks\src\pmf.hpp
+1224111882 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -3874,51 +3874,51 @@
 	"blockslists.hpp"
 	"PMF.cpp"
 
-1222271164 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1224112778 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1202706066 h:\projects\pmf-codeblocks\headers\templatelist.hpp
+1224233594 h:\projects\pmf-codeblocks\headers\templatelist.hpp
 	<cstdio>
 	<iostream>
 	<fstream>
 	"listelement.hpp"
 
-1221732112 h:\projects\pmf-codeblocks\headers\birthsheap.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\birthsheap.hpp
 	<cmath>
 	<algorithm>
 	"abstractheap.hpp"
 	"blockslists.hpp"
 
-1221918800 h:\projects\pmf-codeblocks\headers\abstractheap.hpp
+1224233164 h:\projects\pmf-codeblocks\headers\abstractheap.hpp
 	<iostream>
 	<algorithm>
 	<vector>
 	<assert.h>
 
-1221732022 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
 	<cmath>
 	"crosselement.hpp"
 	"abstractheap.hpp"
 
-1196098004 h:\projects\pmf-codeblocks\headers\crosselement.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\crosselement.hpp
 	<cstdio>
 	"point.hpp"
 
-1216893566 h:\projects\pmf-codeblocks\src\edgepoints.hpp
+1223887096 h:\projects\pmf-codeblocks\src\edgepoints.hpp
 	<iostream>
 	<vector>
 	"point.hpp"
 	"edgeelement.hpp"
 	"edgepoints.cpp"
 
-1216023390 h:\projects\pmf-codeblocks\src\edgeelement.hpp
+1223887096 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1216893600 h:\projects\pmf-codeblocks\src\edgepoints.cpp
+1223887096 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
-1221400956 h:\projects\pmf-codeblocks\src\pmf.cpp
+1224233186 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -3930,7 +3930,7 @@
 	"remove.hpp"
 	"segment.hpp"
 
-1222291970 h:\projects\pmf-codeblocks\src\generate.hpp
+1223887096 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -3941,73 +3941,73 @@
 	"probability.hpp"
 	"accesslists.hpp"
 
-1210927966 h:\projects\pmf-codeblocks\headers\birthslist.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\birthslist.hpp
 	<stdio.h>
 	<iostream>
 	"point.hpp"
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1211018060 h:\projects\pmf-codeblocks\headers\blockslists.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
 	"blocklist.hpp"
 
-1208803244 h:\projects\pmf-codeblocks\headers\blocklist.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\blocklist.hpp
 	"point.hpp"
 	"templatelist.hpp"
 
-1211063116 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
 	<iostream>
 	"templatelist.hpp"
 	"crosselement.hpp"
 	"blockslists.hpp"
 
-1197227676 h:\projects\pmf-codeblocks\headers\probability.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\probability.hpp
 	<cstdlib>
 	<cmath>
 	<algorithm>
 
-1210618006 h:\projects\pmf-codeblocks\headers\accesslists.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\accesslists.hpp
 	"geometry.hpp"
 
-1210617692 h:\projects\pmf-codeblocks\headers\geometry.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
-1222328304 h:\projects\pmf-codeblocks\src\rotate.hpp
+1223887096 h:\projects\pmf-codeblocks\src\rotate.hpp
 	"point.hpp"
 
-1222269196 h:\projects\pmf-codeblocks\src\prepare.hpp
+1223887096 h:\projects\pmf-codeblocks\src\prepare.hpp
 
-1222271204 h:\projects\pmf-codeblocks\src\evolve.hpp
+1223887096 h:\projects\pmf-codeblocks\src\evolve.hpp
 
-1222271190 h:\projects\pmf-codeblocks\src\adding.hpp
+1223887096 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1222424852 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
 	"modifylists.hpp"
 	<stack>
 
-1211877904 h:\projects\pmf-codeblocks\headers\modifylists.hpp
+1223887096 h:\projects\pmf-codeblocks\headers\modifylists.hpp
 	"point.hpp"
 	<stack>
 	<vector>
 	<stack>
 
-1222429198 h:\projects\pmf-codeblocks\src\update.hpp
+1223887096 h:\projects\pmf-codeblocks\src\update.hpp
 
-1222429102 h:\projects\pmf-codeblocks\src\remove.hpp
+1223887096 h:\projects\pmf-codeblocks\src\remove.hpp
 
-1222432602 h:\projects\pmf-codeblocks\src\segment.hpp
+1223887096 h:\projects\pmf-codeblocks\src\segment.hpp
 
-1212880156 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
+1223887094 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
 
-1213976300 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
@@ -4017,24 +4017,25 @@
 	<wx/string.h>
 	<wx/xrc/xmlres.h>
 
-1212881006 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\pmfpopupmenu.cpp
 	"PMFPopupMenu.h"
 	"mainFrame.h"
 	<cmath>
 	<wx/wx.h>
 	<wx/menu.h>
 
-1214664528 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1223887094 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
+	<wx/progdlg.h>
 	"GenerateDialog.h"
 	"ImagePanel.h"
 	"PMFPanel.h"
 	"AddPointDialog.h"
 	<wx/xrc/xmlres.h>
 
-1193991320 source:h:\projects\pmf-codeblocks\gui\resource.rc
+1223887094 source:h:\projects\pmf-codeblocks\gui\resource.rc
 	"wx/msw/wx.rc"
 
 1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wx.rc
@@ -4054,4 +4055,14 @@
 1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\resources.h
 
 1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
+
+1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\progdlg.h
+	"wx/defs.h"
+	"wx/palmos/progdlg.h"
+	"wx/generic/progdlgg.h"
+
+1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\progdlgg.h
+	"wx/defs.h"
+	"wx/progdlg.h"
+	"wx/dialog.h"
 

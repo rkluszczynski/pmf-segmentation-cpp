@@ -129,27 +129,29 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * orig
     double         yy = 0.0;
     //cout << "[ StartTopColor ] = " << startTopColor << "   [ " << amountYeq0 << " ]" << endl;
 
-    //* Counting matching pixels *
+    // * Counting matching pixels *
     while (! pq.empty())
     {
         pair<double, double> pt = pq.top();
         pq.pop();
-        //cout << " [ POINT ] : " << pt.first << "  x  " << pt.second << endl;
+        //cout << " [ POINT ] : " << pt.first << "  x  " << pt.second << "   COLOR = " << startTopColor << endl;
 
         while (yy < pt.second)
         {
             int pixel = GetPixel(int(xx * scaleX), int(yy * scaleY));
             int  dist = ABS(pixel - startTopColor);
+            //cout << "   PIXEL   : " << int(xx * scaleX) << "  x  " << int(yy * scaleY) << " = " << pixel << "  {" << dist << "}" << endl;
 
-            if (dist < 128) amount[0] += dist;
-            else    amount[1] += (255 - dist);
+            if (dist < 128) amount[0] += (dist + 1);
+            else    amount[1] += (255 - dist + 1);
+            //cout << "           : " << amount[0] << " , " << amount[1] << endl;
 
             yy += 0.05;
         }
         startTopColor = 255 - startTopColor;
     }
 
-    //* Saving result if necessary *
+    // * Saving result if necessary *
     if (originColor) {
         originColor[0] = amount[0];
         originColor[1] = amount[1];

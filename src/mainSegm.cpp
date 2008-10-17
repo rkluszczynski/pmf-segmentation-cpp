@@ -180,7 +180,7 @@ int main (int argc, char *argv[])
             pmf->LoadConfiguration(initialFile);
 		else
             pmf->Generate(blockSize);
-        /*
+        //*
         ofstream fout("output/log-upd-rot.txt");
         out.rdbuf(fout.rdbuf());
         //*/
@@ -188,7 +188,7 @@ int main (int argc, char *argv[])
         ftime(&tbeg);
         SimulateBinarySegmentation(pictureFile, pmf, iterations, pmrStop, blockSize);
 	    ftime(&tend);
-        /*
+        //*
 	    fout.close();
         //*/
 
