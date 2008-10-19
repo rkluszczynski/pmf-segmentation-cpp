@@ -21,7 +21,7 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
         ConfigurationList(T_REAL, T_REAL);
 
         //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
-        void clone_to ( ConfigurationList<T_REAL> * clone );
+        void clone_from ( ConfigurationList<T_REAL> * );
 
         void calculate_statistics (int *);
 
@@ -72,24 +72,44 @@ void ConfigurationList<T_REAL>::push_back (pmf_point<T_REAL> * pt, BlocksLists<T
 */
 
 template <class T_REAL>
-void ConfigurationList<T_REAL>::clone_to ( ConfigurationList<T_REAL> * cclone )
+void ConfigurationList<T_REAL>::clone_from ( ConfigurationList<T_REAL> * originalPMF )
 {
-    if (cclone == NULL) return;
+    if (originalPMF == NULL) return;
+    if (TemplateList<pmf_point<T_REAL> >::get_size() > 0)  destroy();
 
     TemplateList<pmf_point<T_REAL> >::head = NULL;
     TemplateList<pmf_point<T_REAL> >::tail = NULL;
     TemplateList<pmf_point<T_REAL> >::size = 0;
 
-    /// TODO : clone the list
+    originalPMF->set_points_ids();
+    fieldHeight = originalPMF->get_field_height();
+    fieldWidth  = originalPMF->get_field_width();
+    int  amount = originalPMF->get_size();
 
-    Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
+    pmf_point<T_REAL> ** ptTab = new pmf_point<T_REAL> * [amount+1];
+    long *  firstIds = new long[amount+1];
+    long * secondIds = new long[amount+1];
+
+    Element<pmf_point<T_REAL> > * iter = originalPMF->getHead();
     while (iter) {
         pmf_point<T_REAL> * opt = iter->data;
-        pmf_point<T_REAL> * npt = new pmf_point<T_REAL>();
-
-        cclone->push_back( npt );
+        firstIds[opt->id]  = ((opt->n1) ? opt->n1->id : 0);
+        secondIds[opt->id] = ((opt->n2) ? opt->n2->id : 0);
+        ptTab[opt->id] = new pmf_point<T_REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, PT_UNKNOWN);
         iter = iter->next;
     }
+
+    for (int i = 1; i <= amount; i++)
+    {
+        ptTab[i]->n1 = (firstIds[i] > 0) ? ptTab[firstIds[i]] : NULL;
+        ptTab[i]->n2 = (secondIds[i] > 0) ? ptTab[secondIds[i]] : NULL;
+    }
+    for (int i = 1; i <= amount; i++)
+        TemplateList<pmf_point<T_REAL> >::push_back(ptTab[i]);
+
+    delete[] secondIds;
+    delete[] firstIds;
+    delete[] ptTab;
 }
 
 
@@ -210,7 +230,7 @@ void ConfigurationList<T_REAL>::save_svg (std::ostream & out, double scale, doub
     out << endl;
 
     // cornsilk, floralwhite, oldlace, papayawhip, whitesmoke
-    out << "<g style=\"stroke:none; fill:cornsilk;\">" << endl;
+    out << "<g style=\"stroke-width:" << strokeWidth*10.0 << "; stroke:black; fill:cornsilk;\">" << endl;
     out << "\t<path d=\"M0,0 L" << scale*fieldWidth << ",0 " << scale*fieldWidth << ",";
     out << scale*fieldHeight << " 0," << scale*fieldHeight << "z\"/>" << endl;
     out << "</g>" << endl;

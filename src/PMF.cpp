@@ -34,10 +34,10 @@ PMF<T_REAL> :: Clone () {
     PMF<T_REAL> * newPMF = new PMF<T_REAL> (fieldWidth, fieldHeight);
     newPMF->SetSeed(seed);
 
-    SaveConfiguration("output/tmp.txt");
-    newPMF->LoadConfiguration("output/tmp.txt");
-    //pmfConf->clone_to(newPMF->GetPMFConfiguration());
-    //DetermineTypesFromLeftToRight();
+    //SaveConfiguration("output/tmp.txt");
+    //newPMF->LoadConfiguration("output/tmp.txt");
+    newPMF->GetPMFConfiguration()->clone_from( pmfConf );
+    DetermineTypesFromLeftToRight();
     return newPMF;
 }
 

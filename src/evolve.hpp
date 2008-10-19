@@ -77,8 +77,9 @@ PMF<T_REAL> :: EvolveRestOfField (
             {
 #if CHECK_ASSERTIONS
                 //assert(false == true);
-                assert(pt->l1 > 0.0);
-                assert(pt->l2 > 0.0);
+                /// TODO: correct assertions and neighbours' lengths
+                assert(pt->l1 >= 0.0);
+                assert(pt->l2 >= 0.0);
 #endif
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
                 determineUpdateAngle(newAngle);

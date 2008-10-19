@@ -125,7 +125,7 @@
 	"blockslists.hpp"
 	"PMF.cpp"
 
-1224112778 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1224374694 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
@@ -164,7 +164,7 @@
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1223887096 h:\projects\pmf-codeblocks\headers\blockslists.hpp
+1224370060 h:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
@@ -272,7 +272,7 @@
 	"accesslists.hpp"
 	"PMF.hpp"
 
-1224233186 h:\projects\pmf-codeblocks\src\pmf.cpp
+1224367924 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -323,7 +323,7 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 
-1223887096 h:\projects\pmf-codeblocks\src\evolve.hpp
+1224368170 h:\projects\pmf-codeblocks\src\evolve.hpp
 
 1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
 
@@ -462,7 +462,7 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\segment.hpp
 
-1224233038 source:h:\projects\pmf-codeblocks\src\mainsegm.cpp
+1224369110 source:h:\projects\pmf-codeblocks\src\mainsegm.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -472,10 +472,11 @@
 	<sys/timeb.h>
 	"sim-segm.cpp"
 
-1224234188 h:\projects\pmf-codeblocks\src\sim-segm.cpp
+1224369466 h:\projects\pmf-codeblocks\src\sim-segm.cpp
 	"grayscaleimage.hpp"
+	<cstdio>
 
-1223930196 h:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
+1224235898 h:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
 	<iostream>
 	<queue>
 	"CImg.h"

@@ -7,8 +7,8 @@
 #include <sys/timeb.h>
 
 #define CHECK_ASSERTIONS 1
-#define pmf_LOG_ADD 1
-#define DEL_PATH_LOG 1
+#define pmf_LOG_ADD 0
+#define DEL_PATH_LOG 0
 
 #include "sim-segm.cpp"
 
@@ -111,9 +111,9 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ ERROR ] : Size of the Polygonal Field must be positive !\n");
 		print_usage(argv[0]);
 	}
-	if((opt & 0x004) && (blockSize <= 0.0  ||  blockSize > sizeArak))
+	if((opt & 0x004) && (blockSize <= 0.0))//  ||  blockSize > sizeArak))
 	{
-		fprintf(stderr, "[ ERROR ] : Size of blocks must be positive and less than size of filed !\n");
+		fprintf(stderr, "[ ERROR ] : Size of blocks must be positive and less than size of field !\n");
 		print_usage(argv[0]);
 	}
     if((opt & 0x010) && (access(outputFile, F_OK) == 0))
@@ -180,7 +180,7 @@ int main (int argc, char *argv[])
             pmf->LoadConfiguration(initialFile);
 		else
             pmf->Generate(blockSize);
-        //*
+        /*
         ofstream fout("output/log-upd-rot.txt");
         out.rdbuf(fout.rdbuf());
         //*/
@@ -188,10 +188,8 @@ int main (int argc, char *argv[])
         ftime(&tbeg);
         SimulateBinarySegmentation(pictureFile, pmf, iterations, pmrStop, blockSize);
 	    ftime(&tend);
-        //*
-	    fout.close();
-        //*/
 
+	    //fout.close();
         // * Saving or not the results. *
 		if (outputFile) pmf->SaveConfiguration(outputFile);
 		delete pmf;

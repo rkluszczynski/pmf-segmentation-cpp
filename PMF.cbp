@@ -86,7 +86,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-i input/test.cf -p input/shape.bmp -o output/sim-out.cf -f -e 0 -n 10" />
+				<Option parameters="-i input/test.cf -p input/shape.bmp -o output/sim-out.cf -f -e 0 -n 30" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-Wall" />

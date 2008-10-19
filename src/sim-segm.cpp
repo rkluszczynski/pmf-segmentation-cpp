@@ -109,6 +109,7 @@ void SimulateBinarySegmentation (
                                           // * ----------------- *
     while (runSimulation)
     {
+        fprintf(stderr, " {%5li }  ", loopIteration);  fflush(stderr);
         // * Setting inverse temperature. *
         beta_1 = 20.0 + 0.009 * loopIteration; //powf((float)loopIteartion, 1.0);
         beta_2 = 0.0;

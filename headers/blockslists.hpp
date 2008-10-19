@@ -118,15 +118,15 @@ BlocksLists<T_REAL>::BlocksLists (T_REAL fwidth, T_REAL fheight, T_REAL bsize)
     BlockList<T_REAL> empty;
     for (int i = 0; i < blocksCount; i++)  blocks.push_back(empty);
 
-	std::cout << "[ BLOCKS ]  created"; // << std::endl;
-    std::cout << " ...  " << hLimit.size() << " x " << vLimit.size() << std::endl;
+	//std::cout << "[ BLOCKS ]  created";
+    //std::cout << " ...  " << hLimit.size() << " x " << vLimit.size() << std::endl;
 };
 
 
 template <class T_REAL>
 BlocksLists<T_REAL>::~BlocksLists ()
 {
-	std::cout << "[ BLOCKS ]  destroyed" << std::endl;
+	;//std::cout << "[ BLOCKS ]  destroyed" << std::endl;
 };
 
 
