@@ -64,6 +64,9 @@ class PMF
 		inline long GetPMFPointsNumber() { return pmfConf->get_size(); }
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
+
+        void BorderArtefactsRemover();
+        bool IsThereIntersection();
 };
 
 #ifndef CHECK_ASSERTIONS

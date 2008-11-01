@@ -34,6 +34,8 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
 		void save_svg (std::ostream & out, double scale = 100.0, double strokeWidth = 0.15);
 
 		void load_configuration (std::istream & in);
+
+		bool remove_point_with_id (long);
 };
 
 
@@ -43,6 +45,38 @@ ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
 {
     fieldWidth = width;
     fieldHeight = height;
+}
+
+
+template <class T_REAL>
+bool ConfigurationList<T_REAL>::remove_point_with_id (long ptId)
+{
+    Element<pmf_point<T_REAL> > * iter = TemplateList<pmf_point<T_REAL> >::head;
+    Element<pmf_point<T_REAL> > * pop = iter;
+    while (iter) {
+        if (iter->data->id == ptId) {
+            //if (blocksLists)  blocksLists->pop(iter->data);
+            delete iter->data;
+            if (iter == TemplateList<pmf_point<T_REAL> >::head) {
+                TemplateList<pmf_point<T_REAL> >::head = iter->next;
+                delete(iter);
+                pop = TemplateList<pmf_point<T_REAL> >::head;
+                iter = TemplateList<pmf_point<T_REAL> >::head;
+            }
+            else {
+                pop->next = iter->next;
+                delete(iter);
+                iter = pop->next;
+            }
+            TemplateList<pmf_point<T_REAL> >::size--;
+            return true;
+        }
+        else {
+            pop = iter;
+            iter = iter->next;
+        }
+    }
+    return false;
 }
 
 
