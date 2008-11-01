@@ -32555,7 +32555,7 @@ namespace cimg_library {
       assign();
 
 #ifndef cimg_use_ffmpeg
-      if ((nfirst_frame || nlast_frame!=~0U || nstep_frame>1) && (pixel_format || !pixel_format) || resume)
+      if (((nfirst_frame || nlast_frame!=~0U || nstep_frame>1) && (pixel_format || !pixel_format)) || resume)
         throw CImgArgumentException("CImg<%s>::load_tiff() : File '%s', reading sub-frames from a video file requires the use of ffmpeg.\n"
                                     "('cimg_use_ffmpeg' must be defined).",pixel_type(),filename);
       return load_ffmpeg_external(filename);
