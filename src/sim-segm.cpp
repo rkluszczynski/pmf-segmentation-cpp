@@ -73,7 +73,8 @@ inline bool MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double an
         }
         pmf->UpdatePointVelocity(ID, angle, bSize);
     }
-    return false;
+    //return false;
+    return pmf->IsThereIntersection();
 }
 
 #include <cstdio>
@@ -107,8 +108,20 @@ void SimulateBinarySegmentation (
                                           // * ----------------- *
                                           // *  Simulation loop  *
                                           // * ----------------- *
+#if pmf_LOG_ADD
+    ofstream fout1("output/log-segm-sim-iter10.txt");
+#endif
     while (runSimulation)
     {
+#if pmf_LOG_ADD
+        out << std::endl << " ################################################################" << std::endl;
+        out << std::endl << " ################################################################" << std::endl;
+        out << " ############### SEGMENTATION STEP " << loopIteration << std::endl;
+        out << std::endl << " ################################################################" << std::endl;
+        if (loopIteration == 10) {
+            out.rdbuf(fout1.rdbuf());
+        }
+#endif
         fprintf(stderr, " {%5li }  ", loopIteration);  fflush(stderr);
         // * Setting inverse temperature. *
         beta_1 = 20.0 + 0.009 * loopIteration; //powf((float)loopIteartion, 1.0);
@@ -123,6 +136,9 @@ void SimulateBinarySegmentation (
         // * Random choice of the operation for PMF modification. *
         bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
         fprintf(stderr, "Zostaw:%s ", restore ? "TAK" : "NIE");  fflush(stderr);
+#if pmf_LOG_ADD
+        pmf->SaveConfiguration("output/pmf-modified.txt");
+#endif
         if (restore == false)
         {
             // * Calculating energy of modified configuration. *

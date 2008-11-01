@@ -129,8 +129,8 @@ PMF<T_REAL> :: EvolveRestOfField (
         }
         //*/
     }
-
     /* Renumbering points' IDs starting from 1. */
+    BorderArtefactsRemover();
     pmfConf->set_points_ids();
 }
 

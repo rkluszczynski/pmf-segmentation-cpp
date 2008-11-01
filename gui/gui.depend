@@ -1903,7 +1903,7 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\stattext.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\stattext.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/stattext.h"
@@ -1916,7 +1916,7 @@
 	"wx/os2/stattext.h"
 	"wx/palmos/stattext.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\defs.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\defs.h
 	"wx/platform.h"
 	"wx/features.h"
 	"wx/version.h"
@@ -1927,7 +1927,7 @@
 	<unistd.h>
 	"wx/msw/winundef.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\platform.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\platform.h
 	<stddef.h>
 	<AvailabilityMacros.h>
 	<unistd.h>
@@ -1939,9 +1939,9 @@
 	"wx/msw/gccpriv.h"
 	<AvailabilityMacros.h>
 
-1200840680 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\setup.h
+1200837080 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\setup.h
 
-1200838216 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\chkconf.h
+1200834616 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\chkconf.h
 	"wx/palmos/chkconf.h"
 	"wx/msw/wince/chkconf.h"
 	"wx/msw/chkconf.h"
@@ -1953,35 +1953,35 @@
 	"wx/x11/chkconf.h"
 	"wx/univ/chkconf.h"
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\chkconf.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\chkconf.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\chkconf.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\chkconf.h
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\chkconf.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\chkconf.h
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\libraries.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\libraries.h
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\libraries.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\libraries.h
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\gccpriv.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\gccpriv.h
 	<_mingw.h>
 	<w32api.h>
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\features.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\features.h
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\version.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\version.h
 	"wx/cpp.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\cpp.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\cpp.h
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dlimpexp.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dlimpexp.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\debug.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\debug.h
 	<assert.h>
 	<limits.h>
 	"wx/wxchar.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\wxchar.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\wxchar.h
 	"wx/platform.h"
 	"wx/dlimpexp.h"
 	<stdio.h>
@@ -2011,9 +2011,9 @@
 	<time.h>
 	<string.h>
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\winundef.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\winundef.h
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\control.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\control.h
 	"wx/defs.h"
 	"wx/window.h"
 	"wx/univ/control.h"
@@ -2026,7 +2026,7 @@
 	"wx/cocoa/control.h"
 	"wx/os2/control.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\window.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\window.h
 	"wx/event.h"
 	"wx/list.h"
 	"wx/cursor.h"
@@ -2052,7 +2052,7 @@
 	"wx/os2/window.h"
 	"wx/univ/window.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\event.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\event.h
 	"wx/defs.h"
 	"wx/cpp.h"
 	"wx/object.h"
@@ -2062,18 +2062,18 @@
 	"wx/thread.h"
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\object.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\object.h
 	"wx/memory.h"
 	"wx/xti.h"
 	"wx/msw/msvcrt.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\memory.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\memory.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/msgout.h"
 	<stddef.h>
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\string.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\string.h
 	"wx/defs.h"
 	<ctype.h>
 	<stdio.h>
@@ -2096,11 +2096,11 @@
 	"wx/arrstr.h"
 	"wx/iosfwrap.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\buffer.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\buffer.h
 	"wx/wxchar.h"
 	<stdlib.h>
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\strconv.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\strconv.h
 	"wx/defs.h"
 	"wx/wxchar.h"
 	"wx/buffer.h"
@@ -2108,35 +2108,35 @@
 	<stdlib.h>
 	"wx/fontenc.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\fontenc.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\fontenc.h
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\beforestd.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\beforestd.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\afterstd.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\afterstd.h
 	"wx/msw/winundef.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\arrstr.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\arrstr.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dynarray.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dynarray.h
 	"wx/defs.h"
 	"wx/beforestd.h"
 	<vector>
 	<algorithm>
 	"wx/afterstd.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\iosfwrap.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\iosfwrap.h
 	<iostream.h>
 	<iosfwd>
 	"wx/msw/winundef.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msgout.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msgout.h
 	"wx/defs.h"
 	"wx/wxchar.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\xti.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\xti.h
 	"wx/defs.h"
 	"wx/memory.h"
 	"wx/flags.h"
@@ -2148,15 +2148,15 @@
 	<typeinfo>
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\flags.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\flags.h
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\hashmap.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\hashmap.h
 	"wx/string.h"
 	<ext/hash_map>
 	<hash_map>
 	<stddef.h>
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\log.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\log.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/arrstr.h"
@@ -2166,27 +2166,27 @@
 	"wx/generic/logg.h"
 	"wx/cocoa/log.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\logg.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\logg.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\intl.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\intl.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/fontenc.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\msvcrt.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\msvcrt.h
 	<stdlib.h>
 	<crtdbg.h>
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\clntdata.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\clntdata.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/hashmap.h"
 	"wx/vector.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\vector.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\vector.h
 	"wx/defs.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\gdicmn.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\gdicmn.h
 	"wx/defs.h"
 	"wx/list.h"
 	"wx/string.h"
@@ -2194,7 +2194,7 @@
 	"wx/hashmap.h"
 	"wx/math.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\list.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\list.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/string.h"
@@ -2204,12 +2204,12 @@
 	<list>
 	"wx/afterstd.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\math.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\math.h
 	"wx/defs.h"
 	<math.h>
 	<float.h>
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\cursor.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\cursor.h
 	"wx/defs.h"
 	"wx/palmos/cursor.h"
 	"wx/msw/cursor.h"
@@ -2224,18 +2224,18 @@
 	"wx/os2/cursor.h"
 	"wx/utils.h"
 
-1195462530 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\cursor.h
+1195458930 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\cursor.h
 	"wx/msw/gdiimage.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\gdiimage.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\gdiimage.h
 	"wx/gdiobj.h"
 	"wx/gdicmn.h"
 	"wx/list.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\gdiobj.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\gdiobj.h
 	"wx/object.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\utils.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\utils.h
 	"wx/object.h"
 	"wx/list.h"
 	"wx/filefn.h"
@@ -2247,7 +2247,7 @@
 	<unistd.h>
 	<stdio.h>
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filefn.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filefn.h
 	"wx/list.h"
 	"wx/arrstr.h"
 	"wx/msw/wince/time.h"
@@ -2283,23 +2283,23 @@
 	<fcntl.h>
 	<sys/types.h>
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\time.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\time.h
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\private.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\private.h
 	"wx/msw/wrapwin.h"
 	"wx/msw/microwin.h"
 	"wx/log.h"
 	"wx/gdicmn.h"
 	"wx/colour.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wrapwin.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wrapwin.h
 	"wx/platform.h"
 	<windows.h>
 	"wx/msw/winundef.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\microwin.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\microwin.h
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\colour.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\colour.h
 	"wx/defs.h"
 	"wx/gdiobj.h"
 	"wx/variant.h"
@@ -2315,7 +2315,7 @@
 	"wx/cocoa/colour.h"
 	"wx/os2/colour.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\variant.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\variant.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/string.h"
@@ -2326,7 +2326,7 @@
 	"wx/db.h"
 	"wx/iosfwrap.h"
 
-1188283874 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\datetime.h
+1188280274 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\datetime.h
 	"wx/defs.h"
 	<time.h>
 	"wx/msw/wince/time.h"
@@ -2334,13 +2334,13 @@
 	"wx/longlong.h"
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\longlong.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\longlong.h
 	"wx/defs.h"
 	"wx/string.h"
 	<limits.h>
 	"wx/iosfwrap.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\db.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\db.h
 	"wx/defs.h"
 	"wx/string.h"
 	<afxwin.h>
@@ -2355,24 +2355,24 @@
 	<sqlext.h>
 	"wx/object.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\isql.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\isql.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\isqlext.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\isqlext.h
 	"wx/isql.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\colour.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\colour.h
 	"wx/object.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\colour.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\colour.h
 	"wx/object.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\platinfo.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\platinfo.h
 	"wx/string.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\thread.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\thread.h
 	"wx/defs.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\font.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\font.h
 	"wx/defs.h"
 	"wx/fontenc.h"
 	"wx/gdiobj.h"
@@ -2388,10 +2388,10 @@
 	"wx/cocoa/font.h"
 	"wx/os2/font.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\font.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\font.h
 	"wx/gdicmn.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\region.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\region.h
 	"wx/gdiobj.h"
 	"wx/gdicmn.h"
 	"wx/palmos/region.h"
@@ -2405,13 +2405,13 @@
 	"wx/cocoa/region.h"
 	"wx/os2/region.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\region.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\region.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\validate.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\validate.h
 	"wx/defs.h"
 	"wx/event.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\palette.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\palette.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/gdiobj.h"
@@ -2424,16 +2424,16 @@
 	"wx/mac/palette.h"
 	"wx/os2/palette.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\palette.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\palette.h
 	"wx/gdiobj.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\paletteg.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\paletteg.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/gdiobj.h"
 	"wx/gdicmn.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\accel.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\accel.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/generic/accel.h"
@@ -2445,30 +2445,30 @@
 	"wx/generic/accel.h"
 	"wx/os2/accel.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\accel.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\accel.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\accel.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\accel.h
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\access.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\access.h
 	"wx/defs.h"
 	"wx/variant.h"
 	"wx/msw/ole/access.h"
 
-1186411242 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\access.h
+1186407642 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\access.h
 
-1187162310 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\window.h
+1187158710 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\window.h
 	"wx/hash.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\hash.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\hash.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/list.h"
 	"wx/dynarray.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\window.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\window.h
 	"wx/bitmap.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\bitmap.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\bitmap.h
 	"wx/string.h"
 	"wx/gdicmn.h"
 	"wx/colour.h"
@@ -2486,31 +2486,31 @@
 	"wx/os2/bitmap.h"
 	"wx/generic/mask.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\bitmap.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\bitmap.h
 	"wx/msw/gdiimage.h"
 	"wx/palette.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\mask.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\mask.h
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\control.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\control.h
 	"wx/univ/inphand.h"
 	"wx/univ/inpcons.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\inphand.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\inphand.h
 	"wx/univ/inpcons.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\inpcons.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\inpcons.h
 	"wx/object.h"
 	"wx/event.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\control.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\control.h
 	"wx/dynarray.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\stattext.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\stattext.h
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\stattext.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\stattext.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textctrl.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textctrl.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/dynarray.h"
@@ -2527,35 +2527,35 @@
 	"wx/cocoa/textctrl.h"
 	"wx/os2/textctrl.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\ioswrap.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\ioswrap.h
 	<iostream.h>
 	<iostream>
 	"wx/msw/winundef.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\textctrl.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\textctrl.h
 	"wx/scrolwin.h"
 	"wx/univ/inphand.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\scrolwin.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\scrolwin.h
 	"wx/panel.h"
 	"wx/gtk/scrolwin.h"
 	"wx/gtk1/scrolwin.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\panel.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\panel.h
 	"wx/generic/panelg.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\panelg.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\panelg.h
 	"wx/window.h"
 	"wx/containr.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\containr.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\containr.h
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\textctrlce.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\textctrlce.h
 	"wx/dynarray.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\textctrl.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\textctrl.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\checkbox.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\checkbox.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/checkbox.h"
@@ -2568,10 +2568,10 @@
 	"wx/os2/checkbox.h"
 	"wx/palmos/checkbox.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\checkbox.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\checkbox.h
 	"wx/button.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\button.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\button.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/button.h"
@@ -2584,14 +2584,14 @@
 	"wx/os2/button.h"
 	"wx/palmos/button.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\button.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\button.h
 	"wx/bitmap.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\button.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\button.h
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\checkbox.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\checkbox.h
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dialog.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dialog.h
 	"wx/defs.h"
 	"wx/containr.h"
 	"wx/toplevel.h"
@@ -2605,7 +2605,7 @@
 	"wx/cocoa/dialog.h"
 	"wx/os2/dialog.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\toplevel.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\toplevel.h
 	"wx/window.h"
 	"wx/iconbndl.h"
 	"wx/palmos/toplevel.h"
@@ -2621,18 +2621,18 @@
 	"wx/motif/toplevel.h"
 	"wx/univ/toplevel.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\iconbndl.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\iconbndl.h
 	"wx/dynarray.h"
 	"wx/gdicmn.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\toplevel.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\toplevel.h
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\toplevel.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\toplevel.h
 	"wx/univ/inpcons.h"
 	"wx/univ/inphand.h"
 	"wx/icon.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\icon.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\icon.h
 	"wx/iconloc.h"
 	"wx/generic/icon.h"
 	"wx/msw/icon.h"
@@ -2647,21 +2647,21 @@
 	"wx/os2/icon.h"
 	"wx/variant.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\iconloc.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\iconloc.h
 	"wx/string.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\icon.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\icon.h
 	"wx/bitmap.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\icon.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\icon.h
 	"wx/msw/gdiimage.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\dialog.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\dialog.h
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dialog.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dialog.h
 	"wx/panel.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\wx.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\wx.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/dynarray.h"
@@ -2741,7 +2741,7 @@
 	"wx/validate.h"
 	"wx/valtext.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\app.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\app.h
 	"wx/event.h"
 	"wx/build.h"
 	"wx/init.h"
@@ -2759,38 +2759,38 @@
 	"wx/os2/app.h"
 	"wx/univ/theme.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\build.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\build.h
 	"wx/version.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\init.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\init.h
 	"wx/defs.h"
 	"wx/wxchar.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\app.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\app.h
 	"wx/event.h"
 	"wx/icon.h"
 	"wx/msw/wrapwin.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\theme.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\theme.h
 	"wx/string.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\stream.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\stream.h
 	"wx/defs.h"
 	<stdio.h>
 	"wx/object.h"
 	"wx/string.h"
 	"wx/filefn.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\stopwatch.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\stopwatch.h
 	"wx/defs.h"
 	"wx/longlong.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\module.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\module.h
 	"wx/object.h"
 	"wx/list.h"
 	"wx/dynarray.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\frame.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\frame.h
 	"wx/toplevel.h"
 	"wx/univ/frame.h"
 	"wx/palmos/frame.h"
@@ -2802,11 +2802,11 @@
 	"wx/cocoa/frame.h"
 	"wx/os2/frame.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\frame.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\frame.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\frame.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\frame.h
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\image.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\image.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/string.h"
@@ -2825,40 +2825,40 @@
 	"wx/imagxpm.h"
 	"wx/imagiff.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagbmp.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagbmp.h
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagpng.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagpng.h
 	"wx/defs.h"
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imaggif.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imaggif.h
 	"wx/image.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagpcx.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagpcx.h
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagjpeg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagjpeg.h
 	"wx/defs.h"
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagtga.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagtga.h
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagtiff.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagtiff.h
 	"wx/defs.h"
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagpnm.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagpnm.h
 	"wx/image.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagxpm.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagxpm.h
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagiff.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imagiff.h
 	"wx/image.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dc.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dc.h
 	"wx/object.h"
 	"wx/intl.h"
 	"wx/cursor.h"
@@ -2884,7 +2884,7 @@
 	"wx/os2/dc.h"
 	"wx/dcgraph.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\brush.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\brush.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/gdiobj.h"
@@ -2899,12 +2899,12 @@
 	"wx/cocoa/brush.h"
 	"wx/os2/brush.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\brush.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\brush.h
 	"wx/gdicmn.h"
 	"wx/gdiobj.h"
 	"wx/bitmap.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\pen.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\pen.h
 	"wx/defs.h"
 	"wx/palmos/pen.h"
 	"wx/msw/pen.h"
@@ -2917,30 +2917,30 @@
 	"wx/cocoa/pen.h"
 	"wx/os2/pen.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\pen.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\pen.h
 	"wx/gdiobj.h"
 	"wx/bitmap.h"
 	"wx/colour.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dc.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dc.h
 	"wx/defs.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcgraph.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcgraph.h
 	"wx/geometry.h"
 	"wx/dynarray.h"
 	"wx/graphics.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\geometry.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\geometry.h
 	"wx/defs.h"
 	"wx/utils.h"
 	"wx/gdicmn.h"
 	"wx/math.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\graphics.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\graphics.h
 	"wx/geometry.h"
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcclient.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcclient.h
 	"wx/defs.h"
 	"wx/palmos/dcclient.h"
 	"wx/msw/dcclient.h"
@@ -2954,11 +2954,11 @@
 	"wx/cocoa/dcclient.h"
 	"wx/os2/dcclient.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcclient.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcclient.h
 	"wx/dc.h"
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcmemory.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcmemory.h
 	"wx/bitmap.h"
 	"wx/palmos/dcmemory.h"
 	"wx/msw/dcmemory.h"
@@ -2972,21 +2972,21 @@
 	"wx/cocoa/dcmemory.h"
 	"wx/os2/dcmemory.h"
 
-1188283874 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcmemory.h
+1188280274 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcmemory.h
 	"wx/dcclient.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcprint.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcprint.h
 	"wx/defs.h"
 	"wx/palmos/dcprint.h"
 	"wx/msw/dcprint.h"
 	"wx/os2/dcprint.h"
 	"wx/mac/dcprint.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcprint.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcprint.h
 	"wx/dc.h"
 	"wx/cmndata.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\cmndata.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\cmndata.h
 	"wx/window.h"
 	"wx/font.h"
 	"wx/encinfo.h"
@@ -2994,10 +2994,10 @@
 	"wx/gdicmn.h"
 	"wx/stream.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\encinfo.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\encinfo.h
 	"wx/string.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcscreen.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcscreen.h
 	"wx/defs.h"
 	"wx/palmos/dcscreen.h"
 	"wx/msw/dcscreen.h"
@@ -3011,10 +3011,10 @@
 	"wx/cocoa/dcscreen.h"
 	"wx/os2/dcscreen.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcscreen.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dcscreen.h
 	"wx/dc.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\menuitem.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\menuitem.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/univ/menuitem.h"
@@ -3027,18 +3027,18 @@
 	"wx/cocoa/menuitem.h"
 	"wx/os2/menuitem.h"
 
-1187162304 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\menuitem.h
+1187158704 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\menuitem.h
 
-1187162310 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\menuitem.h
+1187158710 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\menuitem.h
 	"wx/ownerdrw.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\ownerdrw.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\ownerdrw.h
 	"wx/defs.h"
 	"wx/bitmap.h"
 	"wx/colour.h"
 	"wx/font.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\menu.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\menu.h
 	"wx/defs.h"
 	"wx/list.h"
 	"wx/window.h"
@@ -3053,16 +3053,16 @@
 	"wx/cocoa/menu.h"
 	"wx/os2/menu.h"
 
-1187162304 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\menu.h
+1187158704 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\menu.h
 	"wx/accel.h"
 	"wx/dynarray.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\menu.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\menu.h
 	"wx/accel.h"
 	"wx/dynarray.h"
 	"wx/arrstr.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\timer.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\timer.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/longlong.h"
@@ -3078,15 +3078,15 @@
 	"wx/mac/timer.h"
 	"wx/os2/timer.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\timer.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\timer.h
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\timer.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\timer.h
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\settings.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\settings.h
 	"wx/colour.h"
 	"wx/font.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msgdlg.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msgdlg.h
 	"wx/defs.h"
 	"wx/generic/msgdlgg.h"
 	"wx/generic/msgdlgg.h"
@@ -3100,15 +3100,15 @@
 	"wx/cocoa/msgdlg.h"
 	"wx/os2/msgdlg.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\msgdlgg.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\msgdlgg.h
 	"wx/defs.h"
 	"wx/dialog.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\msgdlg.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\msgdlg.h
 	"wx/defs.h"
 	"wx/dialog.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dataobj.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dataobj.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/bitmap.h"
@@ -3139,17 +3139,17 @@
 	"wx/cocoa/dataobj2.h"
 	"wx/os2/dataobj2.h"
 
-1186411242 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\dataform.h
+1186407642 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\dataform.h
 
-1186411242 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\dataobj.h
+1186407642 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\dataobj.h
 
-1186411242 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\dataobj2.h
+1186407642 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\ole\dataobj2.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\ctrlsub.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\ctrlsub.h
 	"wx/defs.h"
 	"wx/control.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\bmpbuttn.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\bmpbuttn.h
 	"wx/defs.h"
 	"wx/bitmap.h"
 	"wx/button.h"
@@ -3162,14 +3162,14 @@
 	"wx/cocoa/bmpbuttn.h"
 	"wx/os2/bmpbuttn.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\bmpbuttn.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\bmpbuttn.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\bmpbuttn.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\bmpbuttn.h
 	"wx/button.h"
 	"wx/bitmap.h"
 	"wx/brush.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\checklst.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\checklst.h
 	"wx/listbox.h"
 	"wx/univ/checklst.h"
 	"wx/msw/wince/checklst.h"
@@ -3181,7 +3181,7 @@
 	"wx/cocoa/checklst.h"
 	"wx/os2/checklst.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\listbox.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\listbox.h
 	"wx/defs.h"
 	"wx/ctrlsub.h"
 	"wx/univ/listbox.h"
@@ -3193,21 +3193,21 @@
 	"wx/os2/listbox.h"
 	"wx/cocoa/listbox.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\listbox.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\listbox.h
 	"wx/scrolwin.h"
 	"wx/dynarray.h"
 	"wx/arrstr.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\listbox.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\listbox.h
 	"wx/dynarray.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\checklst.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\checklst.h
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\checklst.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\checklst.h
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\checklst.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\checklst.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\choice.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\choice.h
 	"wx/defs.h"
 	"wx/ctrlsub.h"
 	"wx/univ/choice.h"
@@ -3220,10 +3220,10 @@
 	"wx/cocoa/choice.h"
 	"wx/os2/choice.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\choice.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\choice.h
 	"wx/combobox.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\combobox.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\combobox.h
 	"wx/defs.h"
 	"wx/textctrl.h"
 	"wx/ctrlsub.h"
@@ -3236,10 +3236,10 @@
 	"wx/cocoa/combobox.h"
 	"wx/os2/combobox.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\combobox.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\combobox.h
 	"wx/combo.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\combo.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\combo.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/renderer.h"
@@ -3247,28 +3247,28 @@
 	"wx/msw/combo.h"
 	"wx/generic/combo.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\renderer.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\renderer.h
 	"wx/gdicmn.h"
 	"wx/colour.h"
 	"wx/font.h"
 	"wx/bitmap.h"
 	"wx/string.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\combo.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\combo.h
 	"wx/timer.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\combo.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\combo.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\combobox.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\combobox.h
 	"wx/choice.h"
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\choicece.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\choicece.h
 	"wx/defs.h"
 	"wx/dynarray.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\choice.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\choice.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\scrolbar.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\scrolbar.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/scrolbar.h"
@@ -3280,15 +3280,15 @@
 	"wx/cocoa/scrolbar.h"
 	"wx/os2/scrolbar.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\scrolbar.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\scrolbar.h
 	"wx/univ/scrarrow.h"
 	"wx/renderer.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\scrarrow.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\scrarrow.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\scrolbar.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\scrolbar.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\statbmp.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\statbmp.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/bitmap.h"
@@ -3302,15 +3302,15 @@
 	"wx/cocoa/statbmp.h"
 	"wx/os2/statbmp.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\statbmp.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\statbmp.h
 	"wx/bitmap.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\statbmp.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\statbmp.h
 	"wx/control.h"
 	"wx/icon.h"
 	"wx/bitmap.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\statbox.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\statbox.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/statbox.h"
@@ -3322,11 +3322,11 @@
 	"wx/cocoa/statbox.h"
 	"wx/os2/statbox.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\statbox.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\statbox.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\statbox.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\statbox.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\radiobox.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\radiobox.h
 	"wx/ctrlsub.h"
 	"wx/dynarray.h"
 	"wx/univ/radiobox.h"
@@ -3339,14 +3339,14 @@
 	"wx/os2/radiobox.h"
 	"wx/palmos/radiobox.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\radiobox.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\radiobox.h
 	"wx/statbox.h"
 	"wx/dynarray.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\radiobox.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\radiobox.h
 	"wx/statbox.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\radiobut.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\radiobut.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/radiobut.h"
@@ -3359,12 +3359,12 @@
 	"wx/os2/radiobut.h"
 	"wx/palmos/radiobut.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\radiobut.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\radiobut.h
 	"wx/checkbox.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\radiobut.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\radiobut.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\slider.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\slider.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/slider.h"
@@ -3377,15 +3377,15 @@
 	"wx/os2/slider.h"
 	"wx/palmos/slider.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\slider.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\slider.h
 	"wx/univ/scrthumb.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\scrthumb.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\scrthumb.h
 	"wx/timer.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\slider95.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\slider95.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\gauge.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\gauge.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/univ/gauge.h"
@@ -3397,11 +3397,11 @@
 	"wx/cocoa/gauge.h"
 	"wx/os2/gauge.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\gauge.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\gauge.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\gauge95.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\gauge95.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dirdlg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dirdlg.h
 	"wx/dialog.h"
 	"wx/generic/dirdlgg.h"
 	"wx/generic/dirdlgg.h"
@@ -3413,12 +3413,12 @@
 	"wx/cocoa/dirdlg.h"
 	"wx/generic/dirdlgg.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\dirdlgg.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\dirdlgg.h
 	"wx/dialog.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dirdlg.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\dirdlg.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\toolbar.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\toolbar.h
 	"wx/defs.h"
 	"wx/tbarbase.h"
 	"wx/univ/toolbar.h"
@@ -3432,44 +3432,44 @@
 	"wx/cocoa/toolbar.h"
 	"wx/os2/toolbar.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\tbarbase.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\tbarbase.h
 	"wx/defs.h"
 	"wx/bitmap.h"
 	"wx/list.h"
 	"wx/control.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\toolbar.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\toolbar.h
 	"wx/button.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\tbar95.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\tbar95.h
 	"wx/dynarray.h"
 	"wx/imaglist.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imaglist.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\imaglist.h
 	"wx/generic/imaglist.h"
 	"wx/msw/imaglist.h"
 	"wx/mac/imaglist.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\imaglist.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\imaglist.h
 	"wx/defs.h"
 	"wx/list.h"
 	"wx/icon.h"
 
-1186411250 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\imaglist.h
+1186407650 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\imaglist.h
 	"wx/bitmap.h"
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\tbarwce.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\tbarwce.h
 	"wx/dynarray.h"
 	"wx/msw/tbar95.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\layout.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\layout.h
 	"wx/object.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\sizer.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\sizer.h
 	"wx/defs.h"
 	"wx/window.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\mdi.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\mdi.h
 	"wx/defs.h"
 	"wx/generic/mdig.h"
 	"wx/msw/mdi.h"
@@ -3480,12 +3480,12 @@
 	"wx/cocoa/mdi.h"
 	"wx/generic/mdig.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\mdig.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\mdig.h
 	"wx/frame.h"
 	"wx/panel.h"
 	"wx/notebook.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\notebook.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\notebook.h
 	"wx/defs.h"
 	"wx/bookctrl.h"
 	"wx/univ/notebook.h"
@@ -3497,32 +3497,32 @@
 	"wx/cocoa/notebook.h"
 	"wx/os2/notebook.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\bookctrl.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\bookctrl.h
 	"wx/defs.h"
 	"wx/control.h"
 	"wx/dynarray.h"
 	"wx/notebook.h"
 	"wx/choicebk.h"
 
-1195462532 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\choicebk.h
+1195458932 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\choicebk.h
 	"wx/defs.h"
 	"wx/bookctrl.h"
 	"wx/choice.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\notebook.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\notebook.h
 	"wx/arrstr.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\notebook.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\notebook.h
 	"wx/control.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\notebook.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\notebook.h
 	"wx/event.h"
 	"wx/control.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\mdi.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\mdi.h
 	"wx/frame.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\statusbr.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\statusbr.h
 	"wx/defs.h"
 	"wx/window.h"
 	"wx/list.h"
@@ -3534,47 +3534,47 @@
 	"wx/mac/statusbr.h"
 	"wx/generic/statusbr.h"
 
-1186411194 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\statusbr.h
+1186407594 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\univ\statusbr.h
 	"wx/univ/inpcons.h"
 	"wx/arrstr.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\statbr95.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\statbr95.h
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\statusbr.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\statusbr.h
 	"wx/defs.h"
 	"wx/pen.h"
 	"wx/arrstr.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\choicdlg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\choicdlg.h
 	"wx/generic/choicdgg.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\choicdgg.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\choicdgg.h
 	"wx/dynarray.h"
 	"wx/dialog.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textdlg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textdlg.h
 	"wx/generic/textdlgg.h"
 	"wx/numdlg.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\textdlgg.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\textdlgg.h
 	"wx/defs.h"
 	"wx/dialog.h"
 	"wx/valtext.h"
 
-1186411290 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\valtext.h
+1186407690 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\valtext.h
 	"wx/defs.h"
 	"wx/textctrl.h"
 	"wx/validate.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\numdlg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\numdlg.h
 	"wx/defs.h"
 	"wx/generic/numdlgg.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\numdlgg.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\numdlgg.h
 	"wx/defs.h"
 	"wx/dialog.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filedlg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filedlg.h
 	"wx/defs.h"
 	"wx/dialog.h"
 	"wx/arrstr.h"
@@ -3588,39 +3588,39 @@
 	"wx/cocoa/filedlg.h"
 	"wx/os2/filedlg.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\filedlgg.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\filedlgg.h
 	"wx/listctrl.h"
 	"wx/datetime.h"
 	"wx/filefn.h"
 	"wx/filedlg.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\listctrl.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\listctrl.h
 	"wx/defs.h"
 	"wx/listbase.h"
 	"wx/msw/listctrl.h"
 	"wx/mac/carbon/listctrl.h"
 	"wx/generic/listctrl.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\listbase.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\listbase.h
 	"wx/colour.h"
 	"wx/font.h"
 	"wx/gdicmn.h"
 	"wx/event.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\listctrl.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\listctrl.h
 	"wx/textctrl.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\listctrl.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\listctrl.h
 	"wx/textctrl.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\filedlg.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\filedlg.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcbuffer.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\dcbuffer.h
 	"wx/dcmemory.h"
 	"wx/dcclient.h"
 	"wx/window.h"
 
-1194617776 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\xrc\xmlres.h
+1194614176 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\xrc\xmlres.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/dynarray.h"
@@ -3635,25 +3635,25 @@
 	"wx/animate.h"
 	"wx/xml/xml.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filesys.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filesys.h
 	"wx/defs.h"
 	"wx/stream.h"
 	"wx/datetime.h"
 	"wx/filename.h"
 	"wx/hashmap.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filename.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\filename.h
 	"wx/arrstr.h"
 	"wx/filefn.h"
 	"wx/datetime.h"
 	"wx/intl.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\artprov.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\artprov.h
 	"wx/string.h"
 	"wx/bitmap.h"
 	"wx/icon.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\animate.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\animate.h
 	"wx/defs.h"
 	"wx/animdecod.h"
 	"wx/control.h"
@@ -3662,15 +3662,15 @@
 	"wx/gtk/animate.h"
 	"wx/generic/animate.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\animdecod.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\animdecod.h
 	"wx/defs.h"
 	"wx/colour.h"
 	"wx/gdicmn.h"
 
-1186411286 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\animate.h
+1186407686 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\animate.h
 	"wx/bitmap.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\xml\xml.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\xml\xml.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/object.h"
@@ -3744,15 +3744,15 @@
 	<wx/statusbr.h>
 	"PMFPanel.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\splitter.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\splitter.h
 	"wx/event.h"
 	"wx/generic/splitter.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\splitter.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\splitter.h
 	"wx/window.h"
 	"wx/containr.h"
 
-1186411268 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlwin.h
+1186407668 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlwin.h
 	"wx/defs.h"
 	"wx/window.h"
 	"wx/scrolwin.h"
@@ -3765,7 +3765,7 @@
 	"wx/filename.h"
 	"wx/bitmap.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\config.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\config.h
 	"wx/defs.h"
 	"wx/confbase.h"
 	"wx/msw/regconf.h"
@@ -3773,48 +3773,48 @@
 	"wx/palmos/prefconf.h"
 	"wx/fileconf.h"
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\confbase.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\confbase.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/string.h"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\regconf.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\regconf.h
 	"wx/msw/registry.h"
 	"wx/object.h"
 	"wx/confbase.h"
 
-1194617774 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\registry.h
+1194614174 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\registry.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\iniconf.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\iniconf.h
 
-1194617780 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\fileconf.h
+1194614180 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\fileconf.h
 	"wx/defs.h"
 	"wx/textfile.h"
 	"wx/string.h"
 	"wx/confbase.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textfile.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textfile.h
 	"wx/defs.h"
 	"wx/textbuf.h"
 	"wx/file.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textbuf.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\textbuf.h
 	"wx/defs.h"
 	"wx/arrstr.h"
 	"wx/convauto.h"
 	"wx/string.h"
 	"wx/dynarray.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\convauto.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\convauto.h
 	"wx/strconv.h"
 
-1186411294 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\file.h
+1186407694 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\file.h
 	"wx/defs.h"
 	"wx/string.h"
 	"wx/filefn.h"
 	"wx/strconv.h"
 
-1186411268 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\winpars.h
+1186407668 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\winpars.h
 	"wx/defs.h"
 	"wx/module.h"
 	"wx/font.h"
@@ -3822,34 +3822,34 @@
 	"wx/html/htmlcell.h"
 	"wx/encconv.h"
 
-1194617776 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlpars.h
+1194614176 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlpars.h
 	"wx/defs.h"
 	"wx/html/htmltag.h"
 	"wx/filesys.h"
 	"wx/hash.h"
 	"wx/fontenc.h"
 
-1194617776 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmltag.h
+1194614176 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmltag.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/arrstr.h"
 
-1186411268 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlcell.h
+1186407668 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlcell.h
 	"wx/defs.h"
 	"wx/html/htmltag.h"
 	"wx/html/htmldefs.h"
 	"wx/window.h"
 
-1186411268 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmldefs.h
+1186407668 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmldefs.h
 	"wx/defs.h"
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\encconv.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\encconv.h
 	"wx/defs.h"
 	"wx/object.h"
 	"wx/fontenc.h"
 	"wx/dynarray.h"
 
-1186411268 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlfilt.h
+1186407668 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\html\htmlfilt.h
 	"wx/defs.h"
 	"wx/filesys.h"
 
@@ -3863,7 +3863,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1224111882 h:\projects\pmf-codeblocks\src\pmf.hpp
+1225543848 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -3874,7 +3874,7 @@
 	"blockslists.hpp"
 	"PMF.cpp"
 
-1224112778 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1225540138 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
@@ -3918,7 +3918,7 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
-1224233186 h:\projects\pmf-codeblocks\src\pmf.cpp
+1225556046 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -3948,7 +3948,7 @@
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1223887096 h:\projects\pmf-codeblocks\headers\blockslists.hpp
+1225552892 h:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
@@ -3978,9 +3978,9 @@
 1223887096 h:\projects\pmf-codeblocks\src\rotate.hpp
 	"point.hpp"
 
-1223887096 h:\projects\pmf-codeblocks\src\prepare.hpp
+1225553002 h:\projects\pmf-codeblocks\src\prepare.hpp
 
-1223887096 h:\projects\pmf-codeblocks\src\evolve.hpp
+1225551840 h:\projects\pmf-codeblocks\src\evolve.hpp
 
 1223887096 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
@@ -4038,30 +4038,30 @@
 1223887094 source:h:\projects\pmf-codeblocks\gui\resource.rc
 	"wx/msw/wx.rc"
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wx.rc
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wx.rc
 	<winresrc.h>
 	<windows.h>
 	"wx/msw/wince/wince.rc"
 	"wx/msw/rcdefs.h"
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\wince.rc
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\wince.rc
 	<commctrl.h>
 	"wx/msw/wince/smartphone.rc"
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\smartphone.rc
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\smartphone.rc
 	<aygshell.h>
 	"wx/msw/wince/resources.h"
 
-1186411248 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\resources.h
+1186407648 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\wince\resources.h
 
-1186411252 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
+1186407652 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\msw\rcdefs.h
 
-1186411292 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\progdlg.h
+1186407692 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\progdlg.h
 	"wx/defs.h"
 	"wx/palmos/progdlg.h"
 	"wx/generic/progdlgg.h"
 
-1194617778 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\progdlgg.h
+1194614178 c:\uzytki\codeblocks\wxwidgets-2.8.7\include\wx\generic\progdlgg.h
 	"wx/defs.h"
 	"wx/progdlg.h"
 	"wx/dialog.h"

@@ -5,7 +5,7 @@
 		<Option title="PMF Tests" />
 		<Option pch_mode="0" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="mains/;" />
+		<Option virtualFolders="mains\;" />
 		<Build>
 			<Target title="test-Point">
 				<Option output="Tests.exe" prefix_auto="0" extension_auto="0" />
@@ -168,70 +168,82 @@
 					<Add option="-lpthread -lX11" />
 				</Linker>
 			</Target>
+			<Target title="test-artefactsRemover">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
 			<Add option="-I headers -I src" />
 		</Compiler>
-		<Unit filename="tests/heap.hpp">
+		<Unit filename="tests\heap.hpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="tests/test-BlocksLists.cpp">
+		<Unit filename="tests\test-BlocksLists.cpp">
 			<Option target="test-BlocksLists" />
 		</Unit>
-		<Unit filename="tests/test-BothLists.cpp">
+		<Unit filename="tests\test-BothLists.cpp">
 			<Option target="test-BothLists" />
 		</Unit>
-		<Unit filename="tests/test-CImg.cpp">
+		<Unit filename="tests\test-CImg.cpp">
 			<Option target="test-CImg" />
 		</Unit>
-		<Unit filename="tests/test-PMFHeap.cpp">
+		<Unit filename="tests\test-PMFHeap.cpp">
 			<Option target="test-templateHeap" />
 		</Unit>
-		<Unit filename="tests/test-Point.cpp">
+		<Unit filename="tests\test-Point.cpp">
 			<Option target="test-Point" />
 		</Unit>
-		<Unit filename="tests/test-TemplateList.cpp">
+		<Unit filename="tests\test-TemplateList.cpp">
 			<Option target="test-TemplateList" />
 		</Unit>
-		<Unit filename="tests/test-addPoint.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="tests\test-addPoint.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="test-addPointToPMF" />
 		</Unit>
-		<Unit filename="tests/test-addRotPt.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="tests\test-addRotPt.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="test-addRotatedPoint" />
 		</Unit>
-		<Unit filename="tests/test-addRotSeg.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="tests\test-addRotSeg.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="test-addRotatedSegment" />
 		</Unit>
-		<Unit filename="tests/test-edgepoints.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="tests\test-artefactsRemover.cpp">
+			<Option target="test-artefactsRemover" />
+		</Unit>
+		<Unit filename="tests\test-edgepoints.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="test-EdgePoints" />
 		</Unit>
-		<Unit filename="tests/test-heap.cpp">
+		<Unit filename="tests\test-heap.cpp">
 			<Option target="test-heap" />
 		</Unit>
-		<Unit filename="tests/test-imageobjects.cpp">
+		<Unit filename="tests\test-imageobjects.cpp">
 			<Option target="test-ImageObjects-win" />
 			<Option target="test-ImageObjects-lin" />
 		</Unit>
-		<Unit filename="tests/test-loadingPMF.cpp">
+		<Unit filename="tests\test-loadingPMF.cpp">
 			<Option target="test-storeAndLoadPMF" />
 		</Unit>
-		<Unit filename="tests/test-polimorfizm.cpp">
+		<Unit filename="tests\test-polimorfizm.cpp">
 			<Option target="test-polimorfizm" />
 		</Unit>
-		<Unit filename="tests/test-rotateTypes.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="tests\test-rotateTypes.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="test-rotatePointTypes" />
 		</Unit>
-		<Unit filename="tests/test-updRotPt.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="tests\test-updRotPt.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="test-updRotatedPoint" />
 		</Unit>
-		<Unit filename="tests/test.cpp">
+		<Unit filename="tests\test.cpp">
 			<Option target="test" />
 		</Unit>
 		<Extensions>

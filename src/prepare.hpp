@@ -23,8 +23,8 @@ PMF<T_REAL> :: PrepareEvolution (
 
     RotatePointTypes(sinL, cosL);
 #if pmf_LOG_ADD
-    out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
-    SaveConfiguration("output/PMF-R.txt");
+    //out << "[ SAVE ] : saving rotated configuration to a file" << std::endl;
+    //SaveConfiguration("output/PMF-R.txt");
 #endif
 
 #if CHECK_ASSERTIONS

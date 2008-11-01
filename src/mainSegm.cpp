@@ -7,7 +7,7 @@
 #include <sys/timeb.h>
 
 #define CHECK_ASSERTIONS 1
-#define pmf_LOG_ADD 0
+#define pmf_LOG_ADD 1
 #define DEL_PATH_LOG 0
 
 #include "sim-segm.cpp"
@@ -180,8 +180,8 @@ int main (int argc, char *argv[])
             pmf->LoadConfiguration(initialFile);
 		else
             pmf->Generate(blockSize);
-        /*
-        ofstream fout("output/log-upd-rot.txt");
+        //*
+        ofstream fout("output/tmp.txt");
         out.rdbuf(fout.rdbuf());
         //*/
         // * Do the fun staff (simulation). *
@@ -189,7 +189,7 @@ int main (int argc, char *argv[])
         SimulateBinarySegmentation(pictureFile, pmf, iterations, pmrStop, blockSize);
 	    ftime(&tend);
 
-	    //fout.close();
+	    fout.close();
         // * Saving or not the results. *
 		if (outputFile) pmf->SaveConfiguration(outputFile);
 		delete pmf;

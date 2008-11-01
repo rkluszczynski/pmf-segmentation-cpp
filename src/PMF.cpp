@@ -73,22 +73,54 @@ PMF<T_REAL> :: IsThereIntersection()
                     pmf_point<T_REAL> * pt2 = iter2->data;
                     if (search1) {
                         if (pt2->n1  &&  pt2->n1->x <= pt2->x) {
-                            if (cross3(pt1->x, pt1->y, pt1->n1->x, pt1->n1->y, pt2->x, pt2->y, pt2->n1->x, pt2->n1->y) == 1)
+                            if (cross3(pt1->x, pt1->y, pt1->n1->x, pt1->n1->y, pt2->x, pt2->y, pt2->n1->x, pt2->n1->y) == 1) {
+                                #if pmf_LOG_ADD
+                                out << std::endl << "[ CROSS 11 ] : " << pt1->id << "-" << pt1->n1->id << "  with  " << pt2->id << "-" << pt2->n1->id << std::endl;
+                                out << *pt1 << std::endl;
+                                out << *(pt1->n1) << std::endl;
+                                out << *pt2 << std::endl;
+                                out << *(pt2->n1) << std::endl;
+                                #endif
                                 return true;
+                            }
                         }
                         if (pt2->n2  &&  pt2->n2->x <= pt2->x) {
-                            if (cross3(pt1->x, pt1->y, pt1->n1->x, pt1->n1->y, pt2->x, pt2->y, pt2->n2->x, pt2->n2->y) == 1)
+                            if (cross3(pt1->x, pt1->y, pt1->n1->x, pt1->n1->y, pt2->x, pt2->y, pt2->n2->x, pt2->n2->y) == 1) {
+                                #if pmf_LOG_ADD
+                                out << std::endl << "[ CROSS 12 ] : " << pt1->id << "-" << pt1->n1->id << "  with  " << pt2->id << "-" << pt2->n2->id << std::endl;
+                                out << *pt1 << std::endl;
+                                out << *(pt1->n1) << std::endl;
+                                out << *pt2 << std::endl;
+                                out << *(pt2->n2) << std::endl;
+                                #endif
                                 return true;
+                            }
                         }
                     }
                     if (search2) {
                         if (pt2->n1  &&  pt2->n1->x <= pt2->x) {
-                            if (cross3(pt1->x, pt1->y, pt1->n2->x, pt1->n2->y, pt2->x, pt2->y, pt2->n1->x, pt2->n1->y) == 1)
+                            if (cross3(pt1->x, pt1->y, pt1->n2->x, pt1->n2->y, pt2->x, pt2->y, pt2->n1->x, pt2->n1->y) == 1) {
+                                #if pmf_LOG_ADD
+                                out << std::endl << "[ CROSS 21 ] : " << pt1->id << "-" << pt1->n2->id << "  with  " << pt2->id << "-" << pt2->n1->id << std::endl;
+                                out << *pt1 << std::endl;
+                                out << *(pt1->n2) << std::endl;
+                                out << *pt2 << std::endl;
+                                out << *(pt2->n1) << std::endl;
+                                #endif
                                 return true;
+                            }
                         }
                         if (pt2->n2  &&  pt2->n2->x <= pt2->x) {
-                            if (cross3(pt1->x, pt1->y, pt1->n2->x, pt1->n2->y, pt2->x, pt2->y, pt2->n2->x, pt2->n2->y) == 1)
+                            if (cross3(pt1->x, pt1->y, pt1->n2->x, pt1->n2->y, pt2->x, pt2->y, pt2->n2->x, pt2->n2->y) == 1) {
+                                #if pmf_LOG_ADD
+                                out << std::endl << "[ CROSS 22 ] : " << pt1->id << "-" << pt1->n2->id << "  with  " << pt2->id << "-" << pt2->n2->id << std::endl;
+                                out << *pt1 << std::endl;
+                                out << *(pt1->n2) << std::endl;
+                                out << *pt2 << std::endl;
+                                out << *(pt2->n2) << std::endl;
+                                #endif
                                 return true;
+                            }
                         }
                     }
                 }
@@ -126,7 +158,7 @@ PMF<T_REAL> :: BorderArtefactsRemover()
         pmfConf->remove_point_with_id(st.top());
         st.pop();
     }
-    pmfConf->set_points_ids();
+    //pmfConf->set_points_ids();
 }
 
 
@@ -195,7 +227,7 @@ PMF<T_REAL> :: SaveConfiguration (const char * filename)
 {
     std::cerr << std::endl <<"[ SAVE ] : saving configuration to a file '" << filename << "'" << std::endl;
     ofstream fout(filename);
-    pmfConf->set_points_ids();
+    //pmfConf->set_points_ids();
     pmfConf->save_configuration(fout);
     fout.close();
     return true;

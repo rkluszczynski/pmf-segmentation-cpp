@@ -42,12 +42,12 @@ class BlocksLists
 			out << "  ( " << blists->blocks.size() << " )  ";
 			out << std::endl;
 			out << "      horizontal : ";
-			for (unsigned int i = 0; i < blists->hLimit.size(); i++)  std::cout << " " << blists->hLimit[i];
+			for (unsigned int i = 0; i < blists->hLimit.size(); i++)  out << " " << blists->hLimit[i];
 			out << std::endl;
 			out << "        vertical : ";
-			for (unsigned int i = 0; i < blists->vLimit.size(); i++)  std::cout << " " << blists->vLimit[i];
+			for (unsigned int i = 0; i < blists->vLimit.size(); i++)  out << " " << blists->vLimit[i];
 			out << std::endl;
-            for (int i = 0; i < blists->blocksCount; i++)  std::cout << "# " << i << " : " << &(blists->blocks[i]);
+            for (int i = 0; i < blists->blocksCount; i++)  out << "# " << i << " : " << &(blists->blocks[i]);
 			return out;
 		}
 };

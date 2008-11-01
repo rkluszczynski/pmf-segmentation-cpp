@@ -162,3 +162,17 @@
 	"grayscaleimage.hpp"
 	"CImg.h"
 
+1225547896 source:h:\projects\pmf-codeblocks\tests\test-artefactsremover.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<iostream>
+	<fstream>
+	<iostream>
+	<ostream>
+	<sstream>
+	"PMF.hpp"
+
