@@ -192,7 +192,7 @@ void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
 
     for (int i = 1; i <= ptNumber; i++)
     {
-        long id;
+        long id, tt, bb, oid;
         double x, y, l1, l2;
         char tmp[128];
 
@@ -208,6 +208,8 @@ void ConfigurationList<T_REAL>::load_configuration (std::istream & in)
         assert(i == id);
 #endif
         ptTab[i] = new pmf_point<T_REAL>(x, y, NULL, NULL, l1, l2, id, PT_UNKNOWN);
+        if (sscanf(tmp, "%li %li %li", &tt, &bb, &oid) > 0)
+            ptTab[i]->oid = oid;
     }
 
     for (int i = 1; i <= ptNumber; i++)

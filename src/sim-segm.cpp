@@ -74,7 +74,7 @@ inline bool MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double an
         pmf->UpdatePointVelocity(ID, angle, bSize);
     }
     //return false;
-    return pmf->IsThereIntersection();
+    return (bSize > 0.0) ? pmf->IsThereIntersection() : false;
 }
 
 #include <cstdio>
@@ -109,7 +109,7 @@ void SimulateBinarySegmentation (
                                           // *  Simulation loop  *
                                           // * ----------------- *
 #if pmf_LOG_ADD
-    ofstream fout1("output/log-segm-sim-iter10.txt");
+    ofstream fout1("output/log-segm-sim-iter54.txt");
 #endif
     while (runSimulation)
     {
@@ -118,7 +118,7 @@ void SimulateBinarySegmentation (
         out << std::endl << " ################################################################" << std::endl;
         out << " ############### SEGMENTATION STEP " << loopIteration << std::endl;
         out << std::endl << " ################################################################" << std::endl;
-        if (loopIteration == 10) {
+        if (loopIteration == 54) {
             out.rdbuf(fout1.rdbuf());
         }
 #endif
@@ -135,7 +135,7 @@ void SimulateBinarySegmentation (
 
         // * Random choice of the operation for PMF modification. *
         bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
-        fprintf(stderr, "Zostaw:%s ", restore ? "TAK" : "NIE");  fflush(stderr);
+        fprintf(stderr, "Przywroc:%s ", restore ? "TAK" : "NIE");  fflush(stderr);
 #if pmf_LOG_ADD
         pmf->SaveConfiguration("output/pmf-modified.txt");
 #endif

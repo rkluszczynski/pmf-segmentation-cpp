@@ -166,9 +166,16 @@ pmf_store_rotated_point_in_blocks (
         if (blocks)
         {
             newPt->block = blocks->determine_point_block(newPt);
-
+#ifdef DEBUG
+            out << std::endl << " New point block = " << newPt->block << std::endl;
+            out << blocks << std::endl;
+            out << " checking ... ";
+#endif
             // Calculate intersection points with other segments in neighbours' blocks
             int ll, rr, uu, dd;
+            vector<int> vec;
+            vec.push_back(-1);
+
             int block = parentPt->block;
             ll = blocks->left_from(block);
             rr = blocks->right_from(block);
@@ -179,28 +186,60 @@ pmf_store_rotated_point_in_blocks (
                 int lll = uu-1, rrr = uu+1;
                 if (ll == BLOCK_UNDEFINED) lll = uu;
                 if (rr == BLOCK_UNDEFINED) rrr = uu;
-
                 //  for i = lll .. rrr
-                for (int index = lll; index <= rrr; index++)
-                    pmf_check_crossings<REAL> (newPt, iHeap, id, parentPt, blocks, index);
+                for (int index = lll; index <= rrr; index++) vec.push_back(index);
             }
             if (dd != BLOCK_UNDEFINED) {
                 int lll = dd-1, rrr = dd+1;
                 if (ll == BLOCK_UNDEFINED) lll = dd;
                 if (rr == BLOCK_UNDEFINED) rrr = dd;
-
                 //  for i = lll .. rrr
-                for (int index = lll; index <= rrr; index++)
-                    pmf_check_crossings (newPt, iHeap, id, parentPt, blocks, index);
+                for (int index = lll; index <= rrr; index++) vec.push_back(index);
             }
             if (ll == BLOCK_UNDEFINED) ll = block;
             if (rr == BLOCK_UNDEFINED) rr = block;
-
             //  for i = ll .. rr
-            for (int index = ll; index <= rr; index++)
-                pmf_check_crossings (newPt, iHeap, id, parentPt, blocks, index);
+            for (int index = ll; index <= rr; index++) vec.push_back(index);
+#if 1
+            block = newPt->block;
+            ll = blocks->left_from(block);
+            rr = blocks->right_from(block);
+            uu = blocks->up_from(block);
+            dd = blocks->down_from(block);
 
+            if (uu != BLOCK_UNDEFINED) {
+                int lll = uu-1, rrr = uu+1;
+                if (ll == BLOCK_UNDEFINED) lll = uu;
+                if (rr == BLOCK_UNDEFINED) rrr = uu;
+                //  for i = lll .. rrr
+                for (int index = lll; index <= rrr; index++) vec.push_back(index);
+            }
+            if (dd != BLOCK_UNDEFINED) {
+                int lll = dd-1, rrr = dd+1;
+                if (ll == BLOCK_UNDEFINED) lll = dd;
+                if (rr == BLOCK_UNDEFINED) rrr = dd;
+                //  for i = lll .. rrr
+                for (int index = lll; index <= rrr; index++) vec.push_back(index);
+            }
+            if (ll == BLOCK_UNDEFINED) ll = block;
+            if (rr == BLOCK_UNDEFINED) rr = block;
+            //  for i = ll .. rr
+            for (int index = ll; index <= rr; index++) vec.push_back(index);
+#endif
+            // Checking the blocks
+            sort(vec.begin(), vec.end());
+            for (unsigned int i = 1; i < vec.size(); i++)
+            {
+                if (vec[i] != vec[i-1])
+                    pmf_check_crossings<REAL> (newPt, iHeap, id, parentPt, blocks, vec[i]);
+#ifdef DEBUG
+                out << vec[i] << " ";
+#endif
+            }
             blocks->push( newPt );
+#ifdef DEBUG
+            out << std::endl;
+#endif
         }
         else {
             for (int i = 0; i < bHeap->size(); i++)

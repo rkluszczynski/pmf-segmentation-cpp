@@ -27,7 +27,6 @@ void print_usage(char *prog_name, bool cond = false)
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
 	fprintf(stderr, "       \t\t  [ -p points for edges ]\n");
-	//fprintf(stderr, "       \t\t  [ -a direction of adding ]\n");
 	fprintf(stderr, "\n");
 
     system("pause");
@@ -157,29 +156,32 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] :  Points File (-p) = '%s'\n", pointsFile);
 		fprintf(stderr, "\n");
 
-		/* Generating Polygonal Markov Field. */
+        // * Determining starting configuration. *
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
 		if (opt & 0x100)
             pmf->LoadConfiguration(initialFile);
 		else
             pmf->Generate(blockSize);
-
-        ofstream fout("output/log-upd-rot.txt");
+#if pmf_LOG_ADD
+        ofstream fout("output/tmp.txt");
         out.rdbuf(fout.rdbuf());
-
+#endif
+        // * Do the fun staff (simulation). *
         ftime(&tbeg);
-        pmf->UpdatePointVelocity(pointId, angle);
+        SimulateAddingEdges ( (char *) pointsFile, pmf );
 	    ftime(&tend);
-
+#if pmf_LOG_ADD
 	    fout.close();
-
+#endif
+        // * Saving the results (or not). *
 		if (outputFile) pmf->SaveConfiguration(outputFile);
 		delete pmf;
 
-        double modTime = tend.time - tbeg.time;
-        modTime += ((tend.millitm - tbeg.millitm) * 0.001);
-		fprintf(stderr, "\n[ DONE ] : modification time = %.3lf sec.\n", modTime);
+        // * How long was I unconscious? *
+        double simTime = tend.time - tbeg.time;
+        simTime += ((tend.millitm - tbeg.millitm) * 0.001);
+		fprintf(stderr, "\n[ DONE ] : simulation time = %.3lf sec.\n", simTime);
 	}
 	else { print_usage(argv[0], true); }
 
