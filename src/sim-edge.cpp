@@ -62,9 +62,7 @@ void SimulateEdgesApplier (
             cerr << "[ EDGE ] : checking ... ";
             for (int k = 0; k < ep.getPointsNumber(); k++) {
                 cerr << k;
-                if (ep.get(k)->pt == NULL)  {
-                    cerr << "-ERR";
-                }
+                if (ep.get(k)->pt == NULL)  cerr << "-ERR";
                 cerr << " ... ";
             }
             cerr << " done" << endl;

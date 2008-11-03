@@ -352,7 +352,7 @@ void PMFPanel::ExecutePointBirthsDialog(double xx, double yy, long op, wxString 
                 switch (op)
                 {
                     case __OP_BIRTH_POINT :
-                                        pmf->AddBirthPoint(xx, yy, angle);
+                                        pmf->AddBirthPoint(xx, yy, angle, bsize);
                                         break;
                     case __OP_BIRTH_SEGMENT :
                                         pmf->AddBirthSegment(xx, yy, angle);
@@ -399,10 +399,10 @@ void PMFPanel::ExecutePointModificationDialog(long op, wxString & title)
                 switch (op)
                 {
                     case __OP_UPDATE_POINT :
-                                        pmf->UpdatePointVelocity(pointID, angle);
+                                        pmf->UpdatePointVelocity(pointID, angle, bsize);
                                         break;
                     case __OP_REMOVE_POINT :
-                                        pmf->RemoveBirthPoint(pointID, angle);
+                                        pmf->RemoveBirthPoint(pointID, angle, bsize);
                                         break;
                 }
 

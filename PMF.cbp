@@ -103,7 +103,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -e 0 -o output/pmf.cf -f -u 34" />
+				<Option parameters="-s 7 -e 0 -o output/result-edge.cf -f -i input/test.cf -p input/edges.txt" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-Wall" />
