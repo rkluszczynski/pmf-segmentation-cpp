@@ -458,7 +458,7 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1223887096 h:\projects\pmf-codeblocks\src\edgepoints.cpp
+1225712856 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
 1223887096 h:\projects\pmf-codeblocks\src\segment.hpp
 
@@ -519,4 +519,18 @@
 	"CImg.h"
 	"CImg.h"
 	"CImg.h"
+
+1225717534 source:h:\projects\pmf-codeblocks\src\mainedge.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"sim-edge.cpp"
+
+1225718090 h:\projects\pmf-codeblocks\src\sim-edge.cpp
+	"PMF.hpp"
+	"edgepoints.hpp"
 

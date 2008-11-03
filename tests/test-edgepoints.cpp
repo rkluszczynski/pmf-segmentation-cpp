@@ -68,8 +68,7 @@ int main ()
         pmf->Generate(blockSize);
 
     ftime(&tbeg);
-    //SimulateAddingEdges ( pointsFile, initialFile, sizeArak, sizeArak, seed, blockSize, outputFile );
-    SimulateAddingEdges ( (char *) pointsFile, pmf );
+    SimulateEdgesApplier ( (char *) pointsFile, pmf, blockSize );
     ftime(&tend);
 
 	pmf->SaveConfiguration(outputFile);

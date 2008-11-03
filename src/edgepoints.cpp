@@ -23,7 +23,7 @@ EdgePoints<T_REAL> :: LoadData (const char * filename)
     long amount = 0;
 
     fin >> size_x >> size_y >> amount;
-    long angleType;
+    //long angleType;
     //fin >> angleType;
 
     for (int i = 0; i < amount; i++) {

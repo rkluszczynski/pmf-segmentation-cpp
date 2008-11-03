@@ -1,41 +1,78 @@
-
 #include "PMF.hpp"
 #include "edgepoints.hpp"
 
-void SimulateAddingEdges (
+#define EDGE_STRATEGY_ONE_SHOT                1
+#define EDGE_STRATEGY_TRY_FIRST_WRONG_FOREVER 2
+
+void SimulateEdgesApplier (
                             char * edgesFile,
-                            PMF<double> * pmf
+                            PMF<double> * pmf,
+                            double bSize = 0.0,
+                            int strategy = EDGE_STRATEGY_ONE_SHOT
                         )
 {
     EdgePoints<double> ep;
     ep.LoadData(edgesFile);
     ep.PrintData();
 
-    PMF<double> * pmf2 = pmf->Clone();
-    pmf2->SaveConfiguration("output/pmf2.txt");
-    delete pmf2;
-
-    char plik[256];
-    for (int i = 0; i < ep.getPointsNumber(); i++)
+    if (strategy == EDGE_STRATEGY_ONE_SHOT)
     {
-        cerr << "[ EDGE ] : point " << i << "   ";
-        cerr << "( " << ep.get(i)->x << " ; " << ep.get(i)->y << " )   ";
-        cerr << ep.get(i)->angle << " ~ " << degree2radians(ep.get(i)->angle) << endl;
+        pmf->SaveConfiguration("output/before-edges.txt");
 
-        pmf->AddBirthSegment( ep.get(i)->x, ep.get(i)->y, degree2radians(ep.get(i)->angle), &ep );
+        char plik[256];
+        for (int i = 0; i < ep.getPointsNumber(); i++)
+        {
+            cerr << "[ EDGE ] : point " << i << "   ";
+            cerr << "( " << ep.get(i)->x << " ; " << ep.get(i)->y << " )   ";
+            cerr << ep.get(i)->angle << " ~ " << degree2radians(ep.get(i)->angle) << endl;
 
-        cerr << "[ EDGE ] : checking ... ";
-        for (int k = 0; k < i; k++) {
-            cerr << k;
-            if (ep.get(k)->pt == NULL)  cerr << "-ERR";
-            cerr << " ... ";
+            pmf->AddBirthSegment( ep.get(i)->x, ep.get(i)->y, degree2radians(ep.get(i)->angle), &ep );
+
+            cerr << "[ EDGE ] : checking ... ";
+            for (int k = 0; k < i; k++) {
+                cerr << k;
+                if (ep.get(k)->pt == NULL)  cerr << "-ERR";
+                cerr << " ... ";
+            }
+            cerr << " done" << endl;
+
+            sprintf(plik, "output/edge-iter-%d.txt", i);
+            cerr << plik << endl;
+            pmf->SaveConfiguration(plik);
         }
-        cerr << " done" << endl;
-
-        sprintf(plik, "output/edge-iter-%d.txt", i);
-        cerr << plik << endl;
-        pmf->SaveConfiguration(plik);
     }
+    else if (strategy == EDGE_STRATEGY_TRY_FIRST_WRONG_FOREVER)
+    {
+        pmf->SaveConfiguration("output/before-edges.txt");
+        char plik[256];
+        int fileCounter = 0;
+        while (true)
+        {
+            int i = -1;
+            for (int k = 0; k < ep.getPointsNumber(); k++)
+                if (ep.get(k)->pt == NULL)  { i = k; break; }
+            if (i < 0) break;
 
+            cerr << "[ EDGE ] : point " << i << "   ";
+            cerr << "( " << ep.get(i)->x << " ; " << ep.get(i)->y << " )   ";
+            cerr << ep.get(i)->angle << " ~ " << degree2radians(ep.get(i)->angle) << endl;
+
+            pmf->AddBirthSegment( ep.get(i)->x, ep.get(i)->y, degree2radians(ep.get(i)->angle), &ep );
+
+            cerr << "[ EDGE ] : checking ... ";
+            for (int k = 0; k < ep.getPointsNumber(); k++) {
+                cerr << k;
+                if (ep.get(k)->pt == NULL)  {
+                    cerr << "-ERR";
+                }
+                cerr << " ... ";
+            }
+            cerr << " done" << endl;
+
+            sprintf(plik, "output/edge-iter-%d.txt", ++fileCounter);
+            cerr << plik << endl;
+            pmf->SaveConfiguration(plik);
+        }
+    }
     return;
 }

@@ -10,14 +10,14 @@
 #define pmf_LOG_ADD 1
 #define DEL_PATH_LOG 1
 
-#include "PMF.hpp"
+#include "sim-edge.cpp"
 
 
 void print_usage(char *prog_name, bool cond = false)
 {
     if (cond) {
 		fprintf(stderr, "\n");
-        fprintf(stderr, "[ ERROR ] : Parameters: -s or -l, and -u are mandatory !\n");
+        fprintf(stderr, "[ ERROR ] : Parameters: -s or -l, and -p are mandatory !\n");
     }
 
 	fprintf(stderr, "\n[ USAGE ] :  %s  [-f]\n", prog_name);
@@ -43,8 +43,6 @@ int main (int argc, char *argv[])
 	char *  outputFile = NULL;
 	char *  pointsFile = NULL;
 	double   blockSize = 0.0;
-	double       angle = 0.0;
-    long       pointId = 0;
 	time_t        seed;
 	char    c, *endptr;
 
@@ -122,11 +120,6 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ ERROR ] : Size of blocks must be positive !\n");
 		print_usage(argv[0]);
 	}
-	if((opt & 0x020) && (pointId <= 0))
-	{
-		fprintf(stderr, "[ ERROR ] : Id of point to update must be positive !\n");
-		print_usage(argv[0]);
-	}
     if((opt & 0x020) && (access(pointsFile, R_OK) != 0))
     {
         fprintf(stderr, "[ ERROR ] : Can't read points for edges ('%s') !\n", pointsFile);
@@ -169,7 +162,7 @@ int main (int argc, char *argv[])
 #endif
         // * Do the fun staff (simulation). *
         ftime(&tbeg);
-        SimulateAddingEdges ( (char *) pointsFile, pmf );
+        SimulateEdgesApplier ( (char *) pointsFile, pmf, blockSize, EDGE_STRATEGY_TRY_FIRST_WRONG_FOREVER );
 	    ftime(&tend);
 #if pmf_LOG_ADD
 	    fout.close();
