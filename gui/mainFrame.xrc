@@ -105,6 +105,12 @@
 				</object>
 			</object>
 			<object class="wxMenu">
+				<label>Image</label>
+				<object class="wxMenuItem" name="ID_GRADIENT_MENUITEM">
+					<label>Gradient</label>
+				</object>
+			</object>
+			<object class="wxMenu">
 				<label>Window</label>
 				<object class="wxMenuItem" name="ID_LOG_MENUITEM">
 					<label>Toggle Logs</label>

@@ -29,10 +29,10 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
-	MenuItem1 = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
+	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
+	MenuItem1 = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
-	
+
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_LOADIMAGE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
@@ -46,6 +46,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_UPDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnUpdatePointMenuItemSelected);
 	Connect(XRCID("ID_REMPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRemovePointMenuItemSelected);
 	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
+	Connect(XRCID("ID_GRADIENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGradientMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnShowProgressMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
@@ -219,6 +220,7 @@ void mainFrame::OnLoadImageMenuItemSelected(wxCommandEvent& event)
         ImagePanel * ip = new ImagePanel(myNotebook, wxID_ANY);
         ip->LoadFile(path);
         myNotebook->AddPage(ip, wxT("[ IMAGE ] : ") + dialog.GetFilename(), false, -1);
+        myNotebook->SetSelection(myNotebook->GetPageCount() - 1);
     }
 }
 
@@ -477,4 +479,16 @@ void mainFrame::OnRemovePointMenuItemSelected(wxCommandEvent& event)
     }
     pp->RemovePointFromPMF();
     pp->ClearConfigurationSelection();
+}
+
+
+void mainFrame::OnGradientMenuItemSelected(wxCommandEvent& event)
+{
+    ImagePanel * ip = (ImagePanel *) myNotebook->GetCurrentPage();
+    ip->CalculateGradient();
+    /*
+        ImagePanel * ip = new ImagePanel(myNotebook, wxID_ANY);
+        ip->LoadFile(path);
+        myNotebook->AddPage(ip, wxT("[ IMAGE ] : ") + dialog.GetFilename(), false, -1);
+    //*/
 }

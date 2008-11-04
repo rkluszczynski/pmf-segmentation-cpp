@@ -27,7 +27,7 @@
 	"templatelist.hpp"
 	"blockslists.hpp"
 
-1201531284 d:\projects\pmf-codeblocks\headers\point.hpp
+1225724616 d:\projects\pmf-codeblocks\headers\point.hpp
 	<cstdio>
 	<iostream>
 	"listelement.hpp"
@@ -35,13 +35,13 @@
 1211027068 d:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
 
-1202706066 d:\projects\pmf-codeblocks\headers\templatelist.hpp
+1225724616 d:\projects\pmf-codeblocks\headers\templatelist.hpp
 	<cstdio>
 	<iostream>
 	<fstream>
 	"listelement.hpp"
 
-1211027068 d:\projects\pmf-codeblocks\headers\blockslists.hpp
+1225724616 d:\projects\pmf-codeblocks\headers\blockslists.hpp
 	<iostream>
 	<vector>
 	<assert.h>
@@ -62,9 +62,11 @@
 	<cstdio>
 	"point.hpp"
 
-1211874320 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1225724616 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
+	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
+	"blockslists.hpp"
 
 1197227676 d:\projects\pmf-codeblocks\headers\probability.hpp
 	<cstdlib>
@@ -327,32 +329,35 @@
 
 1211816392 h:\projects\pmf-codeblocks\src\delete.hpp
 
-1212960642 d:\projects\pmf-codeblocks\src\pmf.hpp
+1225724544 d:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
 	"configurationlist.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
+	"edgepoints.hpp"
+	"blockslists.hpp"
 	"PMF.cpp"
 
-1210170568 d:\projects\pmf-codeblocks\headers\birthsheap.hpp
+1222107108 d:\projects\pmf-codeblocks\headers\birthsheap.hpp
 	<cmath>
 	<algorithm>
 	"abstractheap.hpp"
+	"blockslists.hpp"
 
-1211212570 d:\projects\pmf-codeblocks\headers\abstractheap.hpp
+1225724616 d:\projects\pmf-codeblocks\headers\abstractheap.hpp
 	<iostream>
 	<algorithm>
 	<vector>
 	<assert.h>
 
-1211847362 d:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
+1222107108 d:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
 	<cmath>
 	"crosselement.hpp"
 	"abstractheap.hpp"
 
-1212960642 d:\projects\pmf-codeblocks\src\pmf.cpp
+1225724544 d:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
 	<fstream>
 	"generate.hpp"
@@ -364,7 +369,7 @@
 	"remove.hpp"
 	"segment.hpp"
 
-1212439326 d:\projects\pmf-codeblocks\src\generate.hpp
+1222296028 d:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
 	<cmath>
@@ -375,14 +380,15 @@
 	"probability.hpp"
 	"accesslists.hpp"
 
-1211761106 d:\projects\pmf-codeblocks\src\rotate.hpp
+1223029328 d:\projects\pmf-codeblocks\src\rotate.hpp
+	"point.hpp"
 
-1212439326 d:\projects\pmf-codeblocks\src\evolve.hpp
+1225724544 d:\projects\pmf-codeblocks\src\evolve.hpp
 
-1212439326 d:\projects\pmf-codeblocks\src\adding.hpp
+1222296028 d:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1212960642 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1225724616 d:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -397,7 +403,7 @@
 
 1211903578 d:\projects\pmf-codeblocks\src\change.hpp
 
-1212439326 d:\projects\pmf-codeblocks\src\remove.hpp
+1223029328 d:\projects\pmf-codeblocks\src\remove.hpp
 
 1211830148 source:d:\projects\pmf-codeblocks\src\main-add.cpp
 	<cstdio>
@@ -443,11 +449,11 @@
 	<sys/timeb.h>
 	"PMF.hpp"
 
-1212439326 d:\projects\pmf-codeblocks\src\prepare.hpp
+1225724544 d:\projects\pmf-codeblocks\src\prepare.hpp
 
-1212439326 d:\projects\pmf-codeblocks\src\update.hpp
+1223029328 d:\projects\pmf-codeblocks\src\update.hpp
 
-1212960642 d:\projects\pmf-codeblocks\src\segment.hpp
+1223029328 d:\projects\pmf-codeblocks\src\segment.hpp
 
 1223887096 h:\projects\pmf-codeblocks\src\edgepoints.hpp
 	<iostream>
@@ -533,4 +539,73 @@
 1225718090 h:\projects\pmf-codeblocks\src\sim-edge.cpp
 	"PMF.hpp"
 	"edgepoints.hpp"
+
+1225724544 source:d:\projects\pmf-codeblocks\src\mainsegm.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"sim-segm.cpp"
+
+1225724544 d:\projects\pmf-codeblocks\src\sim-segm.cpp
+	"grayscaleimage.hpp"
+	<cstdio>
+
+1225724616 d:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
+	<iostream>
+	<queue>
+	"CImg.h"
+	"PMF.hpp"
+
+1225724616 d:\projects\pmf-codeblocks\headers\cimg.h
+	<cstdio>
+	<cstdlib>
+	<cstdarg>
+	<cstring>
+	<cmath>
+	<ctime>
+	<sys/time.h>
+	<unistd.h>
+	<windows.h>
+	<shlobj.h>
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/keysym.h>
+	<pthread.h>
+	<sys/ipc.h>
+	<sys/shm.h>
+	<X11/extensions/XShm.h>
+	<X11/extensions/Xrandr.h>
+	<Carbon/Carbon.h>
+	<pthread.h>
+	"omp.h"
+	"png.h"
+	"jpeglib.h"
+	"tiffio.h"
+	"ffmpeg/avformat.h"
+	"ffmpeg/avcodec.h"
+	"ffmpeg/swscale.h"
+	"zlib.h"
+	"Magick++.h"
+	"fftw3.h"
+	"Board.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+
+1219154406 d:\projects\pmf-codeblocks\src\edgepoints.hpp
+	<iostream>
+	<vector>
+	"point.hpp"
+	"edgeelement.hpp"
+	"edgepoints.cpp"
+
+1219154406 d:\projects\pmf-codeblocks\src\edgeelement.hpp
+
+1225724544 d:\projects\pmf-codeblocks\src\edgepoints.cpp
 

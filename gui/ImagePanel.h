@@ -18,6 +18,7 @@ class ImagePanel : public wxPanel
 		virtual ~ImagePanel();
 
 		void LoadFile(wxString);
+		void CalculateGradient();
 
 		//(*Declarations(ImagePanel)
 		wxScrolledWindow* scrolledImageWindow;
@@ -33,10 +34,12 @@ class ImagePanel : public wxPanel
 
 	private:
 
+        void * mframe;
         wxImage image;
         wxBitmap * bmp;
 
 		//(*Handlers(ImagePanel)
+		void OnLeftUp(wxMouseEvent& event);
 		//*)
 
 	DECLARE_EVENT_TABLE()

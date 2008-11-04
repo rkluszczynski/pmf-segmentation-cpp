@@ -36,6 +36,7 @@ class mainFrame : public wxFrame
 		wxSplitterWindow* mySplitterWindow;
 		wxMenuBar* MenuBar1;
 		wxNotebook* myNotebook;
+		wxMenu* Menu6;
 		wxMenu* Menu2;
 		wxMenu* Menu5;
 		wxMenu* Menu4;
@@ -69,8 +70,8 @@ class mainFrame : public wxFrame
 		void OnAddSegmentMenuItemSelected(wxCommandEvent& event);
 		void OnUpdatePointMenuItemSelected(wxCommandEvent& event);
 		void OnRemovePointMenuItemSelected(wxCommandEvent& event);
-
 		void OnShowProgressMenuItemSelected(wxCommandEvent& event);
+		void OnGradientMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 
