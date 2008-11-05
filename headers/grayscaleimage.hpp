@@ -23,12 +23,65 @@ class GrayScaleImage
         inline int GetWidth()   { return x; }
         inline int GetHeight()  { return y; }
 
-        inline int GetPixel(int xx, int yy) { return data[xx][yy]; }
+        inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
+        double GetGradientValue(int xx, int yy, pair<double, double> * Gxy = NULL);
+
+        vector<pair<int, int> > GetRandomEdgePixels(int, int);
 
         void ScanVerticalLine(PMF<double> *, double, int *);
 
         double CalculateScanLinesEnergy(PMF<double> *);
 };
+
+
+vector<pair<int, int> > GrayScaleImage :: GetRandomEdgePixels(int amount, int min_dist = 1.0)
+{
+    vector<pair<int, int> > points;
+    vector<double> angles;
+    int min_dist2 = min_dist * min_dist;
+    int i = 0;
+
+    // Searching maximal gradient value
+    double maks = 0.0;
+    for (int ix = 1; ix < GetWidth()-1; ix++) {
+        for (int iy = 1; iy < GetHeight()-1; iy++) {
+            double grad = GetGradientValue(ix, iy);
+            if (grad > maks) maks = grad;
+        }
+    }
+
+    // Getting random points
+    while (i < amount)
+    {
+        bool nextone = true;
+        int xx = rand() % (GetWidth()-2) + 1;
+        int yy = rand() % (GetHeight()-2) + 1;
+
+        // Checking the distance with others
+        for (unsigned int k = 0; k < points.size(); k++) {
+            int dist2 = (points[k].first - xx)*(points[k].first - xx) +
+                (points[k].second - yy)*(points[k].second - yy);
+            if (dist2 < min_dist2) {
+                nextone = false;
+            }
+        }
+        if (nextone) {
+            pair<double, double> G;
+
+            double limit = GetGradientValue(xx, yy, &G) / maks;
+            double fate = Uniform(0.0, 1.0);
+            if (fate <= limit) {
+                pair<int, int> pt(xx, yy);
+                points[i] = pt;
+
+                double angle = atan(G.second / G.first);
+
+                i++;
+            }
+        }
+    }
+    return points;
+}
 
 
 GrayScaleImage :: GrayScaleImage (const char * filename)
@@ -60,6 +113,29 @@ GrayScaleImage :: ~GrayScaleImage ()
 {
     for (int i = 0; i < x; i++) free(data[i]);
     free(data);
+}
+
+
+double GrayScaleImage :: GetGradientValue (int xx, int yy, pair<double, double> * Gxy)
+{
+    double pix1 = GetPixelValue(xx-1, yy-1);
+    double pix2 = GetPixelValue(xx, yy-1);
+    double pix3 = GetPixelValue(xx+1, yy-1);
+    double pix4 = GetPixelValue(xx-1, yy);
+
+    double pix6 = GetPixelValue(xx+1, yy);
+    double pix7 = GetPixelValue(xx-1, yy+1);
+    double pix8 = GetPixelValue(xx, yy+1);
+    double pix9 = GetPixelValue(xx+1, yy+1);
+
+    double Gx = pix3 + 2.0 * pix6 + pix9 - pix1 - 2.0 * pix4 - pix7;
+    double Gy = pix1 + 2.0 * pix2 + pix3 - pix7 - 2.0 * pix8 - pix9;
+
+    if (Gxy) {
+        Gxy->first = Gx;
+        Gxy->second = Gy;
+    }
+    return sqrt(Gx*Gx+Gy*Gy);
 }
 
 
@@ -138,7 +214,7 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * orig
 
         while (yy < pt.second)
         {
-            int pixel = GetPixel(int(xx * scaleX), int(yy * scaleY));
+            int pixel = GetPixelValue(int(xx * scaleX), int(yy * scaleY));
             int  dist = ABS(pixel - startTopColor);
             //cout << "   PIXEL   : " << int(xx * scaleX) << "  x  " << int(yy * scaleY) << " = " << pixel << "  {" << dist << "}" << endl;
 

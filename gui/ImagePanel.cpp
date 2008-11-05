@@ -137,18 +137,27 @@ void ImagePanel::OnLeftUp(wxMouseEvent& event)
 {
     int x = event.GetX() + 1;
     int y = event.GetY() + 1;
-    wxString wstr = wxString::Format(wxT("click=(%li,%li)  ::  theta = "), x, y);
+    wxString wstr = wxString::Format(wxT("click=(%li,%li)  :: "), x, y);
 
     if (! (x == 0 || y == 0 || x == image.GetWidth()-1 || y == image.GetHeight()-1))
     {
-        double Gx = image.GetGreen(x+1,y-1) + 2.0 * image.GetGreen(x+1,y) + image.GetGreen(x+1,y+1)
-            - image.GetGreen(x-1,y-1) - 2.0 * image.GetGreen(x-1,y) - image.GetGreen(x-1,y+1);
-        double Gy = image.GetGreen(x-1,y-1) + 2.0 * image.GetGreen(x,y-1) + image.GetGreen(x+1,y-1)
-            - image.GetGreen(x-1,y+1) - 2.0 * image.GetGreen(x,y+1) - image.GetGreen(x+1,y+1);
+        //double Gx = image.GetGreen(x+1,y-1) + 2.0 * image.GetGreen(x+1,y) + image.GetGreen(x+1,y+1)
+        //    - image.GetGreen(x-1,y-1) - 2.0 * image.GetGreen(x-1,y) - image.GetGreen(x-1,y+1);
+        //double Gy = image.GetGreen(x-1,y-1) + 2.0 * image.GetGreen(x,y-1) + image.GetGreen(x+1,y-1)
+        //    - image.GetGreen(x-1,y+1) - 2.0 * image.GetGreen(x,y+1) - image.GetGreen(x+1,y+1);
 
-        double angle = atan(Gy / Gx);
-        #define radians2degree(X) (X * 180.0 / M_PI)
-        wstr += wxString::Format(wxT(" %.3lf, %.3lf"), angle, radians2degree(angle));
+        double Gx = image.GetGreen(x+1,y+1) + 2.0 * image.GetGreen(x+1,y) + image.GetGreen(x+1,y-1)
+            - image.GetGreen(x-1,y+1) - 2.0 * image.GetGreen(x-1,y) - image.GetGreen(x-1,y-1);
+        double Gy = image.GetGreen(x-1,y+1) + 2.0 * image.GetGreen(x,y+1) + image.GetGreen(x+1,y+1)
+            - image.GetGreen(x-1,y-1) - 2.0 * image.GetGreen(x,y-1) - image.GetGreen(x+1,y-1);
+
+        double G = Gy * Gy + Gx * Gx;
+        wstr += wxString::Format(wxT(" grad = %.3lf"), sqrt(G));
+        if (G > 0.0) {
+            double angle = atan(Gy / Gx);
+            #define radians2degree(X) (X * 180.0 / M_PI)
+            wstr += wxString::Format(wxT("  theta = %.3lf, %.3lf"), angle, radians2degree(angle));
+        }
     }
     else {
         wstr = _(" border pixel ");
