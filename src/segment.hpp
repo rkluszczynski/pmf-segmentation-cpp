@@ -89,7 +89,7 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
     IntersectionsHeap<T_REAL> * iHeap = new IntersectionsHeap<T_REAL> (sinL, cosL);
     /// TODO : BlocksLists<T_REAL> *      blocks = NULL;
 
-    PrepareEvolution(bHeap, alpha, sinL, cosL);
+    PrepareEvolution(bHeap, alpha, sinL, cosL, NULL);
 
 
     /* ************************************************************************************** */

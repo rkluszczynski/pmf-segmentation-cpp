@@ -129,7 +129,8 @@ void ConfigurationList<T_REAL>::clone_from ( ConfigurationList<T_REAL> * origina
         pmf_point<T_REAL> * opt = iter->data;
         firstIds[opt->id]  = ((opt->n1) ? opt->n1->id : 0);
         secondIds[opt->id] = ((opt->n2) ? opt->n2->id : 0);
-        ptTab[opt->id] = new pmf_point<T_REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, PT_UNKNOWN);
+        //ptTab[opt->id] = new pmf_point<T_REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, PT_UNKNOWN);
+        ptTab[opt->id] = new pmf_point<T_REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, opt->type);
         iter = iter->next;
     }
 

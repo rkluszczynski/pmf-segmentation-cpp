@@ -245,36 +245,47 @@ pmf_store_rotated_point_in_blocks (
             for (int i = 0; i < bHeap->size(); i++)
             {
                 pmf_point<REAL> * pEl = bHeap->get(i);
+                int c1 = -1;
+                int c2 = -1;
 
                 if (newPt != pEl->n1  &&  pEl->n1 != NULL  &&
                     //pEl->data->n1->x < pEl->data->x  &&
-                    PT_LT(pEl->n1, pEl, sinL, cosL)  &&
-                    cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y) == 1 )
+                    PT_LT(pEl->n1, pEl, sinL, cosL) )
                 {
-                    REAL xx, yy;
-                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
-                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    c1 = cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y);
+                    if (c1 == 1)
+                    {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
 
-                    iHeap->insert (newpt2, newPt->id, pEl->id);
+                        iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
-                    out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+                        out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
+                    }
                 }
 
                 if (newPt != pEl->n2  &&  pEl->n2 != NULL  &&
                     //pEl->data->n2->x < pEl->data->x  &&
-                    PT_LT(pEl->n2, pEl, sinL, cosL)  &&
-                    cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y) == 1 )
+                    PT_LT(pEl->n2, pEl, sinL, cosL) )
                 {
-                    REAL xx, yy;
-                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
-                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    c2 = cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y);
+                    if (c2 == 1) {
+                        REAL xx, yy;
+                        crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
 
-                    iHeap->insert (newpt2, newPt->id, pEl->id);
+                        iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
-                    out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+                        out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
+                    }
                 }
+#if pmf_LOG_ADD
+                if (c1 > 1)  out << " -- ----- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
+                if (c2 > 1)  out << " -- ----- -- :  c2=" << c2 << "  :: " << *pEl << " ~ " << *pEl->n2 << std::endl;
+#endif
             }
         }
     }
@@ -466,7 +477,16 @@ pmf_point<REAL> * pmf_do_heaps_get (
         pmf_point<REAL> * bpt = bHeap->top();
         pmf_point<REAL> * ipt = iHeap->top();
         //if (PT_LE(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
-        if (PT_LT(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
+        REAL xb = X_ROTATED(bpt->x, bpt->y, sinL, cosL);
+        REAL xi = X_ROTATED(ipt->x, ipt->y, sinL, cosL);
+#if pmf_LOG_ADD
+        out.precision(128);  out << " bpt = " << xb << "  :: " << *bpt << endl;
+        out.precision(128);  out << " ipt = " << xi << "  :: " << *ipt << endl;
+        out << "[    ]  " << ((xb < xi) ? " LT " : " ! LT ")  << endl;
+        //out << "[ PT ]  " << (PT_LT(bpt, ipt, sinL, cosL) ? " LT " : " ! LT ")  << endl;
+#endif
+        //if (PT_LT(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
+        if (xb < xi) { return bHeap->extract_min(); }
         else { return iHeap->extract_min(id1, id2); }
     }
 }

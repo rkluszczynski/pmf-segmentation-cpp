@@ -100,7 +100,7 @@
 
 1202056162 d:\projects\pmf-codeblocks\src\operations.hpp
 
-1211814142 source:h:\projects\pmf-codeblocks\main.cpp
+1225995936 source:h:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -108,7 +108,7 @@
 	<ctime>
 	<unistd.h>
 	<sys/timeb.h>
-	"PMF.hpp"
+	"sim-feps.cpp"
 
 1210922834 h:\projects\pmf-codeblocks\src\operations.hpp
 
@@ -127,7 +127,7 @@
 	"blockslists.hpp"
 	"PMF.cpp"
 
-1225606404 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1226001188 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
@@ -220,7 +220,7 @@
 	"crosselement.hpp"
 	"abstractheap.hpp"
 
-1225607962 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1226003324 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -455,7 +455,7 @@
 
 1223029328 d:\projects\pmf-codeblocks\src\segment.hpp
 
-1223887096 h:\projects\pmf-codeblocks\src\edgepoints.hpp
+1225993766 h:\projects\pmf-codeblocks\src\edgepoints.hpp
 	<iostream>
 	<vector>
 	"point.hpp"
@@ -464,9 +464,9 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1225712856 h:\projects\pmf-codeblocks\src\edgepoints.cpp
+1225993766 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
-1223887096 h:\projects\pmf-codeblocks\src\segment.hpp
+1225994950 h:\projects\pmf-codeblocks\src\segment.hpp
 
 1225607982 source:h:\projects\pmf-codeblocks\src\mainsegm.cpp
 	<cstdio>
@@ -482,9 +482,10 @@
 	"grayscaleimage.hpp"
 	<cstdio>
 
-1224235898 h:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
+1225993768 h:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
 	<iostream>
 	<queue>
+	<cmath>
 	"CImg.h"
 	"PMF.hpp"
 
@@ -611,6 +612,10 @@
 1225971186 d:\projects\pmf-codeblocks\src\edgepoints.cpp
 
 1225972270 d:\projects\pmf-codeblocks\src\sim-feps.cpp
+	"grayscaleimage.hpp"
+	<cstdio>
+
+1226001802 h:\projects\pmf-codeblocks\src\sim-feps.cpp
 	"grayscaleimage.hpp"
 	<cstdio>
 
