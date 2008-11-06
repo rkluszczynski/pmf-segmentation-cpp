@@ -12,7 +12,7 @@
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 7 -e 0 -o output/pmf.cf -f -u 34" />
+				<Option parameters="-i input/test.cf -p input/cln1.bmp -o output/sim-out.cf -f -s 5 -e 0 -n 10 " />
 				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
@@ -21,6 +21,7 @@
 					<Add directory="src" />
 				</Compiler>
 				<Linker>
+					<Add option="-lgdi32" />
 					<Add directory="objs\src" />
 					<Add directory="objs" />
 				</Linker>
@@ -175,7 +176,7 @@
 		</Unit>
 		<Unit filename="headers\grayscaleimage.hpp">
 			<Option virtualFolder="image\" />
-			<Option target="default" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="headers\intersectionsheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
@@ -274,7 +275,6 @@
 		</Unit>
 		<Unit filename="src\mainEdge.cpp">
 			<Option virtualFolder="mains\" />
-			<Option target="default" />
 			<Option target="edgeapplier-debug" />
 		</Unit>
 		<Unit filename="src\mainSegm.cpp">
@@ -306,9 +306,13 @@
 			<Option virtualFolder="simulations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="src\sim-feps.cpp">
+			<Option virtualFolder="simulations\" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src\sim-segm.cpp">
 			<Option virtualFolder="simulations\" />
-			<Option target="default" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src\update.hpp">
 			<Option virtualFolder="operations\" />

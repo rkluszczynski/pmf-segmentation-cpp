@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <queue>
+#include <cmath>
 #include "CImg.h"
 #include "PMF.hpp"
 
@@ -26,7 +27,7 @@ class GrayScaleImage
         inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
         double GetGradientValue(int xx, int yy, pair<double, double> * Gxy = NULL);
 
-        vector<pair<int, int> > GetRandomEdgePixels(int, int);
+        EdgePoints<double> * GetRandomEdgePixels(int, int, double, double);
 
         void ScanVerticalLine(PMF<double> *, double, int *);
 
@@ -34,10 +35,11 @@ class GrayScaleImage
 };
 
 
-vector<pair<int, int> > GrayScaleImage :: GetRandomEdgePixels(int amount, int min_dist = 1.0)
+EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_dist, double fWidth, double fHeight)
 {
-    vector<pair<int, int> > points;
-    vector<double> angles;
+    EdgePoints<double> * ep = new EdgePoints<double>();
+    vector<pair<int, int> > pixels;
+
     int min_dist2 = min_dist * min_dist;
     int i = 0;
 
@@ -58,29 +60,40 @@ vector<pair<int, int> > GrayScaleImage :: GetRandomEdgePixels(int amount, int mi
         int yy = rand() % (GetHeight()-2) + 1;
 
         // Checking the distance with others
-        for (unsigned int k = 0; k < points.size(); k++) {
-            int dist2 = (points[k].first - xx)*(points[k].first - xx) +
-                (points[k].second - yy)*(points[k].second - yy);
-            if (dist2 < min_dist2) {
-                nextone = false;
+        if (min_dist > 0)
+            for (unsigned int k = 0; k < pixels.size(); k++) {
+                int dist2 = (pixels[k].first - xx)*(pixels[k].first - xx) +
+                    (pixels[k].second - yy)*(pixels[k].second - yy);
+                if (dist2 < min_dist2) {
+                    nextone = false;
+                }
             }
-        }
+
         if (nextone) {
             pair<double, double> G;
-
             double limit = GetGradientValue(xx, yy, &G) / maks;
             double fate = Uniform(0.0, 1.0);
-            if (fate <= limit) {
-                pair<int, int> pt(xx, yy);
-                points[i] = pt;
+            if (limit > 0.0  &&  fate <= limit) {
+                double aaa = atan2(G.second, G.first);
+                if (aaa < 0.0) aaa += M_PI;
+                aaa = M_PI - aaa;
+                aaa = (aaa > M_PI_2) ? (aaa - M_PI_2) : (aaa + M_PI_2);
 
-                double angle = atan(G.second / G.first);
+                pair<int, int> pixel(xx, yy);
+                pixels.push_back(pixel);
+                //cerr << " point  " << xx << " x " << yy << endl;
+                //cerr << " image  " << GetWidth() << " x " << GetHeight() << endl;
+                //cerr << "  pmf   " << fWidth << " x " << fHeight << endl;
+                ep->AddEdgePoint( (double(xx) / double(GetWidth())) * fWidth,
+                                 (double(yy) / double(GetHeight())) * fHeight, aaa);
 
+                cerr << " point accepted " << endl;
+                //ep->PrintData(cerr);
                 i++;
             }
         }
     }
-    return points;
+    return ep;
 }
 
 

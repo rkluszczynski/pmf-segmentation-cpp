@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1211886450 source:d:\projects\pmf-codeblocks\main.cpp
+1225972170 source:d:\projects\pmf-codeblocks\main.cpp
 	<cstdio>
 	<cstdlib>
 	<cstring>
@@ -7,7 +7,7 @@
 	<ctime>
 	<unistd.h>
 	<sys/timeb.h>
-	"PMF.hpp"
+	"sim-feps.cpp"
 
 1202049866 d:\projects\pmf-codeblocks\src\generate.cpp
 	<iostream>
@@ -554,9 +554,10 @@
 	"grayscaleimage.hpp"
 	<cstdio>
 
-1225909192 d:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
+1225972260 d:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
 	<iostream>
 	<queue>
+	<cmath>
 	"CImg.h"
 	"PMF.hpp"
 
@@ -598,7 +599,7 @@
 	"CImg.h"
 	"CImg.h"
 
-1219154406 d:\projects\pmf-codeblocks\src\edgepoints.hpp
+1225970230 d:\projects\pmf-codeblocks\src\edgepoints.hpp
 	<iostream>
 	<vector>
 	"point.hpp"
@@ -607,5 +608,9 @@
 
 1219154406 d:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1225724544 d:\projects\pmf-codeblocks\src\edgepoints.cpp
+1225971186 d:\projects\pmf-codeblocks\src\edgepoints.cpp
+
+1225972270 d:\projects\pmf-codeblocks\src\sim-feps.cpp
+	"grayscaleimage.hpp"
+	<cstdio>
 

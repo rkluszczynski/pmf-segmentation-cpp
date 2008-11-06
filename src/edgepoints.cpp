@@ -15,6 +15,15 @@ EdgePoints<T_REAL> :: ~EdgePoints ()
 
 
 template <class T_REAL>
+void
+EdgePoints<T_REAL> :: AddEdgePoint (T_REAL xxx, T_REAL yyy, T_REAL aaa)
+{
+    edge_element<T_REAL> * nee = new edge_element<T_REAL>(xxx, yyy, aaa);
+    PointsVector.push_back(nee);
+}
+
+
+template <class T_REAL>
 bool
 EdgePoints<T_REAL> :: LoadData (const char * filename)
 {

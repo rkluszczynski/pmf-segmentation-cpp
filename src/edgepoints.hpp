@@ -25,6 +25,8 @@ class EdgePoints
         bool LoadData(const char *);
         void PrintData(std::ostream &);
 
+        void AddEdgePoint(T_REAL, T_REAL, T_REAL);
+
         int getPointIndex(T_REAL, T_REAL);
         long hasPointWithID(long);
 

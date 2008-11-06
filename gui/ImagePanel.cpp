@@ -133,6 +133,7 @@ void ImagePanel::CalculateGradient()
     //*/
 }
 
+
 void ImagePanel::OnLeftUp(wxMouseEvent& event)
 {
     int x = event.GetX() + 1;
@@ -152,12 +153,18 @@ void ImagePanel::OnLeftUp(wxMouseEvent& event)
             - image.GetGreen(x-1,y-1) - 2.0 * image.GetGreen(x,y-1) - image.GetGreen(x+1,y-1);
 
         double G = Gy * Gy + Gx * Gx;
-        wstr += wxString::Format(wxT(" grad = %.3lf"), sqrt(G));
+        wstr += wxString::Format(wxT(" grad = %.2lf"), sqrt(G));
+        #define radians2degree(X) (X * 180.0 / M_PI)
         if (G > 0.0) {
-            double angle = atan(Gy / Gx);
-            #define radians2degree(X) (X * 180.0 / M_PI)
-            wstr += wxString::Format(wxT("  theta = %.3lf, %.3lf"), angle, radians2degree(angle));
+            double angle = atan(Gx / Gy);
+            wstr += wxString::Format(wxT("  theta = %.2lf, %.0lf"), angle, radians2degree(angle));
         }
+
+        double aaa = atan2(Gy, Gx);
+        if (aaa < 0.0) aaa += M_PI;
+        aaa = M_PI - aaa;
+        aaa = (aaa > M_PI_2) ? (aaa - M_PI_2) : (aaa + M_PI_2);
+        wstr += wxString::Format(wxT("  theta2 = %.2lf, %.0lf"), aaa, radians2degree(aaa));
     }
     else {
         wstr = _(" border pixel ");
@@ -165,33 +172,5 @@ void ImagePanel::OnLeftUp(wxMouseEvent& event)
 
     ((mainFrame *) mframe)->SetStatusText(wstr, 0);
     return;
-    /*
-
-    if (pt)
-    {
-        DrawGeneratedPMF();
-
-        wstr = wxString::Format(wxT(" Id = %li, ( %.3lf, %.3lf ), "), pt->id, pt->x, pt->y);
-        switch (pt->type) {
-            case   PT_BIRTH_DOWN: wstr += wxT("BRITH_DOWN"); break;
-            case   PT_BIRTH_LEFT: wstr += wxT("BIRTH_LEFT"); break;
-            case PT_BIRTH_NORMAL: wstr += wxT("BIRTH_NORM"); break;
-            case     PT_BIRTH_UP: wstr += wxT("BIRTH_UP"); break;
-            case       PT_BORDER: wstr += wxT("BORDER"); break;
-            case PT_INTERSECTION: wstr += wxT("INTERSECT"); break;
-            case       PT_UPDATE: wstr += wxT("UPDATE"); break;
-            default:  wstr += wxT("UNKNOWN");
-        }
-        wstr += wxString::Format(wxT(" [%li] [%li]"), (pt->n1 ? pt->n1->id : 0), (pt->n2 ? pt->n2->id : 0));
-        wstr += wxString::Format(wxT(", { %.3lf, %.3lf }"), pt->l1, pt->l2);
-        wstr += wxString::Format(wxT(", oldId=%li"), pt->oid);
-        wstr += wxString::Format(wxT("  // %.3lf : %.3lf"), (pt->n1) ? DIST(pt, pt->n1) : -1.0, (pt->n2) ? DIST(pt, pt->n2) : -1.0);
-    }
-    else {
-        wstr = wxString::Format(wxT(" Left clicked at (%d,%d)"), event.GetX(), event.GetY());
-    }
-
-    ((mainFrame *) mframe)->SetStatusText(wstr, 0);
-    //*/
 }
 
