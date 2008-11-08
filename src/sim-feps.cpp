@@ -7,6 +7,9 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
 {
     char plik[256];
     int fileCounter = 0;
+#if pmf_LOG_ADD
+    ofstream rkout("output/rk.txt");
+#endif
     /*
     for (int i = 0; i < ep->getPointsNumber(); i++)
     {
@@ -48,14 +51,13 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
     while (true)
     {
 #if pmf_LOG_ADD
+        if (fileCounter == 13) { break; }
+        if (fileCounter == 12)
+        {
+            out.rdbuf(rkout.rdbuf());
+        }
         out << "##############################################################" << endl;
         out << "################################## POINT " << fileCounter << endl;
-        if (fileCounter == 7)
-        {
-            //ofstream fout("output/777.txt");
-            //out.rdbuf(fout.rdbuf());
-            ;
-        }
 #endif
         int i = -1;
         for (int k = 0; k < ep->getPointsNumber(); k++)

@@ -1,6 +1,171 @@
 #ifndef SEGMENT_HPP_INCLUDED
 #define SEGMENT_HPP_INCLUDED
 
+#define REAL double
+#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
+#define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
+#define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
+inline
+bool
+pmf_store_point_during_segment (
+                        pmf_point<REAL> * newPt,
+                        BirthsHeap<REAL> * bHeap,
+                        IntersectionsHeap<REAL> * iHeap,
+                        pmf_point<REAL> * parentPt,
+                        long & id,
+                        REAL fieldHeight,
+                        REAL fieldWidth,
+                        REAL sinL = 0.0,
+                        REAL cosL = 1.0
+                    )
+{
+    if (newPt->type > 4) {
+        /* Check if coordinates are not outside the field. */
+        if( parentPt->type != PT_BIRTH_UP  &&
+            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f) != 0 )
+        {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+        if( parentPt->type != PT_BIRTH_DOWN &&
+            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight) != 0 )
+        {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight) != 0 ) {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight) != 0 ) {
+            REAL cx, cy;
+            crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight, cx, cy);
+            newPt->x = cx;
+            newPt->y = cy;
+            newPt->n2 = NULL;
+            newPt->type = PT_BORDER;
+        }
+
+        for (int i = 0; i < bHeap->size(); i++)
+        {
+            pmf_point<REAL> * pEl = bHeap->get(i);
+            int c1 = -1;
+            int c2 = -1;
+
+            if (newPt != pEl->n1  &&  pEl->n1 != NULL  &&
+                //pEl->data->n1->x < pEl->data->x  &&
+                pEl->n1 != newPt->n1 &&
+                //PT_LT(pEl->n1, pEl, sinL, cosL) )
+                PT_LE(pEl->n1, pEl, sinL, cosL) )
+            {
+                c1 = cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y);
+                if (c1 == 1)
+                {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+
+                    iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                    out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                }
+                if (c1 == 2)
+                {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
+
+                    if (PT_LT(pEl->n1, pEl, sinL, cosL)) {
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                        out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                    }
+                    else {
+                        if (pEl->n2) {
+                            pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                            iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                            out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                        }
+                    }
+                }
+            }
+
+            if (newPt != pEl->n2  &&  pEl->n2 != NULL  &&
+                //pEl->data->n2->x < pEl->data->x  &&
+                pEl->n1 != newPt->n1 &&
+                //PT_LT(pEl->n2, pEl, sinL, cosL) )
+                PT_LE(pEl->n2, pEl, sinL, cosL) )
+            {
+                c2 = cross3(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y);
+                if (c2 == 1) {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+
+                    iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                    out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                }
+                if (c2 == 2) {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
+
+                    if (PT_LT(pEl->n2, pEl, sinL, cosL)) {
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                        iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                        out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                    }
+                    else {
+                        if (pEl->n1) {
+                            pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                            iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                            out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                        }
+                    }
+                }
+            }
+#if pmf_LOG_ADD
+            if (c1 > 1)  out << " -- ----- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
+            if (c2 > 1)  out << " -- ----- -- :  c2=" << c2 << "  :: " << *pEl << " ~ " << *pEl->n2 << std::endl;
+#endif
+        }
+    }
+    /* Adding point to the list */
+#if pmf_LOG_ADD
+    out << " --- INS --- : " << *newPt << std::endl;
+#endif
+    //bHeap->insert(newPt, blocks);
+    //*
+    bHeap->insert(newPt);
+    //*/
+    return true;
+}
+#undef REAL
+#undef X_ROTATED
+#undef PT_LT
+#undef PT_LE
+
 
 #define PT_DIST2(PT1, PT2) (((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y))
 template <class T_REAL>
@@ -9,8 +174,8 @@ void
 PMF<T_REAL> :: SetPerpendicularNeighbor (
                             BirthsHeap<T_REAL> * bbHeap,
                             IntersectionsHeap<T_REAL> * iiHeap,
-                            pmf_point<T_REAL> * npt,
-                            pmf_point<T_REAL> * ppt,
+                            pmf_point<T_REAL> * npt, // new point
+                            pmf_point<T_REAL> * ppt, // parent point
                             long &ptId,
                             EdgePoints<T_REAL> * ep,
                             T_REAL ssinL,
@@ -22,7 +187,7 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
 
     IntersectionsHeap<T_REAL> * tmp_iHeap = new IntersectionsHeap<T_REAL> (ssinL, ccosL);
 
-    pmf_store_rotated_point_in_blocks(npt, bbHeap, tmp_iHeap, ppt, ptId, fHeight, fWidth, NULL, ssinL, ccosL);
+    pmf_store_point_during_segment(npt, bbHeap, tmp_iHeap, ppt, ptId, fHeight, fWidth, ssinL, ccosL);
     if (! tmp_iHeap->empty())
     {
 #if pmf_LOG_ADD
@@ -62,6 +227,9 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
         pmf_delete_rotated_path(pt_min, bbHeap->get_point_with_id(id), bbHeap, iiHeap, NULL, ptId, ep, fHeight, fWidth, ssinL, ccosL);
         bbHeap->remove_point_with_id((id == id1) ? id2 : id1);
 
+#if pmf_LOG_ADD
+        out << "[ final neighbour ] : " << *pt_min << endl << endl;
+#endif
         pmfConf->push_back(pt_min);
     }
     delete tmp_iHeap;
@@ -142,7 +310,7 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
 #if pmf_LOG_ADD
     out << *pt1 << endl;
     out << *pt2 << endl;
-    out << " --- " << endl;
+    out << "-----<<" << endl;
     out << iHeap << endl;
 #endif
 
