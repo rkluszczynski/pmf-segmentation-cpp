@@ -82,7 +82,7 @@ pmf_store_point_during_segment (
                     out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
                 }
-                if (c1 == 2)
+                if (c1 == 2  &&  pEl->type != PT_INTERSECTION)
                 {
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
@@ -93,7 +93,7 @@ pmf_store_point_during_segment (
 #if pmf_LOG_ADD
                         out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
-                    }
+                    } /*
                     else {
                         if (pEl->n2) {
                             pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
@@ -102,7 +102,18 @@ pmf_store_point_during_segment (
                             out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
                         }
-                    }
+                    } //*/
+                }
+                if (c1 == 3)
+                {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
+
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                    out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
                 }
             }
 
@@ -123,7 +134,8 @@ pmf_store_point_during_segment (
                     out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
                 }
-                if (c2 == 2) {
+                if (c2 == 2  &&  pEl->type != PT_INTERSECTION)
+                {
                     REAL xx, yy;
                     crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
 
@@ -133,7 +145,7 @@ pmf_store_point_during_segment (
 #if pmf_LOG_ADD
                         out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
-                    }
+                    } /*
                     else {
                         if (pEl->n1) {
                             pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
@@ -142,8 +154,20 @@ pmf_store_point_during_segment (
                             out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
 #endif
                         }
-                    }
+                    } //*/
                 }
+                if (c2 == 3)
+                {
+                    REAL xx, yy;
+                    crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
+
+                    pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+                    iHeap->insert (newpt2, newPt->id, pEl->id);
+#if pmf_LOG_ADD
+                    out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+#endif
+                }
+
             }
 #if pmf_LOG_ADD
             if (c1 > 1)  out << " -- ----- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
@@ -282,13 +306,13 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
 #if pmf_LOG_ADD
         out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
 #endif
-        //newPMF->push_in_order(bHeap->extract_min());
         pmfConf->push_back(bHeap->extract_min());
     }
     pmfConf->push_back(pt);
 #if pmf_LOG_ADD
     out << bHeap << std::endl;
 #endif
+
 
     // Determining neighbors of a new point
     pmf_point<T_REAL> * pt1 = pmf_put_new_neighbor<T_REAL>(pt, -M_PI_2, ptId, sinL, cosL);
