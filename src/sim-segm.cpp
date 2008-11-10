@@ -1,8 +1,9 @@
 
 #include "grayscaleimage.hpp"
 
-
-inline bool MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double bSize)
+inline
+bool
+MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double bSize)
 {
     double sinL = sin(angle);
     double cosL = cos(angle);

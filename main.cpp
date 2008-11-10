@@ -17,11 +17,11 @@ void print_usage(char * prog_name, bool cond = false)
 {
     if (cond) {
 		fprintf(stderr, "\n");
-        fprintf(stderr, "[ ERROR ] : Parameters: -s or -i, -n or -r and -p are mandatory !\n");
+        fprintf(stderr, "[ ERROR ] : Parameters: -s, -n or -r and -p are mandatory !\n");
     }
 	fprintf(stderr, "\n[ USAGE ] :  %s  [-f]\n", prog_name);
 	fprintf(stderr, "       \t\t  [ -s size of field ]\n");
-	fprintf(stderr, "       \t\t  [ -i file with initial configuration ]\n");
+	//fprintf(stderr, "       \t\t  [ -i file with initial configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -o file where to save final configuration ]\n");
 	fprintf(stderr, "       \t\t  [ -e random seed ]\n");
 	fprintf(stderr, "       \t\t  [ -b size of blocks ]\n");
@@ -40,7 +40,7 @@ int main (int argc, char *argv[])
 {
 	long           opt = 0x0;
 	double    sizeArak = 0.0;
-	char * initialFile = NULL;
+	//char * initialFile = NULL;
 	char *  outputFile = NULL;
 	char * pictureFile = NULL;
 	double   blockSize = 0.0;
@@ -53,7 +53,7 @@ int main (int argc, char *argv[])
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
-	while ((c = getopt(argc, argv, "s:e:b:fo:p:i:r:n:")) != EOF)
+	while ((c = getopt(argc, argv, "s:e:b:fo:p:r:n:")) != EOF)
 	{
 		switch (c)
 		{
@@ -93,10 +93,12 @@ int main (int argc, char *argv[])
 				iterations = strtol(optarg, &endptr, 10);
 				if(*endptr == '\0') break;
 				else print_usage(argv[0]);
-			case 'i': 	/* Path to initial file. */
+            /*
+			case 'i': 	// * Path to initial file. *
 				opt |= 0x100;
 				initialFile = strdup(optarg);
 				break;
+            //*/
 			default :
 				print_usage(argv[0]);
 		}
@@ -149,12 +151,13 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ ERROR ] : Number of iterations should be positive !\n");
 		print_usage(argv[0]);
 	}
+	/*
     if((opt & 0x100) && (access(initialFile, R_OK) != 0))
     {
         fprintf(stderr, "[ ERROR ] : Can't read configuration file '%s' !\n", initialFile);
         print_usage(argv[0]);
     }
-
+    // */
 
 	/* -------------------------------------------------------------------- */
 	/*   Check existence of required parameters for the program.            */
@@ -164,7 +167,7 @@ int main (int argc, char *argv[])
         struct timeb tbeg, tend;
 		//fprintf(stderr, "TOTAL SUCCES (%x) !!\n", opt);
 		fprintf(stderr, "[ INFO ] :   Field Size (-s) = %.2lf\n", sizeArak);
-		fprintf(stderr, "[ INFO ] : Initial File (-i) = '%s'\n" , initialFile);
+		//fprintf(stderr, "[ INFO ] : Initial File (-i) = '%s'\n" , initialFile);
 		fprintf(stderr, "[ INFO ] :  Output File (-o) = '%s'\n" , outputFile);
 		fprintf(stderr, "[ INFO ] :         Seed (-e) = %li\n"  , seed);
 		fprintf(stderr, "[ INFO ] :  Blocks Size (-b) = %.2lf\n", blockSize);
@@ -176,12 +179,6 @@ int main (int argc, char *argv[])
         // * Determining starting configuration. *
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
 		pmf->SetSeed(seed);
-		/*
-		if (opt & 0x100)
-            pmf->LoadConfiguration(initialFile);
-		else
-            pmf->Generate(blockSize);
-        */
 #if pmf_LOG_ADD
         ofstream fout("output/tmp.txt");
         out.rdbuf(fout.rdbuf());
