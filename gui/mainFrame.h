@@ -25,7 +25,6 @@ class mainFrame : public wxFrame
 		void AddPointAction(wxCommandEvent&, double, double);
 
 		//(*Declarations(mainFrame)
-		wxMenu* Menu3;
 		wxStaticBitmap* StaticBitmap1;
 		wxMenuItem* MenuItem1;
 		wxMenu* Menu1;
@@ -33,7 +32,9 @@ class mainFrame : public wxFrame
 		wxHtmlWindow* myHtmlWindow;
 		wxStatusBar* StatusBar1;
 		wxScrolledWindow* myScrolledWindow;
+		wxMenuItem* saveImageMenuItem;
 		wxSplitterWindow* mySplitterWindow;
+		wxMenu* imageMenu;
 		wxMenuBar* MenuBar1;
 		wxNotebook* myNotebook;
 		wxMenu* Menu6;

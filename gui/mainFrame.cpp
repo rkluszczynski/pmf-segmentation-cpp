@@ -29,6 +29,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
+	saveImageMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEIMAGE_MENUITEM")) : NULL;
 	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
 	MenuItem1 = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
@@ -60,6 +61,8 @@ mainFrame::mainFrame(wxWindow* parent)
     mySplitterWindow->SetSashPosition(GetSize().GetHeight() - 2*htmlWindowHeight);
     mySplitterWindow->Refresh();
 	SetStatusText(_T(" (c) 2008"), 2);
+
+    GetMenuBar()->EnableTop(GetMenuBar()->FindMenu(_("Image")), false);
 }
 
 
@@ -234,6 +237,7 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
 
     // PMFPanel and ImagePanel options
     GetMenuBar()->Enable(XRCID("ID_CLOSE_MENUITEM"), isClassImagePanel || isClassPMFPanel);
+    GetMenuBar()->Enable(XRCID("ID_SAVEIMAGE_MENUITEM"), (isClassPMFPanel || isClassImagePanel));
 
     // Only PMFPanel options
     GetMenuBar()->Enable(XRCID("ID_SAVEPMF_MENUITEM"), isClassPMFPanel);
@@ -244,9 +248,11 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
     GetMenuBar()->Enable(XRCID("ID_REMPOINT_MENUITEM"), isClassPMFPanel);
     GetMenuBar()->Enable(XRCID("ID_ADDSEGMENT_MENUITEM"), isClassPMFPanel);
 
+    // Only ImagePanel options
+    GetMenuBar()->EnableTop(GetMenuBar()->FindMenu(_("Image")), isClassImagePanel);
+
     // START panel options
     GetMenuBar()->Enable(XRCID("ID_LOG_MENUITEM"), !(isClassPMFPanel || isClassImagePanel));
-    GetMenuBar()->Enable(XRCID("ID_SAVEIMAGE_MENUITEM"), (isClassPMFPanel || isClassImagePanel));
 }
 
 
