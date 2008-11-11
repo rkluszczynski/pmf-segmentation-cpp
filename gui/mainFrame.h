@@ -25,6 +25,8 @@ class mainFrame : public wxFrame
 		void AddPointAction(wxCommandEvent&, double, double);
 
 		//(*Declarations(mainFrame)
+		wxMenuItem* grayscaleMenuItem;
+		wxMenu* Menu3;
 		wxStaticBitmap* StaticBitmap1;
 		wxMenuItem* MenuItem1;
 		wxMenu* Menu1;
@@ -34,7 +36,6 @@ class mainFrame : public wxFrame
 		wxScrolledWindow* myScrolledWindow;
 		wxMenuItem* saveImageMenuItem;
 		wxSplitterWindow* mySplitterWindow;
-		wxMenu* imageMenu;
 		wxMenuBar* MenuBar1;
 		wxNotebook* myNotebook;
 		wxMenu* Menu6;
@@ -74,6 +75,8 @@ class mainFrame : public wxFrame
 		void OnShowProgressMenuItemSelected(wxCommandEvent& event);
 		void OnGradientMenuItemSelected(wxCommandEvent& event);
 		void OnSaveImageMenuItemSelected(wxCommandEvent& event);
+		void OnGrayscaleMenuItemSelected(wxCommandEvent& event);
+		void OnPresentPMFMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

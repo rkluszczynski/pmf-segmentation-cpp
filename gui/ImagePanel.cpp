@@ -86,6 +86,17 @@ bool ImagePanel::SaveFile(wxString path, int type = wxBITMAP_TYPE_PNG)
 }
 
 
+void ImagePanel::ConvertToGreyscale(double lr, double lg, double lb)
+{
+    wxImage img = image.ConvertToGreyscale(lr, lg, lb);
+
+	if (bmp) delete bmp;
+	bmp = new wxBitmap(img);
+    staticBitmap->SetBitmap( *bmp );
+    scrolledImageWindow->FitInside();
+}
+
+
 void ImagePanel::CalculateGradient()
 {
     wxMessageDialog dlg1(this, _("equal"), _("Info ..."), wxOK);
@@ -101,7 +112,7 @@ void ImagePanel::CalculateGradient()
     */
     double * grads = new double[img.GetWidth()*img.GetHeight()];
     if (! grads) dlg1.ShowModal();
-    #define INDEX(X,Y) ((X)*img.GetHeight()+(Y))
+#define INDEX(X,Y) ((X)*img.GetHeight()+(Y))
     //*
     for (int x = 0; x < img.GetWidth(); x++) {
         for (int y = 0; y < img.GetHeight(); y++) {
@@ -118,7 +129,7 @@ void ImagePanel::CalculateGradient()
             }
         }
     }
-    //* Getting max
+    //* Getting max value of gradient
     double maks = 0.0;
     for (int i = 0; i < img.GetWidth()*img.GetHeight(); i++)
         if (grads[i] > maks)  maks = grads[i];
@@ -138,6 +149,29 @@ void ImagePanel::CalculateGradient()
     staticBitmap->SetBitmap( *bmp );
     scrolledImageWindow->FitInside();
     //*/
+}
+
+
+void ImagePanel::PresentPMF() //PMF<double> * pmf);
+{
+    wxImage img = image.ConvertToGreyscale();
+
+    for (int x = 0; x < img.GetWidth(); x++) {
+        for (int y = 0; y < img.GetHeight(); y++) {
+            int rr = img.GetRed(x,y);
+            int gg = img.GetGreen(x,y);
+            int bb = img.GetBlue(x,y);
+            rr = 128 + rr / 2;
+            gg = 128 + gg / 2;
+            bb = 128 + bb / 2;
+            img.SetRGB(x, y, rr, gg, bb);
+        }
+    }
+
+	if (bmp) delete bmp;
+	bmp = new wxBitmap(img);
+    staticBitmap->SetBitmap( *bmp );
+    scrolledImageWindow->FitInside();
 }
 
 

@@ -29,9 +29,10 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	saveImageMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEIMAGE_MENUITEM")) : NULL;
-	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
-	MenuItem1 = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
+	saveImageMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEIMAGE_MENUITEM"));
+	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
+	grayscaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_GRAYSCALE_MENUITEM"));
+	MenuItem1 = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
@@ -48,7 +49,9 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_UPDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnUpdatePointMenuItemSelected);
 	Connect(XRCID("ID_REMPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRemovePointMenuItemSelected);
 	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
+	Connect(XRCID("ID_GRAYSCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGrayscaleMenuItemSelected);
 	Connect(XRCID("ID_GRADIENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGradientMenuItemSelected);
+	Connect(XRCID("ID_PRESENT_PMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnPresentPMFMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnShowProgressMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
@@ -538,5 +541,24 @@ void mainFrame::OnSaveImageMenuItemSelected(wxCommandEvent& event)
             if (! res) { wxMessageBox(_("Error during save"), _("Error")); }
             else  { myNotebook->SetPageText(myNotebook->GetSelection(), wxT("[ PMF ] : ") + file); }
         }
+    }
+}
+
+
+void mainFrame::OnGrayscaleMenuItemSelected(wxCommandEvent& event)
+{
+    wxWindow * w = myNotebook->GetCurrentPage();
+    if (w->IsKindOf(CLASSINFO(ImagePanel))) {
+        ImagePanel * ip = (ImagePanel *) myNotebook->GetCurrentPage();
+        ip->ConvertToGreyscale();
+    }
+}
+
+void mainFrame::OnPresentPMFMenuItemSelected(wxCommandEvent& event)
+{
+    wxWindow * w = myNotebook->GetCurrentPage();
+    if (w->IsKindOf(CLASSINFO(ImagePanel))) {
+        ImagePanel * ip = (ImagePanel *) myNotebook->GetCurrentPage();
+        ip->PresentPMF();
     }
 }
