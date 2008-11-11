@@ -63,6 +63,10 @@
 				<object class="wxMenuItem" name="ID_LOADPMF_MENUITEM">
 					<label>Load PMF</label>
 				</object>
+				<object class="wxMenuItem" name="ID_SAVEIMAGE_MENUITEM">
+					<label>Save Image</label>
+					<enabled>0</enabled>
+				</object>
 				<object class="wxMenuItem" name="ID_SAVEPMF_MENUITEM">
 					<label>Save PMF</label>
 					<enabled>0</enabled>

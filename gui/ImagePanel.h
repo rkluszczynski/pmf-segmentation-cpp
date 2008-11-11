@@ -18,6 +18,7 @@ class ImagePanel : public wxPanel
 		virtual ~ImagePanel();
 
 		void LoadFile(wxString);
+		bool SaveFile(wxString, int);
 		void CalculateGradient();
 
 		//(*Declarations(ImagePanel)

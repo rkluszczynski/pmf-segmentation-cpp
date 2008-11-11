@@ -17,6 +17,9 @@
 		<object name="ID_LOADPMF_MENUITEM" class="wxMenuItem" variable="loadPMFMenuItem" member="no">
 			<handler function="OnLoadPMFMenuItemSelected" entry="EVT_MENU" />
 		</object>
+		<object name="ID_SAVEIMAGE_MENUITEM" class="wxMenuItem" variable="saveImageMenuItem" member="yes">
+			<handler function="OnSaveImageMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_SAVEPMF_MENUITEM" class="wxMenuItem" variable="savePMFMenuItem" member="yes">
 			<handler function="OnSavePMFMenuItemSelected" entry="EVT_MENU" />
 		</object>

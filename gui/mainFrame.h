@@ -72,6 +72,7 @@ class mainFrame : public wxFrame
 		void OnRemovePointMenuItemSelected(wxCommandEvent& event);
 		void OnShowProgressMenuItemSelected(wxCommandEvent& event);
 		void OnGradientMenuItemSelected(wxCommandEvent& event);
+		void OnSaveImageMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

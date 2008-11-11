@@ -3688,14 +3688,17 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1223887094 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+1226410634 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/bitmap.h>
 	<wx/image.h>
+	<wx/msgdlg.h>
+	<cmath>
 	"ImagePanel.h"
+	"mainFrame.h"
 
-1223887094 h:\projects\pmf-codeblocks\gui\imagepanel.h
+1226410640 h:\projects\pmf-codeblocks\gui\imagepanel.h
 	<wx/scrolwin.h>
 	<wx/sizer.h>
 	<wx/panel.h>
@@ -3733,7 +3736,7 @@
 1223887094 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1223887094 h:\projects\pmf-codeblocks\gui\mainframe.h
+1226409810 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -3853,7 +3856,7 @@
 	"wx/defs.h"
 	"wx/filesys.h"
 
-1223887094 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1226410910 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -3874,7 +3877,7 @@
 	"blockslists.hpp"
 	"PMF.cpp"
 
-1225606404 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
+1226001188 h:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
 	"templatelist.hpp"
@@ -3907,7 +3910,7 @@
 	<cstdio>
 	"point.hpp"
 
-1223887096 h:\projects\pmf-codeblocks\src\edgepoints.hpp
+1225993766 h:\projects\pmf-codeblocks\src\edgepoints.hpp
 	<iostream>
 	<vector>
 	"point.hpp"
@@ -3916,7 +3919,7 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1223887096 h:\projects\pmf-codeblocks\src\edgepoints.cpp
+1225993766 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
 1225557066 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
@@ -3985,7 +3988,7 @@
 1223887096 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
 
-1225606260 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
+1226003324 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
 	"birthsheap.hpp"
 	"intersectionsheap.hpp"
@@ -4002,12 +4005,12 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\remove.hpp
 
-1223887096 h:\projects\pmf-codeblocks\src\segment.hpp
+1225994950 h:\projects\pmf-codeblocks\src\segment.hpp
 
 1223887094 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
 
-1223887094 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
+1226411012 source:h:\projects\pmf-codeblocks\gui\pmfpanel.cpp
 	"PMFPanel.h"
 	"mainFrame.h"
 	"AddPointDialog.h"
@@ -4024,7 +4027,7 @@
 	<wx/wx.h>
 	<wx/menu.h>
 
-1223887094 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1226410730 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>

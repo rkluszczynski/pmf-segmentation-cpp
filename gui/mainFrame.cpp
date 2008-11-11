@@ -29,14 +29,15 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
-	MenuItem1 = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
+	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
+	MenuItem1 = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
 	Connect(XRCID("ID_NOTEBOOK1"),wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED,(wxObjectEventFunction)&mainFrame::OnMyNotebookPageChanged);
 	Connect(XRCID("ID_LOADIMAGE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadImageMenuItemSelected);
 	Connect(XRCID("ID_LOADPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnLoadPMFMenuItemSelected);
+	Connect(XRCID("ID_SAVEIMAGE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSaveImageMenuItemSelected);
 	Connect(XRCID("ID_SAVEPMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSavePMFMenuItemSelected);
 	Connect(XRCID("ID_CLOSE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnCloseImageMenuItemSelected);
 	Connect(XRCID("ID_QUIT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnQuit);
@@ -245,6 +246,7 @@ void mainFrame::OnMyNotebookPageChanged(wxNotebookEvent& event)
 
     // START panel options
     GetMenuBar()->Enable(XRCID("ID_LOG_MENUITEM"), !(isClassPMFPanel || isClassImagePanel));
+    GetMenuBar()->Enable(XRCID("ID_SAVEIMAGE_MENUITEM"), (isClassPMFPanel || isClassImagePanel));
 }
 
 
@@ -491,4 +493,44 @@ void mainFrame::OnGradientMenuItemSelected(wxCommandEvent& event)
         ip->LoadFile(path);
         myNotebook->AddPage(ip, wxT("[ IMAGE ] : ") + dialog.GetFilename(), false, -1);
     //*/
+}
+
+void mainFrame::OnSaveImageMenuItemSelected(wxCommandEvent& event)
+{
+    wxString caption = wxT("Saving Image ...");
+    wxString wildcard = wxT("PNG images (*.png)|*.png");
+    //wildcard += wxT("|SVG graphics file (*.svg)|*.svg");
+    //wildcard += wxT("|Text file (*.txt)|*.txt");
+    wxString defaultDir = wxT("../output");
+    wxString defaultFilename = wxEmptyString;
+
+    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        wxString path = dialog.GetPath();
+        wxString file = dialog.GetFilename();
+        int filterIndex = dialog.GetFilterIndex();
+
+        wxString msg = _("Path = ") + path;
+        msg += (_("\nFile = ") + file);
+        msg += (_("\nFilterIndex = ") + wxString::Format(wxT("%d\n"), filterIndex));
+        //wxMessageBox(msg, _("INFO"));
+
+        wxWindow * w = myNotebook->GetCurrentPage();
+        if (w->IsKindOf(CLASSINFO(ImagePanel))) {
+            ImagePanel * ip = (ImagePanel *) myNotebook->GetCurrentPage();
+            bool res = ip->SaveFile(path, wxBITMAP_TYPE_PNG);
+
+            if (! res) { wxMessageBox(_("Error during save"), _("Error")); }
+            else  { myNotebook->SetPageText(myNotebook->GetSelection(), wxT("[ IMG ] : ") + file); }
+        }
+        else if (w->IsKindOf(CLASSINFO(PMFPanel))) {
+            PMFPanel * pp = (PMFPanel *) myNotebook->GetCurrentPage();
+
+            bool res = pp->SaveFile(path, wxBITMAP_TYPE_PNG);
+
+            if (! res) { wxMessageBox(_("Error during save"), _("Error")); }
+            else  { myNotebook->SetPageText(myNotebook->GetSelection(), wxT("[ PMF ] : ") + file); }
+        }
+    }
 }

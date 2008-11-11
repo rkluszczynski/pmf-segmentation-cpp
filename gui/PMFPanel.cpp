@@ -204,6 +204,13 @@ std::pair<double, double> PMFPanel::GetPMFSize()
 }
 
 
+bool PMFPanel::SaveFile(wxString path, int type = wxBITMAP_TYPE_PNG)
+{
+    wxImage img = bmp->ConvertToImage();
+    return img.SaveFile(path, type);
+}
+
+
 bool PMFPanel::SavePMF(wxString path, int index)
 {
     bool result = false;

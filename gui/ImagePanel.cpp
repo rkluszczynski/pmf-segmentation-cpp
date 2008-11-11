@@ -79,6 +79,13 @@ void ImagePanel::LoadFile(wxString path)
 }
 
 
+bool ImagePanel::SaveFile(wxString path, int type = wxBITMAP_TYPE_PNG)
+{
+    wxImage img = bmp->ConvertToImage();
+    return img.SaveFile(path, type);
+}
+
+
 void ImagePanel::CalculateGradient()
 {
     wxMessageDialog dlg1(this, _("equal"), _("Info ..."), wxOK);
