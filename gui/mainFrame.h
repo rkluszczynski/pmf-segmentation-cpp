@@ -26,22 +26,22 @@ class mainFrame : public wxFrame
 
 		//(*Declarations(mainFrame)
 		wxMenuItem* grayscaleMenuItem;
-		wxMenu* Menu3;
 		wxStaticBitmap* StaticBitmap1;
-		wxMenuItem* MenuItem1;
-		wxMenu* Menu1;
+		wxMenu* testMenu;
+		wxMenu* pmfMenu;
+		wxMenuItem* progressMenuItem;
 		wxMenuItem* savePMFMenuItem;
 		wxHtmlWindow* myHtmlWindow;
 		wxStatusBar* StatusBar1;
 		wxScrolledWindow* myScrolledWindow;
 		wxMenuItem* saveImageMenuItem;
+		wxMenu* helpMenu;
 		wxSplitterWindow* mySplitterWindow;
+		wxMenu* imageMenu;
+		wxMenu* fileMenu;
 		wxMenuBar* MenuBar1;
+		wxMenu* windowMenu;
 		wxNotebook* myNotebook;
-		wxMenu* Menu6;
-		wxMenu* Menu2;
-		wxMenu* Menu5;
-		wxMenu* Menu4;
 		//*)
 
 	protected:

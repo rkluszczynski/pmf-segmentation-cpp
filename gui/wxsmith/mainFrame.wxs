@@ -59,7 +59,7 @@
 		<object name="ID_LOG_MENUITEM" class="wxMenuItem" variable="toggleLogsMenuItem" member="no">
 			<handler function="OnViewInfosMenuItemSelected" entry="EVT_MENU" />
 		</object>
-		<object name="ID_MENUITEM1" class="wxMenuItem" variable="MenuItem1" member="yes">
+		<object name="ID_MENUITEM1" class="wxMenuItem" variable="progressMenuItem" member="yes">
 			<handler function="OnShowProgressMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_MENUITEM3" class="wxMenuItem" variable="aboutMenuItem" member="no">

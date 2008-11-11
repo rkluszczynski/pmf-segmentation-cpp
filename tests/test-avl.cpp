@@ -21,6 +21,8 @@ int main()
     avl.remove( 21 );
     avl.remove( 11 );
 
+    avl.print();  avl.remove( 8 );
+
     avl.print();
 
     return 0;
