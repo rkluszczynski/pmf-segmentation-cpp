@@ -146,6 +146,10 @@
 			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="headers\avl.hpp">
+			<Option virtualFolder="structures\core\" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="headers\birthsheap.hpp">
 			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
