@@ -86,6 +86,30 @@ bool ImagePanel::SaveFile(wxString path, int type = wxBITMAP_TYPE_PNG)
 }
 
 
+void ImagePanel::Reset()
+{
+    if (bmp) delete bmp;
+    bmp = new wxBitmap(image);
+    staticBitmap->SetBitmap( *bmp );
+    scrolledImageWindow->FitInside();
+}
+
+
+void ImagePanel::Rescale(int w, int h)
+{
+    if (bmp->GetWidth() != w  ||  bmp->GetHeight() != h)
+    {
+        wxImage img = bmp->ConvertToImage();
+        img.Rescale(w, h);
+
+        if (bmp) delete bmp;
+        bmp = new wxBitmap(img);
+        staticBitmap->SetBitmap( *bmp );
+        scrolledImageWindow->FitInside();
+    }
+}
+
+
 void ImagePanel::ConvertToGreyscale(double lr, double lg, double lb)
 {
     wxImage img = image.ConvertToGreyscale(lr, lg, lb);
@@ -152,7 +176,7 @@ void ImagePanel::CalculateGradient()
 }
 
 
-void ImagePanel::PresentPMF() //PMF<double> * pmf);
+void ImagePanel::PresentPMF(PMF<double> * pmf)
 {
     wxImage img = image.ConvertToGreyscale();
 
@@ -170,6 +194,38 @@ void ImagePanel::PresentPMF() //PMF<double> * pmf);
 
 	if (bmp) delete bmp;
 	bmp = new wxBitmap(img);
+
+    if (pmf) {
+        wxMemoryDC dc(*bmp);
+
+        wxColor cc(16,8,128);
+        wxPen pen(cc, 1);
+        //wxPen pen(*wxBLUE, 1);
+        dc.SetPen(pen);
+
+        for(Element<pmf_point<double> > * iter = pmf->getFirstElement(); iter; iter = iter->next) {
+            pmf_point<double> * pt = iter->data;
+
+            double pmfw_1 = 1 / pmf->GetPMFWidth();
+            double pmfh_1 = 1 / pmf->GetPMFHeight();
+
+            int ix = int(pt->x * pmfw_1 * img.GetWidth());
+            int iy = int(pt->y * pmfh_1 * img.GetHeight());
+            if (pt->n1) {
+                int ix1 = int(pt->n1->x * pmfw_1 * img.GetWidth());
+                int iy1 = int(pt->n1->y * pmfh_1 * img.GetHeight());
+
+                dc.DrawLine(ix, iy, ix1, iy1);
+            }
+            if (pt->n2) {
+                int ix2 = int(pt->n2->x * pmfw_1 * img.GetWidth());
+                int iy2 = int(pt->n2->y * pmfh_1 * img.GetHeight());
+
+                dc.DrawLine(ix, iy, ix2, iy2);
+            }
+        }
+    }
+
     staticBitmap->SetBitmap( *bmp );
     scrolledImageWindow->FitInside();
 }

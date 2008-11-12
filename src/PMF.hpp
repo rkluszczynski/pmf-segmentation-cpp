@@ -11,6 +11,9 @@
 #include "edgepoints.hpp"
 #include "blockslists.hpp"
 
+#ifndef CHECK_ASSERTIONS
+#define CHECK_ASSERTIONS 1
+#endif
 
 #if pmf_LOG_ADD
 std::ostream out(std::cout.rdbuf());

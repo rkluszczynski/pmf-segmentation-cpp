@@ -8,6 +8,9 @@
 #include <wx/statbmp.h>
 //*)
 
+#include "PMF.hpp"
+
+
 class ImagePanel : public wxPanel
 {
     DECLARE_CLASS(ImagePanel)
@@ -20,9 +23,12 @@ class ImagePanel : public wxPanel
 		void LoadFile(wxString);
 		bool SaveFile(wxString, int);
 
+        void Reset();
+        void Rescale(int, int);
+
         void ConvertToGreyscale(double lr = 0.299, double lg = 0.587, double lb = 0.114);
 		void CalculateGradient();
-		void PresentPMF(); //PMF<double> *);
+		void PresentPMF(PMF<double> *);
 
 		//(*Declarations(ImagePanel)
 		wxScrolledWindow* scrolledImageWindow;

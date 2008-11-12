@@ -110,6 +110,9 @@
 			</object>
 			<object class="wxMenu">
 				<label>Image</label>
+				<object class="wxMenuItem" name="ID_RESET_MENUITEM">
+					<label>Reset</label>
+				</object>
 				<object class="wxMenuItem" name="ID_GRAYSCALE_MENUITEM">
 					<label>Grayscale</label>
 				</object>
@@ -117,6 +120,9 @@
 					<label>Gradient</label>
 				</object>
 				<object class="separator" />
+				<object class="wxMenuItem" name="ID_RESCALE_MENUITEM">
+					<label>Make 1000x1000</label>
+				</object>
 				<object class="wxMenuItem" name="ID_PRESENT_PMF_MENUITEM">
 					<label>Present PMF</label>
 				</object>

@@ -26,22 +26,24 @@ class mainFrame : public wxFrame
 
 		//(*Declarations(mainFrame)
 		wxMenuItem* grayscaleMenuItem;
+		wxMenu* Menu3;
 		wxStaticBitmap* StaticBitmap1;
-		wxMenu* testMenu;
-		wxMenu* pmfMenu;
+		wxMenuItem* resetMenuItem;
 		wxMenuItem* progressMenuItem;
+		wxMenuItem* rescaleMenuItem;
+		wxMenu* Menu1;
 		wxMenuItem* savePMFMenuItem;
 		wxHtmlWindow* myHtmlWindow;
 		wxStatusBar* StatusBar1;
 		wxScrolledWindow* myScrolledWindow;
 		wxMenuItem* saveImageMenuItem;
-		wxMenu* helpMenu;
 		wxSplitterWindow* mySplitterWindow;
-		wxMenu* imageMenu;
-		wxMenu* fileMenu;
 		wxMenuBar* MenuBar1;
-		wxMenu* windowMenu;
 		wxNotebook* myNotebook;
+		wxMenu* Menu6;
+		wxMenu* Menu2;
+		wxMenu* Menu5;
+		wxMenu* Menu4;
 		//*)
 
 	protected:
@@ -77,6 +79,8 @@ class mainFrame : public wxFrame
 		void OnSaveImageMenuItemSelected(wxCommandEvent& event);
 		void OnGrayscaleMenuItemSelected(wxCommandEvent& event);
 		void OnPresentPMFMenuItemSelected(wxCommandEvent& event);
+		void OnRescaleMenuItemSelected(wxCommandEvent& event);
+		void OnResetMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

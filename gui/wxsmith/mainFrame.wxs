@@ -47,11 +47,17 @@
 		<object name="ID_ADDSEGMENT_MENUITEM" class="wxMenuItem" variable="addSegmentMenuItem" member="no">
 			<handler function="OnAddSegmentMenuItemSelected" entry="EVT_MENU" />
 		</object>
+		<object name="ID_RESET_MENUITEM" class="wxMenuItem" variable="resetMenuItem" member="yes">
+			<handler function="OnResetMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_GRAYSCALE_MENUITEM" class="wxMenuItem" variable="grayscaleMenuItem" member="yes">
 			<handler function="OnGrayscaleMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_GRADIENT_MENUITEM" class="wxMenuItem" variable="gradientMenuItem" member="no">
 			<handler function="OnGradientMenuItemSelected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_RESCALE_MENUITEM" class="wxMenuItem" variable="rescaleMenuItem" member="yes">
+			<handler function="OnRescaleMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_PRESENT_PMF_MENUITEM" class="wxMenuItem" variable="presentPMFMenuItem" member="no">
 			<handler function="OnPresentPMFMenuItemSelected" entry="EVT_MENU" />

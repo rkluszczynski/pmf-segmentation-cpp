@@ -1,7 +1,7 @@
 #ifndef PMFPANEL_H
 #define PMFPANEL_H
 
-#define CHECK_ASSERTIONS 1
+//#define CHECK_ASSERTIONS 1
 
 #include "PMF.hpp"
 #include "PMFPopupMenu.h"

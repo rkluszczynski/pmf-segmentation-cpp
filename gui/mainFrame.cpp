@@ -29,10 +29,12 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	saveImageMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEIMAGE_MENUITEM")) : NULL;
-	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
-	grayscaleMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_GRAYSCALE_MENUITEM")) : NULL;
-	progressMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
+	saveImageMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEIMAGE_MENUITEM"));
+	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
+	resetMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_RESET_MENUITEM"));
+	grayscaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_GRAYSCALE_MENUITEM"));
+	rescaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_RESCALE_MENUITEM"));
+	progressMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
@@ -49,8 +51,10 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_UPDPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnUpdatePointMenuItemSelected);
 	Connect(XRCID("ID_REMPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRemovePointMenuItemSelected);
 	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
+	Connect(XRCID("ID_RESET_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnResetMenuItemSelected);
 	Connect(XRCID("ID_GRAYSCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGrayscaleMenuItemSelected);
 	Connect(XRCID("ID_GRADIENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGradientMenuItemSelected);
+	Connect(XRCID("ID_RESCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRescaleMenuItemSelected);
 	Connect(XRCID("ID_PRESENT_PMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnPresentPMFMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnShowProgressMenuItemSelected);
@@ -559,6 +563,43 @@ void mainFrame::OnPresentPMFMenuItemSelected(wxCommandEvent& event)
     wxWindow * w = myNotebook->GetCurrentPage();
     if (w->IsKindOf(CLASSINFO(ImagePanel))) {
         ImagePanel * ip = (ImagePanel *) myNotebook->GetCurrentPage();
-        ip->PresentPMF();
+        PMF<double> * pmf = NULL;
+
+        wxString caption = wxT("Choose a configuration file");
+        wxString wildcard = wxT("Configuration files (*.cf)|*.cf;*.txt");
+        wxString defaultDir = wxT("../output");
+        wxString defaultFilename = wxEmptyString;
+
+        wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+        if (dialog.ShowModal() == wxID_OK)
+        {
+            wxString path = dialog.GetPath();
+            //int fiterIndex = dialog.GetFilterIndex();
+
+            wxCSConv wxConvISO8859_2(wxT("iso8859-2"));
+            const wxCharBuffer wxbuf = wxConvISO8859_2.cWC2MB(path);
+            const char * filepath = (const char *)wxbuf;
+
+            pmf = new PMF<double>(0.0, 0.0);
+            pmf->LoadConfiguration(filepath);
+        }
+        ip->PresentPMF(pmf);
     }
+}
+
+
+void mainFrame::OnRescaleMenuItemSelected(wxCommandEvent& event)
+{
+    wxWindow * w = myNotebook->GetCurrentPage();
+    if (w->IsKindOf(CLASSINFO(ImagePanel))) {
+        ImagePanel * ip = (ImagePanel *) myNotebook->GetCurrentPage();
+        ip->Rescale(1000, 1000);
+    }
+}
+
+
+void mainFrame::OnResetMenuItemSelected(wxCommandEvent& event)
+{
+    if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
+        ((ImagePanel *) myNotebook->GetCurrentPage())->Reset();
 }
