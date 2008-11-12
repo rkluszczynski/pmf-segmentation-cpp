@@ -9,6 +9,8 @@
 	<sys/timeb.h>
 	"sim-feps.cpp"
 
+1225724544 cpp"
+
 1202049866 d:\projects\pmf-codeblocks\src\generate.cpp
 	<iostream>
 	<ctime>
@@ -19,6 +21,8 @@
 	"blockslists.hpp"
 	"probability.hpp"
 	"accesslists.hpp"
+
+1226004462 ts.hpp"
 
 1211027068 d:\projects\pmf-codeblocks\headers\birthslist.hpp
 	<stdio.h>
@@ -32,8 +36,12 @@
 	<iostream>
 	"listelement.hpp"
 
+1224233594 nt.hpp"
+
 1211027068 d:\projects\pmf-codeblocks\headers\listelement.hpp
 	<cstdio>
+
+1226001802 
 
 1225724616 d:\projects\pmf-codeblocks\headers\templatelist.hpp
 	<cstdio>
@@ -47,9 +55,13 @@
 	<assert.h>
 	"blocklist.hpp"
 
+1225552892 .hpp"
+
 1208384806 d:\projects\pmf-codeblocks\headers\blocklist.hpp
 	"point.hpp"
 	"templatelist.hpp"
+
+1223887096 ist.hpp"
 
 1211212570 d:\projects\pmf-codeblocks\headers\intersectionslist.hpp
 	<stdio.h>
@@ -62,6 +74,8 @@
 	<cstdio>
 	"point.hpp"
 
+1223029328 "
+
 1226004460 d:\projects\pmf-codeblocks\headers\configurationlist.hpp
 	<assert.h>
 	"point.hpp"
@@ -73,8 +87,12 @@
 	<cmath>
 	<algorithm>
 
+1223887096 >
+
 1210671598 d:\projects\pmf-codeblocks\headers\accesslists.hpp
 	"geometry.hpp"
+
+1223887096 hpp"
 
 1226265004 d:\projects\pmf-codeblocks\headers\geometry.hpp
 
@@ -159,6 +177,8 @@
 	"modifyheaps.hpp"
 	"rotate.cpp"
 
+1210352922 p"
+
 1223887096 h:\projects\pmf-codeblocks\headers\birthslist.hpp
 	<stdio.h>
 	<iostream>
@@ -215,10 +235,14 @@
 	<vector>
 	<assert.h>
 
+1225724616 
+
 1223887096 h:\projects\pmf-codeblocks\headers\intersectionsheap.hpp
 	<cmath>
 	"crosselement.hpp"
 	"abstractheap.hpp"
+
+1222107108 eap.hpp"
 
 1226003324 h:\projects\pmf-codeblocks\headers\modifyheaps.hpp
 	"point.hpp"
@@ -286,6 +310,8 @@
 	"remove.hpp"
 	"segment.hpp"
 
+1225724544 pp"
+
 1223887096 h:\projects\pmf-codeblocks\src\generate.hpp
 	<iostream>
 	<ctime>
@@ -309,6 +335,8 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\adding.hpp
 	"modifyheaps.hpp"
+
+1222296028 ps.hpp"
 
 1223887096 h:\projects\pmf-codeblocks\src\rotate.hpp
 	"point.hpp"
@@ -462,6 +490,8 @@
 	"edgeelement.hpp"
 	"edgepoints.cpp"
 
+1225970230 s.cpp"
+
 1223887096 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
 1225993766 h:\projects\pmf-codeblocks\src\edgepoints.cpp
@@ -541,6 +571,8 @@
 	"PMF.hpp"
 	"edgepoints.hpp"
 
+1225718090 s.hpp"
+
 1225724544 source:d:\projects\pmf-codeblocks\src\mainsegm.cpp
 	<cstdio>
 	<cstdlib>
@@ -618,4 +650,212 @@
 1226001802 h:\projects\pmf-codeblocks\src\sim-feps.cpp
 	"grayscaleimage.hpp"
 	<cstdio>
+
+1226485297 source:/home/klusi/PROJECTS/PMF-CodeBlocks/src/mainSegm.cpp
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<csignal>
+	<ctime>
+	<unistd.h>
+	<sys/timeb.h>
+	"sim-segm.cpp"
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/sim-segm.cpp
+	"grayscaleimage.hpp"
+	<cstdio>
+
+1226485296 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/grayscaleimage.hpp
+	<iostream>
+	<queue>
+	<cmath>
+	"CImg.h"
+	"PMF.hpp"
+
+1225448986 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/CImg.h
+	<cstdio>
+	<cstdlib>
+	<cstdarg>
+	<cstring>
+	<cmath>
+	<ctime>
+	<sys/time.h>
+	<unistd.h>
+	<windows.h>
+	<shlobj.h>
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/keysym.h>
+	<pthread.h>
+	<sys/ipc.h>
+	<sys/shm.h>
+	<X11/extensions/XShm.h>
+	<X11/extensions/Xrandr.h>
+	<Carbon/Carbon.h>
+	<pthread.h>
+	"omp.h"
+	"png.h"
+	"jpeglib.h"
+	"tiffio.h"
+	"ffmpeg/avformat.h"
+	"ffmpeg/avcodec.h"
+	"ffmpeg/swscale.h"
+	"zlib.h"
+	"Magick++.h"
+	"fftw3.h"
+	"Board.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+
+1226485568 /home/klusi/PROJECTS/PMF-CodeBlocks/src/PMF.hpp
+	<ctime>
+	<ostream>
+	<iostream>
+	"configurationlist.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
+	"edgepoints.hpp"
+	"blockslists.hpp"
+	"PMF.cpp"
+
+1226485296 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/configurationlist.hpp
+	<assert.h>
+	"point.hpp"
+	"templatelist.hpp"
+	"blockslists.hpp"
+
+1224170868 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/point.hpp
+	<cstdio>
+	<iostream>
+	"listelement.hpp"
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/listelement.hpp
+	<cstdio>
+
+1225448888 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/templatelist.hpp
+	<cstdio>
+	<iostream>
+	<fstream>
+	"listelement.hpp"
+
+1226485296 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/blockslists.hpp
+	<iostream>
+	<vector>
+	<assert.h>
+	"blocklist.hpp"
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/blocklist.hpp
+	"point.hpp"
+	"templatelist.hpp"
+
+1221746307 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/birthsheap.hpp
+	<cmath>
+	<algorithm>
+	"abstractheap.hpp"
+	"blockslists.hpp"
+
+1225448888 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/abstractheap.hpp
+	<iostream>
+	<algorithm>
+	<vector>
+	<assert.h>
+
+1221746307 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/intersectionsheap.hpp
+	<cmath>
+	"crosselement.hpp"
+	"abstractheap.hpp"
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/crosselement.hpp
+	<cstdio>
+	"point.hpp"
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/edgepoints.hpp
+	<iostream>
+	<vector>
+	"point.hpp"
+	"edgeelement.hpp"
+	"edgepoints.cpp"
+
+1216211524 /home/klusi/PROJECTS/PMF-CodeBlocks/src/edgeelement.hpp
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/edgepoints.cpp
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/PMF.cpp
+	<iostream>
+	<fstream>
+	"generate.hpp"
+	"rotate.hpp"
+	"prepare.hpp"
+	"evolve.hpp"
+	"adding.hpp"
+	"update.hpp"
+	"remove.hpp"
+	"segment.hpp"
+
+1222717392 /home/klusi/PROJECTS/PMF-CodeBlocks/src/generate.hpp
+	<iostream>
+	<ctime>
+	<cmath>
+	"birthslist.hpp"
+	"intersectionslist.hpp"
+	"configurationlist.hpp"
+	"blockslists.hpp"
+	"probability.hpp"
+	"accesslists.hpp"
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/birthslist.hpp
+	<stdio.h>
+	<iostream>
+	"point.hpp"
+	"templatelist.hpp"
+	"blockslists.hpp"
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/intersectionslist.hpp
+	<stdio.h>
+	<iostream>
+	"templatelist.hpp"
+	"crosselement.hpp"
+	"blockslists.hpp"
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/probability.hpp
+	<cstdlib>
+	<cmath>
+	<algorithm>
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/accesslists.hpp
+	"geometry.hpp"
+
+1226485296 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/geometry.hpp
+
+1222717392 /home/klusi/PROJECTS/PMF-CodeBlocks/src/rotate.hpp
+	"point.hpp"
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/prepare.hpp
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/evolve.hpp
+
+1222717392 /home/klusi/PROJECTS/PMF-CodeBlocks/src/adding.hpp
+	"modifyheaps.hpp"
+
+1226485296 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/modifyheaps.hpp
+	"point.hpp"
+	"birthsheap.hpp"
+	"intersectionsheap.hpp"
+	"modifylists.hpp"
+	<stack>
+
+1213865619 /home/klusi/PROJECTS/PMF-CodeBlocks/headers/modifylists.hpp
+	"point.hpp"
+	<stack>
+	<vector>
+	<stack>
+
+1222717392 /home/klusi/PROJECTS/PMF-CodeBlocks/src/update.hpp
+
+1222717392 /home/klusi/PROJECTS/PMF-CodeBlocks/src/remove.hpp
+
+1226485297 /home/klusi/PROJECTS/PMF-CodeBlocks/src/segment.hpp
 
