@@ -231,6 +231,16 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
 }
 
 
+double asd(double gx, double gy) {
+    if (gx == 0.0  &&  gy == 0.0)  return 0.0;
+
+    double aaa = atan2(gx, gy);
+    if (aaa < 0.0) aaa += (2.0 * M_PI);
+    if (aaa < M_PI_2)  aaa += M_PI;
+    if (aaa >= 1.5 * M_PI)  aaa -= M_PI;
+    return aaa;
+}
+
 void ImagePanel::OnLeftUp(wxMouseEvent& event)
 {
     int x = event.GetX() + 1;
@@ -252,16 +262,14 @@ void ImagePanel::OnLeftUp(wxMouseEvent& event)
         double G = Gy * Gy + Gx * Gx;
         wstr += wxString::Format(wxT(" grad = %.2lf"), sqrt(G));
         #define radians2degree(X) (X * 180.0 / M_PI)
+        /*
         if (G > 0.0) {
             double angle = atan(Gx / Gy);
             wstr += wxString::Format(wxT("  theta = %.2lf, %.0lf"), angle, radians2degree(angle));
         }
-
-        double aaa = atan2(Gy, Gx);
-        if (aaa < 0.0) aaa += M_PI;
-        aaa = M_PI - aaa;
-        aaa = (aaa > M_PI_2) ? (aaa - M_PI_2) : (aaa + M_PI_2);
-        wstr += wxString::Format(wxT("  theta2 = %.2lf, %.0lf"), aaa, radians2degree(aaa));
+        //*/
+        double aaa = asd(Gx, Gy);
+        wstr += wxString::Format(wxT("  theta2 = %.2lf {%.0lf}"), aaa, radians2degree(aaa));
     }
     else {
         wstr = _(" border pixel ");

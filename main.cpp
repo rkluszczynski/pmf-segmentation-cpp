@@ -178,7 +178,7 @@ int main (int argc, char *argv[])
 
         // * Determining starting configuration. *
 		PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
-		pmf->SetSeed(seed);
+		srand(seed);
 #if pmf_LOG_ADD
         ofstream fout("output/tmp.txt");
         out.rdbuf(fout.rdbuf());
