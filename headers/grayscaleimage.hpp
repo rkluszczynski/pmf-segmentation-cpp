@@ -35,6 +35,16 @@ class GrayScaleImage
 };
 
 
+double asd2(double gx, double gy) {
+    if (gx == 0.0  &&  gy == 0.0)  return 0.0;
+
+    double aaa = atan2(gx, gy);
+    if (aaa < 0.0) aaa += (2.0 * M_PI);
+    if (aaa < M_PI_2)  aaa += M_PI;
+    if (aaa >= 1.5 * M_PI)  aaa -= M_PI;
+    return aaa;
+}
+
 EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_dist, double fWidth, double fHeight)
 {
     EdgePoints<double> * ep = new EdgePoints<double>();
@@ -74,10 +84,10 @@ EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_d
             double limit = GetGradientValue(xx, yy, &G) / maks;
             double fate = Uniform(0.0, 1.0);
             if (limit > 0.0  &&  fate <= limit) {
-                double aaa = atan2(G.second, G.first);
-                if (aaa < 0.0) aaa += M_PI;
-                aaa = M_PI - aaa;
-                aaa = (aaa > M_PI_2) ? (aaa - M_PI_2) : (aaa + M_PI_2);
+                double aaa = asd2(G.first, G.second);
+
+                if (rand() & 0x1)  aaa += M_PI_2;
+                else  aaa -= M_PI_2;
 
                 pair<int, int> pixel(xx, yy);
                 pixels.push_back(pixel);

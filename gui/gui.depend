@@ -5281,7 +5281,7 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1226410634 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+1226757236 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/bitmap.h>
@@ -5291,11 +5291,12 @@
 	"ImagePanel.h"
 	"mainFrame.h"
 
-1226410640 h:\projects\pmf-codeblocks\gui\imagepanel.h
+1226757236 h:\projects\pmf-codeblocks\gui\imagepanel.h
 	<wx/scrolwin.h>
 	<wx/sizer.h>
 	<wx/panel.h>
 	<wx/statbmp.h>
+	"PMF.hpp"
 
 1223887094 source:h:\projects\pmf-codeblocks\gui\modpointdialog.cpp
 	"ModPointDialog.h"
@@ -5329,7 +5330,7 @@
 1223887094 h:\projects\pmf-codeblocks\gui\pmfapplication.h
 	<wx/app.h>
 
-1226415314 h:\projects\pmf-codeblocks\gui\mainframe.h
+1226757236 h:\projects\pmf-codeblocks\gui\mainframe.h
 	<wx/scrolwin.h>
 	<wx/notebook.h>
 	<wx/menu.h>
@@ -5449,7 +5450,7 @@
 	"wx/defs.h"
 	"wx/filesys.h"
 
-1226410910 h:\projects\pmf-codeblocks\gui\pmfpanel.h
+1226757236 h:\projects\pmf-codeblocks\gui\pmfpanel.h
 	"PMF.hpp"
 	"PMFPopupMenu.h"
 	<wx/dcmemory.h>
@@ -5459,7 +5460,7 @@
 	<wx/panel.h>
 	<wx/statbmp.h>
 
-1225543848 h:\projects\pmf-codeblocks\src\pmf.hpp
+1226757236 h:\projects\pmf-codeblocks\src\pmf.hpp
 	<ctime>
 	<ostream>
 	<iostream>
@@ -5571,7 +5572,7 @@
 1223887096 h:\projects\pmf-codeblocks\headers\accesslists.hpp
 	"geometry.hpp"
 
-1223887096 h:\projects\pmf-codeblocks\headers\geometry.hpp
+1226438166 h:\projects\pmf-codeblocks\headers\geometry.hpp
 
 1223887096 h:\projects\pmf-codeblocks\src\rotate.hpp
 	"point.hpp"
@@ -5600,7 +5601,7 @@
 
 1223887096 h:\projects\pmf-codeblocks\src\remove.hpp
 
-1225994950 h:\projects\pmf-codeblocks\src\segment.hpp
+1226438166 h:\projects\pmf-codeblocks\src\segment.hpp
 
 1223887094 h:\projects\pmf-codeblocks\gui\pmfpopupmenu.h
 	<wx/menu.h>
@@ -5622,7 +5623,7 @@
 	<wx/wx.h>
 	<wx/menu.h>
 
-1226410730 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1226757236 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
