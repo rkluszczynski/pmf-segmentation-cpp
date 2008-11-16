@@ -16,15 +16,15 @@ void printStatistics(PMF<double> & pmf, double angle = 0.0)
 
 int main()
 {
-    GrayScaleImage gsimg("input/shape.bmp");
+    GrayScaleImage gsimg("input/szary.bmp");
 
     std::cout << "ROZMIAR : ";
     std::cout << gsimg.GetWidth() << " x " << gsimg.GetHeight() << std::endl;
     //*
-    std::cout << gsimg.GetPixel(1, 1) << std::endl;
-    std::cout << gsimg.GetPixel(1, 179) << std::endl;
-    std::cout << gsimg.GetPixel(179, 1) << std::endl;
-    std::cout << gsimg.GetPixel(179, 179) << std::endl;
+    std::cout << gsimg.GetPixelValue(1, 1) << std::endl;
+    std::cout << gsimg.GetPixelValue(1, 179) << std::endl;
+    std::cout << gsimg.GetPixelValue(179, 1) << std::endl;
+    std::cout << gsimg.GetPixelValue(179, 179) << std::endl;
     //*/
 
     PMF<double> pmf(7.0, 7.0);

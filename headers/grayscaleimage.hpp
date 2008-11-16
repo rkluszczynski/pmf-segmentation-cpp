@@ -24,7 +24,8 @@ class GrayScaleImage
         inline int GetWidth()   { return x; }
         inline int GetHeight()  { return y; }
 
-        inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
+        //inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
+        inline int GetPixelValue(int xx, int yy) { return data[yy][xx]; }
         double GetGradientValue(int xx, int yy, pair<double, double> * Gxy = NULL);
 
         EdgePoints<double> * GetRandomEdgePixels(int, int, double, double);
@@ -33,6 +34,7 @@ class GrayScaleImage
 
         double CalculateScanLinesEnergy(PMF<double> *);
 };
+
 
 
 double asd2(double gx, double gy) {
@@ -44,7 +46,7 @@ double asd2(double gx, double gy) {
     if (aaa >= 1.5 * M_PI)  aaa -= M_PI;
     return aaa;
 }
-
+#define LOG2CERR 1
 EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_dist, double fWidth, double fHeight)
 {
     EdgePoints<double> * ep = new EdgePoints<double>();
@@ -68,9 +70,10 @@ EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_d
         bool nextone = true;
         int xx = rand() % (GetWidth()-2) + 1;
         int yy = rand() % (GetHeight()-2) + 1;
+        cerr << ".";
 
         // Checking the distance with others
-        if (min_dist > 0)
+        if (min_dist > 0) {
             for (unsigned int k = 0; k < pixels.size(); k++) {
                 int dist2 = (pixels[k].first - xx)*(pixels[k].first - xx) +
                     (pixels[k].second - yy)*(pixels[k].second - yy);
@@ -78,33 +81,39 @@ EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_d
                     nextone = false;
                 }
             }
+            if (nextone == false) cerr << "X";
+        }
 
         if (nextone) {
             pair<double, double> G;
             double limit = GetGradientValue(xx, yy, &G) / maks;
-            double fate = Uniform(0.0, 1.0);
-            if (limit > 0.0  &&  fate <= limit) {
-                double aaa = asd2(G.first, G.second);
+            if (limit > 0.0) {
+                double fate = Uniform(0.0, 1.0);
+                cerr << "{" << limit << ">=" << fate << "}";
+                if (fate <= limit) {
+                    double aaa = asd2(G.first, G.second);
+#if LOG2CERR
+                    cerr << endl << " point  ( " << xx << " ; " << yy << " )" ;
+                    cerr << "  angle : " << aaa << " ~ " << radians2degree(aaa) << endl;
+                    cerr << " point accepted " << endl;
+#endif
+                    if (rand() & 0x1)  aaa += M_PI_2;  else  aaa -= M_PI_2;
 
-                if (rand() & 0x1)  aaa += M_PI_2;
-                else  aaa -= M_PI_2;
+                    pair<int, int> pixel(xx, yy);
+                    pixels.push_back(pixel);
+                    ep->AddEdgePoint( (double(xx) / double(GetWidth())) * fWidth,
+                                    (double(yy) / double(GetHeight())) * fHeight, aaa);
 
-                pair<int, int> pixel(xx, yy);
-                pixels.push_back(pixel);
-                //cerr << " point  " << xx << " x " << yy << endl;
-                //cerr << " image  " << GetWidth() << " x " << GetHeight() << endl;
-                //cerr << "  pmf   " << fWidth << " x " << fHeight << endl;
-                ep->AddEdgePoint( (double(xx) / double(GetWidth())) * fWidth,
-                                 (double(yy) / double(GetHeight())) * fHeight, aaa);
-
-                cerr << " point accepted " << endl;
-                //ep->PrintData(cerr);
-                i++;
+                    //ep->PrintData(cerr);
+                    i++;
+                }
             }
+            else cerr << "0";
         }
     }
     return ep;
 }
+#undef LOG2CERR
 
 
 GrayScaleImage :: GrayScaleImage (const char * filename)
@@ -151,8 +160,10 @@ double GrayScaleImage :: GetGradientValue (int xx, int yy, pair<double, double> 
     double pix8 = GetPixelValue(xx, yy+1);
     double pix9 = GetPixelValue(xx+1, yy+1);
 
-    double Gx = pix3 + 2.0 * pix6 + pix9 - pix1 - 2.0 * pix4 - pix7;
-    double Gy = pix1 + 2.0 * pix2 + pix3 - pix7 - 2.0 * pix8 - pix9;
+    //double Gx = pix3 + 2.0 * pix6 + pix9 - pix1 - 2.0 * pix4 - pix7;
+    double Gx = pix9 + 2.0 * pix6 + pix3 - pix7 - 2.0 * pix4 - pix1;
+    //double Gy = pix1 + 2.0 * pix2 + pix3 - pix7 - 2.0 * pix8 - pix9;
+    double Gy = pix7 + 2.0 * pix8 + pix9 - pix1 - 2.0 * pix2 - pix3;
 
     if (Gxy) {
         Gxy->first = Gx;

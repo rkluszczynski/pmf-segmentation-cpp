@@ -16,7 +16,6 @@ template <typename T_REAL> struct edge_element
 
 	friend std::ostream& operator << (std::ostream& out, const edge_element<T_REAL> * ee)
 	{
-
 		out << " ( ";
 		out.width(5);
 		out.precision(3);  out << ee->x;
@@ -26,6 +25,10 @@ template <typename T_REAL> struct edge_element
 		out << " ) ~ [ ";
 		out.width(5);
 		out.precision(3);  out << ee->angle;
+		out << " / ";
+		#define RAD2DEG(X) ((X) * 180.0 / M_PI)
+		out << RAD2DEG(ee->angle);
+		#undef RAD2DEG
 		out << " ] ";
 		if (ee->pt)  out << " :: " << ee->pt;
 		return out;

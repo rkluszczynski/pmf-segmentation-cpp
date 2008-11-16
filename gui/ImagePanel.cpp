@@ -245,7 +245,7 @@ void ImagePanel::OnLeftUp(wxMouseEvent& event)
 {
     int x = event.GetX() + 1;
     int y = event.GetY() + 1;
-    wxString wstr = wxString::Format(wxT("click=(%li,%li)  :: "), x, y);
+    wxString wstr = wxString::Format(wxT("click=(%li,%li) [%i,%i,%i] :: "), x, y, image.GetRed(x,y), image.GetGreen(x,y), image.GetBlue(x,y));
 
     if (! (x == 0 || y == 0 || x == image.GetWidth()-1 || y == image.GetHeight()-1))
     {

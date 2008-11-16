@@ -177,9 +177,11 @@ SimulateFixedEdgePointsSegmentation (
     GrayScaleImage gsimg(imageFileName);
 
     cerr << "getting ep " << endl;
-    EdgePoints<double> * ep = gsimg.GetRandomEdgePixels(10, 10, pmf->GetPMFWidth(), pmf->GetPMFHeight());
+    EdgePoints<double> * ep = gsimg.GetRandomEdgePixels(5, 10, pmf->GetPMFWidth(), pmf->GetPMFHeight());
 
     ep->PrintData(cerr);
+
+    //return;
 
     ApplyFixedEdgePointsToConfiguration(pmf, ep);
     pmf->SaveConfiguration("output/edgepoints.cf");

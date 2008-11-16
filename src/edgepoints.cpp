@@ -4,6 +4,7 @@ template <class T_REAL>
 EdgePoints<T_REAL> :: EdgePoints ()
 {
     PointsVector.reserve(200);
+    size_x = size_y = 0;
 }
 
 
@@ -52,10 +53,12 @@ EdgePoints<T_REAL> :: PrintData (std::ostream & out = std::cout)
 {
     out << "[ EDGE ] : printing data" << endl;
     out << "[ EDGE ] : amount = " << getPointsNumber() << " ;\t";
-    out.precision(3);
-    out.width(5);
-    out << "  size = " << size_x << " x " << size_y  << endl;
-
+    if (size_x > 0  && size_y > 0) {
+        out.precision(3);
+        out.width(5);
+        out << "  size = " << size_x << " x " << size_y;
+    }
+    out << endl;
     for (int i = 0; i < getPointsNumber(); i++) {
         out.width(4);
         out << i << "  :  " << PointsVector[i] << endl;
