@@ -195,7 +195,7 @@ double GrayScaleImage :: GetGradientValue (int xx, int yy, pair<double, double> 
 double GrayScaleImage :: CalculateScanLinesEnergy (PMF<double> * pmf)
 {
     int oColor[2] = { 0, 0 };
-    for (double xx = 0.0; xx < pmf->GetPMFWidth(); xx += 0.05)
+    for (double xx = 0.0; xx < pmf->GetPMFWidth()/2.0; xx += 0.05)
     {
         int amount[2];
         ScanVerticalLine(pmf, xx, amount);
@@ -249,6 +249,8 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * orig
             }
         if (temp->data->y == 0.0  &&  temp->data->x <= xx)  amountYeq0++;
     }
+    pair<double, double> lastPt(xx, pmf->GetPMFHeight());
+    pq.push(lastPt);
 
     double scaleX = GetWidth()  / pmf->GetPMFWidth();
     double scaleY = GetHeight() / pmf->GetPMFHeight();
@@ -275,6 +277,7 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * orig
             else    amount[1] += (255 - dist + 1);
             //cout << "           : " << amount[0] << " , " << amount[1] << endl;
 
+            //yy += (1.0 / scaleY);
             yy += 0.05;
         }
         startTopColor = 255 - startTopColor;

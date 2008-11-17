@@ -185,3 +185,7 @@
 	<vector>
 	"avl.hpp"
 
+1226932652 source:d:\projects\pmf-codeblocks\tests\test-imageobjects.cpp
+	<iostream>
+	"grayscaleimage.hpp"
+

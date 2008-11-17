@@ -20,7 +20,7 @@ int main()
 
     std::cout << "ROZMIAR : ";
     std::cout << gsimg.GetWidth() << " x " << gsimg.GetHeight() << std::endl;
-    //*
+    /*
     std::cout << gsimg.GetPixelValue(1, 1) << std::endl;
     std::cout << gsimg.GetPixelValue(1, 179) << std::endl;
     std::cout << gsimg.GetPixelValue(179, 1) << std::endl;
@@ -28,22 +28,27 @@ int main()
     std::cout << gsimg.GetPixelValue(279, 179) << std::endl;
     //*/
 
-    PMF<double> pmf(7.0, 7.0);
-    pmf.LoadConfiguration("input/test.cf");
+    GrayScaleImage gsimgW("input/qq-0W.bmp");
+    GrayScaleImage gsimgB("input/qq-0B.bmp");
 
-    //gsimg.ScanVerticalLine(&pmf, 0.6);
+    PMF<double> pmf(7.0, 7.0);
+    pmf.LoadConfiguration("input/qq.cf");
+
+    //gsimgB.ScanVerticalLine(&pmf, 2.8);
+    //gsimgW.ScanVerticalLine(&pmf, 2.8);
     //gsimg.ScanVerticalLine(&pmf, 6.0);
 
-    std::cout << std::endl << "[ ENERGY ] : " << gsimg.CalculateScanLinesEnergy(&pmf) << std::endl;
+    std::cout << std::endl << "[ ENERGY-W ] : " << gsimgW.CalculateScanLinesEnergy(&pmf) << std::endl;
+    std::cout << std::endl << "[ ENERGY-B ] : " << gsimgB.CalculateScanLinesEnergy(&pmf) << std::endl;
 
     printStatistics(pmf);
     printStatistics(pmf, M_PI);
-
+    /*
     std::pair<int,int> a(1,2), b(1,1), c(2,1);
     std::cout << std::endl;
     std::cout << ((a<b) ? "TAK" : "NIE") << std::endl;
     std::cout << ((a<c) ? "TAK" : "NIE") << std::endl;
     std::cout << ((b<c) ? "TAK" : "NIE") << std::endl;
-
+    //*/
     return 0;
 }
