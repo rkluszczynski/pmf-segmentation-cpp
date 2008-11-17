@@ -48,9 +48,9 @@ class PMF
 		void RotatePointTypes(T_REAL, T_REAL);
 		void DetermineTypesFromLeftToRight();
 
-		void AddBirthPoint(T_REAL, T_REAL, T_REAL, T_REAL);
-		void UpdatePointVelocity(long, T_REAL, T_REAL);
-		void RemoveBirthPoint(long, T_REAL, T_REAL);
+		void AddBirthPoint(T_REAL, T_REAL, T_REAL, T_REAL, EdgePoints<T_REAL> *);
+		void UpdatePointVelocity(long, T_REAL, T_REAL, EdgePoints<T_REAL> *);
+		void RemoveBirthPoint(long, T_REAL, T_REAL, EdgePoints<T_REAL> *);
 		void AddBirthSegment(T_REAL, T_REAL, T_REAL, EdgePoints<T_REAL> *);
 
 		void SetSeed(time_t);

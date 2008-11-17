@@ -6,7 +6,7 @@
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 template <class T_REAL>
 void
-PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0)
+PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0, EdgePoints<T_REAL> * ep = NULL)
 {
     T_REAL fieldWidth  = pmfConf->get_field_width();
     T_REAL fieldHeight = pmfConf->get_field_height();
@@ -85,7 +85,7 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 
 
     /* ************************************************************************************** */
     // and the riots start again ...
-    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, blocks);
+    EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, blocks, ep);
 
     delete bHeap;
     delete iHeap;
