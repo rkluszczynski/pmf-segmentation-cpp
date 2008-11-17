@@ -157,10 +157,9 @@
 	<sys/timeb.h>
 	"sim-edge.cpp"
 
-1223902584 source:h:\projects\pmf-codeblocks\tests\test-imageobjects.cpp
+1226870636 source:h:\projects\pmf-codeblocks\tests\test-imageobjects.cpp
 	<iostream>
 	"grayscaleimage.hpp"
-	"CImg.h"
 
 1225547896 source:h:\projects\pmf-codeblocks\tests\test-artefactsremover.cpp
 	<cstdio>

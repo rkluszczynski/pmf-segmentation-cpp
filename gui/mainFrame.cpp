@@ -219,10 +219,11 @@ void mainFrame::OnLoadImageMenuItemSelected(wxCommandEvent& event)
     wxString wildcard = wxT("PNG files (*.png)|*.png");
     wildcard += wxT("|BMP files (*.bmp)|*.bmp");
     wildcard += wxT("|GIF files (*.gif)|*.gif");
-    wxString defaultDir = wxT("C:\\Uzytki\\ImageJ\\images");
+    wxString defaultDir = wxT("../input");
     wxString defaultFilename = wxEmptyString;
 
     wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    dialog.SetFilterIndex(1);
     if (dialog.ShowModal() == wxID_OK)
     {
         wxString path = dialog.GetPath();

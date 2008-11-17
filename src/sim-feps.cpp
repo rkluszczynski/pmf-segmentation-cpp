@@ -198,7 +198,7 @@ SimulateFixedEdgePointsSegmentation (
     double engH = beta_1 * storedArea + beta_2 * storedELen;
     fprintf(stderr, "[ ENERGY ] : %lf  (%.2lf)", engH, tmpArea);  fflush(stderr);
 
-    return;
+    //return;
 
 
     long loopIteration = 1;				// * Iteration counter *

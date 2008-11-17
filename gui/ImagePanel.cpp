@@ -176,9 +176,12 @@ void ImagePanel::CalculateGradient()
 }
 
 
+#include "grayscaleimage.hpp"
+
 void ImagePanel::PresentPMF(PMF<double> * pmf)
 {
     wxImage img = image.ConvertToGreyscale();
+    GrayScaleImage gsimg(img.GetWidth(), img.GetHeight());
 
     for (int x = 0; x < img.GetWidth(); x++) {
         for (int y = 0; y < img.GetHeight(); y++) {
@@ -189,6 +192,8 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
             gg = 128 + gg / 2;
             bb = 128 + bb / 2;
             img.SetRGB(x, y, rr, gg, bb);
+
+            gsimg.PutPixelValue(x, y, img.GetGreen(x,y));
         }
     }
 
@@ -224,8 +229,11 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
                 dc.DrawLine(ix, iy, ix2, iy2);
             }
         }
-    }
 
+        double eng = gsimg.CalculateScanLinesEnergy(pmf);
+        wxString wstr = wxString::Format(wxT(" [ ENERGY ] : %.3lf"), eng);
+        ((mainFrame *) mframe)->SetStatusText(wstr, 0);
+    }
     staticBitmap->SetBitmap( *bmp );
     scrolledImageWindow->FitInside();
 }
@@ -240,6 +248,7 @@ double asd(double gx, double gy) {
     if (aaa >= 1.5 * M_PI)  aaa -= M_PI;
     return aaa;
 }
+
 
 void ImagePanel::OnLeftUp(wxMouseEvent& event)
 {

@@ -4,6 +4,9 @@
 #include <iostream>
 #include <queue>
 #include <cmath>
+
+#define cimg_display 0
+
 #include "CImg.h"
 #include "PMF.hpp"
 
@@ -16,16 +19,19 @@ class GrayScaleImage
         int ** data;
         int x, y, v, z;
 
+        double GetAtan2Angle(double gx, double gy);
+
 
     public :
         GrayScaleImage(const char *);
+        GrayScaleImage(int, int);
         virtual ~GrayScaleImage();
 
         inline int GetWidth()   { return x; }
         inline int GetHeight()  { return y; }
 
-        //inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
-        inline int GetPixelValue(int xx, int yy) { return data[yy][xx]; }
+        inline void PutPixelValue(int xx, int yy, int value) { data[xx][yy] = value; }
+        inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
         double GetGradientValue(int xx, int yy, pair<double, double> * Gxy = NULL);
 
         EdgePoints<double> * GetRandomEdgePixels(int, int, double, double);
@@ -37,7 +43,8 @@ class GrayScaleImage
 
 
 
-double asd2(double gx, double gy) {
+double GrayScaleImage :: GetAtan2Angle(double gx, double gy)
+{
     if (gx == 0.0  &&  gy == 0.0)  return 0.0;
 
     double aaa = atan2(gx, gy);
@@ -91,7 +98,7 @@ EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_d
                 double fate = Uniform(0.0, 1.0);
                 cerr << "{" << limit << ">=" << fate << "}";
                 if (fate <= limit) {
-                    double aaa = asd2(G.first, G.second);
+                    double aaa = GetAtan2Angle(G.first, G.second);
 #if LOG2CERR
                     cerr << endl << " point  ( " << xx << " ; " << yy << " )" ;
                     cerr << "  angle : " << aaa << " ~ " << radians2degree(aaa) << endl;
@@ -104,7 +111,7 @@ EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_d
                     ep->AddEdgePoint( (double(xx) / double(GetWidth())) * fWidth,
                                     (double(yy) / double(GetHeight())) * fHeight, aaa);
 
-                    //ep->PrintData(cerr);
+                    ep->PrintData(cerr);
                     i++;
                 }
             }
@@ -114,6 +121,18 @@ EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_d
     return ep;
 }
 #undef LOG2CERR
+
+
+GrayScaleImage :: GrayScaleImage (int xx, int yy)
+{
+    x = xx;
+    y = yy;
+    v = z = 0;
+
+    data = (int **) calloc(x, sizeof(int *));
+    for (int ix = 0; ix < x; ix++)
+        data[ix] = (int *) calloc(y, sizeof(int));
+}
 
 
 GrayScaleImage :: GrayScaleImage (const char * filename)
@@ -130,12 +149,12 @@ GrayScaleImage :: GrayScaleImage (const char * filename)
     }
     //*
     data = (int **) calloc(x, sizeof(int *));
-    int * p = img.data;
-    for (int i = 0; i < x; i++)
+    for (int ix = 0; ix < x; ix++)
     {
-        data[i] = (int *) calloc(y, sizeof(int));
-        memcpy(data[i], p, y*sizeof(int));
-        p += y;
+        data[ix] = (int *) calloc(y, sizeof(int));
+        for (int iy = 0; iy < y; iy++) {
+            data[ix][iy] = img(ix, iy, 0, 0);
+        }
     }
     //*/
 }

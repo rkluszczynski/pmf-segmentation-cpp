@@ -5281,7 +5281,7 @@
 	<wx/button.h>
 	<wx/dialog.h>
 
-1226757236 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
+1226876948 source:h:\projects\pmf-codeblocks\gui\imagepanel.cpp
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/bitmap.h>
@@ -5291,7 +5291,7 @@
 	"ImagePanel.h"
 	"mainFrame.h"
 
-1226757236 h:\projects\pmf-codeblocks\gui\imagepanel.h
+1226877508 h:\projects\pmf-codeblocks\gui\imagepanel.h
 	<wx/scrolwin.h>
 	<wx/sizer.h>
 	<wx/panel.h>
@@ -5513,9 +5513,9 @@
 
 1225970230 s.cpp"
 
-1223887096 h:\projects\pmf-codeblocks\src\edgeelement.hpp
+1226866568 h:\projects\pmf-codeblocks\src\edgeelement.hpp
 
-1225993766 h:\projects\pmf-codeblocks\src\edgepoints.cpp
+1226866568 h:\projects\pmf-codeblocks\src\edgepoints.cpp
 
 1225557066 h:\projects\pmf-codeblocks\src\pmf.cpp
 	<iostream>
@@ -5623,7 +5623,7 @@
 	<wx/wx.h>
 	<wx/menu.h>
 
-1226757236 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
+1226875420 source:h:\projects\pmf-codeblocks\gui\mainframe.cpp
 	"mainFrame.h"
 	<wx/wx.h>
 	<wx/dcbuffer.h>
@@ -7877,4 +7877,49 @@
 	"wx/defs.h"
 	"wx/progdlg.h"
 	"wx/dialog.h"
+
+1226877206 h:\projects\pmf-codeblocks\headers\grayscaleimage.hpp
+	<iostream>
+	<queue>
+	<cmath>
+	"CImg.h"
+	"PMF.hpp"
+
+1225537698 h:\projects\pmf-codeblocks\headers\cimg.h
+	<cstdio>
+	<cstdlib>
+	<cstdarg>
+	<cstring>
+	<cmath>
+	<ctime>
+	<sys/time.h>
+	<unistd.h>
+	<windows.h>
+	<shlobj.h>
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/keysym.h>
+	<pthread.h>
+	<sys/ipc.h>
+	<sys/shm.h>
+	<X11/extensions/XShm.h>
+	<X11/extensions/Xrandr.h>
+	<Carbon/Carbon.h>
+	<pthread.h>
+	"omp.h"
+	"png.h"
+	"jpeglib.h"
+	"tiffio.h"
+	"ffmpeg/avformat.h"
+	"ffmpeg/avcodec.h"
+	"ffmpeg/swscale.h"
+	"zlib.h"
+	"Magick++.h"
+	"fftw3.h"
+	"Board.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
+	"CImg.h"
 

@@ -25,6 +25,7 @@ int main()
     std::cout << gsimg.GetPixelValue(1, 179) << std::endl;
     std::cout << gsimg.GetPixelValue(179, 1) << std::endl;
     std::cout << gsimg.GetPixelValue(179, 179) << std::endl;
+    std::cout << gsimg.GetPixelValue(279, 179) << std::endl;
     //*/
 
     PMF<double> pmf(7.0, 7.0);
