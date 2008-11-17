@@ -28,6 +28,7 @@ template <class T_TYPE> class AVL
         AVL();
         virtual ~AVL();
 
+        inline void clear() { if (root) free_mem(root); root = NULL; }
         inline void print() { print(root, 0); }
         void print_node(TNODE * node);
 
@@ -41,6 +42,7 @@ template <class T_TYPE> class AVL
     private :
         TNODE * root;
 
+        void free_mem(TNODE * node);
         TNODE * alloc_new_node(T_TYPE kkey);
         //void print_node(TNODE * node);
         void print(TNODE * node, int tabs);
@@ -396,6 +398,16 @@ AVL<T_TYPE>::alloc_new_node (T_TYPE kkey)
 
 
 template <class T_TYPE>
+void
+AVL<T_TYPE>::free_mem (TNODE * node)
+{
+    if (node->left) free_mem(node->left);
+    if (node->right) free_mem(node->right);
+    delete node;
+};
+
+
+template <class T_TYPE>
 AVL<T_TYPE>::AVL ()
 {
     root = NULL;
@@ -406,6 +418,7 @@ AVL<T_TYPE>::AVL ()
 template <class T_TYPE>
 AVL<T_TYPE>::~AVL ()
 {
+    if (root) free_mem(root);
 	std::cout << "[ AVL ]  destroyed" << std::endl;
 };
 
