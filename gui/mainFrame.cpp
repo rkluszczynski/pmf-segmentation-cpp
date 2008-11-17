@@ -458,10 +458,10 @@ void mainFrame::OnShowProgressMenuItemSelected(wxCommandEvent& event)
         wxSleep(1);
         if ( i == max )
             //cont = dialog.Update(i, wxT("To wszystko!"));
-            cont = dialog.Pulse(wxT("To wszystko!"));
+            cont = dialog.Pulse(wxT("That's all folks!"));
         else if ( i == max / 2 )
             //cont = dialog.Update(i, wxT("Polowa za nami!"));
-            cont = dialog.Pulse(wxT("Polowa za nami!"));
+            cont = dialog.Pulse(wxT("Half the way!"));
         else
             //cont = dialog.Update(i);
             cont = dialog.Pulse();
