@@ -32,7 +32,9 @@ mainFrame::mainFrame(wxWindow* parent)
 	saveImageMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEIMAGE_MENUITEM"));
 	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
 	resetMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_RESET_MENUITEM"));
+	saveItMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVE_IT_MENUITEM"));
 	grayscaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_GRAYSCALE_MENUITEM"));
+	gaussBlurMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_GAUSS_BLUR_MENUITEM"));
 	rescaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_RESCALE_MENUITEM"));
 	progressMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
@@ -52,8 +54,10 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_REMPOINT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRemovePointMenuItemSelected);
 	Connect(XRCID("ID_ADDSEGMENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAddSegmentMenuItemSelected);
 	Connect(XRCID("ID_RESET_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnResetMenuItemSelected);
+	Connect(XRCID("ID_SAVE_IT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnSaveItMenuItemSelected);
 	Connect(XRCID("ID_GRAYSCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGrayscaleMenuItemSelected);
 	Connect(XRCID("ID_GRADIENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGradientMenuItemSelected);
+	Connect(XRCID("ID_GAUSS_BLUR_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGaussBlurMenuItemSelected);
 	Connect(XRCID("ID_RESCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRescaleMenuItemSelected);
 	Connect(XRCID("ID_PRESENT_PMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnPresentPMFMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
@@ -603,4 +607,16 @@ void mainFrame::OnResetMenuItemSelected(wxCommandEvent& event)
 {
     if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
         ((ImagePanel *) myNotebook->GetCurrentPage())->Reset();
+}
+
+void mainFrame::OnGaussBlurMenuItemSelected(wxCommandEvent& event)
+{
+    if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
+        ((ImagePanel *) myNotebook->GetCurrentPage())->GaussBlur();
+}
+
+void mainFrame::OnSaveItMenuItemSelected(wxCommandEvent& event)
+{
+    if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
+        ((ImagePanel *) myNotebook->GetCurrentPage())->SetVisibleImage();
 }

@@ -24,6 +24,7 @@ int main()
     avl.print();  avl.remove( 8 );
 
     avl.print();
+    avl.print_node( avl.findLE(0) );
 
     return 0;
 }

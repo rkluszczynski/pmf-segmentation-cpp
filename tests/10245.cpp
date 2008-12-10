@@ -6,6 +6,17 @@
 
 using namespace std;
 
+
+class PAVL : public AVL<pair<int, int> >
+{
+    private :
+        virtual inline bool __less_then (pair<int, int> p1, pair<int, int> p2)
+        {
+            return p1.second < p2.second;
+        };
+};
+
+
 //AVL<pair<int, int> > avl;
 vector<pair<int, int> > pts;
 int N;
@@ -26,19 +37,20 @@ int main()
             pts.push_back(pp);
         }
         sort(pts.begin(), pts.end());
-        for (int i = 0; i < N; i++) cout << " " << pts[i].first;  cout << endl;
+        for (int i = 0; i < N; i++) cout << " " << pts[i].first << "x" << pts[i].second;  cout << endl;
 
-        AVL<pair<int, int> > avl;
+        PAVL avl;
         int current = 0;
         int firstActive = current;
         double delta = 100000000;
         pair<int, int> P, Q;
 
-        while (current < pts.size()) {
+        //while (current < pts.size())
+        {
             pair<int, int> p = pts[current];
             current++;
-            struct Tnode<pair<int, int> > * r = avl.find(p);
-            struct Tnode<pair<int, int> > * l = (r) ? r->pred : NULL;
+            Tnode<pair<int, int> > * r = avl.findLE(p);
+            Tnode<pair<int, int> > * l = (r) ? r->prev : NULL;
 
             int i = 0;
             while (r  &&  i < 4) {
@@ -61,7 +73,7 @@ int main()
             }
 
             int q = firstActive;
-            while (((pts[p].first-pts[q].first)*(pts[p].first-pts[q].first)) > delta)
+            while (((p.first-pts[q].first)*(p.first-pts[q].first)) > delta)
             {
                 firstActive++;
                 avl.remove(pts[q]);

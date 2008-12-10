@@ -24,10 +24,12 @@ class ImagePanel : public wxPanel
 		bool SaveFile(wxString, int);
 
         void Reset();
+        void SetVisibleImage();
         void Rescale(int, int);
 
         void ConvertToGreyscale(double lr = 0.299, double lg = 0.587, double lb = 0.114);
 		void CalculateGradient();
+		void GaussBlur();
 		void PresentPMF(PMF<double> *);
 
 		//(*Declarations(ImagePanel)

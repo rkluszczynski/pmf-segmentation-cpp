@@ -110,6 +110,17 @@ void ImagePanel::Rescale(int w, int h)
 }
 
 
+void ImagePanel::SetVisibleImage()
+{
+    image = bmp->ConvertToImage();
+
+    if (bmp) delete bmp;
+    bmp = new wxBitmap(image);
+    staticBitmap->SetBitmap( *bmp );
+    scrolledImageWindow->FitInside();
+}
+
+
 void ImagePanel::ConvertToGreyscale(double lr, double lg, double lb)
 {
     wxImage img = image.ConvertToGreyscale(lr, lg, lb);
@@ -167,6 +178,39 @@ void ImagePanel::CalculateGradient()
         }
     //*/
 
+	//*
+	if (bmp) delete bmp;
+	bmp = new wxBitmap(img);
+    staticBitmap->SetBitmap( *bmp );
+    scrolledImageWindow->FitInside();
+    //*/
+}
+
+
+void ImagePanel::GaussBlur()
+{
+    wxImage img = image.ConvertToGreyscale();
+
+    for (int x = 1; x < img.GetWidth()-1; x++) {
+        for (int y = 1; y < img.GetHeight()-1; y++) {
+            int pix1 = image.GetGreen(x-1,y-1);
+            int pix2 = image.GetGreen(x,y-1);
+            int pix3 = image.GetGreen(x+1,y-1);
+            int pix4 = image.GetGreen(x-1,y);
+            int pix5 = image.GetGreen(x,y);
+            int pix6 = image.GetGreen(x+1,y);
+            int pix7 = image.GetGreen(x-1,y+1);
+            int pix8 = image.GetGreen(x,y+1);
+            int pix9 = image.GetGreen(x+1,y+1);
+
+            int value = pix1 + 2 * pix2 + pix3
+                        + 2 * pix4 + 4 * pix5 + 2 * pix6
+                        + pix7 + 2 * pix8 + pix9;
+            value /= 16;
+
+            img.SetRGB(x, y, value, value, value);
+        }
+    }
 	//*
 	if (bmp) delete bmp;
 	bmp = new wxBitmap(img);

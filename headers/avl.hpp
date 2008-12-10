@@ -34,6 +34,7 @@ template <class T_TYPE> class AVL
 
         void insert(T_TYPE kkey);
         TNODE * find(T_TYPE kkey);
+        TNODE * findLE(T_TYPE kkey);
         void remove(T_TYPE kkey);
 
         inline struct Tnode<T_TYPE> * get_min () { return get_min(root); }
@@ -41,6 +42,10 @@ template <class T_TYPE> class AVL
 
     private :
         TNODE * root;
+
+        virtual bool __less_then (T_TYPE key1, T_TYPE key2) {
+            return key1 < key2;
+        }
 
         void free_mem(TNODE * node);
         TNODE * alloc_new_node(T_TYPE kkey);
@@ -68,7 +73,7 @@ AVL<T_TYPE>::remove (T_TYPE kkey)
     while (node) {
         if (node->key == kkey) break;
         path.push_back(node);
-        node = (kkey < node->key) ? node->left : node->right;
+        node = (__less_then(kkey, node->key)) ? node->left : node->right;
     }
     assert(node);
 
@@ -128,16 +133,17 @@ AVL<T_TYPE>::remove (T_TYPE kkey)
     delete node;
 
     // * Correct tree *
-    for(int ii=1; ii<path.size(); ii++)  cout << " " << path[ii]->key;  cout << endl;
+    //for(int ii=1; ii<path.size(); ii++)  cout << " " << path[ii]->key;  cout << endl;
     //return;
     while (path.size() > 1)
     {
         node = path.back();  path.pop_back();
         parent = path.back();
-
+        /*
         cout << " " << node->key << "{" << ((parent) ? parent->key : -1) << "}";
         cout << "    " << " Is left son? " << ((lson) ? "TAK" : "NIE");
         cout << endl;
+        //*/
         //*
         if (lson) {
             node->bf--;
@@ -191,9 +197,28 @@ AVL<T_TYPE>::find(T_TYPE kkey)
     TNODE * node = root;
     while (node) {
         if (node->key == kkey) break;
-        node = (kkey < node->key) ? node->left : node->right;
+        node = (__less_then(kkey,node->key)) ? node->left : node->right;
     }
     return node;
+}
+
+
+template <class T_TYPE>
+struct Tnode<T_TYPE> *
+AVL<T_TYPE>::findLE(T_TYPE kkey)
+{
+    TNODE * node = root;
+    TNODE * parent = NULL;
+    while (node) {
+        if (node->key == kkey) { return node; }
+        parent = node;
+        node = (__less_then(kkey,node->key)) ? node->left : node->right;
+    }
+    if (parent) {
+        if (__less_then(kkey,parent->key))  return parent->prev;
+        else  return parent;
+    }
+    else return NULL;
 }
 
 
@@ -210,12 +235,12 @@ AVL<T_TYPE>::insert(T_TYPE kkey)
     TNODE * node = root;
     while (node) {
         path.push_back(node);
-        node = (nnode->key < node->key) ? node->left : node->right;
+        node = (__less_then(nnode->key,node->key)) ? node->left : node->right;
     }
 
     // * Add new node *
     node = path.back();
-    if (nnode->key < node->key)
+    if (__less_then(nnode->key, node->key))
     {
         node->left = nnode;
 

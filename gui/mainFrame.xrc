@@ -113,11 +113,18 @@
 				<object class="wxMenuItem" name="ID_RESET_MENUITEM">
 					<label>Reset</label>
 				</object>
+				<object class="wxMenuItem" name="ID_SAVE_IT_MENUITEM">
+					<label>Store it</label>
+				</object>
+				<object class="separator" />
 				<object class="wxMenuItem" name="ID_GRAYSCALE_MENUITEM">
 					<label>Grayscale</label>
 				</object>
 				<object class="wxMenuItem" name="ID_GRADIENT_MENUITEM">
 					<label>Gradient</label>
+				</object>
+				<object class="wxMenuItem" name="ID_GAUSS_BLUR_MENUITEM">
+					<label>Gauss blur</label>
 				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_RESCALE_MENUITEM">

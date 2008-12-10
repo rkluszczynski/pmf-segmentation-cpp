@@ -50,11 +50,17 @@
 		<object name="ID_RESET_MENUITEM" class="wxMenuItem" variable="resetMenuItem" member="yes">
 			<handler function="OnResetMenuItemSelected" entry="EVT_MENU" />
 		</object>
+		<object name="ID_SAVE_IT_MENUITEM" class="wxMenuItem" variable="saveItMenuItem" member="yes">
+			<handler function="OnSaveItMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_GRAYSCALE_MENUITEM" class="wxMenuItem" variable="grayscaleMenuItem" member="yes">
 			<handler function="OnGrayscaleMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_GRADIENT_MENUITEM" class="wxMenuItem" variable="gradientMenuItem" member="no">
 			<handler function="OnGradientMenuItemSelected" entry="EVT_MENU" />
+		</object>
+		<object name="ID_GAUSS_BLUR_MENUITEM" class="wxMenuItem" variable="gaussBlurMenuItem" member="yes">
+			<handler function="OnGaussBlurMenuItemSelected" entry="EVT_MENU" />
 		</object>
 		<object name="ID_RESCALE_MENUITEM" class="wxMenuItem" variable="rescaleMenuItem" member="yes">
 			<handler function="OnRescaleMenuItemSelected" entry="EVT_MENU" />
