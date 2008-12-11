@@ -179,10 +179,11 @@
 	<iostream>
 	"avl.hpp"
 
-1227051516 source:d:\projects\pmf-codeblocks\tests\10245.cpp
+1228990196 source:d:\projects\pmf-codeblocks\tests\10245.cpp
 	<iostream>
 	<fstream>
 	<vector>
+	<cmath>
 	"avl.hpp"
 
 1226932652 source:d:\projects\pmf-codeblocks\tests\test-imageobjects.cpp

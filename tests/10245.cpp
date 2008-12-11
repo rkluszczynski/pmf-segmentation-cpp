@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cmath>
 
 #include "avl.hpp"
 
@@ -15,6 +16,12 @@ class PAVL : public AVL<pair<int, int> >
             return p1.second < p2.second;
         };
 };
+
+std::ostream & operator << (std::ostream& s, const pair<int,int> & p)
+{
+    s << p.first << " x " << p.second;
+    return s;
+}
 
 
 //AVL<pair<int, int> > avl;
@@ -45,17 +52,25 @@ int main()
         double delta = 100000000;
         pair<int, int> P, Q;
 
-        //while (current < pts.size())
+        while (current < pts.size())
         {
             pair<int, int> p = pts[current];
             current++;
-            Tnode<pair<int, int> > * r = avl.findLE(p);
-            Tnode<pair<int, int> > * l = (r) ? r->prev : NULL;
+            Tnode<pair<int, int> > * l = avl.findLE(p);
+            Tnode<pair<int, int> > * r = (l) ? l->next : avl.get_min();
+
+            cout << " p = " << p.first << " x " << p.second << endl;
+            cout << " current = " << current << endl;
+            cout << " l = "; avl.print_node(l);
+            cout << " r = "; avl.print_node(r);
+            cout << " delta = " << delta << endl;
 
             int i = 0;
             while (r  &&  i < 4) {
-                if (DIST2(p, r->key) < delta) {
-                    delta = DIST2(p, r->key);
+                if (sqrt(DIST2(p, r->key)) < delta) {
+                    cout << "... changing distance : " << p << " and " << r->key << endl;
+                    delta = sqrt(DIST2(p, r->key));
+                    cout << "... changed to " << delta << endl;
                     P = p;  Q = r->key;
                 }
                 r = r->next;
@@ -64,24 +79,33 @@ int main()
 
             i = 0;
             while (l  &&  i < 4) {
-                if (DIST2(p, l->key) < delta) {
-                    delta = DIST2(p, l->key);
+                if (sqrt(DIST2(p, l->key)) < delta) {
+                    cout << "... changing distance : " << p << " and " << l->key << endl;
+                    delta = sqrt(DIST2(p, l->key));
+                    cout << "... changed to " << delta << endl;
                     P = p;  Q = l->key;
                 }
                 l = l->prev;
                 i++;
             }
 
+            cout << " activeBefore = " << firstActive << endl;
             int q = firstActive;
-            while (((p.first-pts[q].first)*(p.first-pts[q].first)) > delta)
+            //double sqrt_delta = sqrt(delta);
+            while ((p.first-pts[q].first) > delta)
             {
                 firstActive++;
                 avl.remove(pts[q]);
                 q = firstActive;
             }
-
             avl.insert(p);
+
+            cout << " active After = " << firstActive << endl;
+            avl.print();
         }
+
+        avl.print();
+        cout << " RESULT = " << delta << "  ... by " << P << " and " << Q << endl;
     }
     return 0;
 }

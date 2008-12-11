@@ -185,6 +185,7 @@ template <class T_TYPE>
 struct Tnode<T_TYPE> *
 AVL<T_TYPE>::get_min(TNODE * node)
 {
+    if (! node) return NULL;
     while (node->left)  node = node->left;
     return node;
 }
@@ -399,8 +400,13 @@ AVL<T_TYPE>::print_node (TNODE * node)
     if (node) {
         cout << " " << node->key;
         cout << "{" << node->bf << "}";
-        cout << "[" << (node->prev ? node->prev->key : -1) << ",";
-        cout << (node->next ? node->next->key : -1) << "]";
+        cout << "[";
+        if (node->prev) cout << node->prev->key;
+        else  cout << -1;
+        cout << ",";
+        if (node->next) cout << node->next->key;
+        else  cout << -1;
+        cout << "]";
     }
     else  cout << " (NULL)";
     cout << endl;
