@@ -28,6 +28,10 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     if (bSize > 0.0)
         blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
 
+#if pmf_LOG_ADD
+    ofstream fout("output/log-add.txt");
+    out.rdbuf(fout.rdbuf());
+#endif
     PrepareEvolution(bHeap, alpha, sinL, cosL, blocks);
 
     /* ************************************************************************************** */
@@ -55,6 +59,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
         pmfConf->push_back(pt);
         //*/
     }
+
     //pmfConf->push_back(pt, blocks);
     //*
     if (blocks) {
@@ -91,13 +96,18 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     out << pmfConf << std::endl;
 #endif
 
+
     /* ************************************************************************************** */
     // and the riots start again ...
     EvolveRestOfField(bHeap, iHeap, sinL, cosL, oldSize, ptId, blocks, ep);
 
+    std::cerr<<"QWEAQWE"<<std::endl;
+
     delete bHeap;
     delete iHeap;
     if (blocks) delete blocks;
+
+    TestConfigurationPoints();
 
     return;
 }

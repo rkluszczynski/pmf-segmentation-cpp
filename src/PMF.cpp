@@ -53,6 +53,8 @@ PMF<T_REAL> :: Clone () {
 
 #include "segment.hpp"
 
+#include "testing.hpp"
+
 
 template <class T_REAL>
 bool

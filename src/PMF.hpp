@@ -70,6 +70,9 @@ class PMF
 
         void BorderArtefactsRemover();
         bool IsThereIntersection();
+
+        bool TestVirtualLengthsOfPoint(pmf_point<T_REAL> *);
+        bool TestConfigurationPoints();
 };
 
 #ifndef CHECK_ASSERTIONS

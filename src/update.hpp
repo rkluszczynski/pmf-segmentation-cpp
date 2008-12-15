@@ -91,6 +91,8 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 
     delete iHeap;
     if (blocks) delete blocks;
 
+    TestConfigurationPoints();
+
     return;
 }
 #undef PT_LT

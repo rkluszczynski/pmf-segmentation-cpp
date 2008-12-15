@@ -39,6 +39,7 @@ PMF<T_REAL> :: RotatePointTypes (T_REAL sinL = 0.0, T_REAL cosL = 1.0)
                         else  {
                             pt->type = PT_UPDATE;
                             std::swap(pt->n1, pt->n2);
+                            std::swap(pt->l1, pt->l2);
                         }
                     }
                     else {
@@ -95,6 +96,7 @@ PMF<T_REAL> :: DetermineTypesFromLeftToRight ()
                 else {
                     pt->type = PT_UPDATE;
                     std::swap(pt->n1, pt->n2);
+                    std::swap(pt->l1, pt->l2);
                 }
             }
             else {

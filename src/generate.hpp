@@ -223,6 +223,8 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
     //if (blocksLists) delete blocksLists;
 
     pmfConf->set_points_ids();
+
+    TestConfigurationPoints();
 }
 
 

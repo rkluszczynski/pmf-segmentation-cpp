@@ -77,6 +77,7 @@ template <typename T_REAL> struct pmf_point
             if(pt.block > 0)
                 out << "|" << pt.block << "|";
         }
+		out << "/" << pt.l1 << "/" << pt.l2 << "/";
 		//out << " ";
 		return out;
 	}

@@ -93,6 +93,8 @@ PMF<T_REAL> :: RemoveBirthPoint (long id, T_REAL alpha = 0.0, T_REAL bSize = 0.0
     delete iHeap;
     if (blocks) delete blocks;
 
+    TestConfigurationPoints();
+
     return;
 }
 #undef PT_LT

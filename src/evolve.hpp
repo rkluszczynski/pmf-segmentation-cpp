@@ -77,7 +77,7 @@ PMF<T_REAL> :: EvolveRestOfField (
             {
 #if CHECK_ASSERTIONS
                 //assert(false == true);
-                /// TODO: correct assertions and neighbours' lengths
+/// TODO (Rafal#1#): correct assertions and neighbours' lengths
                 assert(pt->l1 >= 0.0);
                 assert(pt->l2 >= 0.0);
 #endif
@@ -87,12 +87,15 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle > M_PI_2)  newAngle -= M_PI;
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
+/// TODO (Rafal#1#): put new neighbor based on the length of point
+                assert(pt->l2 > 0.0);
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL, pt->l2);
                 pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 
                 pt->n2 = newPt;
-                pt->l2 = newPt->l1;
+                assert(pt->l2 == newPt->l1);
             }
+            TestVirtualLengthsOfPoint(pt);
         }
         else {
             if (pt->type == PT_UPDATE)
@@ -108,6 +111,8 @@ PMF<T_REAL> :: EvolveRestOfField (
 
                 pt->n2 = newPt;
                 pt->l2 = newPt->l1;
+
+                TestVirtualLengthsOfPoint(pt);
             }
             else if (pt->type == PT_INTERSECTION)
             {
@@ -125,9 +130,12 @@ PMF<T_REAL> :: EvolveRestOfField (
 
                 bHeap->remove_point_with_id(pt->id, blocks);
                 iHeap->remove_intersections_with_id(pt->id, blocks);
+
             }
         }
         //*/
+        //TestVirtualLengthsOfPoint(pt);
+        //if (! TestVirtualLengthsOfPoint(pt)) assert(false);
     }
     /* Renumbering points' IDs starting from 1. */
     BorderArtefactsRemover();
