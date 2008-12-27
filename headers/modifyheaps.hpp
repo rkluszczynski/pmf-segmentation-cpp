@@ -349,8 +349,20 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                 st.push(dpt->id);
                 REAL length1 = (dptn->n1->id == dpt->id) ? dptn->l1 : dptn->l2;
                 REAL length2 = (dptn->n1->id == dpt->id) ? dptn->l2 : dptn->l1;
-/// TODO (Rafal#1#): use length to recreate point
-                newPt = new pmf_point<REAL>(dpt->x, dpt->y, dptn, NULL, length1, length2, dpt->id, PT_UPDATE);
+                length2 = Exp<REAL>(2.0);
+// TODO (Rafal#1#): use length to recreate point
+// DONE : 27-12-2008
+
+                REAL dist = sqrt((dptn->x - dpt->x) * (dptn->x - dpt->x));
+                assert(dist <= length1);
+
+                REAL xx = dpt->x;
+                REAL yy = dpt->y;
+
+                xx += ( length1 / dist ) * ( dpt->x - dptn->x );
+                yy += ( length1 / dist ) * ( dpt->y - dptn->y );
+
+                newPt = new pmf_point<REAL>(xx, yy, dptn, NULL, length1, length2, dpt->id, PT_UPDATE);
                 if (dptn->n1 != NULL  &&  dptn->n1->id == dpt->id)  dptn->n1 = newPt;
                 else
                     if (dptn->n2 != NULL  &&  dptn->n2->id == dpt->id)  dptn->n2 = newPt;
