@@ -5,14 +5,29 @@
 #include <algorithm>
 #include <map>
 
-#include "avl.hpp"
-
 using namespace std;
 
+#define VAR(V,N)    __typeof(N) V = (N)
+#define SIZE(X)     ((int)(X).size())
+
+#define FOR(X,B,E)      for(int X = B; X <= (E); ++X)
+#define REP(X,N)        for(int X = 0; X < (N); ++X)
+#define FOREACH(I,C)    for(VAR(I, (C).begin()); I != (C).end(); ++I)
+
+#define PB  push_back
+#define ST  first
+#define ND  second
 
 std::ostream & operator << (std::ostream& s, const pair<int,int> & p)
 {
     s << "( " << p.first << " , " << p.second << " )";
+    return s;
+}
+
+std::ostream & operator << (std::ostream& s, const vector<pair<int,int> > & vp)
+{
+    s << "[] : ";
+    REP(i,SIZE(vp))  s << " " << vp[i];
     return s;
 }
 
@@ -28,6 +43,25 @@ class ClosestPair
             bool operator() (const int& lhs, const int& rhs) const { return lhs<rhs; }
         };
 
+        pair<int, int> GetPointFromVector(vector<pair<int, int> > & vp, const pair<int,int> & p)
+        {
+            pair<int,int> res = vp[0];
+            FOR(i,1,SIZE(vp))
+                if (abs(vp[i].ST - p.ST) < abs(res.ST - p.ST))  res = vp[i];
+            return res;
+        }
+        void InsertPoint(map<int, vector<pair<int, int> >, comp_map> & ppion, pair<int,int> & p)
+        {
+            map<int, vector<pair<int, int> >, comp_map>::iterator it = ppion.find(p.second);
+            if (it == ppion.end()) {
+                vector<pair<int,int> > vp(0);
+                vp.PB(p);
+                ppion.insert( pair<int, vector<pair<int, int> > >(p.second, vp) );
+            }
+            else {
+                (it->second).PB(p);
+            }
+        }
 
     public :
         ClosestPair(int n = 0) : _pts(n), distance(-1) { }
@@ -37,77 +71,86 @@ class ClosestPair
 
         void PushBack(pair<int, int> & pp) { _pts.push_back(pp); }
         void SortPoints() { sort(_pts.begin(), _pts.end()); }
-        void Execute()
-        {
+
 #define DIST2(P1, P2) ((P1.second-P2.second)*(P1.second-P2.second)+(P1.first-P2.first)*(P1.first-P2.first))
-            map<int, pair<int, int>, comp_map> pion;
+        void Execute(double delta = 10000)
+        {
+            map<int, vector<pair<int, int> >, comp_map> pion;
 
             //for (int i = 0; i < _pts.size(); i++) pion.insert( pair<int, pair<int, int> >(_pts[i].second, _pts[i]));
 
             int current = 0;
             int firstActive = current;
-            double delta = 10000;
 
-            while (current < _pts.size())
+            while (current < SIZE(_pts))
             {
                 pair<int, int> p = _pts[current];
                 current++;
 
-                /*/ print content:
-                map<int, pair<int, int> >::iterator it;
+                cout << endl << "[ POINT " << current << " ] : " << p << endl;
+                // print content:
+                map<int, vector<pair<int, int> > >::iterator it;
                 cout << "[ MAP ] ~ " << current << " : " << endl;
                 for ( it=pion.begin() ; it != pion.end(); it++ )
                     cout << (*it).first << " => " << (*it).second << endl;
                 cout << "\\___" << endl;
                 //*/
-                map<int, pair<int, int> >::iterator itlow, itup;
+                map<int, vector<pair<int, int> > >::iterator itlow, itup;
 
                 itlow = pion.lower_bound(p.second);
                 itup = pion.upper_bound(p.second);
 
+                if (itlow != pion.end()) cout << "[ L ] : " << itlow->ND << endl;
+                if (itup != pion.end()) cout << "[ U ] : " << itup->ND << endl;
+                //*
                 int i = 0;
                 while (itlow != pion.end() and i < 4)
                 {
-                    //cout << " " << itlow->second.first << "x" << itlow->second.second;
-                    if (sqrt(DIST2(p, itlow->second)) < delta) {
-                        cout << "... changing distance (L): " << p << " and " << itlow->second << endl;
-                        delta = sqrt(DIST2(p, itlow->second));
+                    pair<int, int> pp = GetPointFromVector(itlow->second, p);
+                    cout << " " << itlow->second << endl;
+                    if (sqrt(DIST2(p, pp)) < delta) {
+                        cout << "... changing distance (L): " << p << " and " << pp << endl;
+                        delta = sqrt(DIST2(p, pp));
                         cout << "... changed to " << delta << endl;
-                        P = p;  Q = itlow->second;
+                        P = p;  Q = pp;
                     }
                     itlow--;
                     i++;
                 }
-                //cout << " ." << endl;
+                cout << " ." << endl;
 
                 i = 0;
                 while (itup != pion.end()  &&  i < 4) {
-                    if (sqrt(DIST2(p, itup->second)) < delta) {
-                        cout << "... changing distance (U): " << p << " and " << itup->second << endl;
-                        delta = sqrt(DIST2(p, itup->second));
+                    pair<int, int> pp = GetPointFromVector(itup->second, p);
+                    cout << " " << itup->second << endl;
+                    if (sqrt(DIST2(p, pp)) < delta) {
+                        cout << "... changing distance (U): " << p << " and " << pp << endl;
+                        delta = sqrt(DIST2(p, pp));
                         cout << "... changed to " << delta << endl;
-                        P = p;  Q = itup->second;
+                        P = p;  Q = pp;
                     }
                     itup++;
                     i++;
                 }
-
+                cout << " ." << endl;
+                //*/
+                //*
                 cout << " activeBefore = " << firstActive << endl;
                 int q = firstActive;
-                //double sqrt_delta = sqrt(delta);
                 while ((p.first-_pts[q].first) > delta)
                 {
                     firstActive++;
                     pion.erase(_pts[q].second);
-                    //avl.remove(pts[q]);
                     q = firstActive;
                 }
-                pion.insert( pair<int, pair<int, int> >(p.second, p));
+                //*/
+                InsertPoint(pion, p);
                 cout << " active After = " << firstActive << endl;
+                //*/
             }
-#undef DIST2
             distance = delta;
         }
+#undef DIST2
 
         void Write()
         {
