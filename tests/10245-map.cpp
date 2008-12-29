@@ -1,9 +1,11 @@
+/* Keywords: closest pair problem, plane sweep
+ */
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <cmath>
 #include <algorithm>
 #include <map>
+#include <cstdio>
 
 using namespace std;
 
@@ -18,13 +20,16 @@ using namespace std;
 #define ST  first
 #define ND  second
 
-std::ostream & operator << (std::ostream& s, const pair<int,int> & p)
+#define KEY double
+#define POINT pair<KEY,KEY>
+
+std::ostream & operator << (std::ostream& s, const POINT & p)
 {
     s << "( " << p.first << " , " << p.second << " )";
     return s;
 }
 
-std::ostream & operator << (std::ostream& s, const vector<pair<int,int> > & vp)
+std::ostream & operator << (std::ostream& s, const vector<POINT> & vp)
 {
     s << "[] : ";
     REP(i,SIZE(vp))  s << " " << vp[i];
@@ -35,19 +40,20 @@ std::ostream & operator << (std::ostream& s, const vector<pair<int,int> > & vp)
 class ClosestPair
 {
     private :
+        vector<POINT> _pts;
         double distance;
-        pair<int, int> P, Q;
+        POINT P, Q;
 
         struct comp_map {
-            bool operator() (const int& lhs, const int& rhs) const { return lhs<rhs; }
+            bool operator() (const KEY & lhs, const KEY & rhs) const { return lhs<rhs; }
         };
 
-        pair<int, int> GetPointFromVector(vector<pair<int, int> > & vp, const pair<int,int> & p)
+        POINT GetPointFromVector(vector<POINT> & vp, const POINT & p)
         {
-            pair<int,int> res = vp[0];
+            POINT res = vp[0];
             //FOR(i,1,SIZE(vp))  if (abs(vp[i].ST - p.ST) < abs(res.ST - p.ST))  res = vp[i];
             //*
-            vector<pair<int, int> >::iterator it = lower_bound(vp.begin(), vp.end(), p);
+            vector<POINT>::iterator it = lower_bound(vp.begin(), vp.end(), p);
             if (it != vp.end()) {
                 res = *it;
                 if (it != vp.begin()) {
@@ -59,20 +65,20 @@ class ClosestPair
             //*/
             return res;
         }
-        void InsertPoint(map<int, vector<pair<int, int> >, comp_map> & ppion, pair<int,int> & p)
+        void InsertPoint(map<KEY, vector<POINT>, comp_map> & ppion, POINT & p)
         {
-            map<int, vector<pair<int, int> >, comp_map>::iterator it = ppion.find(p.second);
+            map<KEY, vector<POINT>, comp_map>::iterator it = ppion.find(p.second);
             if (it == ppion.end()) {
-                vector<pair<int,int> > vp(0);
+                vector<POINT> vp(0);
                 vp.PB(p);
-                ppion.insert( pair<int, vector<pair<int, int> > >(p.second, vp) );
+                ppion.insert( pair<KEY, vector<POINT> >(p.second, vp) );
             }
             else {
                 (it->second).PB(p);
             }
         }
 #define DIST2(P1, P2) ((P1.second-P2.second)*(P1.second-P2.second)+(P1.first-P2.first)*(P1.first-P2.first))
-        void UpdateDistance(double & delta, pair<int,int> & p1, pair<int,int> & p2, char c = '-')
+        void UpdateDistance(double & delta, POINT & p1, POINT & p2, char c = '-')
         {
             double dist = sqrt(DIST2(p1, p2));
             if (dist < delta) {
@@ -85,26 +91,24 @@ class ClosestPair
 #undef DIST2
 
     public :
-        vector<pair<int, int> > _pts;
-
         ClosestPair(int n = 0) : _pts(n), distance(-1) { }
         ~ClosestPair() { }
 
-        pair<int, int> & operator[] (const int index) { return _pts[index]; }
+        POINT & operator[] (const int index) { return _pts[index]; }
 
-        void PushBack(pair<int, int> & pp) { _pts.push_back(pp); }
+        void PushBack(POINT & pp) { _pts.push_back(pp); }
         void SortPoints() { sort(_pts.begin(), _pts.end()); }
 
         void Execute(double delta = 10000)
         {
-            map<int, vector<pair<int, int> >, comp_map> pion;
+            map<KEY, vector<POINT>, comp_map> pion;
 
             int current = 0;
             int firstActive = current;
 
             while (current < SIZE(_pts))
             {
-                pair<int, int> p = _pts[current];
+                POINT p = _pts[current];
                 current++;
                 //cout << endl << "[ POINT " << current << " ] : " << p << endl;
 
@@ -115,11 +119,11 @@ class ClosestPair
                     cout << (*it).first << " => " << (*it).second << endl;
                 cout << "\\___" << endl;
                 //*/
-                map<int, vector<pair<int, int> > >::iterator itlow, itup, iteq;
+                map<KEY, vector<POINT > >::iterator itlow, itup, iteq;
                 //*
                 if ((iteq = pion.find(p.second)) != pion.end())
                 {
-                    pair<int, int> pp = GetPointFromVector(iteq->second, p);
+                    POINT pp = GetPointFromVector(iteq->second, p);
                     UpdateDistance(delta, p, pp, 'E');
                 }
                 //*/
@@ -135,7 +139,7 @@ class ClosestPair
                     while (itlow != pion.begin() and i < 4)
                     {
                         --itlow;
-                        pair<int, int> pp = GetPointFromVector(itlow->second, p);
+                        POINT pp = GetPointFromVector(itlow->second, p);
                         //cout << " " << itlow->second << endl;
                         UpdateDistance(delta, p, pp, 'L');
                         i++;
@@ -144,7 +148,7 @@ class ClosestPair
 
                     i = 0;
                     while (itup != pion.end()  &&  i < 4) {
-                        pair<int, int> pp = GetPointFromVector(itup->second, p);
+                        POINT pp = GetPointFromVector(itup->second, p);
                         //cout << " " << itup->second << endl;
                         UpdateDistance(delta, p, pp, 'U');
                         itup++;
@@ -180,16 +184,18 @@ class ClosestPair
 int main()
 {
     //ifstream fin("tests/in10245.txt");  cin.rdbuf(fin.rdbuf());
+    freopen("tests/in10245.txt", "r", stdin);
     int N;
     while(true) {
-        cin >> N;
+        scanf("%i", &N);
+        //cin >> N;
         if (N == 0) break;
 
         ClosestPair cp;
         for (int i = 0; i < N; i++) {
-            pair<int, int> pp;
-            cin >> pp.first;
-            cin >> pp.second;
+            POINT pp;
+            scanf("%lf%lf", &(pp.ST), &(pp.ND));
+            //cin >> pp.first >> pp.second;
             cp.PushBack(pp);
         }
         cp.SortPoints();
