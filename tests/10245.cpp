@@ -1,168 +1,159 @@
+/* Keywords: closest pair problem, plane sweep
+ */
 #include <iostream>
-#include <fstream>
 #include <vector>
 #include <cmath>
 #include <algorithm>
 #include <map>
+#include <cstdio>
 
 using namespace std;
 
-#define VAR(V,N)    __typeof(N) V = (N)
 #define SIZE(X)     ((int)(X).size())
+#define FOR(X,B,E)  for(int X = B; X <= (E); ++X)
+#define REP(X,N)    for(int X = 0; X < (N); ++X)
 
-#define FOR(X,B,E)      for(int X = B; X <= (E); ++X)
-#define REP(X,N)        for(int X = 0; X < (N); ++X)
-#define FOREACH(I,C)    for(VAR(I, (C).begin()); I != (C).end(); ++I)
+#define TYPE double
 
-#define PB  push_back
-#define ST  first
-#define ND  second
-
-std::ostream & operator << (std::ostream& s, const pair<int,int> & p)
+template <class Real = double>
+struct Point
 {
-    s << "( " << p.first << " , " << p.second << " )";
-    return s;
-}
+    private :
+        Real x, y;
 
-std::ostream & operator << (std::ostream& s, const vector<pair<int,int> > & vp)
-{
-    s << "[] : ";
-    REP(i,SIZE(vp))  s << " " << vp[i];
-    return s;
-}
+    public :
+        Point() : x(-1), y(-1) { }
+        Point(Real xx, Real yy) : x(xx), y(yy) { }
+
+        const Real GetX() const { return x; }
+        const Real GetY() const { return y; }
+        /*
+        Point & operator = (const Point<Real> & other)
+        {
+            if (this != &other)
+            {
+                x = other.GetX();
+                y = other.GetY();
+            }
+            return *this;
+        }
+        //*/
+        //bool operator ==(const Point<Real> & pt) const { return pt.x == x && pt.y == y; }
+        bool operator < (const Point<Real> & pt) const { return pt.x < x || (pt.x == x  &&  pt.y < y); }
+
+        friend ostream & operator << (ostream & out, const Point<Real> pt)
+        {
+            out << "( " << pt.GetX() << " , " << pt.GetY() << " )";
+            return out;
+        }
+};
 
 
 class ClosestPair
 {
+    typedef Point<TYPE> POINT;
+    typedef map<TYPE, vector<POINT > > _MAP_TYPE;
+
     private :
+        vector<POINT> _pts;
         double distance;
-        pair<int, int> P, Q;
+        POINT P, Q;
 
-        struct comp_map {
-            bool operator() (const int& lhs, const int& rhs) const { return lhs<rhs; }
-        };
-
-        pair<int, int> GetPointFromVector(vector<pair<int, int> > & vp, const pair<int,int> & p)
+        POINT GetPointFromVector(vector<POINT> & vp, const POINT & p)
         {
-            pair<int,int> res = vp[0];
-            //FOR(i,1,SIZE(vp))  if (abs(vp[i].ST - p.ST) < abs(res.ST - p.ST))  res = vp[i];
-            //*
-            vector<pair<int, int> >::iterator it = lower_bound(vp.begin(), vp.end(), p);
+            POINT res;
+            vector<POINT>::iterator it = lower_bound(vp.begin(), vp.end(), p);
             if (it != vp.end()) {
                 res = *it;
                 if (it != vp.begin()) {
                     --it;
-                    if (abs(it->ST - p.ST) < abs(res.ST - p.ST))  res = *it;
+                    if (abs(it->GetX() - p.GetX()) < abs(res.GetX() - p.GetX()))  res = *it;
                 }
             }
             else { res = vp.back(); }
-            //*/
             return res;
         }
-        void InsertPoint(map<int, vector<pair<int, int> >, comp_map> & ppion, pair<int,int> & p)
+        void InsertPoint(_MAP_TYPE & ppion, POINT & p)
         {
-            map<int, vector<pair<int, int> >, comp_map>::iterator it = ppion.find(p.second);
+            _MAP_TYPE::iterator it = ppion.find(p.GetY());
             if (it == ppion.end()) {
-                vector<pair<int,int> > vp(0);
-                vp.PB(p);
-                ppion.insert( pair<int, vector<pair<int, int> > >(p.second, vp) );
+                vector<POINT> vp(0);
+                vp.push_back(p);
+                ppion.insert( pair<TYPE, vector<POINT> >(p.GetY(), vp) );
             }
-            else {
-                (it->second).PB(p);
-            }
+            else { (it->second).push_back(p); }
         }
-#define DIST2(P1, P2) ((P1.second-P2.second)*(P1.second-P2.second)+(P1.first-P2.first)*(P1.first-P2.first))
-        void UpdateDistance(double & delta, pair<int,int> & p1, pair<int,int> & p2, char c = '-')
+        void UpdateDistance(double & delta, POINT & p1, POINT & p2, char c = '-')
         {
-            double dist = sqrt(DIST2(p1, p2));
+            double dist = sqrt((p1.GetY()-p2.GetY())*(p1.GetY()-p2.GetY())+(p1.GetX()-p2.GetX())*(p1.GetX()-p2.GetX()));
             if (dist < delta) {
                 //cout << "... changing distance (" << c << "): " << p1 << " and " << p2 << endl;
                 delta = dist;
                 //cout << "... changed to " << delta << endl;
                 P = p1;  Q = p2;
+                //cout << " ... between " << P << " and " << Q << endl;
             }
         }
-#undef DIST2
 
     public :
-        vector<pair<int, int> > _pts;
-
         ClosestPair(int n = 0) : _pts(n), distance(-1) { }
         ~ClosestPair() { }
 
-        pair<int, int> & operator[] (const int index) { return _pts[index]; }
+        POINT & operator[] (const int index) { return _pts[index]; }
 
-        void PushBack(pair<int, int> & pp) { _pts.push_back(pp); }
+        void PushBack(POINT & pp) { _pts.push_back(pp); }
         void SortPoints() { sort(_pts.begin(), _pts.end()); }
 
         void Execute(double delta = 10000)
         {
-            map<int, vector<pair<int, int> >, comp_map> pion;
-
+            _MAP_TYPE sweep;
             int current = 0;
             int firstActive = current;
 
             while (current < SIZE(_pts))
             {
-                pair<int, int> p = _pts[current];
+                POINT p = _pts[current];
                 current++;
-                //cout << endl << "[ POINT " << current << " ] : " << p << endl;
 
-                /*/ print content:
-                map<int, vector<pair<int, int> > >::iterator it;
-                cout << "[ MAP ] ~ " << current << " : " << endl;
-                for ( it=pion.begin() ; it != pion.end(); it++ )
-                    cout << (*it).first << " => " << (*it).second << endl;
-                cout << "\\___" << endl;
-                //*/
-                map<int, vector<pair<int, int> > >::iterator itlow, itup, iteq;
-                //*
-                if ((iteq = pion.find(p.second)) != pion.end())
+                _MAP_TYPE::iterator itlow, itup, iteq;
+
+                if ((iteq = sweep.find(p.GetY())) != sweep.end())
                 {
-                    pair<int, int> pp = GetPointFromVector(iteq->second, p);
+                    POINT pp = GetPointFromVector(iteq->second, p);
                     UpdateDistance(delta, p, pp, 'E');
                 }
-                //*/
-                if (pion.begin() != pion.end())
+                if (sweep.begin() != sweep.end())
                 {
-                    itlow = pion.lower_bound(p.second);
-                    itup = pion.upper_bound(p.second);
-
-                    //if (itlow != pion.end()) cout << "[ L ] : " << itlow->ND << endl;
-                    //if (itup != pion.end()) cout << "[ U ] : " << itup->ND << endl;
+                    itlow = sweep.lower_bound(p.GetY());
+                    itup = itlow;
+                    if (iteq != sweep.end()) itup++;
 
                     int i = 0;
-                    while (itlow != pion.begin() and i < 4)
+                    while (itlow != sweep.begin() and i < 4)
                     {
                         --itlow;
-                        pair<int, int> pp = GetPointFromVector(itlow->second, p);
-                        //cout << " " << itlow->second << endl;
+                        POINT pp = GetPointFromVector(itlow->second, p);
                         UpdateDistance(delta, p, pp, 'L');
                         i++;
                     }
-                    //cout << " ." << endl;
 
                     i = 0;
-                    while (itup != pion.end()  &&  i < 4) {
-                        pair<int, int> pp = GetPointFromVector(itup->second, p);
-                        //cout << " " << itup->second << endl;
+                    while (itup != sweep.end()  &&  i < 4) {
+                        POINT pp = GetPointFromVector(itup->second, p);
                         UpdateDistance(delta, p, pp, 'U');
                         itup++;
                         i++;
                     }
-                    //cout << " ." << endl;
 
-                    //cout << " activeBefore = " << firstActive << endl;
                     int q = firstActive;
-                    while ((p.first-_pts[q].first) > delta)
+                    while ((p.GetX()-_pts[q].GetX()) > delta)
                     {
                         firstActive++;
-                        pion.erase(_pts[q].second);
+                        sweep.erase(_pts[q].GetY());
                         q = firstActive;
                     }
                 }
-                InsertPoint(pion, p);
-                //cout << " active After = " << firstActive << endl;
+                InsertPoint(sweep, p);
             }
             distance = delta;
         }
@@ -170,30 +161,33 @@ class ClosestPair
         void WriteResult(double delta = 10000)
         {
             if (distance < delta) printf("%.4lf\n", distance); else printf("INFINITY\n");
-            //printf("[ RESULT ] :  distance = %.6lf  ", distance);
-            //printf("by  ( %i , %i )  ", P.first, P.second);
-            //printf("and  ( %i , %i )\n", Q.first, Q.second);
+            /*
+            printf("[ RESULT ] :  distance = %.6lf  ", distance);
+            printf("by  ( %.7lf , %.7lf )  ", P.GetX(), P.GetY());
+            printf("and  ( %.7lf , %.7lf )\n", Q.GetX(), Q.GetY());
+            //*/
         }
 };
 
 
 int main()
 {
-    //ifstream fin("tests/in10245.txt");  cin.rdbuf(fin.rdbuf());
+#ifndef ONLINE_JUDGE
+    freopen("tests/in10245.txt", "r", stdin);
+#endif
     int N;
     while(true) {
-        cin >> N;
+        scanf("%i", &N);
         if (N == 0) break;
 
         ClosestPair cp;
         for (int i = 0; i < N; i++) {
-            pair<int, int> pp;
-            cin >> pp.first;
-            cin >> pp.second;
-            cp.PushBack(pp);
+            double x, y;
+            scanf("%lf%lf", &x, &y);
+            Point<TYPE> pt(x, y);
+            cp.PushBack(pt);
         }
         cp.SortPoints();
-        //for (int i = 0; i < N; i++) cout << " " << cp[i].first << "x" << cp[i].second;  cout << endl;
         cp.Execute();
         cp.WriteResult();
     }
