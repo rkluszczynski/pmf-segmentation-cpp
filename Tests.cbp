@@ -198,6 +198,12 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 			</Target>
+			<Target title="11343">
+				<Option output="Tests.exe" prefix_auto="0" extension_auto="0" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
@@ -211,6 +217,9 @@
 		</Unit>
 		<Unit filename="tests\10245.cpp">
 			<Option target="10245" />
+		</Unit>
+		<Unit filename="tests\11343.cpp">
+			<Option target="11343" />
 		</Unit>
 		<Unit filename="tests\heap.hpp">
 			<Option target="&lt;{~None~}&gt;" />
