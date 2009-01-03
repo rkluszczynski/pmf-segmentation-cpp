@@ -151,7 +151,7 @@ class MutableSegmentSet
 
 bool fCompare::operator() (const ENTRY & lhs, const ENTRY & rhs) const
 {
-    double x_scan_pos = m_set.GetCoord();
+    double x_scan_pos = m_set.GetCoord() + 10e-9;
 
     double tgL1 = (lhs.GetP2().GetY() - lhs.GetP1().GetY()) / (lhs.GetP2().GetX() - lhs.GetP1().GetX());
     double b1 = lhs.GetP2().GetY() - tgL1 * lhs.GetP2().GetX();
@@ -163,6 +163,7 @@ bool fCompare::operator() (const ENTRY & lhs, const ENTRY & rhs) const
 
     double ry_scan_pos = tgL2 * x_scan_pos + b2;
 
+    cout << " . " << ly_scan_pos << " < " << ry_scan_pos << " ?  : " << ((ly_scan_pos < ry_scan_pos) ? "TAK" : "NIE") << endl;
     return ly_scan_pos < ry_scan_pos;
 };
 
@@ -300,9 +301,11 @@ class SegmentsIntersetions
             fill(started.begin(), started.end(), false);
 
             int qq = 0;
-            int stopNum = 8;
-            while (ptset.begin() != ptset.end()  and  qq++ < stopNum)
+            int stopNum = 18;
+            while (ptset.begin() != ptset.end())
             {
+                if (qq++ == stopNum) break;
+
                 POINT pt = ptset.begin()->ST;
                 int segno1 = ptset.begin()->ND.ST;
                 int segno2 = ptset.begin()->ND.ND;
@@ -330,8 +333,11 @@ class SegmentsIntersetions
                 }
                 else if (segno2 == -1 and started[segno1])
                 {
-                    cout << " IF2 ";
+                    cout << " IF2 " << _segs[segno1] << " to del  ";
                     mset.SetCoord(pt.GetX());
+
+                    cout << " {" << mset.GetCoord() << "} : ";
+                    FOREACH(it, mset)  cout << *it << " ";  cout << endl;
 
                     MutableSegmentSet::Iterator it = mset.Find(_segs[segno1]);
                     assert(it != mset.end());
@@ -397,6 +403,7 @@ class SegmentsIntersetions
             mset.Insert(_segs[2]);
             FOREACH(it, mset)  cout << *it << "  |";  cout << endl;
             //*/
+            cout << endl << qq << endl;
         }
 
         void WriteResult()
