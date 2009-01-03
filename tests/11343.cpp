@@ -151,7 +151,7 @@ class MutableSegmentSet
 
 bool fCompare::operator() (const ENTRY & lhs, const ENTRY & rhs) const
 {
-    double x_scan_pos = m_set.GetCoord() + 10e-9;
+    double x_scan_pos = m_set.GetCoord();
 
     double tgL1 = (lhs.GetP2().GetY() - lhs.GetP1().GetY()) / (lhs.GetP2().GetX() - lhs.GetP1().GetX());
     double b1 = lhs.GetP2().GetY() - tgL1 * lhs.GetP2().GetX();
@@ -311,12 +311,14 @@ class SegmentsIntersetions
                 int segno2 = ptset.begin()->ND.ND;
                 ptset.erase(ptset.begin());
 
+                double x_sweep = pt.GetX() + EPS;
+
                 cout << endl << "[" << segno1 << "," << segno2 << "] : " << pt << endl;
 
                 if (segno2 == -1 and !started[segno1])
                 {
                     cout << " IF1 ";
-                    mset.SetCoord(pt.GetX());
+                    mset.SetCoord(x_sweep);
                     started[segno1] = true;
 
                     MutableSegmentSet::Iterator it = mset.Insert(_segs[segno1]).ST;
@@ -334,7 +336,7 @@ class SegmentsIntersetions
                 else if (segno2 == -1 and started[segno1])
                 {
                     cout << " IF2 " << _segs[segno1] << " to del  ";
-                    mset.SetCoord(pt.GetX());
+                    mset.SetCoord(x_sweep);
 
                     cout << " {" << mset.GetCoord() << "} : ";
                     FOREACH(it, mset)  cout << *it << " ";  cout << endl;
@@ -355,7 +357,7 @@ class SegmentsIntersetions
                 {
                     cout << " IF3 ";
                     result.push_back( pair<POINT, pair<int, int> >(pt, pair<int, int>(segno1, segno2)) );
-                    mset.SetCoord(pt.GetX(), _segs[segno1], _segs[segno2]);
+                    mset.SetCoord(x_sweep, _segs[segno1], _segs[segno2]);
 
                     MutableSegmentSet::Iterator it1 = mset.Find(_segs[segno1]);
                     MutableSegmentSet::Iterator it2 = mset.Find(_segs[segno2]);
