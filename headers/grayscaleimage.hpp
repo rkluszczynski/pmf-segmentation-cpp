@@ -31,10 +31,17 @@ class GrayScaleImage
         inline int GetHeight()  { return y; }
 
         inline void PutPixelValue(int xx, int yy, int value) { data[xx][yy] = value; }
-        inline int GetPixelValue(int xx, int yy) { return data[xx][yy]; }
+        inline
+        int GetPixelValue(int xx, int yy)
+        {
+            xx = (xx>=GetWidth()) ? GetWidth()-1 : ((xx<0) ? 0 : xx);
+            yy = (yy>=GetHeight()) ? GetHeight()-1 : ((yy<0) ? 0 : yy);
+            return data[xx][yy];
+        }
         double GetGradientValue(int xx, int yy, pair<double, double> * Gxy = NULL);
 
         EdgePoints<double> * GetRandomEdgePixels(int, int, double, double);
+        EdgePoints<double> * GetRandomEdgePixels2(unsigned int &, int, double, double);
 
         void ScanVerticalLine(PMF<double> *, double, int *);
 
@@ -53,7 +60,93 @@ double GrayScaleImage :: GetAtan2Angle(double gx, double gy)
     if (aaa >= 1.5 * M_PI)  aaa -= M_PI;
     return aaa;
 }
-#define LOG2CERR 1
+#define LOG2CERR 0
+EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels2(unsigned int & amount, int min_dist, double fWidth, double fHeight)
+{
+    EdgePoints<double> * ep = new EdgePoints<double>();
+    vector<pair<int, int> > grad_pixels;
+    vector<pair<int, int> > selected_pixels;
+
+    int min_dist2 = min_dist * min_dist;
+    unsigned int i = 0;
+    double cutoff = 0.3;
+
+    // Searching maximal gradient value
+    double max_grad = 0.0;
+    for (int ix = 0; ix < GetWidth(); ix++) {
+        for (int iy = 0; iy < GetHeight(); iy++) {
+            double grad = GetGradientValue(ix, iy);
+            if (grad > max_grad) max_grad = grad;
+        }
+    }
+    double cutoffgrad = cutoff * max_grad;
+
+    for (int ix = 0; ix < GetWidth(); ix++) {
+        for (int iy = 0; iy < GetHeight(); iy++) {
+            double grad = GetGradientValue(ix, iy);
+            if(grad > cutoffgrad) {
+                grad_pixels.push_back( pair<int,int>(ix,iy) );
+            }
+        }
+    }
+    if(grad_pixels.size() < amount)  amount = grad_pixels.size();
+
+    // Getting random points
+    while (i < amount)
+    {
+        bool nextone = true;
+        int rrand = rand() % grad_pixels.size();
+        int xx = grad_pixels[rrand].first;
+        int yy = grad_pixels[rrand].second;
+        swap(grad_pixels[rrand], grad_pixels[grad_pixels.size()-1]);
+        grad_pixels.pop_back();
+        cerr << ".";
+
+        // Checking the distance with others
+        if (min_dist > 0) {
+            for (unsigned int k = 0; k < selected_pixels.size(); k++) {
+                int dist2 = (selected_pixels[k].first - xx)*(selected_pixels[k].first - xx) +
+                    (selected_pixels[k].second - yy)*(selected_pixels[k].second - yy);
+                if (dist2 < min_dist2) {
+                    nextone = false;
+                }
+            }
+            if (nextone == false) cerr << "X";
+        }
+
+        if (nextone) {
+            pair<double, double> G;
+            double limit = GetGradientValue(xx, yy, &G) / max_grad;
+            if (limit > 0.0) {
+                double fate = Uniform(0.0, 1.0);
+                cerr << "{" << limit << ">=" << fate << "}";
+                if (fate <= limit) {
+                    double aaa = GetAtan2Angle(G.first, G.second);
+#if LOG2CERR
+                    cerr << endl << " point  ( " << xx << " ; " << yy << " )" ;
+                    cerr << "  angle : " << aaa << " ~ " << radians2degree(aaa) << endl;
+                    cerr << " point accepted " << endl;
+#endif
+                    if (rand() & 0x1)  aaa += M_PI_2;  else  aaa -= M_PI_2;
+
+                    pair<int, int> pixel(xx, yy);
+                    selected_pixels.push_back(pixel);
+                    ep->AddEdgePoint( (double(xx) / double(GetWidth())) * fWidth,
+                                    (double(yy) / double(GetHeight())) * fHeight, aaa);
+
+                    ep->PrintData(cerr);
+                    i++;
+                }
+            }
+            else cerr << "0";
+        }
+        else {
+            if(amount > grad_pixels.size()) amount = grad_pixels.size();
+        }
+    }
+    return ep;
+}
+
 EdgePoints<double> * GrayScaleImage :: GetRandomEdgePixels(int amount, int min_dist, double fWidth, double fHeight)
 {
     EdgePoints<double> * ep = new EdgePoints<double>();
