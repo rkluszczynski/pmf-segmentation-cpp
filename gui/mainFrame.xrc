@@ -126,6 +126,9 @@
 				<object class="wxMenuItem" name="ID_GAUSS_BLUR_MENUITEM">
 					<label>Gauss blur</label>
 				</object>
+				<object class="wxMenuItem" name="ID_CONTRAST_MENUITEM">
+					<label>Contrast</label>
+				</object>
 				<object class="separator" />
 				<object class="wxMenuItem" name="ID_RESCALE_MENUITEM">
 					<label>Make 1000x1000</label>

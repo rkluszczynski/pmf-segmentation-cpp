@@ -62,6 +62,9 @@
 		<object name="ID_GAUSS_BLUR_MENUITEM" class="wxMenuItem" variable="gaussBlurMenuItem" member="yes">
 			<handler function="OnGaussBlurMenuItemSelected" entry="EVT_MENU" />
 		</object>
+		<object name="ID_CONTRAST_MENUITEM" class="wxMenuItem" variable="contrastMenuItem" member="yes">
+			<handler function="OnContrastMenuItemSelected" entry="EVT_MENU" />
+		</object>
 		<object name="ID_RESCALE_MENUITEM" class="wxMenuItem" variable="rescaleMenuItem" member="yes">
 			<handler function="OnRescaleMenuItemSelected" entry="EVT_MENU" />
 		</object>

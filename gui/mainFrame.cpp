@@ -29,14 +29,14 @@ mainFrame::mainFrame(wxWindow* parent)
 	myHtmlWindow = (wxHtmlWindow*)FindWindow(XRCID("ID_HTMLWINDOW1"));
 	mySplitterWindow = (wxSplitterWindow*)FindWindow(XRCID("ID_SPLITTERWINDOW1"));
 	myNotebook = (wxNotebook*)FindWindow(XRCID("ID_NOTEBOOK1"));
-	saveImageMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEIMAGE_MENUITEM"));
-	savePMFMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVEPMF_MENUITEM"));
-	resetMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_RESET_MENUITEM"));
-	saveItMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_SAVE_IT_MENUITEM"));
-	grayscaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_GRAYSCALE_MENUITEM"));
-	gaussBlurMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_GAUSS_BLUR_MENUITEM"));
-	rescaleMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_RESCALE_MENUITEM"));
-	progressMenuItem = (wxMenuItem*)FindWindow(XRCID("ID_MENUITEM1"));
+	saveImageMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEIMAGE_MENUITEM")) : NULL;
+	savePMFMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVEPMF_MENUITEM")) : NULL;
+	resetMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_RESET_MENUITEM")) : NULL;
+	saveItMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVE_IT_MENUITEM")) : NULL;
+	grayscaleMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_GRAYSCALE_MENUITEM")) : NULL;
+	gaussBlurMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_GAUSS_BLUR_MENUITEM")) : NULL;
+	rescaleMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_RESCALE_MENUITEM")) : NULL;
+	progressMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
 
 	Connect(XRCID("ID_SPLITTERWINDOW1"),wxEVT_COMMAND_SPLITTER_DOUBLECLICKED,(wxObjectEventFunction)&mainFrame::OnMySplitterWindowDClick);
@@ -58,6 +58,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_GRAYSCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGrayscaleMenuItemSelected);
 	Connect(XRCID("ID_GRADIENT_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGradientMenuItemSelected);
 	Connect(XRCID("ID_GAUSS_BLUR_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnGaussBlurMenuItemSelected);
+	Connect(XRCID("ID_CONTRAST_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnContrastMenuItemSelected);
 	Connect(XRCID("ID_RESCALE_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnRescaleMenuItemSelected);
 	Connect(XRCID("ID_PRESENT_PMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnPresentPMFMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
@@ -619,4 +620,10 @@ void mainFrame::OnSaveItMenuItemSelected(wxCommandEvent& event)
 {
     if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
         ((ImagePanel *) myNotebook->GetCurrentPage())->SetVisibleImage();
+}
+
+void mainFrame::OnContrastMenuItemSelected(wxCommandEvent& event)
+{
+    if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
+        ((ImagePanel *) myNotebook->GetCurrentPage())->Contrast();
 }

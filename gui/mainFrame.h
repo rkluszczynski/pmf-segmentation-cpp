@@ -85,6 +85,7 @@ class mainFrame : public wxFrame
 		void OnResetMenuItemSelected(wxCommandEvent& event);
 		void OnGaussBlurMenuItemSelected(wxCommandEvent& event);
 		void OnSaveItMenuItemSelected(wxCommandEvent& event);
+		void OnContrastMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

@@ -6,8 +6,9 @@
 #include <cmath>
 
 #define cimg_display 0
-
 #include "CImg.h"
+
+#include "macros.hpp"
 #include "PMF.hpp"
 
 using namespace cimg_library;
@@ -30,6 +31,8 @@ class GrayScaleImage
         inline int GetWidth()   { return x; }
         inline int GetHeight()  { return y; }
 
+        inline void MakeContrast(int);
+
         inline void PutPixelValue(int xx, int yy, int value) { data[xx][yy] = value; }
         inline
         int GetPixelValue(int xx, int yy)
@@ -48,6 +51,18 @@ class GrayScaleImage
         double CalculateScanLinesEnergy(PMF<double> *);
 };
 
+
+void GrayScaleImage :: MakeContrast(int pow = 2)
+{
+    double maxval = 256.0;
+    double inv256 = 1.0 / maxval;
+    REP(ix,x) REP(iy,y) {
+        double normval = GetPixelValue(ix,iy) * inv256;
+        normval = (normval < 0.5) ? normval*normval : 1-normval*normval;
+        int pix = int(normval * maxval);
+        PutPixelValue(ix,iy,pix);
+    }
+}
 
 
 double GrayScaleImage :: GetAtan2Angle(double gx, double gy)

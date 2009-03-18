@@ -7,7 +7,7 @@
 #include <wx/image.h>
 #include <wx/msgdlg.h>
 
-#include <cmath>
+#include "macros.hpp"
 #include "ImagePanel.h"
 #include "mainFrame.h"
 
@@ -193,15 +193,15 @@ void ImagePanel::GaussBlur()
 
     for (int x = 1; x < img.GetWidth()-1; x++) {
         for (int y = 1; y < img.GetHeight()-1; y++) {
-            int pix1 = image.GetGreen(x-1,y-1);
-            int pix2 = image.GetGreen(x,y-1);
-            int pix3 = image.GetGreen(x+1,y-1);
-            int pix4 = image.GetGreen(x-1,y);
-            int pix5 = image.GetGreen(x,y);
-            int pix6 = image.GetGreen(x+1,y);
-            int pix7 = image.GetGreen(x-1,y+1);
-            int pix8 = image.GetGreen(x,y+1);
-            int pix9 = image.GetGreen(x+1,y+1);
+            int pix1 = img.GetGreen(x-1,y-1);
+            int pix2 = img.GetGreen(x,y-1);
+            int pix3 = img.GetGreen(x+1,y-1);
+            int pix4 = img.GetGreen(x-1,y);
+            int pix5 = img.GetGreen(x,y);
+            int pix6 = img.GetGreen(x+1,y);
+            int pix7 = img.GetGreen(x-1,y+1);
+            int pix8 = img.GetGreen(x,y+1);
+            int pix9 = img.GetGreen(x+1,y+1);
 
             int value = pix1 + 2 * pix2 + pix3
                         + 2 * pix4 + 4 * pix5 + 2 * pix6
@@ -210,6 +210,28 @@ void ImagePanel::GaussBlur()
 
             img.SetRGB(x, y, value, value, value);
         }
+    }
+	//*
+	if (bmp) delete bmp;
+	bmp = new wxBitmap(img);
+    staticBitmap->SetBitmap( *bmp );
+    scrolledImageWindow->FitInside();
+    //*/
+}
+
+
+void ImagePanel::Contrast()
+{
+    wxImage img = image.ConvertToGreyscale();
+    double maxval = 256.;
+    double inv256 = 1. / maxval;
+
+    REP(x,img.GetWidth()) REP(y,img.GetHeight())
+    {
+        double normval = img.GetGreen(x,y) * inv256;
+        normval = (normval < 0.5) ? normval*normval : 1.-(1.-normval)*(1.-normval);
+        int pix = int(normval * maxval);
+        img.SetRGB(x,y,pix,pix,pix);
     }
 	//*
 	if (bmp) delete bmp;

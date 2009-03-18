@@ -31,6 +31,7 @@ class ImagePanel : public wxPanel
 		void CalculateGradient();
 		void GaussBlur();
 		void PresentPMF(PMF<double> *);
+		void Contrast();
 
 		//(*Declarations(ImagePanel)
 		wxScrolledWindow* scrolledImageWindow;

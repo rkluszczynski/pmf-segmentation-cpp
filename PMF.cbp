@@ -193,6 +193,7 @@
 			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="headers\macros.hpp" />
 		<Unit filename="headers\modifyheaps.hpp">
 			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
