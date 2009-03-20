@@ -52,13 +52,13 @@ class GrayScaleImage
 };
 
 
-void GrayScaleImage :: MakeContrast(int pow = 2)
+void GrayScaleImage :: MakeContrast(int exponent = 2)
 {
     double maxval = 256.0;
     double inv256 = 1.0 / maxval;
     REP(ix,x) REP(iy,y) {
         double normval = GetPixelValue(ix,iy) * inv256;
-        normval = (normval < 0.5) ? normval*normval : 1-normval*normval;
+        normval = (normval < 0.5) ? pow(normval, exponent) : 1.-pow(1.-normval, exponent);
         int pix = int(normval * maxval);
         PutPixelValue(ix,iy,pix);
     }

@@ -175,7 +175,7 @@ SimulateFixedEdgePointsSegmentation (
 {
     //* Initializing some variables. *
     GrayScaleImage gsimg(imageFileName);
-    unsigned int pixCount = 4;
+    unsigned int pixCount = 10;
 
     cerr << "getting ep " << endl;
     EdgePoints<double> * ep = gsimg.GetRandomEdgePixels2(pixCount, 2, pmf->GetPMFWidth(), pmf->GetPMFHeight());
