@@ -81,6 +81,8 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
         sprintf(plik, "output/edge-iter-%d.txt", ++fileCounter);
         cerr << plik << endl;
         pmf->SaveConfiguration(plik);
+
+        pmf->TestConfigurationPoints();
     }
 }
 

@@ -12,6 +12,7 @@ int pmf_which_neighbor_is_id(pmf_point<double> * pt, long id)
 //*/
 
 
+#define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
 template <class T_REAL>
 bool
 PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
@@ -26,6 +27,7 @@ PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
 #if pmf_LOG_ADD
         out << " Neighbor 1 : " << *n1 << endl;
 #endif
+        assert(DIST(pt, n1) <= pt->l1);
         long ans = pmf_which_neighbor_is_id(n1, pt->id);
         if (ans == 1) {
             //assert(pt->l1 == n1->l1);
@@ -45,6 +47,7 @@ PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
 #if pmf_LOG_ADD
         out << " Neighbor 2 : " << *n2 << endl;
 #endif
+        assert(DIST(pt, n2) <= pt->l2);
         long ans = pmf_which_neighbor_is_id(n2, pt->id);
         if (ans == 1) {
             //assert(pt->l2 == n2->l1);
@@ -61,6 +64,7 @@ PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
     }
     return true;
 }
+#undef DIST
 
 
 template <class T_REAL>
