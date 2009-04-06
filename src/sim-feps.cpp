@@ -51,13 +51,15 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
     while (true)
     {
 #if pmf_LOG_ADD
-        if (fileCounter == 13) { break; }
-        if (fileCounter == 12)
-        {
-            out.rdbuf(rkout.rdbuf());
-        }
         out << "##############################################################" << endl;
         out << "################################## POINT " << fileCounter << endl;
+
+        if (fileCounter == 13) { break; }
+        if (fileCounter == 9)
+        {
+            out.rdbuf(rkout.rdbuf());
+            pmf->GetPMFConfiguration()->save_configuration(out);
+        }
 #endif
         cout << pmf->GetPMFPointsNumber() << endl;
         cout << "##############################################################" << endl;
@@ -86,6 +88,9 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
         cerr << plik << endl;
         pmf->SaveConfiguration(plik);
 
+#if pmf_LOG_ADD
+        out << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
+#endif
         pmf->TestConfigurationPoints();
     }
 }

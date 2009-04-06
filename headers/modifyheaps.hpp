@@ -245,6 +245,7 @@ pmf_store_rotated_point_in_blocks (
             for (int i = 0; i < bHeap->size(); i++)
             {
                 pmf_point<REAL> * pEl = bHeap->get(i);
+
                 int c1 = -1;
                 int c2 = -1;
 
@@ -257,7 +258,13 @@ pmf_store_rotated_point_in_blocks (
                     {
                         REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n1->x, pEl->n1->y, xx, yy);
-                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, 0.0, 0.0, ++id, PT_INTERSECTION);
+
+                //int ans = pmf_which_neighbor_is_id(parentPt, newPt->id);
+                //assert(ans > 0);
+                //REAL parentLength = (ans == 1) ? parentPt->l1 : parentPt->l2;
+                REAL parentLength = newPt->l1;
+
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, parentLength, pEl->l1, ++id, PT_INTERSECTION);
 
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
@@ -274,7 +281,13 @@ pmf_store_rotated_point_in_blocks (
                     if (c2 == 1) {
                         REAL xx, yy;
                         crosspoint2(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, pEl->x, pEl->y, pEl->n2->x, pEl->n2->y, xx, yy);
-                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, 0.0, 0.0, ++id, PT_INTERSECTION);
+
+                //int ans = pmf_which_neighbor_is_id(parentPt, newPt->id);
+                //assert(ans == 1 || ans == 2);
+                //REAL parentLength = (ans == 1) ? parentPt->l1 : parentPt->l2;
+                REAL parentLength = newPt->l1;
+
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, parentLength, pEl->l2, ++id, PT_INTERSECTION);
 
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
