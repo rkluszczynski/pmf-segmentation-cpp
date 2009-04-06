@@ -59,6 +59,9 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
         out << "##############################################################" << endl;
         out << "################################## POINT " << fileCounter << endl;
 #endif
+        cout << pmf->GetPMFPointsNumber() << endl;
+        cout << "##############################################################" << endl;
+        cout << "################################## POINT " << fileCounter << endl;
         int i = -1;
         for (int k = 0; k < ep->getPointsNumber(); k++)
             if (ep->get(k)->pt == NULL)  { i = k; break; }
@@ -68,7 +71,8 @@ ApplyFixedEdgePointsToConfiguration ( PMF<double> * & pmf, EdgePoints<double> * 
         cerr << "( " << ep->get(i)->x << " ; " << ep->get(i)->y << " )   ";
         cerr << ep->get(i)->angle << " ~ " << degree2radians(ep->get(i)->angle) << endl;
 
-        pmf->AddBirthSegment( ep->get(i)->x, ep->get(i)->y, ep->get(i)->angle, ep );
+        edge_element<double> * ee = ep->get(i);
+        pmf->AddBirthSegment( ee->x, ee->y, ee->angle, ep );
 
         cerr << "[ EDGE ] : checking ... ";
         for (int k = 0; k < ep->getPointsNumber(); k++) {
