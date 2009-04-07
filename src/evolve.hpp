@@ -78,7 +78,7 @@ PMF<T_REAL> :: EvolveRestOfField (
 #if CHECK_ASSERTIONS
                 //assert(false == true);
 /// TODO (Rafal#1#): correct assertions and neighbours' lengths
-                assert(pt->l1 >= 0.0);
+                assert(pt->l1 > 0.0);
                 assert(pt->l2 >= 0.0);
 #endif
                 angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
@@ -88,11 +88,13 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
 /// TODO (Rafal#1#): put new neighbor based on the length of point
-                assert(pt->l2 > 0.0);
+                //assert(pt->l2 > 0.0);
+
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL, pt->l2);
                 pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 
                 pt->n2 = newPt;
+                if (pt->l2 == 0.0) pt->l2 = newPt->l1;
                 assert(pt->l2 == newPt->l1);
             }
             TestVirtualLengthsOfPoint(pt);

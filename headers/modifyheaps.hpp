@@ -105,6 +105,7 @@ void pmf_check_crossings (
 }
 
 
+#define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
@@ -262,13 +263,23 @@ pmf_store_rotated_point_in_blocks (
                 //int ans = pmf_which_neighbor_is_id(parentPt, newPt->id);
                 //assert(ans > 0);
                 //REAL parentLength = (ans == 1) ? parentPt->l1 : parentPt->l2;
-                REAL parentLength = newPt->l1;
+                        REAL ll1 = newPt->l1;
 
-                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, parentLength, pEl->l1, ++id, PT_INTERSECTION);
+                        int ll2ans = pmf_which_neighbor_is_id(pEl->n1, pEl->id);
+                        assert(ll2ans == 1  ||  ll2ans == 2);
+                        REAL ll2 = (ll2ans == 1) ? pEl->n1->l1 : pEl->n1->l2;
+
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n1, ll1, ll2, ++id, PT_INTERSECTION);
 
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
                         out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+                        double ddist1 = DIST(newpt2, newpt2->n1);
+                        double ddist2 = DIST(newpt2, newpt2->n2);
+                        out << " --   1   -- : " << ddist1 << std::endl;
+                        out << " --   2   -- : " << ddist2 << std::endl;
+                        assert(ddist1 <= newpt2->l1 + EPSILON);
+                        assert(ddist2 <= newpt2->l2 + EPSILON);
 #endif
                     }
                 }
@@ -285,13 +296,23 @@ pmf_store_rotated_point_in_blocks (
                 //int ans = pmf_which_neighbor_is_id(parentPt, newPt->id);
                 //assert(ans == 1 || ans == 2);
                 //REAL parentLength = (ans == 1) ? parentPt->l1 : parentPt->l2;
-                REAL parentLength = newPt->l1;
+                        REAL ll1 = newPt->l1;
 
-                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, parentLength, pEl->l2, ++id, PT_INTERSECTION);
+                        int ll2ans = pmf_which_neighbor_is_id(pEl->n2, pEl->id);
+                        assert(ll2ans == 1  ||  ll2ans == 2);
+                        REAL ll2 = (ll2ans == 1) ? pEl->n2->l1 : pEl->n2->l2;
+
+                        pmf_point<REAL> * newpt2 = new pmf_point<REAL>(xx, yy, parentPt, pEl->n2, ll1, ll2, ++id, PT_INTERSECTION);
 
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
                         out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+                        double ddist1 = DIST(newpt2, newpt2->n1);
+                        double ddist2 = DIST(newpt2, newpt2->n2);
+                        out << " --   1   -- : " << ddist1 << std::endl;
+                        out << " --   2   -- : " << ddist2 << std::endl;
+                        assert(ddist1 <= newpt2->l1 + EPSILON);
+                        assert(ddist2 <= newpt2->l2 + EPSILON);
 #endif
                     }
                 }
@@ -312,8 +333,10 @@ pmf_store_rotated_point_in_blocks (
     //*/
     return true;
 }
+#undef DIST
 
 
+#define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
 #include <stack>
 inline
 pmf_point<REAL> * pmf_delete_rotated_path (
@@ -362,23 +385,35 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                 st.push(dpt->id);
                 REAL length1 = (dptn->n1->id == dpt->id) ? dptn->l1 : dptn->l2;
                 REAL length2 = (dptn->n1->id == dpt->id) ? dptn->l2 : dptn->l1;
-                length2 = Exp<REAL>(2.0);
+                length2 = 0.0;//Exp<REAL>(2.0);
 // TODO (Rafal#1#): use length to recreate point
 // DONE : 27-12-2008
 
-                REAL dist = sqrt((dptn->x - dpt->x) * (dptn->x - dpt->x));
-                assert(dist <= length1);
+                cout << " >> !dptn ! >> " << *dptn << endl;
+                cout << " >> ! dpt ! >> " << *dpt << endl;
+                cout << " >>!length1!>> " << length1 << endl;
+                REAL dist = DIST(dptn, dpt);
+                cout << " >>! dist ! >> " << dist << endl;
+                /// TODO (Rafel#1#): sprawdzic nieostrosc nierownosci
+                assert(dist <= length1 + EPSILON);
 
-                REAL xx = dpt->x;
-                REAL yy = dpt->y;
+                REAL xx = dptn->x;
+                REAL yy = dptn->y;
 
-                xx += ( length1 / dist ) * ( dpt->x - dptn->x );
-                yy += ( length1 / dist ) * ( dpt->y - dptn->y );
+                double scale = (length1 / dist);
+                xx += scale * ( dpt->x - dptn->x );
+                yy += scale * ( dpt->y - dptn->y );
+                cout << " >>! scale! >> " << scale << endl;
 
                 newPt = new pmf_point<REAL>(xx, yy, dptn, NULL, length1, length2, dpt->id, PT_UPDATE);
                 if (dptn->n1 != NULL  &&  dptn->n1->id == dpt->id)  dptn->n1 = newPt;
                 else
                     if (dptn->n2 != NULL  &&  dptn->n2->id == dpt->id)  dptn->n2 = newPt;
+
+                cout << " >>! newPt! >> " << *newPt << endl;
+                cout << " >>! n1   ! >> " << *newPt->n1 << endl;
+                assert(DIST(newPt, newPt->n1) <= length1 + EPSILON);
+
                 break;
             }
             else {
@@ -452,6 +487,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
 
     return newPt;
 }
+#undef DIST
 
 /*
 inline
