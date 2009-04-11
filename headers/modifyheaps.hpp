@@ -463,19 +463,15 @@ pmf_point<REAL> * pmf_delete_rotated_path (
         long int id = st.top();
         st.pop();
         /* ... do the goods ... */
-        /// TODO: check if segment point gonna be removed
-        if (ep != NULL) {
+        if (ep) {
             long index = ep->hasPointWithID(id);
             if (index >= 0) {
                 cerr << "[ ERROR ] : removing previous segment point" << endl;
                 ep->get(index)->pt = NULL;
             }
         }
-// TODO:
         bHeap->remove_point_with_id(id, blocks);
         iHeap->remove_intersections_with_id(id, blocks);
-        //bHeap->remove_point_with_id(id);
-        //iHeap->remove_intersections_with_id(id);
     }
 
 #if DEL_PATH_LOG

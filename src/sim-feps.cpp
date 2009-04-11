@@ -196,7 +196,14 @@ SimulateFixedEdgePointsSegmentation (
 
 
     ApplyFixedEdgePointsToConfiguration(pmf, ep);
-    pmf->SaveConfiguration("output/edgepoints.cf");
+    pmf->SaveConfiguration("output/edgepoints0.cf");
+
+        ofstream fout("output/tmp2.txt");
+        out.rdbuf(fout.rdbuf());
+
+    pmf->SetSeed(2);
+    pmf->AddBirthSegment(1.655, 0.845, 2.45);
+    pmf->SaveConfiguration("output/edgepoints1.cf");
     return;
 
 

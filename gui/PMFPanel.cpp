@@ -362,6 +362,8 @@ void PMFPanel::ExecutePointBirthsDialog(double xx, double yy, long op, wxString 
                                         pmf->AddBirthPoint(xx, yy, angle, bsize);
                                         break;
                     case __OP_BIRTH_SEGMENT :
+                                        pmf->SetSeed(17);
+                                        xx = 1.755;  yy = .745;  angle = 2.45;
                                         pmf->AddBirthSegment(xx, yy, angle);
                                         break;
                 }
