@@ -213,8 +213,8 @@ pmf_store_point_during_segment (
 
             }
 #if pmf_LOG_ADD
-            if (c1 > 1)  out << " -- ----- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
-            if (c2 > 1)  out << " -- ----- -- :  c2=" << c2 << "  :: " << *pEl << " ~ " << *pEl->n2 << std::endl;
+            if (c1 > 1)  out << " -- -seg- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
+            if (c2 > 1)  out << " -- -seg- -- :  c2=" << c2 << "  :: " << *pEl << " ~ " << *pEl->n2 << std::endl;
 #endif
         }
     }
@@ -255,6 +255,7 @@ PMF<T_REAL> :: SetPerpendicularNeighbor (
     IntersectionsHeap<T_REAL> * tmp_iHeap = new IntersectionsHeap<T_REAL> (ssinL, ccosL);
 
     pmf_store_point_during_segment(npt, bbHeap, tmp_iHeap, ppt, ptId, fHeight, fWidth, ssinL, ccosL);
+
     if (! tmp_iHeap->empty())
     {
 #if pmf_LOG_ADD
@@ -357,12 +358,16 @@ PMF<T_REAL> :: AddBirthSegment (T_REAL xx, T_REAL yy, T_REAL alpha, EdgePoints<T
 
 
     // Determining neighbors of a new point
+    pmf_point<T_REAL> * pt1 = pt->pmf_put_new_neighbor(1, -M_PI_2, ptId, sinL, cosL);
+    pmf_point<T_REAL> * pt2 = pt->pmf_put_new_neighbor(2, +M_PI_2, ptId, sinL, cosL);
+    /*
     pmf_point<T_REAL> * pt1 = pmf_put_new_neighbor<T_REAL>(pt, -M_PI_2, ptId, sinL, cosL);
     pmf_point<T_REAL> * pt2 = pmf_put_new_neighbor<T_REAL>(pt,  M_PI_2, ptId, sinL, cosL);
     pt->n1 = pt1;
     pt->n2 = pt2;
     pt->l1 = pt1->l1;
     pt->l2 = pt2->l1;
+    //*/
 #if pmf_LOG_ADD
     out << *pt << endl;
     out << *pt1 << endl;

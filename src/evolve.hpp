@@ -1,6 +1,7 @@
 #ifndef EVOLVE_HPP_INCLUDED
 #define EVOLVE_HPP_INCLUDED
 
+//*
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
 template <class T_REAL>
@@ -28,7 +29,7 @@ pmf_put_new_neighbor (pmf_point<T_REAL> * ppt, T_REAL angle, long & ptId, T_REAL
 }
 #undef Y_ROTATED
 #undef X_ROTATED
-
+//*/
 
 template <class T_REAL>
 inline
@@ -88,13 +89,14 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
 /// TODO (Rafal#1#): put new neighbor based on the length of point
-                //assert(pt->l2 > 0.0);
+                assert(pt->l2 > 0.0);
 
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL, pt->l2);
+                ///pmf_point<T_REAL> * newPt = pt->pmf_put_new_neighbor(2, newAngle, ptId, sinL, cosL, pt->l2);
                 pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 
                 pt->n2 = newPt;
-                if (pt->l2 == 0.0) pt->l2 = newPt->l1;
+                if (pt->l2 == 0.0) { pt->l2 = newPt->l1; cerr << endl << "BENG !!!" << endl << endl; }
                 assert(pt->l2 == newPt->l1);
             }
             TestVirtualLengthsOfPoint(pt);
@@ -109,6 +111,7 @@ PMF<T_REAL> :: EvolveRestOfField (
                 if (newAngle < -M_PI_2)  newAngle += M_PI;
 
                 pmf_point<T_REAL> * newPt = pmf_put_new_neighbor(pt, newAngle, ptId, sinL, cosL);
+                ///pmf_point<T_REAL> * newPt = pt->pmf_put_new_neighbor(2, newAngle, ptId, sinL, cosL);
                 pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 
                 pt->n2 = newPt;

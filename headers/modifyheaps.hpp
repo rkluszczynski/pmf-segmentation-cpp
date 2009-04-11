@@ -384,14 +384,15 @@ pmf_point<REAL> * pmf_delete_rotated_path (
 #endif
                 st.push(dpt->id);
                 REAL length1 = (dptn->n1->id == dpt->id) ? dptn->l1 : dptn->l2;
-                REAL length2 = (dptn->n1->id == dpt->id) ? dptn->l2 : dptn->l1;
-                length2 = 0.0;//Exp<REAL>(2.0);
+                REAL length2 = (dpt->n1->id == dptn->id) ? dpt->l2 : dpt->l1;
+                length2 = Exp<REAL>(2.0);
 // TODO (Rafal#1#): use length to recreate point
 // DONE : 27-12-2008
 
                 cout << " >> !dptn ! >> " << *dptn << endl;
                 cout << " >> ! dpt ! >> " << *dpt << endl;
                 cout << " >>!length1!>> " << length1 << endl;
+                cout << " >>!length2!>> " << length2 << endl;
                 REAL dist = DIST(dptn, dpt);
                 cout << " >>! dist ! >> " << dist << endl;
                 /// TODO (Rafel#1#): sprawdzic nieostrosc nierownosci
