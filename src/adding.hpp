@@ -87,6 +87,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     pt->l1 = newPt->l1;
     //*/
     newPt = pt->pmf_put_new_neighbor(1, upperAngle, ptId, sinL, cosL);
+    assert(newPt->l1 == pt->l1);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n1 << endl;
@@ -97,6 +98,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     pt->l2 = newPt->l1;
     //*/
     newPt = pt->pmf_put_new_neighbor(2, lowerAngle, ptId, sinL, cosL);
+    assert(newPt->l1 == pt->l2);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
     out << *pt->n2 << endl;

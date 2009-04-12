@@ -7,8 +7,8 @@
 #include <sys/timeb.h>
 
 #define CHECK_ASSERTIONS 1
-#define pmf_LOG_ADD 1
-#define DEL_PATH_LOG 1
+#define pmf_LOG_ADD 0
+#define DEL_PATH_LOG 0
 
 #include "sim-segm.cpp"
 
@@ -64,9 +64,10 @@ int main (int argc, char *argv[])
     // * Determining starting configuration. *
     PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
     pmf->SetSeed(seed);
-    pmf->LoadConfiguration(initialFile);
-    //pmf->Generate(blockSize);
+    //pmf->LoadConfiguration(initialFile);
+    pmf->Generate(blockSize);
     pmf->TestConfigurationPoints();
+    pmf->SaveConfiguration("output/test-ring.txt");
 
 #if pmf_LOG_ADD
     ofstream fout("output/tmp.txt");

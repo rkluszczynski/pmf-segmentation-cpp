@@ -115,9 +115,10 @@ void SimulateBinarySegmentation (
     while (runSimulation)
     {
 #if pmf_LOG_ADD
-        if (loopIteration == 5) {
-            out.rdbuf(fout1.rdbuf());
-            pmf->GetPMFConfiguration()->save_configuration(out);
+        if (loopIteration == 2) {
+            //out.rdbuf(fout1.rdbuf());
+            //pmf->GetPMFConfiguration()->save_configuration(out);
+            ;
         }
         out << std::endl << " ################################################################" << std::endl;
         out << std::endl << " ################################################################" << std::endl;
