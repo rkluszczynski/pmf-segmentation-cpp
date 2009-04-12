@@ -29,8 +29,9 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
         blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
 
 #if pmf_LOG_ADD
-    ofstream fout("output/log-add.txt");
-    out.rdbuf(fout.rdbuf());
+    //ofstream fout("output/log-add.txt");
+    //out.rdbuf(fout.rdbuf());
+    ;
 #endif
     PrepareEvolution(bHeap, alpha, sinL, cosL, blocks);
 

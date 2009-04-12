@@ -110,18 +110,19 @@ void SimulateBinarySegmentation (
                                           // *  Simulation loop  *
                                           // * ----------------- *
 #if pmf_LOG_ADD
-    ofstream fout1("output/log-segm-sim-iter54.txt");
+    ofstream fout1("output/abcdef.txt");
 #endif
     while (runSimulation)
     {
 #if pmf_LOG_ADD
+        if (loopIteration == 5) {
+            out.rdbuf(fout1.rdbuf());
+            pmf->GetPMFConfiguration()->save_configuration(out);
+        }
         out << std::endl << " ################################################################" << std::endl;
         out << std::endl << " ################################################################" << std::endl;
         out << " ############### SEGMENTATION STEP " << loopIteration << std::endl;
         out << std::endl << " ################################################################" << std::endl;
-        if (loopIteration == 54) {
-            out.rdbuf(fout1.rdbuf());
-        }
 #endif
         fprintf(stderr, " {%5li }  ", loopIteration);  fflush(stderr);
         // * Setting inverse temperature. *
@@ -186,7 +187,9 @@ void SimulateBinarySegmentation (
 
         if (iterations > 0  &&  loopIteration >= iterations)  runSimulation = false;
         if (PMFRate > 0.0  &&  PMFRate > storedArea) runSimulation = false;
-        loopIteration++;
+        ++loopIteration;
+
+        pmf->TestConfigurationPoints();
     }
     // * ------------------------- *
     // *  End of simulation loop.  *

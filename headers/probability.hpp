@@ -12,9 +12,9 @@ template <class T_REAL> void determineBirthAngles(T_REAL & g, T_REAL & d)
         katL = M_PI * ((T_REAL)rand() / (T_REAL)RAND_MAX) - ((T_REAL)M_PI * (T_REAL)0.5);
         katB = M_PI * ((T_REAL)rand() / (T_REAL)RAND_MAX) - ((T_REAL)M_PI * (T_REAL)0.5);
         if(katL > katB) std::swap(katL, katB);
-        // Teraz zawsze mamy katB <= katL
+        // Teraz zawsze mamy katB >= katL
 #ifdef CHECK_ASSERTIONS
-        assert(katB <= katL);
+        assert(katL <= katB);
 #endif
         kat = katB - katL;
     }

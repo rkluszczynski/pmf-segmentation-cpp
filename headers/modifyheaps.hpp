@@ -1,6 +1,8 @@
 #ifndef MODIFYHEAPS_HPP_INCLUDED
 #define MODIFYHEAPS_HPP_INCLUDED
 
+#include <cmath>
+
 #include "point.hpp"
 #include "birthsheap.hpp"
 #include "intersectionsheap.hpp"
@@ -105,7 +107,7 @@ void pmf_check_crossings (
 }
 
 
-#define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
+#define DIST2(PT1, PT2) (((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y))
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
 #define PT_LT(PP1,PP2,SSIN,CCOS) (X_ROTATED((PP1)->x,(PP1)->y,SSIN,CCOS) < X_ROTATED((PP2)->x,(PP2)->y,SSIN,CCOS))
 #define PT_LE(PP1,PP2,SSIN,CCOS) (! PT_LT(PP2,PP1,SSIN,CCOS))
@@ -274,10 +276,10 @@ pmf_store_rotated_point_in_blocks (
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
                         out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
-                        double ddist1 = DIST(newpt2, newpt2->n1);
-                        double ddist2 = DIST(newpt2, newpt2->n2);
-                        out << " --   1   -- : " << ddist1 << std::endl;
-                        out << " --   2   -- : " << ddist2 << std::endl;
+                        double ddist1 = sqrt( DIST2(newpt2, newpt2->n1) );
+                        double ddist2 = sqrt( DIST2(newpt2, newpt2->n2) );
+                        out << " --   1   -- = " << ddist1 << "  :  " << *newpt2->n1 << std::endl;
+                        out << " --   2   -- = " << ddist2 << "  :  " << *newpt2->n2 << std::endl;
                         assert(ddist1 <= newpt2->l1 + EPSILON);
                         assert(ddist2 <= newpt2->l2 + EPSILON);
 #endif
@@ -307,8 +309,8 @@ pmf_store_rotated_point_in_blocks (
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
                         out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
-                        double ddist1 = DIST(newpt2, newpt2->n1);
-                        double ddist2 = DIST(newpt2, newpt2->n2);
+                        double ddist1 = sqrt( DIST2(newpt2, newpt2->n1) );
+                        double ddist2 = sqrt( DIST2(newpt2, newpt2->n2) );
                         out << " --   1   -- : " << ddist1 << std::endl;
                         out << " --   2   -- : " << ddist2 << std::endl;
                         assert(ddist1 <= newpt2->l1 + EPSILON);
@@ -333,10 +335,10 @@ pmf_store_rotated_point_in_blocks (
     //*/
     return true;
 }
-#undef DIST
+#undef DIST2
 
 
-#define DIST(PT1, PT2) (sqrt(((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y)))
+#define DIST2(PT1, PT2) (((PT1)->x-(PT2)->x)*((PT1)->x-(PT2)->x)+((PT1)->y-(PT2)->y)*((PT1)->y-(PT2)->y))
 #include <stack>
 inline
 pmf_point<REAL> * pmf_delete_rotated_path (
@@ -393,7 +395,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                 cout << " >> ! dpt ! >> " << *dpt << endl;
                 cout << " >>!length1!>> " << length1 << endl;
                 cout << " >>!length2!>> " << length2 << endl;
-                REAL dist = DIST(dptn, dpt);
+                REAL dist = sqrt( DIST2(dptn, dpt) );
                 cout << " >>! dist ! >> " << dist << endl;
                 /// TODO (Rafel#1#): sprawdzic nieostrosc nierownosci
                 assert(dist <= length1 + EPSILON);
@@ -413,7 +415,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
 
                 cout << " >>! newPt! >> " << *newPt << endl;
                 cout << " >>! n1   ! >> " << *newPt->n1 << endl;
-                assert(DIST(newPt, newPt->n1) <= length1 + EPSILON);
+                assert( sqrt( DIST2(newPt, newPt->n1) ) <= length1 + EPSILON);
 
                 break;
             }
@@ -484,7 +486,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
 
     return newPt;
 }
-#undef DIST
+#undef DIST2
 
 /*
 inline
