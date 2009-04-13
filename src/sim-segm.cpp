@@ -114,6 +114,7 @@ void SimulateBinarySegmentation (
 #endif
     while (runSimulation)
     {
+        if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
 #if pmf_LOG_ADD
         if (loopIteration == 2) {
             //out.rdbuf(fout1.rdbuf());

@@ -46,7 +46,7 @@ int main (int argc, char *argv[])
 	double   blockSize = 0.0;
     long    iterations = 0;
     double     pmrStop = .05;
-	time_t        seed = 0;
+	time_t        seed = 1;
 	char    c, *endptr;
 
     struct timeb tbeg, tend;
