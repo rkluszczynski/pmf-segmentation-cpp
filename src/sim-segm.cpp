@@ -102,7 +102,7 @@ void SimulateBinarySegmentation (
     fprintf(stderr, "[ ENERGY ] : %lf  (%.2lf)", engH, tmpArea);  fflush(stderr);
 
     //return;
-    // * Main loop of brilliant, image segmentation algorithm :-) *
+    // * Main loop of algorithm *
     long loopIteration = 1;				// * Iteration counter *
     bool runSimulation = true;
     if(iterations == 0  &&  PMFRate == 0.0) runSimulation = false;
@@ -110,12 +110,26 @@ void SimulateBinarySegmentation (
                                           // *  Simulation loop  *
                                           // * ----------------- *
 #if pmf_LOG_ADD
-    ofstream fout1("output/abcdef.txt");
+    //ofstream fout1("output/abcdef.txt");
+    ofstream fout1;
 #endif
     while (runSimulation)
     {
+        char plik[256];
+        sprintf(plik, "output/abcdef.txt");
+        //if (loopIteration >= 110000  &&  loopIteration % 1000 == 0)
+        //if (loopIteration >= 118000  &&  loopIteration <= 119000)
+        if (loopIteration == 2 || (loopIteration >= 118126  &&  loopIteration <= 118127))
+        {
+            sprintf(plik, "output/pmf-iter-%li.txt", loopIteration);
+            pmf->SaveConfiguration(plik);
+        }
         if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
 #if pmf_LOG_ADD
+        fout1.flush();
+        fout1.close();
+        fout1.open(plik);
+        out.rdbuf(fout1.rdbuf());
         if (loopIteration == 2) {
             //out.rdbuf(fout1.rdbuf());
             //pmf->GetPMFConfiguration()->save_configuration(out);
@@ -139,7 +153,8 @@ void SimulateBinarySegmentation (
 
         // * Random choice of the operation for PMF modification. *
         bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
-        fprintf(stderr, "Przywroc:%s ", restore ? "TAK" : "NIE");  fflush(stderr);
+        fprintf(stderr, "|%li|Przywroc:%s ", loopIteration, restore ? "TAK" : "NIE");  fflush(stderr);
+        if (loopIteration >= 118126  &&  loopIteration <= 118127) scanf("%lf", &beta_2);
 #if pmf_LOG_ADD
         pmf->SaveConfiguration("output/pmf-modified.txt");
 #endif
