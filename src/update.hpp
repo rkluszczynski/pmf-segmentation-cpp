@@ -29,14 +29,14 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 
     /* ************************************************************************************** */
     // Looking for update point number id
 #if pmf_LOG_ADD
-    out << "[  UPD ] : oldSize = " << ptId << "   [ " << id << " ]" << std::endl;
+    if (saveOp)    out << "[  UPD ] : oldSize = " << ptId << "   [ " << id << " ]" << std::endl;
 #endif
     long updatePointCounter = 0;
     pmf_point<T_REAL> * pt;
     while (! bHeap->empty())
     {
 #if pmf_LOG_ADD
-        out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
+        if (saveOp)  out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
 #endif
         pt = bHeap->extract_min();
         if (pt->type == PT_UPDATE)
@@ -48,8 +48,11 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 
         pmfConf->push_back(pt);
     }
 #if pmf_LOG_ADD
-    out << bHeap << std::endl;
-    out << "[ CHANGING POINT ] : " << *pt << std::endl << std::endl;
+    if (saveOp)
+    {
+        out << bHeap << std::endl;
+        out << "[ CHANGING POINT ] : " << *pt << std::endl << std::endl;
+    }
 #endif
 
     // Tricky trick : duplicate update point and delete its path,
@@ -77,9 +80,12 @@ PMF<T_REAL> :: UpdatePointVelocity (long id, T_REAL alpha = 0.0, T_REAL bSize = 
 
     bHeap->insert(pt);
 #if pmf_LOG_ADD
-    out << " WAS TO DELETE : " << *tmp << std::endl << std::endl;
-    out << bHeap << std::endl;
-    if (blocks)  out << blocks << std::endl;
+    if (saveOp)
+    {
+        out << " WAS TO DELETE : " << *tmp << std::endl << std::endl;
+        out << bHeap << std::endl;
+        if (blocks)  out << blocks << std::endl;
+    }
 #endif
 
 

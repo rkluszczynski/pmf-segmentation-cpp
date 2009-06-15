@@ -64,13 +64,16 @@ PMF<T_REAL> :: EvolveRestOfField (
         pmf_point<T_REAL> * pt = pmf_do_heaps_get( bHeap, iHeap, id1, id2, sinL, cosL );
         pmfConf->push_back(pt);
 #if pmf_LOG_ADD
-        ++iterationCounter;
-        out << " ---------------------------------------------------------------------------" << std::endl;
-        out << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << std::endl;
-        out << *pt << "   ::  " << id1 << " , " << id2 << std::endl;
-        out << bHeap << std::endl;
-        out << iHeap << std::endl;
-        out << "[ STEP ] : " << iterationCounter << std::endl;
+        if (saveOp)
+        {
+            ++iterationCounter;
+            out << " ---------------------------------------------------------------------------" << std::endl;
+            out << " ------------------------------ STEP " << iterationCounter << "----------------------------------" << std::endl;
+            out << *pt << "   ::  " << id1 << " , " << id2 << std::endl;
+            out << bHeap << std::endl;
+            out << iHeap << std::endl;
+            out << "[ STEP ] : " << iterationCounter << std::endl;
+        }
 #endif
         //*
         if (pt->id <= oldSize) {
@@ -127,7 +130,8 @@ PMF<T_REAL> :: EvolveRestOfField (
             else if (pt->type == PT_INTERSECTION)
             {
 #if pmf_LOG_ADD
-                out << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << std::endl;
+                if (saveOp)
+                    out << " INTERSECTION :: " << *pt << "  ~  " << id1 << "  " << id2 << std::endl;
 #endif
                 pmf_correct_new_intersection_point(pt, id1, id2);
                 //assert(false == true);

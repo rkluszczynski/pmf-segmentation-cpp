@@ -7,8 +7,10 @@
 #include <sys/timeb.h>
 
 #define CHECK_ASSERTIONS 1
-#define pmf_LOG_ADD 0
-#define DEL_PATH_LOG 0
+#define pmf_LOG_ADD 1
+#define DEL_PATH_LOG 1
+
+bool saveOp = false;
 
 #include "sim-segm.cpp"
 

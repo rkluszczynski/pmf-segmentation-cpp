@@ -1,6 +1,7 @@
 
 #include "grayscaleimage.hpp"
 
+
 inline
 bool
 MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double bSize)
@@ -136,20 +137,24 @@ void SimulateBinarySegmentation (
         }
         if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
         //if (loopIteration == 586) exit(1);
+        if (loopIteration >= 140964) saveOp = true;
 #if pmf_LOG_ADD
-        fout1.flush();
-        fout1.close();
-        fout1.open(plik);
-        out.rdbuf(fout1.rdbuf());
-        if (loopIteration == 2) {
-            //out.rdbuf(fout1.rdbuf());
-            //pmf->GetPMFConfiguration()->save_configuration(out);
-            ;
+        if (saveOp)
+        {
+            fout1.flush();
+            fout1.close();
+            fout1.open(plik);
+            out.rdbuf(fout1.rdbuf());
+            if (loopIteration == 2) {
+                //out.rdbuf(fout1.rdbuf());
+                //pmf->GetPMFConfiguration()->save_configuration(out);
+                ;
+            }
+            out << std::endl << " ################################################################" << std::endl;
+            out << std::endl << " ################################################################" << std::endl;
+            out << " ############### SEGMENTATION STEP " << loopIteration << std::endl;
+            out << std::endl << " ################################################################" << std::endl;
         }
-        out << std::endl << " ################################################################" << std::endl;
-        out << std::endl << " ################################################################" << std::endl;
-        out << " ############### SEGMENTATION STEP " << loopIteration << std::endl;
-        out << std::endl << " ################################################################" << std::endl;
 #endif
         fprintf(stderr, "\n { %5li }  \n", loopIteration);  fflush(stderr);
         // * Setting inverse temperature. *
@@ -165,9 +170,10 @@ void SimulateBinarySegmentation (
         // * Random choice of the operation for PMF modification. *
         bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
         fprintf(stderr, "|%li|Przywroc:%s ", loopIteration, restore ? "TAK" : "NIE");  fflush(stderr);
-        if (loopIteration >= 140964  &&  loopIteration <= 141000) scanf("%lf", &beta_2);
+        //if (loopIteration >= 140964  &&  loopIteration <= 141000) scanf("%lf", &beta_2);
 #if pmf_LOG_ADD
-        pmf->SaveConfiguration("output/pmf-modified.txt");
+        //pmf->SaveConfiguration("output/pmf-modified.txt");
+        ;
 #endif
         if (restore == false)
         {

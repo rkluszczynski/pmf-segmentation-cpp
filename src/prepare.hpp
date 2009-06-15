@@ -16,9 +16,12 @@ PMF<T_REAL> :: PrepareEvolution (
     //pmfConf->set_points_ids();
 
 #if pmf_LOG_ADD
-    out << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << std::endl;
-    out << "[  sin ] : " << sinL << std::endl;
-    out << "[  cos ] : " << cosL << std::endl;
+    if (saveOp)
+    {
+        out << "[ alfa ] : " << alpha << "  ~  " << radians2degree(alpha) << std::endl;
+        out << "[  sin ] : " << sinL << std::endl;
+        out << "[  cos ] : " << cosL << std::endl;
+    }
 #endif
 
     RotatePointTypes(sinL, cosL);
