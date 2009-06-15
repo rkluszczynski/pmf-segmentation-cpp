@@ -82,7 +82,9 @@ PMF<T_REAL> :: EvolveRestOfField (
                 assert(pt->l1 > 0.0);
                 assert(pt->l2 >= 0.0);
 #endif
-                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+                if (pt->x == pt->n1->x) angle = 0.0;
+                else angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+
                 determineUpdateAngle(newAngle);
                 newAngle += angle;
                 if (newAngle > M_PI_2)  newAngle -= M_PI;
@@ -104,7 +106,10 @@ PMF<T_REAL> :: EvolveRestOfField (
         else {
             if (pt->type == PT_UPDATE)
             {
-                angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+                if (pt->x == pt->n1->x) angle = 0.0;
+                else angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+                //angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+
                 determineUpdateAngle<T_REAL>(newAngle);
                 newAngle += angle;
                 if (newAngle > M_PI_2)  newAngle -= M_PI;
@@ -143,7 +148,7 @@ PMF<T_REAL> :: EvolveRestOfField (
         //if (! TestVirtualLengthsOfPoint(pt)) assert(false);
     }
     /* Renumbering points' IDs starting from 1. */
-    BorderArtefactsRemover();
+    assert(! BorderArtefactsRemover());
     pmfConf->set_points_ids();
 }
 

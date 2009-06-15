@@ -29,10 +29,42 @@ int isOnSegment(T_REAL xp, T_REAL yp, T_REAL xq, T_REAL yq, T_REAL xr, T_REAL yr
  *   0 - point is outside the segment
  */
 {
+    /*
      if( sgnDet(xp, yp, xq, yq, xr, yr) == 0
          &&  MIN(xp,xq) <= xr  &&  xr <= MAX(xp,xq)
          &&  MIN(yp,yq) <= yr  &&  yr <= MAX(yp,yq) )
          return(1);
+     */
+     if( sgnDet(xp, yp, xq, yq, xr, yr) == 0 )
+     {
+        if( MIN(xp,xq) <= xr  &&  xr <= MAX(xp,xq)
+            &&  MIN(yp,yq) <= yr  &&  yr <= MAX(yp,yq) ) return 1;
+
+        if(fabs(xp-xq) < EPSILON)
+        {
+            if(fabs(yp-yq) < EPSILON)
+            {
+                if(fabs(xp-xr) < EPSILON  &&  fabs(xr-xq) < EPSILON
+                    &&  fabs(yp-yr) < EPSILON  &&  fabs(yr-yq) < EPSILON) return 1;
+            }
+            else {
+                if(fabs(xp-xr) < EPSILON  &&  fabs(xr-xq) < EPSILON
+                    &&  MIN(yp,yq) <= yr  &&  yr <= MAX(yp,yq) ) return 1;
+            }
+        }
+        else {
+            if(MIN(xp,xq) <= xr  &&  xr <= MAX(xp,xq))
+            {
+                if(fabs(yp-yq) < EPSILON)
+                {
+                    if (fabs(yp-yr) < EPSILON  &&  fabs(yr-yq) < EPSILON) return 1;
+                }
+                else {
+                    if(MIN(yp,yq) <= yr  &&  yr <= MAX(yp,yq)) return 1;
+                }
+            }
+        }
+     }
      return(0);
 }
 #undef MAX

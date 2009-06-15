@@ -25,8 +25,13 @@ MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double 
     double chance = Uniform(0.0, 1.0);
     if (chance < limit1)  //ADD
     {
-        double x = Uniform(0.0, pmf->GetPMFWidth());
-        double y = Uniform(0.0, pmf->GetPMFHeight());
+        double x, y;
+        do
+        {
+            x = Uniform(0.0, pmf->GetPMFWidth());
+            y = Uniform(0.0, pmf->GetPMFHeight());
+        }
+        while(! (0.0 < x  &&  x < pmf->GetPMFWidth()  &&  0.0 < y  &&  y < pmf->GetPMFHeight()));
         pmf->AddBirthPoint(x, y, angle, bSize);
     }
     else if(chance < limit2) //REM
@@ -118,13 +123,19 @@ void SimulateBinarySegmentation (
         char plik[256];
         sprintf(plik, "output/abcdef.txt");
         //if (loopIteration >= 110000  &&  loopIteration % 1000 == 0)
-        //if (loopIteration >= 118000  &&  loopIteration <= 119000)
-        if (loopIteration == 2 || (loopIteration >= 118126  &&  loopIteration <= 118127))
+        //if ((loopIteration >= 140964  &&  loopIteration <= 141000))
+        //if (loopIteration == 586 || loopIteration == 587 || (loopIteration >= 586  &&  loopIteration <= 102))
+        if (
+            (loopIteration >= 140964)
+            ||  (loopIteration % 10000 == 0)
+        )
         {
             sprintf(plik, "output/pmf-iter-%li.txt", loopIteration);
             pmf->SaveConfiguration(plik);
+            sprintf(plik, "output/debug-iter-%li.txt", loopIteration);
         }
         if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
+        //if (loopIteration == 586) exit(1);
 #if pmf_LOG_ADD
         fout1.flush();
         fout1.close();
@@ -140,7 +151,7 @@ void SimulateBinarySegmentation (
         out << " ############### SEGMENTATION STEP " << loopIteration << std::endl;
         out << std::endl << " ################################################################" << std::endl;
 #endif
-        fprintf(stderr, " {%5li }  ", loopIteration);  fflush(stderr);
+        fprintf(stderr, "\n { %5li }  \n", loopIteration);  fflush(stderr);
         // * Setting inverse temperature. *
         beta_1 = 20.0 + 0.009 * loopIteration; //powf((float)loopIteartion, 1.0);
         beta_2 = 0.0;
@@ -154,7 +165,7 @@ void SimulateBinarySegmentation (
         // * Random choice of the operation for PMF modification. *
         bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
         fprintf(stderr, "|%li|Przywroc:%s ", loopIteration, restore ? "TAK" : "NIE");  fflush(stderr);
-        if (loopIteration >= 118126  &&  loopIteration <= 118127) scanf("%lf", &beta_2);
+        if (loopIteration >= 140964  &&  loopIteration <= 141000) scanf("%lf", &beta_2);
 #if pmf_LOG_ADD
         pmf->SaveConfiguration("output/pmf-modified.txt");
 #endif

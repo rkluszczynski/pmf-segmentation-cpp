@@ -126,42 +126,64 @@ pmf_store_rotated_point_in_blocks (
                         REAL cosL = 1.0
                     )
 {
+    assert(newPt->n1 == parentPt);
     if (newPt->type > 4) {
         /* Check if coordinates are not outside the field. */
-        if( parentPt->type != PT_BIRTH_UP  &&
-            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f) != 0 )
+        int cross3ans;
+        cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f);
+#if pmf_LOG_ADD
+        out << " -> border check : " << cross3ans << endl;
+#endif
+        if( parentPt->type != PT_BIRTH_UP  &&  cross3ans != 0  &&  cross3ans != 5 )
         {
             REAL cx, cy;
             crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
+            newPt->l2 = 0.0;
             newPt->type = PT_BORDER;
         }
-        if( parentPt->type != PT_BIRTH_DOWN &&
-            cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight) != 0 )
+        cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight);
+#if pmf_LOG_ADD
+        out << " -> border check : " << cross3ans << endl;
+#endif
+        if( parentPt->type != PT_BIRTH_DOWN  &&  cross3ans != 0  &&  cross3ans != 5 )
         {
             REAL cx, cy;
             crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
+            newPt->l2 = 0.0;
             newPt->type = PT_BORDER;
         }
-        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight) != 0 ) {
+        cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight);
+#if pmf_LOG_ADD
+        out << " -> border check : " << cross3ans << endl;
+#endif
+        if( cross3ans != 0  &&  cross3ans != 5 )
+        {
             REAL cx, cy;
             crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
+            newPt->l2 = 0.0;
             newPt->type = PT_BORDER;
         }
-        if( cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight) != 0 ) {
+        cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight);
+#if pmf_LOG_ADD
+        out << " -> border check : " << cross3ans << endl;
+#endif
+        if( cross3ans != 0  &&  cross3ans != 5 )
+        {
             REAL cx, cy;
             crosspoint2<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight, cx, cy);
             newPt->x = cx;
             newPt->y = cy;
             newPt->n2 = NULL;
+            newPt->l2 = 0.0;
             newPt->type = PT_BORDER;
         }
 
@@ -410,6 +432,7 @@ pmf_point<REAL> * pmf_delete_rotated_path (
                 cout << " >>! scale! >> " << scale << endl;
 
                 newPt = new pmf_point<REAL>(xx, yy, dptn, NULL, length1, length2, dpt->id, PT_UPDATE);
+                //newPt = new pmf_point<REAL>(xx, yy, dptn, NULL, length1, 0.0, dpt->id, PT_UPDATE);
                 if (dptn->n1 != NULL  &&  dptn->n1->id == dpt->id)  dptn->n1 = newPt;
                 else
                     if (dptn->n2 != NULL  &&  dptn->n2->id == dpt->id)  dptn->n2 = newPt;

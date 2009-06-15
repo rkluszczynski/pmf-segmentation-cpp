@@ -17,7 +17,10 @@ template <class T_REAL>
 bool
 PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
 {
+    assert(0.0 <= pt->x  &&  pt->x <= fieldWidth);
+    assert(0.0 <= pt->y  &&  pt->y <= fieldHeight);
     return true;
+
     pmf_point<T_REAL> * n1 = pt->n1;
     pmf_point<T_REAL> * n2 = pt->n2;
 #if pmf_LOG_ADD
@@ -85,6 +88,7 @@ PMF<T_REAL> :: TestConfigurationPoints()
     while (iterPt)
     {
         assert( TestVirtualLengthsOfPoint( iterPt->data ) );
+
         iterPt = iterPt->next;
     }
     return true;

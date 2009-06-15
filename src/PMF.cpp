@@ -136,7 +136,7 @@ PMF<T_REAL> :: IsThereIntersection()
 
 
 template <class T_REAL>
-void
+bool
 PMF<T_REAL> :: BorderArtefactsRemover()
 {
     Element<pmf_point<T_REAL> > * iter = pmfConf->getHead();
@@ -147,20 +147,29 @@ PMF<T_REAL> :: BorderArtefactsRemover()
             pmf_point<T_REAL> * n1pt = pt->n1;
             if (n1pt->n1 != NULL  &&  n1pt->n2 == NULL) {
                 if (pt->n1->id == n1pt->id  &&  n1pt->n1->id == pt->id) {
-                    if (pt->id < n1pt->id) {
-                        st.push(pt->id);
-                        st.push(n1pt->id);
+                    if (pt->id < n1pt->id)
+                    {
+                        if (fabs(pt->x - n1pt->x) < EPSILON  ||  fabs(pt->y - n1pt->y) < EPSILON)
+                        {
+                            st.push(pt->id);
+                            st.push(n1pt->id);
+                            cout << " ^^" << *pt << "^^ ";
+                            cout << " ^^" << *n1pt << "^^ ";
+                            cout << endl;
+                        }
                     }
                 }
             }
         }
         iter = iter->next;
     }
+    bool removeSth = (st.size() > 0);
     while (! st.empty()) {
         pmfConf->remove_point_with_id(st.top());
         st.pop();
     }
     //pmfConf->set_points_ids();
+    return removeSth;
 }
 
 

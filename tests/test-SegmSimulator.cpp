@@ -7,8 +7,8 @@
 #include <sys/timeb.h>
 
 #define CHECK_ASSERTIONS 1
-#define pmf_LOG_ADD 1
-#define DEL_PATH_LOG 1
+#define pmf_LOG_ADD 0
+#define DEL_PATH_LOG 0
 
 #include "sim-segm.cpp"
 
@@ -46,7 +46,7 @@ int main (int argc, char *argv[])
 	double   blockSize = 0.0;
     long    iterations = 0;
     double     pmrStop = .05;
-	time_t        seed = 1;
+	time_t        seed = 0;
 	char    c, *endptr;
 
     struct timeb tbeg, tend;
@@ -60,6 +60,35 @@ int main (int argc, char *argv[])
     fprintf(stderr, "[ INFO ] :   Iterations (-n) = %li\n"  , iterations);
     fprintf(stderr, "[ INFO ] : Stopping PMR (-r) = %.2lf\n", pmrStop);
     fprintf(stderr, "\n");
+
+    // 6.7328954911349825e-017;0.98332639742653516
+    // 1.0393420339183721;0.84079215381566141
+    /*
+    double xp, yp, xq, yq, xs, ys, xr, yr;
+    xp = 6.7328954911349825e-017;  yp = 0.98332639742653516;  // 122
+    xq = 1.0393420339183721;  yq = 0.84079215381566141;
+    //xq = -0.024489601142248879; yq = 0.7875908325595895;
+    xr = 0.0;  yr = 0.0;
+    xs = 0.0;  ys = 3.0;
+    printf("%.7lf\n", xp);
+
+  int sgnDetPQR, sgnDetPQS, sgnDetRSP, sgnDetRSQ;
+
+  sgnDetPQR = sgnDet(xp, yp, xq, yq, xr, yr);
+  sgnDetPQS = sgnDet(xp, yp, xq, yq, xs, ys);
+  sgnDetRSP = sgnDet(xr, yr, xs, ys, xp, yp);
+  sgnDetRSQ = sgnDet(xr, yr, xs, ys, xq, yq);
+
+    cout << sgnDetPQR << endl;
+    cout << sgnDetPQS << endl;
+    cout << sgnDetRSP << endl;
+    cout << sgnDetRSQ << endl;
+
+    cout << " # " << isOnSegment(xr, yr, xs, ys, xp, yp) << endl;
+
+    cout << cross3(xp, yp, xq, yq, xr, yr, xs, ys) << endl;
+    exit(0);
+    //*/
 
     // * Determining starting configuration. *
     PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);

@@ -68,7 +68,7 @@ class PMF
 
         inline Element<pmf_point<T_REAL> > * getFirstElement() { return pmfConf->getHead(); }
 
-        void BorderArtefactsRemover();
+        bool BorderArtefactsRemover();
         bool IsThereIntersection();
 
         bool TestVirtualLengthsOfPoint(pmf_point<T_REAL> *);
