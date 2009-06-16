@@ -137,7 +137,7 @@ void SimulateBinarySegmentation (
         }
         if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
         //if (loopIteration == 586) exit(1);
-        if (loopIteration >= 140964) saveOp = true;
+        if (loopIteration >=  95422) saveOp = true; else saveOp = false;
 #if pmf_LOG_ADD
         if (saveOp)
         {
@@ -171,6 +171,7 @@ void SimulateBinarySegmentation (
         bool restore = MODIFY_CONFIGURATION (pmf, areaOfPMF, angle, bSize);
         fprintf(stderr, "|%li|Przywroc:%s ", loopIteration, restore ? "TAK" : "NIE");  fflush(stderr);
         //if (loopIteration >= 140964  &&  loopIteration <= 141000) scanf("%lf", &beta_2);
+        //if (loopIteration == 140964) scanf("%lf", &beta_2);
 #if pmf_LOG_ADD
         //pmf->SaveConfiguration("output/pmf-modified.txt");
         ;

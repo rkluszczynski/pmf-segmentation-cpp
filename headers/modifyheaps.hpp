@@ -132,7 +132,7 @@ pmf_store_rotated_point_in_blocks (
         int cross3ans;
         cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, fieldWidth, 0.0f);
 #if pmf_LOG_ADD
-        out << " -> border check : " << cross3ans << endl;
+        if (saveOp) out << " -> border check : " << cross3ans << endl;
 #endif
         if( parentPt->type != PT_BIRTH_UP  &&  cross3ans != 0  &&  cross3ans != 5 )
         {
@@ -146,7 +146,7 @@ pmf_store_rotated_point_in_blocks (
         }
         cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, fieldHeight, fieldWidth, fieldHeight);
 #if pmf_LOG_ADD
-        out << " -> border check : " << cross3ans << endl;
+        if (saveOp) out << " -> border check : " << cross3ans << endl;
 #endif
         if( parentPt->type != PT_BIRTH_DOWN  &&  cross3ans != 0  &&  cross3ans != 5 )
         {
@@ -160,7 +160,7 @@ pmf_store_rotated_point_in_blocks (
         }
         cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, fieldWidth, 0.0f, fieldWidth, fieldHeight);
 #if pmf_LOG_ADD
-        out << " -> border check : " << cross3ans << endl;
+        if (saveOp) out << " -> border check : " << cross3ans << endl;
 #endif
         if( cross3ans != 0  &&  cross3ans != 5 )
         {
@@ -174,7 +174,7 @@ pmf_store_rotated_point_in_blocks (
         }
         cross3ans = cross3<REAL>(newPt->x, newPt->y, newPt->n1->x, newPt->n1->y, 0.0f, 0.0f, 0.0f, fieldHeight);
 #if pmf_LOG_ADD
-        out << " -> border check : " << cross3ans << endl;
+        if (saveOp) out << " -> border check : " << cross3ans << endl;
 #endif
         if( cross3ans != 0  &&  cross3ans != 5 )
         {
@@ -192,9 +192,12 @@ pmf_store_rotated_point_in_blocks (
         {
             newPt->block = blocks->determine_point_block(newPt);
 #ifdef DEBUG
-            out << std::endl << " New point block = " << newPt->block << std::endl;
-            out << blocks << std::endl;
-            out << " checking ... ";
+            if (saveOp)
+            {
+                out << std::endl << " New point block = " << newPt->block << std::endl;
+                out << blocks << std::endl;
+                out << " checking ... ";
+            }
 #endif
             // Calculate intersection points with other segments in neighbours' blocks
             int ll, rr, uu, dd;
@@ -258,12 +261,12 @@ pmf_store_rotated_point_in_blocks (
                 if (vec[i] != vec[i-1])
                     pmf_check_crossings<REAL> (newPt, iHeap, id, parentPt, blocks, vec[i]);
 #ifdef DEBUG
-                out << vec[i] << " ";
+                if (saveOp) out << vec[i] << " ";
 #endif
             }
             blocks->push( newPt );
 #ifdef DEBUG
-            out << std::endl;
+            if (saveOp) out << std::endl;
 #endif
         }
         else {
@@ -298,13 +301,16 @@ pmf_store_rotated_point_in_blocks (
 
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
-                        out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
-                        double ddist1 = sqrt( DIST2(newpt2, newpt2->n1) );
-                        double ddist2 = sqrt( DIST2(newpt2, newpt2->n2) );
-                        out << " --   1   -- = " << ddist1 << "  :  " << *newpt2->n1 << std::endl;
-                        out << " --   2   -- = " << ddist2 << "  :  " << *newpt2->n2 << std::endl;
-                        assert(ddist1 <= newpt2->l1 + EPSILON);
-                        assert(ddist2 <= newpt2->l2 + EPSILON);
+                        if (saveOp)
+                        {
+                            out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+                            double ddist1 = sqrt( DIST2(newpt2, newpt2->n1) );
+                            double ddist2 = sqrt( DIST2(newpt2, newpt2->n2) );
+                            out << " --   1   -- = " << ddist1 << "  :  " << *newpt2->n1 << std::endl;
+                            out << " --   2   -- = " << ddist2 << "  :  " << *newpt2->n2 << std::endl;
+                            assert(ddist1 <= newpt2->l1 + EPSILON);
+                            assert(ddist2 <= newpt2->l2 + EPSILON);
+                        }
 #endif
                     }
                 }
@@ -331,26 +337,32 @@ pmf_store_rotated_point_in_blocks (
 
                         iHeap->insert (newpt2, newPt->id, pEl->id);
 #if pmf_LOG_ADD
-                        out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
-                        double ddist1 = sqrt( DIST2(newpt2, newpt2->n1) );
-                        double ddist2 = sqrt( DIST2(newpt2, newpt2->n2) );
-                        out << " --   1   -- : " << ddist1 << std::endl;
-                        out << " --   2   -- : " << ddist2 << std::endl;
-                        assert(ddist1 <= newpt2->l1 + EPSILON);
-                        assert(ddist2 <= newpt2->l2 + EPSILON);
+                        if (saveOp)
+                        {
+                            out << " -- CROSS -- : " << *newpt2 << "  :: " << newPt->id << " , " << pEl->id << std::endl;
+                            double ddist1 = sqrt( DIST2(newpt2, newpt2->n1) );
+                            double ddist2 = sqrt( DIST2(newpt2, newpt2->n2) );
+                            out << " --   1   -- : " << ddist1 << std::endl;
+                            out << " --   2   -- : " << ddist2 << std::endl;
+                            assert(ddist1 <= newpt2->l1 + EPSILON);
+                            assert(ddist2 <= newpt2->l2 + EPSILON);
+                        }
 #endif
                     }
                 }
 #if pmf_LOG_ADD
-                if (c1 > 1)  out << " -- ----- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
-                if (c2 > 1)  out << " -- ----- -- :  c2=" << c2 << "  :: " << *pEl << " ~ " << *pEl->n2 << std::endl;
+                if (saveOp)
+                {
+                    if (c1 > 1)  out << " -- ----- -- :  c1=" << c1 << "  :: " << *pEl << " ~ " << *pEl->n1 << std::endl;
+                    if (c2 > 1)  out << " -- ----- -- :  c2=" << c2 << "  :: " << *pEl << " ~ " << *pEl->n2 << std::endl;
+                }
 #endif
             }
         }
     }
     /* Adding point to the list */
 #if pmf_LOG_ADD
-    out << " --- INS --- : " << *newPt << std::endl;
+    if (saveOp) out << " --- INS --- : " << *newPt << std::endl;
 #endif
     //bHeap->insert(newPt, blocks);
     //*
@@ -381,14 +393,12 @@ pmf_point<REAL> * pmf_delete_rotated_path (
     pmf_point<REAL> * newPt = NULL;
     std::stack<long int> st;
 #if DEL_PATH_LOG
-    if (saveOp)
-        out << " DELETEING PATH : " << *dpt << endl;
+    if (saveOp)  out << " DELETEING PATH : " << *dpt << endl;
 #endif
     while (true) {
         /* Point to delete has 2 neighbors - the worst case */
 #if DEL_PATH_LOG
-        if (saveOp)
-            out << " " << *dpt;
+        if (saveOp)  out << " " << *dpt;
 #endif
         if (dpt->n1 != NULL  &&  dpt->n2 != NULL) {
             if (dpt->type == PT_INTERSECTION) {
@@ -569,10 +579,13 @@ pmf_point<REAL> * pmf_do_heaps_get (
         REAL xb = X_ROTATED(bpt->x, bpt->y, sinL, cosL);
         REAL xi = X_ROTATED(ipt->x, ipt->y, sinL, cosL);
 #if pmf_LOG_ADD
-        out.precision(128);  out << " bpt = " << xb << "  :: " << *bpt << endl;
-        out.precision(128);  out << " ipt = " << xi << "  :: " << *ipt << endl;
-        out << "[    ]  " << ((xb < xi) ? " LT " : " ! LT ")  << endl;
-        //out << "[ PT ]  " << (PT_LT(bpt, ipt, sinL, cosL) ? " LT " : " ! LT ")  << endl;
+        if (saveOp)
+        {
+            out.precision(128);  out << " bpt = " << xb << "  :: " << *bpt << endl;
+            out.precision(128);  out << " ipt = " << xi << "  :: " << *ipt << endl;
+            out << "[    ]  " << ((xb < xi) ? " LT " : " ! LT ")  << endl;
+            //out << "[ PT ]  " << (PT_LT(bpt, ipt, sinL, cosL) ? " LT " : " ! LT ")  << endl;
+        }
 #endif
         //if (PT_LT(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
         if (xb < xi) { return bHeap->extract_min(); }
