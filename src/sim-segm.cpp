@@ -122,7 +122,7 @@ void SimulateBinarySegmentation (
     while (runSimulation)
     {
         char plik[256];
-        sprintf(plik, "output/abcdef.txt");
+        sprintf(plik, "output/last-iter.txt");
         //if (loopIteration >= 110000  &&  loopIteration % 1000 == 0)
         //if ((loopIteration >= 140964  &&  loopIteration <= 141000))
         //if (loopIteration == 586 || loopIteration == 587 || (loopIteration >= 586  &&  loopIteration <= 102))
@@ -133,7 +133,6 @@ void SimulateBinarySegmentation (
         {
             sprintf(plik, "output/pmf-iter-%li.txt", loopIteration);
             pmf->SaveConfiguration(plik);
-            sprintf(plik, "output/debug-iter-%li.txt", loopIteration);
         }
         if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
         //if (loopIteration == 586) exit(1);
@@ -143,8 +142,11 @@ void SimulateBinarySegmentation (
         {
             fout1.flush();
             fout1.close();
+
+            sprintf(plik, "output/debug-iter-%li.txt", loopIteration);
             fout1.open(plik);
             out.rdbuf(fout1.rdbuf());
+
             if (loopIteration == 2) {
                 //out.rdbuf(fout1.rdbuf());
                 //pmf->GetPMFConfiguration()->save_configuration(out);

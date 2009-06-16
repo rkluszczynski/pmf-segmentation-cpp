@@ -291,8 +291,12 @@ pmf_store_rotated_point_in_blocks (
                 //assert(ans > 0);
                 //REAL parentLength = (ans == 1) ? parentPt->l1 : parentPt->l2;
                         REAL ll1 = newPt->l1;
-
-                        cout << " ## ## ## ## " << *newPt << "   ::   " << *pEl << "  ~~  " << *pEl->n1 << endl;
+#if pmf_LOG_ADD
+                        if (saveOp)
+                        {
+                            out << " ## ## ## ## " << *newPt << "   ::   " << *pEl << "  ~~  " << *pEl->n1 << endl;
+                        }
+#endif
                         int ll2ans = pmf_which_neighbor_is_id(pEl->n1, pEl->id);
                         assert(ll2ans == 1  ||  ll2ans == 2);
                         REAL ll2 = (ll2ans == 1) ? pEl->n1->l1 : pEl->n1->l2;
