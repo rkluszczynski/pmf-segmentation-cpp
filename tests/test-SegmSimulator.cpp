@@ -40,18 +40,20 @@ void print_usage(char * prog_name, bool cond = false)
 #define REAL double
 int main (int argc, char *argv[])
 {
-	long           opt = 0x0;
-	double    sizeArak = 3.0;
-	char * initialFile = "input/qq.cf";
-	char *  outputFile = "output/segm-sim-test.cf";
-	char * pictureFile = "input/ring-spread.bmp";
-	double   blockSize = 0.0;
-    long    iterations = 0;
-    double     pmrStop = .05;
-	time_t        seed = 0;
-	char    c, *endptr;
+	long             opt = 0x0;
+	double      sizeArak = 5.0;
+	char initialFile[64] = "input/qq.cf";
+	char  outputFile[64];
+	char pictureFile[64] = "input/ring-spread.bmp";
+	double     blockSize = 0.0;
+    long      iterations = 0;
+    double       pmrStop = .05;
+	time_t          seed = 6;
+	char      c, *endptr;
 
     struct timeb tbeg, tend;
+    sprintf(outputFile, "output/segm-sim-test-seed%li.cf", seed);
+
     //fprintf(stderr, "TOTAL SUCCES (%x) !!\n", opt);
     fprintf(stderr, "[ INFO ] :   Field Size (-s) = %.2lf\n", sizeArak);
     fprintf(stderr, "[ INFO ] : Initial File (-i) = '%s'\n" , initialFile);

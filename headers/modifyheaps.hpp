@@ -592,7 +592,10 @@ pmf_point<REAL> * pmf_do_heaps_get (
         }
 #endif
         //if (PT_LT(bpt, ipt, sinL, cosL)) { return bHeap->extract_min(); }
-        if (xb < xi) { return bHeap->extract_min(); }
+
+        // Change 17.06.2009 :
+        //if (xb < xi) { return bHeap->extract_min(); }
+        if (xb + EPSILON <= xi) { return bHeap->extract_min(); }
         else { return iHeap->extract_min(id1, id2); }
     }
 }

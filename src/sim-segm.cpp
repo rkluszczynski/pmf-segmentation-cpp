@@ -127,8 +127,8 @@ void SimulateBinarySegmentation (
         //if ((loopIteration >= 140964  &&  loopIteration <= 141000))
         //if (loopIteration == 586 || loopIteration == 587 || (loopIteration >= 586  &&  loopIteration <= 102))
         if (
-            (loopIteration >= 140964)
-            ||  (loopIteration % 10000 == 0)
+            //(loopIteration >= 140964) ||
+            (loopIteration % 10000 == 0)
         )
         {
             sprintf(plik, "output/pmf-iter-%li.txt", loopIteration);
@@ -136,7 +136,7 @@ void SimulateBinarySegmentation (
         }
         if (loopIteration == 120462) pmf->SaveConfiguration("output/pmf-iter-120462.txt");
         //if (loopIteration == 586) exit(1);
-        if (loopIteration >=  95422) saveOp = true; else saveOp = false;
+        //if (loopIteration >=  95422 && loopIteration <=  95433) saveOp = true; else saveOp = false;
 #if pmf_LOG_ADD
         if (saveOp)
         {
