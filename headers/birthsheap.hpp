@@ -22,6 +22,7 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
     public :
         BirthsHeap() : sinL(0.0), cosL(1.0) {};
         BirthsHeap(double ssinL, double ccosL) : sinL(ssinL), cosL(ccosL) {};
+        ~BirthsHeap();
 
         bool remove_point_with_id(long, BlocksLists<T_REAL> *);
         pmf_point<T_REAL> * get_point_with_id(long);
@@ -35,6 +36,19 @@ class BirthsHeap : public AbstractHeap<pmf_point<T_REAL> *>
 			return out;
 		}
 };
+
+
+template <class T_REAL>
+BirthsHeap<T_REAL>::~BirthsHeap ()
+{
+    if (AbstractHeap<pmf_point<T_REAL> *>::size() <= 0)  return;
+
+    while (! AbstractHeap<pmf_point<T_REAL> *>::empty())
+    {
+        delete AbstractHeap<pmf_point<T_REAL> *>::extract_min();
+    }
+    //cerr << "[ BHEAP ] : destructing" << endl;
+}
 
 
 template <class T_REAL>

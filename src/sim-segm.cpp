@@ -221,6 +221,7 @@ void SimulateBinarySegmentation (
         //*/
         // * Testing conditions for stoping simulation. *
         fprintf(stderr, ".\n");  fflush(stderr);
+        cerr << " POINTS WASTED = " << pmf_point_counter << endl;
 
         if (iterations > 0  &&  loopIteration >= iterations)  runSimulation = false;
         if (PMFRate > 0.0  &&  PMFRate > storedArea) runSimulation = false;

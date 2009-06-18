@@ -42,14 +42,14 @@ void print_usage(char * prog_name, bool cond = false)
 int main (int argc, char *argv[])
 {
 	long             opt = 0x0;
-	double      sizeArak = 5.0;
+	double      sizeArak = 3.0;
 	char initialFile[64] = "input/qq.cf";
 	char  outputFile[64];
 	char pictureFile[64] = "input/ring-spread.bmp";
 	double     blockSize = 0.0;
-    long      iterations = 0;
+    long      iterations = 1;
     double       pmrStop = .05;
-	time_t          seed = 6;
+	time_t          seed = 0;
 	char      c, *endptr;
 
     struct timeb tbeg, tend;

@@ -21,6 +21,7 @@ class IntersectionsHeap : public AbstractHeap<CrosspointElement<T_REAL> *>
     public :
         IntersectionsHeap() : sinL(0.0), cosL(1.0) {};
         IntersectionsHeap(double ssinL, double ccosL) : sinL(ssinL), cosL(ccosL) {};
+        ~IntersectionsHeap();
 
         inline pmf_point<T_REAL> * top() { return AbstractHeap<CrosspointElement<T_REAL> *>::top()->pt; }
         inline long topP1() { return AbstractHeap<CrosspointElement<T_REAL> *>::top()->p1; }
@@ -40,6 +41,20 @@ class IntersectionsHeap : public AbstractHeap<CrosspointElement<T_REAL> *>
 			return out;
 		}
 };
+
+
+template <class T_REAL>
+IntersectionsHeap<T_REAL>::~IntersectionsHeap ()
+{
+    if (AbstractHeap<CrosspointElement<T_REAL> *>::size() <= 0)  return;
+
+    while (! AbstractHeap<CrosspointElement<T_REAL> *>::empty())
+    {
+        delete AbstractHeap<CrosspointElement<T_REAL> *>::extract_min()->pt;
+        delete AbstractHeap<CrosspointElement<T_REAL> *>::extract_min();
+    }
+    //cerr << "[ IHEAP ] : destructing" << endl;
+}
 
 
 template <class T_REAL>
