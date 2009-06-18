@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <sys/timeb.h>
 
+#include <wx/wx.h>
+
 #define CHECK_ASSERTIONS 1
 #define pmf_LOG_ADD 1
 #define DEL_PATH_LOG 1
@@ -13,6 +15,7 @@
 bool saveOp = false;
 
 #include "sim-segm.cpp"
+
 
 
 void print_usage(char * prog_name, bool cond = false)
@@ -41,14 +44,14 @@ void print_usage(char * prog_name, bool cond = false)
 int main (int argc, char *argv[])
 {
 	long             opt = 0x0;
-	double      sizeArak = 5.0;
+	double      sizeArak = 3.0;
 	char initialFile[64] = "input/qq.cf";
 	char  outputFile[64];
 	char pictureFile[64] = "input/ring-spread.bmp";
 	double     blockSize = 0.0;
     long      iterations = 0;
     double       pmrStop = .05;
-	time_t          seed = 6;
+	time_t          seed = 0;
 	char      c, *endptr;
 
     struct timeb tbeg, tend;
@@ -93,6 +96,13 @@ int main (int argc, char *argv[])
     cout << cross3(xp, yp, xq, yq, xr, yr, xs, ys) << endl;
     exit(0);
     //*/
+    /*
+    pmf_point<double> * q = new pmf_point<double>(1.0, 1.0, 1.0, 1.0, 1);
+    cerr << pmf_point_counter << endl;
+    delete q;
+    cerr << pmf_point_counter << endl;
+    exit(0);
+    //*/
 
     // * Determining starting configuration. *
     PMF<REAL> * pmf = new PMF<REAL>(sizeArak, sizeArak);
@@ -101,7 +111,13 @@ int main (int argc, char *argv[])
     pmf->Generate(blockSize);
     pmf->TestConfigurationPoints();
     pmf->SaveConfiguration("output/test-ring.txt");
-
+    //*
+    cerr << pmf_point_counter << endl;
+    pmf->GetPMFConfiguration()->destroy();
+    delete pmf;
+    cerr << pmf_point_counter << endl;
+    exit(0);
+    //*/
 #if pmf_LOG_ADD
     ofstream fout("output/tmp.txt");
     out.rdbuf(fout.rdbuf());

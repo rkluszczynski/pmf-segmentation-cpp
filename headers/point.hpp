@@ -19,6 +19,8 @@
 #include "probability.hpp"
 #include "listelement.hpp"
 
+long long pmf_point_counter = 0;
+
 template <typename T_REAL> struct pmf_point
 {
 	T_REAL x, y;
@@ -33,21 +35,25 @@ template <typename T_REAL> struct pmf_point
 
 	pmf_point ( T_REAL xx,  T_REAL yy, 	T_REAL ll1,  T_REAL ll2,  long int idi )
 		: x(xx), y(yy), n1(NULL), n2(NULL), l1(ll1), l2(ll2), id(idi), type(PT_UNKNOWN), block(BLOCK_UNDEFINED)
-	{}
+	{ init(); }
 
 	pmf_point ( T_REAL xx,  T_REAL yy,  T_REAL ll1,  T_REAL ll2,  long int idi,  int ttype )
 		: x(xx), y(yy), n1(NULL), n2(NULL), l1(ll1), l2(ll2), id(idi), type(ttype), block(BLOCK_UNDEFINED)
-	{}
+	{ init(); }
 /*
 	pmf_point ( const T_REAL xx,  const T_REAL yy,  pmf_point<T_REAL> * nn1,  pmf_point<T_REAL> * nn2,
 			T_REAL ll1,  T_REAL ll2,  long int idi )
 		: x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(PT_UNKNOWN), block(BLOCK_UNDEFINED)
-	{}
+	{ init(); }
 */
 	pmf_point ( T_REAL xx,  T_REAL yy,  pmf_point<T_REAL> * nn1,  pmf_point<T_REAL> * nn2,
             T_REAL ll1,  T_REAL ll2,  long int idi,  int ttype )
 		: x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype), block(BLOCK_UNDEFINED)
-	{}
+	{ init(); }
+
+	void init()   { ++pmf_point_counter; }
+
+	virtual ~pmf_point()  { /* cerr << " POINT DEAD " << endl; */ --pmf_point_counter; }
 
     //*
     #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))

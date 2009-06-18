@@ -14,11 +14,11 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
     private :
         T_REAL fieldWidth, fieldHeight;
 
-        void destroy();
-
 
     public :
         ConfigurationList(T_REAL, T_REAL);
+
+        void destroy();
 
         //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
         void clone_from ( ConfigurationList<T_REAL> * );

@@ -209,8 +209,8 @@ void SimulateBinarySegmentation (
         if (restore == true) {
             fprintf(stderr, "{Getting back pmf}");  fflush(stderr);
             swap(pmf, clone);
-            delete clone;
         }
+        delete clone;
 
         /* Saving value of PMF rate. *
         if(graphStep != 0)
