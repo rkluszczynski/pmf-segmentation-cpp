@@ -6,8 +6,6 @@
 #include <unistd.h>
 #include <sys/timeb.h>
 
-#include <wx/wx.h>
-
 #define CHECK_ASSERTIONS 1
 #define pmf_LOG_ADD 1
 #define DEL_PATH_LOG 1
@@ -44,14 +42,14 @@ void print_usage(char * prog_name, bool cond = false)
 int main (int argc, char *argv[])
 {
 	long             opt = 0x0;
-	double      sizeArak = 3.0;
+	double      sizeArak = 5.0;
 	char initialFile[64] = "input/qq.cf";
 	char  outputFile[64];
 	char pictureFile[64] = "input/ring-spread.bmp";
 	double     blockSize = 0.0;
     long      iterations = 0;
     double       pmrStop = .05;
-	time_t          seed = 0;
+	time_t          seed = 6;
 	char      c, *endptr;
 
     struct timeb tbeg, tend;
@@ -111,9 +109,9 @@ int main (int argc, char *argv[])
     pmf->Generate(blockSize);
     pmf->TestConfigurationPoints();
     pmf->SaveConfiguration("output/test-ring.txt");
-    //*
+    /*
     cerr << pmf_point_counter << endl;
-    pmf->GetPMFConfiguration()->destroy();
+    //pmf->GetPMFConfiguration()->destroy();
     delete pmf;
     cerr << pmf_point_counter << endl;
     exit(0);
