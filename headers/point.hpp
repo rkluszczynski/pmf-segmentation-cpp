@@ -23,6 +23,7 @@ long long pmf_point_counter = 0;
 
 template <typename T_REAL> struct pmf_point
 {
+    //const char * LABEL = "POINT";
 	T_REAL x, y;
 	pmf_point * n1, * n2;
 	T_REAL l1, l2;
@@ -94,6 +95,7 @@ template <typename T_REAL> struct pmf_point
      **/
 	friend std::ostream& operator << (std::ostream& out, const pmf_point<T_REAL> pt)
 	{
+	    ++pmf_point_counter; // To log copy constructor
 		out << /*" " <<*/ pt.id << "`";
 		out << "(" << pt.x << ";" << pt.y << ")";
 		out << "[" << (pt.n1 ? (pt.n1)->id : 0) << "]";

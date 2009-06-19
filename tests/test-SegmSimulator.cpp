@@ -47,9 +47,9 @@ int main (int argc, char *argv[])
 	char  outputFile[64];
 	char pictureFile[64] = "input/ring-spread.bmp";
 	double     blockSize = 0.0;
-    long      iterations = 1;
+    long      iterations = 0;
     double       pmrStop = .05;
-	time_t          seed = 0;
+	time_t          seed = 17;
 	char      c, *endptr;
 
     struct timeb tbeg, tend;
@@ -112,6 +112,7 @@ int main (int argc, char *argv[])
     /*
     cerr << pmf_point_counter << endl;
     //pmf->GetPMFConfiguration()->destroy();
+    //cerr << *pmf->GetPMFConfiguration()->begin()->data << endl;
     delete pmf;
     cerr << pmf_point_counter << endl;
     exit(0);
@@ -135,6 +136,7 @@ int main (int argc, char *argv[])
     double simTime = tend.time - tbeg.time;
     simTime += ((tend.millitm - tbeg.millitm) * 0.001);
     fprintf(stderr, "\n[ DONE ] : simulation time = %.3lf sec.\n", simTime);
+    cerr << pmf_point_counter << endl;
 
     return(0);
 }

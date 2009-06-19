@@ -71,6 +71,7 @@ IntersectionsHeap<T_REAL>::remove_intersections_with_id (long ptId, BlocksLists<
             if (blocks)  blocks->pop(cEl->pt);
             AbstractHeap<CrosspointElement<T_REAL> *>::min_heapify (i);
             --i;
+            delete cEl->pt;
             deleted = true;
         }
     }

@@ -63,6 +63,7 @@ BirthsHeap<T_REAL>::remove_point_with_id (long ptId, BlocksLists<T_REAL> * block
             AbstractHeap<pmf_point<T_REAL> *>::data->pop_back();
             if (blocks)  blocks->pop (pt);
             AbstractHeap<pmf_point<T_REAL> *>::min_heapify (i);
+            delete pt;
             return true;
         }
     }

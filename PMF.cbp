@@ -5,10 +5,10 @@
 		<Option title="PMF Project" />
 		<Option pch_mode="0" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="structures/;operations/;util/;structures/core/;structures/lists/;structures/blocks/;structures/heaps/;mains/;old-files/;structures/edges/;simulations/;image/;" />
+		<Option virtualFolders="structures\;operations\;util\;structures\core\;structures\lists\;structures\blocks\;structures\heaps\;mains\;old-files\;structures\edges\;simulations\;image\;" />
 		<Build>
 			<Target title="default">
-				<Option output="bin/PMF.exe" prefix_auto="0" extension_auto="0" />
+				<Option output="bin\PMF.exe" prefix_auto="0" extension_auto="0" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -21,12 +21,12 @@
 					<Add directory="src" />
 				</Compiler>
 				<Linker>
-					<Add directory="objs/src" />
+					<Add directory="objs\src" />
 					<Add directory="objs" />
 				</Linker>
 			</Target>
 			<Target title="generator-debug">
-				<Option output="bin/PMF-gen" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\PMF-gen" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -40,7 +40,7 @@
 				</Compiler>
 			</Target>
 			<Target title="adder-debug">
-				<Option output="bin/PMF-add" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\PMF-add" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -54,7 +54,7 @@
 				</Compiler>
 			</Target>
 			<Target title="updater-debug">
-				<Option output="bin/PMF-upd" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\PMF-upd" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -68,7 +68,7 @@
 				</Compiler>
 			</Target>
 			<Target title="remover-debug">
-				<Option output="bin/PMF-rem" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\PMF-rem" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -82,7 +82,7 @@
 				</Compiler>
 			</Target>
 			<Target title="segmentation-win-debug">
-				<Option output="bin/pmf-sim-segm" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\pmf-sim-segm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -99,7 +99,7 @@
 				</Linker>
 			</Target>
 			<Target title="edgeapplier-debug">
-				<Option output="bin/pmf-sim-edge" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\pmf-sim-edge" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -113,7 +113,7 @@
 				</Compiler>
 			</Target>
 			<Target title="segmentation-lin-debug">
-				<Option output="bin/pmf-sim-segm" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\pmf-sim-segm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -133,196 +133,201 @@
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
 		</VirtualTargets>
-		<Unit filename="headers/CImg.h">
-			<Option virtualFolder="image/" />
+		<Compiler>
+			<Add directory="include" />
+		</Compiler>
+		<Unit filename="headers\CImg.h">
+			<Option virtualFolder="image\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/abstractheap.hpp">
-			<Option virtualFolder="structures/heaps/" />
+		<Unit filename="headers\abstractheap.hpp">
+			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/accesslists.hpp">
-			<Option virtualFolder="structures/lists/" />
+		<Unit filename="headers\accesslists.hpp">
+			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/avl.hpp">
-			<Option virtualFolder="structures/core/" />
+		<Unit filename="headers\avl.hpp">
+			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/birthsheap.hpp">
-			<Option virtualFolder="structures/heaps/" />
+		<Unit filename="headers\birthsheap.hpp">
+			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/birthslist.hpp">
-			<Option virtualFolder="structures/lists/" />
+		<Unit filename="headers\birthslist.hpp">
+			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/blocklist.hpp">
-			<Option virtualFolder="structures/blocks/" />
+		<Unit filename="headers\blocklist.hpp">
+			<Option virtualFolder="structures\blocks\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/blockslists.hpp">
-			<Option virtualFolder="structures/blocks/" />
+		<Unit filename="headers\blockslists.hpp">
+			<Option virtualFolder="structures\blocks\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/configurationlist.hpp">
-			<Option virtualFolder="structures/lists/" />
+		<Unit filename="headers\configurationlist.hpp">
+			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/crosselement.hpp">
-			<Option virtualFolder="structures/core/" />
+		<Unit filename="headers\crosselement.hpp">
+			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/geometry.hpp">
-			<Option virtualFolder="util/" />
+		<Unit filename="headers\geometry.hpp">
+			<Option virtualFolder="util\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/grayscaleimage.hpp">
-			<Option virtualFolder="image/" />
+		<Unit filename="headers\grayscaleimage.hpp">
+			<Option virtualFolder="image\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/intersectionsheap.hpp">
-			<Option virtualFolder="structures/heaps/" />
+		<Unit filename="headers\intersectionsheap.hpp">
+			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/intersectionslist.hpp">
-			<Option virtualFolder="structures/lists/" />
+		<Unit filename="headers\intersectionslist.hpp">
+			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/listelement.hpp">
-			<Option virtualFolder="structures/core/" />
+		<Unit filename="headers\listelement.hpp">
+			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/macros.hpp" />
-		<Unit filename="headers/modifyheaps.hpp">
-			<Option virtualFolder="structures/heaps/" />
+		<Unit filename="headers\macros.hpp" />
+		<Unit filename="headers\modifyheaps.hpp">
+			<Option virtualFolder="structures\heaps\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/modifylists.hpp">
-			<Option virtualFolder="structures/lists/" />
+		<Unit filename="headers\modifylists.hpp">
+			<Option virtualFolder="structures\lists\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/point.hpp">
-			<Option virtualFolder="structures/core/" />
+		<Unit filename="headers\point.hpp">
+			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/probability.hpp">
-			<Option virtualFolder="util/" />
+		<Unit filename="headers\probability.hpp">
+			<Option virtualFolder="util\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="headers/templatelist.hpp">
-			<Option virtualFolder="structures/core/" />
+		<Unit filename="headers\templatelist.hpp">
+			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="include\DoublePMF.hpp" />
 		<Unit filename="main.cpp">
 			<Option target="default" />
 		</Unit>
-		<Unit filename="src/PMF.cpp">
-			<Option virtualFolder="structures/" />
+		<Unit filename="src\DoublePMF.cpp" />
+		<Unit filename="src\PMF.cpp">
+			<Option virtualFolder="structures\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/PMF.hpp">
-			<Option virtualFolder="structures/" />
+		<Unit filename="src\PMF.hpp">
+			<Option virtualFolder="structures\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/add-rot.cpp">
-			<Option virtualFolder="old-files/" />
+		<Unit filename="src\add-rot.cpp">
+			<Option virtualFolder="old-files\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/add.cpp">
-			<Option virtualFolder="old-files/" />
+		<Unit filename="src\add.cpp">
+			<Option virtualFolder="old-files\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/adding.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\adding.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/edgeelement.hpp">
-			<Option virtualFolder="structures/edges/" />
+		<Unit filename="src\edgeelement.hpp">
+			<Option virtualFolder="structures\edges\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/edgepoints.cpp">
-			<Option virtualFolder="structures/edges/" />
+		<Unit filename="src\edgepoints.cpp">
+			<Option virtualFolder="structures\edges\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/edgepoints.hpp">
-			<Option virtualFolder="structures/edges/" />
+		<Unit filename="src\edgepoints.hpp">
+			<Option virtualFolder="structures\edges\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/evolve.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\evolve.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/generate.cpp">
-			<Option virtualFolder="old-files/" />
+		<Unit filename="src\generate.cpp">
+			<Option virtualFolder="old-files\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/generate.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\generate.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/main-add.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="src\main-add.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="adder-debug" />
 		</Unit>
-		<Unit filename="src/main-gen.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="src\main-gen.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="generator-debug" />
 		</Unit>
-		<Unit filename="src/main-rem.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="src\main-rem.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="remover-debug" />
 		</Unit>
-		<Unit filename="src/main-upd.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="src\main-upd.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="updater-debug" />
 		</Unit>
-		<Unit filename="src/mainEdge.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="src\mainEdge.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="edgeapplier-debug" />
 		</Unit>
-		<Unit filename="src/mainSegm.cpp">
-			<Option virtualFolder="mains/" />
+		<Unit filename="src\mainSegm.cpp">
+			<Option virtualFolder="mains\" />
 			<Option target="segmentation-win-debug" />
 			<Option target="segmentation-lin-debug" />
 		</Unit>
-		<Unit filename="src/prepare.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\prepare.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/remove.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\remove.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/rotate.cpp">
-			<Option virtualFolder="old-files/" />
+		<Unit filename="src\rotate.cpp">
+			<Option virtualFolder="old-files\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/rotate.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\rotate.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/segment.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\segment.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/sim-edge.cpp">
-			<Option virtualFolder="simulations/" />
+		<Unit filename="src\sim-edge.cpp">
+			<Option virtualFolder="simulations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/sim-feps.cpp">
-			<Option virtualFolder="simulations/" />
+		<Unit filename="src\sim-feps.cpp">
+			<Option virtualFolder="simulations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/sim-segm.cpp">
-			<Option virtualFolder="simulations/" />
+		<Unit filename="src\sim-segm.cpp">
+			<Option virtualFolder="simulations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="src/testing.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\testing.hpp">
+			<Option virtualFolder="operations\" />
 		</Unit>
-		<Unit filename="src/update.hpp">
-			<Option virtualFolder="operations/" />
+		<Unit filename="src\update.hpp">
+			<Option virtualFolder="operations\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Extensions>
