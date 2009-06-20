@@ -5,5 +5,6 @@
 		<Project filename="Tests.cbp" active="1" />
 		<Project filename="gui\gui.cbp" />
 		<Project filename="scripts\Algorithms.cbp" />
+		<Project filename="scripts\library.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

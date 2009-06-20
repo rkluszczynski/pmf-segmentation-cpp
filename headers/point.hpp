@@ -23,7 +23,7 @@ long long pmf_point_counter = 0;
 
 template <typename T_REAL> struct pmf_point
 {
-    //const char * LABEL = "POINT";
+    char LABEL[8];
 	T_REAL x, y;
 	pmf_point * n1, * n2;
 	T_REAL l1, l2;
@@ -52,7 +52,7 @@ template <typename T_REAL> struct pmf_point
 		: x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype), block(BLOCK_UNDEFINED)
 	{ init(); }
 
-	void init()   { ++pmf_point_counter; }
+	void init()   { ++pmf_point_counter; strcpy(LABEL, "POINT"); }
 
 	virtual ~pmf_point()  { /* cerr << " POINT DEAD " << endl; */ --pmf_point_counter; }
 

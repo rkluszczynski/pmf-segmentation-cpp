@@ -2,8 +2,9 @@
  ___ THINGS _ TO _ DO ___
 
  . implement method  IsTheIntersection  in time O(n*logk)
- . correct neighbours' lengths to use the previous ones
 
 
 
  ___ THINGS _ DONE ___
+
+2009-11-12. correct neighbours' lengths to use the previous ones
