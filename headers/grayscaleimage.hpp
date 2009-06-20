@@ -46,7 +46,7 @@ class GrayScaleImage
         EdgePoints<double> * GetRandomEdgePixels(int, int, double, double);
         EdgePoints<double> * GetRandomEdgePixels2(unsigned int &, int, double, double);
 
-        void ScanVerticalLine(PMF<double> *, double, int *);
+        void ScanVerticalLine(PMF<double> *, double, double, int *);
 
         double CalculateScanLinesEnergy(PMF<double> *);
 };
@@ -303,25 +303,28 @@ double GrayScaleImage :: GetGradientValue (int xx, int yy, pair<double, double> 
 double GrayScaleImage :: CalculateScanLinesEnergy (PMF<double> * pmf)
 {
     int oColor[2] = { 0, 0 };
-    for (double xx = 0.0; xx < pmf->GetPMFWidth()/2.0; xx += 0.05)
+    double delta = 0.04999999;
+
+    for (double xx = 0.0; xx < pmf->GetPMFWidth(); xx += delta)
     {
         int amount[2];
-        ScanVerticalLine(pmf, xx, amount);
+        ScanVerticalLine(pmf, xx, delta, amount);
 
         oColor[0] += amount[0];
         oColor[1] += amount[1];
     }
-    double maxAmount = double( (oColor[0] > oColor[1]) ? oColor[0] : oColor[1] );
+    double maxAmount = double( max(oColor[0], oColor[1]) );
     double     total = double( oColor[0] + oColor[1] );
-
-    //cout << " oBLACK = " << (total - oColor[0]) / total << endl;
-    //cout << " oWHITE = " << (total - oColor[1]) / total << endl;
+    /*
+    cout << " oBLACK = " << (total - oColor[0]) / total << endl;
+    cout << " oWHITE = " << (total - oColor[1]) / total << endl;
+    //*/
     return (total - maxAmount)/total;
 }
 
 
 #define ABS(x)   ( ((x)>0) ? (x) : (-(x)) )
-void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * originColor = NULL)
+void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, double delta, int * originColor = NULL)
 {
     Element<pmf_point<double> > * head = pmf->getFirstElement();
     priority_queue<pair<double, double>, vector<pair<double, double> >, greater<pair<double, double> > > pq;
@@ -386,7 +389,7 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * orig
             //cout << "           : " << amount[0] << " , " << amount[1] << endl;
 
             //yy += (1.0 / scaleY);
-            yy += 0.05;
+            yy += delta;
         }
         startTopColor = 255 - startTopColor;
     }
@@ -396,9 +399,11 @@ void GrayScaleImage :: ScanVerticalLine(PMF<double> * pmf, double xx, int * orig
         originColor[0] = amount[0];
         originColor[1] = amount[1];
     }
-    //cout << " ZBADANYCH PIKSELI = " << amount[0]+amount[1] << endl;
-    //cout << " - zgodne z pokolorowaniem OBLACK = " << amount[0] << endl;
-    //cout << " - zgodne z pokolorowaniem OWHITE = " << amount[1] << endl;
+    /*
+    cout << " ZBADANYCH PIKSELI = " << amount[0]+amount[1] << endl;
+    cout << " - zgodne z pokolorowaniem OBLACK = " << amount[0] << endl;
+    cout << " - zgodne z pokolorowaniem OWHITE = " << amount[1] << endl;
+    //*/
     return;
 }
 #undef ABS

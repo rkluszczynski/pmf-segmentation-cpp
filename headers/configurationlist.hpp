@@ -19,6 +19,7 @@ class ConfigurationList : public TemplateList<pmf_point<T_REAL> >
 
     public :
         ConfigurationList(T_REAL, T_REAL);
+        ~ConfigurationList();
 
         //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
         void clone_from ( ConfigurationList<T_REAL> * );
@@ -45,6 +46,14 @@ ConfigurationList<T_REAL>::ConfigurationList (T_REAL width, T_REAL height)
 {
     fieldWidth = width;
     fieldHeight = height;
+}
+
+
+template <class T_REAL>
+ConfigurationList<T_REAL>::~ConfigurationList ()
+{
+    destroy();
+    //cerr << "[ CONF ] : destructing" << endl;
 }
 
 

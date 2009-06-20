@@ -204,6 +204,37 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 			</Target>
+			<Target title="test-EnergyMethods">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+			<Target title="test-SpreadRingSimulator-win">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-lgdi32" />
+					<Add library="bin\library_d.dll.a" />
+				</Linker>
+			</Target>
+			<Target title="test-SpreadRingSimulator-lin">
+				<Option output="Tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="objs" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-lpthread -lX11" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-g" />
@@ -237,11 +268,19 @@
 			<Option virtualFolder="simulations\" />
 			<Option target="test-EdgeSimulator-win" />
 		</Unit>
+		<Unit filename="tests\test-Energy.cpp">
+			<Option target="test-EnergyMethods" />
+		</Unit>
 		<Unit filename="tests\test-PMFHeap.cpp">
 			<Option target="test-templateHeap" />
 		</Unit>
 		<Unit filename="tests\test-Point.cpp">
 			<Option target="test-Point" />
+		</Unit>
+		<Unit filename="tests\test-SegmSimulator.cpp">
+			<Option virtualFolder="simulations\" />
+			<Option target="test-SpreadRingSimulator-win" />
+			<Option target="test-SpreadRingSimulator-lin" />
 		</Unit>
 		<Unit filename="tests\test-TemplateList.cpp">
 			<Option target="test-TemplateList" />

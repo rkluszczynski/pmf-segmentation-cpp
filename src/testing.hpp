@@ -17,17 +17,24 @@ template <class T_REAL>
 bool
 PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
 {
+    assert(0.0 <= pt->x  &&  pt->x <= fieldWidth);
+    assert(0.0 <= pt->y  &&  pt->y <= fieldHeight);
     return true;
+
     pmf_point<T_REAL> * n1 = pt->n1;
     pmf_point<T_REAL> * n2 = pt->n2;
 #if pmf_LOG_ADD
-    out << " Testing point : " << *pt << endl;
+    if (saveOp) out << " Testing point : " << *pt << endl;
 #endif
+    assert(n1 || n2);
     if (n1)
     {
 #if pmf_LOG_ADD
-        out << " Neighbor 1 : " << *n1 << endl;
+        if (saveOp) out << " Neighbor 1 : " << *n1 << endl;
 #endif
+        int nans = pmf_which_neighbor_is_id(pt, n1->id);
+        assert(nans == 1);
+
         /// TODO (Rafel#1#): Sprawdzic ostrosc nierownosci
         assert(DIST(pt, n1) <= pt->l1 + EPSILON);
         long ans = pmf_which_neighbor_is_id(n1, pt->id);
@@ -41,14 +48,17 @@ PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
         }
         else return false;
 #if pmf_LOG_ADD
-        out << " Neighbor 1 : OK " << endl;
+        if (saveOp) out << " Neighbor 1 : OK " << endl;
 #endif
     }
     if (n2)
     {
 #if pmf_LOG_ADD
-        out << " Neighbor 2 : " << *n2 << endl;
+        if (saveOp) out << " Neighbor 2 : " << *n2 << endl;
 #endif
+        int nans = pmf_which_neighbor_is_id(pt, n2->id);
+        assert(nans == 2);
+
         /// TODO (Rafel#1#): sprawdzic ostrosc nierownosci
         assert(DIST(pt, n2) <= pt->l2 + EPSILON);
         long ans = pmf_which_neighbor_is_id(n2, pt->id);
@@ -62,7 +72,7 @@ PMF<T_REAL> :: TestVirtualLengthsOfPoint(pmf_point<T_REAL> * pt)
         }
         else return false;
 #if pmf_LOG_ADD
-        out << " Neighbor 2 : OK " << endl;
+        if (saveOp) out << " Neighbor 2 : OK " << endl;
 #endif
     }
     return true;

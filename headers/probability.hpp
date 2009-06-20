@@ -7,12 +7,15 @@
 
 template <class T_REAL> void determineBirthAngles(T_REAL & g, T_REAL & d)
 {
-    T_REAL katL, katB, kat, tmp;
+    T_REAL katL, katB, kat;
     do {
         katL = M_PI * ((T_REAL)rand() / (T_REAL)RAND_MAX) - ((T_REAL)M_PI * (T_REAL)0.5);
         katB = M_PI * ((T_REAL)rand() / (T_REAL)RAND_MAX) - ((T_REAL)M_PI * (T_REAL)0.5);
-        if(katL > katB) { tmp = katL;  katL = katB;  katB = tmp; }
-        // Teraz zawsze mamy katB <= katL
+        if(katL > katB) std::swap(katL, katB);
+        // Teraz zawsze mamy katB >= katL
+#ifdef CHECK_ASSERTIONS
+        assert(katL <= katB);
+#endif
         kat = katB - katL;
     }
     while( (((T_REAL)rand()) / (T_REAL)RAND_MAX) > (T_REAL)sin(kat) );

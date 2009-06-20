@@ -133,6 +133,9 @@
 		<VirtualTargets>
 			<Add alias="All" targets="default;" />
 		</VirtualTargets>
+		<Compiler>
+			<Add directory="include" />
+		</Compiler>
 		<Unit filename="headers\CImg.h">
 			<Option virtualFolder="image\" />
 			<Option target="&lt;{~None~}&gt;" />
@@ -214,9 +217,11 @@
 			<Option virtualFolder="structures\core\" />
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="include\DoublePMF.hpp" />
 		<Unit filename="main.cpp">
 			<Option target="default" />
 		</Unit>
+		<Unit filename="src\DoublePMF.cpp" />
 		<Unit filename="src\PMF.cpp">
 			<Option virtualFolder="structures\" />
 			<Option target="&lt;{~None~}&gt;" />

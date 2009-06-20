@@ -29,16 +29,20 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
         blocks = new BlocksLists<T_REAL> (fieldWidth, fieldHeight, bSize);
 
 #if pmf_LOG_ADD
-    ofstream fout("output/log-add.txt");
-    out.rdbuf(fout.rdbuf());
+    //ofstream fout("output/log-add.txt");
+    //out.rdbuf(fout.rdbuf());
+    ;
 #endif
     PrepareEvolution(bHeap, alpha, sinL, cosL, blocks);
 
     /* ************************************************************************************** */
 #if pmf_LOG_ADD
-    T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
-    T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
-    out << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << std::endl;
+    if (saveOp)
+    {
+        T_REAL rotxx = X_ROTATED(xx, yy, sinL, cosL);
+        T_REAL rotyy = Y_ROTATED(xx, yy, sinL, cosL);
+        out << "[  ADD ] : oldSize = " << ptId << "   {" << xx << ";" << yy << "}  : " << rotxx << " , " << rotyy << std::endl;
+    }
 #endif
 
     // Creating new point
@@ -46,7 +50,10 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     while (! bHeap->empty() && PT_LT(bHeap->top(), pt, sinL, cosL))
     {
 #if pmf_LOG_ADD
-        out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
+        if (saveOp)
+        {
+            out << *bHeap->top() << "_" << X_ROTATED(bHeap->top()->x, bHeap->top()->y, sinL, cosL) << std::endl;
+        }
 #endif
         pmf_point<T_REAL> * ppt = bHeap->extract_min();
         //pmfConf->push_back(pt, blocks);
@@ -69,7 +76,7 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
     pmfConf->push_back(pt);
     //*/
 #if pmf_LOG_ADD
-    out << bHeap << std::endl;
+    if (saveOp)  out << bHeap << std::endl;
 #endif
 
     // Determining neighbors of a new point
@@ -78,22 +85,33 @@ PMF<T_REAL> :: AddBirthPoint (T_REAL xx, T_REAL yy, T_REAL alpha = 0.0, T_REAL b
 
     determineBirthAngles(upperAngle, lowerAngle);
 #if pmf_LOG_ADD
-    out << *pt << endl;
+    if (saveOp)  out << *pt << endl;
 #endif
+    /*
     newPt = pmf_put_new_neighbor<T_REAL>(pt, upperAngle, ptId, sinL, cosL);
     pt->n1 = newPt;
     pt->l1 = newPt->l1;
+    //*/
+    newPt = pt->pmf_put_new_neighbor(1, upperAngle, ptId, sinL, cosL);
+    assert(newPt->l1 == pt->l1);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
-    out << *pt->n1 << endl;
+    if (saveOp)   out << *pt->n1 << endl;
 #endif
+    /*
     newPt = pmf_put_new_neighbor<T_REAL>(pt, lowerAngle, ptId, sinL, cosL);
     pt->n2 = newPt;
     pt->l2 = newPt->l1;
+    //*/
+    newPt = pt->pmf_put_new_neighbor(2, lowerAngle, ptId, sinL, cosL);
+    assert(newPt->l1 == pt->l2);
     pmf_store_rotated_point_in_blocks(newPt, bHeap, iHeap, pt, ptId, fieldHeight, fieldWidth, blocks, sinL, cosL);
 #if pmf_LOG_ADD
-    out << *pt->n2 << endl;
-    out << pmfConf << std::endl;
+    if (saveOp)
+    {
+        out << *pt->n2 << endl;
+        out << pmfConf << std::endl;
+    }
 #endif
 
 
