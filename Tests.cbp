@@ -220,7 +220,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-lgdi32" />
-					<Add library="bin\library_d.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="test-SpreadRingSimulator-lin">

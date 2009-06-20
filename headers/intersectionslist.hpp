@@ -15,11 +15,27 @@ template <class T_REAL>
 class IntersectionsList : public TemplateList<CrosspointElement<T_REAL> >
 {
     public:
+        ~IntersectionsList();
+
         void push_back (pmf_point<T_REAL> *, long, long);
         void push_in_order (pmf_point<T_REAL> *, long, long);
         bool remove_intersection_with_id (long, BlocksLists<T_REAL> *);
         bool remove_intersection_with_one_id_of (long, long, BlocksLists<T_REAL> *);
 };
+
+
+template <class T_REAL>
+IntersectionsList<T_REAL>::~IntersectionsList()
+{
+    if (TemplateList<CrosspointElement<T_REAL> >::get_size() <= 0)  return;
+
+    while (! TemplateList<CrosspointElement<T_REAL> >::empty())
+    {
+        delete TemplateList<CrosspointElement<T_REAL> >::front();
+        TemplateList<CrosspointElement<T_REAL> >::pop_front();
+    }
+    cerr << "[ ILIST ] : destructing" << endl;
+}
 
 
 template <class T_REAL>

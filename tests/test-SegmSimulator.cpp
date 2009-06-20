@@ -49,7 +49,7 @@ int main (int argc, char *argv[])
 	double     blockSize = 0.0;
     long      iterations = 0;
     double       pmrStop = .05;
-	time_t          seed = 17;
+	time_t          seed = 7;
 	char      c, *endptr;
 
     struct timeb tbeg, tend;
@@ -109,12 +109,15 @@ int main (int argc, char *argv[])
     pmf->Generate(blockSize);
     pmf->TestConfigurationPoints();
     pmf->SaveConfiguration("output/test-ring.txt");
-    /*
-    cerr << pmf_point_counter << endl;
+    //*
+    //cerr << pmf_point_counter << endl;
     //pmf->GetPMFConfiguration()->destroy();
     //cerr << *pmf->GetPMFConfiguration()->begin()->data << endl;
     delete pmf;
-    cerr << pmf_point_counter << endl;
+    //cerr << "   pmf_point_counter = " << pmf_point_counter << endl;
+    //cerr << "     element_counter = " << element_counter << endl;
+    //cerr << "crosselement_counter = " << crosselement_counter << endl;
+    cerr << "crosselement_counter = " << CrosspointElement<double>::crosselement_counter << endl;
     exit(0);
     //*/
 #if pmf_LOG_ADD
@@ -136,7 +139,9 @@ int main (int argc, char *argv[])
     double simTime = tend.time - tbeg.time;
     simTime += ((tend.millitm - tbeg.millitm) * 0.001);
     fprintf(stderr, "\n[ DONE ] : simulation time = %.3lf sec.\n", simTime);
-    cerr << pmf_point_counter << endl;
+    cerr << "   pmf_point_counter = " << pmf_point<double>::pmf_point_counter << endl;
+    cerr << "     element_counter = " << Element<double>::element_counter << endl;
+    cerr << "crosselement_counter = " << CrosspointElement<double>::crosselement_counter << endl;
 
     return(0);
 }

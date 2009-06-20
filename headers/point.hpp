@@ -19,11 +19,12 @@
 #include "probability.hpp"
 #include "listelement.hpp"
 
-long long pmf_point_counter = 0;
 
 template <typename T_REAL> struct pmf_point
 {
+    static long long pmf_point_counter;
     char LABEL[8];
+
 	T_REAL x, y;
 	pmf_point * n1, * n2;
 	T_REAL l1, l2;
@@ -121,6 +122,10 @@ template <typename T_REAL> struct pmf_point
 		//out << " ";
 		return out;
 	}
+
+	static long long GetCounter() { return pmf_point_counter; }
 };
+
+template<class T_REAL> long long pmf_point<T_REAL>::pmf_point_counter = 0;
 
 #endif  /* __POINT_HPP__ */

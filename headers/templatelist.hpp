@@ -22,7 +22,7 @@ template <class T_TYPE> class TemplateList
 		typedef Element<T_TYPE> * NODE;
 
 		TemplateList();
-		~TemplateList();
+		virtual ~TemplateList();
 
         //void push_back(const T_TYPE *);
 		//void push_in_order(const T_TYPE *);
