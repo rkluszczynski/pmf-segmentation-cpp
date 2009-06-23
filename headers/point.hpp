@@ -19,11 +19,13 @@
 #include "probability.hpp"
 #include "listelement.hpp"
 
+#include <cstring>
+#include <cassert>
 
 template <typename T_REAL> struct pmf_point
 {
     static long long pmf_point_counter;
-    char LABEL[8];
+    char label[8];
 
 	T_REAL x, y;
 	pmf_point * n1, * n2;
@@ -53,7 +55,7 @@ template <typename T_REAL> struct pmf_point
 		: x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype), block(BLOCK_UNDEFINED)
 	{ init(); }
 
-	void init()   { ++pmf_point_counter; strcpy(LABEL, "POINT"); }
+	void init()   { ++pmf_point_counter; strcpy(label, "POINT"); }
 
 	virtual ~pmf_point()  { /* cerr << " POINT DEAD " << endl; */ --pmf_point_counter; }
 
