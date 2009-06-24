@@ -40,7 +40,8 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="..\library\test.cpp" />
+		<Unit filename="..\library\double.cpp" />
+		<Unit filename="..\library\point.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
