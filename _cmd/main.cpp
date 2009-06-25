@@ -1,5 +1,5 @@
 #include <iostream>
-#include "wx/wx.h"
+#include <wx/wx.h>
 
 using namespace std;
 

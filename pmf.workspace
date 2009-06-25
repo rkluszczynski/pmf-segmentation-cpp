@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="PMF Workspace">
-		<Project filename="PMF.cbp" />
+		<Project filename="PMF.cbp" active="1" />
 		<Project filename="Tests.cbp" />
 		<Project filename="gui\gui.cbp" />
 		<Project filename="scripts\Algorithms.cbp" />
 		<Project filename="scripts\library.cbp" />
-		<Project filename="scripts\cmd.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
