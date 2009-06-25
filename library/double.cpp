@@ -2,7 +2,9 @@
 
 namespace pmf
 {
-    struct DoublePoint : public Point<double> { };
+    typedef Point<double> DoublePoint;
+
+    DoublePoint zm;
 
 
 }
