@@ -8,9 +8,9 @@
 		<Build>
 			<Script file="lib_finder.script" />
 			<Target title="Debug">
-				<Option output="..\bin\Debug\pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="../bin/Debug/pmf" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="..\objs\Debug\" />
+				<Option object_output="../objs/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -18,9 +18,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="..\bin\Release\pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="../bin/Release/pmf" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="..\objs" />
+				<Option object_output="../objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -35,12 +35,13 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="..\cmd\configuration.hpp" />
-		<Unit filename="..\cmd\main.cpp" />
-		<Unit filename="..\cmd\point.hpp" />
-		<Unit filename="..\headers\geometry.hpp" />
-		<Unit filename="..\headers\macros.hpp" />
-		<Unit filename="..\headers\probability.hpp" />
+		<Unit filename="../cmd/birthsites.hpp" />
+		<Unit filename="../cmd/configuration.hpp" />
+		<Unit filename="../cmd/main.cpp" />
+		<Unit filename="../cmd/point.hpp" />
+		<Unit filename="../headers/geometry.hpp" />
+		<Unit filename="../headers/macros.hpp" />
+		<Unit filename="../headers/probability.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -3,6 +3,8 @@
 
 namespace pmf
 {
+    long long   pmf_point_counter = 0;
+
 
     template <typename REAL> struct Point
     {
@@ -35,9 +37,9 @@ namespace pmf
             : x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype)//, block(BLOCK_UNDEFINED)
         { init(); }
 
-        void init()  {} // { ++pmf_point_counter; strcpy(label, "POINT"); }
+        void init()  { ++pmf_point_counter; }//strcpy(label, "POINT"); }
 
-        virtual ~Point()  {} //{ /* cerr << " POINT DEAD " << endl; */ --pmf_point_counter; }
+        virtual ~Point()  { /* cerr << " POINT DEAD " << endl; */ --pmf_point_counter; }
 
         /*
         #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
@@ -70,45 +72,45 @@ namespace pmf
         #undef X_ROTATED
         //*/
 
-        bool operator< (const Point<REAL> & point)   const { return(x <  point.x); }
-        //bool operator< (const pmf_point<REAL> * & point) const { return(x < point->x); }
+        //bool operator< (const Point<REAL> & point)   const { return(x <  point.x); }
+        bool operator< (const Point<REAL> * & point) const { return(x < point->x); }
 
         /**
-         * Funkcja wypisujaca na ekran informacje o punkcie.
+         * Point to output stream.
          **/
-         /*
-        friend std::ostream& operator << (std::ostream& out, const pmf_point<T_REAL> pt)
+         //*
+        friend std::ostream& operator << (std::ostream& out, const Point<REAL> * pt)
         {
-            ++pmf_point_counter; // To log copy constructor
-            out <<  pt.id << "`";
-            out << "(" << pt.x << ";" << pt.y << ")";
-            out << "[" << (pt.n1 ? (pt.n1)->id : 0) << "]";
-            out << "[" << (pt.n2 ? (pt.n2)->id : 0) << "]";
-            //out << "{" << pt.type << "}";
+            //++pmf_point_counter; // To log copy constructor
+            out <<  "P" << pt->id << "=";
+            out << "(" << pt->x << ";" << pt->y << ")";
+            out << "[" << (pt->n1 ? (pt->n1)->id : 0) << "]";
+            out << "[" << (pt->n2 ? (pt->n2)->id : 0) << "]";
             if (true) {
                 out << "{";
-                switch(pt.type) {
-                    case PT_BIRTH_NORMAL : out << "Bn"; break;
-                    case PT_BIRTH_LEFT   : out << "Bl"; break;
-                    case PT_BIRTH_UP     : out << "Bu"; break;
-                    case PT_BIRTH_DOWN   : out << "Bd"; break;
-                    case PT_BORDER       : out << "bor"; break;
-                    case PT_INTERSECTION : out << "Cr"; break;
-                    case PT_UPDATE       : out << "U"; break;
-                    default :   out << "u/n";
+                //*
+                switch(pt->type) {
+                    case PT_Unknown       : out << "U/N"; break;
+                    case PT_BirthInField  : out << "BiF"; break;
+                    case PT_BirthOnBorder : out << "BoB"; break;
+                    case PT_DeathOnBorder : out << "D"; break;
+                    case PT_Collision     : out << "C"; break;
+                    case PT_Update        : out << "U"; break;
+                    default :   out << "??";
                 }
+                //*/
                 out << "}";
-                if(pt.block > 0)
-                    out << "|" << pt.block << "|";
+                //if(pt->block > 0)                    out << "|" << pt.block << "|";
             }
-            out << "/" << pt.l1 << "/" << pt.l2 << "/";
+            else { out << "{" << pt->type << "}"; }
+            out << "/" << pt->l1 << "/" << pt->l2 << "/";
             //out << " ";
             return out;
         }
         //*/
     };
 
-};
+}
 
 
 #endif // POINT_HPP_INCLUDED

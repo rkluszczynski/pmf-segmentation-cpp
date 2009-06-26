@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include <vector>
 #include <algorithm>
 
 #define REP(X, N)       for(int X = 0; X < (N); ++X)
