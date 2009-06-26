@@ -1,6 +1,8 @@
 #ifndef BIRTHSITES_HPP_INCLUDED
 #define BIRTHSITES_HPP_INCLUDED
 
+#include "..\headers\macros.hpp"
+
 namespace pmf
 {
 

@@ -6,14 +6,14 @@
 using namespace std;
 
 #include "../cmd/point.hpp"
-#include "../cmd/configuration.hpp"
 #include "../cmd/birthsites.hpp"
+#include "../cmd/pmf.hpp"
 
 int main()
 {
     using namespace pmf;
     //Configuration<double> cf(0.0,0.0);
-
+    PMF<double> ppmf(3.,3.);
 
     BirthSites<double> bs;
     Point<double> * pt1 = new Point<double> (0.0, 0.0, 0.0, 0.0, 1);
