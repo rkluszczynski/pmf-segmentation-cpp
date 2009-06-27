@@ -37,16 +37,19 @@
 		</Compiler>
 		<Unit filename="..\cmd\birthsites.hpp" />
 		<Unit filename="..\cmd\configuration.hpp" />
+		<Unit filename="..\cmd\events.hpp" />
 		<Unit filename="..\cmd\generate.hpp" />
+		<Unit filename="..\cmd\geometry.hpp" />
 		<Unit filename="..\cmd\main.cpp" />
 		<Unit filename="..\cmd\pmf.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="..\cmd\pmf.hpp" />
 		<Unit filename="..\cmd\point.hpp" />
-		<Unit filename="..\headers\geometry.hpp" />
+		<Unit filename="..\cmd\probability.hpp" />
+		<Unit filename="..\cmd\schedule.hpp" />
+		<Unit filename="..\cmd\segmentset.hpp" />
 		<Unit filename="..\headers\macros.hpp" />
-		<Unit filename="..\headers\probability.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

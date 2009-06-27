@@ -7,6 +7,11 @@ using namespace std;
 
 #include "../cmd/point.hpp"
 #include "../cmd/birthsites.hpp"
+#include "../cmd/geometry.hpp"
+#include "../cmd/probability.hpp"
+#include "../cmd/segmentset.hpp"
+#include "../cmd/events.hpp"
+#include "../cmd/schedule.hpp"
 #include "../cmd/pmf.hpp"
 
 int main()
@@ -14,6 +19,9 @@ int main()
     using namespace pmf;
     //Configuration<double> cf(0.0,0.0);
     PMF<double> ppmf(3.,3.);
+    MutableSegmentSet mss;
+
+    ppmf.GenerateField();
 
     BirthSites<double> bs;
     Point<double> * pt1 = new Point<double> (0.0, 0.0, 0.0, 0.0, 1);

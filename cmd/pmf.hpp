@@ -12,9 +12,9 @@ namespace pmf
             PMF(REAL, REAL);
             virtual ~PMF();
 
-            void Generate();
+            void GenerateField();
 
-            void SetSeed(time_t _seed) { seed = _seed; }
+            void SetSeed(time_t _seed);
             //bool LoadConfiguration(const char *);
             //bool SaveConfiguration(const char *);
             //bool SaveConfigurationAsSVG(const char *, double, double);
@@ -28,7 +28,10 @@ namespace pmf
             time_t seed;
             Configuration<REAL> * cf;
 
+
         private:
+            inline
+            long GenerateInitialBirths(EventsSchedule &);
 
     };
 

@@ -5,10 +5,7 @@ namespace pmf
 {
     long long   pmf_point_counter = 0;
 
-
-    template <typename REAL> struct Point
-    {
-        enum {
+        typedef enum {
             PT_Unknown,
             PT_BirthInField,
             PT_BirthOnBorder,
@@ -16,24 +13,28 @@ namespace pmf
             PT_Collision,
             PT_Update,
             PT_TypesCount
-        };
+        }
+        PointType;
 
+
+    template <typename REAL> struct Point
+    {
         REAL x, y;
         Point * n1, * n2;
         REAL l1, l2;
         long int id, oid;
-        int type;
+        PointType type;
 
 
         Point ( REAL xx,  REAL yy, 	REAL ll1,  REAL ll2,  long int idi )
             : x(xx), y(yy), n1(NULL), n2(NULL), l1(ll1), l2(ll2), id(idi), type(PT_Unknown)//, block(BLOCK_UNDEFINED)
         { init(); }
 
-        Point ( REAL xx,  REAL yy,  REAL ll1,  REAL ll2,  long int idi,  int ttype )
+        Point ( REAL xx,  REAL yy,  REAL ll1,  REAL ll2,  long int idi,  PointType ttype )
             : x(xx), y(yy), n1(NULL), n2(NULL), l1(ll1), l2(ll2), id(idi), type(ttype)//, block(BLOCK_UNDEFINED)
         { init(); }
 
-        Point ( REAL xx, REAL yy, Point<REAL> * nn1, Point<REAL> * nn2, REAL ll1, REAL ll2, long int idi, int ttype )
+        Point ( REAL xx, REAL yy, Point<REAL> * nn1, Point<REAL> * nn2, REAL ll1, REAL ll2, long int idi, PointType ttype )
             : x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype)//, block(BLOCK_UNDEFINED)
         { init(); }
 

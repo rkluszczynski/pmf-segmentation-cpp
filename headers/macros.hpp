@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cmath>
+#include <cassert>
 
 #include <iostream>
 #include <fstream>
@@ -12,6 +13,9 @@
 #include <vector>
 #include <algorithm>
 
+#define ST first
+#define ND second
+
 #define REP(X, N)       for(int X = 0; X < (N); ++X)
 #define FOR(X, B, E)    for(int X = B; X <= (E); ++X)
 #define FORD(X, B, E)   for(int X = B; X >= (E); --X)
@@ -20,5 +24,12 @@
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
 using namespace std;
+
+
+#define EPSILON 1e-7
+
+#define PMFLog(X)  wxLogMessage(wxT(X));
+#define PMFLogV(X) wxLogVerbose(wxT(X));
+
 
 #endif // MACROS_HPP_INCLUDED

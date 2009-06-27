@@ -12,16 +12,13 @@ using namespace std;
 #include "configurationlist.hpp"
 #undef DEBUG
 #include "blockslists.hpp"
-
 #include "probability.hpp"
 #include "accesslists.hpp"
 
 #define REAL double
 
-
 inline
-long pmf_generate_initial_births (
-                                    BirthsList<REAL> * list,
+long pmf_generate_initial_births (  BirthsList<REAL> * list,
                                     REAL fieldHeight,
                                     REAL fieldWidth,
                                     BlocksLists<REAL> * blocks
@@ -79,32 +76,28 @@ void pmf_correct_intersection_point ( pmf_point<REAL> * pt, long id1, long id2 )
     cout << "########### " << id1 << "  " << id2 << " -------------------------" << endl;
 #endif
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id1)
-    {
-        //cout << "########### 1" << endl;
+    {   //cout << "########### 1" << endl;
         pt->n1->n1 = pt;
         pt->l1 = pt->n1->l1;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id1)
-    {
-        //cout << "########### 2" << endl;
+    {   //cout << "########### 2" << endl;
         pt->n1->n2 = pt;
         pt->l1 = pt->n1->l2;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id2)
-    {
-        //cout << "########### 3" << endl;
+    {   //cout << "########### 3" << endl;
         pt->n1->n1 = pt;
         pt->l1 = pt->n1->l1;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id2)
-    {
-        //cout << "########### 4" << endl;
+    {   //cout << "########### 4" << endl;
         pt->n1->n2 = pt;
         pt->l1 = pt->n1->l2;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
@@ -223,9 +216,7 @@ PMF<T_REAL> :: Generate (T_REAL bSize = 0.0)
     //if (blocksLists) delete blocksLists;
 
     pmfConf->set_points_ids();
-
     TestConfigurationPoints();
 }
-
 
 #endif // GENERATE_HPP_INCLUDED
