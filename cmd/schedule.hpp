@@ -39,6 +39,7 @@ namespace pmf
     };
 
 
+    template <class REAL = double>
     class EventsSchedule
     {
         typedef Point<double> POINT;
@@ -73,7 +74,10 @@ namespace pmf
             friend ostream & operator << (ostream & out, const EventsSchedule * es)
             {
                 out << "[ EVENTS ] :>";
-                FOREACH(it, es->_events)  out << " " << ((POINT *)((*it)->GetPoint()) );
+                FOREACH(it, es->_events)  {
+                    POINT * pt = (*it)->GetPoint();
+                    out << " " << pt;
+                }
                 return out;
             }
 
@@ -83,8 +87,9 @@ namespace pmf
     };
 
 
+    template <class REAL>
     bool
-    EventsSchedule::InsertBirthEvent (POINT * pt)
+    EventsSchedule<REAL>::InsertBirthEvent (POINT * pt)
     {
         BirthEvent * be = new BirthEvent(pt);
         return Insert(be);

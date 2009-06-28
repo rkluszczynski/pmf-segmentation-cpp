@@ -10,7 +10,7 @@
 template <class REAL>
 inline
 long
-PMF<REAL> :: GenerateInitialBirths (EventsSchedule * evts)
+PMF<REAL> :: GenerateInitialBirths (EventsSchedule<REAL> * evts)
 {
     using Probability::Exp;
     using Probability::Uniform;
@@ -61,7 +61,7 @@ PMF<REAL> :: GenerateInitialBirths (EventsSchedule * evts)
 template <class REAL>
 inline
 void
-PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule * evts, long & id)
+PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & id)
 {
     using namespace Probability;
 
@@ -84,7 +84,7 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule * evts, long & id)
 template <class REAL>
 inline
 void
-PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule * evts, long & id)
+PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, long & id)
 {
     using namespace Geometry;
 
@@ -140,7 +140,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule * evts, long & i
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule * evts, long & id)
+PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, long & id)
 {
     using namespace Probability;
 
@@ -168,7 +168,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule * evts, long & id)
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule * evts, long & id)
+PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, long & id)
 {
     using namespace Probability;
 
@@ -198,7 +198,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule * evts, long & id)
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule * evts, long & id)
+PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, long & id)
 {
     /*
             pmf_correct_intersection_point (pt, id1, id2);
@@ -215,7 +215,7 @@ template <class REAL>
 void
 PMF<REAL> :: GenerateField ()
 {
-    EventsSchedule * evts = new EventsSchedule();
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
 
     long id = GenerateInitialBirths(evts);
     while (! evts->IsEmpty())
