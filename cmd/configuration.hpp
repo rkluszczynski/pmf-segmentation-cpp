@@ -29,6 +29,8 @@ namespace pmf
             inline bool IsEmpty() { return pts->empty(); }
             inline Point<REAL> * SeeLastPoint() { return pts->back(); }
 
+            void SaveToFile (const char *);
+            void ShowConfiguration (std::ostream & out);
             void PrintConfiguration (std::ostream & out);
 
             /*
@@ -70,21 +72,59 @@ namespace pmf
     {
         //REP(i, pts->size())  pts->at(i)->id = i+1;
         int n = 0;
-        FOREACH(it, (*pts)) it->id = ++n;
+        FOREACH(it, (*pts)) {
+            (*it)->oid = (*it)->id;
+            (*it)->id = ++n;
+        }
     }
 
 
     template <class REAL>
     void Configuration<REAL>::PrintConfiguration (std::ostream & out)
     {
+        out << fieldWidth << " " << fieldHeight << endl;
+        out << pts->size() << endl;
+        FOREACH(it, (*pts))
+        {
+            Point<REAL> * pt = *it;
+
+            out.precision(7);
+            out.width(4);   out << pt->id << " ";
+            out.width(11);  out << pt->x << " ";
+            out.width(11);  out << pt->y << " ";
+            out.width(4);   out << ((pt->n1) ? pt->n1->id : 0) << " ";
+            out.width(4);   out << ((pt->n2) ? pt->n2->id : 0) << " ";
+            out.width(11);  out << pt->l1 << " ";
+            out.width(11);  out << pt->l2 << " ";
+            out.width(2);   out << pt->type << " ";
+            out.width(3);   out << "-1 ";// pt->block << " ";
+            out.width(4);   out << pt->oid << " ";
+            out << endl;
+        }
+    }
+
+
+    template <class REAL>
+    void Configuration<REAL>::ShowConfiguration (std::ostream & out)
+    {
         out << "[ CONFIGURATION ] :> ";
         out << fieldWidth << " x " << fieldHeight << "  [ " << pts->size() << " ]";
         out << endl;
-        FOREACH(it, (*pts)) {
-            out << " " << (*it);
-        }
+        PrintConfiguration(out);
         out << endl;
     }
+
+
+    template <class REAL>
+    void Configuration<REAL>::SaveToFile (const char * filename)
+    {
+        std::cerr << std::endl <<"[ SAVE ] : saving configuration to a file '" << filename << "'" << std::endl;
+        ofstream fout(filename);
+        SetPointsIds();
+        PrintConfiguration(fout);
+        fout.close();
+    }
+
 
 /*
     template <class REAL>

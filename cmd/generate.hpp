@@ -247,7 +247,9 @@ PMF<REAL> :: GenerateField ()
         }
         evts->Erase(evt);
     }
-    cf->PrintConfiguration(cout);
+    //cf->ShowConfiguration(cout);
+    cf->SaveToFile("output/gen-cmd.txt");
+
     delete evts;
     return;
 }

@@ -26,7 +26,8 @@ namespace pmf
         REAL x, y;
         Point * n1, * n2;
         REAL l1, l2;
-        long int id, oid;
+        long int id;
+        long int oid;
         PointType type;
 
 
