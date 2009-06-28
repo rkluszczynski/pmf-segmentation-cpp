@@ -18,10 +18,16 @@ int main()
 {
     using namespace pmf;
     //Configuration<double> cf(0.0,0.0);
-    PMF<double> ppmf(3.,3.);
+    double size = 2.;
+    PMF<double> ppmf(size, size);
+    ppmf.SetSeed(0);
     MutableSegmentSet mss;
 
+    wxLog::SetVerbose(true);
+
     ppmf.GenerateField();
+
+    return 0;
 
     BirthSites<double> bs;
     Point<double> * pt1 = new Point<double> (0.0, 0.0, 0.0, 0.0, 1);
@@ -43,7 +49,6 @@ int main()
 
     wxLogVerbose(_("tego nie widac"));
 
-    wxLog::SetVerbose(true);
     wxLogDebug(_("debug mode 1"));
 
 #define __WXDEBUG__

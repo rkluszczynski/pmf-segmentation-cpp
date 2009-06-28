@@ -20,13 +20,14 @@ namespace pmf
             Configuration(REAL, REAL);
             ~Configuration();
 
-            REAL GetFieldWidth()  { return  fieldWidth; }
-            REAL GetFieldHeight() { return fieldHeight; }
-
             void PushBack( Point<REAL> * pt ) { pts->push_back(pt); }
-
-            void SetPointsIds ();
             //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
+            void SetPointsIds ();
+
+            inline REAL GetFieldWidth()  { return  fieldWidth; }
+            inline REAL GetFieldHeight() { return fieldHeight; }
+            inline bool IsEmpty() { return pts->empty(); }
+            inline Point<REAL> * SeeLastPoint() { return pts->back(); }
 
             void PrintConfiguration (std::ostream & out);
 
@@ -77,6 +78,8 @@ namespace pmf
     void Configuration<REAL>::PrintConfiguration (std::ostream & out)
     {
         out << "[ CONFIGURATION ] :> ";
+        out << fieldWidth << " x " << fieldHeight << "  [ " << pts->size() << " ]";
+        out << endl;
         FOREACH(it, (*pts)) {
             out << " " << (*it);
         }

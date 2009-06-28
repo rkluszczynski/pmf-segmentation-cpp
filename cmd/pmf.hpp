@@ -31,7 +31,17 @@ namespace pmf
 
         private:
             inline
-            long GenerateInitialBirths(EventsSchedule &);
+            long GenerateInitialBirths (EventsSchedule *);
+            inline
+            void CheckNewBirthSite (Event *, EventsSchedule *, long &);
+            inline
+            void ArrangeNewEvent (Point<REAL> *, EventsSchedule *, long &);
+            inline
+            void ProcessBirthEvent (Event *, EventsSchedule *, long &);
+            inline
+            void ProcessUpdateEvent (Event *, EventsSchedule *, long &);
+            inline
+            void ProcessDeathEvent (Event *, EventsSchedule *, long &);
 
     };
 
