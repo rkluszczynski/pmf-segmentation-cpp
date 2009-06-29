@@ -18,7 +18,6 @@ class sweepCompare
         const LineSweepStatus & _st;
 };
 
-
 class LineSweepStatus
 {
     typedef Types::Segment SEGMENT;
@@ -106,10 +105,6 @@ class LineSweepStatus
         NT _x0;
 };
 
-
-bool sweepCompare::operator() (const ENTRY & lhs, const ENTRY & rhs) const
-{
-    return _st.BelowComparator(lhs, rhs);
-};
+bool sweepCompare::operator() (const ENTRY & lhs, const ENTRY & rhs) const { return _st.BelowComparator(lhs, rhs); }
 
 #endif // SWEEPLINE_HPP_INCLUDED

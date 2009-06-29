@@ -57,7 +57,7 @@ namespace pmf
             {
                 bool res = _events.insert(e).ND;
                 //cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
-                assert(res);
+                assert(res == true);
                 return res;
             }
 
@@ -91,7 +91,8 @@ namespace pmf
     bool
     EventsSchedule<REAL>::InsertBirthEvent (POINT * pt)
     {
-        BirthEvent * be = new BirthEvent(pt);
+        EventType type = (pt->type == PT_BirthOnBorder) ? BorderBirth : NormalBirth;
+        BirthEvent * be = new BirthEvent(pt, type);
         return Insert(be);
     }
 

@@ -144,7 +144,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, long & 
 {
     using namespace Probability;
 
-    if (ev->GetPoint()->type == PT_BirthOnBorder)  {  ProcessUpdateEvent(ev, evts, id); return; }
+    //if (ev->GetPoint()->type == PT_BirthOnBorder)  {  ProcessUpdateEvent(ev, evts, id); return; }
 
     Point<REAL> * pt = ev->GetPoint();
     REAL upperLength = Exp<REAL>(2.0);
@@ -223,22 +223,24 @@ PMF<REAL> :: GenerateField ()
         cout << endl << evts << endl;
 
         Event * evt = evts->SeeFirst();
-        if(evt->GetType() != BIRTH)  CheckNewBirthSite(evt, evts, id);
+        if (evt->GetType() != NormalBirth  &&  evt->GetType() != BorderBirth)  CheckNewBirthSite(evt, evts, id);
 
         evt = evts->SeeFirst();
         cf->PushBack(evt->GetPoint());
 
         switch (evt->GetType())
         {
-            case BIRTH :
+            case NormalBirth :
                     PMFLogV("-> BIRTH EVENT");
                     ProcessBirthEvent(evt, evts, id);
                     break;;
-            case UPDATE :
+            case BorderBirth :
+                    PMFLogV("-> BIRTH EVENT");
+            case PointUpdate :
                     PMFLogV("-> UPDATE EVENT");
                     ProcessUpdateEvent(evt, evts, id);
                     break;;
-            case DEATH :
+            case DeathSite :
                     PMFLogV("-> DEATH EVENT");
                     ProcessDeathEvent(evt, evts, id);
                     break;;

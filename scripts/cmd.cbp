@@ -37,6 +37,7 @@
 		</Compiler>
 		<Unit filename="..\cmd\birthsites.hpp" />
 		<Unit filename="..\cmd\configuration.hpp" />
+		<Unit filename="..\cmd\element.hpp" />
 		<Unit filename="..\cmd\events.hpp" />
 		<Unit filename="..\cmd\generate.hpp" />
 		<Unit filename="..\cmd\geometry.hpp" />
@@ -48,7 +49,9 @@
 		<Unit filename="..\cmd\point.hpp" />
 		<Unit filename="..\cmd\probability.hpp" />
 		<Unit filename="..\cmd\schedule.hpp" />
+		<Unit filename="..\cmd\segment.hpp" />
 		<Unit filename="..\cmd\segmentset.hpp" />
+		<Unit filename="..\cmd\status.hpp" />
 		<Unit filename="..\headers\macros.hpp" />
 		<Extensions>
 			<code_completion />

@@ -5,13 +5,10 @@
 
 using namespace std;
 
-#include "../cmd/point.hpp"
 #include "../cmd/birthsites.hpp"
-#include "../cmd/geometry.hpp"
-#include "../cmd/probability.hpp"
 #include "../cmd/segmentset.hpp"
-#include "../cmd/events.hpp"
 #include "../cmd/schedule.hpp"
+#include "../cmd/status.hpp"
 #include "../cmd/pmf.hpp"
 
 int main()

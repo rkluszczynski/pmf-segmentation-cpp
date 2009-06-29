@@ -5,9 +5,10 @@ namespace pmf
 {
     typedef Point<double> POINT;
     typedef enum {
-                    BIRTH  = 0,
-                    UPDATE = 1,
-                    DEATH  = 2
+                    NormalBirth = 0,
+                    BorderBirth = 1,
+                    PointUpdate = 2,
+                    DeathSite  = 3
     }
     EventType;
 
@@ -31,11 +32,13 @@ namespace pmf
     {
         public:
             //BirthEvent(POINT * pt, SEGMENT * s) : Event(pt), _s(s) {}
-            BirthEvent(POINT * pt) : Event(pt) {}
-            EventType GetType() const { return BIRTH; };
+            BirthEvent(POINT * pt) : Event(pt), _type(NormalBirth) {}
+            BirthEvent(POINT * pt, EventType type) : Event(pt), _type(type) {}
+            EventType GetType() const { return _type; };
             //SEGMENT * segment(bool first) const { return _s; }
         private:
             //SEGMENT * _s;
+            EventType _type;
     };
 
 
@@ -44,7 +47,7 @@ namespace pmf
         public:
             //TargetEvent(POINT * pt, SEGMENT * s) : Event(pt), _s(s) {}
             UpdateEvent(POINT * pt) : Event(pt) {}
-            EventType GetType() const { return UPDATE; }
+            EventType GetType() const { return PointUpdate; }
             //SEGMENT * segment(bool first) const { return _s; }
         private:
             //SEGMENT * _s;
@@ -56,7 +59,7 @@ namespace pmf
         public:
             //DeathEvent(POINT * pt, SEGMENT * s1, SEGMENT * s2) : Event(pt), _s1(s1), _s2(s2) {}
             DeathEvent(POINT * pt) : Event(pt) {}
-            EventType GetType() const { return DEATH; }
+            EventType GetType() const { return DeathSite; }
             //SEGMENT * segment(bool first) const { return first ? _s1 : _s2; }
         private:
             //SEGMENT * _s1;
