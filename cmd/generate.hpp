@@ -84,15 +84,20 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
 template <class REAL>
 inline
 void
-PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, long & id)
+PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
-    using namespace Geometry;
+    typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
+    using  namespace Geometry;
 
     Point<REAL> * parent = npt->n1;
 
     if ( 0.0 < npt->x  &&  npt->x < GetWidth()  &&  0.0 < npt->y  &&  npt->y < GetHeight() )
     {
         // npt inside the field
+        Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
+        //SweepLineStatus<REAL>::Iterator i = line->Insert(NULL);
+        pair<SweepIterator, bool> res;
+        //res = line->Insert(npt);
 
         // new event
         UpdateEvent * e = new UpdateEvent(npt);
@@ -140,7 +145,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, lo
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, long & id)
+PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
     using namespace Probability;
 
@@ -154,11 +159,11 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, long & 
 
     Point<REAL> * newpt1 = pt->GenerateNeighbour(1, upperAngle, id, upperLength);
     //pmf_store_points_in_blocks (newpt1, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
-    ArrangeNewEvent(newpt1, evts, id);
+    ArrangeNewEvent(newpt1, evts, line, id);
 
     Point<REAL> * newpt2 = pt->GenerateNeighbour(2, lowerAngle, id, lowerLength);
     //pmf_store_points_in_blocks (newpt2, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
-    ArrangeNewEvent(newpt2, evts, id);
+    ArrangeNewEvent(newpt2, evts, line, id);
 
     return;
 }
@@ -168,7 +173,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, long & 
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, long & id)
+PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
     using namespace Probability;
 
@@ -188,7 +193,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, long &
     int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
     Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
     //pmf_store_points_in_blocks (newPt, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
-    ArrangeNewEvent(newpt, evts, id);
+    ArrangeNewEvent(newpt, evts, line, id);
 
     return;
 }
@@ -198,7 +203,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, long &
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, long & id)
+PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
     /*
             pmf_correct_intersection_point (pt, id1, id2);
@@ -216,6 +221,7 @@ void
 PMF<REAL> :: GenerateField ()
 {
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     long id = GenerateInitialBirths(evts);
     while (! evts->IsEmpty())
@@ -232,17 +238,17 @@ PMF<REAL> :: GenerateField ()
         {
             case NormalBirth :
                     PMFLogV("-> BIRTH EVENT");
-                    ProcessBirthEvent(evt, evts, id);
+                    ProcessBirthEvent(evt, evts, line, id);
                     break;;
             case BorderBirth :
                     PMFLogV("-> BIRTH EVENT");
             case PointUpdate :
                     PMFLogV("-> UPDATE EVENT");
-                    ProcessUpdateEvent(evt, evts, id);
+                    ProcessUpdateEvent(evt, evts, line, id);
                     break;;
             case DeathSite :
                     PMFLogV("-> DEATH EVENT");
-                    ProcessDeathEvent(evt, evts, id);
+                    ProcessDeathEvent(evt, evts, line, id);
                     break;;
             default :
                     assert(false);
@@ -252,6 +258,7 @@ PMF<REAL> :: GenerateField ()
     //cf->ShowConfiguration(cout);
     cf->SaveToFile("output/gen-cmd.txt");
 
+    delete line;
     delete evts;
     return;
 }

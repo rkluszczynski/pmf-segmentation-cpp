@@ -35,13 +35,13 @@ namespace pmf
             inline
             void CheckNewBirthSite (Event *, EventsSchedule<REAL> *, long &);
             inline
-            void ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, long &);
+            void ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, long &);
+            void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, long &);
+            void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, long &);
+            void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
 
     };
 

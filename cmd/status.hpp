@@ -24,11 +24,12 @@ namespace pmf
         };
 
         typedef std::set<ENTRY, SweepComparator> STATUS;
-        typedef typename STATUS::iterator Iterator;
-        typedef typename STATUS::const_iterator ConstInterator;
 
 
         public :
+            typedef typename STATUS::iterator Iterator;
+            typedef typename STATUS::const_iterator ConstInterator;
+
             SweepLineStatus() : _st(SweepComparator(*this)), _x0(0.0) {}
 
             Iterator begin() const { return _st.begin(); }
