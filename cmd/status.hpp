@@ -37,9 +37,9 @@ namespace pmf
 
             void SetSweepLinePosition(REAL x) { _x0 = x; }
 
-            pair<Iterator,bool> Insert(const POINT & pt, SEGMENT * seg)
+            pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
-                SetSweepLinePosition(pt.x() + EPSILON);
+                SetSweepLinePosition(pt->x + EPSILON);
                 return Insert(seg);
             }
             pair<Iterator,bool> Insert(SEGMENT * seg) { return _st.insert( ENTRY(_x0, seg) ); }
@@ -69,8 +69,8 @@ namespace pmf
             void Erase(SEGMENT * seg) { _st.erase(Find(seg)); }
 
 
-            inline bool IsNull(Iterator it) { return it == _st.end(); }
-            inline Iterator Find(SEGMENT * seg) { return _st.find( ENTRY(_x0, seg) ); }
+            bool IsNull(Iterator it) { return it == _st.end(); }
+            Iterator Find(SEGMENT * seg) { return _st.find( ENTRY(_x0, seg) ); }
 
             Iterator Above(Iterator it) { return ((it == _st.begin()) ? _st.end() : --it); }
             Iterator Above(SEGMENT * seg) { return Above(Find(seg)); }
@@ -91,10 +91,10 @@ namespace pmf
                       //  &&  e1.segment()->slope() < e2.segment()->slope());
             }
 
-            friend ostream & operator << (ostream & out, const SweepLineStatus * lss)
+            friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
             {
                 out << "[ STATUS ] :";
-                FOREACH(it, (*lss))  cout << " " << *it;
+                FOREACH(it, (*lss)) cout << " " << *it;
                 return out;
             }
 

@@ -31,9 +31,9 @@ namespace pmf
             }
             REAL yy0(const REAL & x) const { return CalculateLinearFunctionValue(_seg, x); }
 
-            friend ostream & operator << (ostream & out, const SweepLineElement * el)
+            friend ostream & operator << (ostream & out, const SweepLineElement & el)
             {
-                out << "{" << el->GetSegment() << "~" << el->GetX0() << "," << el->GetY0() << "}";
+                out << "{" << el.GetSegment() << "~" << el.GetX0() << "," << el.GetY0() << "}";
                 //out << "{" << el->GetSegment() << "}";
                 return out;
             }
@@ -44,17 +44,17 @@ namespace pmf
             SEGMENT * _seg;
 
 
-            REAL CalculateLinearFunctionValue(SEGMENT * s, REAL x);
+            REAL CalculateLinearFunctionValue (SEGMENT * s, REAL x) const;
     };
 
 
     template <typename REAL>
     inline
     REAL
-    SweepLineElement<REAL> :: CalculateLinearFunctionValue (SEGMENT * s, REAL x)
+    SweepLineElement<REAL> :: CalculateLinearFunctionValue (SEGMENT * s, REAL x) const
     {
-        assert(! s.isVertical());
-        REAL sslope = s.slope();
+        assert(! s->isVertical());
+        REAL sslope = s->slope();
         REAL b = s->GetP()->y - sslope * s->GetP()->x;
         return sslope * x + b;
     }

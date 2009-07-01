@@ -42,6 +42,8 @@ namespace pmf
             void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            inline
+            Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &);
 
     };
 

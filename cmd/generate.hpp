@@ -80,6 +80,27 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
 }
 
 
+template <class REAL>
+inline
+Point<REAL> *
+PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2, long & id)
+{
+    using namespace Geometry;
+
+    Point<REAL> * result = NULL;
+    int collision = CheckIntersection<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
+                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
+    if (collision > 0)
+    {
+        pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
+                                            seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
+                                            seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
+        //int i1
+        result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
+    }
+    return result;
+}
+
 
 template <class REAL>
 inline
@@ -91,16 +112,30 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
 
     Point<REAL> * parent = npt->n1;
 
+    Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
+    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
+    assert(res.ND == true);
+
+    SweepIterator ita = line->Above(res.ST);
+    SweepIterator itb = line->Below(res.ST);
+    if (! line->IsNull(ita))
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
+        DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
+        evts->Insert(de);
+    }
+    if (! line->IsNull(itb))
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
+        DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
+        evts->Insert(de);
+    }
+
     if ( 0.0 < npt->x  &&  npt->x < GetWidth()  &&  0.0 < npt->y  &&  npt->y < GetHeight() )
     {
         // npt inside the field
-        Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
-        //SweepLineStatus<REAL>::Iterator i = line->Insert(NULL);
-        pair<SweepIterator, bool> res;
-        //res = line->Insert(npt);
-
         // new event
-        UpdateEvent * e = new UpdateEvent(npt);
+        UpdateEvent * e = new UpdateEvent(npt, nseg);
         evts->Insert(e);
     }
     else {
@@ -134,12 +169,11 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         npt->type = PT_DeathOnBorder;
 
         // new event
-        DeathEvent * e = new DeathEvent(npt);
+        DeathEvent * e = new DeathEvent(npt, nseg);
         evts->Insert(e);
     }
     return;
 }
-
 
 
 template <class REAL>
@@ -178,6 +212,12 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
     using namespace Probability;
 
     Point<REAL> * pt = ev->GetPoint();
+    Segment<REAL> * seg = ev->GetSegment();
+    if (seg)
+    {
+        line->Erase(seg);
+    }
+
     REAL angle, newAngle;
     if (pt->type == PT_Update)  angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
     else  angle = 0.0;
@@ -205,12 +245,53 @@ inline
 void
 PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
+    typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
+
+    Segment<REAL> * s1, * s2;
+    s1 = ev->GetSegment();
+    s2 = ev->GetSegment(false);
+
+    set<Segment<REAL> *> nn;
+    nn.insert( s1 );
+    nn.insert( s2 );
+    nn.insert( line->Above( line->Find(s1) )->GetSegment() );
+    nn.insert( line->Below( line->Find(s1) )->GetSegment() );
+    nn.insert( line->Above( line->Find(s2) )->GetSegment() );
+    nn.insert( line->Below( line->Find(s2) )->GetSegment() );
+
+    nn.erase( s1 );
+    nn.erase( s2 );
+    assert(nn.size() == 2);
     /*
+
+
+    Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
+    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
+    assert(res.ND == true);
+
+    SweepIterator ita = line->Above(res.ST);
+    SweepIterator itb = line->Below(res.ST);
+    if (! line->IsNull(ita))
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
+        DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
+        evts->Insert(de);
+    }
+    if (! line->IsNull(itb))
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
+        DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
+        evts->Insert(de);
+    }
+
             pmf_correct_intersection_point (pt, id1, id2);
             crossList->remove_intersection_with_one_id_of (id1, id2, blocksLists);
             birthList->remove_point_with_id (id1, blocksLists);
             birthList->remove_point_with_id (id2, blocksLists);
     //*/
+
+    DetectPossibleCollision (NULL, NULL, id);
+
     return;
 }
 
@@ -226,13 +307,16 @@ PMF<REAL> :: GenerateField ()
     long id = GenerateInitialBirths(evts);
     while (! evts->IsEmpty())
     {
-        cout << endl << evts << endl;
-
         Event * evt = evts->SeeFirst();
         if (evt->GetType() != NormalBirth  &&  evt->GetType() != BorderBirth)  CheckNewBirthSite(evt, evts, id);
 
         evt = evts->SeeFirst();
         cf->PushBack(evt->GetPoint());
+
+        cout << endl;
+        cout << evts << endl;
+        cout << "... event at point " << evt->GetPoint() << endl;
+        cout << line << endl;
 
         switch (evt->GetType())
         {

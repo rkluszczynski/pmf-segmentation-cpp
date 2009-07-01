@@ -25,7 +25,7 @@ namespace pmf
             REAL slope() const
             {
                 if (Geometry::IsZero(q->x - p->x)) return infinity;
-                return (q.y() - p.y()) / (q.x() - p.x());
+                return (q->y - p->y) / (q->x - p->x);
             }
 
             friend ostream & operator << (ostream & out, const Segment * seg)
