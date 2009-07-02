@@ -5,6 +5,7 @@
 #include "../cmd/geometry.hpp"
 #include "../cmd/probability.hpp"
 #include "../cmd/schedule.hpp"
+#include <wx/string.h>
 
 
 template <class REAL>
@@ -116,6 +117,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     pair<SweepIterator, bool> res = line->Insert(parent, nseg);
     assert(res.ND == true);
 
+    // check the segments above and below for intersections
     SweepIterator ita = line->Above(res.ST);
     SweepIterator itb = line->Below(res.ST);
     if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
@@ -137,6 +139,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         }
     }
 
+    // determine type of event (update or death)
     if ( 0.0 < npt->x  &&  npt->x < GetWidth()  &&  0.0 < npt->y  &&  npt->y < GetHeight() )
     {
         // npt inside the field
@@ -256,47 +259,47 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     Segment<REAL> * s1, * s2;
     s1 = ev->GetSegment();
     s2 = ev->GetSegment(false);
-    /*
+
     set<Segment<REAL> *> nn;
+
     nn.insert( s1 );
-    nn.insert( s2 );
-    nn.insert( line->Above( line->Find(s1) )->GetSegment() );
-    nn.insert( line->Below( line->Find(s1) )->GetSegment() );
-    nn.insert( line->Above( line->Find(s2) )->GetSegment() );
-    nn.insert( line->Below( line->Find(s2) )->GetSegment() );
+    SweepIterator it_1 = line->Find( s1 );
+    SweepIterator it1a = line->Above( it_1 );
+    SweepIterator it1b = line->Below( it_1 );
+    if (! line->IsNull(it1a))  nn.insert( it1a->GetSegment() );
+    if (! line->IsNull(it1b))  nn.insert( it1b->GetSegment() );
+
+    if (s2)
+    {
+        nn.insert( s2 );
+        SweepIterator it_2 = line->Find( s2 );
+        SweepIterator it2a = line->Above( it_2 );
+        SweepIterator it2b = line->Below( it_2 );
+        if (! line->IsNull(it2a))  nn.insert( it2a->GetSegment() );
+        if (! line->IsNull(it2b))  nn.insert( it2b->GetSegment() );
+    }
 
     nn.erase( s1 );
     nn.erase( s2 );
-    assert(nn.size() == 2);
+    assert(nn.size() <= 2);
     //*/
 
     /*
-    Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
-    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
-    assert(res.ND == true);
-
-    SweepIterator ita = line->Above(res.ST);
-    SweepIterator itb = line->Below(res.ST);
-    if (! line->IsNull(ita))
-    {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
-        DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
-        evts->Insert(de);
-    }
-    if (! line->IsNull(itb))
-    {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
-        DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
-        evts->Insert(de);
-    }
-
             pmf_correct_intersection_point (pt, id1, id2);
             crossList->remove_intersection_with_one_id_of (id1, id2, blocksLists);
             birthList->remove_point_with_id (id1, blocksLists);
             birthList->remove_point_with_id (id2, blocksLists);
     //*/
-
-    ///DetectPossibleCollision (NULL, NULL, id);
+    wxLogMessage( wxString::Format(_("Death with %i neighbours !!!"), nn.size()) );
+    if (nn.size() == 2)
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (*nn.begin(), *nn.rbegin(), id);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, *nn.begin(), *nn.rbegin());
+            evts->Insert(de);
+        }
+    }
     line->Erase( s1 );
     if (s2) line->Erase( s2 );
 
