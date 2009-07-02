@@ -96,7 +96,7 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
                                             seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
         //int i1
-        result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
+        result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetQ(), 0.0, 0.0, ++id, PT_Collision);
     }
     return result;
 }
@@ -121,14 +121,20 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     if (! line->IsNull(ita))
     {
         Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
-        DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
-        evts->Insert(de);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
+            evts->Insert(de);
+        }
     }
     if (! line->IsNull(itb))
     {
         Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
-        DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
-        evts->Insert(de);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
+            evts->Insert(de);
+        }
     }
 
     if ( 0.0 < npt->x  &&  npt->x < GetWidth()  &&  0.0 < npt->y  &&  npt->y < GetHeight() )
@@ -290,7 +296,7 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
             birthList->remove_point_with_id (id2, blocksLists);
     //*/
 
-    DetectPossibleCollision (NULL, NULL, id);
+    ///DetectPossibleCollision (NULL, NULL, id);
 
     return;
 }
