@@ -15,7 +15,7 @@ namespace pmf
 
         public :
             //Segment() {}
-            Segment(POINT pp, POINT qq) : p(pp), q(qq) {}
+            Segment(POINT pp, POINT qq) : p(pp), q(qq) { OnInit(); }
 
             const POINT GetP() const { return p; }
             const POINT GetQ() const { return q; }
@@ -37,6 +37,11 @@ namespace pmf
 
         private :
             POINT p, q;
+
+            void OnInit()
+            {
+                assert(p->x <= q->x);
+            }
 
         static REAL infinity;
     };

@@ -15,7 +15,7 @@ int main()
 {
     using namespace pmf;
     //Configuration<double> cf(0.0,0.0);
-    double size = 2;//2.1;
+    double size = 1;//2.1;
     PMF<double> ppmf(size, size);
     ppmf.SetSeed(0);
     MutableSegmentSet mss;

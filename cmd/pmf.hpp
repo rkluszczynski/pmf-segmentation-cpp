@@ -1,7 +1,7 @@
 #ifndef PMF_HPP
 #define PMF_HPP
 
-#include "..\cmd\configuration.hpp"
+#include "../cmd/configuration.hpp"
 
 namespace pmf
 {

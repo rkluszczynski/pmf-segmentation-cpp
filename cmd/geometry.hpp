@@ -1,7 +1,7 @@
 #ifndef GEOMETRY_HPP_INCLUDED
 #define GEOMETRY_HPP_INCLUDED
 
-#include "..\headers\macros.hpp"
+#include "../headers/macros.hpp"
 
 namespace pmf
 {
@@ -104,17 +104,6 @@ namespace pmf
 
 
         template <class REAL>
-        pair<REAL, REAL>
-        CalculateIntersection ( REAL x3, REAL y3, REAL x4, REAL y4,
-                                REAL x1, REAL y1, REAL x2, REAL y2)
-        {
-            pair<REAL, REAL> result;
-            CalculateIntersection(x3, y3, x4, y4, x1, y1, x2, y2, result.first, result.second);
-            return result;
-        }
-
-
-        template <class REAL>
         void
         CalculateIntersection ( REAL x3, REAL y3, REAL x4, REAL y4,
                                 REAL x1, REAL y1, REAL x2, REAL y2, REAL & x, REAL & y )
@@ -144,6 +133,17 @@ namespace pmf
                 x = x1;
                 y = c * (x) + d;
             }
+        }
+
+
+        template <class REAL>
+        pair<REAL, REAL>
+        CalculateIntersection ( REAL x3, REAL y3, REAL x4, REAL y4,
+                                REAL x1, REAL y1, REAL x2, REAL y2)
+        {
+            pair<REAL, REAL> result;
+            CalculateIntersection(x3, y3, x4, y4, x1, y1, x2, y2, result.first, result.second);
+            return result;
         }
 
 

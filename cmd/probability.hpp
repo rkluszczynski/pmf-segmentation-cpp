@@ -1,7 +1,7 @@
 #ifndef PROBABILITY_HPP_INCLUDED
 #define PROBABILITY_HPP_INCLUDED
 
-#include "..\headers\macros.hpp"
+#include "../headers/macros.hpp"
 
 namespace pmf
 {

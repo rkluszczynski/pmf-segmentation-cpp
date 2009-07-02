@@ -40,9 +40,13 @@ namespace pmf
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
                 SetSweepLinePosition(pt->x + EPSILON);
-                return Insert(seg);
+            //    return Insert(seg);
+            //}
+            //pair<Iterator,bool> Insert(SEGMENT * seg)
+            //{
+                assert( _endids.insert( seg->GetQ()->id ).ND );
+                return _st.insert( ENTRY(_x0, seg) );
             }
-            pair<Iterator,bool> Insert(SEGMENT * seg) { return _st.insert( ENTRY(_x0, seg) ); }
             /*
             void Swap(const POINT & pt, SEGMENT * seg1, SEGMENT * seg2)
             {
@@ -65,9 +69,12 @@ namespace pmf
                 REP(i, SIZE(vle))  Insert(vle[i].segment());
             }
             //*/
-            void Erase(Iterator it)   { _st.erase(it); }
-            void Erase(SEGMENT * seg) { _st.erase(Find(seg)); }
-
+            void Erase(SEGMENT * seg) { Erase(Find(seg)); }
+            void Erase(Iterator it)
+            {
+                _endids.erase( it->GetSegment()->GetQ()->id );
+                _st.erase(it);
+            }
 
             bool IsNull(Iterator it) { return it == _st.end(); }
             Iterator Find(SEGMENT * seg) { return _st.find( ENTRY(_x0, seg) ); }
@@ -91,10 +98,15 @@ namespace pmf
                       //  &&  e1.segment()->slope() < e2.segment()->slope());
             }
 
+            bool HasSegmentWithEndId(long id) { return _endids.find(id) != _endids.end(); }
+
             friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
             {
-                out << "[ STATUS ] :";
-                FOREACH(it, (*lss)) cout << " " << *it;
+                out << "[ STATUS SEGMENTS ] :" << endl;
+                FOREACH(it, (*lss)) cout << " " << *it << endl;
+                out << "[ STATUS IDS ] :";
+                FOREACH(it, (lss->_endids)) cout << " " << *it;
+                out << endl;
                 return out;
             }
 
@@ -102,6 +114,7 @@ namespace pmf
         private :
             STATUS _st;
             REAL _x0;
+            set<long> _endids;
 
     };
 
