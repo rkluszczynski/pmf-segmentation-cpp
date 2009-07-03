@@ -17,8 +17,9 @@ namespace pmf
             virtual ~PMF();
 
             void GenerateField();
+            void RotatePoints (REAL, REAL);
 
-            void SetSeed(time_t _seed);
+            void SetSeed(time_t);
             bool LoadPMF(const char *);
             //bool SaveConfiguration(const char *);
             //bool SaveConfigurationAsSVG(const char *, double, double);
