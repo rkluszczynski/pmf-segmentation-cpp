@@ -148,6 +148,9 @@
 				<object class="wxMenuItem" name="ID_MENUITEM1">
 					<label>ShowProgress</label>
 				</object>
+				<object class="wxMenuItem" name="ID_NEWPMF">
+					<label>Test New PMF</label>
+				</object>
 			</object>
 			<object class="wxMenu">
 				<label>Help</label>

@@ -5,8 +5,6 @@
 
 namespace pmf
 {
-    typedef Point<double> POINT;
-    typedef Segment<double> SEGMENT;
     typedef enum {
                     NormalBirth = 0,
                     BorderBirth = 1,
@@ -16,8 +14,16 @@ namespace pmf
     EventType;
 
 
+    template <typename REAL> struct Segment;
+
     class Event
     {
+        protected:
+            typedef Point<double> POINT;
+            typedef Segment<double> SEGMENT;
+
+            POINT * _pt;
+
         public:
             Event(POINT * pt) : _pt(pt) {}
             POINT * GetPoint() const { return _pt; }
@@ -25,9 +31,6 @@ namespace pmf
             virtual EventType GetType() const = 0;
             virtual SEGMENT * GetSegment(bool first = true) const = 0;
             virtual ~Event() {}
-
-        protected:
-            POINT * _pt;
     };
 
 

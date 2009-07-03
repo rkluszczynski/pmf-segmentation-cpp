@@ -33,6 +33,8 @@ namespace pmf
             void ShowConfiguration (std::ostream & out);
             void PrintConfiguration (std::ostream & out);
 
+            void LoadConfiguration (std::istream & in);
+            void DrawConfiguration (wxMemoryDC& dc, int scale);
             /*
             void clone_from ( ConfigurationList<T_REAL> * );
             void calculate_statistics (int *);
@@ -125,6 +127,78 @@ namespace pmf
         fout.close();
     }
 
+
+    template <class REAL>
+    void Configuration<REAL>::LoadConfiguration (std::istream & in)
+    {
+        if (! IsEmpty())  DestroyPoints();
+
+        in >> fieldHeight;
+        in >> fieldWidth;
+        int ptNumber;
+        in >> ptNumber;
+
+        Point<REAL> ** ptTab = new Point<REAL> * [ptNumber+1];
+        long * firstIds = new long[ptNumber+1];
+        long * secondIds = new long[ptNumber+1];
+
+        for (int i = 1; i <= ptNumber; i++)
+        {
+            long id, tt, bb, oid;
+            double x, y, l1, l2;
+            char tmp[128];
+
+            in >> id;
+            in >> x;
+            in >> y;
+            in >> firstIds[id];
+            in >> secondIds[id];
+            in >> l1;
+            in >> l2;
+            in.getline(tmp, 128);
+    #ifdef CHECK_ASSERTIONS
+            assert(i == id);
+    #endif
+            ptTab[i] = new Point<REAL>(x, y, NULL, NULL, l1, l2, id, PT_Unknown);
+            if (sscanf(tmp, "%li %li %li", &tt, &bb, &oid) > 0)
+                ptTab[i]->oid = oid;
+        }
+
+        for (int i = 1; i <= ptNumber; i++)
+        {
+            ptTab[i]->n1 = (firstIds[i] > 0) ? ptTab[firstIds[i]] : NULL;
+            ptTab[i]->n2 = (secondIds[i] > 0) ? ptTab[secondIds[i]] : NULL;
+        }
+        for (int i = 1; i <= ptNumber; i++)  pts->push_back(ptTab[i]);
+
+        delete[] secondIds;
+        delete[] firstIds;
+        delete[] ptTab;
+    }
+
+
+    template <class REAL>
+    void Configuration<REAL>::DrawConfiguration (wxMemoryDC& dc, int scale)
+    {
+        FOREACH(it, *pts)
+        {
+            Point<REAL> * pt = *it;
+            int x0 = int(pt->x * double(scale));
+            int y0 = int(pt->y * double(scale));
+            if (pt->n1)
+            {
+                int x1 = int(pt->n1->x * double(scale));
+                int y1 = int(pt->n1->y * double(scale));
+                dc.DrawLine(x0, y0, x1, y1);
+            }
+            if (pt->n2)
+            {
+                int x2 = int(pt->n2->x * double(scale));
+                int y2 = int(pt->n2->y * double(scale));
+                dc.DrawLine(x0, y0, x2, y2);
+            }
+        }
+    }
 
 /*
     template <class REAL>

@@ -36,6 +36,7 @@ class PMFPanel: public wxPanel
         bool LoadPMF(wxString);
         bool SaveFile(wxString, int);
 
+        bool NewPMF(wxString);
         //void SetScale(long);
 
 		void ClearConfigurationSelection();

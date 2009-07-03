@@ -234,6 +234,8 @@ bool PMFPanel::LoadPMF(wxString path)
     const wxCharBuffer wxbuf = wxConvISO8859_2.cWC2MB(path);
     const char * filepath = (const char *)wxbuf;
 
+
+
     pmf = new PMF<double>(0.0, 0.0);
     pmf->LoadConfiguration(filepath);
 
@@ -459,3 +461,43 @@ void PMFPanel::AddBirthSegmentToPMF(double xx, double yy)
 #undef __OP_BIRTH_SEGMENT
 #undef __OP_UPDATE_POINT
 #undef __OP_REMOVE_POINT
+
+
+#include "../cmd/pmf.hpp"
+
+bool PMFPanel::NewPMF(wxString path)
+{
+    wxCSConv wxConvISO8859_2(wxT("iso8859-2"));
+    const wxCharBuffer wxbuf = wxConvISO8859_2.cWC2MB(path);
+    const char * filepath = (const char *)wxbuf;
+
+    scale = 200;
+    int  width = 200;
+    int height = 200;
+
+    pmf::PMF<double> * q = new pmf::PMF<double>(0.0, 0.0);
+    //q->LoadPMF(filepath);
+
+     //width = int(double(scale) * q->GetWidth());
+    //height = int(double(scale) * q->GetHeight());
+
+    if (bmp) delete bmp;
+    bmp = new wxBitmap(width, height);
+    staticBitmap->SetBitmap(*bmp);
+    scrolledWindow->FitInside();
+
+
+    wxMemoryDC dc(*bmp);
+    dc.SetBackground(*wxWHITE_BRUSH);
+    dc.Clear();
+
+    //q->DrawPMF(dc, 200);
+
+    staticBitmap->SetBitmap(*bmp);
+    staticBitmap->Refresh();
+
+    delete q;
+    return true;
+}
+
+

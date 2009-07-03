@@ -35,6 +35,7 @@ class mainFrame : public wxFrame
 		wxMenuItem* savePMFMenuItem;
 		wxHtmlWindow* myHtmlWindow;
 		wxMenuItem* saveItMenuItem;
+		wxMenuItem* contrastMenuItem;
 		wxStatusBar* StatusBar1;
 		wxScrolledWindow* myScrolledWindow;
 		wxMenuItem* saveImageMenuItem;
@@ -86,6 +87,7 @@ class mainFrame : public wxFrame
 		void OnGaussBlurMenuItemSelected(wxCommandEvent& event);
 		void OnSaveItMenuItemSelected(wxCommandEvent& event);
 		void OnContrastMenuItemSelected(wxCommandEvent& event);
+		void OnNewPmfMenuItemSelected(wxCommandEvent& event);
 		//*)
 		void OnMyScrolledWindowSize(wxSizeEvent& event);
 

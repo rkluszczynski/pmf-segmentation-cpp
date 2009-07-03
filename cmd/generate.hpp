@@ -248,6 +248,42 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
 }
 
 
+template <class REAL>
+inline
+void
+PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
+{
+    wxLogMessage(wxString::Format(_("Correcting collision point of ends %i and %i"), id1, id2));
+    if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id1)
+    {
+        PMFLogV("########### 1");
+        pt->n1->n1 = pt;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
+    }
+    if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id1)
+    {
+        PMFLogV("########### 2");
+        pt->n1->n2 = pt;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
+    }
+    if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id2)
+    {
+        PMFLogV("########### 3");
+        pt->n1->n1 = pt;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
+    }
+    if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id2)
+    {
+        PMFLogV("########### 4");
+        pt->n1->n2 = pt;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
+    }
+}
+
 
 template <class REAL>
 inline
@@ -284,18 +320,29 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     assert(nn.size() <= 2);
     //*/
 
+    if (s1 && s2)
+    {
+        long id1 = s1->GetQ()->id;
+        long id2 = s2->GetQ()->id;
+        CorrectCollisionStartPoints (ev->GetPoint(), id1, id2);
+    }
     /*
             pmf_correct_intersection_point (pt, id1, id2);
             crossList->remove_intersection_with_one_id_of (id1, id2, blocksLists);
             birthList->remove_point_with_id (id1, blocksLists);
             birthList->remove_point_with_id (id2, blocksLists);
     //*/
-    wxLogMessage( wxString::Format(_("Death with %i neighbours !!!"), nn.size()) );
+    wxLogMessage( wxString::Format(_("Death with %i status neighbour(s) !!!"), nn.size()) );
     if (nn.size() == 2)
     {
         Point<REAL> * cpt = DetectPossibleCollision (*nn.begin(), *nn.rbegin(), id);
         if (cpt)
         {
+            cout << endl << "COLLISION : " << cpt << endl;
+
+            cout << *nn.begin() << endl;
+            cout << *nn.rbegin() << endl;
+
             DeathEvent * de = new DeathEvent(cpt, *nn.begin(), *nn.rbegin());
             evts->Insert(de);
         }
@@ -316,8 +363,11 @@ PMF<REAL> :: GenerateField ()
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     long id = GenerateInitialBirths(evts);
+    long step = 0;
     while (! evts->IsEmpty())
     {
+        cout << endl << "_________________________________________________" << endl;
+        cout << "  STEP " << (++step) << endl;
         Event * evt = evts->SeeFirst();
 
         cout << endl;
@@ -372,6 +422,7 @@ PMF<REAL> :: GenerateField ()
                     assert(false);
         }
         evts->Erase(evt);
+        cout << "-------------------------------------------------" << endl;
     }
     //cf->ShowConfiguration(cout);
     cf->SaveToFile("output/gen-cmd.txt");

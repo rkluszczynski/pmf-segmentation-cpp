@@ -35,6 +35,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	saveItMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_SAVE_IT_MENUITEM")) : NULL;
 	grayscaleMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_GRAYSCALE_MENUITEM")) : NULL;
 	gaussBlurMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_GAUSS_BLUR_MENUITEM")) : NULL;
+	contrastMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_CONTRAST_MENUITEM")) : NULL;
 	rescaleMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_RESCALE_MENUITEM")) : NULL;
 	progressMenuItem = GetMenuBar() ? (wxMenuItem*)GetMenuBar()->FindItem(XRCID("ID_MENUITEM1")) : NULL;
 	StatusBar1 = (wxStatusBar*)FindWindow(XRCID("ID_STATUSBAR1"));
@@ -63,6 +64,7 @@ mainFrame::mainFrame(wxWindow* parent)
 	Connect(XRCID("ID_PRESENT_PMF_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnPresentPMFMenuItemSelected);
 	Connect(XRCID("ID_LOG_MENUITEM"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnViewInfosMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM1"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnShowProgressMenuItemSelected);
+	Connect(XRCID("ID_NEWPMF"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnNewPmfMenuItemSelected);
 	Connect(XRCID("ID_MENUITEM3"),wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&mainFrame::OnAbout);
 	//*)
 	//Connect(wxID_ANY,wxEVT_SIZE,(wxObjectEventFunction)&mainFrame::OnMyScrolledWindowSize);
@@ -376,7 +378,7 @@ void mainFrame::OnLoadPMFMenuItemSelected(wxCommandEvent& event)
         myNotebook->AddPage(pp, wxT("[ PMF ] : ") + dialog.GetFilename(), false, -1);
         myNotebook->Refresh();
 
-        pp->SetParameters(0.0, 0.0, 200);
+        pp->SetParameters(0.0, 0.0, 250);
         pp->LoadPMF(path);
         if (! pp->DrawGeneratedPMF(true)) {
             ;
@@ -626,4 +628,30 @@ void mainFrame::OnContrastMenuItemSelected(wxCommandEvent& event)
 {
     if (myNotebook->GetCurrentPage()->IsKindOf(CLASSINFO(ImagePanel)))
         ((ImagePanel *) myNotebook->GetCurrentPage())->Contrast();
+}
+
+void mainFrame::OnNewPmfMenuItemSelected(wxCommandEvent& event)
+{
+    wxString caption = wxT("Choose a configuration file");
+    wxString wildcard = wxT("Configuration files (*.cf)|*.cf;*.txt");
+    wxString defaultDir = wxT("../output");
+    wxString defaultFilename = wxEmptyString;
+
+    wxFileDialog dialog(this, caption, defaultDir, defaultFilename, wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    if (dialog.ShowModal() == wxID_OK)
+    {
+        wxString path = dialog.GetPath();
+        //int fiterIndex = dialog.GetFilterIndex();
+
+        PMFPanel * pp = new PMFPanel(myNotebook);
+        myNotebook->AddPage(pp, wxT("[ New PMF ] : ") + dialog.GetFilename(), false, -1);
+        myNotebook->Refresh();
+
+        pp->SetParameters(0.0, 0.0, 200);
+        pp->NewPMF(path);
+
+        myNotebook->SetSelection(myNotebook->GetPageCount() - 1);
+        wxString msg = wxT("Configuration file '") + dialog.GetFilename() + wxT("' loaded");
+        SetStatusText( msg , 0);
+    }
 }

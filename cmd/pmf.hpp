@@ -2,6 +2,10 @@
 #define PMF_HPP
 
 #include "../cmd/configuration.hpp"
+#include "../cmd/schedule.hpp"
+#include "../cmd/status.hpp"
+#include <wx/string.h>
+
 
 namespace pmf
 {
@@ -15,9 +19,10 @@ namespace pmf
             void GenerateField();
 
             void SetSeed(time_t _seed);
-            //bool LoadConfiguration(const char *);
+            bool LoadPMF(const char *);
             //bool SaveConfiguration(const char *);
             //bool SaveConfigurationAsSVG(const char *, double, double);
+            void DrawPMF (wxMemoryDC& dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
 
             inline REAL GetWidth()  { return cf->GetFieldWidth();  }
             inline REAL GetHeight() { return cf->GetFieldHeight(); }
@@ -40,6 +45,8 @@ namespace pmf
             void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            inline
+            void CorrectCollisionStartPoints (Point<REAL> *, long, long);
             inline
             void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline

@@ -57,7 +57,8 @@ namespace pmf
             {
                 bool res = _events.insert(e).ND;
                 //cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
-                assert(res == true);
+    /// FIXME (klusi#1#): Zapobiec dodawania tego samego punktu przeciec
+                //assert(res == true);
                 return res;
             }
 
