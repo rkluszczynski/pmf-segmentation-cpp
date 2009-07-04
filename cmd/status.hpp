@@ -35,7 +35,11 @@ namespace pmf
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }
 
-            void SetSweepLinePosition(REAL x) { _x0 = x; }
+            void SetSweepLinePosition(REAL x)
+            {
+                cout << "!!! SWEEP LINE POSITION set to " << x << "   #######" << endl;
+                _x0 = x;
+            }
 
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
@@ -69,11 +73,22 @@ namespace pmf
                 REP(i, SIZE(vle))  Insert(vle[i].segment());
             }
             //*/
-            void Erase(SEGMENT * seg) { Erase(Find(seg)); }
+            void Erase(SEGMENT * seg)
+            {
+                Iterator it = Find(seg);
+                if(IsNull(it))
+                {
+                    cout << "TO BEDZIE NULLEM  :  " << seg << "   #######" << endl;
+                }
+                Erase(it);
+            }
             void Erase(Iterator it)
             {
-                _endids.erase( it->GetSegment()->GetQ()->id );
+                assert(! IsNull(it));
+                SEGMENT * tmp = it->GetSegment();
+                _endids.erase( tmp->GetQ()->id );
                 _st.erase(it);
+                //delete tmp;
             }
 
             bool IsNull(Iterator it) { return it == _st.end(); }
@@ -102,7 +117,7 @@ namespace pmf
 
             friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
             {
-                out << "[ STATUS SEGMENTS ] :" << endl;
+                out << "[ STATUS SEGMENTS ] : at position " << lss->_x0 << endl;
                 FOREACH(it, (*lss)) cout << " " << *it << endl;
                 out << "[ STATUS IDS ] :";
                 FOREACH(it, (lss->_endids)) cout << " " << *it;

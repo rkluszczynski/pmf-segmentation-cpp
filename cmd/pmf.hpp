@@ -27,7 +27,7 @@ namespace pmf
 
             inline REAL GetWidth()  { return cf->GetFieldWidth();  }
             inline REAL GetHeight() { return cf->GetFieldHeight(); }
-            //inline long GetCount()  { return cf->; }
+            inline long GetCount()  { return cf->GetPointsCount(); }
 
 
         protected:

@@ -224,7 +224,9 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
     Segment<REAL> * seg = ev->GetSegment();
     if (seg)
     {
+        cout << endl << " ##################### " << endl << line << endl;
         line->Erase(seg);
+        delete seg;
     }
 
     REAL angle, newAngle;
@@ -242,6 +244,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
     int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
     Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
     //pmf_store_points_in_blocks (newPt, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
+    cout << " -> new point  :  " << newpt << endl;
     ArrangeNewEvent(newpt, evts, line, id);
 
     return;
@@ -348,11 +351,17 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         }
     }
     line->Erase( s1 );
-    if (s2) line->Erase( s2 );
-
+    //delete s1;
+    if (s2)
+    {
+        line->Erase( s2 );
+        //delete s2;
+    }
+    else {
+        delete s1;
+    }
     return;
 }
-
 
 
 template <class REAL>
@@ -378,16 +387,36 @@ PMF<REAL> :: GenerateField ()
         /// check if the event is still valid
         if (evt->GetType() == PointUpdate)
         {
-            if (! line->HasSegmentWithEndId(evt->GetPoint()->id)) { evts->Erase(evt); continue; }
+            if (! line->HasSegmentWithEndId(evt->GetPoint()->id))
+            {
+                Point<REAL> * tmp = evt->GetPoint();
+                Segment<REAL> * seg = evt->GetSegment();
+                evts->Erase(evt);
+                delete seg;
+                delete tmp;
+                continue;
+            }
         }
         else if (evt->GetType() == DeathSite)
         {
-            if (! line->HasSegmentWithEndId(evt->GetSegment(true)->GetQ()->id)) { evts->Erase(evt); continue; }
             if (evt->GetSegment(false))
-            {
-                if (! line->HasSegmentWithEndId(evt->GetSegment(false)->GetQ()->id))
+            { // collision
+                if ( (! line->HasSegmentWithEndId(evt->GetSegment(true)->GetQ()->id))
+                    || (! line->HasSegmentWithEndId(evt->GetSegment(false)->GetQ()->id)) )
                 {
+                    delete evt->GetPoint();
                     evts->Erase(evt);
+                    continue;
+                }
+            }
+            else { // border death
+                if (! line->HasSegmentWithEndId(evt->GetPoint()->id))
+                {
+                    Point<REAL> * tmp = evt->GetPoint();
+                    Segment<REAL> * seg = evt->GetSegment();
+                    evts->Erase(evt);
+                    delete seg;
+                    delete tmp;
                     continue;
                 }
             }
@@ -431,6 +460,7 @@ PMF<REAL> :: GenerateField ()
     delete evts;
     return;
 }
+#undef __CONTINUE_BLOCK
 
 
 #endif // GENERATE_HPP_INCLUDED

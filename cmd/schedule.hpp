@@ -55,10 +55,20 @@ namespace pmf
 
             bool Insert(EventPoint e)
             {
+                if (_events.find(e) != _events.end())
+                {
+                    assert(e->GetType() == DeathSite);
+
+                    EventPoint tmp = (*_events.find(e));
+                    _events.erase(_events.find(e));
+                    //delete tmp->GetSegment();
+                    delete tmp->GetPoint();
+                    delete tmp;
+                }
                 bool res = _events.insert(e).ND;
                 //cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
     /// FIXME (klusi#1#): Zapobiec dodawania tego samego punktu przeciec
-                //assert(res == true);
+                assert(res == true);
                 return res;
             }
 

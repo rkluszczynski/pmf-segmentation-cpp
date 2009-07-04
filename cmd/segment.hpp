@@ -8,6 +8,7 @@
 
 namespace pmf
 {
+    long long   pmf_segment_counter = 0;
 
     template <typename REAL> struct Segment
     {
@@ -16,6 +17,7 @@ namespace pmf
         public :
             //Segment() {}
             Segment(POINT pp, POINT qq) : p(pp), q(qq) { OnInit(); }
+            ~Segment() { --pmf_segment_counter; }
 
             const POINT GetP() const { return p; }
             const POINT GetQ() const { return q; }
@@ -41,6 +43,7 @@ namespace pmf
             void OnInit()
             {
                 assert(p->x <= q->x);
+                ++pmf_segment_counter;
             }
 
         static REAL infinity;

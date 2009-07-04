@@ -6,6 +6,7 @@
 
 namespace pmf
 {
+    long long   pmf_element_counter = 0;
 
     template <typename REAL> struct SweepLineElement
     {
@@ -15,8 +16,10 @@ namespace pmf
 
             SweepLineElement(const REAL & x, SEGMENT * s) : _x0(x), _seg(s)
             {
+                OnInit();
                 _y0 = CalculateLinearFunctionValue(_seg, _x0);
             }
+            virtual ~SweepLineElement() { --pmf_element_counter; }
 
             SEGMENT * GetSegment() const { return _seg; }
             REAL GetX0() const { return _x0; }
@@ -30,20 +33,20 @@ namespace pmf
                 return _y0;
             }
             REAL yy0(const REAL & x) const { return CalculateLinearFunctionValue(_seg, x); }
-
+            //*
             friend ostream & operator << (ostream & out, const SweepLineElement & el)
             {
-                out << "{" << el.GetSegment() << "~" << el.GetX0() << "," << el.GetY0() << "}";
+                out << "{ " << el.GetSegment() << "\t ~ \t" << el.GetX0() << " , " << el.GetY0() << " ; " << el.yy0(el.GetX0()) << " }";
                 //out << "{" << el->GetSegment() << "}";
                 return out;
             }
-
+            //*/
 
         private:
             REAL  _x0, _y0;
             SEGMENT * _seg;
 
-
+            void OnInit() { ++pmf_element_counter; }
             REAL CalculateLinearFunctionValue (SEGMENT * s, REAL x) const;
     };
 

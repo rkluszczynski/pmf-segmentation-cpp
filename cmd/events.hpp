@@ -5,6 +5,8 @@
 
 namespace pmf
 {
+    long long   pmf_event_counter = 0;
+
     typedef enum {
                     NormalBirth = 0,
                     BorderBirth = 1,
@@ -18,6 +20,9 @@ namespace pmf
 
     class Event
     {
+        private:
+            void OnInit() { ++pmf_event_counter; }
+
         protected:
             typedef Point<double> POINT;
             typedef Segment<double> SEGMENT;
@@ -25,12 +30,12 @@ namespace pmf
             POINT * _pt;
 
         public:
-            Event(POINT * pt) : _pt(pt) {}
+            Event(POINT * pt) : _pt(pt) { OnInit(); }
             POINT * GetPoint() const { return _pt; }
 
             virtual EventType GetType() const = 0;
             virtual SEGMENT * GetSegment(bool first = true) const = 0;
-            virtual ~Event() {}
+            virtual ~Event() { --pmf_event_counter; }
     };
 
 

@@ -6,21 +6,32 @@
 using namespace std;
 
 #include "../cmd/birthsites.hpp"
-#include "../cmd/segmentset.hpp"
 #include "../cmd/pmf.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
     using namespace pmf;
     //Configuration<double> cf(0.0,0.0);
-    double size = 5;//2.1;
-    PMF<double> ppmf(size, size);
-    ppmf.SetSeed(0);
-    MutableSegmentSet mss;
+    double size = 1;//21;
+    PMF<double> * ppmf = new PMF<double>(size, size);
+    // ppmf->SetSeed(1125); //przy size=2
+    //ppmf->SetSeed(1168); //przy size=2
+    //ppmf->SetSeed(8359); //size=1
+    //ppmf->SetSeed(8417); //size=1
+    ppmf->SetSeed(atoi(argv[1]));
 
     wxLog::SetVerbose(true);
 
-    ppmf.GenerateField();
+    ppmf->GenerateField();
+    cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
+    assert(pmf::pmf_point_counter == ppmf->GetCount());
+
+    cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;
+    cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+    cout << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+
+    delete ppmf;
+    cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
 
     return 0;
 
