@@ -8,9 +8,9 @@
 		<Build>
 			<Script file="lib_finder.script" />
 			<Target title="Debug">
-				<Option output="../bin/Debug/pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Debug\pmf" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="../objs/Debug/" />
+				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -18,9 +18,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="../bin/Release/pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Release\pmf" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="../objs" />
+				<Option object_output="..\objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -35,25 +35,24 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="../cmd/birthsites.hpp" />
-		<Unit filename="../cmd/configuration.hpp" />
-		<Unit filename="../cmd/element.hpp" />
-		<Unit filename="../cmd/events.hpp" />
-		<Unit filename="../cmd/generate.hpp" />
-		<Unit filename="../cmd/geometry.hpp" />
-		<Unit filename="../cmd/main.cpp" />
-		<Unit filename="../cmd/pmf.cpp">
+		<Unit filename="..\cmd\birthsites.hpp" />
+		<Unit filename="..\cmd\configuration.hpp" />
+		<Unit filename="..\cmd\element.hpp" />
+		<Unit filename="..\cmd\events.hpp" />
+		<Unit filename="..\cmd\generate.hpp" />
+		<Unit filename="..\cmd\geometry.hpp" />
+		<Unit filename="..\cmd\main.cpp" />
+		<Unit filename="..\cmd\pmf.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="../cmd/pmf.hpp" />
-		<Unit filename="../cmd/point.hpp" />
-		<Unit filename="../cmd/probability.hpp" />
-		<Unit filename="../cmd/rotate.hpp" />
-		<Unit filename="../cmd/schedule.hpp" />
-		<Unit filename="../cmd/segment.hpp" />
-		<Unit filename="../cmd/segmentset.hpp" />
-		<Unit filename="../cmd/status.hpp" />
-		<Unit filename="../headers/macros.hpp" />
+		<Unit filename="..\cmd\pmf.hpp" />
+		<Unit filename="..\cmd\point.hpp" />
+		<Unit filename="..\cmd\probability.hpp" />
+		<Unit filename="..\cmd\rotate.hpp" />
+		<Unit filename="..\cmd\schedule.hpp" />
+		<Unit filename="..\cmd\segment.hpp" />
+		<Unit filename="..\cmd\status.hpp" />
+		<Unit filename="..\headers\macros.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
