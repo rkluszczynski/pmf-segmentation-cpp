@@ -122,7 +122,8 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     // check the segments above and below for intersections
     SweepIterator ita = line->Above(res.ST);
     SweepIterator itb = line->Below(res.ST);
-    if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
+    //if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
+    if (! line->IsNull(ita))
     {
         Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
         if (cpt)
@@ -131,7 +132,8 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
             evts->Insert(de);
         }
     }
-    if (! line->IsNull(itb)  &&  itb->GetSegment()->GetP() != parent)
+    //if (! line->IsNull(itb)  &&  itb->GetSegment()->GetP() != parent)
+    if (! line->IsNull(itb))
     {
         Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
         if (cpt)
