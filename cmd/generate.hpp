@@ -88,6 +88,8 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
 {
     using namespace Geometry;
 
+    if (seg1->GetP()->id == seg2->GetP()->id) return NULL;
+
     Point<REAL> * result = NULL;
     int collision = CheckIntersection<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                              seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
