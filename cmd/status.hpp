@@ -37,6 +37,7 @@ namespace pmf
 
             void SetSweepLinePosition(REAL x)
             {
+                assert(x >= _x0);
                 cout << "!!! SWEEP LINE POSITION set to " << x << "   #######" << endl;
                 _x0 = x;
             }
