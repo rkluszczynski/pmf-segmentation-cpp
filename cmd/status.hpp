@@ -106,8 +106,8 @@ namespace pmf
                 REAL y1 = e1.yy0(_x0);
                 REAL y2 = e2.yy0(_x0);
                 bool res = (y1 < y2);
-                //cout << "[?]  " << _x0 << endl;
-                //cout << "[?]  " << e1 << "  <  " << e2 << "   ::   (" << y1 << " < " << y2 << ") == " << (res ? "T" : "F") << endl;
+                cout << "[?]  " << _x0 << endl;
+                cout << "[?]  " << e1 << "  <  " << e2 << "   ::   (" << y1 << " < " << y2 << ") == " << (res ? "T" : "F") << endl;
                 return res;
                 //return e1.yy0(_x0) < e2.yy0(_x0);// ||
                     //(e1.y0(x0) == e2.y0(x0)  //&&  (e1.type() == SOURCE || e2.type() == SOURCE)

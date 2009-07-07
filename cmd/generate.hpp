@@ -114,34 +114,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     using  namespace Geometry;
 
     Point<REAL> * parent = npt->n1;
-
     Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
-    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
-    assert(res.ND == true);
-
-    // check the segments above and below for intersections
-    SweepIterator ita = line->Above(res.ST);
-    SweepIterator itb = line->Below(res.ST);
-    //if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
-    if (! line->IsNull(ita))
-    {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
-        if (cpt)
-        {
-            DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
-            evts->Insert(de);
-        }
-    }
-    //if (! line->IsNull(itb)  &&  itb->GetSegment()->GetP() != parent)
-    if (! line->IsNull(itb))
-    {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
-        if (cpt)
-        {
-            DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
-            evts->Insert(de);
-        }
-    }
 
     // determine type of event (update or death)
     if ( 0.0 < npt->x  &&  npt->x < GetWidth()  &&  0.0 < npt->y  &&  npt->y < GetHeight() )
@@ -185,6 +158,34 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         DeathEvent * e = new DeathEvent(npt, nseg);
         evts->Insert(e);
     }
+
+    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
+    assert(res.ND == true);
+
+    // check the segments above and below for intersections
+    SweepIterator ita = line->Above(res.ST);
+    SweepIterator itb = line->Below(res.ST);
+    //if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
+    if (! line->IsNull(ita))
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
+            evts->Insert(de);
+        }
+    }
+    //if (! line->IsNull(itb)  &&  itb->GetSegment()->GetP() != parent)
+    if (! line->IsNull(itb))
+    {
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
+            evts->Insert(de);
+        }
+    }
+
     return;
 }
 
