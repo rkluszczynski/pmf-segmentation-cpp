@@ -11,7 +11,8 @@ namespace pmf
                     NormalBirth = 0,
                     BorderBirth = 1,
                     PointUpdate = 2,
-                    DeathSite  = 3
+                    NormalDeath = 3,
+                    BorderDeath = 4
     }
     EventType;
 
@@ -72,7 +73,7 @@ namespace pmf
             DeathEvent(POINT * pt, SEGMENT * s1) : Event(pt), _s1(s1), _s2(NULL) {}
             DeathEvent(POINT * pt, SEGMENT * s1, SEGMENT * s2) : Event(pt), _s1(s1), _s2(s2) {}
 
-            EventType GetType() const { return DeathSite; }
+            EventType GetType() const { return ((_s2 != NULL) ? NormalDeath : BorderDeath); }
             SEGMENT * GetSegment(bool first) const { return first ? _s1 : _s2; }
 
         private:

@@ -83,6 +83,15 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
 
 template <class REAL>
 inline
+bool
+PMF<REAL> :: IsPointInsideTheField (REAL x, REAL y)
+{
+    return ( 0.0 < x  &&  x < GetWidth()  &&  0.0 < y  &&  y < GetHeight() );
+}
+
+
+template <class REAL>
+inline
 Point<REAL> *
 PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2, long & id)
 {
@@ -98,8 +107,9 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
         pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
                                             seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
-        //int i1
-        result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
+/// FIXME (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON)
+        if (IsPointInsideTheField(cpt.ST, cpt.ND))
+            result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
     }
     return result;
 }
@@ -117,7 +127,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
 
     // determine type of event (update or death)
-    if ( 0.0 < npt->x  &&  npt->x < GetWidth()  &&  0.0 < npt->y  &&  npt->y < GetHeight() )
+    if (IsPointInsideTheField(npt->x, npt->y))
     {
         // npt inside the field
         // new event
@@ -390,7 +400,7 @@ PMF<REAL> :: GenerateField ()
         cout << line << endl;
 
         /// check if the event is still valid
-        if (evt->GetType() == PointUpdate)
+        if (evt->GetType() == PointUpdate  ||  evt->GetType() == BorderDeath)
         {
             if (! line->HasSegmentWithEndId(evt->GetPoint()->id))
             {
@@ -402,28 +412,14 @@ PMF<REAL> :: GenerateField ()
                 continue;
             }
         }
-        else if (evt->GetType() == DeathSite)
+        else if (evt->GetType() == NormalDeath)
         {
-            if (evt->GetSegment(false))
-            { // collision
-                if ( (! line->HasSegmentWithEndId(evt->GetSegment(true)->GetQ()->id))
-                    || (! line->HasSegmentWithEndId(evt->GetSegment(false)->GetQ()->id)) )
-                {
-                    delete evt->GetPoint();
-                    evts->Erase(evt);
-                    continue;
-                }
-            }
-            else { // border death
-                if (! line->HasSegmentWithEndId(evt->GetPoint()->id))
-                {
-                    Point<REAL> * tmp = evt->GetPoint();
-                    Segment<REAL> * seg = evt->GetSegment();
-                    evts->Erase(evt);
-                    delete seg;
-                    delete tmp;
-                    continue;
-                }
+            if ( (! line->HasSegmentWithEndId(evt->GetSegment(true)->GetQ()->id))
+                || (! line->HasSegmentWithEndId(evt->GetSegment(false)->GetQ()->id)) )
+            {
+                delete evt->GetPoint();
+                evts->Erase(evt);
+                continue;
             }
         }
 
@@ -448,7 +444,8 @@ PMF<REAL> :: GenerateField ()
                     PMFLogV("-> UPDATE EVENT");
                     ProcessUpdateEvent(evt, evts, line, id);
                     break;;
-            case DeathSite :
+            case NormalDeath :
+            case BorderDeath :
                     PMFLogV("-> DEATH EVENT");
                     ProcessDeathEvent(evt, evts, line, id);
                     break;;

@@ -12,20 +12,28 @@ namespace pmf
     {
         bool operator () (const EVENT & e1, const EVENT & e2) const
         {
-            /*
-            bool res = p1->GetPoint()->x < p2->GetPoint()->x;
-            cout << "[]  " << p1->point()->x() << " < " << p2->point()->x() << "  " << (res ? "TRUE" : "FALSE") << endl;
-            return res;
-            //*/
             using Geometry::IsZero;
-
+            /*
+            bool res = (e1->GetPoint()->x < e2->GetPoint()->x);
+            cout << "[]  __________" << endl;
+            cout << "[]  " << e1->GetPoint() << "   <   " << e2->GetPoint() << endl;
+            cout << "[]   IsZero = " << (IsZero(e1->GetPoint()->x - e2->GetPoint()->x) ? "YES" : "NO") << endl;
+            cout.precision(12);
+            cout << "[]  " << e1->GetPoint()->x << " < " << e2->GetPoint()->x << "  " << (res ? "TRUE" : "FALSE") << endl;
+            //*/
             if (! IsZero(e1->GetPoint()->x - e2->GetPoint()->x))
             {
                 if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
                 if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
             }
-            if (e1->GetType() == DeathSite  &&  e2->GetType() != DeathSite) return true;
-            if (e2->GetType() == DeathSite  &&  e1->GetType() != DeathSite) return false;
+            if (e1->GetType() == NormalDeath  &&  e2->GetType() != NormalDeath) return true;
+            if (e2->GetType() == NormalDeath  &&  e1->GetType() != NormalDeath) return false;
+            if (e1->GetType() == BorderDeath  &&  e2->GetType() != BorderDeath) return true;
+            if (e2->GetType() == BorderDeath  &&  e1->GetType() != BorderDeath) return false;
+            if (e1->GetType() == NormalBirth  &&  e2->GetType() != NormalBirth) return true;
+            if (e2->GetType() == NormalBirth  &&  e1->GetType() != NormalBirth) return false;
+            if (e1->GetType() == BorderBirth  &&  e2->GetType() != BorderBirth) return true;
+            if (e2->GetType() == BorderBirth  &&  e1->GetType() != BorderBirth) return false;
             if (e1->GetType() == PointUpdate  &&  e2->GetType() != PointUpdate) return true;
             if (e2->GetType() == PointUpdate  &&  e1->GetType() != PointUpdate) return false;
 
@@ -63,7 +71,7 @@ namespace pmf
             {
                 if (_events.find(e) != _events.end())
                 {
-                    assert(e->GetType() == DeathSite);
+                    assert(e->GetType() == NormalDeath);
 
                     EventPoint tmp = (*_events.find(e));
                     _events.erase(_events.find(e));

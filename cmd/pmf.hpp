@@ -41,6 +41,8 @@ namespace pmf
             inline
             void CheckNewBirthSite (Event *, EventsSchedule<REAL> *, long &);
             inline
+            bool IsPointInsideTheField (REAL, REAL);
+            inline
             void ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);

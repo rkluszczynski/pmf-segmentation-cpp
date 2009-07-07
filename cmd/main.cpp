@@ -15,8 +15,8 @@ int main(int argc, char **argv)
     double size = 1;//21;
     PMF<double> * ppmf = new PMF<double>(size, size);
     //ppmf->SetSeed(1168); //przy size=2
-    //ppmf->SetSeed(8417); //size=1
-    ppmf->SetSeed(atoi(argv[1]));
+    ppmf->SetSeed(510710); //size=1
+    //ppmf->SetSeed(atoi(argv[1]));
 
     wxLog::SetVerbose(true);
 
