@@ -18,12 +18,12 @@ namespace pmf
         {
             public :
                 SweepComparator(const SweepLineStatus & slst) : _slst(slst) {}
-                bool operator() (const ENTRY & lhs, const ENTRY & rhs) const { return _slst.BelowComparator(lhs, rhs); }
+                bool operator() (ENTRY * const & lhs, ENTRY * const & rhs) const { return _slst.BelowComparator(lhs, rhs); }
             private :
                 const SweepLineStatus & _slst;
         };
 
-        typedef std::set<ENTRY, SweepComparator> STATUS;
+        typedef std::set<ENTRY *, SweepComparator> STATUS;
 
 
         public :
@@ -50,7 +50,7 @@ namespace pmf
             //pair<Iterator,bool> Insert(SEGMENT * seg)
             //{
                 assert( _endids.insert( seg->GetQ()->id ).ND );
-                return _st.insert( ENTRY(_x0, seg) );
+                return _st.insert( new ENTRY(_x0, seg) );
             }
             /*
             void Swap(const POINT & pt, SEGMENT * seg1, SEGMENT * seg2)
@@ -86,14 +86,21 @@ namespace pmf
             void Erase(Iterator it)
             {
                 assert(! IsNull(it));
-                SEGMENT * tmp = it->GetSegment();
+                SEGMENT * tmp = (*it)->GetSegment();
                 _endids.erase( tmp->GetQ()->id );
+                delete *it;
                 _st.erase(it);
                 //delete tmp;
             }
 
             bool IsNull(Iterator it) { return it == _st.end(); }
-            Iterator Find(SEGMENT * seg) { return _st.find( ENTRY(_x0, seg) ); }
+            Iterator Find(SEGMENT * seg)
+            {
+                ENTRY * entry = new ENTRY(_x0, seg);
+                Iterator it = _st.find( entry );
+                delete entry;
+                return it;
+            }
 
             Iterator Above(Iterator it) { return ((it == _st.begin()) ? _st.end() : --it); }
             Iterator Above(SEGMENT * seg) { return Above(Find(seg)); }
@@ -101,11 +108,11 @@ namespace pmf
             Iterator Below(Iterator it) { return (++it); }
             Iterator Below(SEGMENT * seg) { return Below(Find(seg)); }
 
-            bool BelowComparator(const ENTRY & e1, const ENTRY & e2) const
+            bool BelowComparator(ENTRY * const & e1, ENTRY * const & e2) const
             {
 /// TODO (klusi#3#): cases with vertical segment(s)
-                REAL y1 = e1.yy0(_x0);
-                REAL y2 = e2.yy0(_x0);
+                REAL y1 = e1->yy0(_x0);
+                REAL y2 = e2->yy0(_x0);
                 bool res = (y1 < y2);
                 /*
                 cout << "[?]  " << _x0 << endl;
@@ -122,7 +129,7 @@ namespace pmf
             friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
             {
                 out << "[ STATUS SEGMENTS ] : at position " << lss->_x0 << endl;
-                FOREACH(it, (*lss)) cout << " " << *it << endl;
+                FOREACH(it, (*lss)) cout << " " << *(*it) << endl;
                 out << "[ STATUS IDS ] :";
                 FOREACH(it, (lss->_endids)) cout << " " << *it;
                 out << endl;

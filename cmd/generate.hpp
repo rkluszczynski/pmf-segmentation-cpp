@@ -178,20 +178,20 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     //if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
     if (! line->IsNull(ita))
     {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, ita->GetSegment(), id);
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*ita)->GetSegment(), id);
         if (cpt)
         {
-            DeathEvent * de = new DeathEvent(cpt, nseg, ita->GetSegment());
+            DeathEvent * de = new DeathEvent(cpt, nseg, (*ita)->GetSegment());
             evts->Insert(de);
         }
     }
     //if (! line->IsNull(itb)  &&  itb->GetSegment()->GetP() != parent)
     if (! line->IsNull(itb))
     {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, itb->GetSegment(), id);
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*itb)->GetSegment(), id);
         if (cpt)
         {
-            DeathEvent * de = new DeathEvent(cpt, nseg, itb->GetSegment());
+            DeathEvent * de = new DeathEvent(cpt, nseg, (*itb)->GetSegment());
             evts->Insert(de);
         }
     }
@@ -320,8 +320,8 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     SweepIterator it_1 = line->Find( s1 );
     SweepIterator it1a = line->Above( it_1 );
     SweepIterator it1b = line->Below( it_1 );
-    if (! line->IsNull(it1a))  nn.insert( it1a->GetSegment() );
-    if (! line->IsNull(it1b))  nn.insert( it1b->GetSegment() );
+    if (! line->IsNull(it1a))  nn.insert( (*it1a)->GetSegment() );
+    if (! line->IsNull(it1b))  nn.insert( (*it1b)->GetSegment() );
 
     if (s2)
     {
@@ -329,8 +329,8 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         SweepIterator it_2 = line->Find( s2 );
         SweepIterator it2a = line->Above( it_2 );
         SweepIterator it2b = line->Below( it_2 );
-        if (! line->IsNull(it2a))  nn.insert( it2a->GetSegment() );
-        if (! line->IsNull(it2b))  nn.insert( it2b->GetSegment() );
+        if (! line->IsNull(it2a))  nn.insert( (*it2a)->GetSegment() );
+        if (! line->IsNull(it2b))  nn.insert( (*it2b)->GetSegment() );
     }
 
     nn.erase( s1 );
