@@ -71,6 +71,7 @@ namespace pmf
             {
                 if (_events.find(e) != _events.end())
                 {
+/// FIXME (klusi#3#): two border points in the same place from different births
                     assert(e->GetType() == NormalDeath);
 
                     EventPoint tmp = (*_events.find(e));

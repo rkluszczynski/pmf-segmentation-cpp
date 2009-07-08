@@ -100,8 +100,9 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
     if (seg1->GetP()->id == seg2->GetP()->id) return NULL;
 
     Point<REAL> * result = NULL;
-    int collision = CheckIntersection<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
+    int collision = CheckIntersection2<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                              seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
+    cout << "COLLISION VALUE = " << collision << endl;
     if (collision > 0)
     {
         pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
@@ -130,16 +131,17 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     if (IsPointInsideTheField(npt->x, npt->y))
     {
         // npt inside the field
+        cout << " ---->  new point : " << npt << endl;
         // new event
         UpdateEvent * e = new UpdateEvent(npt, nseg);
         evts->Insert(e);
     }
     else {
         // npt outside the field
-        int up    = CheckIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, GetWidth(), 0.0);
-        int down  = CheckIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, GetHeight(), GetWidth(), GetHeight());
-        int right = CheckIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight());
-        int left  = CheckIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight());
+        int up    = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, GetWidth(), 0.0);
+        int down  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, GetHeight(), GetWidth(), GetHeight());
+        int right = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight());
+        int left  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight());
 
         /// FIXME (Rafel#1#): what if point is on border ??
 
@@ -164,6 +166,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         npt->l2 = 0.0;
         npt->type = PT_DeathOnBorder;
 
+        cout << " ---->  new point : " << npt << endl;
         // new event
         DeathEvent * e = new DeathEvent(npt, nseg);
         evts->Insert(e);

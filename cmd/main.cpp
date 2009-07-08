@@ -11,6 +11,7 @@ using namespace std;
 int main(int argc, char **argv)
 {
     using namespace pmf;
+    cout.precision(11);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
     PMF<double> * ppmf = new PMF<double>(size, size);

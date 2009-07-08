@@ -91,15 +91,39 @@ namespace pmf
             sgnDetRSQ = SgnDet(xr, yr, xs, ys, xq, yq);
 
             if ( (sgnDetPQR != 0  ||  sgnDetPQS != 0)  &&
-              (sgnDetRSP != 0  ||  sgnDetRSQ != 0)  &&
-              sgnDetPQR == - sgnDetPQS  &&  sgnDetRSP == - sgnDetRSQ
-            )
-            return(1);
+                 (sgnDetRSP != 0  ||  sgnDetRSQ != 0)  &&
+                sgnDetPQR == - sgnDetPQS  &&  sgnDetRSP == - sgnDetRSQ
+               )
+                return(1);
             if (IsOnSegment(xp, yp, xq, yq, xr, yr)) return(2);
             if (IsOnSegment(xp, yp, xq, yq, xs, ys)) return(3);
             if (IsOnSegment(xr, yr, xs, ys, xp, yp)) return(4);
             if (IsOnSegment(xr, yr, xs, ys, xq, yq)) return(5);
             return(0);
+        }
+
+
+        template <class REAL>
+        int
+        CheckIntersection2 ( REAL xp, REAL yp, REAL xq, REAL yq /* Line 1 ( p-q ) */,
+                             REAL xr, REAL yr, REAL xs, REAL ys /* Line 2 ( r-s ) */ )
+        /* Returning values:
+         *    0  - lines do not cross
+         *    1  - lines crosses each others
+         *  2..5 - end of one line belongs to other line
+         */
+        {
+            pair<REAL, REAL> ipt = CalculateIntersection(xp, yp, xq, yq, xr, yr, xs, ys);
+            REAL x = ipt.ST;
+            REAL y = ipt.ND;
+
+            REAL xmin = max( min(xp, xq), min(xr, xs) );
+            REAL xmax = min( max(xp, xq), max(xr, xs) );
+            REAL ymin = max( min(yp, yq), min(yr, ys) );
+            REAL ymax = min( max(yp, yq), max(yr, ys) );
+
+            if (x < xmin ||  xmax < x || y < ymin || ymax < y) return 0;
+            return 1;
         }
 
 
