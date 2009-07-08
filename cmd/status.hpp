@@ -37,9 +37,10 @@ namespace pmf
 
             void SetSweepLinePosition(REAL x)
             {
-                assert(x >= _x0);
+                using Geometry::IsZero;
+                assert(x >= _x0 || IsZero(x - _x0));
                 cout << "!!! SWEEP LINE POSITION set to " << x << "   #######" << endl;
-                _x0 = x;
+                if (x >= _x0) _x0 = x;
             }
 
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
@@ -110,13 +111,43 @@ namespace pmf
 
             bool BelowComparator(ENTRY * const & e1, ENTRY * const & e2) const
             {
+                using Geometry::IsZero;
 /// TODO (klusi#3#): cases with vertical segment(s)
+                SEGMENT * s1 = e1->GetSegment();
+                SEGMENT * s2 = e2->GetSegment();
+
                 REAL y1 = e1->yy0(_x0);
                 REAL y2 = e2->yy0(_x0);
+                //bool res = true;
                 bool res = (y1 < y2);
                 /*
-                cout << "[?]  " << _x0 << endl;
-                cout << "[?]  " << e1 << "  <  " << e2 << "   ::   (" << y1 << " < " << y2 << ") == " << (res ? "T" : "F") << endl;
+                cout << "[?]  _________" << _x0 << endl;
+                cout << "[?]  " << *e1 << "  <  " << *e2 << "   ::   (" << y1 << " < " << y2 << ") " << endl;
+                //*/
+                if (s1 != s2  &&  s1->GetP() == s2->GetP())
+                {
+                    //cout << "[?]  EQUAL  ";
+                    if (s1->isVertical() && !s2->isVertical())
+                    {
+                        //cout << "#######  1   " << s1->GetQ()->y << "   ";
+                        if (y1 < s1->GetQ()->y) res = false;
+                        else res = true;
+                    }
+                    else if (!s1->isVertical() && s2->isVertical())
+                    {
+                        //cout << "#######  2   " << s2->GetQ()->y << "   ";
+                        if (y2 < s2->GetQ()->y) res = true;
+                        else res = false;
+                    }
+                    else if (s1->isVertical() && s2->isVertical())
+                    {
+                        //cout << "#######  3   ";
+                        assert(!(s1->isVertical() && s2->isVertical()));
+                    }
+                }
+                /*
+                cout.precision(12);
+                cout << "[?]  (" << y1 << " < " << y2 << ") == " << (res ? "T" : "F") << endl;
                 //*/
                 return res;
                 //return e1.yy0(_x0) < e2.yy0(_x0);// ||
