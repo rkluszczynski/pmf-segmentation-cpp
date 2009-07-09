@@ -43,7 +43,7 @@ namespace pmf
             inline
             bool IsPointInsideTheField (REAL, REAL);
             inline
-            void ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            bool ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline

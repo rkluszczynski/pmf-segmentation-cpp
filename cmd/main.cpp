@@ -8,6 +8,7 @@ using namespace std;
 #include "../cmd/birthsites.hpp"
 #include "../cmd/pmf.hpp"
 
+
 int main(int argc, char **argv)
 {
     using namespace pmf;

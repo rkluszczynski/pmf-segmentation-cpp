@@ -108,7 +108,8 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
         pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
                                             seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
-/// FIXME (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON)
+        /// TODO (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON)
+        /// NOTE (klusi#1#): note in previous line probably fixed by ordering
         if (IsPointInsideTheField(cpt.ST, cpt.ND))
             result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
     }
@@ -117,8 +118,7 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
 
 
 template <class REAL>
-inline
-void
+bool
 PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
@@ -134,7 +134,13 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         cout << " ---->  new point : " << npt << endl;
         // new event
         UpdateEvent * e = new UpdateEvent(npt, nseg);
-        evts->Insert(e);
+        bool ans = evts->Insert(e);
+        if (! ans)
+        {
+            delete nseg;
+            delete e;
+            return false;
+        }
     }
     else {
         // npt outside the field
@@ -169,7 +175,13 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         cout << " ---->  new point : " << npt << endl;
         // new event
         DeathEvent * e = new DeathEvent(npt, nseg);
-        evts->Insert(e);
+        bool ans = evts->Insert(e);
+        if (! ans)
+        {
+            delete nseg;
+            delete e;
+            return false;
+        }
     }
 
     pair<SweepIterator, bool> res = line->Insert(parent, nseg);
@@ -198,8 +210,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
             evts->Insert(de);
         }
     }
-
-    return;
+    return true;
 }
 
 
@@ -209,23 +220,40 @@ void
 PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
 {
     using namespace Probability;
-
-    //if (ev->GetPoint()->type == PT_BirthOnBorder)  {  ProcessUpdateEvent(ev, evts, id); return; }
+    Point<REAL> * newpt1 = NULL, *newpt2 = NULL;
 
     Point<REAL> * pt = ev->GetPoint();
-    REAL upperLength = Exp<REAL>(2.0);
-    REAL lowerLength = Exp<REAL>(2.0);
-    REAL upperAngle, lowerAngle;
-    DetermineBirthAngles (upperAngle, lowerAngle);
+    while(true)
+    {
+        REAL upperLength = Exp<REAL>(2.0);
+        REAL lowerLength = Exp<REAL>(2.0);
+        REAL upperAngle, lowerAngle;
+        DetermineBirthAngles (upperAngle, lowerAngle);
 
-    Point<REAL> * newpt1 = pt->GenerateNeighbour(1, upperAngle, id, upperLength);
-    //pmf_store_points_in_blocks (newpt1, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
-    ArrangeNewEvent(newpt1, evts, line, id);
-
-    Point<REAL> * newpt2 = pt->GenerateNeighbour(2, lowerAngle, id, lowerLength);
-    //pmf_store_points_in_blocks (newpt2, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
-    ArrangeNewEvent(newpt2, evts, line, id);
-
+        if (! newpt1)
+        {
+            newpt1 = pt->GenerateNeighbour(1, upperAngle, id, upperLength);
+            bool ans = ArrangeNewEvent(newpt1, evts, line, id);
+            if (! ans)
+            {
+                delete newpt1;
+                newpt1 = NULL;
+                continue;
+            }
+        }
+        if (! newpt2)
+        {
+            newpt2 = pt->GenerateNeighbour(2, lowerAngle, id, lowerLength);
+            bool ans = ArrangeNewEvent(newpt2, evts, line, id);
+            if (! ans)
+            {
+                delete newpt2;
+                newpt2 = NULL;
+                continue;
+            }
+        }
+        break;
+    }
     return;
 }
 
@@ -247,24 +275,27 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         delete seg;
     }
 
-    REAL angle, newAngle;
-    if (pt->type == PT_Update)  angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
-    else  angle = 0.0;
-    DetermineUpdateAngle<REAL> (newAngle);
+    while(true)
+    {
+        REAL angle, newAngle;
+        if (pt->type == PT_Update)  angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
+        else  angle = 0.0;
+        DetermineUpdateAngle<REAL> (newAngle);
 
-    newAngle += angle;
-    if (newAngle > M_PI_2)  newAngle -= M_PI;
-    if (newAngle < -M_PI_2) newAngle += M_PI;
+        newAngle += angle;
+        if (newAngle > M_PI_2)  newAngle -= M_PI;
+        if (newAngle < -M_PI_2) newAngle += M_PI;
 
-    if (pt->type == PT_BirthOnBorder  &&  pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
-    if (pt->type == PT_BirthOnBorder  &&  pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
+        if (pt->type == PT_BirthOnBorder  &&  pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
+        if (pt->type == PT_BirthOnBorder  &&  pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
 
-    int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
-    Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
-    //pmf_store_points_in_blocks (newPt, birthList, crossList, pt, id, fieldHeight, fieldWidth, blocksLists);
-    cout << " -> new point  :  " << newpt << endl;
-    ArrangeNewEvent(newpt, evts, line, id);
+        int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
+        Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
+        cout << " -> new point  :  " << newpt << endl;
+        if (ArrangeNewEvent(newpt, evts, line, id)) break;
 
+        delete newpt;
+    }
     return;
 }
 

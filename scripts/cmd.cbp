@@ -41,6 +41,7 @@
 		<Unit filename="../cmd/events.hpp" />
 		<Unit filename="../cmd/generate.hpp" />
 		<Unit filename="../cmd/geometry.hpp" />
+		<Unit filename="../cmd/main-gen.cpp" />
 		<Unit filename="../cmd/main.cpp" />
 		<Unit filename="../cmd/pmf.cpp">
 			<Option target="&lt;{~None~}&gt;" />

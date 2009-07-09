@@ -29,8 +29,8 @@ using namespace std;
 
 #define EPSILON 1e-7
 
-#define PMFLog(X)  wxLogMessage(wxT(X));
-#define PMFLogV(X) wxLogVerbose(wxT(X));
+#define PMFLog(FRT, ARGS...)  wxLogMessage(wxString::Format(_(FRT), ##ARGS));
+#define PMFLogV(FRT, ARGS...) wxLogVerbose(wxString::Format(_(FRT), ##ARGS));
 
 
 #endif // MACROS_HPP_INCLUDED

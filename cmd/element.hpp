@@ -57,7 +57,6 @@ namespace pmf
     SweepLineElement<REAL> :: CalculateLinearFunctionValue (SEGMENT * s, REAL x) const
     {
         if (s->isVertical())  return s->GetP()->y;
-        /// TODO (Rafel#1#): analyze sweep line placemant of vertical segments
         assert(! s->isVertical());
         REAL sslope = s->slope();
         REAL b = s->GetP()->y - sslope * s->GetP()->x;

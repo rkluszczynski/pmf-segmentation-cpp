@@ -42,6 +42,10 @@ namespace pmf
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
                 if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             }
+            //*
+            if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
+            if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
+            //*/
             /*
             if(p1->type()==SOURCE && p2->type()==SOURCE && p1->segment()->slope()>p2->segment()->slope()) return true;
             if(p1->type()==SOURCE && p2->type()==SOURCE && p1->segment()->slope()<p2->segment()->slope()) return false;
@@ -71,7 +75,9 @@ namespace pmf
             {
                 if (_events.find(e) != _events.end())
                 {
-/// FIXME (klusi#3#): two border points in the same place from different births
+                    //assert(e->GetType() == NormalDeath);
+                    /// NOTE (klusi#3#): when two border points in the same place from different births point is generated again
+                    if (e->GetType() != NormalDeath) return false;
                     assert(e->GetType() == NormalDeath);
 
                     EventPoint tmp = (*_events.find(e));
