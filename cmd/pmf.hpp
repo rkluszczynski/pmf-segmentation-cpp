@@ -21,6 +21,7 @@ namespace pmf
 
             void SetSeed(time_t);
             bool LoadPMF(const char *);
+            bool SavePMF(const char *);
             //bool SaveConfiguration(const char *);
             //bool SaveConfigurationAsSVG(const char *, double, double);
             void DrawPMF (wxMemoryDC& dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
@@ -58,8 +59,10 @@ namespace pmf
     };
 
 
-#include "pmf.cpp"
+    #include "pmf.cpp"
 
+
+    typedef PMF<double> DoublePMF;
 }
 
 

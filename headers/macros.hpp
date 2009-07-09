@@ -2,9 +2,13 @@
 #define MACROS_HPP_INCLUDED
 
 #include <cstdio>
-#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include <climits>
-#include <cassert>
+#include <cmath>
+#include <ctime>
+#include <unistd.h>
+#include <sys/timeb.h>
 
 #include <iostream>
 #include <fstream>
@@ -13,6 +17,12 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+
+#include <wx/wx.h>
+#include <wx/log.h>
+
+#include <cassert>
+
 
 #define ST first
 #define ND second
@@ -29,8 +39,8 @@ using namespace std;
 
 #define EPSILON 1e-7
 
-#define PMFLog(FRT, ARGS...)  wxLogMessage(wxString::Format(_(FRT), ##ARGS));
-#define PMFLogV(FRT, ARGS...) wxLogVerbose(wxString::Format(_(FRT), ##ARGS));
+#define PMFLog(FRT, ARGS...)  wxLogMessage(wxString::Format(wxT(FRT), ##ARGS));
+#define PMFLogV(FRT, ARGS...) wxLogVerbose(wxString::Format(wxT(FRT), ##ARGS));
 
 
 #endif // MACROS_HPP_INCLUDED

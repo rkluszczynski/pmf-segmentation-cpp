@@ -6,6 +6,7 @@
 #include "../cmd/probability.hpp"
 #include "../cmd/schedule.hpp"
 #include <wx/string.h>
+#include <wx/log.h>
 
 
 template <class REAL>
@@ -489,9 +490,6 @@ PMF<REAL> :: GenerateField ()
         evts->Erase(evt);
         cout << "-------------------------------------------------" << endl;
     }
-    //cf->ShowConfiguration(cout);
-    cf->SaveToFile("output/gen-cmd.txt");
-
     delete line;
     delete evts;
     return;

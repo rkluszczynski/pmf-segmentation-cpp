@@ -33,10 +33,23 @@ template <class REAL>
 bool
 PMF<REAL> :: LoadPMF (const char * filename)
 {
-    wxLogMessage(wxString::Format(_("[ LOAD ] : loading configuration from a file '%s'"), filename));
+    PMFLog("[ LOAD ] : configuration from a file '%s'", wxString::FromAscii(filename).c_str());
     ifstream fin(filename);
     cf->LoadConfiguration(fin);
     fin.close();
+    return true;
+}
+
+
+template <class REAL>
+bool
+PMF<REAL> :: SavePMF (const char * filename)
+{
+    PMFLog("[ SAVE ] : configuration to a file '%s'", wxString::FromAscii(filename).c_str());
+    cf->SetPointsIDs();
+    ofstream fout(filename);
+    cf->PrintConfiguration(fout);
+    fout.close();
     return true;
 }
 

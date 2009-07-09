@@ -3,6 +3,7 @@
 
 #include "../headers/macros.hpp"
 #include "../cmd/point.hpp"
+#include <wx/dcmemory.h>
 
 namespace pmf
 {
@@ -13,6 +14,7 @@ namespace pmf
             REAL fieldWidth, fieldHeight;
             vector<Point<REAL> *> * pts;
 
+            inline
             void DestroyPoints();
 
 
@@ -22,7 +24,7 @@ namespace pmf
 
             void PushBack( Point<REAL> * pt ) { pts->push_back(pt); }
             //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
-            void SetPointsIds ();
+            void SetPointsIDs ();
 
             inline REAL GetFieldWidth()  { return  fieldWidth; }
             inline REAL GetFieldHeight() { return fieldHeight; }
@@ -60,18 +62,14 @@ namespace pmf
     {
         DestroyPoints();
         delete pts;
-        //cerr << "[ CONF ] : destructing" << endl;
     }
 
     template <class REAL>
-    void Configuration<REAL>::DestroyPoints ()
-    {
-        FOREACH(it, *pts)  delete *it;
-    }
+    void Configuration<REAL>::DestroyPoints ()  { FOREACH(it, *pts)  delete *it; }
 
 
     template <class REAL>
-    void Configuration<REAL>::SetPointsIds ()
+    void Configuration<REAL>::SetPointsIDs ()
     {
         //REP(i, pts->size())  pts->at(i)->id = i+1;
         int n = 0;
@@ -123,7 +121,7 @@ namespace pmf
     {
         std::cerr << std::endl <<"[ SAVE ] : saving configuration to a file '" << filename << "'" << std::endl;
         ofstream fout(filename);
-        SetPointsIds();
+        SetPointsIDs();
         PrintConfiguration(fout);
         fout.close();
     }
