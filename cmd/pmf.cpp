@@ -26,7 +26,12 @@ PMF<REAL> :: SetSeed(time_t _seed)
 
 
 #include "generate.hpp"
+
 #include "rotate.hpp"
+#include "prepare.hpp"
+#include "evolve.hpp"
+
+#include "adding.hpp"
 
 
 template <class REAL>

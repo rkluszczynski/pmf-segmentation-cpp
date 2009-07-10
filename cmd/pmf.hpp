@@ -19,6 +19,9 @@ namespace pmf
             void GenerateField();
             void RotatePoints (REAL, REAL);
 
+            void AddBirthPoint(REAL, REAL, REAL);
+
+
             void SetSeed(time_t);
             bool LoadPMF(const char *);
             bool SavePMF(const char *);
@@ -56,6 +59,13 @@ namespace pmf
             inline
             Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &);
 
+            inline
+            void PrepareEvolution ();
+            inline
+            void DeleteFuturePath ();
+            inline
+            void EvolveRestOfField ();
+
     };
 
 
@@ -63,6 +73,8 @@ namespace pmf
 
 
     typedef PMF<double> DoublePMF;
+
+    std::ostream out(std::clog.rdbuf());
 }
 
 

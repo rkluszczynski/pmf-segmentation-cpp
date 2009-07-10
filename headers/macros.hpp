@@ -11,6 +11,7 @@
 #include <sys/timeb.h>
 
 #include <iostream>
+#include <ostream>
 #include <fstream>
 #include <string>
 #include <map>
@@ -37,7 +38,7 @@
 using namespace std;
 
 
-#define EPSILON 1e-7
+#define EPSILON 1e-9
 
 #define PMFLog(FRT, ARGS...)  wxLogMessage(wxString::Format(wxT(FRT), ##ARGS));
 #define PMFLogV(FRT, ARGS...) wxLogVerbose(wxString::Format(wxT(FRT), ##ARGS));

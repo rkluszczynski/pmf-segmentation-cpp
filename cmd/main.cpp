@@ -11,8 +11,9 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+    //*
     using namespace pmf;
-    cout.precision(11);
+    cout.precision(12);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
     PMF<double> * ppmf = new PMF<double>(size, size);
@@ -26,6 +27,11 @@ int main(int argc, char **argv)
     cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
     assert(pmf::pmf_point_counter == ppmf->GetCount());
 
+    ppmf->AddBirthPoint(0.5, 0.5, M_PI);
+
+    cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
+    assert(pmf::pmf_point_counter == ppmf->GetCount());
+
     cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;
     cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
     cout << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
@@ -33,6 +39,26 @@ int main(int argc, char **argv)
     delete ppmf;
     cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
 
+    return 0;
+    //*/
+
+    ofstream fin("output/log.txt");
+
+    wxLog* logger = new wxLogStream(&fin);
+    //logger = new wxLogStream();
+    wxLog::SetActiveTarget(logger);
+
+    PMFLog("check %i", 1);
+    wxLog::Suspend();
+    wxLogNull * q = new wxLogNull();
+    PMFLog("check %i", 2);
+
+    cout << "Test do couta " << endl;
+    wxLog::Resume();
+    delete q;
+    PMFLog("check %i", 17);
+
+    fin.close();
     return 0;
 
     BirthSites<double> bs;

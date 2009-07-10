@@ -8,71 +8,51 @@ template <class REAL>
 void
 PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
 {
-    /*
-    Element<pmf_point<T_REAL> > * elem = pmfConf->getHead();
-#if PRINT_INFO
-    std::cerr << " sinL = " << sinL << std::endl;
-    std::cerr << " cosL = " << cosL << std::endl;
-#endif
-    while (elem) {
-        pmf_point<T_REAL> * pt = elem->data;
+    PMFLog("Rotating configuration with  sinL = %f  and  cosL = %f", sinL, cosL);
 
-        pmf_point<T_REAL> * n1 = pt->n1;
-        pmf_point<T_REAL> * n2 = pt->n2;
-
-        REAL rotX = X_ROTATED(pt->x, pt->y, sinL, cosL);
-        switch (pt->type) {
-            case PT_BIRTH_NORMAL :
-            case PT_INTERSECTION :
-            case PT_UPDATE :
-#if CHECK_ASSERTIONS
-                assert(n1 != NULL);
-                assert(n2 != NULL);
-#endif
-                {
-                    T_REAL rotX1 = X_ROTATED(n1->x, n1->y, sinL, cosL);
-                    T_REAL rotX2 = X_ROTATED(n2->x, n2->y, sinL, cosL);
-
-                    if (rotX < rotX1) {
-                        if (rotX < rotX2)  { pt->type = PT_BIRTH_NORMAL; }
-                        else  {
-                            pt->type = PT_UPDATE;
-                            std::swap(pt->n1, pt->n2);
-                            std::swap(pt->l1, pt->l2);
-                        }
-                    }
-                    else {
-                        if (rotX < rotX2)  {
-                            pt->type = PT_UPDATE;
-                            //std::swap(pt->n1, pt->n2);
-                        }
-                        else  { pt->type = PT_INTERSECTION; }
-                    }
-                }
-                break;;
-            case PT_BIRTH_LEFT :
-            case PT_BIRTH_DOWN :
-            case PT_BIRTH_UP :
-            case PT_BORDER :
-#if CHECK_ASSERTIONS
-                assert(n1 != NULL);
-                assert(n2 == NULL);
-#endif
-                {
-                    T_REAL rotX0 = X_ROTATED(n1->x, n1->y, sinL, cosL);
-
-                    if (rotX < rotX0)  pt->type = PT_BIRTH_LEFT;
-                    else  pt->type = PT_BORDER;
-                }
-                break;;
-#if CHECK_ASSERTIONS
-            default :
-                assert(false);
-#endif
-        }
-        elem = elem->next;
+    FOREACH(it, *cf)
+    {
+        it->rotx = X_ROTATED(it->x, it->y, sinL, cosL);
+        it->roty = Y_ROTATED(it->x, it->y, sinL, cosL);
     }
-    //*/
+
+    /* Changing types of points */
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        Point<REAL> * n1 = pt->n1;
+        Point<REAL> * n2 = pt->n2;
+
+        if (n1 && n2)
+        {
+            if (pt->rotx < n1->rotx)
+            {
+                if (pt->rotx < n2->rotx)  { pt->type = PT_BirthInField; }
+                else {
+                    pt->type = PT_Update;
+                    std::swap(pt->n1, pt->n2);
+                    std::swap(pt->l1, pt->l2);
+                }
+            }
+            else {
+                if (pt->rotx < n2->rotx) { pt->type = PT_Update; }
+                else {
+                    pt->type = PT_Collision;
+                }
+            }
+        }
+        else if (n1)
+        {
+            assert(n2 == NULL);
+            if (pt->rotx < n1->rotx)
+                pt->type = PT_BirthOnBorder;
+            else
+                pt->type = PT_DeathOnBorder;
+        }
+        else
+            assert(n1 && n2 && false);
+    }
+
     return;
 }
 #undef X_ROTATED

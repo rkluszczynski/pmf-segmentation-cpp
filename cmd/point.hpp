@@ -29,6 +29,7 @@ namespace pmf
         long int id;
         long int oid;
         PointType type;
+        REAL rotx, roty;
 
 
         Point ( REAL xx,  REAL yy, 	REAL ll1,  REAL ll2,  long int idi )
