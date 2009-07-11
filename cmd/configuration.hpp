@@ -12,15 +12,20 @@ namespace pmf
     {
         private :
             REAL fieldWidth, fieldHeight;
-            vector<Point<REAL> *> * pts;
+            std::vector<Point<REAL> *> * pts;
 
             inline
             void DestroyPoints();
 
 
         public :
+            typedef typename std::vector<Point<REAL> *>::iterator Iterator;
+
             Configuration(REAL, REAL);
             ~Configuration();
+
+            Iterator begin() const { return pts->begin(); }
+            Iterator end()   const { return pts->end(); }
 
             void PushBack( Point<REAL> * pt ) { pts->push_back(pt); }
             //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
@@ -45,6 +50,8 @@ namespace pmf
             void load_configuration (std::istream & in);
             bool remove_point_with_id (long);
             */
+
+            inline void ClearPointsContainer() { pts->clear(); }
     };
 
 

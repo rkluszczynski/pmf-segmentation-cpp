@@ -12,8 +12,10 @@ PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
 
     FOREACH(it, *cf)
     {
-        it->rotx = X_ROTATED(it->x, it->y, sinL, cosL);
-        it->roty = Y_ROTATED(it->x, it->y, sinL, cosL);
+        Point<REAL> * pt = *it;
+        pt->StoreCoordinates();
+        pt->x = X_ROTATED(pt->x, pt->y, sinL, cosL);
+        pt->y = Y_ROTATED(pt->x, pt->y, sinL, cosL);
     }
 
     /* Changing types of points */
@@ -25,9 +27,9 @@ PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
 
         if (n1 && n2)
         {
-            if (pt->rotx < n1->rotx)
+            if (pt->x < n1->x)
             {
-                if (pt->rotx < n2->rotx)  { pt->type = PT_BirthInField; }
+                if (pt->x < n2->x)  { pt->type = PT_BirthInField; }
                 else {
                     pt->type = PT_Update;
                     std::swap(pt->n1, pt->n2);
@@ -35,7 +37,7 @@ PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
                 }
             }
             else {
-                if (pt->rotx < n2->rotx) { pt->type = PT_Update; }
+                if (pt->x < n2->x) { pt->type = PT_Update; }
                 else {
                     pt->type = PT_Collision;
                 }
@@ -44,7 +46,7 @@ PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
         else if (n1)
         {
             assert(n2 == NULL);
-            if (pt->rotx < n1->rotx)
+            if (pt->x < n1->x)
                 pt->type = PT_BirthOnBorder;
             else
                 pt->type = PT_DeathOnBorder;

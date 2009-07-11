@@ -6,6 +6,18 @@ template <class REAL>
 void
 PMF<REAL> :: EvolveRestOfField ()
 {
+
+
+
+
+
+/*
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        pt->ResumeCoordinates();
+    }
+    //*/
     return;
 }
 

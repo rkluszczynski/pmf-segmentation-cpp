@@ -58,12 +58,12 @@ namespace pmf
     };
 
 
-    template <class REAL = double>
+    template <class REAL = double, class COMP = event_before<Event *> >
     class EventsSchedule
     {
         typedef Point<double> POINT;
         typedef Event * EventPoint;
-        typedef std::set<EventPoint, event_before<EventPoint> > EventList;
+        typedef std::set<EventPoint, COMP > EventList;
 
         public:
             EventsSchedule() {};
@@ -119,9 +119,9 @@ namespace pmf
     };
 
 
-    template <class REAL>
+    template <class REAL, class COMP>
     bool
-    EventsSchedule<REAL>::InsertBirthEvent (POINT * pt)
+    EventsSchedule<REAL, COMP>::InsertBirthEvent (POINT * pt)
     {
         EventType type = (pt->type == PT_BirthOnBorder) ? BorderBirth : NormalBirth;
         BirthEvent * be = new BirthEvent(pt, type);

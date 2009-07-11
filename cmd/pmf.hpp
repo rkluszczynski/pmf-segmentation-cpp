@@ -60,7 +60,7 @@ namespace pmf
             Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &);
 
             inline
-            void PrepareEvolution ();
+            void PrepareEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
             inline
             void DeleteFuturePath ();
             inline
@@ -69,12 +69,13 @@ namespace pmf
     };
 
 
+    std::ostream out(std::cout.rdbuf());
+
+
     #include "pmf.cpp"
 
 
     typedef PMF<double> DoublePMF;
-
-    std::ostream out(std::clog.rdbuf());
 }
 
 

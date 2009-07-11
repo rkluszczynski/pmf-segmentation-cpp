@@ -29,7 +29,7 @@ namespace pmf
         long int id;
         long int oid;
         PointType type;
-        REAL rotx, roty;
+        REAL org_x, org_y;
 
 
         Point ( REAL xx,  REAL yy, 	REAL ll1,  REAL ll2,  long int idi )
@@ -53,6 +53,8 @@ namespace pmf
 
 
         Point<REAL> * GenerateNeighbour (int, REAL, long &, REAL, REAL, REAL);
+        void StoreCoordinates()   { org_x = x; org_y = y; }
+        void ResumeCoordinates()  { x = org_x; y = org_y; }
 
 
         friend std::ostream& operator << (std::ostream& out, const Point<REAL> * pt)

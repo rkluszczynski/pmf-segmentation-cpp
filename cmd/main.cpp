@@ -19,7 +19,8 @@ int main(int argc, char **argv)
     PMF<double> * ppmf = new PMF<double>(size, size);
     //ppmf->SetSeed(1168); //przy size=2
     //ppmf->SetSeed(738703); //size=1
-    ppmf->SetSeed(atoi(argv[1]));
+    //ppmf->SetSeed(atoi(argv[1]));
+    ppmf->SetSeed(1);
 
     wxLog::SetVerbose(true);
 
@@ -27,10 +28,13 @@ int main(int argc, char **argv)
     cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
     assert(pmf::pmf_point_counter == ppmf->GetCount());
 
-    ppmf->AddBirthPoint(0.5, 0.5, M_PI);
+    ppmf->SavePMF("output/cmd-gen.txt");
 
     cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
     assert(pmf::pmf_point_counter == ppmf->GetCount());
+
+    ppmf->AddBirthPoint(0.5, 0.5, M_PI);
+    ppmf->SavePMF("output/cmd-add.txt");
 
     cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;
     cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
