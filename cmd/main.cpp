@@ -45,13 +45,13 @@ int main(int argc, char **argv)
 
     return 0;
     //*/
-
+    /*
     ofstream fin("output/log.txt");
 
-    wxLog* logger = new wxLogStream(&fin);
+    wxLogStream* logger = new wxLogStream(&fin);
     //logger = new wxLogStream();
     wxLog::SetActiveTarget(logger);
-
+    //*/
     PMFLog("check %i", 1);
     wxLog::Suspend();
     wxLogNull * q = new wxLogNull();
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     delete q;
     PMFLog("check %i", 17);
 
-    fin.close();
+    //fin.close();
     return 0;
 
     BirthSites<double> bs;
