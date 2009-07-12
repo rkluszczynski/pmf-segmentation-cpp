@@ -60,11 +60,11 @@ namespace pmf
             Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &);
 
             inline
-            void PrepareEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
+            void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
             inline
             void DeleteFuturePath ();
             inline
-            void EvolveRestOfField ();
+            void EvolveTheRestOfField ();
 
     };
 

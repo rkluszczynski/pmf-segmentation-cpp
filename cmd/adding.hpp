@@ -18,16 +18,17 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
 
     PMFLog("[ ADD ] : point at (%.5lf, %.5lf) in directions at angle %.3lf (%.3lf)", xx, yy, alpha, RadiansToDegree(alpha));
 
+    cf->SetPointsIDs ();
     long oldSize = GetCount() + 1;
     long ptId = oldSize + 1;
 
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
 
-    PrepareEvolution (sinL, cosL, evts, line, rotxx);
+    PrepareTheEvolution (sinL, cosL, evts, line, rotxx);
 
 
-    EvolveRestOfField ();
+    EvolveTheRestOfField ();
 
     delete line;
     delete evts;

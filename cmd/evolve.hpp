@@ -4,7 +4,7 @@
 
 template <class REAL>
 void
-PMF<REAL> :: EvolveRestOfField ()
+PMF<REAL> :: EvolveTheRestOfField ()
 {
 
 
