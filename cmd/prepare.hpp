@@ -48,15 +48,15 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
         switch (pt->type)
         {
             case  PT_BirthInField :
-                                    break;;
+                                break;;
             case PT_BirthOnBorder :
-                                    break;;
+                                break;;
             case PT_DeathOnBorder :
-                                    break;;
+                                break;;
             case     PT_Collision :
-                                    break;;
+                                break;;
             case        PT_Update :
-                                    break;;
+                                break;;
             default:
                 assert("WRONG POINT TYPE" && false);
         }

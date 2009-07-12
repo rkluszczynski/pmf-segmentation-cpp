@@ -66,15 +66,19 @@ void
 PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & id)
 {
     using namespace Probability;
+    using namespace Geometry;
 
     if (cf->IsEmpty()) return;
 
     REAL offset = Exp<REAL>(GetHeight() * M_PI);
+    if (offset < EPSILON)  offset = 2. * EPSILON;
     Point<REAL> * prev = cf->SeeLastPoint();
     Point<REAL> * pt = ev->GetPoint();
     if (prev->x + offset < pt->x)
     {
         REAL tmpY = Uniform<REAL> (0.0, GetHeight());
+        if (IsZero(tmpY)) tmpY = 2. * EPSILON;
+        if (IsZero(GetHeight() - tmpY)) tmpY = GetHeight() - 2. * EPSILON;
         Point<REAL> * newPt = new Point<REAL>(prev->x + offset, tmpY, 0.0, 0.0, ++id, PT_BirthInField);
         evts->InsertBirthEvent(newPt);
     }
