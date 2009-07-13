@@ -3,6 +3,7 @@
 
 
 #include "../cmd/probability.hpp"
+#include "../cmd/geometry.hpp"
 
 
 namespace pmf
@@ -55,6 +56,7 @@ namespace pmf
         Point<REAL> * GenerateNeighbour (int, REAL, long &, REAL, REAL, REAL);
         void StoreCoordinates()   { org_x = x; org_y = y; }
         void ResumeCoordinates()  { x = org_x; y = org_y; }
+        bool IsEqual(REAL, REAL);
 
 
         friend std::ostream& operator << (std::ostream& out, const Point<REAL> * pt)
@@ -133,6 +135,14 @@ namespace pmf
         #undef X_ROTATED
     }
 
+
+    template <typename REAL>
+    bool
+    Point<REAL>::IsEqual(REAL xx, REAL yy)
+    {
+        using Geometry::IsZero;
+        return (IsZero(x - xx) && IsZero(y - yy));
+    }
 }
 
 

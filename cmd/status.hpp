@@ -30,7 +30,7 @@ namespace pmf
             typedef typename STATUS::iterator Iterator;
             typedef typename STATUS::const_iterator ConstInterator;
 
-            SweepLineStatus() : _st(SweepComparator(*this)), _x0(0.0) {}
+            SweepLineStatus() : _st(SweepComparator(*this)), _x0(-numeric_limits<REAL>::max())  {}
 
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }

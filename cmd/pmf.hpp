@@ -62,9 +62,13 @@ namespace pmf
             inline
             void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
             inline
+            void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            inline
+            void ForgetOldCollisionPoint (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<long> &, long &);
+            inline
             void DeleteFuturePath ();
             inline
-            void EvolveTheRestOfField ();
+            void EvolveTheRestOfField (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long);
 
     };
 

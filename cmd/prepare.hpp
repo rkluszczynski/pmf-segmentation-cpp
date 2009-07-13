@@ -16,17 +16,30 @@
     };
 
 
+    class SegmentMapComparator
+    {
+        public:
+            bool operator() (const pair<long,long> & e1, const pair<long,long> & e2) const
+            {
+                return e1.ST < e2.ST || (e1.ST == e2.ST  &&  e1.ND < e2.ND);
+            }
+    };
+
+
 template <class REAL>
 void
 PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, REAL rotxx)
 {
     typedef priority_queue<Point<REAL> *, std::vector<Point<REAL> *>, PointComparator<REAL> >         PointPriorityQueue;
     typedef priority_queue<Segment<REAL> *, std::vector<Segment<REAL> *>, SegmentComparator<REAL> > SegmentPriorityQueue;
+    typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>  SegmentsMap;
+    typedef typename SegmentsMap::iterator                                                           SegmentsMapIterator;
 
     RotatePoints (sinL, cosL);
 
     PointPriorityQueue   ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
+    SegmentsMap         smap( (SegmentMapComparator()) );
 
     cf->ClearPointsContainer();
     while (ppq.top()->x < rotxx)
@@ -42,26 +55,74 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
         ppq.pop();
         out << " ~~~~~~    " << pt << endl;
 
-        if (            pt->n1->x < rotxx)  spq.push( new Segment<REAL> (pt->n1, pt) );
-        if (pt->n2  &&  pt->n2->x < rotxx)  spq.push( new Segment<REAL> (pt->n2, pt) );
+        Segment<REAL> * s1 = NULL, * s2 = NULL;
+        if (            pt->n1->x < rotxx)  spq.push( (s1 = new Segment<REAL> (pt->n1, pt)) );
+        if (pt->n2  &&  pt->n2->x < rotxx)  spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
 
+        SegmentsMapIterator it1, it2;
         switch (pt->type)
         {
             case  PT_BirthInField :
-                                break;;
+                                if (!s2)
+                                {
+                                    s2 = new Segment<REAL> (pt, pt->n2);
+                                    smap[ make_pair(pt->id, pt->n2->id) ] = s2;
+                                }
             case PT_BirthOnBorder :
-                                break;;
-            case PT_DeathOnBorder :
+                                if (!s1)
+                                {
+                                    s1 = new Segment<REAL> (pt, pt->n1);
+                                    smap[ make_pair(pt->id, pt->n1->id) ] = s1;
+                                }
                                 break;;
             case     PT_Collision :
+                                if (!s2)
+                                {
+                                    it2 = smap.find( make_pair(pt->n2->id, pt->id) );
+                                    assert(it2 != smap.end());
+                                    s2 = it2->ND;
+                                }
+            case PT_DeathOnBorder :
+                                if (!s1)
+                                {
+                                    it1 = smap.find( make_pair(pt->n1->id, pt->id) );
+                                    assert(it1 != smap.end());
+                                    s1 = it1->ND;
+                                }
                                 break;;
             case        PT_Update :
+                                if (!s1)
+                                {
+                                    it1 = smap.find( make_pair(pt->n1->id, pt->id) );
+                                    assert(it1 != smap.end());
+                                    s1 = it1->ND;
+                                }
+                                s2 = new Segment<REAL> (pt, pt->n2);
+                                smap[ make_pair(pt->id, pt->n2->id)] = s2;
                                 break;;
             default:
                 assert("WRONG POINT TYPE" && false);
         }
+        evts->Insert( new OldEvent(pt, s1, s2) );
+        /*
+        out << " MAPA : ";
+        FOREACH(it, smap)
+        {
+            out << " {" << it->ST.ST << "," << it->ST.ND << "}";
+        }
+        out << endl;
+        //*/
     }
     //*/
+
+    while(! spq.empty())
+    {
+        Segment<REAL> * s = spq.top();
+        spq.pop();
+
+        line->Insert( s->GetP(), s );
+    }
+
     return;
 }
 

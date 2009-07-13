@@ -110,7 +110,6 @@ namespace pmf
         /* Returning values:
          *    0  - lines do not cross
          *    1  - lines crosses each others
-         *  2..5 - end of one line belongs to other line
          */
         {
             pair<REAL, REAL> ipt = CalculateIntersection(xp, yp, xq, yq, xr, yr, xs, ys);
@@ -123,6 +122,7 @@ namespace pmf
             REAL ymax = min( max(yp, yq), max(yr, ys) );
 
             if (x < xmin ||  xmax < x || y < ymin || ymax < y) return 0;
+            if (IsZero(xq-x) && IsZero(yq-y)) return 5;
             return 1;
         }
 
