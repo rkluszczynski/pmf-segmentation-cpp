@@ -44,7 +44,7 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
 template <class REAL>
 inline
 void
-PMF<REAL> :: ForgetOldCollisionPoint (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, set<Point<REAL> *> & idsok, long & id)
+PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, set<Point<REAL> *> & idsok, long & id)
 {
     typedef typename set<Point<REAL> *>::iterator  OkPointsSetIterator;
 
@@ -92,7 +92,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (Event * ev, EventsSchedule<REAL> * evts, S
         assert(dptn->l2 == length);
     }
 
-    assert( ArrangeNewEvent(newpt, evts, line, id) );
+    assert( ArrangeNewEvent(newpt, evts, line, id, sinL, cosL) );
 
     return;
 }
@@ -149,7 +149,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
             {
                 if (! line->HasSegmentWithEndId(pt->id))
                 {
-                    ForgetOldCollisionPoint(evt, evts, line, idsok, id);
+                    ForgetOldCollisionPoint(sinL, cosL, evt, evts, line, idsok, id);
                     Point<REAL> * tmp = evt->GetPoint();
                     Segment<REAL> * seg = evt->GetSegment();
                     evts->Erase(evt);
@@ -182,18 +182,18 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     break;;
             case NormalBirth :
                     PMFLogV("-> BIRTH EVENT");
-                    ProcessBirthEvent(evt, evts, line, id);
+                    ProcessBirthEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case BorderBirth :
                     PMFLogV("-> BIRTH EVENT");
             case PointUpdate :
                     PMFLogV("-> UPDATE EVENT");
-                    ProcessUpdateEvent(evt, evts, line, id);
+                    ProcessUpdateEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case NormalDeath :
             case BorderDeath :
                     PMFLogV("-> DEATH EVENT");
-                    ProcessDeathEvent(evt, evts, line, id);
+                    ProcessDeathEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             default :
                     assert(false);

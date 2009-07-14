@@ -22,7 +22,7 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
 
     Point<REAL> * result = NULL;
     int collision = CheckIntersection2<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
-                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
+                                              seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
     cout << "COLLISION VALUE = " << collision << endl;
     if (collision > 0)
     {
@@ -38,9 +38,11 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
 }
 
 
+#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (CCOS) - (YY) * (SSIN))
+#define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
 bool
-PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
+PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
     using  namespace Geometry;
@@ -48,8 +50,12 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     Point<REAL> * parent = npt->n1;
     Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
 
+    REAL nx = X_ROTATED(npt->x, npt->y, -sinL, cosL);
+    REAL ny = Y_ROTATED(npt->x, npt->y, -sinL, cosL);
+
     // determine type of event (update or death)
-    if (IsPointInsideTheField(npt->x, npt->y))
+    if (IsPointInsideTheField(nx, ny))
+    //if (IsPointInsideTheField(npt->x, npt->y))
     {
         // npt inside the field
         cout << " ---->  new point : " << npt << endl;
@@ -64,31 +70,42 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         }
     }
     else {
+        REAL px = X_ROTATED(parent->x, parent->y, -sinL, cosL);
+        REAL py = Y_ROTATED(parent->x, parent->y, -sinL, cosL);
+
         // npt outside the field
-        int up    = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, GetWidth(), 0.0);
-        int down  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, GetHeight(), GetWidth(), GetHeight());
-        int right = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight());
-        int left  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight());
+        int up    = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0);
+        int down  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight());
+        int right = CheckIntersection2<REAL>(nx, ny, px, py, GetWidth(), 0.0, GetWidth(), GetHeight());
+        int left  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, 0.0, GetHeight());
+        //int up    = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, GetWidth(), 0.0);
+        //int down  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, GetHeight(), GetWidth(), GetHeight());
+        //int right = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight());
+        //int left  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight());
 
         /// FIXME (Rafel#1#): what if point is on border ??
 
         REAL cx, cy;
         if (up != 0  &&  up != 5) {
-            CalculateIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, GetWidth(), 0.0, cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0, cx, cy);
         }
         else if (down != 0  &&  down != 5) {
-            CalculateIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, GetHeight(), GetWidth(), GetHeight(), cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight(), cx, cy);
         }
         else if (right != 0  &&  right != 5) {
-            CalculateIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight(), cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, GetWidth(), 0.0, GetWidth(), GetHeight(), cx, cy);
         }
         else if (left != 0  &&  left != 5) {
-            CalculateIntersection<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight(), cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, 0.0, 0.0, GetHeight(), cx, cy);
         }
         else assert(false);
 
-        npt->x = cx;
-        npt->y = cy;
+        npt->org_x = cx;
+        npt->org_y = cy;
+
+        npt->x = X_ROTATED(cx, cy, sinL, cosL);
+        npt->y = Y_ROTATED(cx, cy, sinL, cosL);
+
         npt->n2 = NULL;
         npt->l2 = 0.0;
         npt->type = PT_DeathOnBorder;
@@ -133,12 +150,14 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     }
     return true;
 }
+#undef X_ROTATED
+#undef Y_ROTATED
 
 
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
+PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
 {
     using namespace Probability;
     Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
@@ -154,7 +173,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         if (! newpt1)
         {
             newpt1 = pt->GenerateNeighbour(1, upperAngle, id, upperLength);
-            bool ans = ArrangeNewEvent(newpt1, evts, line, id);
+            bool ans = ArrangeNewEvent(newpt1, evts, line, id, sinL, cosL);
             if (! ans)
             {
                 delete newpt1;
@@ -165,7 +184,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         if (! newpt2)
         {
             newpt2 = pt->GenerateNeighbour(2, lowerAngle, id, lowerLength);
-            bool ans = ArrangeNewEvent(newpt2, evts, line, id);
+            bool ans = ArrangeNewEvent(newpt2, evts, line, id, sinL, cosL);
             if (! ans)
             {
                 delete newpt2;
@@ -183,7 +202,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
+PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
 {
     using namespace Probability;
 
@@ -211,7 +230,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
         Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
         cout << " -> new point  :  " << newpt << endl;
-        if (ArrangeNewEvent(newpt, evts, line, id)) break;
+        if (ArrangeNewEvent(newpt, evts, line, id, sinL, cosL)) break;
 
         delete newpt;
     }
@@ -259,7 +278,7 @@ PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id)
+PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
 

@@ -47,15 +47,15 @@ namespace pmf
             inline
             bool IsPointInsideTheField (REAL, REAL);
             inline
-            bool ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            bool ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
-            void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
-            void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             void CorrectCollisionStartPoints (Point<REAL> *, long, long);
             inline
-            void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &);
 
@@ -64,7 +64,7 @@ namespace pmf
             inline
             void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ForgetOldCollisionPoint (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
+            void ForgetOldCollisionPoint (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
             inline
             void DeleteFuturePath ();
             inline

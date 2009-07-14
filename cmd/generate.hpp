@@ -144,18 +144,18 @@ PMF<REAL> :: GenerateField ()
         {
             case NormalBirth :
                     PMFLogV("-> BIRTH EVENT");
-                    ProcessBirthEvent(evt, evts, line, id);
+                    ProcessBirthEvent(evt, evts, line, id, 0., 1.);
                     break;;
             case BorderBirth :
                     PMFLogV("-> BIRTH EVENT");
             case PointUpdate :
                     PMFLogV("-> UPDATE EVENT");
-                    ProcessUpdateEvent(evt, evts, line, id);
+                    ProcessUpdateEvent(evt, evts, line, id, 0., 1.);
                     break;;
             case NormalDeath :
             case BorderDeath :
                     PMFLogV("-> DEATH EVENT");
-                    ProcessDeathEvent(evt, evts, line, id);
+                    ProcessDeathEvent(evt, evts, line, id, 0., 1.);
                     break;;
             default :
                     assert(false);
