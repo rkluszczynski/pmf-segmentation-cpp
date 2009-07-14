@@ -9,6 +9,7 @@ void
 PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
 {
     using Geometry::RadiansToDegree;
+    using Geometry::IsZero;
 
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
@@ -21,12 +22,17 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     cf->SetPointsIDs ();
     long count = GetCount();
 
+    if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * EPSILON;
+    else if (IsZero(yy)) yy = 2. * EPSILON;
+
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
 
     PrepareTheEvolution (sinL, cosL, evts, line, rotxx);
     out << endl << line << endl << endl;
 
+    Point<REAL> * newpt = new Point<REAL>(rotxx, rotyy, 0.0, 0.0, ++count, PT_BirthInField);
+    evts->InsertBirthEvent(newpt);
 
     EvolveTheRestOfField (sinL, cosL, evts, line, count);
 

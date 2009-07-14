@@ -64,7 +64,7 @@ namespace pmf
             inline
             void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ForgetOldCollisionPoint (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<long> &, long &);
+            void ForgetOldCollisionPoint (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
             inline
             void DeleteFuturePath ();
             inline

@@ -77,8 +77,9 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
     if (prev->x + offset < pt->x)
     {
         REAL tmpY = Uniform<REAL> (0.0, GetHeight());
-        if (IsZero(tmpY)) tmpY = 2. * EPSILON;
         if (IsZero(GetHeight() - tmpY)) tmpY = GetHeight() - 2. * EPSILON;
+        else if (IsZero(tmpY)) tmpY = 2. * EPSILON;
+
         Point<REAL> * newPt = new Point<REAL>(prev->x + offset, tmpY, 0.0, 0.0, ++id, PT_BirthInField);
         evts->InsertBirthEvent(newPt);
     }

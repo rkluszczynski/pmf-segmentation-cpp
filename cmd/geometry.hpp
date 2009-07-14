@@ -182,6 +182,18 @@ namespace pmf
         REAL
         DegreeToRadians(REAL x) { return(x * M_PI / 180.0); }
 
+
+        template <class REAL>
+        inline
+        REAL
+        PointsSquareDistance(REAL x1, REAL y1, REAL x2, REAL y2) { return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2); }
+
+
+        template <class REAL>
+        inline
+        REAL
+        PointsDistance(REAL x1, REAL y1, REAL x2, REAL y2) { return sqrt( PointsSquareDistance(x1, y1, x2, y2) ); }
+
     } // namespace pmf::Geometry
 }
 

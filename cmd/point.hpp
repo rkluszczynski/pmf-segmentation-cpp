@@ -57,6 +57,7 @@ namespace pmf
         void StoreCoordinates()   { org_x = x; org_y = y; }
         void ResumeCoordinates()  { x = org_x; y = org_y; }
         bool IsEqual(REAL, REAL);
+        int WhichNeighbourHasID (long);
 
 
         friend std::ostream& operator << (std::ostream& out, const Point<REAL> * pt)
@@ -133,6 +134,18 @@ namespace pmf
         return newPt;
         #undef Y_ROTATED
         #undef X_ROTATED
+    }
+
+
+    template <typename REAL>
+    int
+    Point<REAL>::WhichNeighbourHasID (long id)
+    {
+        if (! n1) return -1;
+        if (n1->id) return 1;
+        if (! n2) return -2;
+        if (n2->id) return 2;
+        return 0;
     }
 
 
