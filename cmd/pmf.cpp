@@ -25,6 +25,7 @@ PMF<REAL> :: SetSeed(time_t _seed)
 }
 
 
+#include "common.hpp"
 #include "generate.hpp"
 
 #include "rotate.hpp"
