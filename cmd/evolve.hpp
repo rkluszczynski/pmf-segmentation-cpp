@@ -194,6 +194,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     break;;
             case NormalBirth :
                     PMFLogV("-> BIRTH EVENT");
+                    assert(step == 1);
                     ProcessBirthEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case BorderBirth :
