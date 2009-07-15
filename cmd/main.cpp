@@ -33,7 +33,10 @@ int main(int argc, char **argv)
     cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
     assert(pmf::pmf_point_counter == ppmf->GetCount());
 
+    ofstream fout("output/qq.txt");
+    out.rdbuf(fout.rdbuf());
     ppmf->AddBirthPoint(0.5, 0.5, M_PI);
+    fout.close();
     ppmf->SavePMF("output/cmd-add.txt");
 
     cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;

@@ -160,9 +160,9 @@ namespace pmf
             friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
             {
                 out << "[ STATUS SEGMENTS ] : at position " << lss->_x0 << endl;
-                FOREACH(it, (*lss)) cout << " " << *(*it) << endl;
+                FOREACH(it, (*lss)) out << " " << *(*it) << endl;
                 out << "[ STATUS IDS ] :";
-                FOREACH(it, (lss->_endids)) cout << " " << *it;
+                FOREACH(it, (lss->_endids)) out << " " << *it;
                 out << endl;
                 return out;
             }

@@ -59,6 +59,9 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     {
         // npt inside the field
         cout << " ---->  new point : " << npt << endl;
+        npt->org_x = nx;
+        npt->org_y = ny;
+
         // new event
         UpdateEvent * e = new UpdateEvent(npt, nseg);
         bool ans = evts->Insert(e);

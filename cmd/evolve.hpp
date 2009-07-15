@@ -108,14 +108,14 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
     long step = 0;
     while (! evts->IsEmpty())
     {
-        cout << endl << "_________________________________________________" << endl;
-        cout << "  STEP " << (++step) << endl;
+        out << endl << "_________________________________________________" << endl;
+        out << "  STEP " << (++step) << endl;
         Event * evt = evts->SeeFirst();
 
-        cout << endl;
-        cout << evts << endl;
-        cout << "... event at point " << evt->GetPoint() << endl;
-        cout << line << endl;
+        out << endl;
+        out << evts << endl;
+        out << "... event at point " << evt->GetPoint() << endl;
+        out << line << endl;
 
         /// check if the event is still valid
         //*
@@ -199,14 +199,16 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     assert(false);
         }
         evts->Erase(evt);
-        cout << "-------------------------------------------------" << endl;
+        out << "-------------------------------------------------" << endl;
     }
 
-    /*
+    //*
     FOREACH(it, *cf)
     {
         Point<REAL> * pt = *it;
+        out << pt << "   " << pt->org_x << " ; " << pt->org_y << endl;
         pt->ResumeCoordinates();
+        out << "\t\t\t" << pt << endl;
     }
     //*/
     return;

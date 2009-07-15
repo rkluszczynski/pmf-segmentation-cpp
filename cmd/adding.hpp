@@ -32,6 +32,8 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     out << endl << line << endl << endl;
 
     Point<REAL> * newpt = new Point<REAL>(rotxx, rotyy, 0.0, 0.0, ++count, PT_BirthInField);
+    newpt->org_x = xx;
+    newpt->org_y = yy;
     evts->InsertBirthEvent(newpt);
 
     EvolveTheRestOfField (sinL, cosL, evts, line, count);
