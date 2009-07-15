@@ -54,20 +54,24 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Event * ev, EventsSc
 
     Point<REAL> * dptn;
     REAL length;
-    if (it1 != idsok.end())
+    if (it1 != idsok.end() and (dptn = *it1)->WhichNeighbourHasID(dpt->id) > 0)
     {
         assert(it2 == idsok.end());
         dptn = *it1;
         length = dpt->l1;
     }
-    else if (it2 != idsok.end())
+    else if (it2 != idsok.end() and (dptn = *it2)->WhichNeighbourHasID(dpt->id) > 0)
     {
         assert(it1 == idsok.end());
         dptn = *it2;
         length = dpt->l2;
     }
-    else
+    else {
+        return;
         assert("WRONG OLD COLLISION POINT" && false);
+    }
+    out << "   dpt : " << dpt << endl;
+    out << "  dptn : " << dptn << endl;
 
     REAL xx = dptn->x;
     REAL yy = dptn->y;
@@ -75,12 +79,16 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Event * ev, EventsSc
     REAL  dist = Geometry::PointsDistance(dpt->x, dpt->y, dptn->x, dptn->y);
     REAL scale = (length / dist);
 
+    out << "  dist : " << dist << endl;
+    out << " scale : " << scale << endl;
+
     xx += scale * ( dpt->x - dptn->x );
     yy += scale * ( dpt->y - dptn->y );
 
     Point<REAL> * newpt = new Point<REAL>(xx, yy, dptn, NULL, length, 0.0, ++id, PT_Update);
 
     int which = dptn->WhichNeighbourHasID(dpt->id);
+    out << " which : " << which << endl;
     assert(which > 0);
     if (which == 1)
     {
@@ -151,14 +159,17 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                 {
                     ForgetOldCollisionPoint(sinL, cosL, evt, evts, line, idsok, id);
                     Point<REAL> * tmp = evt->GetPoint();
-                    Segment<REAL> * seg = evt->GetSegment();
+                    Segment<REAL> * seg1 = evt->GetSegment();
+                    Segment<REAL> * seg2 = evt->GetSegment(false);
                     evts->Erase(evt);
-                    delete seg;
+                    delete seg1;
+                    delete seg2;
                     delete tmp;
                     continue;
                 }
             }
-            else
+            else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
+            {
                 if (! line->HasSegmentWithEndId(pt->id))
                 {
                     Point<REAL> * tmp = evt->GetPoint();
@@ -168,6 +179,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     delete tmp;
                     continue;
                 }
+            }
         }
         //*/
 

@@ -9,6 +9,13 @@
 
 namespace pmf
 {
+    typedef enum {
+        TextFile,
+        SVGFile,
+        GeoGebraFile
+    }
+    PMFFileType;
+
 
     template <class REAL> class PMF
     {
@@ -24,7 +31,7 @@ namespace pmf
 
             void SetSeed(time_t);
             bool LoadPMF(const char *);
-            bool SavePMF(const char *);
+            bool SavePMF(const char *, PMFFileType);
             //bool SaveConfiguration(const char *);
             //bool SaveConfigurationAsSVG(const char *, double, double);
             void DrawPMF (wxMemoryDC& dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
@@ -57,7 +64,7 @@ namespace pmf
             inline
             void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
-            Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &);
+            Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &, REAL, REAL);
 
             inline
             void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);

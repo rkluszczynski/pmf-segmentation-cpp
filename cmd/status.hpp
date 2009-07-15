@@ -30,7 +30,7 @@ namespace pmf
             typedef typename STATUS::iterator Iterator;
             typedef typename STATUS::const_iterator ConstInterator;
 
-            SweepLineStatus() : _st(SweepComparator(*this)), _x0(-numeric_limits<REAL>::max())  {}
+            SweepLineStatus() : _st(SweepComparator(*this)), _x0(-std::numeric_limits<REAL>::max())  {}
 
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }
@@ -50,7 +50,8 @@ namespace pmf
             //}
             //pair<Iterator,bool> Insert(SEGMENT * seg)
             //{
-                assert( _endids.insert( seg->GetQ()->id ).ND );
+                _endids.insert( seg->GetQ()->id );
+                ///assert( _endids.insert( seg->GetQ()->id ).ND );  // does not work for old events
                 return _st.insert( new ENTRY(_x0, seg) );
             }
             /*

@@ -142,9 +142,9 @@ namespace pmf
     Point<REAL>::WhichNeighbourHasID (long id)
     {
         if (! n1) return -1;
-        if (n1->id) return 1;
+        if (n1->id == id) return 1;
         if (! n2) return -2;
-        if (n2->id) return 2;
+        if (n2->id == id) return 2;
         return 0;
     }
 

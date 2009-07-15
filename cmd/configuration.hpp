@@ -40,6 +40,7 @@ namespace pmf
             void SaveToFile (const char *);
             void ShowConfiguration (std::ostream & out);
             void PrintConfiguration (std::ostream & out);
+            void SaveConfigurationAsGGB (std::ostream & out);
 
             void LoadConfiguration (std::istream & in);
             void DrawConfiguration (wxMemoryDC& dc, int scale);
@@ -206,6 +207,31 @@ namespace pmf
         }
     }
 
+
+    template <class REAL>
+    void Configuration<REAL>::SaveConfigurationAsGGB (std::ostream & out)
+    {
+        //out << fieldWidth << " " << fieldHeight << endl;
+        //out << pts->size() << endl;
+        out.precision(15);
+        FOREACH(it, (*pts))
+        {
+            Point<REAL> * pt = *it;
+
+            out << "P" << pt->id << "=(" << pt->x << "," << pt->y << ")" << endl;
+            switch (pt->type)
+            {
+                case     PT_Collision :
+                                out << "p" << pt->n2->id << "p" << pt->id << "=Odcinek[P" << pt->n2->id << ",P" << pt->id << "]" << endl;
+                case PT_DeathOnBorder :
+                case        PT_Update :
+                                out << "p" << pt->n1->id << "p" << pt->id << "=Odcinek[P" << pt->n1->id << ",P" << pt->id << "]" << endl;
+                                break;;
+                default :
+                                ;
+            }
+        }
+    }
 /*
     template <class REAL>
     void Configuration<REAL>::Insert (Point<REAL> * pt)

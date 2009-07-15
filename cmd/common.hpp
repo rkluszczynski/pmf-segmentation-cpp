@@ -11,10 +11,12 @@ PMF<REAL> :: IsPointInsideTheField (REAL x, REAL y)
 }
 
 
+#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (CCOS) - (YY) * (SSIN))
+#define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
 inline
 Point<REAL> *
-PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2, long & id)
+PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2, long & id, REAL sinL, REAL cosL)
 {
     using namespace Geometry;
 
@@ -30,16 +32,23 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
                                             seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
         /// TODO (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON)
-        /// NOTE (klusi#1#): note in previous line probably fixed by ordering
-        if (IsPointInsideTheField(cpt.ST, cpt.ND))
+        /// NOTE (klusi#1#): note in previous line probably fixed by ordering
+
+        REAL orgx = X_ROTATED(cpt.ST, cpt.ND, -sinL, cosL);
+        REAL orgy = Y_ROTATED(cpt.ST, cpt.ND, -sinL, cosL);
+        if (IsPointInsideTheField(orgx, orgy))
+        {
             result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
+            result->org_x = orgx;
+            result->org_y = orgy;
+
+            out << "# NEW COLLISION POINT #> " << result << endl;
+        }
     }
     return result;
 }
 
 
-#define X_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (CCOS) - (YY) * (SSIN))
-#define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
 bool
 PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
@@ -134,7 +143,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     //if (! line->IsNull(ita)  &&  ita->GetSegment()->GetP() != parent)
     if (! line->IsNull(ita))
     {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*ita)->GetSegment(), id);
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*ita)->GetSegment(), id, sinL, cosL);
         if (cpt)
         {
             DeathEvent * de = new DeathEvent(cpt, nseg, (*ita)->GetSegment());
@@ -144,7 +153,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     //if (! line->IsNull(itb)  &&  itb->GetSegment()->GetP() != parent)
     if (! line->IsNull(itb))
     {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*itb)->GetSegment(), id);
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*itb)->GetSegment(), id, sinL, cosL);
         if (cpt)
         {
             DeathEvent * de = new DeathEvent(cpt, nseg, (*itb)->GetSegment());
@@ -321,7 +330,7 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
 
     if (nn.size() == 2)
     {
-        Point<REAL> * cpt = DetectPossibleCollision (*nn.begin(), *nn.rbegin(), id);
+        Point<REAL> * cpt = DetectPossibleCollision (*nn.begin(), *nn.rbegin(), id, sinL, cosL);
         if (cpt)
         {
             cout << endl << "COLLISION : " << cpt << endl;

@@ -8,6 +8,7 @@
 #include <climits>
 #include <cmath>
 #include <ctime>
+#include <limits>
 #include <unistd.h>
 #include <sys/timeb.h>
 
