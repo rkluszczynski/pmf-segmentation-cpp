@@ -42,7 +42,7 @@
 				</Compiler>
 			</Target>
 			<Target title="add-Debug">
-				<Option output="..\bin\Debug\pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Debug\pmf-add" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
 				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
