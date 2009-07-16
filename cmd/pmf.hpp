@@ -65,11 +65,15 @@ namespace pmf
             void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             Point<REAL> * DetectPossibleCollision (Segment<REAL> *, Segment<REAL> *, long &, REAL, REAL);
+            inline
+            bool IsTheEventInvalid (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *);
 
             inline
             void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
             inline
             void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            inline
+            bool IsTheEventInvalid (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
             inline
             void ForgetOldCollisionPoint (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
             inline

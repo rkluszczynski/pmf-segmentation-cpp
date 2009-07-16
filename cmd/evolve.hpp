@@ -107,6 +107,49 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Event * ev, EventsSc
 
 
 template <class REAL>
+bool
+PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, set<Point<REAL> *> & idsok, long & id)
+{
+    if (IsTheEventInvalid (ev, evts, line)) return true;
+
+    if (ev->GetType() == OldPoint)
+    {
+        Point<REAL> * pt = ev->GetPoint();
+
+        if (pt->type == PT_Collision)
+        {
+            if (! line->HasSegmentWithEndId(pt->id))
+            {
+                ForgetOldCollisionPoint(sinL, cosL, ev, evts, line, idsok, id);
+
+                Point<REAL> * tmp = ev->GetPoint();
+                Segment<REAL> * seg1 = ev->GetSegment();
+                Segment<REAL> * seg2 = ev->GetSegment(false);
+                evts->Erase(ev);
+                delete seg1;
+                delete seg2;
+                delete tmp;
+                return true;
+            }
+        }
+        else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
+        {
+            if (! line->HasSegmentWithEndId(pt->id))
+            {
+                Point<REAL> * tmp = ev->GetPoint();
+                Segment<REAL> * seg = ev->GetSegment();
+                evts->Erase(ev);
+                delete seg;
+                delete tmp;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+template <class REAL>
 void
 PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long id)
 {
@@ -125,63 +168,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
         out << "... event at point " << evt->GetPoint() << endl;
         out << line << endl;
 
-        /// check if the event is still valid
-        //*
-        if (evt->GetType() == PointUpdate  ||  evt->GetType() == BorderDeath)
-        {
-            if (! line->HasSegmentWithEndId(evt->GetPoint()->id))
-            {
-                Point<REAL> * tmp = evt->GetPoint();
-                Segment<REAL> * seg = evt->GetSegment();
-                evts->Erase(evt);
-                delete seg;
-                delete tmp;
-                continue;
-            }
-        }
-        else if (evt->GetType() == NormalDeath)
-        {
-            if ( (! line->HasSegmentWithEndId(evt->GetSegment(true)->GetQ()->id))
-                || (! line->HasSegmentWithEndId(evt->GetSegment(false)->GetQ()->id)) )
-            {
-                delete evt->GetPoint();
-                evts->Erase(evt);
-                continue;
-            }
-        }
-        else if (evt->GetType() == OldPoint)
-        {
-            Point<REAL> * pt = evt->GetPoint();
-
-            if (pt->type == PT_Collision)
-            {
-                if (! line->HasSegmentWithEndId(pt->id))
-                {
-                    ForgetOldCollisionPoint(sinL, cosL, evt, evts, line, idsok, id);
-                    Point<REAL> * tmp = evt->GetPoint();
-                    Segment<REAL> * seg1 = evt->GetSegment();
-                    Segment<REAL> * seg2 = evt->GetSegment(false);
-                    evts->Erase(evt);
-                    delete seg1;
-                    delete seg2;
-                    delete tmp;
-                    continue;
-                }
-            }
-            else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
-            {
-                if (! line->HasSegmentWithEndId(pt->id))
-                {
-                    Point<REAL> * tmp = evt->GetPoint();
-                    Segment<REAL> * seg = evt->GetSegment();
-                    evts->Erase(evt);
-                    delete seg;
-                    delete tmp;
-                    continue;
-                }
-            }
-        }
-        //*/
+        if (IsTheEventInvalid(sinL, cosL, evt, evts, line, idsok, id)) continue;
 
         cf->PushBack(evt->GetPoint());
         idsok.insert(evt->GetPoint());
@@ -191,11 +178,6 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
             case    OldPoint :
                     PMFLogV("-> _OLD_ EVENT");
                     ProcessOldEvent(evt, evts, line, id);
-                    break;;
-            case NormalBirth :
-                    PMFLogV("-> BIRTH EVENT");
-                    assert(step == 1);
-                    ProcessBirthEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case BorderBirth :
                     PMFLogV("-> BIRTH EVENT");
@@ -208,8 +190,10 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     PMFLogV("-> DEATH EVENT");
                     ProcessDeathEvent(evt, evts, line, id, sinL, cosL);
                     break;;
+            case NormalBirth :
+                    PMFLogV("-> BIRTH EVENT");
             default :
-                    assert(false);
+                    assert("WRONG EVENT TYPE DURING EVOLUTION" && false);
         }
         evts->Erase(evt);
         out << "-------------------------------------------------" << endl;

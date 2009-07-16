@@ -34,7 +34,43 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     Point<REAL> * newpt = new Point<REAL>(rotxx, rotyy, 0.0, 0.0, ++count, PT_BirthInField);
     newpt->org_x = xx;
     newpt->org_y = yy;
-    evts->InsertBirthEvent(newpt);
+    //evts->InsertBirthEvent(newpt);
+    cf->PushBack(newpt);
+    /// TODO (klusi#1#): should I also add new point to set idsok ???
+
+    Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
+    while (true)
+    {
+        REAL upperLength = Probability::Exp<REAL>(2.0);
+        REAL lowerLength = Probability::Exp<REAL>(2.0);
+        REAL upperAngle, lowerAngle;
+        Probability::DetermineBirthAngles (upperAngle, lowerAngle);
+
+        if (! newpt1)
+        {
+            newpt1 = newpt->GenerateNeighbour(1, upperAngle, count, upperLength);
+            bool ans = ArrangeNewEvent(newpt1, evts, line, count, sinL, cosL);
+            if (! ans)
+            {
+                delete newpt1;
+                newpt1 = NULL;
+                continue;
+            }
+        }
+        if (! newpt2)
+        {
+            newpt2 = newpt->GenerateNeighbour(2, lowerAngle, count, lowerLength);
+            bool ans = ArrangeNewEvent(newpt2, evts, line, count, sinL, cosL);
+            if (! ans)
+            {
+                delete newpt2;
+                newpt2 = NULL;
+                continue;
+            }
+        }
+        break;
+    }
+
 
     EvolveTheRestOfField (sinL, cosL, evts, line, count);
 

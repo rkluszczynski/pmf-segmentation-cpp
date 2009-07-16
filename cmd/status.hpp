@@ -39,60 +39,29 @@ namespace pmf
             {
                 using Geometry::IsZero;
                 assert(x >= _x0 || IsZero(x - _x0));
-                cout << "!!! SWEEP LINE POSITION set to " << x << "   #######" << endl;
                 if (x >= _x0) _x0 = x;
             }
 
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
                 SetSweepLinePosition(pt->x + EPSILON);
-            //    return Insert(seg);
-            //}
-            //pair<Iterator,bool> Insert(SEGMENT * seg)
-            //{
                 _endids.insert( seg->GetQ()->id );
                 ///assert( _endids.insert( seg->GetQ()->id ).ND );  // does not work for old events
                 return _st.insert( new ENTRY(_x0, seg) );
             }
-            /*
-            void Swap(const POINT & pt, SEGMENT * seg1, SEGMENT * seg2)
-            {
-                vector<ENTRY> vle;
-                _x0 = pt.x() - EPSILON;
-                Iterator it1 = Find(seg1);
-                Iterator it2 = Find(seg2);
-                assert(!IsNull(it1));
-                assert(!IsNull(it2));
-                ENTRY le1 = *it1;
-                ENTRY le2 = *it2;
-                if (! BelowComparator(le1, le2)) { swap(it1, it2); }
-                ++it2;
-                for(Iterator it = it1; it != it2; it++)
-                {
-                    vle.PB(*it);
-                    Remove(it);
-                }
-                _x0 = pt.x() + EPS;
-                REP(i, SIZE(vle))  Insert(vle[i].segment());
-            }
-            //*/
+
             void Erase(SEGMENT * seg)
             {
                 Iterator it = Find(seg);
-                if(IsNull(it))
-                {
-                    cout << "TO BEDZIE NULLEM  :  " << seg << "   #######" << endl;
-                }
+                assert(! IsNull(it));
                 Erase(it);
             }
             void Erase(Iterator it)
             {
                 assert(! IsNull(it));
-                SEGMENT * tmp = (*it)->GetSegment();
-                _endids.erase( tmp->GetQ()->id );
+                _endids.erase( (*it)->GetSegment()->GetQ()->id );
                 delete *it;
                 _st.erase(it);
-                //delete tmp;
             }
 
             bool IsNull(Iterator it) { return it == _st.end(); }

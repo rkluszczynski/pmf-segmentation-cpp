@@ -88,6 +88,80 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
 
 
 template <class REAL>
+inline
+void
+PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
+{
+    using namespace Probability;
+    Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
+
+    Point<REAL> * pt = ev->GetPoint();
+    while (true)
+    {
+        REAL upperLength = Exp<REAL>(2.0);
+        REAL lowerLength = Exp<REAL>(2.0);
+        REAL upperAngle, lowerAngle;
+        DetermineBirthAngles (upperAngle, lowerAngle);
+
+        if (! newpt1)
+        {
+            newpt1 = pt->GenerateNeighbour(1, upperAngle, id, upperLength);
+            bool ans = ArrangeNewEvent(newpt1, evts, line, id, sinL, cosL);
+            if (! ans)
+            {
+                delete newpt1;
+                newpt1 = NULL;
+                continue;
+            }
+        }
+        if (! newpt2)
+        {
+            newpt2 = pt->GenerateNeighbour(2, lowerAngle, id, lowerLength);
+            bool ans = ArrangeNewEvent(newpt2, evts, line, id, sinL, cosL);
+            if (! ans)
+            {
+                delete newpt2;
+                newpt2 = NULL;
+                continue;
+            }
+        }
+        break;
+    }
+    return;
+}
+
+
+template <class REAL>
+bool
+PMF<REAL> :: IsTheEventInvalid (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line )
+{
+    if (ev->GetType() == PointUpdate  ||  ev->GetType() == BorderDeath)
+    {
+        if (! line->HasSegmentWithEndId(ev->GetPoint()->id))
+        {
+            Point<REAL> * tmp = ev->GetPoint();
+            Segment<REAL> * seg = ev->GetSegment();
+            evts->Erase(ev);
+            delete seg;
+            delete tmp;
+            return true;
+        }
+    }
+    else if (ev->GetType() == NormalDeath)
+    {
+        if ( (! line->HasSegmentWithEndId(ev->GetSegment(true)->GetQ()->id))
+            || (! line->HasSegmentWithEndId(ev->GetSegment(false)->GetQ()->id)) )
+        {
+            delete ev->GetPoint();
+            evts->Erase(ev);
+            return true;
+        }
+    }
+    return false;
+}
+
+
+template <class REAL>
 void
 PMF<REAL> :: GenerateField ()
 {
@@ -95,73 +169,33 @@ PMF<REAL> :: GenerateField ()
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     long id = GenerateInitialBirths(evts);
-    long step = 0;
     while (! evts->IsEmpty())
     {
-        cout << endl << "_________________________________________________" << endl;
-        cout << "  STEP " << (++step) << endl;
         Event * evt = evts->SeeFirst();
 
-        cout << endl;
-        cout << evts << endl;
-        cout << "... event at point " << evt->GetPoint() << endl;
-        cout << line << endl;
-
-        /// check if the event is still valid
-        if (evt->GetType() == PointUpdate  ||  evt->GetType() == BorderDeath)
-        {
-            if (! line->HasSegmentWithEndId(evt->GetPoint()->id))
-            {
-                Point<REAL> * tmp = evt->GetPoint();
-                Segment<REAL> * seg = evt->GetSegment();
-                evts->Erase(evt);
-                delete seg;
-                delete tmp;
-                continue;
-            }
-        }
-        else if (evt->GetType() == NormalDeath)
-        {
-            if ( (! line->HasSegmentWithEndId(evt->GetSegment(true)->GetQ()->id))
-                || (! line->HasSegmentWithEndId(evt->GetSegment(false)->GetQ()->id)) )
-            {
-                delete evt->GetPoint();
-                evts->Erase(evt);
-                continue;
-            }
-        }
+        if (IsTheEventInvalid(evt, evts, line)) continue;
 
         if (evt->GetType() != NormalBirth  &&  evt->GetType() != BorderBirth)  CheckNewBirthSite(evt, evts, id);
         evt = evts->SeeFirst();
         cf->PushBack(evt->GetPoint());
 
-        //cout << endl;
-        //cout << evts << endl;
-        cout << "... event at point " << evt->GetPoint() << endl;
-        //cout << line << endl;
-
         switch (evt->GetType())
         {
             case NormalBirth :
-                    PMFLogV("-> BIRTH EVENT");
                     ProcessBirthEvent(evt, evts, line, id, 0., 1.);
                     break;;
             case BorderBirth :
-                    PMFLogV("-> BIRTH EVENT");
             case PointUpdate :
-                    PMFLogV("-> UPDATE EVENT");
                     ProcessUpdateEvent(evt, evts, line, id, 0., 1.);
                     break;;
             case NormalDeath :
             case BorderDeath :
-                    PMFLogV("-> DEATH EVENT");
                     ProcessDeathEvent(evt, evts, line, id, 0., 1.);
                     break;;
             default :
-                    assert(false);
+                    assert("WRONG EVENT TYPE DURING GENERATE METHOD" && false);
         }
         evts->Erase(evt);
-        cout << "-------------------------------------------------" << endl;
     }
     delete line;
     delete evts;
