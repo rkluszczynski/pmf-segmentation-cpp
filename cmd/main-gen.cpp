@@ -1,5 +1,6 @@
 #include "../cmd/pmf.hpp"
 
+
 void print_usage(char *prog_name)
 {
     fprintf(stderr, "\n[ USAGE ] :  %s  [-f]\n", prog_name);
@@ -106,7 +107,7 @@ int main (int argc, char *argv[])
 
         double genTime = tend.time - tbeg.time;
         genTime += ((tend.millitm - tbeg.millitm) * 0.001);
-        fprintf(stderr, "\n[ DONE ] : time = %.3lf sec.\n", genTime);
+        fprintf(stderr, "\n[ DONE ] : generating time = %.3lf sec.\n", genTime);
     }
     else print_usage(argv[0]);
 

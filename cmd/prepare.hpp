@@ -32,7 +32,7 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
 {
     typedef priority_queue<Point<REAL> *, std::vector<Point<REAL> *>, PointComparator<REAL> >         PointPriorityQueue;
     typedef priority_queue<Segment<REAL> *, std::vector<Segment<REAL> *>, SegmentComparator<REAL> > SegmentPriorityQueue;
-    typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>  SegmentsMap;
+    typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                                     SegmentsMap;
     typedef typename SegmentsMap::iterator                                                           SegmentsMapIterator;
 
     RotatePoints (sinL, cosL);

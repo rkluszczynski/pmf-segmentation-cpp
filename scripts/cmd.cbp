@@ -41,6 +41,16 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
+			<Target title="add-Debug">
+				<Option output="..\bin\Debug\pmf" prefix_auto="1" extension_auto="1" />
+				<Option working_dir=".." />
+				<Option object_output="..\objs\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -49,10 +59,12 @@
 		<Unit filename="..\cmd\adding.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="add-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\addseg.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="add-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\birthsites.hpp" />
 		<Unit filename="..\cmd\common.hpp" />
@@ -62,9 +74,13 @@
 		<Unit filename="..\cmd\evolve.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="add-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\generate.hpp" />
 		<Unit filename="..\cmd\geometry.hpp" />
+		<Unit filename="..\cmd\main-add.cpp">
+			<Option target="add-Debug" />
+		</Unit>
 		<Unit filename="..\cmd\main-gen.cpp">
 			<Option target="Release" />
 			<Option target="gen-Debug" />
@@ -81,11 +97,13 @@
 		<Unit filename="..\cmd\prepare.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="add-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\probability.hpp" />
 		<Unit filename="..\cmd\remove.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="add-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\rotate.hpp" />
 		<Unit filename="..\cmd\schedule.hpp" />
@@ -94,6 +112,7 @@
 		<Unit filename="..\cmd\update.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
+			<Option target="add-Debug" />
 		</Unit>
 		<Unit filename="..\headers\macros.hpp" />
 		<Extensions>
