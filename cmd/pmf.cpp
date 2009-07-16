@@ -33,6 +33,9 @@ PMF<REAL> :: SetSeed(time_t _seed)
 #include "evolve.hpp"
 
 #include "adding.hpp"
+#include "update.hpp"
+#include "remove.hpp"
+#include "addseg.hpp"
 
 
 template <class REAL>

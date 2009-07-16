@@ -26,8 +26,10 @@ namespace pmf
             void GenerateField();
             void RotatePoints (REAL, REAL);
 
-            void AddBirthPoint(REAL, REAL, REAL);
-
+            void AddBirthPoint (REAL, REAL, REAL);
+            void UpdatePointVelocity (long, REAL);
+            void RemoveBirthPoint (long, REAL);
+            void AddBirthSegment (REAL, REAL, REAL);
 
             void SetSeed(time_t);
             bool LoadPMF(const char *);
