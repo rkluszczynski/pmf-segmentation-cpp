@@ -60,6 +60,9 @@ PMF<REAL> :: SavePMF (const char * filename, PMFFileType mode = TextFile)
     switch (mode)
     {
         case GeoGebraFile :
+            cf->SaveConfigurationAsGGB(filename);
+            break;;
+        case GeoGebraCmds :
             cf->SaveConfigurationAsGGB(fout);
             break;;
         default :

@@ -13,9 +13,11 @@ PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
     FOREACH(it, *cf)
     {
         Point<REAL> * pt = *it;
+        REAL xx = pt->x;
+        REAL yy = pt->y;
         pt->StoreCoordinates();
-        pt->x = X_ROTATED(pt->x, pt->y, sinL, cosL);
-        pt->y = Y_ROTATED(pt->x, pt->y, sinL, cosL);
+        pt->x = X_ROTATED(xx, yy, sinL, cosL);
+        pt->y = Y_ROTATED(xx, yy, sinL, cosL);
     }
 
     /* Changing types of points */

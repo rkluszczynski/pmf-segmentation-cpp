@@ -12,7 +12,8 @@ namespace pmf
     typedef enum {
         TextFile,
         SVGFile,
-        GeoGebraFile
+        GeoGebraFile,
+        GeoGebraCmds
     }
     PMFFileType;
 

@@ -3,7 +3,7 @@
 
 #include "../headers/macros.hpp"
 #include "../cmd/point.hpp"
-#include <wx/dcmemory.h>
+
 
 namespace pmf
 {
@@ -28,7 +28,6 @@ namespace pmf
             Iterator end()   const { return pts->end(); }
 
             void PushBack( Point<REAL> * pt ) { pts->push_back(pt); }
-            //inline void push_back ( pmf_point<T_REAL> *, BlocksLists<T_REAL> * );
             void SetPointsIDs ();
 
             inline REAL GetFieldWidth()  { return  fieldWidth; }
@@ -40,6 +39,7 @@ namespace pmf
             void SaveToFile (const char *);
             void ShowConfiguration (std::ostream & out);
             void PrintConfiguration (std::ostream & out);
+            void SaveConfigurationAsGGB (const char *);
             void SaveConfigurationAsGGB (std::ostream & out);
 
             void LoadConfiguration (std::istream & in);
@@ -53,6 +53,7 @@ namespace pmf
             */
 
             inline void ClearPointsContainer() { pts->clear(); }
+            //inline void ClearPointsContainer() { while(! pts->empty()) pts->pop_back(); }
     };
 
 
@@ -93,18 +94,20 @@ namespace pmf
     {
         out << fieldWidth << " " << fieldHeight << endl;
         out << pts->size() << endl;
+
+        int precision = 17;
+        out.precision(precision);
         FOREACH(it, (*pts))
         {
             Point<REAL> * pt = *it;
 
-            out.precision(7);
             out.width(4);   out << pt->id << " ";
-            out.width(11);  out << pt->x << " ";
-            out.width(11);  out << pt->y << " ";
+            out.width(precision+5);  out << pt->x << " ";
+            out.width(precision+5);  out << pt->y << " ";
             out.width(4);   out << ((pt->n1) ? pt->n1->id : 0) << " ";
             out.width(4);   out << ((pt->n2) ? pt->n2->id : 0) << " ";
-            out.width(11);  out << pt->l1 << " ";
-            out.width(11);  out << pt->l2 << " ";
+            out.width(precision+5);  out << pt->l1 << " ";
+            out.width(precision+5);  out << pt->l2 << " ";
             out.width(2);   out << pt->type << " ";
             out.width(3);   out << "-1 ";// pt->block << " ";
             out.width(4);   out << pt->oid << " ";
@@ -205,6 +208,98 @@ namespace pmf
                 dc.DrawLine(x0, y0, x2, y2);
             }
         }
+    }
+
+
+    template <class REAL>
+    void Configuration<REAL>::SaveConfigurationAsGGB (const char * filename)
+    {
+        wxCSConv conv_ascii(_T("ISO-8859-1"));
+        wxString outputfile( filename, conv_ascii );
+        //wxFFileOutputStream fout(wxString::Format(_T("%s"), filename));
+        wxFFileOutputStream fout(outputfile);
+        wxZipOutputStream zip(fout);
+        wxTextOutputStream txt(zip);
+        wxString sep(wxFileName::GetPathSeparator());
+        /*
+        zip.PutNextEntry(_T("entry1.txt"));
+        txt << _T("Some text for entry1.txt\n");
+
+        zip.PutNextEntry(_T("subdir") + sep + _T("entry2.txt"));
+        txt << _T("Some text for subdir/entry2.txt\n");
+        //*/
+        zip.PutNextEntry(_T("geogebra.xml"));
+        //*
+        txt << _("<?xml version='1.0' encoding='utf-8'?>") << endl;
+        txt << _("<geogebra format='3.2'>") << endl;
+        txt << _("    <gui>") << endl;
+		txt << _("        <show algebraView='true' spreadsheetView='false' auxiliaryObjects='true' algebraInput='true' cmdList='true'/>") << endl;
+		txt << _("        <splitDivider loc='822' locVertical='400' loc2='221' locVertical2='300' horizontal='true'/>") << endl;
+		txt << _("        <labelingStyle  val='3'/>") << endl;
+		txt << _("        <font  size='12'/>") << endl;
+        txt << _("    </gui>") << endl;
+        txt << _("    <euclidianView>") << endl;
+		txt << _("        <size  width='691' height='707'/>") << endl;
+		txt << _("        <coordSystem xZero='49.20558651917091' yZero='641.537966311083' scale='597.2884022128751' yscale='597.2884022128751'/>") << endl;
+		txt << _("        <evSettings axes='true' grid='true' gridIsBold='false' pointCapturing='0' pointStyle='0' rightAngleStyle='1' checkboxSize='13' gridType='0'/>") << endl;
+		txt << _("        <bgColor r='255' g='255' b='255'/>") << endl;
+		txt << _("        <axesColor r='0' g='0' b='0'/>") << endl;
+		txt << _("        <gridColor r='192' g='192' b='192'/>") << endl;
+		txt << _("        <lineStyle axes='1' grid='10'/>") << endl;
+		txt << _("        <axis id='0' show='true' label='x' unitLabel='' tickStyle='0' showNumbers='true'/>") << endl;
+		txt << _("        <axis id='1' show='true' label='y' unitLabel='' tickStyle='0' showNumbers='true'/>") << endl;
+        txt << _("    </euclidianView>") << endl;
+        txt << _("    <kernel>") << endl;
+        txt << _("        <continuous val='true'/>") << endl;
+		txt << _("        <decimals val='10'/>") << endl;
+		txt << _("        <angleUnit val='degree'/>") << endl;
+		txt << _("        <coordStyle val='0'/>") << endl;
+        txt << _("    </kernel>") << endl;
+        txt << _("    <construction title='' author='Rafal Kluszczynski' date=''>") << endl;
+        //*
+        FOREACH(it, (*pts))
+        {
+            Point<REAL> * pt = *it;
+
+            txt << _("<element type='point' label='P") << wxString::Format(_("%li"), pt->id) << _("'>") << endl;
+			txt << _("    <show object='true' label='true'/>") << endl;
+			txt << _("    <objColor r='0' g='0' b='255' alpha='0.0'/>") << endl;
+			txt << _("    <layer val='0'/>") << endl;
+			txt << _("    <labelMode val='0'/>") << endl;
+			txt << _("    <animation step='0.1' speed='1' type='0' playing='false'/>") << endl;
+			txt << _("    <coords x='") << wxString::Format(_("%lf"), pt->x) << _("' y='") << wxString::Format(_("%lf"), pt->y) << _("' z='1.0'/>") << endl;
+			txt << _("    <pointSize val='3'/>") << endl;
+            txt << _("</element>") << endl;
+        }
+
+        FOREACH(it, (*pts))
+        {
+            Point<REAL> * pt = *it;
+            switch (pt->type)
+            {
+                case     PT_Collision :
+                                txt << _("<command name='Segment'>") << endl;
+                                txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n2->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+                                txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n2->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+                                txt << _("</command>") << endl;
+                case PT_DeathOnBorder :
+                case        PT_Update :
+                                txt << _("<command name='Segment'>") << endl;
+                                txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n1->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+                                txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n1->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+                                txt << _("</command>") << endl;
+                                break;;
+                default :
+                                ;
+            }
+        }
+
+        txt << _("    </construction>") << endl;
+        txt << _("</geogebra>") << endl;
+
+        zip.CloseEntry();
+        zip.SetComment(_("PMF Configuration"));
+        //*/
     }
 
 

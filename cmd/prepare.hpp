@@ -35,7 +35,10 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
     typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                                     SegmentsMap;
     typedef typename SegmentsMap::iterator                                                           SegmentsMapIterator;
 
+    if (cf->IsEmpty()) return;
+    cf->PrintConfiguration(out);
     RotatePoints (sinL, cosL);
+    cf->PrintConfiguration(out);
 
     PointPriorityQueue   ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
@@ -47,9 +50,10 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
         Point<REAL> * pt = ppq.top();
         cf->PushBack(pt);
         ppq.pop();
+        if (ppq.empty()) return;
     }
 
-    while(! ppq.empty())
+    while (! ppq.empty())
     {
         Point<REAL> * pt = ppq.top();
         ppq.pop();
@@ -122,7 +126,6 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
 
         line->Insert( s->GetP(), s );
     }
-
     return;
 }
 

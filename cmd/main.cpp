@@ -7,6 +7,7 @@ using namespace std;
 
 #include "../cmd/birthsites.hpp"
 #include "../cmd/pmf.hpp"
+#include "../cmd/simulation.hpp"
 
 
 int main(int argc, char **argv)
@@ -20,7 +21,7 @@ int main(int argc, char **argv)
     //ppmf->SetSeed(1168); //przy size=2
     //ppmf->SetSeed(738703); //size=1
     //ppmf->SetSeed(atoi(argv[1]));
-    ppmf->SetSeed(1);
+    ppmf->SetSeed(2);
 
     wxLog::SetVerbose(true);
 
@@ -29,16 +30,21 @@ int main(int argc, char **argv)
     assert(pmf::pmf_point_counter == ppmf->GetCount());
 
     ppmf->SavePMF("output/cmd-gen.txt");
-    ppmf->SavePMF("output/geo-gen.txt", GeoGebraFile);
+    ppmf->SavePMF("output/geo-gen.txt", GeoGebraCmds);
+    ppmf->SavePMF("output/geo-gen.zip", GeoGebraFile);
 
     cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
     assert(pmf::pmf_point_counter == ppmf->GetCount());
 
     ofstream fout("output/qq.txt");
-    //out.rdbuf(fout.rdbuf());
-    ppmf->AddBirthPoint(0.5, 0.5, M_PI);
+    out.rdbuf(fout.rdbuf());
+    double angle = pmf::Probability::Uniform(0.0, 2. * M_PI);
+    //angle = M_PI;
+    angle = M_PI_2;
+    ppmf->AddBirthPoint(0.5, 0.5, angle);
     fout.close();
     ppmf->SavePMF("output/cmd-add.txt");
+    ppmf->SavePMF("output/geo-add.zip", GeoGebraFile);
 
     cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;
     cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;

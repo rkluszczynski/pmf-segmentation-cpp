@@ -212,29 +212,33 @@ PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
     {
         //PMFLogV("########### 1");
         pt->n1->n1 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l1;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id1)
     {
         //PMFLogV("########### 2");
         pt->n1->n2 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l2;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id2)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id2)
     {
         //PMFLogV("########### 3");
         pt->n1->n1 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l1;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id2)
     {
         //PMFLogV("########### 4");
         pt->n1->n2 = pt;
-        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  pt->n2->n1 = pt;
-        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  pt->n2->n2 = pt;
+        pt->l1 = pt->n1->l2;
+        if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
+        if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
 }
 
