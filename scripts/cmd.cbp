@@ -108,6 +108,9 @@
 		<Unit filename="..\cmd\rotate.hpp" />
 		<Unit filename="..\cmd\schedule.hpp" />
 		<Unit filename="..\cmd\segment.hpp" />
+		<Unit filename="..\cmd\simulation.hpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="..\cmd\status.hpp" />
 		<Unit filename="..\cmd\update.hpp">
 			<Option target="Debug" />
