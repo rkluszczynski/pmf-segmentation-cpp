@@ -29,7 +29,9 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
 
     PrepareTheEvolution (sinL, cosL, evts, line, rotxx);
+
     out << endl << line << endl << endl;
+    out << "__________ DO THE (R)EVOLUTION !!! __________" << endl;
 
     Point<REAL> * newpt = new Point<REAL>(rotxx, rotyy, 0.0, 0.0, ++count, PT_BirthInField);
     newpt->org_x = xx;
@@ -37,6 +39,8 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     //evts->InsertBirthEvent(newpt);
     cf->PushBack(newpt);
     /// TODO (klusi#1#): should I also add new point to set idsok ???
+
+    out << "  newpt added : " << newpt << endl;
 
     Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
     while (true)
@@ -49,6 +53,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
         if (! newpt1)
         {
             newpt1 = newpt->GenerateNeighbour(1, upperAngle, count, upperLength);
+            out << " trying newpt1 : " << newpt1 << endl;
             bool ans = ArrangeNewEvent(newpt1, evts, line, count, sinL, cosL);
             if (! ans)
             {
@@ -56,10 +61,12 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
                 newpt1 = NULL;
                 continue;
             }
+            out << " newpt1 added : " << newpt1 << endl;
         }
         if (! newpt2)
         {
             newpt2 = newpt->GenerateNeighbour(2, lowerAngle, count, lowerLength);
+            out << " trying newpt2 : " << newpt2 << endl;
             bool ans = ArrangeNewEvent(newpt2, evts, line, count, sinL, cosL);
             if (! ans)
             {
@@ -67,10 +74,11 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
                 newpt2 = NULL;
                 continue;
             }
+            out << " newpt2 added : " << newpt2 << endl;
         }
         break;
     }
-
+    out << "_______ points added" << endl;
 
     EvolveTheRestOfField (sinL, cosL, evts, line, count);
 

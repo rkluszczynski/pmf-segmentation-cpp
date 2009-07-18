@@ -120,8 +120,35 @@ namespace pmf
             REAL xmax = min( max(xp, xq), max(xr, xs) );
             REAL ymin = max( min(yp, yq), min(yr, ys) );
             REAL ymax = min( max(yp, yq), max(yr, ys) );
-
-            if (x < xmin ||  xmax < x || y < ymin || ymax < y) return 0;
+            /*
+            cout.precision(12);
+            cout << endl;
+            cout << " @@@@@@@@@@@@@ x = " << x << endl;
+            cout << " @@@@@@@@@@@@@ y = " << y << endl;
+            cout << " @@@@@@@@@@@@@ xmin = " << xmin << endl;
+            cout << " @@@@@@@@@@@@@ xmax = " << xmax << endl;
+            cout << " @@@@@@@@@@@@@ ymin = " << ymin << endl;
+            cout << " @@@@@@@@@@@@@ ymax = " << ymax << endl;
+            //*/
+            if (IsZero(xmax - xmin))
+            {
+                if (IsZero(ymax - ymin))
+                {
+                    if (!IsZero(x - xmax) || !IsZero(x - xmin) || !IsZero(y - ymax) || !IsZero(y - ymin)) return 0;
+                }
+                else {
+                    if (!IsZero(x - xmax) || !IsZero(x - xmin) || y < ymin || ymax < y) return 0;
+                }
+            }
+            else {
+                if (IsZero(ymax - ymin))
+                {
+                    if (x < xmin || xmax < x || !IsZero(y - ymax) || !IsZero(y - ymin)) return 0;
+                }
+                else {
+                    if (x < xmin || xmax < x || y < ymin || ymax < y) return 0;
+                }
+            }
             if (IsZero(xq-x) && IsZero(yq-y)) return 5;
             return 1;
         }
@@ -133,11 +160,12 @@ namespace pmf
                                 REAL x1, REAL y1, REAL x2, REAL y2, REAL & x, REAL & y )
         {
             REAL a, b, c, d;
-            if( x1 != x2 )
+            if(! IsZero(x1 - x2))
+            //if( x1 != x2 )
             {
                 a = (y1 - y2)/(x1 - x2);
                 b = y1 - a * x1;
-                if( x3 != x4 )
+                if(! IsZero(x3 - x4))
                 {
                     c = (y3 - y4)/(x3 - x4);
                     d = y3 - c * x3;
@@ -146,7 +174,7 @@ namespace pmf
                     y = a * (x) + b;
                 }
                 else {
-                    x = x3;
+                    x = 0.5 * (x3 + x4);
                     y = a * (x) + b;
                 }
             }
@@ -154,7 +182,7 @@ namespace pmf
                 c = (y3 - y4)/(x3 - x4);
                 d = y3 - c * x3;
 
-                x = x1;
+                x = 0.5 * (x1 + x2);
                 y = c * (x) + d;
             }
         }

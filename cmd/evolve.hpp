@@ -56,19 +56,20 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
 template <class REAL>
 inline
 void
-PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
+PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, Segment<REAL> * seg, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
     typedef typename set<Point<REAL> *>::iterator  OkPointsSetIterator;
 
-    Point<REAL> * dpt = ev->GetPoint();
+    //Point<REAL> * dpt = ev->GetPoint();
     //OkPointsSetIterator it1 = idsok.find(dpt->n1);
     //OkPointsSetIterator it2 = idsok.find(dpt->n2);
 
-    SweepIterator it1 = line->Find( ev->GetSegment(true) );
-    SweepIterator it2 = line->Find( ev->GetSegment(false) );
+    //SweepIterator it1 = line->Find( ev->GetSegment(true) );
+    //SweepIterator it2 = line->Find( ev->GetSegment(false) );
 
-    Point<REAL> * dptn;
+    Point<REAL> * dptn = seg->GetP();
+    /*
     if (line->IsNull(it1))
     {
         assert(! line->IsNull(it2));
@@ -83,30 +84,13 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Event * ev, EventsSc
     }
     else
         assert("WRONG OLD COLLISION POINT" && false);
+    //*/
+    out << "   dpt : " << dpt << endl;
+    out << "  dptn : " << dptn << endl;
 
     int wh = dptn->WhichNeighbourHasID( dpt->id );
     assert(wh > 0);
     REAL length = (wh == 1) ? dptn->l1 : dptn->l2;
-    /*
-    if (it1 != idsok.end() and (dptn = *it1)->WhichNeighbourHasID(dpt->id) > 0)
-    {
-        assert(it2 == idsok.end());
-        dptn = *it1;
-        length = dpt->l1;
-    }
-    else if (it2 != idsok.end() and (dptn = *it2)->WhichNeighbourHasID(dpt->id) > 0)
-    {
-        assert(it1 == idsok.end());
-        dptn = *it2;
-        length = dpt->l2;
-    }
-    else {
-        return;
-        assert("WRONG OLD COLLISION POINT" && false);
-    }
-    //*/
-    out << "   dpt : " << dpt << endl;
-    out << "  dptn : " << dptn << endl;
 
     REAL xx = dptn->x;
     REAL yy = dptn->y;
@@ -154,11 +138,13 @@ template <class REAL>
 bool
 PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
 {
+    typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
     //if (IsTheEventInvalid (ev, evts, line)) return true;
     //*
     if (ev->GetType() == PointUpdate  ||  ev->GetType() == BorderDeath)
     {
-        if (! line->HasSegmentWithEndId(ev->GetPoint()->id))
+        //if (! line->HasSegmentWithEndId(ev->GetPoint()->id))
+        if (line->IsNull(line->Find(ev->GetSegment())))
         {
             Point<REAL> * tmp = ev->GetPoint();
             Segment<REAL> * seg = ev->GetSegment();
@@ -194,29 +180,34 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
             Segment<REAL> * seg1 = ev->GetSegment();
             Segment<REAL> * seg2 = ev->GetSegment(false);
 
-            if (line->IsNull(line->Find(seg1)) || line->IsNull(line->Find(seg2)))
+            SweepIterator it1 = line->Find(seg1);
+            SweepIterator it2 = line->Find(seg2);
+
+            if (line->IsNull(it1) || line->IsNull(it2))
+            {
+                if (! line->IsNull(it1))
+                {
+                    line->Erase( it1 );
+                    ForgetOldCollisionPoint(sinL, cosL, pt, seg1, evts, line, /*idsok,*/ id);
+                }
+                else if (! line->IsNull(it2))
+                {
+                    line->Erase( it2 );
+                    ForgetOldCollisionPoint(sinL, cosL, pt, seg2, evts, line, /*idsok,*/ id);
+                }
+
+                Point<REAL> * tmp = ev->GetPoint();
+                evts->Erase(ev);
+                delete seg1;
+                delete seg2;
+                delete tmp;
+                return true;
+            }
+        }
+        else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
+        {
             //if (! line->HasSegmentWithEndId(pt->id))
-            {
-                if (! line->IsNull(line->Find(seg1)))
-                {
-                    ForgetOldCollisionPoint(sinL, cosL, ev, evts, line, /*idsok,*/ id);
-                }
-                else if (! line->IsNull(line->Find(seg2)))
-                {
-                    ForgetOldCollisionPoint(sinL, cosL, ev, evts, line, /*idsok,*/ id);
-                }
-
-                Point<REAL> * tmp = ev->GetPoint();
-                evts->Erase(ev);
-                delete seg1;
-                delete seg2;
-                delete tmp;
-                return true;
-            }
-        }
-        else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
-        {
-            if (! line->HasSegmentWithEndId(pt->id))
+            if (line->IsNull(line->Find(ev->GetSegment())))
             {
                 Point<REAL> * tmp = ev->GetPoint();
                 Segment<REAL> * seg = ev->GetSegment();
@@ -227,41 +218,6 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
             }
         }
     }
-    /*
-    if (ev->GetType() == OldPoint)
-    {
-        Point<REAL> * pt = ev->GetPoint();
-
-        if (pt->type == PT_Collision)
-        {
-            if (! line->HasSegmentWithEndId(pt->id))
-            {
-                ForgetOldCollisionPoint(sinL, cosL, ev, evts, line, idsok, id);
-
-                Point<REAL> * tmp = ev->GetPoint();
-                Segment<REAL> * seg1 = ev->GetSegment();
-                Segment<REAL> * seg2 = ev->GetSegment(false);
-                evts->Erase(ev);
-                delete seg1;
-                delete seg2;
-                delete tmp;
-                return true;
-            }
-        }
-        else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
-        {
-            if (! line->HasSegmentWithEndId(pt->id))
-            {
-                Point<REAL> * tmp = ev->GetPoint();
-                Segment<REAL> * seg = ev->GetSegment();
-                evts->Erase(ev);
-                delete seg;
-                delete tmp;
-                return true;
-            }
-        }
-    }
-    //*/
     return false;
 }
 
@@ -270,9 +226,6 @@ template <class REAL>
 void
 PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long id)
 {
-    //set<Point<REAL> *> idsok;
-    //long oldSize = id + 1;
-
     long step = 0;
     while (! evts->IsEmpty())
     {
@@ -284,14 +237,12 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
         out << evts << endl;
         out << "... event at point " << evt->GetPoint() << endl;
         out << line << endl;
-        //out << "[ IDs OK ] : ";  FOREACH(it, idsok) out << " " << (*it)->id;  out << endl;
 
         if (IsTheEventInvalid(sinL, cosL, evt, evts, line, /*idsok,*/ id)) continue;
 
         cf->PushBack(evt->GetPoint());
-        //idsok.insert(evt->GetPoint());
-
         out << " ... point added : " << evt->GetPoint() << endl;
+
         switch (evt->GetType())
         {
             case    OldPoint :

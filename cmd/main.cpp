@@ -13,7 +13,7 @@ using namespace std;
 int main(int argc, char **argv)
 {
     char dir[128] = "output/";
-    time_t n = 1;
+    int n = 1;
     if (argc > 1)  {  n = atoi(argv[1]);  strcpy(dir, "../output/");  }
     int len = strlen(dir);
     //*
@@ -21,17 +21,23 @@ int main(int argc, char **argv)
     cout.precision(12);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
-    for (time_t seed = 0; seed < n; ++seed)
+    time_t seed = 4434;
+    for (int i = 0; i < n; ++i)
     {
+        if (argc > 1) seed = i;
         PMF<double> * ppmf = new PMF<double>(size, size);
         //ppmf->SetSeed(1168); //przy size=2
         //ppmf->SetSeed(738703); //size=1
         ppmf->SetSeed(seed);
-        //ppmf->SetSeed(297);
+        //ppmf->SetSeed(2010);
 
         wxLog::SetVerbose(true);
 
+        strcpy(dir + len, "q0.txt");
+        ofstream fout1(dir);
+        out.rdbuf(fout1.rdbuf());
         ppmf->GenerateField();
+        fout1.close();
         cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
         assert(pmf::pmf_point_counter == ppmf->GetCount());
 

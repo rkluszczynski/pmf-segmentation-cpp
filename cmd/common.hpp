@@ -21,6 +21,7 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
     using namespace Geometry;
 
     if (seg1->GetP()->id == seg2->GetP()->id) return NULL;
+    if (seg1->GetQ()->id == seg2->GetQ()->id) return NULL;
 
     Point<REAL> * result = NULL;
     int collision = CheckIntersection2<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
@@ -104,6 +105,8 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     REAL nx = X_ROTATED(npt->x, npt->y, -sinL, cosL);
     REAL ny = Y_ROTATED(npt->x, npt->y, -sinL, cosL);
 
+    out.precision(12);
+    out << " ---->  new point : " << npt << endl;
     // determine type of event (update or death)
     if (IsPointInsideTheField(nx, ny))
     //if (IsPointInsideTheField(npt->x, npt->y))
@@ -127,6 +130,9 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         REAL px = X_ROTATED(parent->x, parent->y, -sinL, cosL);
         REAL py = Y_ROTATED(parent->x, parent->y, -sinL, cosL);
 
+        out << "  nx = " << nx << "   ;    ny = " << ny << endl;
+        out << "  px = " << px << "   ;    py = " << py << endl;
+
         // npt outside the field
         int up    = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0);
         int down  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight());
@@ -137,6 +143,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         //int right = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight());
         //int left  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight());
 
+        out << " up=" << up << "  ;   down=" << down << "  ;   right=" << right << "  ;   left=" << left << endl;
         /// FIXME (Rafel#1#): what if point is on border ??
 
         REAL cx, cy;
@@ -191,6 +198,7 @@ void
 PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
 {
     using namespace Probability;
+    using Geometry::IsZero;
 
     Point<REAL> * pt = ev->GetPoint();
     Segment<REAL> * seg = ev->GetSegment();
@@ -210,8 +218,14 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         if (newAngle > M_PI_2)  newAngle -= M_PI;
         if (newAngle < -M_PI_2) newAngle += M_PI;
 
-        if (pt->type == PT_BirthOnBorder  &&  pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
-        if (pt->type == PT_BirthOnBorder  &&  pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
+        out << " newAngle = " << newAngle << endl;
+        if (pt->type == PT_BirthOnBorder)
+        {
+            while (IsZero(newAngle)) newAngle = Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
+            if (pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
+            if (pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
+        }
+        out << " newAngle = " << newAngle << endl;
 
         int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
         Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
@@ -228,10 +242,13 @@ inline
 void
 PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
 {
-    //PMFLogV("Correcting collision point of ends %i and %i", id1, id2);
+    PMFLogV("Correcting collision point of ends %i and %i", id1, id2);
+    out << "  pt : " << pt << endl;
+    out << "  n1 : " << pt->n1 << endl;
+    out << "  n2 : " << pt->n2 << endl;
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id1)
     {
-        //PMFLogV("########### 1");
+        PMFLogV("########### 1");
         pt->n1->n1 = pt;
         pt->l1 = pt->n1->l1;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
@@ -239,7 +256,7 @@ PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id1)
     {
-        //PMFLogV("########### 2");
+        PMFLogV("########### 2");
         pt->n1->n2 = pt;
         pt->l1 = pt->n1->l2;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id2)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
@@ -247,7 +264,7 @@ PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
     }
     if (pt->n1->n1 != NULL  &&  pt->n1->n1->id == id2)
     {
-        //PMFLogV("########### 3");
+        PMFLogV("########### 3");
         pt->n1->n1 = pt;
         pt->l1 = pt->n1->l1;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
@@ -255,12 +272,14 @@ PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
     }
     if (pt->n1->n2 != NULL  &&  pt->n1->n2->id == id2)
     {
-        //PMFLogV("########### 4");
+        PMFLogV("########### 4");
         pt->n1->n2 = pt;
         pt->l1 = pt->n1->l2;
         if (pt->n2->n1 != NULL  &&  pt->n2->n1->id == id1)  { pt->n2->n1 = pt;  pt->l2 = pt->n2->l1; }
         if (pt->n2->n2 != NULL  &&  pt->n2->n2->id == id1)  { pt->n2->n2 = pt;  pt->l2 = pt->n2->l2; }
     }
+    out << "  n1 : " << pt->n1 << endl;
+    out << "  n2 : " << pt->n2 << endl;
 }
 
 
@@ -316,7 +335,29 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     {
         long id1 = s1->GetQ()->id;
         long id2 = s2->GetQ()->id;
-        CorrectCollisionStartPoints (ev->GetPoint(), id1, id2);
+
+        int wh1 = s1->GetP()->WhichNeighbourHasID (id1);
+        int wh2 = s2->GetP()->WhichNeighbourHasID (id2);
+        assert(wh1 > 0);
+        assert(wh2 > 0);
+
+        Point<REAL> * pt = ev->GetPoint();
+        REAL len1, len2;
+
+        if (wh1 == 1) { s1->GetP()->n1 = pt;  len1 = s1->GetP()->l1; }
+        else  { s1->GetP()->n2 = pt;  len1 = s1->GetP()->l2; }
+
+        if (wh2 == 1) { s2->GetP()->n1 = pt;  len2 = s2->GetP()->l1; }
+        else  { s2->GetP()->n2 = pt;  len2 = s2->GetP()->l2; }
+
+        int wh0 = pt->WhichNeighbourHasID (s1->GetP()->id);
+        assert(wh0 > 0);
+        if (wh0 == 2) std::swap(len1, len2);
+
+        pt->l1 = len1;
+        pt->l2 = len2;
+
+        //CorrectCollisionStartPoints (ev->GetPoint(), id1, id2);
     }
     CheckIntersectionAfterDeath (s1, s2, evts, line, id, sinL, cosL);
     line->Erase( s1 );

@@ -171,14 +171,22 @@ PMF<REAL> :: GenerateField ()
     long id = GenerateInitialBirths(evts);
     while (! evts->IsEmpty())
     {
+        //out << endl << "_________________________________________________" << endl;
         Event * evt = evts->SeeFirst();
-
+        /*
+        out << endl;
+        out << evts << endl;
+        out << "... event at point " << evt->GetPoint() << endl;
+        out << line << endl;
+        //*/
         if (IsTheEventInvalid(evt, evts, line)) continue;
 
         if (evt->GetType() != NormalBirth  &&  evt->GetType() != BorderBirth)  CheckNewBirthSite(evt, evts, id);
         evt = evts->SeeFirst();
         cf->PushBack(evt->GetPoint());
-
+        /*
+        out << "... event at point " << evt->GetPoint() << endl;
+        //*/
         switch (evt->GetType())
         {
             case NormalBirth :
@@ -196,6 +204,7 @@ PMF<REAL> :: GenerateField ()
                     assert("WRONG EVENT TYPE DURING GENERATE METHOD" && false);
         }
         evts->Erase(evt);
+        //out << "-------------------------------------------------" << endl;
     }
     delete line;
     delete evts;

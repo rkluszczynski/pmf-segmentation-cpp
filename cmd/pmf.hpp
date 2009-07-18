@@ -83,7 +83,7 @@ namespace pmf
             inline
             bool IsTheEventInvalid (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ForgetOldCollisionPoint (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            void ForgetOldCollisionPoint (REAL, REAL, Point<REAL> *, Segment<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void EvolveTheRestOfField (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long);
 
