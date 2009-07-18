@@ -35,6 +35,8 @@ namespace pmf
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }
 
+            REAL GetX0() { return _x0; }
+
             void SetSweepLinePosition(REAL x)
             {
                 using Geometry::IsZero;
@@ -44,7 +46,7 @@ namespace pmf
 
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
-                SetSweepLinePosition(pt->x + EPSILON);
+                if (pt) SetSweepLinePosition(pt->x + EPSILON);
                 _endids.insert( seg->GetQ()->id );
                 ///assert( _endids.insert( seg->GetQ()->id ).ND );  // does not work for old events
                 return _st.insert( new ENTRY(_x0, seg) );

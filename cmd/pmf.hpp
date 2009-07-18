@@ -50,6 +50,7 @@ namespace pmf
 
 
         private:
+            //typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
             inline
             long GenerateInitialBirths (EventsSchedule<REAL> *);
             inline
@@ -57,13 +58,17 @@ namespace pmf
             inline
             bool IsPointInsideTheField (REAL, REAL);
             inline
-            bool ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
+            void InsertNewSegmentIntoSweep (Point<REAL> *, Segment<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
+            inline
+            bool ArrangeNewEvent (Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL, bool);
             inline
             void ProcessBirthEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             void ProcessUpdateEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             void CorrectCollisionStartPoints (Point<REAL> *, long, long);
+            inline
+            void CheckIntersectionAfterDeath (Segment<REAL> *, Segment<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             void ProcessDeathEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
@@ -74,11 +79,11 @@ namespace pmf
             inline
             void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
             inline
-            void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
-            bool IsTheEventInvalid (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
+            bool IsTheEventInvalid (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ForgetOldCollisionPoint (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, set<Point<REAL> *> &, long &);
+            void ForgetOldCollisionPoint (REAL, REAL, Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void EvolveTheRestOfField (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long);
 

@@ -50,8 +50,50 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
 
 
 template <class REAL>
+void
+PMF<REAL> :: InsertNewSegmentIntoSweep (Point<REAL> * parent, Segment<REAL> * nseg, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
+{
+    typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
+
+    //out << parent->x << endl;
+    //out << parent->x + EPSILON << endl;
+    //out << line->GetX0() << endl;
+    out << " ... checking intersections" << endl;
+    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
+    assert(res.ND == true);
+
+    // check the segments above and below for intersections
+    SweepIterator ita = line->Above(res.ST);
+    SweepIterator itb = line->Below(res.ST);
+    if (! line->IsNull(ita))
+    {
+        out << " --->  checking (a) : " << endl;
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*ita)->GetSegment(), id, sinL, cosL);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, nseg, (*ita)->GetSegment());
+            out << " --->  cpt (a) : " << cpt << endl;
+            evts->Insert(de);
+        }
+    }
+    if (! line->IsNull(itb))
+    {
+        out << " --->  checking (b) : " << endl;
+        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*itb)->GetSegment(), id, sinL, cosL);
+        if (cpt)
+        {
+            DeathEvent * de = new DeathEvent(cpt, nseg, (*itb)->GetSegment());
+            out << " --->  cpt (b) : " << cpt << endl;
+            evts->Insert(de);
+        }
+    }
+    out << " ... intersections checked" << endl;
+}
+
+
+template <class REAL>
 bool
-PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
+PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL, bool old = false)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
     using  namespace Geometry;
@@ -133,31 +175,10 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
             return false;
         }
     }
+    out << "  old ? : " << (old ? "TRUE" : "FALSE") << endl;
+    out << (old ? npt : parent) << endl;
+    InsertNewSegmentIntoSweep ((old ? NULL : parent), nseg, evts, line, id, sinL, cosL);
 
-    pair<SweepIterator, bool> res = line->Insert(parent, nseg);
-    assert(res.ND == true);
-
-    // check the segments above and below for intersections
-    SweepIterator ita = line->Above(res.ST);
-    SweepIterator itb = line->Below(res.ST);
-    if (! line->IsNull(ita))
-    {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*ita)->GetSegment(), id, sinL, cosL);
-        if (cpt)
-        {
-            DeathEvent * de = new DeathEvent(cpt, nseg, (*ita)->GetSegment());
-            evts->Insert(de);
-        }
-    }
-    if (! line->IsNull(itb))
-    {
-        Point<REAL> * cpt = DetectPossibleCollision (nseg, (*itb)->GetSegment(), id, sinL, cosL);
-        if (cpt)
-        {
-            DeathEvent * de = new DeathEvent(cpt, nseg, (*itb)->GetSegment());
-            evts->Insert(de);
-        }
-    }
     return true;
 }
 #undef X_ROTATED
@@ -246,13 +267,9 @@ PMF<REAL> :: CorrectCollisionStartPoints (Point<REAL> * pt, long id1, long id2)
 template <class REAL>
 inline
 void
-PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
+PMF<REAL> :: CheckIntersectionAfterDeath (Segment<REAL> * s1, Segment<REAL> * s2, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
-
-    Segment<REAL> * s1, * s2;
-    s1 = ev->GetSegment();
-    s2 = ev->GetSegment(false);
     //*
     set<Segment<REAL> *> nn;
     nn.insert( s1 );
@@ -274,14 +291,7 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     nn.erase( s2 );
     assert(nn.size() <= 2);
     //*/
-    if (s1 && s2)
-    {
-        long id1 = s1->GetQ()->id;
-        long id2 = s2->GetQ()->id;
-        CorrectCollisionStartPoints (ev->GetPoint(), id1, id2);
-    }
     //PMFLogV("Death with %i status neighbour(s) !!!", nn.size());
-
     if (nn.size() == 2)
     {
         Point<REAL> * cpt = DetectPossibleCollision (*nn.begin(), *nn.rbegin(), id, sinL, cosL);
@@ -291,8 +301,25 @@ PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
             evts->Insert(de);
         }
     }
-    line->Erase( s1 );
+}
 
+
+template <class REAL>
+inline
+void
+PMF<REAL> :: ProcessDeathEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long & id, REAL sinL, REAL cosL)
+{
+    Segment<REAL> * s1, * s2;
+    s1 = ev->GetSegment();
+    s2 = ev->GetSegment(false);
+    if (s1 && s2)
+    {
+        long id1 = s1->GetQ()->id;
+        long id2 = s2->GetQ()->id;
+        CorrectCollisionStartPoints (ev->GetPoint(), id1, id2);
+    }
+    CheckIntersectionAfterDeath (s1, s2, evts, line, id, sinL, cosL);
+    line->Erase( s1 );
     if (s2) line->Erase( s2 );  else  delete s1;
     return;
 }
