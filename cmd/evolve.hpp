@@ -159,6 +159,15 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
         Segment<REAL> * seg1 = ev->GetSegment();
         Segment<REAL> * seg2 = ev->GetSegment(false);
 
+            SweepIterator it1 = line->Find(seg1);
+            SweepIterator it2 = line->Find(seg2);
+
+            out << line << endl;
+            if (!line->IsNull(it1)) out << " -1-> " << (*it1)->GetSegment() << endl;
+            if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
+            out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
+            out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
+
         //if ( (! line->IsNullHasSegmentWithEndId(ev->GetSegment(true)->GetQ()->id))
         //    || (! line->HasSegmentWithEndId(ev->GetSegment(false)->GetQ()->id)) )
         if (line->IsNull(line->Find(seg1)) || line->IsNull(line->Find(seg2)))
@@ -179,18 +188,29 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
         {
             Segment<REAL> * seg1 = ev->GetSegment();
             Segment<REAL> * seg2 = ev->GetSegment(false);
+            assert(seg1);
+            assert(seg2);
 
             SweepIterator it1 = line->Find(seg1);
             SweepIterator it2 = line->Find(seg2);
 
-            if (line->IsNull(it1) || line->IsNull(it2))
+            out << line << endl;
+            if (!line->IsNull(it1)) out << " -1-> " << (*it1)->GetSegment() << endl;
+            if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
+            out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
+            out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
+
+            bool cond1 = (pt->n1 == NULL) || line->IsNull(it1);
+            bool cond2 = (pt->n2 == NULL) || line->IsNull(it2);
+
+            if (cond1 || cond2)
             {
-                if (! line->IsNull(it1))
+                if (! cond1)
                 {
                     line->Erase( it1 );
                     ForgetOldCollisionPoint(sinL, cosL, pt, seg1, evts, line, /*idsok,*/ id);
                 }
-                else if (! line->IsNull(it2))
+                else if (! cond2)
                 {
                     line->Erase( it2 );
                     ForgetOldCollisionPoint(sinL, cosL, pt, seg2, evts, line, /*idsok,*/ id);
@@ -210,6 +230,13 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
             if (line->IsNull(line->Find(ev->GetSegment())))
             {
                 Point<REAL> * tmp = ev->GetPoint();
+                if (tmp->n2  &&  tmp->n2->type == PT_Collision)
+                {
+                    Point<REAL> * cpt = tmp->n2;
+                    int wh = cpt->WhichNeighbourHasID (tmp->id);
+                    assert(wh > 0);
+                    if (wh == 1) cpt->n1 = NULL; else cpt->n2 = NULL;
+                }
                 Segment<REAL> * seg = ev->GetSegment();
                 evts->Erase(ev);
                 delete seg;

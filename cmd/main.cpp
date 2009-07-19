@@ -13,16 +13,17 @@ using namespace std;
 int main(int argc, char **argv)
 {
     char dir[128] = "output/";
-    int n = 1;
+    int n = 1, start = 0;
     if (argc > 1)  {  n = atoi(argv[1]);  strcpy(dir, "../output/");  }
+    if (argc > 2)  {  start = atoi(argv[2]);  }
     int len = strlen(dir);
     //*
     using namespace pmf;
     cout.precision(12);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
-    time_t seed = 4434;
-    for (int i = 0; i < n; ++i)
+    time_t seed = 26314;
+    for (int i = start; i < n; ++i)
     {
         if (argc > 1) seed = i;
         PMF<double> * ppmf = new PMF<double>(size, size);

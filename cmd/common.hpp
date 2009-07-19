@@ -26,7 +26,7 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
     Point<REAL> * result = NULL;
     int collision = CheckIntersection2<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                               seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
-    //out << "COLLISION VALUE = " << collision << endl;
+    out << "COLLISION VALUE = " << collision << endl;
     if (collision > 0)
     {
         pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
@@ -39,11 +39,15 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
         REAL orgy = Y_ROTATED(cpt.ST, cpt.ND, -sinL, cosL);
         if (IsPointInsideTheField(orgx, orgy))
         {
+    out << " seg1 : " << seg1 << endl;
+    out << " seg2 : " << seg2 << endl;
             result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
             result->org_x = orgx;
             result->org_y = orgy;
 
-            //out << "# NEW COLLISION POINT #> " << result << endl;
+            out << "# NEW COLLISION POINT #> " << result << endl;
+    out << " seg1 : " << seg1 << endl;
+    out << " seg2 : " << seg2 << endl;
         }
     }
     return result;

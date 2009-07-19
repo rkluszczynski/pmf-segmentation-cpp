@@ -12,6 +12,7 @@ namespace pmf
             typedef double REAL;
 
             SimulatedAnnealingSimulation() {}
+            ~SimulatedAnnealingSimulation() {}
 
             void Prepare () {}
             void     Run ();
@@ -23,6 +24,7 @@ namespace pmf
             virtual void          PostIteration() {}
 
             virtual bool  CheckRunningCondition() const = 0;
+            virtual bool    CheckApplyCondition() { return true; }
             virtual REAL   CalculateHamiltonian() const = 0;
             virtual void       MakeModification() const = 0;
             virtual void      ApplyModification() const = 0;
@@ -36,28 +38,31 @@ namespace pmf
     {
         Prepare ();
         REAL engH = CalculateHamiltonian();
-
+        REAL newH;
         while (CheckRunningCondition())
         {
             PreIteration ();
+
             MakeModification ();
-
-            REAL newH = CalculateHamiltonian();
-
-            REAL deltaH = newH - engH;
-            if (deltaH > 0.0)
+            bool apply = CheckApplyCondition();
+            if (apply)
             {
-                REAL  limit = exp(- (newH - engH));
-                REAL chance = Probability::Uniform(0.0, 1.0);
-                if (chance < limit)
+                newH = CalculateHamiltonian();
+                REAL deltaH = newH - engH;
+                if (deltaH > 0.0)
                 {
-                    ApplyModification ();
-                }
-                else {
-                    CancelModification ();
+                    REAL  limit = exp(-deltaH);
+                    REAL chance = Probability::Uniform(0.0, 1.0);
+                    if (chance > limit)  apply = false;
                 }
             }
-            else  ApplyModification ();
+
+            if (apply)
+            {
+                ApplyModification ();
+                engH = newH;
+            }
+            else CancelModification ();
 
             PostIteration ();
         }
