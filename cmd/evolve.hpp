@@ -193,13 +193,13 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
 
             SweepIterator it1 = line->Find(seg1);
             SweepIterator it2 = line->Find(seg2);
-
+            /*
             out << line << endl;
             if (!line->IsNull(it1)) out << " -1-> " << (*it1)->GetSegment() << endl;
             if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
             out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
             out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
-
+            //*/
             bool cond1 = (pt->n1 == NULL) || line->IsNull(it1);
             bool cond2 = (pt->n2 == NULL) || line->IsNull(it2);
 
@@ -235,7 +235,11 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
                     Point<REAL> * cpt = tmp->n2;
                     int wh = cpt->WhichNeighbourHasID (tmp->id);
                     assert(wh > 0);
-                    if (wh == 1) cpt->n1 = NULL; else cpt->n2 = NULL;
+                    if (wh == 1) {
+                        std::swap(cpt->n1, cpt->n2);
+                        std::swap(cpt->l1, cpt->l2);
+                    }
+                    cpt->n2 = NULL;
                 }
                 Segment<REAL> * seg = ev->GetSegment();
                 evts->Erase(ev);
