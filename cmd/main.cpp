@@ -14,7 +14,11 @@ int main(int argc, char **argv)
 {
     char dir[128] = "output/";
     int n = 1, start = 0;
-    if (argc > 1)  {  n = atoi(argv[1]);  strcpy(dir, "../output/");  }
+    if (argc > 1)
+    {
+        n = atoi(argv[1]);
+        strcpy(dir, "../output/");
+    }
     if (argc > 2)  {  start = atoi(argv[2]);  }
     int len = strlen(dir);
     //*
@@ -22,7 +26,7 @@ int main(int argc, char **argv)
     cout.precision(12);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
-    time_t seed = 46434;
+    time_t seed = 2000;
     for (int i = start; i < n; ++i)
     {
         if (argc > 1) seed = i;

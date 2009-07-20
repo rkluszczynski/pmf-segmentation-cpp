@@ -136,7 +136,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, S
 
 template <class REAL>
 bool
-PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
+PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
     //if (IsTheEventInvalid (ev, evts, line)) return true;
@@ -158,22 +158,21 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
     {
         Segment<REAL> * seg1 = ev->GetSegment();
         Segment<REAL> * seg2 = ev->GetSegment(false);
-
+        /*
             SweepIterator it1 = line->Find(seg1);
             SweepIterator it2 = line->Find(seg2);
 
-            out << line << endl;
             if (!line->IsNull(it1)) out << " -1-> " << (*it1)->GetSegment() << endl;
             if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
             out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
             out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
-
-        //if ( (! line->IsNullHasSegmentWithEndId(ev->GetSegment(true)->GetQ()->id))
-        //    || (! line->HasSegmentWithEndId(ev->GetSegment(false)->GetQ()->id)) )
+        //*/
         if (line->IsNull(line->Find(seg1)) || line->IsNull(line->Find(seg2)))
         {
-            delete ev->GetPoint();
+            Point<REAL> * tmp = ev->GetPoint();
             evts->Erase(ev);
+            //evts->Erase( evts->SeeFirst() );
+            delete tmp;
             return true;
         }
     }
@@ -241,20 +240,9 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
                 {
                     Point<REAL> * cpt = tmp->n2;
 
-                    if (tmp == cpt->n1) { cpt->n1 = NULL; }
-                    else if (tmp == cpt->n2) { cpt->n2 = NULL; }
+                    if (cpt->n1 == tmp) { cpt->n1 = NULL; }
+                    else if (cpt->n2 == tmp) { cpt->n2 = NULL; }
                     else  assert("SOMETHING IS WRONG" && false);
-                    /*
-                    int wh = cpt->WhichNeighbourHasID (tmp->id);
-                    assert(wh > 0);
-                    if (wh == 1) cpt->n1 = NULL; else cpt->n2 = NULL;
-                    /*
-                    if (wh == 1) {
-                        std::swap(cpt->n1, cpt->n2);
-                        std::swap(cpt->l1, cpt->l2);
-                    }
-                    cpt->n2 = NULL;
-                    //*/
                 }
                 Segment<REAL> * seg = ev->GetSegment();
                 evts->Erase(ev);

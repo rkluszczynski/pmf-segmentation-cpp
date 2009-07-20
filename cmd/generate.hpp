@@ -152,8 +152,9 @@ PMF<REAL> :: IsTheEventInvalid (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         if ( (! line->HasSegmentWithEndId(ev->GetSegment(true)->GetQ()->id))
             || (! line->HasSegmentWithEndId(ev->GetSegment(false)->GetQ()->id)) )
         {
-            delete ev->GetPoint();
+            Point<REAL> * tmp = ev->GetPoint();
             evts->Erase(ev);
+            delete tmp;
             return true;
         }
     }

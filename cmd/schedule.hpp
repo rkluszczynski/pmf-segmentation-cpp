@@ -58,7 +58,7 @@ namespace pmf
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
                 if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             }
-            //*
+            /*
                 // does not work on seed 3774659 and size 1
             if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
             if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
@@ -111,12 +111,20 @@ namespace pmf
 
             void Erase(EventPoint e)
             {
-                _events.erase(e);
+                long _erased = _events.erase(e);
+                assert(_erased > 0);
                 delete e;
             }
             bool IsEmpty() { return _events.empty(); }
             EventPoint SeeFirst() { return *_events.begin(); }
-
+            /*
+            Point<REAL> * Find(EventPoint e)
+            {
+                cout << (*_events.find(e)) << endl;
+                if (_events.find(e) == _events.end()) return NULL;
+                return (*_events.find(e))->GetPoint();
+            }
+            //*/
             //EventList * GetEvents() { return & _event_list; }
 
             friend ostream & operator << (ostream & out, const EventsSchedule * es)
