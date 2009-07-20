@@ -39,9 +39,9 @@ PMF<REAL> :: RotatePoints (REAL sinL = 0.0, REAL cosL = 1.0)
                 }
             }
             else {
-                if (pt->x < n2->x) { pt->type = PT_Update; }
+                if (pt->x > n2->x) { pt->type = PT_Collision; }
                 else {
-                    pt->type = PT_Collision;
+                    pt->type = PT_Update;
                 }
             }
         }

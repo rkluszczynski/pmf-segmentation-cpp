@@ -5,7 +5,25 @@
     template <class REAL> class PointComparator
     {
         public:
-            bool operator() (Point<REAL> * const & p1, Point<REAL> * const & p2) const { return p1->x > p2->x; }
+            bool operator() (Point<REAL> * const & p1, Point<REAL> * const & p2) const
+            {
+                //*
+                if (Geometry::IsZero(p1->x - p2->x))
+                {
+                    if (p1->type == PT_BirthOnBorder  &&  p2->type != PT_BirthOnBorder) return false;
+                    if (p2->type == PT_BirthOnBorder  &&  p1->type != PT_BirthOnBorder) return true;
+                    if (p1->type == PT_BirthInField   &&  p2->type != PT_BirthInField) return false;
+                    if (p2->type == PT_BirthInField   &&  p1->type != PT_BirthInField) return true;
+                    if (p1->type == PT_Update         &&  p2->type != PT_Update) return false;
+                    if (p2->type == PT_Update         &&  p1->type != PT_Update) return true;
+                    if (p1->type == PT_Collision      &&  p2->type != PT_Collision) return false;
+                    if (p2->type == PT_Collision      &&  p1->type != PT_Collision) return true;
+                    if (p1->type == PT_DeathOnBorder  &&  p2->type != PT_DeathOnBorder) return false;
+                    if (p2->type == PT_DeathOnBorder  &&  p1->type != PT_DeathOnBorder) return true;
+                }
+                //*/
+                return p1->x > p2->x;
+            }
     };
 
 
@@ -64,6 +82,8 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
         if (pt->n2  &&  pt->n2->x < rotxx)  spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
 
         SegmentsMapIterator it1, it2;
+        if (s1) out << "  #>-{s1}-> " << s1 << endl;
+        if (s2) out << "  #>-{s2}-> " << s2 << endl;
         switch (pt->type)
         {
             case  PT_BirthInField :
@@ -107,6 +127,8 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
             default:
                 assert("WRONG POINT TYPE" && false);
         }
+        if (s1) out << "   >-{s1}-> " << s1 << endl;
+        if (s2) out << "   >-{s2}-> " << s2 << endl;
         evts->Insert( new OldEvent(pt, s1, s2) );
         /*
         out << " MAPA : ";

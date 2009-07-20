@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     cout.precision(12);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
-    time_t seed = 3250;
+    time_t seed = 46434;
     for (int i = start; i < n; ++i)
     {
         if (argc > 1) seed = i;

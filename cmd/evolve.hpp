@@ -191,28 +191,35 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
             assert(seg1);
             assert(seg2);
 
+            /*
             SweepIterator it1 = line->Find(seg1);
             SweepIterator it2 = line->Find(seg2);
-            /*
             out << line << endl;
             if (!line->IsNull(it1)) out << " -1-> " << (*it1)->GetSegment() << endl;
             if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
             out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
             out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
             //*/
-            bool cond1 = (pt->n1 == NULL) || line->IsNull(it1);
-            bool cond2 = (pt->n2 == NULL) || line->IsNull(it2);
+            bool cond1 = (pt->n1 == NULL);// || line->IsNull(it1);
+            out << "  cond1  = " << (cond1 ? "TRUE" : "FALSE") << endl;
+            if (! cond1  &&  line->IsNull( line->Find(seg1) )) cond1 = true;
+            out << "  cond1  = " << (cond1 ? "TRUE" : "FALSE") << endl;
+
+            bool cond2 = (pt->n2 == NULL);// || line->IsNull(it2);
+            out << "  cond2  = " << (cond2 ? "TRUE" : "FALSE") << endl;
+            if (! cond2  &&  line->IsNull( line->Find(seg2) )) cond2 = true;
+            out << "  cond2  = " << (cond2 ? "TRUE" : "FALSE") << endl;
 
             if (cond1 || cond2)
             {
                 if (! cond1)
                 {
-                    line->Erase( it1 );
+                    line->Erase( line->Find(seg1) );
                     ForgetOldCollisionPoint(sinL, cosL, pt, seg1, evts, line, /*idsok,*/ id);
                 }
                 else if (! cond2)
                 {
-                    line->Erase( it2 );
+                    line->Erase( line->Find(seg2) );
                     ForgetOldCollisionPoint(sinL, cosL, pt, seg2, evts, line, /*idsok,*/ id);
                 }
 
@@ -233,13 +240,21 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * ev, EventsSchedule
                 if (tmp->n2  &&  tmp->n2->type == PT_Collision)
                 {
                     Point<REAL> * cpt = tmp->n2;
+
+                    if (tmp == cpt->n1) { cpt->n1 = NULL; }
+                    else if (tmp == cpt->n2) { cpt->n2 = NULL; }
+                    else  assert("SOMETHING IS WRONG" && false);
+                    /*
                     int wh = cpt->WhichNeighbourHasID (tmp->id);
                     assert(wh > 0);
+                    if (wh == 1) cpt->n1 = NULL; else cpt->n2 = NULL;
+                    /*
                     if (wh == 1) {
                         std::swap(cpt->n1, cpt->n2);
                         std::swap(cpt->l1, cpt->l2);
                     }
                     cpt->n2 = NULL;
+                    //*/
                 }
                 Segment<REAL> * seg = ev->GetSegment();
                 evts->Erase(ev);
@@ -260,6 +275,8 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
     long step = 0;
     while (! evts->IsEmpty())
     {
+        out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+        out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
         out << endl << "_________________________________________________" << endl;
         out << "  STEP " << (++step) << endl;
         Event * evt = evts->SeeFirst();
@@ -297,8 +314,13 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     assert("WRONG EVENT TYPE DURING EVOLUTION" && false);
         }
         evts->Erase(evt);
-        out << "-------------------------------------------------" << endl;
+        out << "----------------------------------------------------" << endl;
     }
+    out << endl;
+    out << evts << endl;
+    out << line << endl;
+    out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+    out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
     //*
     FOREACH(it, *cf)

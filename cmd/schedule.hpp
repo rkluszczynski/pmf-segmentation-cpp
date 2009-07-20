@@ -36,7 +36,23 @@ namespace pmf
             if (e2->GetType() == BorderBirth  &&  e1->GetType() != BorderBirth) return false;
             if (e1->GetType() == PointUpdate  &&  e2->GetType() != PointUpdate) return true;
             if (e2->GetType() == PointUpdate  &&  e1->GetType() != PointUpdate) return false;
-
+            //*
+            if (e1->GetType() ==    OldPoint  &&  e2->GetType() ==    OldPoint)
+            {
+                Point<double> * pt1 = e1->GetPoint();
+                Point<double> * pt2 = e2->GetPoint();
+                if (pt1->type == PT_BirthOnBorder  &&  pt2->type != PT_BirthOnBorder) return true;
+                if (pt2->type == PT_BirthOnBorder  &&  pt1->type != PT_BirthOnBorder) return false;
+                if (pt1->type == PT_BirthInField   &&  pt2->type != PT_BirthInField) return true;
+                if (pt2->type == PT_BirthInField   &&  pt1->type != PT_BirthInField) return false;
+                if (pt1->type == PT_Update         &&  pt2->type != PT_Update) return true;
+                if (pt2->type == PT_Update         &&  pt1->type != PT_Update) return false;
+                if (pt1->type == PT_Collision      &&  pt2->type != PT_Collision) return true;
+                if (pt2->type == PT_Collision      &&  pt1->type != PT_Collision) return false;
+                if (pt1->type == PT_DeathOnBorder  &&  pt2->type != PT_DeathOnBorder) return true;
+                if (pt2->type == PT_DeathOnBorder  &&  pt1->type != PT_DeathOnBorder) return false;
+            }
+            //*/
             if (! IsZero(e1->GetPoint()->y - e2->GetPoint()->y))
             {
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
