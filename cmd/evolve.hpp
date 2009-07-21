@@ -190,7 +190,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             assert(seg1);
             assert(seg2);
 
-            /*
+            //*
             SweepIterator it1 = line->Find(seg1);
             SweepIterator it2 = line->Find(seg2);
             out << line << endl;
@@ -209,6 +209,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             if (! cond2  &&  line->IsNull( line->Find(seg2) )) cond2 = true;
             out << "  cond2  = " << (cond2 ? "TRUE" : "FALSE") << endl;
 
+		assert(line->GetX0() < pt->x);
             if (cond1 || cond2)
             {
                 Point<REAL> * tmp = ev->GetPoint();
