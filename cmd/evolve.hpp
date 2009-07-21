@@ -233,10 +233,10 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
         else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
         {
             //if (! line->HasSegmentWithEndId(pt->id))
-            if (line->IsNull(line->Find(ev->GetSegment())))
+            if (pt->n1 == NULL  ||  line->IsNull(line->Find(ev->GetSegment())))
             {
                 Point<REAL> * tmp = ev->GetPoint();
-                if (tmp->n2  &&  tmp->n2->type == PT_Collision)
+                if (tmp->n2  &&  (tmp->n2->type == PT_Collision || tmp->n2->type == PT_DeathOnBorder))
                 {
                     Point<REAL> * cpt = tmp->n2;
 
