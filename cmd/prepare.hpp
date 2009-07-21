@@ -56,7 +56,7 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
     if (cf->IsEmpty()) return;
     cf->PrintConfiguration(out);
     RotatePoints (sinL, cosL);
-    cf->PrintConfiguration(out);
+    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
 
     PointPriorityQueue   ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
