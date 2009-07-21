@@ -211,6 +211,8 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
 
             if (cond1 || cond2)
             {
+                Point<REAL> * tmp = ev->GetPoint();
+                evts->Erase(ev);
                 if (! cond1)
                 {
                     line->Erase( line->Find(seg1) );
@@ -221,9 +223,6 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
                     line->Erase( line->Find(seg2) );
                     ForgetOldCollisionPoint(sinL, cosL, pt, seg2, evts, line, /*idsok,*/ id);
                 }
-
-                Point<REAL> * tmp = ev->GetPoint();
-                evts->Erase(ev);
                 delete seg1;
                 delete seg2;
                 delete tmp;

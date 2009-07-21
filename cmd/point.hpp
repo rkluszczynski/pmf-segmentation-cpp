@@ -45,7 +45,15 @@ namespace pmf
             : x(xx), y(yy), n1(nn1), n2(nn2), l1(ll1), l2(ll2), id(idi), type(ttype)//, block(BLOCK_UNDEFINED)
         { OnInit(); }
 
-        virtual ~Point()  { /* cerr << " POINT DEAD " << endl; */ --pmf_point_counter; }
+        virtual ~Point()
+        {
+            /* cerr << " POINT DEAD " << endl; */
+             x =  y = 17;
+            l1 = (n1) ? n1->id : 0;
+            l2 = (n2) ? n2->id : 0;
+            n1 = n2 = NULL;
+            --pmf_point_counter;
+        }
 
         void OnInit()  { ++pmf_point_counter; }//strcpy(label, "POINT"); }
 
