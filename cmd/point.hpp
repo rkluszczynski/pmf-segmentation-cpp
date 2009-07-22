@@ -56,6 +56,7 @@ namespace pmf
         }
 
         void OnInit()  { ++pmf_point_counter; }//strcpy(label, "POINT"); }
+        Point * n(int which) { assert(which == 1 || which == 2); return (which == 1) ? n1 : n2; }
 
         bool operator< (const Point<REAL> * & point) const { return(x < point->x); }
         //bool operator< (const Point<REAL> & point)   const { return(x <  point.x); }

@@ -18,6 +18,13 @@ namespace pmf
     PMFFileType;
 
 
+    typedef enum {
+        BirthEnd,
+        DeathEnd
+    }
+    EndType;
+
+
     template <class REAL> class PMF
     {
         public:
@@ -26,6 +33,7 @@ namespace pmf
 
             void GenerateField();
             void RotatePoints (REAL, REAL);
+            void RotatePoints2 (REAL, REAL);
 
             void AddBirthPoint (REAL, REAL, REAL);
             void UpdatePointVelocity (long, REAL);
@@ -76,6 +84,8 @@ namespace pmf
             inline
             bool IsTheEventInvalid (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *);
 
+            inline
+            EndType DetermineN (Point<REAL> *, int, std::vector<bool> &);
             inline
             void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
             inline

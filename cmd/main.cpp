@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     if (argc > 1)
     {
         n = atoi(argv[1]);
-        strcpy(dir, "../output/");
+        //strcpy(dir, "../output/");
     }
     if (argc > 2)  {  start = atoi(argv[2]);  }
     int len = strlen(dir);
@@ -26,7 +26,9 @@ int main(int argc, char **argv)
     cout.precision(12);
     //Configuration<double> cf(0.0,0.0);
     double size = 1;//21;
-    time_t seed = 114835;
+    time_t seed = 2858699;
+    //seed = 2858779;
+    //seed = 2858855;
     for (int i = start; i < n; ++i)
     {
         if (argc > 1) seed = i;
@@ -56,6 +58,7 @@ int main(int argc, char **argv)
         cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
         assert(pmf::pmf_point_counter == ppmf->GetCount());
 
+        out.rdbuf(std::cout.rdbuf());
         strcpy(dir + len, "qq.txt");
         ofstream fout(dir);
         fout << "[ SEED ] : " << seed << endl;
