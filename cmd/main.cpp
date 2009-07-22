@@ -29,6 +29,8 @@ int main(int argc, char **argv)
     time_t seed = 2858699;
     //seed = 2858779;
     //seed = 2858855;
+    seed = 114835;
+    seed = 46434;
     for (int i = start; i < n; ++i)
     {
         if (argc > 1) seed = i;
