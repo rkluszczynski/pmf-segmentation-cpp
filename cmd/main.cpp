@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 {
     char dir[128] = "output/";
     int n = 1, start = 0;
-    bool useFor = true;
+    bool useFor = false;
     if (argc > 1)
     {
         n = atoi(argv[1]);
@@ -30,8 +30,8 @@ int main(int argc, char **argv)
     time_t seed = 2858699;
     //seed = 2858779;
     //seed = 2858855;
-    seed = 114835;
-    seed = 34648;
+    //seed = 114835;
+    //seed = 34648;
     if (useFor)
     {
         start = 34648;
