@@ -14,10 +14,11 @@ int main(int argc, char **argv)
 {
     char dir[128] = "output/";
     int n = 1, start = 0;
+    bool useFor = true;
     if (argc > 1)
     {
         n = atoi(argv[1]);
-        //strcpy(dir, "../output/");
+        strcpy(dir, "../output/");
     }
     if (argc > 2)  {  start = atoi(argv[2]);  }
     int len = strlen(dir);
@@ -30,10 +31,15 @@ int main(int argc, char **argv)
     //seed = 2858779;
     //seed = 2858855;
     seed = 114835;
-    seed = 46434;
+    seed = 34648;
+    if (useFor)
+    {
+        start = 34648;
+        n = 34650;
+    }
     for (int i = start; i < n; ++i)
     {
-        if (argc > 1) seed = i;
+        if (argc > 1 || useFor) seed = i;
         PMF<double> * ppmf = new PMF<double>(size, size);
         //ppmf->SetSeed(1168); //przy size=2
         //ppmf->SetSeed(738703); //size=1
