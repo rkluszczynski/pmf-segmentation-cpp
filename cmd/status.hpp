@@ -43,10 +43,11 @@ namespace pmf
                 assert(x >= _x0 || IsZero(x - _x0));
                 if (x >= _x0  ||  IsZero(x - _x0)) _x0 = x;
             }
-            /*
+            //*
             void SetSweepLinePosition2(REAL x)
             {
-                assert(x >= _x0 || Geometry::IsZero(x - _x0));
+                //assert(x >= _x0 || Geometry::IsZero(x - _x0));
+                assert(_x0 - x < 3. * EPSILON);
                 _x0 = x;
             }
             //*/

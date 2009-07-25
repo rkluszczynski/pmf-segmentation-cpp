@@ -192,7 +192,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             //line->SetSweepLinePosition( pt->x + EPSILON);
             if (! (line->GetX0() < pt->x))
             {
-                line->SetSweepLinePosition( pt->x - EPSILON * 0.5 );
+                line->SetSweepLinePosition2( pt->x - EPSILON * 0.5 );
             }
             assert(line->GetX0() < pt->x);
 

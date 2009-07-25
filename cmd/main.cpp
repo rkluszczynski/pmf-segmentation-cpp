@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     //seed = 2858779;
     //seed = 2858855;
     //seed = 114835;
-    //seed = 34648;
+    seed = 37047;
     if (useFor)
     {
         start = 34648;

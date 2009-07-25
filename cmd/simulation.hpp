@@ -12,7 +12,7 @@ namespace pmf
             typedef double REAL;
 
             SimulatedAnnealingSimulation() {}
-            ~SimulatedAnnealingSimulation() {}
+            virtual ~SimulatedAnnealingSimulation() {}
 
             void Prepare () {}
             void     Run ();

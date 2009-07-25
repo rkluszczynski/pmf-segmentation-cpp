@@ -10,6 +10,8 @@ namespace pmf
 {
     long long   pmf_point_counter = 0;
 
+    extern std::ostream out;
+
         typedef enum {
             PT_Unknown,
             PT_BirthInField,
@@ -47,6 +49,7 @@ namespace pmf
 
         virtual ~Point()
         {
+            out << "[ DEALLOCATING POINT ]  :  " << this << endl;
             /* cerr << " POINT DEAD " << endl; */
              x =  y = 17;
             l1 = (n1) ? n1->id : 0;
@@ -55,7 +58,12 @@ namespace pmf
             --pmf_point_counter;
         }
 
-        void OnInit()  { ++pmf_point_counter; }//strcpy(label, "POINT"); }
+        void OnInit()
+        {
+            ++pmf_point_counter;
+            out << "[ _ALLOCATING_ POINT ]  :  " << this << endl;
+            //strcpy(label, "POINT");
+        }
         Point * n(int which) { assert(which == 1 || which == 2); return (which == 1) ? n1 : n2; }
 
         bool operator< (const Point<REAL> * & point) const { return(x < point->x); }

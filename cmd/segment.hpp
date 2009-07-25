@@ -10,6 +10,8 @@ namespace pmf
 {
     long long   pmf_segment_counter = 0;
 
+    extern std::ostream out;
+
     template <typename REAL> struct Segment
     {
         typedef Point<REAL> * POINT;
@@ -17,7 +19,11 @@ namespace pmf
         public :
             //Segment() {}
             Segment(POINT pp, POINT qq) : p(pp), q(qq) { OnInit(); }
-            ~Segment() { --pmf_segment_counter; }
+            ~Segment()
+            {
+                out << "[ DEALLOCATING SEGMENT ]  :  " << this << endl;
+                --pmf_segment_counter;
+            }
 
             const POINT GetP() const { return p; }
             const POINT GetQ() const { return q; }
@@ -43,6 +49,7 @@ namespace pmf
             void OnInit()
             {
                 assert(p->x <= q->x);
+                out << "[ _ALLOCATING_ SEGMENT ]  :  " << this << endl;
                 ++pmf_segment_counter;
             }
 
