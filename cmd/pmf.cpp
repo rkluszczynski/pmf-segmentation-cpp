@@ -56,19 +56,27 @@ PMF<REAL> :: SavePMF (const char * filename, PMFFileType mode = TextFile)
 {
     PMFLog("[ SAVE ] : configuration to a file '%s'", wxString::FromAscii(filename).c_str());
     cf->SetPointsIDs();
-    ofstream fout(filename);
     switch (mode)
     {
         case GeoGebraFile :
+        {
             cf->SaveConfigurationAsGGB(filename);
             break;;
+        }
         case GeoGebraCmds :
+        {
+            ofstream fout(filename);
             cf->SaveConfigurationAsGGB(fout);
+            fout.close();
             break;;
+        }
         default :
+        {
+            ofstream fout(filename);
             cf->PrintConfiguration(fout);
+            fout.close();
+        }
     }
-    fout.close();
     return true;
 }
 
