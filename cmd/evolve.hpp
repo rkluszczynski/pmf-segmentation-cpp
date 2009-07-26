@@ -27,20 +27,20 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
         case     PT_Collision :
                             assert(s2);
                             CheckIntersectionAfterDeath (s1, s2, evts, line, id, sinL, cosL);
-                            line->Erase( s1 );
-                            line->Erase( s2 );
+                            if (! line->IsNull(line->Find(s1)))  line->Erase( s1 );
+                            if (! line->IsNull(line->Find(s2)))  line->Erase( s2 );
                             delete s1;
                             delete s2;
                             break;;
         case PT_DeathOnBorder :
                             CheckIntersectionAfterDeath (s1, NULL, evts, line, id, sinL, cosL);
-                            line->Erase( s1 );
+                            if (! line->IsNull(line->Find(s1)))  line->Erase( s1 );
                             delete s1;
                             break;;
         case        PT_Update :
                             //CheckIntersectionAfterDeath (s1, NULL, evts, line, id, sinL, cosL);
                             /// FIXME (Rafel#4#): do not know if line above should exist ??? It is checked during insertion
-                            line->Erase( s1 );
+                            if (! line->IsNull(line->Find(s1)))  line->Erase( s1 );
                             delete s1;
                             //line->Insert( pt, s2 );
                             assert(s2);
