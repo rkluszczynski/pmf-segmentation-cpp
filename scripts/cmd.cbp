@@ -8,9 +8,9 @@
 		<Build>
 			<Script file="lib_finder.script" />
 			<Target title="Debug">
-				<Option output="../bin/Debug/pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Debug\pmf" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="../objs/Debug/" />
+				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -18,9 +18,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="../bin/Release/pmf" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Release\pmf" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="../objs" />
+				<Option object_output="..\objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -31,9 +31,9 @@
 				</Linker>
 			</Target>
 			<Target title="gen-Debug">
-				<Option output="../bin/Debug/pmf-gen" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Debug\pmf-gen" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="../objs/Debug/" />
+				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option parameters="-s 3 -o output/out-pmf-gen.txt -e 17 -f" />
@@ -42,9 +42,9 @@
 				</Compiler>
 			</Target>
 			<Target title="add-Debug">
-				<Option output="../bin/Debug/pmf-add" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\Debug\pmf-add" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
-				<Option object_output="../objs/Debug/" />
+				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -56,68 +56,80 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="../cmd/adding.hpp">
+		<Unit filename="..\cmd\adding.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../cmd/addseg.hpp">
+		<Unit filename="..\cmd\addseg.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../cmd/birthsites.hpp" />
-		<Unit filename="../cmd/common.hpp" />
-		<Unit filename="../cmd/configuration.hpp" />
-		<Unit filename="../cmd/element.hpp" />
-		<Unit filename="../cmd/events.hpp" />
-		<Unit filename="../cmd/evolve.hpp">
+		<Unit filename="..\cmd\birthsites.hpp" />
+		<Unit filename="..\cmd\common.hpp" />
+		<Unit filename="..\cmd\configuration.hpp" />
+		<Unit filename="..\cmd\element.hpp" />
+		<Unit filename="..\cmd\events.hpp" />
+		<Unit filename="..\cmd\evolve.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../cmd/generate.hpp" />
-		<Unit filename="../cmd/geometry.hpp" />
-		<Unit filename="../cmd/main-add.cpp">
+		<Unit filename="..\cmd\generate.hpp" />
+		<Unit filename="..\cmd\geometry.hpp" />
+		<Unit filename="..\cmd\image.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="..\cmd\image.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="..\cmd\main-add.cpp">
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../cmd/main-gen.cpp">
+		<Unit filename="..\cmd\main-gen.cpp">
 			<Option target="Release" />
 			<Option target="gen-Debug" />
 		</Unit>
-		<Unit filename="../cmd/main.cpp">
+		<Unit filename="..\cmd\main.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="../cmd/pmf.cpp">
+		<Unit filename="..\cmd\pmf.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="../cmd/pmf.hpp" />
-		<Unit filename="../cmd/point.hpp" />
-		<Unit filename="../cmd/prepare.hpp">
+		<Unit filename="..\cmd\pmf.hpp" />
+		<Unit filename="..\cmd\point.hpp" />
+		<Unit filename="..\cmd\prepare.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../cmd/probability.hpp" />
-		<Unit filename="../cmd/remove.hpp">
+		<Unit filename="..\cmd\probability.hpp" />
+		<Unit filename="..\cmd\remove.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../cmd/rotate.hpp" />
-		<Unit filename="../cmd/schedule.hpp" />
-		<Unit filename="../cmd/segment.hpp" />
-		<Unit filename="../cmd/simulation.hpp">
+		<Unit filename="..\cmd\rotate.hpp" />
+		<Unit filename="..\cmd\schedule.hpp" />
+		<Unit filename="..\cmd\segment.hpp" />
+		<Unit filename="..\cmd\segmentation.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="..\cmd\segmentation.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="..\cmd\simulation.hpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="../cmd/status.hpp" />
-		<Unit filename="../cmd/update.hpp">
+		<Unit filename="..\cmd\status.hpp" />
+		<Unit filename="..\cmd\update.hpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 			<Option target="add-Debug" />
 		</Unit>
-		<Unit filename="../headers/macros.hpp" />
+		<Unit filename="..\headers\macros.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

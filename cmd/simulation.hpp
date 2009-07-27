@@ -2,6 +2,7 @@
 #define SIMULATION_HPP_INCLUDED
 
 #include "geometry.hpp"
+#include "probability.hpp"
 
 namespace pmf
 {
