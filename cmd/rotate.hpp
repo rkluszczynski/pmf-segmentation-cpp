@@ -102,7 +102,32 @@ PMF<REAL> :: RotatePoints2 (REAL sinL = 0.0, REAL cosL = 1.0)
 
         changed[pt->id] = true;
     }
-    return;
+
+    FOREACH(it, *cf) (*it)->id = 0;
+    long count = 0;
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        out << " --> " << pt << endl;
+        if (pt->type == PT_Update) continue;
+
+        switch (pt->type)
+        {
+            case PT_BirthInField  :
+                                pt->id = ++count;
+                                for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2) tmp->id = ++count;
+                                for(Point<REAL> * tmp = pt->n2; tmp->type == PT_Update; tmp = tmp->n2) tmp->id = ++count;
+                                break;;
+            case PT_BirthOnBorder :
+                                pt->id = ++count;
+                                for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2) tmp->id = ++count;
+                                break;;
+            default :
+                                pt->id = ++count;
+        }
+        out << " ^^^ " << pt << endl;
+    }
+    FOREACH(it, *cf)  assert( (*it)->id > 0 );
 }
 
 

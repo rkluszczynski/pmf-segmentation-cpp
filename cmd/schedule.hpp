@@ -51,6 +51,8 @@ namespace pmf
                 if (pt2->type == PT_Collision      &&  pt1->type != PT_Collision) return false;
                 if (pt1->type == PT_DeathOnBorder  &&  pt2->type != PT_DeathOnBorder) return true;
                 if (pt2->type == PT_DeathOnBorder  &&  pt1->type != PT_DeathOnBorder) return false;
+
+                if (pt1->type == PT_Update         &&  pt2->type == PT_Update) return pt1->id < pt2->id;
             }
             //*/
             if (! IsZero(e1->GetPoint()->y - e2->GetPoint()->y))

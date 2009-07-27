@@ -27,20 +27,20 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
         case     PT_Collision :
                             assert(s2);
                             CheckIntersectionAfterDeath (s1, s2, evts, line, id, sinL, cosL);
-                            if (! line->IsNull(line->Find(s1)))  line->Erase( s1 );
-                            if (! line->IsNull(line->Find(s2)))  line->Erase( s2 );
+                            line->Erase( s1 );
+                            line->Erase( s2 );
                             delete s1;
                             delete s2;
                             break;;
         case PT_DeathOnBorder :
                             CheckIntersectionAfterDeath (s1, NULL, evts, line, id, sinL, cosL);
-                            if (! line->IsNull(line->Find(s1)))  line->Erase( s1 );
+                            line->Erase( s1 );
                             delete s1;
                             break;;
         case        PT_Update :
                             //CheckIntersectionAfterDeath (s1, NULL, evts, line, id, sinL, cosL);
                             /// FIXME (Rafel#4#): do not know if line above should exist ??? It is checked during insertion
-                            if (! line->IsNull(line->Find(s1)))  line->Erase( s1 );
+                            line->Erase( s1 );
                             delete s1;
                             //line->Insert( pt, s2 );
                             assert(s2);
@@ -241,7 +241,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             if (pt->n1 == NULL  ||  line->IsNull(line->Find(ev->GetSegment())))
             {
                 Point<REAL> * tmp = ev->GetPoint();
-                if (tmp->n2  &&  (tmp->n2->type == PT_Collision || tmp->n2->type == PT_DeathOnBorder))
+                if (tmp->n2  &&  (tmp->n2->type == PT_Collision || tmp->n2->type == PT_DeathOnBorder || tmp->n2->type == PT_Update))
                 {
                     Point<REAL> * cpt = tmp->n2;
 
