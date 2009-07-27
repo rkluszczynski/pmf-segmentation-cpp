@@ -21,7 +21,8 @@ namespace pmf
             Segment(POINT pp, POINT qq) : p(pp), q(qq) { OnInit(); }
             ~Segment()
             {
-                out << "[ DEALLOCATING SEGMENT ]  :  " << this << endl;
+                //out << "[ DEALLOCATING SEGMENT ]  :  " << this << endl;
+                out << "[ DEALLOCATING SEGMENT ]  :  ending at " << q << endl;
                 --pmf_segment_counter;
             }
 
