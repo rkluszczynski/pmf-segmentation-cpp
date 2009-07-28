@@ -49,7 +49,7 @@ namespace pmf
 
             void OnInit()
             {
-                assert(p->x <= q->x);
+                assert(p->x <= q->x  ||  Geometry::IsZero(q->x - p->x));
                 out << "[ _ALLOCATING_ SEGMENT ]  :  " << this << endl;
                 ++pmf_segment_counter;
             }

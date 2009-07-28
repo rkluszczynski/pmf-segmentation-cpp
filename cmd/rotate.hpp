@@ -32,7 +32,7 @@ PMF<REAL> :: DetermineN (Point<REAL> * pt, int which, std::vector<bool> & change
         }
         else if (tmp->n2 == NULL)
         {
-            if (tmp->x < tmp->n2->x)
+            if (tmp->x < tmp->n1->x)
                 return BirthEnd;
             else
                 return DeathEnd;
