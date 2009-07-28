@@ -30,8 +30,13 @@ PMF<REAL> :: DetermineN (Point<REAL> * pt, int which, std::vector<bool> & change
             if (tmp->x < pt->x) return BirthEnd;
             else return DeathEnd;
         }
-        else if (tmp->n2 == NULL) { return DeathEnd; }
-
+        else if (tmp->n2 == NULL)
+        {
+            if (tmp->x < tmp->n2->x)
+                return BirthEnd;
+            else
+                return DeathEnd;
+        }
         int wh = tmp->WhichNeighbourHasID(pt->id);
         assert(wh > 0);
         pt = tmp;
