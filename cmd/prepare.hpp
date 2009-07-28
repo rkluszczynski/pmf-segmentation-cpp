@@ -56,6 +56,7 @@ PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * e
     if (cf->IsEmpty()) return;
     cf->PrintConfiguration(out);
     RotatePoints2 (sinL, cosL);
+    //SavePMF("output/geo-rot.zip", GeoGebraFile);
     out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
     SavePMF("../output/geo-rot.zip", GeoGebraFile);
 
