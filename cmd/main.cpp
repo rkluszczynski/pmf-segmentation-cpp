@@ -8,6 +8,7 @@ using namespace std;
 #include "../cmd/birthsites.hpp"
 #include "../cmd/pmf.hpp"
 //#include "../cmd/simulation.hpp"
+#include "grayimage.h"
 
 
 int main(int argc, char **argv)

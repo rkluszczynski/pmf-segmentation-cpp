@@ -78,6 +78,12 @@
 		</Unit>
 		<Unit filename="..\cmd\generate.hpp" />
 		<Unit filename="..\cmd\geometry.hpp" />
+		<Unit filename="..\cmd\grayimage.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="..\cmd\grayimage.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="..\cmd\image.cpp">
 			<Option target="Debug" />
 		</Unit>

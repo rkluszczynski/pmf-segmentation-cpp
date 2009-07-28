@@ -6,18 +6,32 @@
 namespace pmf
 {
 
-    class Image : public wxImage
+    class pmfImage : public wxImage
     {
         public:
-            Image();
-            virtual ~Image();
+            typedef struct ImageRowStructure
+            {
+                unsigned char  * _row;
+                pmfImage * _img;
 
-            char  operator[](int column);
+                public :
+                    ImageRowStructure(unsigned char *, pmfImage *);
+                    unsigned char * operator[](int);
+            }
+            ImageRowType;
+
+            ImageRowType operator[](int);
+
+            pmfImage(const char *, long);
+            pmfImage(const wxString, long);
+            virtual ~pmfImage();
 
         protected:
-        private:
-    };
+            virtual void OnInit(const wxString, long);
 
+        private:
+
+    };
 
 }
 
