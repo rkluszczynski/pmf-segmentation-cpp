@@ -7,35 +7,37 @@
 namespace pmf
 {
 
+    template <typename REAL = double>
     class SimulatedAnnealingSimulation
     {
         public:
-            typedef double REAL;
+            //typedef double REAL;
 
             SimulatedAnnealingSimulation() {}
             virtual ~SimulatedAnnealingSimulation() {}
 
-            void Prepare () {}
-            void     Run ();
-            void  Finish () {}
+            virtual void Prepare () {}
+            virtual void     Run ();
+            virtual void  Finish () {}
 
 
         protected:
             virtual void           PreIteration() {}
             virtual void          PostIteration() {}
 
-            virtual bool  CheckRunningCondition() const = 0;
+            virtual bool  CheckRunningCondition() = 0;
             virtual bool    CheckApplyCondition() { return true; }
-            virtual REAL   CalculateHamiltonian() const = 0;
-            virtual void       MakeModification() const = 0;
-            virtual void      ApplyModification() const = 0;
-            virtual void     CancelModification() const = 0;
+            virtual REAL   CalculateHamiltonian() = 0;
+            virtual void       MakeModification() = 0;
+            virtual void      ApplyModification() = 0;
+            virtual void     CancelModification() = 0;
 
     };
 
 
+    template <typename REAL>
     void
-    SimulatedAnnealingSimulation :: Run ()
+    SimulatedAnnealingSimulation<REAL> :: Run ()
     {
         Prepare ();
         REAL engH = CalculateHamiltonian();

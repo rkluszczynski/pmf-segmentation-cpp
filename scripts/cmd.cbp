@@ -97,6 +97,12 @@
 			<Option target="Release" />
 			<Option target="gen-Debug" />
 		</Unit>
+		<Unit filename="..\cmd\main-rem.cpp">
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="..\cmd\main-upd.cpp">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="..\cmd\main.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
