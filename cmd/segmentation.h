@@ -5,14 +5,17 @@
 
 namespace pmf
 {
+    template <class REAL> class PMF;
 
     class BinarySegmentation : public SimulatedAnnealingSimulation<double>
     {
         public:
-            BinarySegmentation();
+            BinarySegmentation(const char *, long, double);
             virtual ~BinarySegmentation();
 
         protected:
+            virtual void          PostIteration();
+
             virtual bool  CheckRunningCondition();
             virtual bool    CheckApplyCondition();
             virtual double CalculateHamiltonian();
@@ -21,6 +24,10 @@ namespace pmf
             virtual void     CancelModification();
 
         private:
+            long loopIteration;
+            long iterations;
+            PMF<double> * clone;
+            double rate;
     };
 
 }

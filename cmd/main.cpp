@@ -7,18 +7,8 @@ using namespace std;
 
 #include "../cmd/birthsites.hpp"
 #include "../cmd/pmf.hpp"
-//#include "../cmd/simulation.hpp"
+#include "../cmd/segmentation.h"
 #include "grayimage.h"
-
-//#define _PMF_ADD_POINT
-#define _PMF_ADD_SEGMENT
-
-#if !defined(_PMF_ADD_POINT) && !defined(_PMF_ADD_SEGMENT)
-    #error "asdfasf"
-#elif defined(_PMF_ADD_POINT) && defined(_PMF_ADD_SEGMENT)
-    #error "asdfasf2"
-#endif
-
 
 
 int main(int argc, char **argv)
