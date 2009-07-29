@@ -143,14 +143,21 @@ int main (int argc, char *argv[])
 		else
             pmf->GenerateField ();
 
-        /* Adding a Birth Site to PMF. */
+        /* Adding a birth site to PMF. */
         ftime(&tbeg);
+#if defined(__PMF_ADD_SEGMENT)
+        pmf->AddBirthSegment (x, y, angle);
+#elif defined(__PMF_ADD_POINT)
         pmf->AddBirthPoint (x, y, angle);
+#else
+    #error "Define preprocesor directive you want (__PMF_ADD_POINT or __PMF_ADD_SEGMENT)."
+#endif
 	    ftime(&tend);
 
         if (outputFile) pmf->SavePMF (outputFile);
         delete pmf;
 
+        /* Calculating modification time. */
         double modTime = tend.time - tbeg.time;
         modTime += ((tend.millitm - tbeg.millitm) * 0.001);
 		fprintf(stderr, "\n[ DONE ] : modification time = %.3lf sec.\n", modTime);
@@ -159,4 +166,3 @@ int main (int argc, char *argv[])
 
     return(0);
 }
-

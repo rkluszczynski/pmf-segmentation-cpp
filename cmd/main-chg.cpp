@@ -141,9 +141,16 @@ int main (int argc, char *argv[])
 		else
             pmf->GenerateField ();
 
-        /* Updating an update site in PMF. */
         ftime(&tbeg);
+#if defined(__PMF_UPDATE_POINT)
+        /* Updating an update site in PMF. */
         pmf->UpdatePointVelocity (pointId, angle);
+#elif defined(__PMF_REMOVE_POINT)
+        /* Removing a birth site from PMF. */
+        pmf->RemoveBirthPoint (pointId, angle);
+#else
+    #error "Define preprocesor directive you want (__PMF_UPDATE_POINT or __PMF_REMOVE_POINT)."
+#endif
 	    ftime(&tend);
 
         if (outputFile) pmf->SavePMF (outputFile);
