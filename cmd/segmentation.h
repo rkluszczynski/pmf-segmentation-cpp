@@ -2,6 +2,8 @@
 #define SEGMENTATION_H
 
 #include "simulation.hpp"
+#include "grayimage.h"
+
 
 namespace pmf
 {
@@ -10,8 +12,10 @@ namespace pmf
     class BinarySegmentation : public SimulatedAnnealingSimulation<double>
     {
         public:
-            BinarySegmentation(const char *, PMF<double> *, long, double);
+            BinarySegmentation(double, double, const char *, const char *, time_t, const char *, long, double);
             virtual ~BinarySegmentation();
+
+            virtual void  Finish ();
 
         protected:
             virtual void          PostIteration();
@@ -29,6 +33,8 @@ namespace pmf
             double rate;
             PMF<double> * pmf;
             PMF<double> * clone;
+            GrayscaleImage * img;
+            const char * outputfile;
     };
 
 }

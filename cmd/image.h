@@ -9,25 +9,17 @@ namespace pmf
     class pmfImage : public wxImage
     {
         public:
-            typedef struct ImageRowStructure
-            {
-                unsigned char  * _row;
-                pmfImage * _img;
+            typedef unsigned char RGB [3];
 
-                public :
-                    ImageRowStructure(unsigned char *, pmfImage *);
-                    unsigned char * operator[](int);
-            }
-            ImageRowType;
-
-            ImageRowType operator[](int);
+            RGB * operator[](int);
 
             pmfImage(const char *, long);
-            pmfImage(const wxString, long);
+            pmfImage( wxString, long);
             virtual ~pmfImage();
 
         protected:
-            virtual void OnInit(const wxString, long);
+            void OnInit(const wxString, long);
+            void StoreProcessedImage(wxImage);
 
         private:
 

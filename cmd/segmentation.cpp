@@ -1,17 +1,26 @@
 #include "segmentation.h"
+#include "pmf.hpp"
 
 namespace pmf
 {
 
-    BinarySegmentation::BinarySegmentation(const char * pictureFile, PMF<double> * cf, long iter, double pmr)
-    : loopIteration(1), iterations(iter), rate(pmr), pmf(cf)
+    BinarySegmentation::BinarySegmentation(double wsize, double hsize, const char * initialFile, const char * outputFile, time_t seed, const char * pictureFile, long iter, double pmr)
+    : loopIteration(1), iterations(iter), rate(pmr), outputfile(outputFile)
     {
-        //ctor
+        img = new GrayscaleImage(pictureFile);
+
+        pmf = new DoublePMF (wsize, hsize);
+        pmf->SetSeed (seed);
+		if (initialFile)
+            pmf->LoadPMF (initialFile);
+		else
+            pmf->GenerateField ();
     }
+
 
     BinarySegmentation::~BinarySegmentation()
     {
-        //dtor
+        delete img;
     }
 
 
@@ -36,9 +45,12 @@ namespace pmf
         double beta_1 = 20. + 0.009 * loopIteration;
         double beta_2 = 0.0;
 
+        double area = pmf->CalculateEnergy(img);
+
         return 0.0;
     }
 
+    inline
     void
     BinarySegmentation::MakeModification()
     {
@@ -142,5 +154,13 @@ MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double 
     {
         //delete clone;
         ++loopIteration;
+    }
+
+
+    void
+    BinarySegmentation::Finish()
+    {
+        if (outputfile) pmf->SavePMF (outputfile);
+        delete pmf;
     }
 }

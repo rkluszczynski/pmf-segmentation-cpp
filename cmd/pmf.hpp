@@ -5,7 +5,7 @@
 #include "../cmd/schedule.hpp"
 #include "../cmd/status.hpp"
 #include <wx/string.h>
-
+#include "grayimage.h"
 
 namespace pmf
 {
@@ -51,6 +51,7 @@ namespace pmf
             inline REAL GetHeight() { return cf->GetFieldHeight(); }
             inline long GetCount()  { return cf->GetPointsCount(); }
 
+            REAL CalculateEnergy(GrayscaleImage * img);
 
         protected:
             time_t seed;

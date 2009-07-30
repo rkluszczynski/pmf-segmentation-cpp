@@ -105,6 +105,7 @@ int main (int argc, char *argv[])
         if (outputFile) pmf->SavePMF (outputFile);
         delete pmf;
 
+        /* Calculating modification time. */
         double genTime = tend.time - tbeg.time;
         genTime += ((tend.millitm - tbeg.millitm) * 0.001);
         fprintf(stderr, "\n[ DONE ] : generating time = %.3lf sec.\n", genTime);

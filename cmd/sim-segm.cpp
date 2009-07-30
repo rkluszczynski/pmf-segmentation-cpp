@@ -1,5 +1,4 @@
 #include "segmentation.h"
-#include "pmf.hpp"
 
 
 void print_usage(char * prog_name, bool cond = false)
@@ -149,24 +148,10 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] : Stopping PMR (-r) = %.2lf\n", pmrStop);
 		fprintf(stderr, "\n");
 
-        // * Determining starting configuration. *
-        using pmf::DoublePMF;
-        using pmf::BinarySegmentation;
-
-        DoublePMF * pmf = new DoublePMF (sizeArak, sizeArak);
-        pmf->SetSeed (seed);
-		if (opt & 0x100)
-            pmf->LoadPMF (initialFile);
-		else
-            pmf->GenerateField ();
-
-        BinarySegmentation sim( pictureFile, pmf, iterations, pmrStop );
+        pmf::BinarySegmentation simulation( sizeArak, sizeArak, initialFile, outputFile, seed, pictureFile, iterations, pmrStop );
         ftime(&tbeg);
-        sim.Run ();
+        simulation.Run ();
 	    ftime(&tend);
-
-        if (outputFile) pmf->SavePMF (outputFile);
-        delete pmf;
 
         // * How long was I unconscious? *
         double simTime = tend.time - tbeg.time;

@@ -9,14 +9,15 @@ namespace pmf
     class GrayscaleImage : public pmfImage
     {
         public:
-            GrayscaleImage(const char *, long);
-            GrayscaleImage(const wxString, long);
+            GrayscaleImage(const char *, long = wxBITMAP_TYPE_ANY);
+            GrayscaleImage( wxString, long = wxBITMAP_TYPE_ANY);
 
             virtual ~GrayscaleImage();
 
+
         protected:
         private:
-            virtual void OnInit(const wxString, long);
+            void OnInit();
     };
 
 }

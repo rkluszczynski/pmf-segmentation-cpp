@@ -8,11 +8,27 @@ using namespace std;
 #include "../cmd/birthsites.hpp"
 #include "../cmd/pmf.hpp"
 #include "../cmd/segmentation.h"
-#include "grayimage.h"
+#include "../cmd/grayimage.h"
 
 
 int main(int argc, char **argv)
 {
+    /*
+    pmf::GrayscaleImage img("input/szary.png");
+    int xx[] = {1,   1,   1, 190, 190, 190};
+    int yy[] = {1, 170, 340,   1, 170, 340};
+    REP(i, 6)
+    {
+        int x = xx[i];
+        int y = yy[i];
+        cout << " PIXEL [" << x << "," << y << "]" << endl;
+        cout << "R = " << int(img.GetRed(y,x)) << endl;
+        cout << "G = " << int(img.GetGreen(y,x)) << endl;
+        cout << "B = " << int(img.GetBlue(y,x)) << endl;
+        cout << "  = " << int(img[x][y][2]) << endl;
+    }
+    return 0;
+    //*/
     char dir[128] = "output/";
     int n = 1, start = 0;
     bool useFor = false;
