@@ -160,7 +160,7 @@ int main (int argc, char *argv[])
 		else
             pmf->GenerateField ();
 
-        BinarySegmentation sim( pictureFile, iterations, pmrStop );
+        BinarySegmentation sim( pictureFile, pmf, iterations, pmrStop );
         ftime(&tbeg);
         sim.Run ();
 	    ftime(&tend);

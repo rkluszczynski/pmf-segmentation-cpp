@@ -10,7 +10,7 @@ namespace pmf
     class BinarySegmentation : public SimulatedAnnealingSimulation<double>
     {
         public:
-            BinarySegmentation(const char *, long, double);
+            BinarySegmentation(const char *, PMF<double> *, long, double);
             virtual ~BinarySegmentation();
 
         protected:
@@ -26,8 +26,9 @@ namespace pmf
         private:
             long loopIteration;
             long iterations;
-            PMF<double> * clone;
             double rate;
+            PMF<double> * pmf;
+            PMF<double> * clone;
     };
 
 }

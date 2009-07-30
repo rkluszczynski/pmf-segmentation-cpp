@@ -3,8 +3,8 @@
 namespace pmf
 {
 
-    BinarySegmentation::BinarySegmentation(const char * pictureFile, long iter, double pmr)
-    : loopIteration(1), iterations(iter), rate(pmr)
+    BinarySegmentation::BinarySegmentation(const char * pictureFile, PMF<double> * cf, long iter, double pmr)
+    : loopIteration(1), iterations(iter), rate(pmr), pmf(cf)
     {
         //ctor
     }
