@@ -2,29 +2,7 @@
 #define PREPARE_HPP_INCLUDED
 
 
-    template <class REAL> class PointComparator
-    {
-        public:
-            bool operator() (Point<REAL> * const & p1, Point<REAL> * const & p2) const
-            {
-                //*
-                if (Geometry::IsZero(p1->x - p2->x))
-                {
-                    if (p1->type == PT_BirthOnBorder  &&  p2->type != PT_BirthOnBorder) return false;
-                    if (p2->type == PT_BirthOnBorder  &&  p1->type != PT_BirthOnBorder) return true;
-                    if (p1->type == PT_BirthInField   &&  p2->type != PT_BirthInField) return false;
-                    if (p2->type == PT_BirthInField   &&  p1->type != PT_BirthInField) return true;
-                    if (p1->type == PT_Update         &&  p2->type != PT_Update) return false;
-                    if (p2->type == PT_Update         &&  p1->type != PT_Update) return true;
-                    if (p1->type == PT_Collision      &&  p2->type != PT_Collision) return false;
-                    if (p2->type == PT_Collision      &&  p1->type != PT_Collision) return true;
-                    if (p1->type == PT_DeathOnBorder  &&  p2->type != PT_DeathOnBorder) return false;
-                    if (p2->type == PT_DeathOnBorder  &&  p1->type != PT_DeathOnBorder) return true;
-                }
-                //*/
-                return p1->x > p2->x;
-            }
-    };
+
 
 
     template <class REAL> class SegmentComparator
@@ -44,35 +22,17 @@
     };
 
 
+
 template <class REAL>
 void
-PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, REAL rotxx)
+PMF<REAL> :: PrepareTheEvolution (REAL sinL, REAL cosL, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, PointPriorityQueue & ppq, REAL rotxx)
 {
-    typedef priority_queue<Point<REAL> *, std::vector<Point<REAL> *>, PointComparator<REAL> >         PointPriorityQueue;
     typedef priority_queue<Segment<REAL> *, std::vector<Segment<REAL> *>, SegmentComparator<REAL> > SegmentPriorityQueue;
     typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                                     SegmentsMap;
     typedef typename SegmentsMap::iterator                                                           SegmentsMapIterator;
 
-    if (cf->IsEmpty()) return;
-    cf->PrintConfiguration(out);
-    RotatePoints2 (sinL, cosL);
-    //SavePMF("output/geo-rot.zip", GeoGebraFile);
-    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
-    SavePMF("../output/geo-rot.zip", GeoGebraFile);
-
-    PointPriorityQueue   ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
     SegmentsMap         smap( (SegmentMapComparator()) );
-
-    cf->ClearPointsContainer();
-    while (ppq.top()->x < rotxx)
-    {
-        Point<REAL> * pt = ppq.top();
-        cf->PushBack(pt);
-        ppq.pop();
-        if (ppq.empty()) return;
-    }
-
     while (! ppq.empty())
     {
         Point<REAL> * pt = ppq.top();

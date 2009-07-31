@@ -24,6 +24,29 @@ namespace pmf
     }
     EndType;
 
+    template <class REAL> class PointComparator
+    {
+        public:
+            bool operator() (Point<REAL> * const & p1, Point<REAL> * const & p2) const
+            {
+                //*
+                if (Geometry::IsZero(p1->x - p2->x))
+                {
+                    if (p1->type == PT_BirthOnBorder  &&  p2->type != PT_BirthOnBorder) return false;
+                    if (p2->type == PT_BirthOnBorder  &&  p1->type != PT_BirthOnBorder) return true;
+                    if (p1->type == PT_BirthInField   &&  p2->type != PT_BirthInField) return false;
+                    if (p2->type == PT_BirthInField   &&  p1->type != PT_BirthInField) return true;
+                    if (p1->type == PT_Update         &&  p2->type != PT_Update) return false;
+                    if (p2->type == PT_Update         &&  p1->type != PT_Update) return true;
+                    if (p1->type == PT_Collision      &&  p2->type != PT_Collision) return false;
+                    if (p2->type == PT_Collision      &&  p1->type != PT_Collision) return true;
+                    if (p1->type == PT_DeathOnBorder  &&  p2->type != PT_DeathOnBorder) return false;
+                    if (p2->type == PT_DeathOnBorder  &&  p1->type != PT_DeathOnBorder) return true;
+                }
+                //*/
+                return p1->x > p2->x;
+            }
+    };
 
     template <class REAL> class PMF
     {
@@ -59,7 +82,9 @@ namespace pmf
 
 
         private:
+            typedef priority_queue<Point<REAL> *, std::vector<Point<REAL> *>, PointComparator<REAL> >  PointPriorityQueue;
             //typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
+
             inline
             long GenerateInitialBirths (EventsSchedule<REAL> *);
             inline
@@ -88,7 +113,7 @@ namespace pmf
             inline
             EndType DetermineN (Point<REAL> *, int, std::vector<bool> &);
             inline
-            void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, REAL);
+            void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, PointPriorityQueue &, REAL);
             inline
             void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline

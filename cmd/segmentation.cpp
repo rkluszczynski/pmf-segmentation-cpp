@@ -1,4 +1,5 @@
 #include "segmentation.h"
+#include "probability.hpp"
 #include "pmf.hpp"
 
 namespace pmf
@@ -54,89 +55,42 @@ namespace pmf
     void
     BinarySegmentation::MakeModification()
     {
-/*
-inline
-bool
-MODIFY_CONFIGURATION (PMF<double> * pmf, double areaOfPMF, double angle, double bSize)
-{
-    double sinL = sin(angle);
-    double cosL = cos(angle);
-    int pmfStatistic[PT_MAX_NUMBER];
+        using Probability::Uniform;
 
-    // * Determinig limits for random move. *
-    pmf->RotatePointTypes(sinL, cosL);
-    pmf->GetPMFConfiguration()->calculate_statistics(pmfStatistic);
+        double angle = Uniform<double>(0.0, 2. * M_PI);
+        double sinL = sin(angle);
+        double cosL = cos(angle);
+        //pmf->RotatePointTypes(sinL, cosL);
 
-    double   noOfBirths = double(pmfStatistic[PT_BIRTH_DOWN] + pmfStatistic[PT_BIRTH_LEFT]
-                         + pmfStatistic[PT_BIRTH_NORMAL] + pmfStatistic[PT_BIRTH_UP]);
-    double    noOfTurns = 0.5 * double(pmfStatistic[PT_UPDATE]);
-    double denominatorZ = 1.0 / (areaOfPMF + noOfBirths + noOfTurns);
 
-    double limit1 = areaOfPMF * denominatorZ;
-    double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
+        // * Determinig limits for random move. *
+        double   noOfBirths = 0.33;
+        double    noOfTurns = 0.33;
+        double    areaOfPMF = 0.33;
+        double denominatorZ = 1.0 / (areaOfPMF + noOfBirths + noOfTurns);
 
-    // * Applying random operation. *
-    double chance = Uniform(0.0, 1.0);
-    if (chance < limit1)  //ADD
-    {
-        double x, y;
-        do
+        double limit1 = areaOfPMF * denominatorZ;
+        double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
+
+
+        // * Applying random operation. *
+        double chance = Uniform(0.0, 1.0);
+        if (chance < limit1)
         {
-            x = Uniform(0.0, pmf->GetPMFWidth());
-            y = Uniform(0.0, pmf->GetPMFHeight());
+            double x = Uniform(0.0, pmf->GetWidth());
+            double y = Uniform(0.0, pmf->GetHeight());
+            pmf->AddBirthPoint (x, y, angle);
         }
-        while(! (0.0 < x  &&  x < pmf->GetPMFWidth()  &&  0.0 < y  &&  y < pmf->GetPMFHeight()));
-        pmf->AddBirthPoint(x, y, angle, bSize);
-    }
-    else if(chance < limit2) //REM
-    {
-        int number = rand() % int(noOfBirths);
-        int ID = 0;
-
-        Element<pmf_point<double> > * iter = pmf->GetPMFConfiguration()->getHead();
-        long typePointCounter = 0;
-        while (iter)
+        else if(chance < limit2)
         {
-            pmf_point<double> * pt = iter->data;
-            if (pt->type == PT_BIRTH_NORMAL  ||  pt->type == PT_BIRTH_LEFT
-                ||  pt->type == PT_BIRTH_UP  ||  pt->type == PT_BIRTH_DOWN)
-            {
-                if (typePointCounter == number) {
-                    ID = pt->id;
-                    break;
-                }
-                ++typePointCounter;
-            }
-            iter = iter->next;
+            int number = rand() % int(noOfBirths);
+            pmf->RemoveBirthPoint (number, angle);
         }
-        pmf->RemoveBirthPoint(ID, angle, bSize);
-    }
-    else //UPD
-    {
-        int number = rand() % int(noOfTurns);
-        int ID = 0;
-
-        Element<pmf_point<double> > * iter = pmf->GetPMFConfiguration()->getHead();
-        long typePointCounter = 0;
-        while (iter)
+        else
         {
-            pmf_point<double> * pt = iter->data;
-            if (pt->type == PT_UPDATE)
-            {
-                if (typePointCounter == number) {
-                    ID = pt->id;
-                    break;
-                }
-                ++typePointCounter;
-            }
-            iter = iter->next;
+            int number = rand() % int(noOfTurns);
+            pmf->UpdatePointVelocity (number, angle);
         }
-        pmf->UpdatePointVelocity(ID, angle, bSize);
-    }
-    //return false;
-    return (bSize > 0.0) ? pmf->IsThereIntersection() : false;
-}
-//*/
     }
 
     void

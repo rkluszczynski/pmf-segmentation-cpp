@@ -28,7 +28,27 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
 
-    PrepareTheEvolution (sinL, cosL, evts, line, rotxx);
+
+    cf->PrintConfiguration(out);
+    RotatePoints2 (sinL, cosL);
+    //SavePMF("output/geo-rot.zip", GeoGebraFile);
+    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
+    //SavePMF("../output/geo-rot.zip", GeoGebraFile);
+
+    if (! cf->IsEmpty())
+    {
+        PointPriorityQueue   ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        cf->ClearPointsContainer();
+        while (ppq.top()->x < rotxx)
+        {
+            Point<REAL> * pt = ppq.top();
+            cf->PushBack(pt);
+            ppq.pop();
+            if (ppq.empty()) return;
+        }
+
+        PrepareTheEvolution (sinL, cosL, evts, line, ppq, rotxx);
+    }
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
     out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 

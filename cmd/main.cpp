@@ -7,7 +7,6 @@ using namespace std;
 
 #include "../cmd/birthsites.hpp"
 #include "../cmd/pmf.hpp"
-#include "../cmd/segmentation.h"
 #include "../cmd/grayimage.h"
 
 

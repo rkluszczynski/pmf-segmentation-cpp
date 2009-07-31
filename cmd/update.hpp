@@ -20,7 +20,7 @@ PMF<REAL> :: UpdatePointVelocity (long id, REAL alpha = 0.0)
     cf->SetPointsIDs ();
     long count = GetCount();
 
-    PrepareTheEvolution (sinL, cosL, evts, line, 0);
+    //PrepareTheEvolution (sinL, cosL, evts, line, 0);
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
     out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
