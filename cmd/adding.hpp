@@ -11,16 +11,20 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     using Geometry::RadiansToDegree;
     using Geometry::IsZero;
 
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
-
     REAL sinL = sin(alpha);
     REAL cosL = cos(alpha);
 
-    PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, alpha, RadiansToDegree(alpha));
-
     cf->SetPointsIDs ();
     long count = GetCount();
+
+    cf->PrintConfiguration(out);
+    RotatePoints2 (sinL, cosL);
+    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
+    //SavePMF("../output/geo-rot.zip", GeoGebraFile);
+
+
+    /* ************************************************************************************** */
+    PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, alpha, RadiansToDegree(alpha));
 
     if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * EPSILON;
     else if (IsZero(yy)) yy = 2. * EPSILON;
@@ -29,15 +33,11 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
 
 
-    cf->PrintConfiguration(out);
-    RotatePoints2 (sinL, cosL);
-    //SavePMF("output/geo-rot.zip", GeoGebraFile);
-    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
-    //SavePMF("../output/geo-rot.zip", GeoGebraFile);
-
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
     if (! cf->IsEmpty())
     {
-        PointPriorityQueue   ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
         cf->ClearPointsContainer();
         while (ppq.top()->x < rotxx)
         {
@@ -47,21 +47,21 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
             if (ppq.empty()) return;
         }
 
-        PrepareTheEvolution (sinL, cosL, evts, line, ppq, rotxx);
+        PrepareTheEvolution (evts, line, ppq, rotxx);
     }
+    /*
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
     out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
     out << endl << line << endl << endl;
     out << "__________ DO THE (R)EVOLUTION !!! __________" << endl;
+    //*/
+    /* ************************************************************************************** */
 
     Point<REAL> * newpt = new Point<REAL>(rotxx, rotyy, 0.0, 0.0, ++count, PT_BirthInField);
     newpt->org_x = xx;
     newpt->org_y = yy;
-    //evts->InsertBirthEvent(newpt);
     cf->PushBack(newpt);
-    /// TODO (klusi#1#): should I also add new point to set idsok ???
-
     out << "  newpt added : " << newpt << endl;
 
     Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
@@ -102,6 +102,8 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     }
     out << "_______ points added" << endl;
 
+    /* ************************************************************************************** */
+    // and the riot starts again ...
     EvolveTheRestOfField (sinL, cosL, evts, line, count);
 
     delete line;

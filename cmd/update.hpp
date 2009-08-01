@@ -4,30 +4,65 @@
 
 template <class REAL>
 void
-PMF<REAL> :: UpdatePointVelocity (long id, REAL alpha = 0.0)
+PMF<REAL> :: UpdatePointVelocity (long number, REAL alpha = 0.0)
 {
     using Geometry::RadiansToDegree;
     using Geometry::IsZero;
 
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
-
     REAL sinL = sin(alpha);
     REAL cosL = cos(alpha);
-
-    PMFLog("[ UPD ] : point in directions at angle %.3lf (%.1lf)", alpha, RadiansToDegree(alpha));
 
     cf->SetPointsIDs ();
     long count = GetCount();
 
-    //PrepareTheEvolution (sinL, cosL, evts, line, 0);
-    out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
-    out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
-
-    out << endl << line << endl << endl;
-    out << "__________ DO THE (R)EVOLUTION !!! __________" << endl;
+    cf->PrintConfiguration(out);
+    RotatePoints2 (sinL, cosL);
+    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
+    //SavePMF("../output/geo-rot.zip", GeoGebraFile);
 
 
+    /* ************************************************************************************** */
+    PMFLog("[ UPD ] : point in directions at angle %.3lf (%.1lf)", alpha, RadiansToDegree(alpha));
+
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
+    Point<REAL> * pt;
+    if (! cf->IsEmpty())
+    {
+        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        cf->ClearPointsContainer();
+        long counter = 0;
+        while (! ppq.empty())
+        {
+            pt = ppq.top();
+
+            if (pt->type == PT_Update)
+            {
+                if (number == counter)  break;
+                ++counter;
+            }
+
+            ppq.pop();
+            cf->PushBack(pt);
+        }
+
+        if (! ppq.empty())
+        {
+            out << "... updating point : " << pt << endl;
+            PrepareTheEvolution (evts, line, ppq, pt->x);
+        }
+    }
+    /* ************************************************************************************** */
+
+    assert (evts->SeeFirst()->GetPoint() == pt);
+    evts->Erase ( evts->SeeFirst() );
+
+    //ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
+
+    delete pt;
+
+    /* ************************************************************************************** */
+    // and the riot starts again ...
     EvolveTheRestOfField (sinL, cosL, evts, line, count);
 
     delete line;

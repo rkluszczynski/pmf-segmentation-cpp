@@ -113,13 +113,14 @@ namespace pmf
             inline
             EndType DetermineN (Point<REAL> *, int, std::vector<bool> &);
             inline
-            void PrepareTheEvolution (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, PointPriorityQueue &, REAL);
+            void PrepareTheEvolution (EventsSchedule<REAL> *, SweepLineStatus<REAL> *, PointPriorityQueue &, REAL);
             inline
             void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline
             bool IsTheEventInvalid (REAL, REAL, Event * &, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
-            void ForgetOldCollisionPoint (REAL, REAL, Point<REAL> *, Segment<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            //void ForgetOldCollisionPoint (REAL, REAL, Point<REAL> *, Segment<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
+            void ForgetOldCollisionPoint (REAL, REAL, Point<REAL> *, Point<REAL> *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &);
             inline
             void EvolveTheRestOfField (REAL, REAL, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long);
 

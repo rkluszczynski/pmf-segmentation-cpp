@@ -101,6 +101,21 @@ int main(int argc, char **argv)
         cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
         cout << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
+        strcpy(dir + len, "qr.txt");
+        ofstream fout2(dir);
+        out.rdbuf(fout2.rdbuf());
+        angle = -M_PI_2;
+        ppmf->RemoveBirthPoint (0, angle);
+        fout.close();
+        strcpy(dir + len, "cmd-rem.txt");
+        ppmf->SavePMF(dir);
+        strcpy(dir + len, "geo-rem.zip");
+        ppmf->SavePMF(dir, GeoGebraFile);
+
+        cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;
+        cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+        cout << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+
         delete ppmf;
         cout << "   PMF_POINT_COUNTER  = " << pmf::pmf_point_counter << endl;
     }

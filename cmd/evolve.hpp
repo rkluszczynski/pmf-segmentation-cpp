@@ -56,7 +56,8 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
 template <class REAL>
 inline
 void
-PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, Segment<REAL> * seg, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
+//PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, Segment<REAL> * seg, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
+PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, Point<REAL> * dptn, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
 {
     typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
     typedef typename set<Point<REAL> *>::iterator  OkPointsSetIterator;
@@ -68,7 +69,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, S
     //SweepIterator it1 = line->Find( ev->GetSegment(true) );
     //SweepIterator it2 = line->Find( ev->GetSegment(false) );
 
-    Point<REAL> * dptn = seg->GetP();
+    ///Point<REAL> * dptn = seg->GetP();
     /*
     if (line->IsNull(it1))
     {
@@ -222,12 +223,12 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
                 if (! cond1)
                 {
                     line->Erase( line->Find(seg1) );
-                    ForgetOldCollisionPoint(sinL, cosL, pt, seg1, evts, line, /*idsok,*/ id);
+                    ForgetOldCollisionPoint(sinL, cosL, pt, seg1->GetP(), evts, line, /*idsok,*/ id);
                 }
                 else if (! cond2)
                 {
                     line->Erase( line->Find(seg2) );
-                    ForgetOldCollisionPoint(sinL, cosL, pt, seg2, evts, line, /*idsok,*/ id);
+                    ForgetOldCollisionPoint(sinL, cosL, pt, seg2->GetP(), evts, line, /*idsok,*/ id);
                 }
                 delete seg1;
                 delete seg2;
