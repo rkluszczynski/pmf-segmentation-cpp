@@ -90,6 +90,11 @@ int main(int argc, char **argv)
         double angle = pmf::Probability::Uniform(0.0, 2. * M_PI);
         //angle = M_PI;
         angle = M_PI_2;
+
+        ppmf->RotatePoints2(angle);
+        strcpy(dir + len, "geo-rot.zip");
+        ppmf->SavePMF(dir, GeoGebraFile);
+
         ppmf->AddBirthPoint(0.5, 0.5, angle);
         fout.close();
         strcpy(dir + len, "cmd-add.txt");
@@ -105,11 +110,26 @@ int main(int argc, char **argv)
         ofstream fout2(dir);
         out.rdbuf(fout2.rdbuf());
         angle = -M_PI_2;
-        ppmf->RemoveBirthPoint (0, angle);
+        ppmf->RemoveBirthPoint (2, angle);
         fout.close();
         strcpy(dir + len, "cmd-rem.txt");
         ppmf->SavePMF(dir);
         strcpy(dir + len, "geo-rem.zip");
+        ppmf->SavePMF(dir, GeoGebraFile);
+
+        cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;
+        cout << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+        cout << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+
+        strcpy(dir + len, "qu.txt");
+        ofstream fout3(dir);
+        out.rdbuf(fout3.rdbuf());
+        angle = -M_PI;
+        ppmf->UpdatePointVelocity (0, angle);
+        fout.close();
+        strcpy(dir + len, "cmd-upd.txt");
+        ppmf->SavePMF(dir);
+        strcpy(dir + len, "geo-upd.zip");
         ppmf->SavePMF(dir, GeoGebraFile);
 
         cout << "   PMF_EVENT_COUNTER  = " << pmf::pmf_event_counter << endl;

@@ -45,14 +45,25 @@ PMF<REAL> :: DetermineN (Point<REAL> * pt, int which, std::vector<bool> & change
 }
 
 
+template <class REAL>
+void
+PMF<REAL> :: RotatePoints2 (REAL alpha = 0.0)
+{
+    REAL sinL = sin(alpha);
+    REAL cosL = cos(alpha);
+    RotatePoints2 ( sinL, cosL );
+}
+
+
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (CCOS) - (YY) * (SSIN))
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
 void
-PMF<REAL> :: RotatePoints2 (REAL sinL = 0.0, REAL cosL = 1.0)
+PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
 {
     using Geometry::IsZero;
     PMFLog("Rotating configuration with  sinL = %f  and  cosL = %f", sinL, cosL);
+    cf->PrintConfiguration(out);
 
     FOREACH(it, *cf)
     {
@@ -108,6 +119,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL = 0.0, REAL cosL = 1.0)
         changed[pt->id] = true;
     }
 
+    // Reassigning IDs
     FOREACH(it, *cf) (*it)->id = 0;
     long count = 0;
     FOREACH(it, *cf)
@@ -133,6 +145,9 @@ PMF<REAL> :: RotatePoints2 (REAL sinL = 0.0, REAL cosL = 1.0)
         out << " ^^^ " << pt << endl;
     }
     FOREACH(it, *cf)  assert( (*it)->id > 0 );
+
+    assert(count == GetCount());
+    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
 }
 
 

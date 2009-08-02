@@ -12,11 +12,9 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL alpha = 0.0)
     REAL sinL = sin(alpha);
     REAL cosL = cos(alpha);
 
-    cf->SetPointsIDs ();
-    long count = GetCount();
-
     cf->PrintConfiguration(out);
     RotatePoints2 (sinL, cosL);
+    long count = GetCount();
     out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
     //SavePMF("../output/geo-rot.zip", GeoGebraFile);
 
@@ -30,11 +28,14 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL alpha = 0.0)
     if (! cf->IsEmpty())
     {
         PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        SegmentsMap       smap( (SegmentMapComparator()) );
+
         cf->ClearPointsContainer();
         long counter = 0;
         while (! ppq.empty())
         {
             pt = ppq.top();
+            ppq.pop();
 
             if (pt->type == PT_Update)
             {
@@ -42,23 +43,28 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL alpha = 0.0)
                 ++counter;
             }
 
-            ppq.pop();
             cf->PushBack(pt);
         }
 
         if (! ppq.empty())
         {
+            while (! cf->IsEmpty()  &&  Geometry::IsZero( cf->Back()->x - pt->x ))
+            {
+                ppq.push( cf->Back() );
+                cf->PopBack();
+            }
+
+            smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
+            /// FIXME (klusi#1#): possible BUG : analize when two update points are vertical
             out << "... updating point : " << pt << endl;
-            PrepareTheEvolution (evts, line, ppq, pt->x);
+            PrepareTheEvolution (evts, line, ppq, smap, pt->x);
         }
     }
     /* ************************************************************************************** */
 
-    assert (evts->SeeFirst()->GetPoint() == pt);
-    evts->Erase ( evts->SeeFirst() );
-
-    //ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
-
+    //assert (evts->SeeFirst()->GetPoint() == pt);
+    //evts->Erase ( evts->SeeFirst() );
+    ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
     delete pt;
 
     /* ************************************************************************************** */

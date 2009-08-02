@@ -42,11 +42,27 @@ namespace pmf
                     if (p2->type == PT_Collision      &&  p1->type != PT_Collision) return true;
                     if (p1->type == PT_DeathOnBorder  &&  p2->type != PT_DeathOnBorder) return false;
                     if (p2->type == PT_DeathOnBorder  &&  p1->type != PT_DeathOnBorder) return true;
+
+                    if (! Geometry::IsZero(p1->y - p2->y))
+                    {
+                        if (p1->y < p2->y) return false;
+                        if (p1->y > p2->y) return true;
+                    }
                 }
                 //*/
                 return p1->x > p2->x;
             }
     };
+
+    class SegmentMapComparator
+    {
+        public:
+            bool operator() (const pair<long,long> & e1, const pair<long,long> & e2) const
+            {
+                return e1.ST < e2.ST || (e1.ST == e2.ST  &&  e1.ND < e2.ND);
+            }
+    };
+
 
     template <class REAL> class PMF
     {
@@ -56,6 +72,7 @@ namespace pmf
 
             void GenerateField();
             void RotatePoints (REAL, REAL);
+            void RotatePoints2 (REAL);
             void RotatePoints2 (REAL, REAL);
 
             void AddBirthPoint (REAL, REAL, REAL);
@@ -83,6 +100,7 @@ namespace pmf
 
         private:
             typedef priority_queue<Point<REAL> *, std::vector<Point<REAL> *>, PointComparator<REAL> >  PointPriorityQueue;
+            typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                              SegmentsMap;
             //typedef typename SweepLineStatus<REAL>::Iterator SweepIterator;
 
             inline
@@ -113,7 +131,7 @@ namespace pmf
             inline
             EndType DetermineN (Point<REAL> *, int, std::vector<bool> &);
             inline
-            void PrepareTheEvolution (EventsSchedule<REAL> *, SweepLineStatus<REAL> *, PointPriorityQueue &, REAL);
+            void PrepareTheEvolution (EventsSchedule<REAL> *, SweepLineStatus<REAL> *, PointPriorityQueue &, SegmentsMap &, REAL);
             inline
             void ProcessOldEvent (Event *, EventsSchedule<REAL> *, SweepLineStatus<REAL> *, long &, REAL, REAL);
             inline

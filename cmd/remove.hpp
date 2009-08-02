@@ -11,11 +11,9 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
     REAL sinL = sin(alpha);
     REAL cosL = cos(alpha);
 
-    cf->SetPointsIDs ();
-    long count = GetCount();
-
     cf->PrintConfiguration(out);
     RotatePoints2 (sinL, cosL);
+    long count = GetCount();
     out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
     //SavePMF("../output/geo-rot.zip", GeoGebraFile);
 
@@ -29,11 +27,14 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
     if (! cf->IsEmpty())
     {
         PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        SegmentsMap       smap( (SegmentMapComparator()) );
+
         cf->ClearPointsContainer();
         long counter = 0;
         while (! ppq.empty())
         {
             pt = ppq.top();
+            ppq.pop();
 
             if (pt->type == PT_BirthInField  ||  pt->type == PT_BirthOnBorder)
             {
@@ -41,20 +42,29 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
                 ++counter;
             }
 
-            ppq.pop();
             cf->PushBack(pt);
         }
 
         if (! ppq.empty())
         {
+            while (! cf->IsEmpty()  &&  Geometry::IsZero( cf->Back()->x - pt->x ))
+            {
+                ppq.push( cf->Back() );
+                cf->PopBack();
+            }
+
+            smap[ make_pair(pt->id, pt->n1->id) ] = new Segment<REAL> (pt, pt->n1);
+            if (pt->type == PT_BirthInField)
+                smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
+
             out << "... removing point : " << pt << endl;
-            PrepareTheEvolution (evts, line, ppq, pt->x);
+            PrepareTheEvolution (evts, line, ppq, smap, pt->x);
         }
     }
     /* ************************************************************************************** */
 
-    assert (evts->SeeFirst()->GetPoint() == pt);
-    evts->Erase ( evts->SeeFirst() );
+    //assert (evts->SeeFirst()->GetPoint() == pt);
+    //evts->Erase ( evts->SeeFirst() );
     delete pt;
 
     /* ************************************************************************************** */

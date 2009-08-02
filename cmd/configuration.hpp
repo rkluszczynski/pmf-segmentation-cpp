@@ -27,7 +27,9 @@ namespace pmf
             Iterator begin() const { return pts->begin(); }
             Iterator end()   const { return pts->end(); }
 
-            void PushBack( Point<REAL> * pt ) { pts->push_back(pt); }
+            void PushBack ( Point<REAL> * pt ) { pts->push_back(pt); }
+            void PopBack () { pts->pop_back(); }
+            Point<REAL> * Back() { return pts->back(); }
             void SetPointsIDs ();
 
             inline REAL GetFieldWidth()  { return  fieldWidth; }

@@ -11,16 +11,12 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     using Geometry::RadiansToDegree;
     using Geometry::IsZero;
 
-    REAL sinL = sin(alpha);
-    REAL cosL = cos(alpha);
-
-    cf->SetPointsIDs ();
+    REAL  sinL = sin(alpha);
+    REAL  cosL = cos(alpha);
     long count = GetCount();
 
-    cf->PrintConfiguration(out);
-    RotatePoints2 (sinL, cosL);
-    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
-    //SavePMF("../output/geo-rot.zip", GeoGebraFile);
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
 
     /* ************************************************************************************** */
@@ -32,12 +28,11 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
 
-
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
     if (! cf->IsEmpty())
     {
         PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        SegmentsMap       smap( (SegmentMapComparator()) );
+
         cf->ClearPointsContainer();
         while (ppq.top()->x < rotxx)
         {
@@ -47,7 +42,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
             if (ppq.empty()) return;
         }
 
-        PrepareTheEvolution (evts, line, ppq, rotxx);
+        PrepareTheEvolution (evts, line, ppq, smap, rotxx);
     }
     /*
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;

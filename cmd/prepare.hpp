@@ -12,27 +12,18 @@
     };
 
 
-    class SegmentMapComparator
-    {
-        public:
-            bool operator() (const pair<long,long> & e1, const pair<long,long> & e2) const
-            {
-                return e1.ST < e2.ST || (e1.ST == e2.ST  &&  e1.ND < e2.ND);
-            }
-    };
-
 
 
 template <class REAL>
 void
-PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, PointPriorityQueue & ppq, REAL rotxx)
+PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, PointPriorityQueue & ppq, SegmentsMap & smap, REAL rotxx)
 {
     typedef priority_queue<Segment<REAL> *, std::vector<Segment<REAL> *>, SegmentComparator<REAL> > SegmentPriorityQueue;
-    typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                                     SegmentsMap;
+    //typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                                     SegmentsMap;
     typedef typename SegmentsMap::iterator                                                           SegmentsMapIterator;
 
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
-    SegmentsMap         smap( (SegmentMapComparator()) );
+    //SegmentsMap         smap( (SegmentMapComparator()) );
     while (! ppq.empty())
     {
         Point<REAL> * pt = ppq.top();
@@ -40,8 +31,16 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         out << " ~~~~~~    " << pt << endl;
 
         Segment<REAL> * s1 = NULL, * s2 = NULL;
-        if (            pt->n1->x < rotxx)  spq.push( (s1 = new Segment<REAL> (pt->n1, pt)) );
-        if (pt->n2  &&  pt->n2->x < rotxx)  spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
+        if (            pt->n1->x < rotxx)
+        {
+            if ( smap.find( make_pair(pt->n1->id, pt->id) ) == smap.end() )
+                spq.push( (s1 = new Segment<REAL> (pt->n1, pt)) );
+        }
+        if (pt->n2  &&  pt->n2->x < rotxx)
+        {
+            if ( smap.find( make_pair(pt->n2->id, pt->id) ) == smap.end() )
+                spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
+        }
 
         SegmentsMapIterator it1, it2;
         if (s1) out << "  #>-{s1}-> " << s1 << endl;
