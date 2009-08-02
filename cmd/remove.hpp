@@ -35,7 +35,7 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
         {
             pt = ppq.top();
 
-            if (pt->type == PT_BirthInField)//  ||  pt->type == PT_BirthOnBorder)
+            if (pt->type == PT_BirthInField  ||  pt->type == PT_BirthOnBorder)
             {
                 if (number == counter)  break;
                 ++counter;
