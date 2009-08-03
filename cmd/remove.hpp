@@ -8,21 +8,16 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
 {
     using Geometry::RadiansToDegree;
 
-    REAL sinL = sin(alpha);
-    REAL cosL = cos(alpha);
-
-    cf->PrintConfiguration(out);
-    RotatePoints2 (sinL, cosL);
+    REAL  sinL = sin(alpha);
+    REAL  cosL = cos(alpha);
     long count = GetCount();
-    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
-    //SavePMF("../output/geo-rot.zip", GeoGebraFile);
 
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     /* ************************************************************************************** */
     PMFLog("[ REM ] : point in directions at angle %.3lf (%.1lf)", alpha, RadiansToDegree(alpha));
 
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
     Point<REAL> * pt;
     if (! cf->IsEmpty())
     {

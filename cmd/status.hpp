@@ -121,10 +121,11 @@ namespace pmf
                     else if (s1->isVertical() && s2->isVertical())
                     {
                         //cout << "#######  3   ";
-                        assert(!(s1->isVertical() && s2->isVertical()));
+                        ///assert(!(s1->isVertical() && s2->isVertical()));
 
                         assert(y1 == y2);
                         bool res;
+                        /// FIXME (Rafel#1#): fix when coordinates Y are the same
                         if (s2->GetQ()->y < y2  &&  y1 < s1->GetQ()->y) { res = false; }
                         else if (s1->GetQ()->y < y1  &&  y2 < s2->GetQ()->y) { res = true; }
                         else

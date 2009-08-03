@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         angle = M_PI_2;
 
         ppmf->RotatePoints2(angle);
-        strcpy(dir + len, "geo-rot.zip");
+        strcpy(dir + len, "geo-rot-add.zip");
         ppmf->SavePMF(dir, GeoGebraFile);
 
         ppmf->AddBirthPoint(0.5, 0.5, angle);
@@ -110,6 +110,11 @@ int main(int argc, char **argv)
         ofstream fout2(dir);
         out.rdbuf(fout2.rdbuf());
         angle = -M_PI_2;
+
+        ppmf->RotatePoints2(angle);
+        strcpy(dir + len, "geo-rot-rem.zip");
+        ppmf->SavePMF(dir, GeoGebraFile);
+
         ppmf->RemoveBirthPoint (2, angle);
         fout.close();
         strcpy(dir + len, "cmd-rem.txt");
@@ -125,6 +130,11 @@ int main(int argc, char **argv)
         ofstream fout3(dir);
         out.rdbuf(fout3.rdbuf());
         angle = -M_PI;
+
+        ppmf->RotatePoints2(angle);
+        strcpy(dir + len, "geo-rot-upd.zip");
+        ppmf->SavePMF(dir, GeoGebraFile);
+
         ppmf->UpdatePointVelocity (0, angle);
         fout.close();
         strcpy(dir + len, "cmd-upd.txt");

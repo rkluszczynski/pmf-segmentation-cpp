@@ -18,7 +18,6 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
-
     /* ************************************************************************************** */
     PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, alpha, RadiansToDegree(alpha));
 
