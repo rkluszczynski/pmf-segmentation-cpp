@@ -51,4 +51,11 @@ using namespace std;
 #define PMFLogV(FRT, ARGS...) wxLogVerbose(wxString::Format(wxT(FRT), ##ARGS));
 
 
+namespace pmf
+{
+    void GetTheFieldAndDoTheModification (double, double, time_t, const char *, const char *, double, double, double, struct timeb *, struct timeb *);
+    void GetTheFieldAndDoTheModification (double, double, time_t, const char *, const char *, long, double, struct timeb *, struct timeb *);
+}
+
+
 #endif // MACROS_HPP_INCLUDED

@@ -1,4 +1,4 @@
-#include "../cmd/pmf.hpp"
+#include "../headers/macros.hpp"
 
 
 void print_usage(char *prog_name, bool cond = false)
@@ -131,30 +131,7 @@ int main (int argc, char *argv[])
 		fprintf(stderr, "[ INFO ] :        Angle (-a) = %.3lf\n", angle);
 		fprintf(stderr, "\n");
 
-		/* Getting Polygonal Markov Field realization. */
-        using pmf::DoublePMF;
-
-        DoublePMF * pmf = new DoublePMF (sizeArak, sizeArak);
-        pmf->SetSeed (seed);
-		if (opt & 0x100)
-            pmf->LoadPMF (initialFile);
-		else
-            pmf->GenerateField ();
-
-        ftime(&tbeg);
-#if defined(__PMF_UPDATE_POINT)
-        /* Updating an update site in PMF. */
-        pmf->UpdatePointVelocity (pointId, angle);
-#elif defined(__PMF_REMOVE_POINT)
-        /* Removing a birth site from PMF. */
-        pmf->RemoveBirthPoint (pointId, angle);
-#else
-    #error "Define preprocesor directive you want (__PMF_UPDATE_POINT or __PMF_REMOVE_POINT)."
-#endif
-	    ftime(&tend);
-
-        if (outputFile) pmf->SavePMF (outputFile);
-        delete pmf;
+        pmf::GetTheFieldAndDoTheModification (sizeArak, sizeArak, seed, initialFile, outputFile, pointId, angle, &tbeg, &tend);
 
         /* Calculating modification time. */
         double modTime = tend.time - tbeg.time;
