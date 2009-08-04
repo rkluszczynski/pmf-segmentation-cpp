@@ -39,15 +39,14 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
         REAL orgy = Y_ROTATED(cpt.ST, cpt.ND, -sinL, cosL);
         if (IsPointInsideTheField(orgx, orgy))
         {
-    out << " seg1 : " << seg1 << endl;
-    out << " seg2 : " << seg2 << endl;
+            out << " seg1 : " << seg1 << endl;
+            out << " seg2 : " << seg2 << endl;
+
             result = new Point<REAL> (cpt.ST, cpt.ND, seg1->GetP(), seg2->GetP(), 0.0, 0.0, ++id, PT_Collision);
             result->org_x = orgx;
             result->org_y = orgy;
 
             out << "# NEW COLLISION POINT #> " << result << endl;
-    out << " seg1 : " << seg1 << endl;
-    out << " seg2 : " << seg2 << endl;
         }
     }
     return result;
@@ -64,7 +63,15 @@ PMF<REAL> :: InsertNewSegmentIntoSweep (Point<REAL> * parent, Segment<REAL> * ns
     //out << parent->x + EPSILON << endl;
     //out << line->GetX0() << endl;
     out << " ... checking intersections" << endl;
+    out << line << endl;
     pair<SweepIterator, bool> res = line->Insert(parent, nseg);
+    if (! res.ND)
+    {
+        if (parent)
+        out << "[  PARENT ] : " << parent << endl;
+        out << "[ SEGMENT ] : " << nseg << endl;
+        out << line << endl;
+    }
     assert(res.ND == true);
 
     // check the segments above and below for intersections

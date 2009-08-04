@@ -26,18 +26,12 @@ namespace pmf
                 if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
                 if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
             }
-            if (e1->GetType() == NormalDeath  &&  e2->GetType() != NormalDeath) return true;
-            if (e2->GetType() == NormalDeath  &&  e1->GetType() != NormalDeath) return false;
-            if (e1->GetType() == BorderDeath  &&  e2->GetType() != BorderDeath) return true;
-            if (e2->GetType() == BorderDeath  &&  e1->GetType() != BorderDeath) return false;
-            if (e1->GetType() == NormalBirth  &&  e2->GetType() != NormalBirth) return true;
-            if (e2->GetType() == NormalBirth  &&  e1->GetType() != NormalBirth) return false;
-            if (e1->GetType() == BorderBirth  &&  e2->GetType() != BorderBirth) return true;
-            if (e2->GetType() == BorderBirth  &&  e1->GetType() != BorderBirth) return false;
-            if (e1->GetType() == PointUpdate  &&  e2->GetType() != PointUpdate) return true;
-            if (e2->GetType() == PointUpdate  &&  e1->GetType() != PointUpdate) return false;
             //*
-            if (e1->GetType() ==    OldPoint  &&  e2->GetType() ==    OldPoint)
+            if (e1->GetType() == OldPoint  &&  e2->GetType() != OldPoint) return true;
+            if (e2->GetType() == OldPoint  &&  e1->GetType() != OldPoint) return false;
+            //*/
+            //*
+            if (e1->GetType() == OldPoint  &&  e2->GetType() == OldPoint)
             {
                 Point<double> * pt1 = e1->GetPoint();
                 Point<double> * pt2 = e2->GetPoint();
@@ -55,6 +49,17 @@ namespace pmf
                 if (pt1->type == PT_Update         &&  pt2->type == PT_Update) return pt1->id < pt2->id;
             }
             //*/
+            if (e1->GetType() == NormalDeath  &&  e2->GetType() != NormalDeath) return true;
+            if (e2->GetType() == NormalDeath  &&  e1->GetType() != NormalDeath) return false;
+            if (e1->GetType() == BorderDeath  &&  e2->GetType() != BorderDeath) return true;
+            if (e2->GetType() == BorderDeath  &&  e1->GetType() != BorderDeath) return false;
+            if (e1->GetType() == NormalBirth  &&  e2->GetType() != NormalBirth) return true;
+            if (e2->GetType() == NormalBirth  &&  e1->GetType() != NormalBirth) return false;
+            if (e1->GetType() == BorderBirth  &&  e2->GetType() != BorderBirth) return true;
+            if (e2->GetType() == BorderBirth  &&  e1->GetType() != BorderBirth) return false;
+            if (e1->GetType() == PointUpdate  &&  e2->GetType() != PointUpdate) return true;
+            if (e2->GetType() == PointUpdate  &&  e1->GetType() != PointUpdate) return false;
+
             if (! IsZero(e1->GetPoint()->y - e2->GetPoint()->y))
             {
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;

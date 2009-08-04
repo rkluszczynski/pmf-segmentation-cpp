@@ -124,12 +124,49 @@ namespace pmf
                         ///assert(!(s1->isVertical() && s2->isVertical()));
 
                         assert(y1 == y2);
-                        bool res;
+                        //bool res;
                         /// FIXME (Rafel#1#): fix when coordinates Y are the same
-                        if (s2->GetQ()->y < y2  &&  y1 < s1->GetQ()->y) { res = false; }
+                        cout << y1 << "   ;    " << y2 << endl;
+
+                        cout << s1 << endl;
+                        res = ( s1->GetQ()->y < y1 );
+                        cout << " res{<} = " << (res ? "TRUE" : "FALSE") << endl;
+                        res = IsZero(s1->GetQ()->y - y1);
+                        cout << " res{=} = " << (res ? "TRUE" : "FALSE") << endl;
+                        res = (y1 < s2->GetQ()->y);
+                        cout << " res{>} = " << (res ? "TRUE" : "FALSE") << endl;
+
+                        cout << s2 << endl;
+                        res = ( s2->GetQ()->y < y2 );
+                        cout << " res{<} = " << (res ? "TRUE" : "FALSE") << endl;
+                        res = IsZero(s2->GetQ()->y - y2);
+                        cout << " res{=} = " << (res ? "TRUE" : "FALSE") << endl;
+                        res = ( y2 < s2->GetQ()->y );
+                        cout << " res{>} = " << (res ? "TRUE" : "FALSE") << endl;
+
+                //*
+                cout << "[?]  _________" << _x0 << endl;
+                cout << "[?]  " << *e1 << "  <  " << *e2 << "   ::   (" << y1 << " < " << y2 << ") " << endl;
+                //*/
+
+                             if (s2->GetQ()->y < y2  &&  y1 < s1->GetQ()->y) { res = false; }
                         else if (s1->GetQ()->y < y1  &&  y2 < s2->GetQ()->y) { res = true; }
+                        else if (IsZero(s2->GetQ()->y - y2)  &&  y1 < s1->GetQ()->y) { res = false; }
+                        else if (IsZero(s1->GetQ()->y - y1)  &&  y2 < s2->GetQ()->y) { res = true; }
+                        else if (IsZero(s2->GetQ()->y - y2)  &&  s1->GetQ()->y < y1) { res = true; }
+                        else if (IsZero(s1->GetQ()->y - y1)  &&  s2->GetQ()->y < y2) { res = false; }
+                        /*
+                        else if (s2->GetQ()->y < y2  &&  IsZero(y1 - s1->GetQ()->y)) { res = false; }
+                        else if (IsZero(s1->GetQ()->y - y1)  &&  y2 < s2->GetQ()->y) { res = true; }
+                        else if (IsZero(s2->GetQ()->y - y2)  &&  y1 < s1->GetQ()->y) { res = false; }
+                        else if (s1->GetQ()->y < y1  &&  IsZero(y2 - s2->GetQ()->y)) { res = true; }
+                        //*/
                         else
+                        {
                             assert("BOTH VERTICAL IN THE SAME DIRECTION" && false);
+                        }
+
+                        cout << "___ res = " << (res ? "TRUE" : "FALSE") << endl;
                     }
                 }
                 /*
