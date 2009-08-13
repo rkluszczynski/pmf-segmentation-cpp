@@ -12,8 +12,8 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    /*
-    pmf::GrayscaleImage img("input/szary.png");
+    //*
+    pmf::GrayscaleImage img("input/qq-0B.png");
     int xx[] = {1,   1,   1, 190, 190, 190};
     int yy[] = {1, 170, 340,   1, 170, 340};
     REP(i, 6)
@@ -26,6 +26,15 @@ int main(int argc, char **argv)
         cout << "B = " << int(img.GetBlue(y,x)) << endl;
         cout << "  = " << int(img[x][y][2]) << endl;
     }
+    pmf::DoublePMF _pmf(0.0, 0.0);
+    _pmf.LoadPMF("input/qq.cf");
+    _pmf.RotatePoints2();
+
+    _pmf.CalculateEnergy(&img);
+    cout << " ---------------------------- " << endl;
+    _pmf.ScanVerticalLine(&img, 0.0000001, 0.5);
+    //_pmf.ScanVerticalLine(&img, 0.0000001, double(1. / double(img.GetHeight()) ));
+
     return 0;
     //*/
     char dir[128] = "output/";

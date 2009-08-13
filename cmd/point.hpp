@@ -49,7 +49,7 @@ namespace pmf
 
         virtual ~Point()
         {
-            out << "[ DEALLOCATING POINT ]  :  " << this << endl;
+            //out << "[ DEALLOCATING POINT ]  :  " << this << endl;
             /* cerr << " POINT DEAD " << endl; */
              x =  y = 17;
             l1 = (n1) ? n1->id : 0;
@@ -61,7 +61,7 @@ namespace pmf
         void OnInit()
         {
             ++pmf_point_counter;
-            out << "[ _ALLOCATING_ POINT ]  :  " << this << endl;
+            //out << "[ _ALLOCATING_ POINT ]  :  " << this << endl;
             //strcpy(label, "POINT");
         }
         Point * n(int which) { assert(which == 1 || which == 2); return (which == 1) ? n1 : n2; }

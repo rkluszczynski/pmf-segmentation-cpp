@@ -5,6 +5,7 @@
 #include "../cmd/schedule.hpp"
 #include "../cmd/status.hpp"
 #include <wx/string.h>
+#include "statistics.hpp"
 #include "grayimage.h"
 
 namespace pmf
@@ -92,6 +93,7 @@ namespace pmf
             inline long GetCount()  { return cf->GetPointsCount(); }
 
             REAL CalculateEnergy(GrayscaleImage * img);
+            pair<REAL, REAL> ScanVerticalLine(GrayscaleImage *, REAL, REAL);
 
         protected:
             time_t seed;
