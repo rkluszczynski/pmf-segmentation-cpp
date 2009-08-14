@@ -6,7 +6,7 @@ namespace pmf
 {
 
     BinarySegmentation::BinarySegmentation(double wsize, double hsize, const char * initialFile, const char * outputFile, time_t seed, const char * pictureFile, long iter, double pmr)
-    : loopIteration(1), iterations(iter), rate(pmr), outputfile(outputFile)
+    : loopIteration(0), iterations(iter), rate(pmr), outputfile(outputFile)
     {
         img = new GrayscaleImage(pictureFile);
 
@@ -29,15 +29,15 @@ namespace pmf
     BinarySegmentation::CheckRunningCondition()
     {
         if (iterations > 0  &&  loopIteration >= iterations) return false;
-        /// TODO (klusi#1#): rate breaking simulation
-        if (rate > 0.0 ) return false;
+        if (rate > 0.0  &&  rate > storedArea) return false;
         return true;
     }
 
     bool
     BinarySegmentation::CheckApplyCondition()
     {
-        return SimulatedAnnealingSimulation<double>::CheckApplyCondition();
+        //return SimulatedAnnealingSimulation<double>::CheckApplyCondition();
+        return apply;
     }
 
     double
@@ -45,10 +45,16 @@ namespace pmf
     {
         double beta_1 = 20. + 0.009 * loopIteration;
         double beta_2 = 0.0;
+        double result = 0.0;
 
-        double area = pmf->CalculateEnergy(img);
+        double tmpArea, tmpElen;
+        tmpArea = storedArea = pmf->CalculateEnergy(img);
+        tmpElen = storedElen = 0.0;
 
-        return 0.0;
+        result = beta_1 * storedArea + beta_2 * storedElen;
+        fprintf(stderr, "[ ENERGY ] : %lf  (%.2lf)\n", result, tmpArea);
+
+        return result;
     }
 
     inline
@@ -62,11 +68,11 @@ namespace pmf
         double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
+        pmf::Statistics stats = pmf->GetStatistics();
 
         // * Determinig limits for random move. *
-        double   noOfBirths = 0.33;
-        double    noOfTurns = 0.33;
-        double    areaOfPMF = 0.33;
+        double   noOfBirths = stats.GetNumberOfBirths();
+        double    noOfTurns = stats.GetNumberOfUpdates();
         double denominatorZ = 1.0 / (areaOfPMF + noOfBirths + noOfTurns);
 
         double limit1 = areaOfPMF * denominatorZ;
@@ -101,6 +107,14 @@ namespace pmf
     void
     BinarySegmentation::CancelModification()
     {
+        swap(pmf, clone);
+    }
+
+    void
+    BinarySegmentation::PreIteration()
+    {
+        //clone = pmf->Clone();
+        apply = true;
     }
 
     void
@@ -110,6 +124,12 @@ namespace pmf
         ++loopIteration;
     }
 
+
+    void
+    BinarySegmentation::Prepare()
+    {
+        areaOfPMF = M_PI * pmf->GetHeight() * pmf->GetWidth();
+    }
 
     void
     BinarySegmentation::Finish()

@@ -30,7 +30,8 @@ int main(int argc, char **argv)
     _pmf.LoadPMF("input/qq.cf");
     _pmf.RotatePoints2();
 
-    _pmf.CalculateEnergy(&img);
+    cout << " ---------------------------- " << endl;
+    cout << _pmf.CalculateEnergy(&img) << endl;
     cout << " ---------------------------- " << endl;
     _pmf.ScanVerticalLine(&img, 0.0000001, 0.5);
     //_pmf.ScanVerticalLine(&img, 0.0000001, double(1. / double(img.GetHeight()) ));

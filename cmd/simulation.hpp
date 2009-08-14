@@ -40,30 +40,30 @@ namespace pmf
     SimulatedAnnealingSimulation<REAL> :: Run ()
     {
         Prepare ();
-        REAL engH = CalculateHamiltonian();
-        REAL newH;
+        REAL __engH = CalculateHamiltonian();
+        REAL __newH;
         while (CheckRunningCondition())
         {
             PreIteration ();
 
             MakeModification ();
-            bool apply = CheckApplyCondition();
-            if (apply)
+            bool __apply = CheckApplyCondition();
+            if (__apply)
             {
-                newH = CalculateHamiltonian();
-                REAL deltaH = newH - engH;
-                if (deltaH > 0.0)
+                __newH = CalculateHamiltonian();
+                REAL __deltaH = __newH - __engH;
+                if (__deltaH > 0.0)
                 {
-                    REAL  limit = exp(-deltaH);
-                    REAL chance = Probability::Uniform(0.0, 1.0);
-                    if (chance > limit)  apply = false;
+                    REAL  __limit = exp(-__deltaH);
+                    REAL __chance = Probability::Uniform(0.0, 1.0);
+                    if (__chance > __limit)  __apply = false;
                 }
             }
 
-            if (apply)
+            if (__apply)
             {
                 ApplyModification ();
-                engH = newH;
+                __engH = __newH;
             }
             else CancelModification ();
 

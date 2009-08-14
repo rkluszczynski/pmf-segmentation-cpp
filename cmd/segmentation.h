@@ -3,6 +3,7 @@
 
 #include "simulation.hpp"
 #include "grayimage.h"
+#include "../include/statistics.h"
 
 
 namespace pmf
@@ -15,9 +16,11 @@ namespace pmf
             BinarySegmentation(double, double, const char *, const char *, time_t, const char *, long, double);
             virtual ~BinarySegmentation();
 
+            virtual void  Prepare ();
             virtual void  Finish ();
 
         protected:
+            virtual void           PreIteration();
             virtual void          PostIteration();
 
             virtual bool  CheckRunningCondition();
@@ -35,6 +38,10 @@ namespace pmf
             PMF<double> * clone;
             GrayscaleImage * img;
             const char * outputfile;
+
+            double storedArea, storedElen;
+            double areaOfPMF, angle;
+            bool apply;
     };
 
 }

@@ -3,6 +3,7 @@
 
 #include "../headers/macros.hpp"
 #include "../cmd/point.hpp"
+#include "../include/statistics.h"
 
 
 namespace pmf
@@ -37,6 +38,8 @@ namespace pmf
             inline long GetPointsCount() { return pts->size(); }
             inline bool IsEmpty() { return pts->empty(); }
             inline Point<REAL> * SeeLastPoint() { return pts->back(); }
+
+            pmf::Statistics GetStatistics();
 
             void SaveToFile (const char *);
             void ShowConfiguration (std::ostream & out);
@@ -77,6 +80,35 @@ namespace pmf
 
     template <class REAL>
     void Configuration<REAL>::DestroyPoints ()  { FOREACH(it, *pts)  delete *it; }
+
+
+    template <class REAL>
+    pmf::Statistics Configuration<REAL>::GetStatistics ()
+    {
+        pmf::Statistics stats;
+        FOREACH(it, *pts)
+        {
+            Point<REAL> * pt = *it;
+            switch (pt->type)
+            {
+                case PT_BirthOnBorder :
+                case PT_BirthInField  :
+                                    stats.IncrementBirth();
+                                    break;;
+                case PT_Update        :
+                                    stats.IncrementUpdate();
+                                    break;;
+                case PT_Collision     :
+                case PT_DeathOnBorder :
+                                    stats.IncrementDeath();
+                                    break;;
+                default :
+                        assert("WRONG POINT TYPE DURING GETTING STATISTICS" && false);
+            }
+        }
+        assert( stats.GetNumberOfBirths() + stats.GetNumberOfDeaths() + stats.GetNumberOfUpdates() == pts->size());
+        return stats;
+    }
 
 
     template <class REAL>
