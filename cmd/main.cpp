@@ -36,6 +36,9 @@ int main(int argc, char **argv)
     _pmf.ScanVerticalLine(&img, 0.0000001, 0.5);
     //_pmf.ScanVerticalLine(&img, 0.0000001, double(1. / double(img.GetHeight()) ));
 
+    pmf::Statistics stats = _pmf.GetStatistics();
+    cout << stats << endl;
+
     return 0;
     //*/
     char dir[128] = "output/";

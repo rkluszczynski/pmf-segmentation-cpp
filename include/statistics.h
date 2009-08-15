@@ -1,6 +1,7 @@
 #ifndef STATISTICS_H
 #define STATISTICS_H
 
+#include "../headers/macros.hpp"
 
 namespace pmf
 {
@@ -18,6 +19,8 @@ namespace pmf
             void IncrementBirth();
             void IncrementUpdate();
             void IncrementDeath();
+
+            friend std::ostream & operator << (std::ostream & out, pmf::Statistics & stats);
 
         protected:
 

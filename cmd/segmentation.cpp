@@ -8,6 +8,11 @@ namespace pmf
     BinarySegmentation::BinarySegmentation(double wsize, double hsize, const char * initialFile, const char * outputFile, time_t seed, const char * pictureFile, long iter, double pmr)
     : loopIteration(0), iterations(iter), rate(pmr), outputfile(outputFile)
     {
+        cout << "[ SEGM ] : ctor.begin()" << endl;
+
+        ofstream fout1("output/gen.txt");
+        out.rdbuf(fout1.rdbuf());
+
         img = new GrayscaleImage(pictureFile);
 
         pmf = new DoublePMF (wsize, hsize);
@@ -16,18 +21,26 @@ namespace pmf
             pmf->LoadPMF (initialFile);
 		else
             pmf->GenerateField ();
+
+        out.rdbuf(cout.rdbuf());
+
+        cout << "[ SEGM ] : ctor.end()" << endl;
     }
 
 
     BinarySegmentation::~BinarySegmentation()
     {
+        cout << "[ SEGM ] : dtor.begin()" << endl;
         delete img;
+        cout << "[ SEGM ] : dtor.end()" << endl;
     }
 
 
     bool
     BinarySegmentation::CheckRunningCondition()
     {
+        cout << "[ SEGM ] : checking running condition" << endl;
+
         if (iterations > 0  &&  loopIteration >= iterations) return false;
         if (rate > 0.0  &&  rate > storedArea) return false;
         return true;
@@ -36,13 +49,18 @@ namespace pmf
     bool
     BinarySegmentation::CheckApplyCondition()
     {
+        cout << "[ SEGM ] : checking apply condition ... ";
+
         //return SimulatedAnnealingSimulation<double>::CheckApplyCondition();
+        cout << (apply ? "TRUE" : "FALSE") << endl;
         return apply;
     }
 
     double
     BinarySegmentation::CalculateHamiltonian()
     {
+        cout << "[ SEGM ] : calculating hamiltonian" << endl;
+
         double beta_1 = 20. + 0.009 * loopIteration;
         double beta_2 = 0.0;
         double result = 0.0;
@@ -62,10 +80,11 @@ namespace pmf
     BinarySegmentation::MakeModification()
     {
         using Probability::Uniform;
+        cout << "[ SEGM ] : modification.begin()" << endl;
 
         double angle = Uniform<double>(0.0, 2. * M_PI);
-        double sinL = sin(angle);
-        double cosL = cos(angle);
+        //double sinL = sin(angle);
+        //double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
         pmf::Statistics stats = pmf->GetStatistics();
@@ -78,6 +97,12 @@ namespace pmf
         double limit1 = areaOfPMF * denominatorZ;
         double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
 
+
+        ofstream fout2("output/rem.txt");
+        out.rdbuf(fout2.rdbuf());
+
+
+        pmf->RotatePoints2(angle);
 
         // * Applying random operation. *
         double chance = Uniform(0.0, 1.0);
@@ -97,44 +122,69 @@ namespace pmf
             int number = rand() % int(noOfTurns);
             pmf->UpdatePointVelocity (number, angle);
         }
+
+        pmf->RotatePoints2();
+
+        cout << "[ SEGM ] : modification.end()" << endl;
     }
 
     void
     BinarySegmentation::ApplyModification()
     {
+        cout << "[ SEGM ] : applying modification" << endl;
     }
 
     void
     BinarySegmentation::CancelModification()
     {
+        cout << "[ SEGM ] : canceling modification" << endl;
+
         swap(pmf, clone);
     }
 
     void
     BinarySegmentation::PreIteration()
     {
+        cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
+
+        pmf->SavePMF("output/pre.txt");
+        pmf->SavePMF("output/pre.zip", GeoGebraFile);
         //clone = pmf->Clone();
         apply = true;
+
+        cout << "[ SEGM ] :  pre-iteration.end()" << endl;
     }
 
     void
     BinarySegmentation::PostIteration()
     {
+        cout << "[ SEGM ] : post-iteration.begin()" << endl;
+
         //delete clone;
         ++loopIteration;
+
+        cout << "[ SEGM ] : post-iteration.end()" << endl;
     }
 
 
     void
     BinarySegmentation::Prepare()
     {
+        cout << "[ SEGM ] : prepare.begin()" << endl;
+
         areaOfPMF = M_PI * pmf->GetHeight() * pmf->GetWidth();
+
+        cout << "[ SEGM ] : prepare.end()" << endl;
     }
 
     void
     BinarySegmentation::Finish()
     {
+        cout << "[ SEGM ] : finish.begin()" << endl;
+
         if (outputfile) pmf->SavePMF (outputfile);
         delete pmf;
+
+        cout << "[ SEGM ] : finish.end()" << endl;
     }
 }

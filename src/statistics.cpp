@@ -1,5 +1,6 @@
 #include "../include/statistics.h"
 
+
 namespace pmf
 {
     Statistics::Statistics() : numberOfBirths(0), numberOfUpdates(0), numberOfDeaths(0) { }
@@ -22,4 +23,14 @@ namespace pmf
     void Statistics::IncrementUpdate() { ++numberOfUpdates; }
     void Statistics::IncrementDeath() { ++numberOfDeaths; }
 
+    std::ostream & operator << (std::ostream & out, pmf::Statistics & stats)
+    {
+        out << "[ STATS ]  ::";
+        out << "  { births : "  << stats.GetNumberOfBirths() << " } ";
+        out << ",";
+        out << "  { updates : " << stats.GetNumberOfUpdates() << " } ";
+        out << ",";
+        out << "  { deaths : "  << stats.GetNumberOfDeaths() << " } ";
+        return out;
+    }
 }
