@@ -56,7 +56,8 @@ namespace pmf
                 {
                     REAL  __limit = exp(-__deltaH);
                     REAL __chance = Probability::Uniform(0.0, 1.0);
-                    if (__chance > __limit)  __apply = false;
+                    if (__chance > __limit)
+                        __apply = false;
                 }
             }
 

@@ -87,7 +87,7 @@ namespace pmf
         //double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
-        ofstream fout2("output/rem.txt");
+        ofstream fout2("output/mod.txt");
         out.rdbuf(fout2.rdbuf());
 
         pmf->RotatePoints2(angle);
@@ -121,7 +121,9 @@ namespace pmf
             pmf->UpdatePointVelocity (number, angle);
         }
 
+        cout << "CHECK 1" << endl;
         pmf->RotatePoints2();
+        cout << "CHECK 2" << endl;
 
         cout << "[ SEGM ] : modification.end()" << endl;
     }
@@ -137,7 +139,7 @@ namespace pmf
     {
         cout << "[ SEGM ] : canceling modification" << endl;
 
-        //swap(pmf, clone);
+        std::swap(pmf, clone);
     }
 
     void
@@ -147,9 +149,12 @@ namespace pmf
         cout << "[ ITER ] : " << loopIteration << endl;
         cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
 
+        ofstream fout2("output/save.txt");
+        out.rdbuf(fout2.rdbuf());
+
         pmf->SavePMF("output/pre.txt");
         pmf->SavePMF("output/pre.zip", GeoGebraFile);
-        //clone = pmf->Clone();
+        clone = pmf->Clone();
         apply = true;
 
         cout << "[ SEGM ] :  pre-iteration.end()" << endl;
@@ -160,7 +165,7 @@ namespace pmf
     {
         cout << "[ SEGM ] : post-iteration.begin()" << endl;
 
-        //delete clone;
+        delete clone;
         ++loopIteration;
 
         cout << "[ SEGM ] : post-iteration.end()" << endl;

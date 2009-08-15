@@ -89,6 +89,8 @@ namespace pmf
             //bool SaveConfigurationAsSVG(const char *, double, double);
             void DrawPMF (wxMemoryDC& dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
 
+            inline void PushBack (Point<REAL> * pt)  { cf->PushBack(pt); }
+
             inline REAL GetWidth()  { return cf->GetFieldWidth();  }
             inline REAL GetHeight() { return cf->GetFieldHeight(); }
             inline long GetCount()  { return cf->GetPointsCount(); }

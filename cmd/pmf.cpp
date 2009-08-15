@@ -5,7 +5,7 @@ PMF<REAL> :: PMF (REAL fWidth, REAL fHeight)
 { //ctor
     seed = time(NULL);
     cf   = new Configuration<REAL> (fWidth, fHeight);
-    srand(seed);
+    //srand(seed);
 }
 
 
@@ -87,52 +87,37 @@ template <class REAL>
 PMF<REAL> *
 PMF<REAL> :: Clone ()
 {
+    if (!cf) return NULL;
+
     PMF<REAL> * newPMF = new PMF<REAL> (GetWidth(), GetHeight());
-    newPMF->SetSeed(seed);
+    //newPMF->SetSeed(seed);
 
-    //SaveConfiguration("output/tmp.txt");
-    //newPMF->LoadConfiguration("output/tmp.txt");
-    //newPMF->GetPMFConfiguration()->clone_from( pmfConf );
-    //DetermineTypesFromLeftToRight();
+    cf->SetPointsIDs ();
+    int amount = GetCount();
 
-    /*
-    if (originalPMF == NULL) return;
-    if (TemplateList<pmf_point<T_REAL> >::get_size() > 0)  destroy();
+    Point<REAL> ** pts = new Point<REAL> * [amount+1];
+    long *    firstIds = new long[amount+1];
+    long *   secondIds = new long[amount+1];
 
-    TemplateList<pmf_point<T_REAL> >::head = NULL;
-    TemplateList<pmf_point<T_REAL> >::tail = NULL;
-    TemplateList<pmf_point<T_REAL> >::size = 0;
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * opt = *it;
 
-    originalPMF->set_points_ids();
-    fieldHeight = originalPMF->get_field_height();
-    fieldWidth  = originalPMF->get_field_width();
-    int  amount = originalPMF->get_size();
-
-    pmf_point<T_REAL> ** ptTab = new pmf_point<T_REAL> * [amount+1];
-    long *  firstIds = new long[amount+1];
-    long * secondIds = new long[amount+1];
-
-    Element<pmf_point<T_REAL> > * iter = originalPMF->getHead();
-    while (iter) {
-        pmf_point<T_REAL> * opt = iter->data;
         firstIds[opt->id]  = ((opt->n1) ? opt->n1->id : 0);
         secondIds[opt->id] = ((opt->n2) ? opt->n2->id : 0);
-        //ptTab[opt->id] = new pmf_point<T_REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, PT_UNKNOWN);
-        ptTab[opt->id] = new pmf_point<T_REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, opt->type);
-        iter = iter->next;
+        pts[opt->id] = new Point<REAL>(opt->x, opt->y, NULL, NULL, opt->l1, opt->l2, opt->id, opt->type);
     }
-
-    for (int i = 1; i <= amount; i++)
+    FOR(i, 1, amount)
     {
-        ptTab[i]->n1 = (firstIds[i] > 0) ? ptTab[firstIds[i]] : NULL;
-        ptTab[i]->n2 = (secondIds[i] > 0) ? ptTab[secondIds[i]] : NULL;
+        pts[i]->n1 =  (firstIds[i] > 0) ? pts[firstIds[i]] : NULL;
+        pts[i]->n2 = (secondIds[i] > 0) ? pts[secondIds[i]] : NULL;
     }
-    for (int i = 1; i <= amount; i++)
-        TemplateList<pmf_point<T_REAL> >::push_back(ptTab[i]);
+    FOR(i, 1, amount)  newPMF->PushBack(pts[i]);
 
     delete[] secondIds;
     delete[] firstIds;
-    delete[] ptTab;
-    //*/
+    delete[] pts;
+
+    newPMF->RotatePoints2 ();
     return newPMF;
 }

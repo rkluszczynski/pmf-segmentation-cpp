@@ -63,7 +63,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
 {
     using Geometry::IsZero;
     PMFLog("Rotating configuration with  sinL = %f  and  cosL = %f", sinL, cosL);
-    cf->PrintConfiguration(out);
+    //cf->PrintConfiguration(out);
 
     FOREACH(it, *cf)
     {

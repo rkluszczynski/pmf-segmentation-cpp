@@ -26,18 +26,25 @@ int main(int argc, char **argv)
         cout << "B = " << int(img.GetBlue(y,x)) << endl;
         cout << "  = " << int(img[x][y][2]) << endl;
     }
-    pmf::DoublePMF _pmf(0.0, 0.0);
-    _pmf.LoadPMF("input/qq.cf");
-    _pmf.RotatePoints2();
+    pmf::DoublePMF * _pmfpt;
+    {
+        pmf::DoublePMF _pmf(0.0, 0.0);
+        _pmf.LoadPMF("input/qq.cf");
+        _pmf.RotatePoints2();
 
-    cout << " ---------------------------- " << endl;
-    cout << _pmf.CalculateEnergy(&img) << endl;
-    cout << " ---------------------------- " << endl;
-    _pmf.ScanVerticalLine(&img, 0.0000001, 0.5);
-    //_pmf.ScanVerticalLine(&img, 0.0000001, double(1. / double(img.GetHeight()) ));
+        cout << " ---------------------------- " << endl;
+        cout << _pmf.CalculateEnergy(&img) << endl;
+        cout << " ---------------------------- " << endl;
+        _pmf.ScanVerticalLine(&img, 0.0000001, 0.5);
+        //_pmf.ScanVerticalLine(&img, 0.0000001, double(1. / double(img.GetHeight()) ));
 
-    pmf::Statistics stats = _pmf.GetStatistics();
-    cout << stats << endl;
+        pmf::Statistics stats = _pmf.GetStatistics();
+        cout << stats << endl;
+
+        _pmfpt = _pmf.Clone();
+    }
+    pmf::Statistics stats2 = _pmfpt->GetStatistics();
+    cout << stats2 << endl;
 
     return 0;
     //*/
