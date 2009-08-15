@@ -325,8 +325,8 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
         out << "\t\t\t" << pt << endl;
     }
     //*/
-    RotatePoints ();
     cf->SetPointsIDs ();
+    RotatePoints2 ();
     return;
 }
 

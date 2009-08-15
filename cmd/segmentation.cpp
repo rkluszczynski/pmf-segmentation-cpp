@@ -70,7 +70,7 @@ namespace pmf
         tmpElen = storedElen = 0.0;
 
         result = beta_1 * storedArea + beta_2 * storedElen;
-        fprintf(stderr, "[ ENERGY ] : %lf  (%.2lf)\n", result, tmpArea);
+        fprintf(stderr, "[ENERGY] : %lf  (%.2lf)\n", result, tmpArea);
 
         return result;
     }
@@ -87,6 +87,11 @@ namespace pmf
         //double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
+        ofstream fout2("output/rem.txt");
+        out.rdbuf(fout2.rdbuf());
+
+        pmf->RotatePoints2(angle);
+
         pmf::Statistics stats = pmf->GetStatistics();
 
         // * Determinig limits for random move. *
@@ -96,13 +101,6 @@ namespace pmf
 
         double limit1 = areaOfPMF * denominatorZ;
         double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
-
-
-        ofstream fout2("output/rem.txt");
-        out.rdbuf(fout2.rdbuf());
-
-
-        pmf->RotatePoints2(angle);
 
         // * Applying random operation. *
         double chance = Uniform(0.0, 1.0);
@@ -139,12 +137,14 @@ namespace pmf
     {
         cout << "[ SEGM ] : canceling modification" << endl;
 
-        swap(pmf, clone);
+        //swap(pmf, clone);
     }
 
     void
     BinarySegmentation::PreIteration()
     {
+        cout << "_________________________________" << endl;
+        cout << "[ ITER ] : " << loopIteration << endl;
         cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
 
         pmf->SavePMF("output/pre.txt");

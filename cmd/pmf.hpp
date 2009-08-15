@@ -71,6 +71,7 @@ namespace pmf
             PMF(REAL, REAL);
             virtual ~PMF();
 
+            PMF<REAL> * Clone();
             void GenerateField();
             void RotatePoints (REAL, REAL);
             void RotatePoints2 (REAL);
