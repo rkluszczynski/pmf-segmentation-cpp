@@ -83,15 +83,15 @@ namespace pmf
         cout << "[ SEGM ] : modification.begin()" << endl;
 
         double angle = Uniform<double>(0.0, 2. * M_PI);
+        cout << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         double sinL = sin(angle);
         double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
-        ofstream fout2("output/mod.txt");
-        out.rdbuf(fout2.rdbuf());
+        ofstream fout3("output/rot.txt");
+        out.rdbuf(fout3.rdbuf());
 
         pmf->RotatePoints2(sinL, cosL);
-
         pmf::Statistics stats = pmf->GetStatistics();
 
         // * Determinig limits for random move. *
@@ -101,6 +101,11 @@ namespace pmf
 
         double limit1 = areaOfPMF * denominatorZ;
         double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
+
+        ofstream fout2("output/mod.txt");
+        out.rdbuf(fout2.rdbuf());
+        fout3.close();
+            pmf->GetCf()->SaveConfigurationAsGGB("output/rotated.zip");
 
         // * Applying random operation. *
         double chance = Uniform(0.0, 1.0);

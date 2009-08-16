@@ -309,6 +309,17 @@ namespace pmf
         FOREACH(it, (*pts))
         {
             Point<REAL> * pt = *it;
+            /*
+            txt << _("<command name='Segment'>") << endl;
+            txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n2->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+            txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n2->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+            txt << _("</command>") << endl;
+            txt << _("<command name='Segment'>") << endl;
+            txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n1->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+            txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n1->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
+            txt << _("</command>") << endl;
+            //*/
+            //*
             switch (pt->type)
             {
                 case     PT_Collision :
@@ -326,6 +337,7 @@ namespace pmf
                 default :
                                 ;
             }
+            //*/
         }
 
         txt << _("    </construction>") << endl;

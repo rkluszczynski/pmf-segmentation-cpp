@@ -49,6 +49,7 @@ template <class REAL>
 void
 PMF<REAL> :: RotatePoints2 (REAL alpha = 0.0)
 {
+    PMFLog("Rotating configuration with  alpha = %.3f  (%.1f)", alpha, Geometry::RadiansToDegree(alpha));
     REAL sinL = sin(alpha);
     REAL cosL = cos(alpha);
     RotatePoints2 ( sinL, cosL );

@@ -95,6 +95,7 @@ namespace pmf
             void DrawPMF (wxMemoryDC& dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
 
             inline void PushBack (Point<REAL> * pt)  { cf->PushBack(pt); }
+            Configuration<REAL> * GetCf ()  { return cf; }
 
             inline REAL GetWidth()  { return cf->GetFieldWidth();  }
             inline REAL GetHeight() { return cf->GetFieldHeight(); }
