@@ -12,7 +12,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    //*
+    /*
     pmf::GrayscaleImage img("input/qq-0B.png");
     int xx[] = {1,   1,   1, 190, 190, 190};
     int yy[] = {1, 170, 340,   1, 170, 340};
@@ -111,7 +111,7 @@ int main(int argc, char **argv)
         //angle = M_PI;
         angle = M_PI_2;
 
-        ppmf->RotatePoints2(angle);
+        //ppmf->RotatePoints2(angle);
         strcpy(dir + len, "geo-rot-add.zip");
         ppmf->SavePMF(dir, GeoGebraFile);
 
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
         out.rdbuf(fout2.rdbuf());
         angle = -M_PI_2;
 
-        ppmf->RotatePoints2(angle);
+        //ppmf->RotatePoints2(angle);
         strcpy(dir + len, "geo-rot-rem.zip");
         ppmf->SavePMF(dir, GeoGebraFile);
 
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
         out.rdbuf(fout3.rdbuf());
         angle = -M_PI;
 
-        ppmf->RotatePoints2(angle);
+        //ppmf->RotatePoints2(angle);
         strcpy(dir + len, "geo-rot-upd.zip");
         ppmf->SavePMF(dir, GeoGebraFile);
 

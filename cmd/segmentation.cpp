@@ -83,14 +83,14 @@ namespace pmf
         cout << "[ SEGM ] : modification.begin()" << endl;
 
         double angle = Uniform<double>(0.0, 2. * M_PI);
-        //double sinL = sin(angle);
-        //double cosL = cos(angle);
+        double sinL = sin(angle);
+        double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
         ofstream fout2("output/mod.txt");
         out.rdbuf(fout2.rdbuf());
 
-        pmf->RotatePoints2(angle);
+        pmf->RotatePoints2(sinL, cosL);
 
         pmf::Statistics stats = pmf->GetStatistics();
 
@@ -108,21 +108,20 @@ namespace pmf
         {
             double x = Uniform(0.0, pmf->GetWidth());
             double y = Uniform(0.0, pmf->GetHeight());
-            pmf->AddBirthPoint (x, y, angle);
+            pmf->AddBirthPoint (x, y, sinL, cosL);
         }
         else if(chance < limit2)
         {
             int number = rand() % int(noOfBirths);
-            pmf->RemoveBirthPoint (number, angle);
+            pmf->RemoveBirthPoint (number, sinL, cosL);
         }
         else
         {
             int number = rand() % int(noOfTurns);
-            pmf->UpdatePointVelocity (number, angle);
+            pmf->UpdatePointVelocity (number, sinL, cosL);
         }
-
         cout << "CHECK 1" << endl;
-        pmf->RotatePoints2();
+        pmf->RotatePoints2 (0., 1.);
         cout << "CHECK 2" << endl;
 
         cout << "[ SEGM ] : modification.end()" << endl;

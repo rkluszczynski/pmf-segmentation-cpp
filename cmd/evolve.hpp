@@ -28,9 +28,13 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
                             assert(s2);
                             CheckIntersectionAfterDeath (s1, s2, evts, line, id, sinL, cosL);
                             line->Erase( s1 );
-                            line->Erase( s2 );
+                            out << line << endl;
                             delete s1;
+                            line->Erase( s2 );
                             delete s2;
+                            out << " CHECK 1 " << endl;
+                            out << line << endl;
+                            out << " CHECK 2 " << endl;
                             break;;
         case PT_DeathOnBorder :
                             CheckIntersectionAfterDeath (s1, NULL, evts, line, id, sinL, cosL);
@@ -308,6 +312,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
                     assert("WRONG EVENT TYPE DURING EVOLUTION" && false);
         }
         evts->Erase(evt);
+        out << line << endl;
         out << "----------------------------------------------------" << endl;
     }
     out << endl;
@@ -326,7 +331,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
     }
     //*/
     cf->SetPointsIDs ();
-    RotatePoints2 ();
+    //RotatePoints2 ();
     return;
 }
 

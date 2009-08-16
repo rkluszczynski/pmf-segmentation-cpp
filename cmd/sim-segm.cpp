@@ -135,7 +135,7 @@ int main (int argc, char *argv[])
 	/* -------------------------------------------------------------------- */
 	/*   Check existence of required parameters for the program.            */
 	/* -------------------------------------------------------------------- */
-	if((opt & 0x101) && (opt & 0x020) && (opt & 0x0B0))
+	if((opt & 0x101) && (opt & 0x020) && (opt & 0x0C0))
 	{
         struct timeb tbeg, tend;
 		//fprintf(stderr, "TOTAL SUCCES (%x) !!\n", opt);

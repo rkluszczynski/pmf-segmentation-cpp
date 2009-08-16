@@ -118,6 +118,6 @@ PMF<REAL> :: Clone ()
     delete[] firstIds;
     delete[] pts;
 
-    newPMF->RotatePoints2 ();
+    //newPMF->RotatePoints2 ();
     return newPMF;
 }

@@ -6,20 +6,18 @@
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
 void
-PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
+PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 {
     using Geometry::RadiansToDegree;
     using Geometry::IsZero;
 
-    REAL  sinL = sin(alpha);
-    REAL  cosL = cos(alpha);
     long count = GetCount();
 
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     /* ************************************************************************************** */
-    PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, alpha, RadiansToDegree(alpha));
+    PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, acos(cosL), RadiansToDegree(acos(cosL)));
 
     if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * EPSILON;
     else if (IsZero(yy)) yy = 2. * EPSILON;
@@ -106,6 +104,19 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
 }
 #undef X_ROTATED
 #undef Y_ROTATED
+
+
+template <class REAL>
+void
+PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL alpha = 0.0)
+{
+    REAL  sinL = sin(alpha);
+    REAL  cosL = cos(alpha);
+    RotatePoints2 (sinL, cosL);
+    AddBirthPoint (xx, yy, sinL, cosL);
+    RotatePoints2 (0., 1.);
+    return;
+}
 
 
 #endif // ADDING_HPP_INCLUDED

@@ -4,19 +4,17 @@
 
 template <class REAL>
 void
-PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
+PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
 {
     using Geometry::RadiansToDegree;
 
-    REAL  sinL = sin(alpha);
-    REAL  cosL = cos(alpha);
     long count = GetCount();
 
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     /* ************************************************************************************** */
-    PMFLog("[ REM ] : point in directions at angle %.3lf (%.1lf)", alpha, RadiansToDegree(alpha));
+    PMFLog("[ REM ] : point in directions at angle %.3lf (%.1lf)", acos(cosL), RadiansToDegree(acos(cosL)));
 
     Point<REAL> * pt;
     if (! cf->IsEmpty())
@@ -68,6 +66,19 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
 
     delete line;
     delete evts;
+    return;
+}
+
+
+template <class REAL>
+void
+PMF<REAL> :: RemoveBirthPoint (long number, REAL alpha = 0.0)
+{
+    REAL  sinL = sin(alpha);
+    REAL  cosL = cos(alpha);
+    RotatePoints2 (sinL, cosL);
+    RemoveBirthPoint (number, sinL, cosL);
+    RotatePoints2 (0., 1.);
     return;
 }
 

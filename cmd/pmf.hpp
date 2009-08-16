@@ -77,10 +77,15 @@ namespace pmf
             void RotatePoints2 (REAL);
             void RotatePoints2 (REAL, REAL);
 
-            void AddBirthPoint (REAL, REAL, REAL);
-            void UpdatePointVelocity (long, REAL);
-            void RemoveBirthPoint (long, REAL);
-            void AddBirthSegment (REAL, REAL, REAL);
+            void AddBirthPoint (REAL, REAL, REAL, REAL);
+            void UpdatePointVelocity (long, REAL, REAL);
+            void RemoveBirthPoint (long, REAL, REAL);
+            void AddBirthSegment (REAL, REAL, REAL, REAL);
+
+            inline void AddBirthPoint (REAL, REAL, REAL);
+            inline void UpdatePointVelocity (long, REAL);
+            inline void RemoveBirthPoint (long, REAL);
+            inline void AddBirthSegment (REAL, REAL, REAL);
 
             void SetSeed(time_t);
             bool LoadPMF(const char *);
