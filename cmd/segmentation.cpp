@@ -156,8 +156,12 @@ namespace pmf
         ofstream fout2("output/save.txt");
         out.rdbuf(fout2.rdbuf());
 
-        pmf->SavePMF("output/pre.txt");
-        pmf->SavePMF("output/pre.zip", GeoGebraFile);
+        char filename[256];
+        sprintf(filename, "output/pre%li.txt", loopIteration);
+        pmf->SavePMF(filename);
+        sprintf(filename, "output/pre%li.zip", loopIteration);
+        pmf->SavePMF(filename, GeoGebraFile);
+
         clone = pmf->Clone();
         apply = true;
 
@@ -191,7 +195,11 @@ namespace pmf
     {
         cout << "[ SEGM ] : finish.begin()" << endl;
 
-        if (outputfile) pmf->SavePMF (outputfile);
+        if (outputfile)
+        {
+            pmf->SavePMF (outputfile);
+            pmf->SavePMF ("output/sim-result.zip", GeoGebraFile);
+        }
         delete pmf;
 
         cout << "[ SEGM ] : finish.end()" << endl;
