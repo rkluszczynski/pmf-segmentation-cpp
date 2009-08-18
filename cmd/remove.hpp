@@ -15,6 +15,7 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
 
     /* ************************************************************************************** */
     PMFLog("[ REM ] : point in directions at angle %.3lf (%.1lf)", acos(cosL), RadiansToDegree(acos(cosL)));
+    out << "[ REM ]" << endl;
 
     Point<REAL> * pt;
     if (! cf->IsEmpty())

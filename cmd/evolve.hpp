@@ -59,6 +59,49 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
 
 template <class REAL>
 inline
+bool
+PMF<REAL> :: CheckExistanceAfterForgeting  (Point<REAL> * npt, REAL sinL, REAL cosL, Point<REAL> * dpt, Point<REAL> * dptn, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
+{
+    typedef typename EventsSchedule<REAL>::Iterator EventIterator;
+
+    PointType type = npt->type;
+    npt->type = PT_BirthOnBorder;
+
+    OldEvent * op = new OldEvent(npt, NULL, NULL);
+    EventIterator it = evts->LowerBound( op );
+    delete op;
+
+    std::vector<Point<REAL> *> vec;
+    npt->type = type;
+    while (true)
+    {
+        if (it == evts->End()) break;
+
+        Point<REAL> * tmp = (*it)->GetPoint();
+
+        if (! Geometry::IsZero( npt->x - tmp->x )) break;
+
+        if (Geometry::IsZero( npt->y - tmp->y ))
+        {
+            vec.push_back(tmp);
+        }
+        ++it;
+    }
+
+    if (vec.size() > 0)
+    {
+        FOREACH(vit, vec)
+            out << endl << " EXIST : " << *vit << endl << endl;
+    }
+    else
+        out << endl << "NOTHING EXISTS" << endl << endl;
+
+    return false;
+}
+
+
+template <class REAL>
+inline
 void
 //PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, Segment<REAL> * seg, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
 PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, Point<REAL> * dptn, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
@@ -124,6 +167,8 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         assert(dptn->l2 == length);
     }
     out << " newpt : " << newpt << endl;
+    /// FIXME (Rafel#1#): Check if the point exist before adding
+    CheckExistanceAfterForgeting (newpt, sinL, cosL, dpt, dptn, evts, line, id);
 
     out << "     x : " << newpt->x << endl;
     out << " x + E : " << newpt->x + EPSILON << endl;

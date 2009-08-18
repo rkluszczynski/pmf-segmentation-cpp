@@ -89,11 +89,19 @@ namespace pmf
         typedef std::set<EventPoint, COMP > EventList;
 
         public:
+            typedef typename EventList::iterator Iterator;
+
             EventsSchedule() {};
             ~EventsSchedule() {};
 
             bool InsertBirthEvent(POINT * pt);
 
+            Iterator LowerBound (EventPoint e)
+            {
+                //if (_events.lower_bound(e) == _events.end()) return NULL;
+                return _events.lower_bound(e);
+            }
+            Iterator End () { return _events.end(); }
 
             bool Insert(EventPoint e)
             {

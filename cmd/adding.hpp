@@ -18,6 +18,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
     /* ************************************************************************************** */
     PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, acos(cosL), RadiansToDegree(acos(cosL)));
+    out << "[ ADD ]" << endl;
 
     if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * EPSILON;
     else if (IsZero(yy)) yy = 2. * EPSILON;

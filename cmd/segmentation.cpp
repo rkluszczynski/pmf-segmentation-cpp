@@ -82,14 +82,15 @@ namespace pmf
         using Probability::Uniform;
         cout << "[ SEGM ] : modification.begin()" << endl;
 
+        ofstream fout3("output/rot.txt");
+        out.rdbuf(fout3.rdbuf());
+
         double angle = Uniform<double>(0.0, 2. * M_PI);
         cout << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
+        out << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         double sinL = sin(angle);
         double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
-
-        ofstream fout3("output/rot.txt");
-        out.rdbuf(fout3.rdbuf());
 
         pmf->RotatePoints2(sinL, cosL);
         pmf::Statistics stats = pmf->GetStatistics();
@@ -157,9 +158,11 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        sprintf(filename, "output/pre%li.txt", loopIteration);
+        sprintf(filename, "output/pre.txt");
+        //sprintf(filename, "output/pre%li.txt", loopIteration);
         pmf->SavePMF(filename);
-        sprintf(filename, "output/pre%li.zip", loopIteration);
+        sprintf(filename, "output/pre.zip");
+        //sprintf(filename, "output/pre%li.zip", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();

@@ -15,6 +15,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
 
     /* ************************************************************************************** */
     PMFLog("[ UPD ] : point in directions at angle %.3lf (%.1lf)", acos(cosL), RadiansToDegree(acos(cosL)));
+    out << "[ UPD ]" << endl;
 
     Point<REAL> * pt;
     if (! cf->IsEmpty())
