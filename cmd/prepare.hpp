@@ -98,9 +98,9 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
             out << " {" << it->ST.ST << "," << it->ST.ND << "}";
         }
         out << endl;
-        //*/
+        // */
     }
-    //*/
+    // */
 
     while(! spq.empty())
     {

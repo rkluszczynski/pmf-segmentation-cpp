@@ -32,8 +32,8 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
         pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
                                             seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
                                             seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
-        /// TODO (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON)
-        /// NOTE (klusi#1#): note in previous line probably fixed by ordering
+        /// TODO (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON) //
+        /// NOTE (klusi#1#): note in previous line probably fixed by ordering //
 
         REAL orgx = X_ROTATED(cpt.ST, cpt.ND, -sinL, cosL);
         REAL orgy = Y_ROTATED(cpt.ST, cpt.ND, -sinL, cosL);
@@ -155,7 +155,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         //int left  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, 0.0, GetHeight());
 
         out << " up=" << up << "  ;   down=" << down << "  ;   right=" << right << "  ;   left=" << left << endl;
-        /// FIXME (Rafel#1#): what if point is on border ??
+        /// FIXME (Rafel#1#): what if point is on border ?? //
 
         REAL cx, cy;
         if (up != 0  &&  up != 5) {
@@ -320,7 +320,7 @@ PMF<REAL> :: CheckIntersectionAfterDeath (Segment<REAL> * s1, Segment<REAL> * s2
     nn.erase( s1 );
     nn.erase( s2 );
     assert(nn.size() <= 2);
-    //*/
+    // */
     //PMFLogV("Death with %i status neighbour(s) !!!", nn.size());
     if (nn.size() == 2)
     {

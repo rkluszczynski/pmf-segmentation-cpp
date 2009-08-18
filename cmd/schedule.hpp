@@ -20,7 +20,7 @@ namespace pmf
             cout << "[]   IsZero = " << (IsZero(e1->GetPoint()->x - e2->GetPoint()->x) ? "YES" : "NO") << endl;
             cout.precision(12);
             cout << "[]  " << e1->GetPoint()->x << " < " << e2->GetPoint()->x << "  " << (res ? "TRUE" : "FALSE") << endl;
-            //*/
+            // */
             if (! IsZero(e1->GetPoint()->x - e2->GetPoint()->x))
             {
                 if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
@@ -29,7 +29,7 @@ namespace pmf
             //*
             if (e1->GetType() == OldPoint  &&  e2->GetType() != OldPoint) return true;
             if (e2->GetType() == OldPoint  &&  e1->GetType() != OldPoint) return false;
-            //*/
+            // */
             //*
             if (e1->GetType() == OldPoint  &&  e2->GetType() == OldPoint)
             {
@@ -48,7 +48,7 @@ namespace pmf
 
                 if (pt1->type == PT_Update         &&  pt2->type == PT_Update) return pt1->id < pt2->id;
             }
-            //*/
+            // */
             if (e1->GetType() == NormalDeath  &&  e2->GetType() != NormalDeath) return true;
             if (e2->GetType() == NormalDeath  &&  e1->GetType() != NormalDeath) return false;
             if (e1->GetType() == BorderDeath  &&  e2->GetType() != BorderDeath) return true;
@@ -69,13 +69,13 @@ namespace pmf
                 // does not work on seed 3774659 and size 1
             if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
             if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
-            //*/
+            // */
             /*
             if(p1->type()==SOURCE && p2->type()==SOURCE && p1->segment()->slope()>p2->segment()->slope()) return true;
             if(p1->type()==SOURCE && p2->type()==SOURCE && p1->segment()->slope()<p2->segment()->slope()) return false;
             if(p1->type()==TARGET && p2->type()==TARGET && p1->segment()->slope()>p2->segment()->slope()) return true;
             if(p1->type()==TARGET && p2->type()==TARGET && p1->segment()->slope()<p2->segment()->slope()) return false;
-            //*/
+            // */
             return false;
         }
     };
@@ -108,7 +108,7 @@ namespace pmf
                 if (_events.find(e) != _events.end())
                 {
                     //assert(e->GetType() == NormalDeath);
-                    /// NOTE (klusi#3#): when two border points in the same place from different births point is generated again
+                    /// NOTE (klusi#3#): when two border points in the same place from different births point is generated again //
                     if (e->GetType() != NormalDeath) return false;
                     assert(e->GetType() == NormalDeath);
 
@@ -139,7 +139,7 @@ namespace pmf
                 if (_events.find(e) == _events.end()) return NULL;
                 return (*_events.find(e))->GetPoint();
             }
-            //*/
+            // */
             //EventList * GetEvents() { return & _event_list; }
 
             friend ostream & operator << (ostream & out, const EventsSchedule * es)

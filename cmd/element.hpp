@@ -40,7 +40,7 @@ namespace pmf
                 //out << "{" << el->GetSegment() << "}";
                 return out;
             }
-            //*/
+            // */
 
         private:
             REAL  _x0, _y0;

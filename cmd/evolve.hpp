@@ -43,7 +43,7 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
                             break;;
         case        PT_Update :
                             //CheckIntersectionAfterDeath (s1, NULL, evts, line, id, sinL, cosL);
-                            /// FIXME (Rafel#4#): do not know if line above should exist ??? It is checked during insertion
+                            /// FIXME (Rafel#4#): do not know if line above should exist ??? It is checked during insertion //
                             line->Erase( s1 );
                             delete s1;
                             //line->Insert( pt, s2 );
@@ -116,7 +116,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     //SweepIterator it1 = line->Find( ev->GetSegment(true) );
     //SweepIterator it2 = line->Find( ev->GetSegment(false) );
 
-    ///Point<REAL> * dptn = seg->GetP();
+    ///Point<REAL> * dptn = seg->GetP(); //
     /*
     if (line->IsNull(it1))
     {
@@ -132,7 +132,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     }
     else
         assert("WRONG OLD COLLISION POINT" && false);
-    //*/
+    // */
     out << "   dpt : " << dpt << endl;
     out << "  dptn : " << dptn << endl;
 
@@ -167,7 +167,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         assert(dptn->l2 == length);
     }
     out << " newpt : " << newpt << endl;
-    /// FIXME (Rafel#1#): Check if the point exist before adding
+    /// FIXME (Rafel#1#): Check if the point exist before adding //
     CheckExistanceAfterForgeting (newpt, sinL, cosL, dpt, dptn, evts, line, id);
 
     out << "     x : " << newpt->x << endl;
@@ -216,7 +216,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
             out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
             out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
-        //*/
+        // */
         if (line->IsNull(line->Find(seg1)) || line->IsNull(line->Find(seg2)))
         {
             Point<REAL> * tmp = ev->GetPoint();
@@ -227,7 +227,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
         }
     }
     else
-    //*/
+    // */
     //return false;
     if (ev->GetType() == OldPoint)
     {
@@ -254,7 +254,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             if (!line->IsNull(it2)) out << " -2-> " << (*it2)->GetSegment() << endl;
             out << " ... searching 1st line (" << (line->IsNull(it1) ? "NULL" : " OK ") << ") : " << seg1 << endl;
             out << " ... searching 2nd line (" << (line->IsNull(it2) ? "NULL" : " OK ") << ") : " << seg2 << endl;
-            //*/
+            // */
             bool cond1 = (pt->n1 == NULL);// || line->IsNull(it1);
             out << "  cond1  = " << (cond1 ? "TRUE" : "FALSE") << endl;
             if (! cond1  &&  line->IsNull( line->Find(seg1) )) cond1 = true;
@@ -374,7 +374,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
         pt->ResumeCoordinates();
         out << "\t\t\t" << pt << endl;
     }
-    //*/
+    // */
     cf->SetPointsIDs ();
     //RotatePoints2 ();
     return;

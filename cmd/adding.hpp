@@ -48,7 +48,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
     out << endl << line << endl << endl;
     out << "__________ DO THE (R)EVOLUTION !!! __________" << endl;
-    //*/
+    // */
     /* ************************************************************************************** */
 
     Point<REAL> * newpt = new Point<REAL>(rotxx, rotyy, 0.0, 0.0, ++count, PT_BirthInField);

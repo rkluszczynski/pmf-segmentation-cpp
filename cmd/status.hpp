@@ -43,14 +43,14 @@ namespace pmf
                 assert(x >= _x0 || IsZero(x - _x0));
                 if (x >= _x0  ||  IsZero(x - _x0)) _x0 = x;
             }
-            //*
+            // *
             void SetSweepLinePosition2(REAL x)
             {
                 //assert(x >= _x0 || Geometry::IsZero(x - _x0));
                 assert(_x0 - x < 3. * EPSILON);
                 _x0 = x;
             }
-            //*/
+            // */
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
                 if (pt) SetSweepLinePosition(pt->x + EPSILON);
@@ -88,10 +88,22 @@ namespace pmf
             Iterator Below(Iterator it) { return (++it); }
             Iterator Below(SEGMENT * seg) { return Below(Find(seg)); }
 
+            friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
+            {
+                out << "[ STATUS SEGMENTS ] : at position " << lss->_x0 << endl;
+                FOREACH(it, (*lss)) out << " " << *(*it) << endl;
+                out << "[ STATUS IDS ] :";
+                FOREACH(it, (lss->_endids)) out << " " << *it;
+                out << endl;
+                return out;
+            }
+
+            bool HasSegmentWithEndId(long id) { return _endids.find(id) != _endids.end(); }
+
             bool BelowComparator(ENTRY * const & e1, ENTRY * const & e2) const
             {
                 using Geometry::IsZero;
-/// TODO (klusi#3#): cases with vertical segment(s)
+                /// TODO (klusi#3#): cases with vertical segment(s)
                 SEGMENT * s1 = e1->GetSegment();
                 SEGMENT * s2 = e2->GetSegment();
 
@@ -102,7 +114,7 @@ namespace pmf
                 /*
                 cout << "[?]  _________" << _x0 << endl;
                 cout << "[?]  " << *e1 << "  <  " << *e2 << "   ::   (" << y1 << " < " << y2 << ") " << endl;
-                //*/
+                // */
                 if (s1 != s2  &&  s1->GetP() == s2->GetP())
                 {
                     //cout << "[?]  EQUAL  ";
@@ -144,10 +156,10 @@ namespace pmf
                         res = ( y2 < s2->GetQ()->y );
                         cout << " res{>} = " << (res ? "TRUE" : "FALSE") << endl;
 
-                //*
+                // *
                 cout << "[?]  _________" << _x0 << endl;
                 cout << "[?]  " << *e1 << "  <  " << *e2 << "   ::   (" << y1 << " < " << y2 << ") " << endl;
-                //*/
+                // */
 
                              if (s2->GetQ()->y < y2  &&  y1 < s1->GetQ()->y) { res = false; }
                         else if (s1->GetQ()->y < y1  &&  y2 < s2->GetQ()->y) { res = true; }
@@ -160,7 +172,7 @@ namespace pmf
                         else if (IsZero(s1->GetQ()->y - y1)  &&  y2 < s2->GetQ()->y) { res = true; }
                         else if (IsZero(s2->GetQ()->y - y2)  &&  y1 < s1->GetQ()->y) { res = false; }
                         else if (s1->GetQ()->y < y1  &&  IsZero(y2 - s2->GetQ()->y)) { res = true; }
-                        //*/
+                        // */
                         else
                         {
                             assert("BOTH VERTICAL IN THE SAME DIRECTION" && false);
@@ -172,23 +184,11 @@ namespace pmf
                 /*
                 cout.precision(12);
                 cout << "[?]  (" << y1 << " < " << y2 << ") == " << (res ? "T" : "F") << endl;
-                //*/
+                // */
                 return res;
                 //return e1.yy0(_x0) < e2.yy0(_x0);// ||
                     //(e1.y0(x0) == e2.y0(x0)  //&&  (e1.type() == SOURCE || e2.type() == SOURCE)
                       //  &&  e1.segment()->slope() < e2.segment()->slope());
-            }
-
-            bool HasSegmentWithEndId(long id) { return _endids.find(id) != _endids.end(); }
-
-            friend ostream & operator << (ostream & out, const SweepLineStatus<REAL> * lss)
-            {
-                out << "[ STATUS SEGMENTS ] : at position " << lss->_x0 << endl;
-                FOREACH(it, (*lss)) out << " " << *(*it) << endl;
-                out << "[ STATUS IDS ] :";
-                FOREACH(it, (lss->_endids)) out << " " << *it;
-                out << endl;
-                return out;
             }
 
 
