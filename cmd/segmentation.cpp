@@ -8,6 +8,9 @@ namespace pmf
     BinarySegmentation::BinarySegmentation(double wsize, double hsize, const char * initialFile, const char * outputFile, time_t seed, const char * pictureFile, long iter, double pmr)
     : loopIteration(0), iterations(iter), rate(pmr), outputfile(outputFile)
     {
+        freopen ("output/stdout.txt", "w", stdout);
+        freopen ("output/stderr.txt", "w", stderr);
+
         cout << "[ SEGM ] : ctor.begin()" << endl;
 
         ofstream fout1("output/gen.txt");
@@ -159,10 +162,10 @@ namespace pmf
 
         char filename[256];
         sprintf(filename, "output/pre.txt");
-        //sprintf(filename, "output/pre%li.txt", loopIteration);
+        sprintf(filename, "output/pre%li.txt", loopIteration);
         pmf->SavePMF(filename);
         sprintf(filename, "output/pre.zip");
-        //sprintf(filename, "output/pre%li.zip", loopIteration);
+        sprintf(filename, "output/pre%li.zip", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();
