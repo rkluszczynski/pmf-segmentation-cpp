@@ -54,6 +54,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
         }
     }
     /* ************************************************************************************** */
+    PMFLog("[ UPD ] : point  ( %.2lf , %.2lf )", pt->org_x, pt->org_y);
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );

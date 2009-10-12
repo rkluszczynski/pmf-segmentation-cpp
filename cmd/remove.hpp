@@ -56,6 +56,7 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
         }
     }
     /* ************************************************************************************** */
+    PMFLog("[ REM ] : point  ( %.2lf , %.2lf )", pt->org_x, pt->org_y);
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
