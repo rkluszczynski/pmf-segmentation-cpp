@@ -63,6 +63,7 @@ bool
 PMF<REAL> :: CheckExistanceAfterForgeting  (Point<REAL> * npt, REAL sinL, REAL cosL, Point<REAL> * dpt, Point<REAL> * dptn, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, /*set<Point<REAL> *> & idsok,*/ long & id)
 {
     typedef typename EventsSchedule<REAL>::Iterator EventIterator;
+    bool pointExistance = false;
 
     PointType type = npt->type;
     npt->type = PT_BirthOnBorder;
@@ -92,11 +93,12 @@ PMF<REAL> :: CheckExistanceAfterForgeting  (Point<REAL> * npt, REAL sinL, REAL c
     {
         FOREACH(vit, vec)
             out << endl << " EXIST : " << *vit << endl << endl;
+        pointExistance = true;
     }
     else
         out << endl << "NOTHING EXISTS" << endl << endl;
 
-    return false;
+    return pointExistance;
 }
 
 
@@ -167,9 +169,32 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         assert(dptn->l2 == length);
     }
     out << " newpt : " << newpt << endl;
-    /// FIXME (Rafel#1#): Check if the point exist before adding //
-    CheckExistanceAfterForgeting (newpt, sinL, cosL, dpt, dptn, evts, line, id);
 
+    /// FIXME (Rafel#1#): Check if the point exist before adding //
+    bool exists = CheckExistanceAfterForgeting (newpt, sinL, cosL, dpt, dptn, evts, line, id);
+    if (exists)
+    {
+        cout << " FREAKING EXISTANCE " << endl;
+
+        printf("QQ ->>\n");
+        //*
+        REAL newLength = Probability::Uniform<REAL>(dist + EPSILON, length - EPSILON);
+        REAL newScale = newLength / length;
+        assert(newScale < 1.0);
+        assert(newScale > dist/length);
+
+        cout << " existing newpt = " << newpt->x << " , " << newpt->y << endl;
+        cout << "  source  dptn  = " << dptn->x << " , " << dptn->y << endl;
+
+        REAL nxx = dptn->x + newScale * ( newpt->x - dptn->x );
+        REAL nyy = dptn->y + newScale * ( newpt->y - dptn->y );
+
+        cout << "                = " << nxx << " , " << nyy << endl;
+        //*/
+
+        scanf("%*i");
+        printf("-<<\n");
+    }
     out << "     x : " << newpt->x << endl;
     out << " x + E : " << newpt->x + EPSILON << endl;
     out << "    x0 : " << line->GetX0() << endl;
