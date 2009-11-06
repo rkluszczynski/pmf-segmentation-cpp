@@ -190,9 +190,11 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         REAL nyy = dptn->y + newScale * ( newpt->y - dptn->y );
 
         cout << "                = " << nxx << " , " << nyy << endl;
-        //*/
+        newpt->x = nxx;
+        newpt->y = nyy;
 
         scanf("%*i");
+        //*/
         printf("-<<\n");
     }
     out << "     x : " << newpt->x << endl;
