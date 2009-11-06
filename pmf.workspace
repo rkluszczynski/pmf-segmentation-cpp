@@ -3,9 +3,9 @@
 	<Workspace title="PMF Workspace">
 		<Project filename="PMF.cbp" />
 		<Project filename="Tests.cbp" />
-		<Project filename="gui/gui.cbp" />
-		<Project filename="scripts/Algorithms.cbp" />
-		<Project filename="scripts/cmd.cbp" active="1" />
-		<Project filename="scripts/library.cbp" />
+		<Project filename="gui\gui.cbp" />
+		<Project filename="scripts\Algorithms.cbp" />
+		<Project filename="scripts\cmd.cbp" active="1" />
+		<Project filename="scripts\library.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
