@@ -193,7 +193,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         newpt->x = nxx;
         newpt->y = nyy;
 
-        scanf("%*i");
+        //scanf("%*i");
         //*/
         printf("-<<\n");
     }
