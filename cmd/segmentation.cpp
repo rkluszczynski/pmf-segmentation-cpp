@@ -161,8 +161,10 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        sprintf(filename, "output/pre.txt");
-        //sprintf(filename, "output/pre%li.txt", loopIteration);
+        if (loopIteration < 260)
+            sprintf(filename, "output/pre.txt");
+        else
+            sprintf(filename, "output/pre%li.txt", loopIteration);
         pmf->SavePMF(filename);
         sprintf(filename, "output/pre.zip");
         //sprintf(filename, "output/pre%li.zip", loopIteration);
