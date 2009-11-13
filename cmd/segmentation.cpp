@@ -166,8 +166,11 @@ namespace pmf
         else
             sprintf(filename, "output/pre%li.txt", loopIteration);
         pmf->SavePMF(filename);
-        sprintf(filename, "output/pre.zip");
-        //sprintf(filename, "output/pre%li.zip", loopIteration);
+
+        if (loopIteration < 260)
+            sprintf(filename, "output/pre.zip");
+        else
+            sprintf(filename, "output/pre%li.zip", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();
