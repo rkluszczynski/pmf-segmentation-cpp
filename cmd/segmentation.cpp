@@ -157,7 +157,7 @@ namespace pmf
         cout << "[ ITER ] : " << loopIteration << endl;
         cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
 
-        ofstream fout2("output/save.txt");
+        ofstream fout2("output/last-iteration-save.txt");
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];

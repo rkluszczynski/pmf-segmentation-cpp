@@ -141,6 +141,11 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     int wh = dptn->WhichNeighbourHasID( dpt->id );
     assert(wh > 0);
     REAL length = (wh == 1) ? dptn->l1 : dptn->l2;
+    // 2009-11-14
+    length += ( Probability::Exp(1.0) + EPSILON );
+    if (wh == 1) dptn->l1 = length;
+    else dptn->l2 = length;
+    // *
 
     REAL xx = dptn->x;
     REAL yy = dptn->y;
