@@ -117,7 +117,10 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     REAL ny = Y_ROTATED(npt->x, npt->y, -sinL, cosL);
 
     out.precision(12);
-    out << " ---->  new point : " << npt << endl;
+    out << " ---->  new point : " << npt << "  ( " << npt->org_x << " ; " << npt->org_y << " )" << endl;
+    out << "       nx = " << nx << "   ;    ny = " << ny << endl;
+    out << " ---->    parent  : " << parent << endl;
+
     // determine type of event (update or death)
     if (IsPointInsideTheField(nx, ny))
     //if (IsPointInsideTheField(npt->x, npt->y))
@@ -140,9 +143,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     else {
         REAL px = X_ROTATED(parent->x, parent->y, -sinL, cosL);
         REAL py = Y_ROTATED(parent->x, parent->y, -sinL, cosL);
-
-        out << "  nx = " << nx << "   ;    ny = " << ny << endl;
-        out << "  px = " << px << "   ;    py = " << py << endl;
+        out << "       px = " << px << "   ;    py = " << py << endl;
 
         // npt outside the field
         int up    = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0);

@@ -58,6 +58,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
+    line->SetSweepLinePosition(pt->x);
     ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
     delete pt;
 

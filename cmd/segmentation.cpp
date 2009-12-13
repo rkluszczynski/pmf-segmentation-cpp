@@ -106,7 +106,7 @@ namespace pmf
         double limit1 = areaOfPMF * denominatorZ;
         double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
 
-        ofstream fout2("output/mod.txt");
+        ofstream fout2("output/_iteration-modification.txt");
         out.rdbuf(fout2.rdbuf());
         fout3.close();
             pmf->GetCf()->SaveConfigurationAsGGB("output/rotated.zip");
@@ -115,8 +115,8 @@ namespace pmf
         double chance = Uniform(0.0, 1.0);
         if (chance < limit1)
         {
-            double x = Uniform(0.0, pmf->GetWidth());
-            double y = Uniform(0.0, pmf->GetHeight());
+            double x = Uniform(0.0 + EPSILON, pmf->GetWidth() - EPSILON);
+            double y = Uniform(0.0 + EPSILON, pmf->GetHeight() - EPSILON);
             pmf->AddBirthPoint (x, y, sinL, cosL);
         }
         else if(chance < limit2)
@@ -161,13 +161,15 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        if (loopIteration < 260)
+        int iterNum = 1234567890;
+
+        if (loopIteration < iterNum)
             sprintf(filename, "output/pre.txt");
         else
             sprintf(filename, "output/pre%li.txt", loopIteration);
         pmf->SavePMF(filename);
 
-        if (loopIteration < 260)
+        if (loopIteration < iterNum)
             sprintf(filename, "output/pre.zip");
         else
             sprintf(filename, "output/pre%li.zip", loopIteration);
@@ -182,12 +184,12 @@ namespace pmf
     void
     BinarySegmentation::PostIteration()
     {
-        cout << "[ SEGM ] : post-iteration.begin()" << endl;
+        cout << "[ SEGM ] :  post-iteration.begin()" << endl;
 
         delete clone;
         ++loopIteration;
 
-        cout << "[ SEGM ] : post-iteration.end()" << endl;
+        cout << "[ SEGM ] :  post-iteration.end()" << endl;
     }
 
 

@@ -135,8 +135,8 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     else
         assert("WRONG OLD COLLISION POINT" && false);
     // */
-    out << "   dpt : " << dpt << endl;
-    out << "  dptn : " << dptn << endl;
+    out << "   dpt : " << dpt << "  ( " << dpt->org_x << " ; " << dpt->org_y << " )" << endl;
+    out << "  dptn : " << dptn << "  ( " << dptn->org_x << " ; " << dptn->org_y << " )" << endl;
 
     int wh = dptn->WhichNeighbourHasID( dpt->id );
     assert(wh > 0);

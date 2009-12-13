@@ -37,7 +37,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
             Point<REAL> * pt = ppq.top();
             cf->PushBack(pt);
             ppq.pop();
-            if (ppq.empty()) return;
+            if (ppq.empty()) break; //return;
         }
 
         PrepareTheEvolution (evts, line, ppq, smap, rotxx);
