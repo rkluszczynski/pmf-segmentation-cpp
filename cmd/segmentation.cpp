@@ -161,7 +161,7 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        int iterNum = 1234567890;
+        int iterNum = 11400;
 
         if (loopIteration < iterNum)
             sprintf(filename, "output/pre.txt");

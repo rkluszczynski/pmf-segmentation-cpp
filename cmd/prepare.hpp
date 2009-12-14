@@ -91,7 +91,7 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         if (s1) out << "   >-{s1}-> " << s1 << endl;
         if (s2) out << "   >-{s2}-> " << s2 << endl;
         evts->Insert( new OldEvent(pt, s1, s2) );
-        /*
+        //*
         out << " MAPA : ";
         FOREACH(it, smap)
         {

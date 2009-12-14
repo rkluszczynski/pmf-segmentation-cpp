@@ -44,6 +44,12 @@ namespace pmf
                     if (p1->type == PT_DeathOnBorder  &&  p2->type != PT_DeathOnBorder) return false;
                     if (p2->type == PT_DeathOnBorder  &&  p1->type != PT_DeathOnBorder) return true;
 
+                    if (p1->type == PT_Update         &&  p2->type == PT_Update)
+                    {
+                        if (p1->n2->id == p2->id  &&  p2->n1->id == p1->id)  return false;
+                        if (p2->n2->id == p1->id  &&  p1->n1->id == p2->id)  return true;
+                    }
+
                     if (! Geometry::IsZero(p1->y - p2->y))
                     {
                         if (p1->y < p2->y) return false;
