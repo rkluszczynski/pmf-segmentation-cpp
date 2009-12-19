@@ -119,6 +119,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
 
         changed[pt->id] = true;
     }
+    out << " GetCount() == " << GetCount() << endl;
 
     // Reassigning IDs
     FOREACH(it, *cf) (*it)->id = 0;
@@ -133,20 +134,39 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
         {
             case PT_BirthInField  :
                                 pt->id = ++count;
-                                for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2) tmp->id = ++count;
-                                for(Point<REAL> * tmp = pt->n2; tmp->type == PT_Update; tmp = tmp->n2) tmp->id = ++count;
+                                for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2)
+                                {
+                                    out << "  _> " << tmp << endl;
+                                    tmp->id = ++count;
+                                    out << "  1> " << tmp << endl;
+                                }
+                                for(Point<REAL> * tmp = pt->n2; tmp->type == PT_Update; tmp = tmp->n2)
+                                {
+                                    out << "  _> " << tmp << endl;
+                                    tmp->id = ++count;
+                                    out << "  2> " << tmp << endl;
+                                }
                                 break;;
             case PT_BirthOnBorder :
                                 pt->id = ++count;
-                                for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2) tmp->id = ++count;
+                                for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2)
+                                {
+                                    out << "  _> " << tmp << endl;
+                                    tmp->id = ++count;
+                                    out << "  0> " << tmp << endl;
+                                }
                                 break;;
             default :
                                 pt->id = ++count;
         }
         out << " ^^^ " << pt << endl;
     }
-    FOREACH(it, *cf)  assert( (*it)->id > 0 );
-
+    out << "    count   == " << count << endl;
+    FOREACH(it, *cf)
+    {
+        assert( (*it)->id > 0 );
+        out << "    ~ " << *it << endl;
+    }
     assert(count == GetCount());
     out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
 }

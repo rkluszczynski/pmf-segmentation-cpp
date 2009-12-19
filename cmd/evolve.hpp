@@ -393,6 +393,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
         out << "----------------------------------------------------" << endl;
     }
     out << endl;
+    out << "___after__iterations________________________________" << endl;
     out << evts << endl;
     out << line << endl;
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;

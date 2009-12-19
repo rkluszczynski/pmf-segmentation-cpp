@@ -52,8 +52,8 @@ namespace pmf
             //out << "[ DEALLOCATING POINT ]  :  " << this << endl;
             /* cerr << " POINT DEAD " << endl; */
              x =  y = 17;
-            l1 = (n1) ? n1->id : 0;
-            l2 = (n2) ? n2->id : 0;
+            //l1 = (n1) ? n1->id : 0;
+            //l2 = (n2) ? n2->id : 0;
             n1 = n2 = NULL;
             --pmf_point_counter;
         }

@@ -30,6 +30,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
             pt = ppq.top();
             ppq.pop();
 
+            out << "  *> " << pt << endl;
             if (pt->type == PT_Update)
             {
                 if (number == counter)  break;
@@ -38,19 +39,28 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
 
             cf->PushBack(pt);
         }
+        out << " ... chosen" << endl;
+        out << cf << endl;
+        out << " __|" << endl;
 
         if (! ppq.empty())
         {
+            /// NOTE (Rafal#1#): Is it needed during update?
+            /*
+            // 2009-12-19 : problem with getting vertical and previous update point
             while (! cf->IsEmpty()  &&  Geometry::IsZero( cf->Back()->x - pt->x ))
             {
                 ppq.push( cf->Back() );
                 cf->PopBack();
             }
+            // */
 
             smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
             /// FIXME (klusi#1#): possible BUG : analize when two update points are vertical
-            out << "... updating point : " << pt << endl;
+            out << endl << "... updating point : " << pt << endl;
+
             PrepareTheEvolution (evts, line, ppq, smap, pt->x);
+            out << endl << "... evolution prepared" << endl;
         }
     }
     /* ************************************************************************************** */
@@ -59,8 +69,29 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
     line->SetSweepLinePosition(pt->x);
+    /*
     ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
+    assert(pt->n2);
+    if (pt->n2->type == PT_Collision)
+    {
+        out << " NEXT ONE is COLLISION - also fix it" << endl;
+    }
     delete pt;
+    // */
+    while(true)
+    {
+        REAL newAngle = Probability::Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
+        out << " newAngle = " << newAngle << endl;
+
+        REAL length = Probability::Exp<REAL> (2.0);
+        if (length < EPSILON) length = EPSILON;
+        Point<REAL> * newpt = pt->GenerateNeighbour(2, newAngle, count, length);
+
+        if (ArrangeNewEvent(newpt, evts, line, count, sinL, cosL)) break;
+
+        delete newpt;
+    }
+    cf->PushBack(pt);
 
     /* ************************************************************************************** */
     // and the riot starts again ...

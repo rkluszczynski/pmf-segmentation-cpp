@@ -161,7 +161,7 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        int iterNum = 99911400;
+        int iterNum = 7870999;
 
         if (loopIteration < iterNum)
             sprintf(filename, "output/pre.txt");
@@ -185,8 +185,9 @@ namespace pmf
     BinarySegmentation::PostIteration()
     {
         cout << "[ SEGM ] :  post-iteration.begin()" << endl;
-
+        cout << " post check 1" << endl;
         delete clone;
+        cout << " post check 2" << endl;
         ++loopIteration;
 
         cout << "[ SEGM ] :  post-iteration.end()" << endl;
