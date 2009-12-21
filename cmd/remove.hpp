@@ -60,6 +60,18 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
+    //*
+    Point<REAL> * n1 = pt->n1;
+    int i1 = n1->WhichNeighbourHasID(pt->id);
+    if (i1 == 1) n1->n1 = NULL; else if (i1 == 2) n1->n2 = NULL; else assert("WRONG POINTER 1 in REM operation" && false);
+
+    if (pt->n2)
+    {
+        Point<REAL> * n2 = pt->n2;
+        int i2 = n2->WhichNeighbourHasID(pt->id);
+        if (i2 == 1) n2->n1 = NULL; else if (i2 == 2) n2->n2 = NULL; else assert("WRONG POINTER 2 in REM operation" && false);
+    }
+    // */
     delete pt;
 
     /* ************************************************************************************** */
