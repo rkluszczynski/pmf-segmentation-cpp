@@ -81,7 +81,75 @@ namespace pmf
     };
 
 
-    template <class REAL = double, class COMP = event_before<Event *> >
+    template <class EVENT>
+    struct event_before_2 : binary_function<EVENT,EVENT,bool>
+    {
+        bool operator () (const EVENT & e1, const EVENT & e2) const
+        {
+            using Geometry::IsZero;
+            /*
+            bool res = (e1->GetPoint()->x < e2->GetPoint()->x);
+            cout << "[]  __________" << endl;
+            cout << "[]  " << e1->GetPoint() << "   <   " << e2->GetPoint() << endl;
+            cout << "[]   IsZero = " << (IsZero(e1->GetPoint()->x - e2->GetPoint()->x) ? "YES" : "NO") << endl;
+            cout.precision(12);
+            cout << "[]  " << e1->GetPoint()->x << " < " << e2->GetPoint()->x << "  " << (res ? "TRUE" : "FALSE") << endl;
+            // */
+            if (! IsZero(e1->GetPoint()->x - e2->GetPoint()->x))
+            {
+                if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
+                if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
+            }
+            if (e1->GetType() == NormalDeath  &&  e2->GetType() != NormalDeath) return true;
+            if (e2->GetType() == NormalDeath  &&  e1->GetType() != NormalDeath) return false;
+            //*
+            if (e1->GetType() == OldPoint  &&  e2->GetType() != OldPoint) return true;
+            if (e2->GetType() == OldPoint  &&  e1->GetType() != OldPoint) return false;
+            // */
+            //*
+            if (e1->GetType() == OldPoint  &&  e2->GetType() == OldPoint)
+            {
+                Point<double> * pt1 = e1->GetPoint();
+                Point<double> * pt2 = e2->GetPoint();
+                if (pt1->type == PT_BirthOnBorder  &&  pt2->type != PT_BirthOnBorder) return true;
+                if (pt2->type == PT_BirthOnBorder  &&  pt1->type != PT_BirthOnBorder) return false;
+                if (pt1->type == PT_BirthInField   &&  pt2->type != PT_BirthInField) return true;
+                if (pt2->type == PT_BirthInField   &&  pt1->type != PT_BirthInField) return false;
+                if (pt1->type == PT_Update         &&  pt2->type != PT_Update) return true;
+                if (pt2->type == PT_Update         &&  pt1->type != PT_Update) return false;
+                if (pt1->type == PT_Collision      &&  pt2->type != PT_Collision) return true;
+                if (pt2->type == PT_Collision      &&  pt1->type != PT_Collision) return false;
+                if (pt1->type == PT_DeathOnBorder  &&  pt2->type != PT_DeathOnBorder) return true;
+                if (pt2->type == PT_DeathOnBorder  &&  pt1->type != PT_DeathOnBorder) return false;
+
+                if (pt1->type == PT_Update         &&  pt2->type == PT_Update) return pt1->id < pt2->id;
+            }
+            // */
+            if (e1->GetType() == BorderDeath  &&  e2->GetType() != BorderDeath) return true;
+            if (e2->GetType() == BorderDeath  &&  e1->GetType() != BorderDeath) return false;
+            if (e1->GetType() == NormalBirth  &&  e2->GetType() != NormalBirth) return true;
+            if (e2->GetType() == NormalBirth  &&  e1->GetType() != NormalBirth) return false;
+            if (e1->GetType() == BorderBirth  &&  e2->GetType() != BorderBirth) return true;
+            if (e2->GetType() == BorderBirth  &&  e1->GetType() != BorderBirth) return false;
+            if (e1->GetType() == PointUpdate  &&  e2->GetType() != PointUpdate) return true;
+            if (e2->GetType() == PointUpdate  &&  e1->GetType() != PointUpdate) return false;
+
+            if (! IsZero(e1->GetPoint()->y - e2->GetPoint()->y))
+            {
+                if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
+                if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
+            }
+            /*
+                // does not work on seed 3774659 and size 1
+            if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
+            if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
+            // */
+            return false;
+        }
+    };
+
+
+    template <class REAL = double, class COMP = event_before_2<Event *> >
     class EventsSchedule
     {
         typedef Point<double> POINT;

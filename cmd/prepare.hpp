@@ -31,12 +31,12 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         out << " ~~~~~~    " << pt << endl;
 
         Segment<REAL> * s1 = NULL, * s2 = NULL;
-        if (            pt->n1->x < rotxx)
+        if (            pt->n1->x < rotxx  ||  Geometry::IsZero(rotxx - pt->n1->x))
         {
             if ( smap.find( make_pair(pt->n1->id, pt->id) ) == smap.end() )
                 spq.push( (s1 = new Segment<REAL> (pt->n1, pt)) );
         }
-        if (pt->n2  &&  pt->n2->x < rotxx)
+        if (pt->n2  &&  (pt->n2->x < rotxx || Geometry::IsZero(rotxx - pt->n2->x)))
         {
             if ( smap.find( make_pair(pt->n2->id, pt->id) ) == smap.end() )
                 spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
