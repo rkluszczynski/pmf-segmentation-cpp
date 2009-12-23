@@ -40,8 +40,6 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
             cf->PushBack(pt);
         }
         out << " ... chosen" << endl;
-        out << cf << endl;
-        out << " __|" << endl;
 
         if (! ppq.empty())
         {
@@ -65,10 +63,15 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     }
     /* ************************************************************************************** */
     PMFLog("[ UPD ] : point  ( %.2lf , %.2lf )", pt->org_x, pt->org_y);
+    out << line << endl;
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
-    line->SetSweepLinePosition(pt->x);
+    REAL x0 = line->GetX0();
+    //if (! (pt->x >= x0 || Geometry::IsZero(pt->x - x0)))
+    //if (! Geometry::IsZero(pt->x - x0))
+        line->SetSweepLinePosition2(pt->x + 0.5 * EPSILON);
+    out << "... sweep line position set" << endl;
     /*
     ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
     assert(pt->n2);

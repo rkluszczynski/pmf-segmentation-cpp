@@ -115,8 +115,8 @@ namespace pmf
         double chance = Uniform(0.0, 1.0);
         if (chance < limit1)
         {
-            double x = Uniform(0.0 + EPSILON, pmf->GetWidth() - EPSILON);
-            double y = Uniform(0.0 + EPSILON, pmf->GetHeight() - EPSILON);
+            double x = Uniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
+            double y = Uniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
             pmf->AddBirthPoint (x, y, sinL, cosL);
         }
         else if(chance < limit2)
