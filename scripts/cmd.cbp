@@ -91,7 +91,7 @@
 				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 3 -p input/ring-spread.png -r 0.1 -o D:/out-pmf-sim-s3-e9.txt -e 9" />
+				<Option parameters="-s 3 -p input/ring-spread.png -r 0.1 -o D:/out-pmf-sim-s3-e13.txt -e 13" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -249,6 +249,7 @@
 			<Option target="Release" />
 			<Option target="test-rem-Debug" />
 		</Unit>
+		<Unit filename="..\cmd\testing.hpp" />
 		<Unit filename="..\cmd\update.cpp">
 			<Option target="upd-Debug" />
 		</Unit>

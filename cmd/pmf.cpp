@@ -37,6 +37,8 @@ PMF<REAL> :: SetSeed(time_t _seed)
 #include "remove.hpp"
 #include "addseg.hpp"
 
+#include "testing.hpp"
+
 #include "energy.hpp"
 
 

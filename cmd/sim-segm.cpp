@@ -21,6 +21,13 @@ void print_usage(char * prog_name, bool cond = false)
 	exit(1);
 }
 
+namespace pmf
+{
+    namespace Geometry
+    {
+            bool qq = false;
+    }
+}
 
 #define REAL double
 int main (int argc, char *argv[])

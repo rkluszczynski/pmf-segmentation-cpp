@@ -81,6 +81,7 @@ namespace pmf
         {
             //++pmf_point_counter; // To log copy constructor
             out <<  "P" << pt->id << "=";
+            out.precision(20);
             out << "(" << pt->x << "," << pt->y << ")";
             out << "[" << (pt->n1 ? (pt->n1)->id : 0) << "]";
             out << "[" << (pt->n2 ? (pt->n2)->id : 0) << "]";

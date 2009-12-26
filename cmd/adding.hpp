@@ -5,18 +5,12 @@
 #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (CCOS) - (YY) * (SSIN))
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
-void
+bool
 PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 {
     using Geometry::RadiansToDegree;
     using Geometry::IsZero;
 
-    long count = GetCount();
-
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
-
-    /* ************************************************************************************** */
     PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, acos(cosL), RadiansToDegree(acos(cosL)));
 
     if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * EPSILON;
@@ -25,6 +19,14 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
     out << "[ ADD ]   rotated = ( " << rotxx << " , " << rotyy << " )" << endl;
+
+    if (! IsFreeEpsilonCoincidence(rotxx, rotyy))  return false;
+
+    /* ************************************************************************************** */
+    long count = GetCount();
+
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
 
     if (! cf->IsEmpty())
     {
@@ -101,7 +103,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
     delete line;
     delete evts;
-    return;
+    return true;
 }
 #undef X_ROTATED
 #undef Y_ROTATED

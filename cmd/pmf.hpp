@@ -83,7 +83,7 @@ namespace pmf
             void RotatePoints2 (REAL);
             void RotatePoints2 (REAL, REAL);
 
-            void AddBirthPoint (REAL, REAL, REAL, REAL);
+            bool AddBirthPoint (REAL, REAL, REAL, REAL);
             void UpdatePointVelocity (long, REAL, REAL);
             void RemoveBirthPoint (long, REAL, REAL);
             void AddBirthSegment (REAL, REAL, REAL, REAL);
@@ -92,6 +92,9 @@ namespace pmf
             inline void UpdatePointVelocity (long, REAL);
             inline void RemoveBirthPoint (long, REAL);
             inline void AddBirthSegment (REAL, REAL, REAL);
+
+            bool TestPointsCoincidence ();
+            bool IsFreeEpsilonCoincidence (REAL, REAL);
 
             void SetSeed(time_t);
             bool LoadPMF(const char *);

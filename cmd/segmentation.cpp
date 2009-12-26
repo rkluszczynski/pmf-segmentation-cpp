@@ -2,6 +2,7 @@
 #include "probability.hpp"
 #include "pmf.hpp"
 
+
 namespace pmf
 {
 
@@ -109,15 +110,22 @@ namespace pmf
         ofstream fout2("output/_iteration-modification.txt");
         out.rdbuf(fout2.rdbuf());
         fout3.close();
-            pmf->GetCf()->SaveConfigurationAsGGB("output/rotated.zip");
+            pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-before.zip");
 
         // * Applying random operation. *
         double chance = Uniform(0.0, 1.0);
         if (chance < limit1)
         {
-            double x = Uniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
-            double y = Uniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
-            pmf->AddBirthPoint (x, y, sinL, cosL);
+            double x, y;
+            while (true)
+            {
+                x = Uniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
+                y = Uniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
+
+                if (pmf->AddBirthPoint (x, y, sinL, cosL)) break;
+
+                out << "BANG" << endl;
+            }
         }
         else if(chance < limit2)
         {
@@ -129,6 +137,8 @@ namespace pmf
             int number = rand() % int(noOfTurns);
             pmf->UpdatePointVelocity (number, sinL, cosL);
         }
+
+        pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-after.zip");
         cout << "CHECK 1" << endl;
         pmf->RotatePoints2 (0., 1.);
         cout << "CHECK 2" << endl;
@@ -161,7 +171,9 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        int iterNum = 7870999;
+        int iterNum = 177439999;
+
+        //if (loopIteration >= 17744) Geometry::qq = true;
 
         if (loopIteration < iterNum)
             sprintf(filename, "output/pre.txt");
@@ -185,8 +197,13 @@ namespace pmf
     BinarySegmentation::PostIteration()
     {
         cout << "[ SEGM ] :  post-iteration.begin()" << endl;
+
+        cout << " post check 0" << endl;
+        assert( pmf->TestPointsCoincidence() );
+
         cout << " post check 1" << endl;
         delete clone;
+
         cout << " post check 2" << endl;
         ++loopIteration;
 

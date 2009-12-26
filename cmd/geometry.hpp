@@ -102,6 +102,7 @@ namespace pmf
             return(0);
         }
 
+extern bool qq;
 
         template <class REAL>
         int
@@ -121,7 +122,9 @@ namespace pmf
             REAL ymin = max( min(yp, yq), min(yr, ys) );
             REAL ymax = min( max(yp, yq), max(yr, ys) );
             /*
-            cout.precision(12);
+            if (qq)
+                {
+            cout.precision(20);
             cout << endl;
             cout << " @@@@@@@@@@@@@ x = " << x << endl;
             cout << " @@@@@@@@@@@@@ y = " << y << endl;
@@ -129,6 +132,7 @@ namespace pmf
             cout << " @@@@@@@@@@@@@ xmax = " << xmax << endl;
             cout << " @@@@@@@@@@@@@ ymin = " << ymin << endl;
             cout << " @@@@@@@@@@@@@ ymax = " << ymax << endl;
+                }
             //*/
             if (IsZero(xmax - xmin))
             {
