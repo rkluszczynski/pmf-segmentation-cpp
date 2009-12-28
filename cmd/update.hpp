@@ -67,7 +67,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
-    REAL x0 = line->GetX0();
+    //REAL x0 = line->GetX0();
     //if (! (pt->x >= x0 || Geometry::IsZero(pt->x - x0)))
     //if (! Geometry::IsZero(pt->x - x0))
         line->SetSweepLinePosition2(pt->x + 0.5 * EPSILON);
