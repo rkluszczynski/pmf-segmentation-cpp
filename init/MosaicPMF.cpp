@@ -19,6 +19,7 @@
 MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldHeight(h), linesNumber(n)
 {
     //ctor
+    //*
     while (linesParameters.size() < n)
     {
         double alpha = UNIFORM(-M_PI_2, M_PI);
@@ -27,7 +28,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         double maxD = 0.;
         double a = tan(alpha);
         if (alpha <= 0.)
-            maxD = fabs(w) / sqrt(a*a + 1);  // IV quarter
+            maxD = fabs(w) / sqrt(a*a + 1);  // IV quarter (w * cosL)
         else if (alpha <= M_PI_2)
             maxD = fabs(h * a + w) / sqrt(a*a + 1);  // I quarter
         else if (alpha < M_PI)
@@ -36,21 +37,36 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             assert("WRONG alpha !" && false);
 
         double d = UNIFORM(0., maxD);
+        linesParameters.insert( make_pair(alpha, d) );
 
-        pair<double, double> line = make_pair(alpha, d);
-        linesParameters.insert(line);
+        printf("... added :   L = %6.3lf   D = %6.3lf   d = %6.3lf \n", alpha, maxD, d);
     }
+    // */
+    /*
+    linesParameters.insert(make_pair(0.75 * M_PI, 1));
+    linesParameters.insert(make_pair(0.25 * M_PI, 1));
+    linesParameters.insert(make_pair(-0.25 * M_PI, 1));
+    // */
 
     FOREACH(it, linesParameters)
     {
-        cout << " ->   L = " << it->ST << "   d = " << it->ND << endl;
+        cout << endl << " ->   L = " << it->ST << "   d = " << it->ND << endl;
 
         double a = - 1. / tan(it->ST);
-        double b;
-        if (it->ST < 0.  or  M_PI_2 < it->ST)  b = it->ND / cos(it->ST);
-        else  b = - it->ND / cos(it->ST);
-
+        double b = it->ND / cos(M_PI_2 - it->ST);
+        /*
+        if (it->ST < 0.)
+            b = it->ND / cos(M_PI_2 - it->ST);
+        else if (it->ST < M_PI_2)
+            b = it->ND / cos(M_PI_2 - it->ST);
+        else if (it->ST < M_PI)
+            b = it->ND / cos(it->ST - M_PI_2);
+        else
+            assert(false);
+        // */
         printf("  >   y  =  %.2lf  *  x  +  %.2lf\n", a, b);
+
+        //continue;
 
         double tmpx, tmpy;
         int check = 0;
@@ -81,10 +97,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             cout << " ( " << tmpx << " , " << 0. << " )" << endl;
             ++check;
         }
-        //assert(check == 2);
-
-
-        cout << endl;
+        assert(check == 2);
     }
 }
 

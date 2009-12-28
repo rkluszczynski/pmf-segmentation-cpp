@@ -37,6 +37,7 @@
 		<Unit filename="..\headers\probability.hpp" />
 		<Unit filename="..\init\MosaicPMF.cpp" />
 		<Unit filename="..\init\MosaicPMF.hpp" />
+		<Unit filename="..\init\MosaicPoint.hpp" />
 		<Unit filename="..\init\main.cpp" />
 		<Extensions>
 			<code_completion />

@@ -13,6 +13,8 @@ int main(int argc, char ** argv)
 
     unsigned lines = 7;
 
+    //srand(time(NULL));
+
     MosaicPMF * ipmf = new MosaicPMF(width, height, lines);
 
     cout << ipmf << endl;
