@@ -18,7 +18,7 @@ using namespace std;
 
         void OnInit()  { }
 
-        bool operator< (const Point<REAL> * & point) const { return(x < point->x); }
+        bool operator< (const MosaicPoint<REAL> * & point) const { return(x < point->x); }
 
         friend std::ostream& operator << (std::ostream& out, const MosaicPoint<REAL> * pt)
         {
