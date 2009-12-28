@@ -21,11 +21,11 @@ struct mosaic_event_before : binary_function<EVENT,EVENT,bool>
 };
 
 
-template <class REAL = double, class COMP = mosaic_event_before<MosaicVirtualEvent *> >
+template <class REAL = double, class COMP = mosaic_event_before<VirtualMosaicEvent *> >
 class MosaicEventsSchedule
 {
-    typedef Point<double> POINT;
-    typedef MosaicVirtualEvent * EventPoint;
+    typedef MosaicPoint<double> POINT;
+    typedef VirtualMosaicEvent * EventPoint;
     typedef std::set<EventPoint, COMP > EventList;
 
     public:
@@ -33,7 +33,7 @@ class MosaicEventsSchedule
 
         MosaicEventsSchedule() {};
         ~MosaicEventsSchedule() {};
-
+    /*
         bool InsertBirthEvent(POINT * pt);
 
         Iterator LowerBound (EventPoint e)
@@ -81,14 +81,17 @@ class MosaicEventsSchedule
             }
             // */
             //EventList * GetEvents() { return & _event_list; }
+    // */
 
         friend ostream & operator << (ostream & out, const MosaicEventsSchedule * mes)
         {
             out << "[ EVENTS ] :>";
+            /*
             FOREACH(it, mes->_events)  {
                 POINT * pt = (*it)->GetPoint();
                 out << " " << pt;
             }
+            // */
             return out;
         }
 
