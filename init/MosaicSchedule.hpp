@@ -1,6 +1,9 @@
 #ifndef MOSAICSCHEDULE_HPP_INCLUDED
 #define MOSAICSCHEDULE_HPP_INCLUDED
 
+#define VAR(V, N)       __typeof(N) V = (N)
+#define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
+
 #include "../init/MosaicEvents.hpp"
 
 
@@ -33,63 +36,34 @@ class MosaicEventsSchedule
 
         MosaicEventsSchedule() {};
         ~MosaicEventsSchedule() {};
-    /*
-        bool InsertBirthEvent(POINT * pt);
 
-        Iterator LowerBound (EventPoint e)
+        Iterator End () { return _events.end(); }
+
+        bool Insert(EventPoint e)
         {
-            //if (_events.lower_bound(e) == _events.end()) return NULL;
-            return _events.lower_bound(e);
+            bool res = _events.insert(e).second;
+            //cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
+            assert(res == true);
+            return res;
         }
-            Iterator End () { return _events.end(); }
 
-            bool Insert(EventPoint e)
-            {
-                if (_events.find(e) != _events.end())
-                {
-                    //assert(e->GetType() == NormalDeath);
-                    /// NOTE (klusi#3#): when two border points in the same place from different births point is generated again //
-                    if (e->GetType() != NormalDeath) return false;
-                    assert(e->GetType() == NormalDeath);
+        void Erase(EventPoint e)
+        {
+            long _erased = _events.erase(e);
+            assert(_erased > 0);
+            delete e;
+        }
 
-                    EventPoint tmp = (*_events.find(e));
-                    _events.erase(_events.find(e));
-                    //delete tmp->GetSegment();
-                    delete tmp->GetPoint();
-                    delete tmp;
-                }
-                bool res = _events.insert(e).ND;
-                //cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
-                assert(res == true);
-                return res;
-            }
-
-            void Erase(EventPoint e)
-            {
-                long _erased = _events.erase(e);
-                assert(_erased > 0);
-                delete e;
-            }
-            bool IsEmpty() { return _events.empty(); }
-            EventPoint SeeFirst() { return *_events.begin(); }
-            /*
-            Point<REAL> * Find(EventPoint e)
-            {
-                cout << (*_events.find(e)) << endl;
-                if (_events.find(e) == _events.end()) return NULL;
-                return (*_events.find(e))->GetPoint();
-            }
-            // */
-            //EventList * GetEvents() { return & _event_list; }
-    // */
+        bool IsEmpty() { return _events.empty(); }
+        EventPoint SeeFirst() { return *_events.begin(); }
 
         friend ostream & operator << (ostream & out, const MosaicEventsSchedule * mes)
         {
             out << "[ EVENTS ] :>";
-            /*
+            //*
             FOREACH(it, mes->_events)  {
                 POINT * pt = (*it)->GetPoint();
-                out << " " << pt;
+                out << " ->  " << pt << endl;
             }
             // */
             return out;

@@ -35,12 +35,14 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="..\headers\probability.hpp" />
+		<Unit filename="..\init\MosaicElement.hpp" />
 		<Unit filename="..\init\MosaicEvents.hpp" />
 		<Unit filename="..\init\MosaicPMF.cpp" />
 		<Unit filename="..\init\MosaicPMF.hpp" />
 		<Unit filename="..\init\MosaicPoint.hpp" />
 		<Unit filename="..\init\MosaicSchedule.hpp" />
 		<Unit filename="..\init\MosaicSegment.hpp" />
+		<Unit filename="..\init\MosaicStatus.hpp" />
 		<Unit filename="..\init\main.cpp" />
 		<Extensions>
 			<code_completion />

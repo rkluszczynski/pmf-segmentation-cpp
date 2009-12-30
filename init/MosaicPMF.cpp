@@ -39,7 +39,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         double d = UNIFORM(0., maxD);
         linesParameters.insert( make_pair(alpha, d) );
 
-        printf("... added :   L = %6.3lf   D = %6.3lf   d = %6.3lf \n", alpha, maxD, d);
+        ///printf("... added :   L = %6.3lf   D = %6.3lf   d = %6.3lf \n", alpha, maxD, d);
     }
     // */
     /*
@@ -48,9 +48,11 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     linesParameters.insert(make_pair(-0.25 * M_PI, 1));
     // */
 
+    vector<MosaicSegment<double> *> mosaic;
+
     FOREACH(it, linesParameters)
     {
-        cout << endl << " ->   L = " << it->ST << "   d = " << it->ND << endl;
+        ///cout << endl << " ->   L = " << it->ST << "   d = " << it->ND << endl;
 
         double a = - 1. / tan(it->ST);
         double b = it->ND / cos(M_PI_2 - it->ST);
@@ -64,41 +66,61 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         else
             assert(false);
         // */
-        printf("  >   y  =  %.2lf  *  x  +  %.2lf\n", a, b);
-
-        //continue;
+        ///printf("  >   y  =  %.2lf  *  x  +  %.2lf\n", a, b);
 
         double tmpx, tmpy;
-        int check = 0;
+        vector<pair<double, double> > seg;
         // left
         if (0. < b  and  b < h)
         {
-            cout << " ( " << 0. << " , " << b << " )" << endl;
-            ++check;
+            ///cout << " ( " << 0. << " , " << b << " )" << endl;
+            seg.push_back(make_pair(0., b));
         }
         // up
         tmpx = (h - b) / a;
         if (0. < tmpx  and  tmpx < w)
         {
-            cout << " ( " << tmpx << " , " << h << " )" << endl;
-            ++check;
+            ///cout << " ( " << tmpx << " , " << h << " )" << endl;
+            seg.push_back(make_pair(tmpx, h));
         }
         // right
         tmpy = a * w + b;
         if (0. < tmpy  and  tmpy < h)
         {
-            cout << " ( " << w << " , " << tmpy << " )" << endl;
-            ++check;
+            ///cout << " ( " << w << " , " << tmpy << " )" << endl;
+            seg.push_back(make_pair(w, tmpy));
         }
         // down
         tmpx = - b / a;
         if (0. < tmpx  and  tmpx < w)
         {
-            cout << " ( " << tmpx << " , " << 0. << " )" << endl;
-            ++check;
+            ///cout << " ( " << tmpx << " , " << 0. << " )" << endl;
+            seg.push_back(make_pair(tmpx, 0.));
         }
-        assert(check == 2);
+        assert(seg.size() == 2);
+
+        MosaicPoint<double> * p1 = new MosaicPoint<double>(seg[0].ST, seg[0].ND);
+        MosaicPoint<double> * p2 = new MosaicPoint<double>(seg[1].ST, seg[1].ND);
+        if (p1 > p2) swap(p1, p2);
+
+        MosaicSegment<double> * s = new MosaicSegment<double>(p1, p2);
+        mosaic.push_back(s);
     }
+
+
+    MosaicEventsSchedule<double> * evts = new MosaicEventsSchedule<double>();
+    FOREACH(it, mosaic)
+    {
+        MosaicSegment<double> * seg = * it;
+
+        BeginEvent * e1 = new BeginEvent(seg->GetLeftPoint(), seg);
+        EndEvent * e2 = new EndEvent(seg->GetRightPoint(), seg);
+
+        evts->Insert(e1);
+        evts->Insert(e2);
+    }
+
+    cout << evts << endl;
 }
 
 MosaicPMF::~MosaicPMF()
