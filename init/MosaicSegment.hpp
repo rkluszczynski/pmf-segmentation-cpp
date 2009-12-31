@@ -23,10 +23,10 @@
 
             //bool isVertical()   const { return Geometry::IsZero(q->x - p->x); }
             //bool isHorizontal() const { return Geometry::IsZero(q->y - p->y); }
-            /*
+            //*
             REAL slope() const
             {
-                if (Geometry::IsZero(q->x - p->x)) return infinity;
+                //if (Geometry::IsZero(q->x - p->x)) return infinity;
                 return (q->y - p->y) / (q->x - p->x);
             }
             // */

@@ -101,10 +101,12 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
         MosaicPoint<double> * p1 = new MosaicPoint<double>(seg[0].ST, seg[0].ND);
         MosaicPoint<double> * p2 = new MosaicPoint<double>(seg[1].ST, seg[1].ND);
-        if (p1 > p2) swap(p1, p2);
+        if (p1->x > p2->x) swap(p1, p2);
 
         MosaicSegment<double> * s = new MosaicSegment<double>(p1, p2);
         mosaic.push_back(s);
+
+        ///cout << " added segment : " << s << endl;
     }
 
 
@@ -120,13 +122,58 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Insert(e2);
     }
 
-    cout << evts << endl;
+
+    MosaicSweepLineStatus<> * msls = new MosaicSweepLineStatus<>();
+    int step = 0;
+
+    while (! evts->IsEmpty())
+    {
+        cout << "----------------------------------------" << endl;
+        cout << "   [ STEP " << ++step << " ]" << endl;
+        cout << endl;
+
+        cout << evts << endl;
+        VirtualMosaicEvent * evt = evts->SeeFirst();
+        cout << "[ EVENT ] : " << endl << evt->GetPoint() << endl << evt->GetSegment() << endl;
+
+        cout << endl;
+        switch (evt->GetType())
+        {
+            case BeginSegment :
+                    cout << "-{" << step << "}-> BEGIN EVENT" << endl;
+                    msls->Insert(evt->GetPoint(), evt->GetSegment());
+                    break;;
+
+            case EndOfSegment :
+                    cout << "-{" << step << "}->  END  EVENT" << endl;
+                    msls->Erase(evt->GetSegment());
+                    break;;
+
+            case Intersection :
+                    cout << "-{" << step << "}-> CROSS EVENT" << endl;
+                    break;;
+
+            case AreaMarkings :
+                    cout << "-{" << step << "}->  AREA EVENT" << endl;
+                    break;;
+
+            default :
+                    assert("WRONG EVENT TYPE DURING EVOLUTION" && false);
+        }
+
+        cout << endl << msls << endl;
+        cout << "----------------------------------------" << endl;
+        evts->Erase(evt);
+    }
+
 }
+
 
 MosaicPMF::~MosaicPMF()
 {
     //dtor
 }
+
 
 MosaicPMF::MosaicPMF(const MosaicPMF& other)
 {

@@ -59,11 +59,11 @@ class MosaicEventsSchedule
 
         friend ostream & operator << (ostream & out, const MosaicEventsSchedule * mes)
         {
-            out << "[ EVENTS ] :>";
+            out << "[ EVENTS ] :>" << endl;
             //*
             FOREACH(it, mes->_events)  {
                 POINT * pt = (*it)->GetPoint();
-                out << " ->  " << pt << endl;
+                out << " -[" << (*it)->GetType() << "]->  " << pt << endl;
             }
             // */
             return out;
