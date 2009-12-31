@@ -123,7 +123,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     }
 
 
-    MosaicSweepLineStatus<> * msls = new MosaicSweepLineStatus<>();
+    MosaicSweepLineStatus<double> * msls = new MosaicSweepLineStatus<double>();
     int step = 0;
 
     while (! evts->IsEmpty())
@@ -136,21 +136,58 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         VirtualMosaicEvent * evt = evts->SeeFirst();
         cout << "[ EVENT ] : " << endl << evt->GetPoint() << endl << evt->GetSegment() << endl;
 
+        std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res;
+        MosaicSweepLineStatus<double>::Iterator it, ita, itb;
+        MosaicSegment<double> * s1, * s2;
+
         cout << endl;
         switch (evt->GetType())
         {
             case BeginSegment :
                     cout << "-{" << step << "}-> BEGIN EVENT" << endl;
-                    msls->Insert(evt->GetPoint(), evt->GetSegment());
+                    res = msls->Insert(evt->GetPoint(), evt->GetSegment());
+                    assert(res.ND);
+
+                    ita = msls->Above(res.ST);
+                    itb = msls->Below(res.ST);
+
+                    if (! msls->IsNull(ita))
+                    {
+                        cout << "ABOVE" << endl;
+                    }
+                    if (! msls->IsNull(itb))
+                    {
+                        cout << "BELOW" << endl;
+                    }
                     break;;
 
             case EndOfSegment :
                     cout << "-{" << step << "}->  END  EVENT" << endl;
-                    msls->Erase(evt->GetSegment());
+
+                    itb = ita = it = msls->Find(evt->GetSegment());
+                    --ita;
+                    ++itb;
+
+                    msls->Erase(it);
+
+                    if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
+                    {
+                        cout << "CROSS" << endl;
+                    }
                     break;;
 
             case Intersection :
                     cout << "-{" << step << "}-> CROSS EVENT" << endl;
+
+                    s1 = evt->GetSegment();
+                    s2 = evt->GetSegment(false);
+
+                    msls->Erase(s1);
+                    msls->Erase(s2);
+
+                    msls->Insert(evt->GetPoint(), s1);
+                    msls->Insert(evt->GetPoint(), s2);
+
                     break;;
 
             case AreaMarkings :

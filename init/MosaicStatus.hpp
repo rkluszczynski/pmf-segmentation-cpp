@@ -41,12 +41,13 @@ class MosaicSweepLineStatus
         }
 
         pair<Iterator,bool>
+        //Iterator
         //void
         Insert(const POINT pt, SEGMENT * seg)
         {
             if (pt) SetSweepLinePosition(pt->x + 1e-9);
             return
-                _st.insert( new ENTRY(_x0, seg) );
+                _st.insert( (new ENTRY(_x0, seg)) );
         }
         //*
         Iterator Find(SEGMENT * seg)
