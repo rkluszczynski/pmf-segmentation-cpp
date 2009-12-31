@@ -34,6 +34,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="..\cmd\geometry.hpp" />
 		<Unit filename="..\headers\probability.hpp" />
 		<Unit filename="..\init\MosaicElement.hpp" />
 		<Unit filename="..\init\MosaicEvents.hpp" />

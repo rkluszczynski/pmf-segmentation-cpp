@@ -1,6 +1,8 @@
 #include "MosaicPMF.hpp"
 
-//#include "../headers/probability.hpp"
+using namespace std;
+#define EPSILON 1e-7
+#include "../cmd/geometry.hpp"
 
 #define ST first
 #define ND second
@@ -144,6 +146,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         switch (evt->GetType())
         {
             case BeginSegment :
+                {
                     cout << "-{" << step << "}-> BEGIN EVENT" << endl;
                     res = msls->Insert(evt->GetPoint(), evt->GetSegment());
                     assert(res.ND);
@@ -160,8 +163,9 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                         cout << "BELOW" << endl;
                     }
                     break;;
-
+                }
             case EndOfSegment :
+                {
                     cout << "-{" << step << "}->  END  EVENT" << endl;
 
                     itb = ita = it = msls->Find(evt->GetSegment());
@@ -173,10 +177,13 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
                     {
                         cout << "CROSS" << endl;
+                        int check =
+
                     }
                     break;;
-
+                }
             case Intersection :
+                {
                     cout << "-{" << step << "}-> CROSS EVENT" << endl;
 
                     s1 = evt->GetSegment();
@@ -189,11 +196,12 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     msls->Insert(evt->GetPoint(), s2);
 
                     break;;
-
+                }
             case AreaMarkings :
+                {
                     cout << "-{" << step << "}->  AREA EVENT" << endl;
                     break;;
-
+                }
             default :
                     assert("WRONG EVENT TYPE DURING EVOLUTION" && false);
         }

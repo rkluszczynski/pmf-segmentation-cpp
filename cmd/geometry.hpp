@@ -1,7 +1,7 @@
 #ifndef GEOMETRY_HPP_INCLUDED
 #define GEOMETRY_HPP_INCLUDED
 
-#include "../headers/macros.hpp"
+//#include "../headers/macros.hpp"
 
 namespace pmf
 {
