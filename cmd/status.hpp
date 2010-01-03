@@ -138,6 +138,7 @@ namespace pmf
                         assert(y1 == y2);
                         //bool res;
                         /// FIXME (Rafel#1#): fix when coordinates Y are the same
+                        cout.precision(23);
                         cout << y1 << "   ;    " << y2 << endl;
 
                         cout << s1 << endl;
@@ -145,7 +146,7 @@ namespace pmf
                         cout << " res{<} = " << (res ? "TRUE" : "FALSE") << endl;
                         res = IsZero(s1->GetQ()->y - y1);
                         cout << " res{=} = " << (res ? "TRUE" : "FALSE") << endl;
-                        res = (y1 < s2->GetQ()->y);
+                        res = (y1 < s1->GetQ()->y);
                         cout << " res{>} = " << (res ? "TRUE" : "FALSE") << endl;
 
                         cout << s2 << endl;

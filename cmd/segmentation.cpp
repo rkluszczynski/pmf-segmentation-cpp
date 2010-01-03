@@ -171,7 +171,7 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        int iterNum = 177439999;
+        int iterNum = 27270;//22900;
 
         //if (loopIteration >= 17744) Geometry::qq = true;
 

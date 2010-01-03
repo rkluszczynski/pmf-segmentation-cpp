@@ -301,7 +301,7 @@ namespace pmf
 			txt << _("    <layer val='0'/>") << endl;
 			txt << _("    <labelMode val='0'/>") << endl;
 			txt << _("    <animation step='0.1' speed='1' type='0' playing='false'/>") << endl;
-			txt << _("    <coords x='") << wxString::Format(_("%lf"), pt->x) << _("' y='") << wxString::Format(_("%lf"), pt->y) << _("' z='1.0'/>") << endl;
+			txt << _("    <coords x='") << wxString::Format(_("%.20lf"), pt->x) << _("' y='") << wxString::Format(_("%.20lf"), pt->y) << _("' z='1.0'/>") << endl;
 			txt << _("    <pointSize val='3'/>") << endl;
             txt << _("</element>") << endl;
         }
@@ -354,11 +354,11 @@ namespace pmf
     {
         //out << fieldWidth << " " << fieldHeight << endl;
         //out << pts->size() << endl;
-        out.precision(15);
         FOREACH(it, (*pts))
         {
             Point<REAL> * pt = *it;
 
+            out.precision(20);
             out << "P" << pt->id << "=(" << pt->x << "," << pt->y << ")" << endl;
             switch (pt->type)
             {

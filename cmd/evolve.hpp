@@ -51,7 +51,7 @@ PMF<REAL> :: ProcessOldEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLine
                             InsertNewSegmentIntoSweep (pt, s2, evts, line, id, sinL, cosL);
                             break;;
         default:
-            assert("WRONG POINT TYPE" && false);
+            assert("WRONG OLD POINT TYPE" && false);
     }
     return;
 }
@@ -272,6 +272,7 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             assert(seg1);
             assert(seg2);
             //line->SetSweepLinePosition( pt->x + EPSILON);
+            //REAL savedX0 = line->GetX0();
             if (! (line->GetX0() < pt->x))
             {
                 line->SetSweepLinePosition2( pt->x - EPSILON * 0.5 );
@@ -314,11 +315,21 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
                 delete seg1;
                 delete seg2;
                 delete tmp;
+
+                //line->SetSweepLinePosition2(savedX0);
+
                 return true;
             }
+            //line->SetSweepLinePosition2(savedX0);
         }
         else if (pt->type != PT_BirthInField  &&  pt->type != PT_BirthOnBorder)
         {
+            out << " ... checking if segment is valid : " << ev->GetSegment() << endl;
+            // sometimes sweep line is put before the beginning of the segment while
+            // collision was processed, and then this segment is not found in the set
+            // (@rufus : size 3, seed 35, iteration 27270)
+            line->SetSweepLinePosition2(ev->GetPoint()->x);
+
             //if (! line->HasSegmentWithEndId(pt->id))
             if (pt->n1 == NULL  ||  line->IsNull(line->Find(ev->GetSegment())))
             {
