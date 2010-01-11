@@ -21,14 +21,14 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
-
+/*
 #include <wx/wx.h>
 #include <wx/log.h>
 #include <wx/dcmemory.h>
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
 #include <wx/txtstrm.h>
-
+// */
 #include <cassert>
 
 

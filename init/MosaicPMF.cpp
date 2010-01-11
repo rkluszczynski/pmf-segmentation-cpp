@@ -161,6 +161,30 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     if (! msls->IsNull(itb))
                     {
                         cout << "BELOW" << endl;
+                        MosaicSegment<double> * seg1 = evt->GetSegment();
+                        MosaicSegment<double> * seg2 = (*itb)->GetSegment();
+
+                        int check = pmf::Geometry::CheckIntersection2(
+                                                        seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
+                                                       seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
+                                                        seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
+                                                       seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
+                        cout << " check = " << check << endl;
+                        if (check == 1)
+                        {
+                            pair<double, double> pt =
+                                pmf::Geometry::CalculateIntersection(
+                                                        seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
+                                                       seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
+                                                        seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
+                                                       seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
+
+                            cout << "  ( " << pt.ST << " , " << pt.ND << " )" << endl;
+
+                            MosaicPoint<double> * ipt = new MosaicPoint<double>(pt.ST, pt.ND);
+                            IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
+                            evts->Insert(e);
+                        }
                     }
                     break;;
                 }
@@ -177,7 +201,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
                     {
                         cout << "CROSS" << endl;
-                        int check =
+                        //int check =
 
                     }
                     break;;
