@@ -200,10 +200,28 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     msls->Erase(s1);
                     msls->Erase(s2);
 
-                    msls->Insert(evt->GetPoint(), s1);
-                    msls->Insert(evt->GetPoint(), s2);
+                    std::set < MosaicSweepLineStatus<double>::Iterator > zb;
 
+                    std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res1 = msls->Insert(evt->GetPoint(), s1);
+                    std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res2 = msls->Insert(evt->GetPoint(), s2);
+
+                    assert(res1.ND);
+                    ita = msls->Above(res1.ST);
+                    itb = msls->Below(res1.ST);
+                    if (! msls->IsNull(ita))  zb.insert(ita);
+                    if (! msls->IsNull(itb))  zb.insert(itb);
+
+                    assert(res2.ND);
+                    ita = msls->Above(res2.ST);
+                    itb = msls->Below(res2.ST);
+                    if (! msls->IsNull(ita))  zb.insert(ita);
+                    if (! msls->IsNull(itb))  zb.insert(itb);
+
+                    zb.erase(res1.ST);
+                    zb.erase(res2.ST);
+                    assert(zb.size() == 2);
                     /// TODO
+
 
                     break;;
                 }
