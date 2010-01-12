@@ -38,6 +38,9 @@ class MosaicPMF
 
     private:
 
+        void
+        AnalyzeAndPredictIntersection (MosaicSegment<double> *, MosaicSegment<double> *, MosaicEventsSchedule<double> *);
+
         double fieldWidth;
         double fieldHeight;
         unsigned int linesNumber;

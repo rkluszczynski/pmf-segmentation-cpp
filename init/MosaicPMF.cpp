@@ -157,6 +157,10 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     if (! msls->IsNull(ita))
                     {
                         cout << "ABOVE" << endl;
+                        MosaicSegment<double> * seg1 = (*ita)->GetSegment();
+                        MosaicSegment<double> * seg2 = evt->GetSegment();
+
+                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
                     }
                     if (! msls->IsNull(itb))
                     {
@@ -164,27 +168,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                         MosaicSegment<double> * seg1 = evt->GetSegment();
                         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
-                        int check = pmf::Geometry::CheckIntersection2(
-                                                        seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
-                                                       seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
-                                                        seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
-                                                       seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
-                        cout << " check = " << check << endl;
-                        if (check == 1)
-                        {
-                            pair<double, double> pt =
-                                pmf::Geometry::CalculateIntersection(
-                                                        seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
-                                                       seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
-                                                        seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
-                                                       seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
-
-                            cout << "  ( " << pt.ST << " , " << pt.ND << " )" << endl;
-
-                            MosaicPoint<double> * ipt = new MosaicPoint<double>(pt.ST, pt.ND);
-                            IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
-                            evts->Insert(e);
-                        }
+                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
                     }
                     break;;
                 }
@@ -219,6 +203,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     msls->Insert(evt->GetPoint(), s1);
                     msls->Insert(evt->GetPoint(), s2);
 
+                    /// TODO
+
                     break;;
                 }
             case AreaMarkings :
@@ -235,6 +221,36 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Erase(evt);
     }
 
+}
+
+
+void MosaicPMF::AnalyzeAndPredictIntersection (
+                                               MosaicSegment<double> * seg1,
+                                               MosaicSegment<double> * seg2,
+                                               MosaicEventsSchedule<double> * evts
+                                            )
+{
+    int check = pmf::Geometry::CheckIntersection2(
+                                    seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
+                                   seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
+                                    seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
+                                   seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
+    cout << " check = " << check << endl;
+    if (check == 1)
+    {
+        pair<double, double> pt =
+            pmf::Geometry::CalculateIntersection(
+                                    seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
+                                   seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
+                                    seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
+                                   seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
+
+        cout << "  ( " << pt.ST << " , " << pt.ND << " )" << endl;
+
+        MosaicPoint<double> * ipt = new MosaicPoint<double>(pt.ST, pt.ND);
+        IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
+        evts->Insert(e);
+    }
 }
 
 
