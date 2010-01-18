@@ -148,7 +148,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             case BeginSegment :
                 {
                     cout << "-{" << step << "}-> BEGIN EVENT" << endl;
-                    res = msls->Insert(evt->GetPoint(), evt->GetSegment());
+                    //res =
+                        msls->Insert(evt->GetPoint(), evt->GetSegment());
                     assert(res.ND);
 
                     ita = msls->Above(res.ST);
