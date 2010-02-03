@@ -148,7 +148,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             case BeginSegment :
                 {
                     cout << "-{" << step << "}-> BEGIN EVENT" << endl;
-                    //res =
+                    res =
                         msls->Insert(evt->GetPoint(), evt->GetSegment());
                     assert(res.ND);
 
@@ -201,28 +201,69 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     msls->Erase(s1);
                     msls->Erase(s2);
 
-                    std::set < MosaicSweepLineStatus<double>::Iterator > zb;
-
                     std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res1 = msls->Insert(evt->GetPoint(), s1);
                     std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res2 = msls->Insert(evt->GetPoint(), s2);
 
                     assert(res1.ND);
+                    cout << s1 << endl;
                     ita = msls->Above(res1.ST);
                     itb = msls->Below(res1.ST);
-                    if (! msls->IsNull(ita))  zb.insert(ita);
-                    if (! msls->IsNull(itb))  zb.insert(itb);
+                    if (! msls->IsNull(ita))
+                    {
+                        if ( (*ita)->GetSegment() == (*res2.ST)->GetSegment() )
+                        {
+                            cout << "Above1 : TAKI SAM" << endl;
+                        }
+                        else {
+                            cout << "Above1 : INNY" << endl;
+                            MosaicSegment<double> * _seg = (*ita)->GetSegment();
+                            cout << "Above1 : " << _seg << endl;
+                            AnalyzeAndPredictIntersection(s1, _seg, evts);
+                        }
+                    }
+                    if (! msls->IsNull(itb))
+                    {
+                        if ( (*itb)->GetSegment() == (*res2.ST)->GetSegment() )
+                        {
+                            cout << "Below1 : TAKI SAM" << endl;
+                        }
+                        else {
+                            cout << "Below1 : INNY" << endl;
+                            MosaicSegment<double> * _seg = (*itb)->GetSegment();
+                            cout << "Below1 : " << _seg << endl;
+                            AnalyzeAndPredictIntersection(s1, _seg, evts);
+                        }
+                    }
 
                     assert(res2.ND);
                     ita = msls->Above(res2.ST);
                     itb = msls->Below(res2.ST);
-                    if (! msls->IsNull(ita))  zb.insert(ita);
-                    if (! msls->IsNull(itb))  zb.insert(itb);
-
-                    zb.erase(res1.ST);
-                    zb.erase(res2.ST);
-                    assert(zb.size() == 2);
-                    /// TODO
-
+                    if (! msls->IsNull(ita))
+                    {
+                        if ( (*ita)->GetSegment() == (*res1.ST)->GetSegment() )
+                        {
+                            cout << "Above2 : TAKI SAM" << endl;
+                        }
+                        else {
+                            cout << "Above2 : INNY" << endl;
+                            MosaicSegment<double> * _seg = (*ita)->GetSegment();
+                            cout << "Above2 : " << _seg << endl;
+                            AnalyzeAndPredictIntersection(s2, _seg, evts);
+                        }
+                    }
+                    if (! msls->IsNull(itb))
+                    {
+                        if ( (*itb)->GetSegment() == (*res1.ST)->GetSegment() )
+                        {
+                            cout << "Below2 : TAKI SAM" << endl;
+                        }
+                        else {
+                            cout << "Below2 : INNY" << endl;
+                            MosaicSegment<double> * _seg = (*itb)->GetSegment();
+                            cout << "Below2 : " << _seg << endl;
+                            AnalyzeAndPredictIntersection(s2, _seg, evts);
+                        }
+                    }
 
                     break;;
                 }
