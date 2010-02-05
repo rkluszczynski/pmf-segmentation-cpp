@@ -185,9 +185,12 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
                     {
-                        cout << "CROSS" << endl;
-                        //int check =
+                        cout << "END-&-CROSS" << endl;
 
+                        MosaicSegment<double> * seg1 = (*ita)->GetSegment();
+                        MosaicSegment<double> * seg2 = (*itb)->GetSegment();
+
+                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
                     }
                     break;;
                 }
