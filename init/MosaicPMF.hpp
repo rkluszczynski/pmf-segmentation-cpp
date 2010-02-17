@@ -40,6 +40,15 @@ class MosaicPMF
 
         void
         AnalyzeAndPredictIntersection (MosaicSegment<double> *, MosaicSegment<double> *, MosaicEventsSchedule<double> *);
+        void
+        CheckIntersectionsAfterSwap (
+                                        MosaicSweepLineStatus<double> *,
+                                        MosaicSweepLineStatus<double>::Iterator &,
+                                        MosaicSweepLineStatus<double>::Iterator &,
+                                        MosaicSegment<double> *,
+                                        MosaicEventsSchedule<double> *,
+                                        int
+                                    );
 
         double fieldWidth;
         double fieldHeight;

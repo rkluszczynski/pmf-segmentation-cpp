@@ -209,64 +209,11 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
                     assert(res1.ND);
                     cout << s1 << endl;
-                    ita = msls->Above(res1.ST);
-                    itb = msls->Below(res1.ST);
-                    if (! msls->IsNull(ita))
-                    {
-                        if ( (*ita)->GetSegment() == (*res2.ST)->GetSegment() )
-                        {
-                            cout << "Above1 : TAKI SAM" << endl;
-                        }
-                        else {
-                            cout << "Above1 : INNY" << endl;
-                            MosaicSegment<double> * _seg = (*ita)->GetSegment();
-                            cout << "Above1 : " << _seg << endl;
-                            AnalyzeAndPredictIntersection(s1, _seg, evts);
-                        }
-                    }
-                    if (! msls->IsNull(itb))
-                    {
-                        if ( (*itb)->GetSegment() == (*res2.ST)->GetSegment() )
-                        {
-                            cout << "Below1 : TAKI SAM" << endl;
-                        }
-                        else {
-                            cout << "Below1 : INNY" << endl;
-                            MosaicSegment<double> * _seg = (*itb)->GetSegment();
-                            cout << "Below1 : " << _seg << endl;
-                            AnalyzeAndPredictIntersection(s1, _seg, evts);
-                        }
-                    }
+                    CheckIntersectionsAfterSwap(msls, res1.ST, res2.ST, s1, evts, 1);
 
                     assert(res2.ND);
-                    ita = msls->Above(res2.ST);
-                    itb = msls->Below(res2.ST);
-                    if (! msls->IsNull(ita))
-                    {
-                        if ( (*ita)->GetSegment() == (*res1.ST)->GetSegment() )
-                        {
-                            cout << "Above2 : TAKI SAM" << endl;
-                        }
-                        else {
-                            cout << "Above2 : INNY" << endl;
-                            MosaicSegment<double> * _seg = (*ita)->GetSegment();
-                            cout << "Above2 : " << _seg << endl;
-                            AnalyzeAndPredictIntersection(s2, _seg, evts);
-                        }
-                    }
-                    if (! msls->IsNull(itb))
-                    {
-                        if ( (*itb)->GetSegment() == (*res1.ST)->GetSegment() )
-                        {
-                            cout << "Below2 : TAKI SAM" << endl;
-                        }
-                        else {
-                            cout << "Below2 : INNY" << endl;
-                            MosaicSegment<double> * _seg = (*itb)->GetSegment();
-                            cout << "Below2 : " << _seg << endl;
-                            AnalyzeAndPredictIntersection(s2, _seg, evts);
-                        }
-                    }
+                    cout << s2 << endl;
+                    CheckIntersectionsAfterSwap(msls, res2.ST, res1.ST, s2, evts, 2);
 
                     break;;
                 }
@@ -284,6 +231,47 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Erase(evt);
     }
 
+}
+
+
+void MosaicPMF::CheckIntersectionsAfterSwap (
+                                               MosaicSweepLineStatus<double> * msls,
+                                               MosaicSweepLineStatus<double>::Iterator & check,
+                                               MosaicSweepLineStatus<double>::Iterator & ignore,
+                                               MosaicSegment<double> * seg,
+                                               MosaicEventsSchedule<double> * evts,
+                                               int test_num
+                                            )
+{
+    MosaicSweepLineStatus<double>::Iterator ita = msls->Above(check);
+    MosaicSweepLineStatus<double>::Iterator itb = msls->Below(check);
+
+    if (! msls->IsNull(ita))
+    {
+        if ( (*ita)->GetSegment() == (*ignore)->GetSegment() )
+        {
+            cout << "Above" << test_num << " : THE SAME" << endl;
+        }
+        else {
+            cout << "Above" << test_num << " : DIFFERENT" << endl;
+            MosaicSegment<double> * _seg = (*ita)->GetSegment();
+            cout << "Above" << test_num << " : " << _seg << endl;
+            AnalyzeAndPredictIntersection(seg, _seg, evts);
+        }
+    }
+    if (! msls->IsNull(itb))
+    {
+        if ( (*itb)->GetSegment() == (*ignore)->GetSegment() )
+        {
+            cout << "Below" << test_num << " : THE SAME" << endl;
+        }
+        else {
+            cout << "Below" << test_num << " : DIFFERENT" << endl;
+            MosaicSegment<double> * _seg = (*itb)->GetSegment();
+            cout << "Below" << test_num << " : " << _seg << endl;
+            AnalyzeAndPredictIntersection(seg, _seg, evts);
+        }
+    }
 }
 
 
