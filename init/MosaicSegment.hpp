@@ -21,6 +21,9 @@
             const POINT GetLeftPoint() const { return p; }
             const POINT GetRightPoint() const { return q; }
 
+            void SetLastGraphNodeId(int id) { lastGraphNodeId = id; }
+            unsigned int GetLastGraphNodeId() { return lastGraphNodeId; }
+
             //bool isVertical()   const { return Geometry::IsZero(q->x - p->x); }
             //bool isHorizontal() const { return Geometry::IsZero(q->y - p->y); }
             //*
@@ -39,6 +42,7 @@
 
         private :
             POINT p, q;
+            unsigned int lastGraphNodeId;
 
             void OnInit()
             {

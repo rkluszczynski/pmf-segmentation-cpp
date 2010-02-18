@@ -38,6 +38,10 @@
 		<Unit filename="..\headers\probability.hpp" />
 		<Unit filename="..\init\MosaicElement.hpp" />
 		<Unit filename="..\init\MosaicEvents.hpp" />
+		<Unit filename="..\init\MosaicGraph.cpp" />
+		<Unit filename="..\init\MosaicGraph.hpp" />
+		<Unit filename="..\init\MosaicGraphNode.cpp" />
+		<Unit filename="..\init\MosaicGraphNode.hpp" />
 		<Unit filename="..\init\MosaicPMF.cpp" />
 		<Unit filename="..\init\MosaicPMF.hpp" />
 		<Unit filename="..\init\MosaicPoint.hpp" />

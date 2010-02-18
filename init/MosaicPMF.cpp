@@ -112,7 +112,17 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     }
 
 
+    MosaicPoint<double> * ptLU = new MosaicPoint<double>(0., fieldHeight);
+    MosaicPoint<double> * ptLD = new MosaicPoint<double>(0., 0.);
+    MosaicPoint<double> * ptRU = new MosaicPoint<double>(fieldWidth, fieldHeight);
+    MosaicPoint<double> * ptRD = new MosaicPoint<double>(fieldWidth, 0.);
+    AreaEvent * e0;
+
     MosaicEventsSchedule<double> * evts = new MosaicEventsSchedule<double>();
+    e0 = new AreaEvent(ptLU);      evts->Insert(e0);
+    e0 = new AreaEvent(ptLD);      evts->Insert(e0);
+    e0 = new AreaEvent(ptRU);      evts->Insert(e0);
+    e0 = new AreaEvent(ptRD);      evts->Insert(e0);
     FOREACH(it, mosaic)
     {
         MosaicSegment<double> * seg = * it;
@@ -123,7 +133,6 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Insert(e1);
         evts->Insert(e2);
     }
-
 
     MosaicSweepLineStatus<double> * msls = new MosaicSweepLineStatus<double>();
     int step = 0;
@@ -136,7 +145,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
         cout << evts << endl;
         VirtualMosaicEvent * evt = evts->SeeFirst();
-        cout << "[ EVENT ] : " << endl << evt->GetPoint() << endl << evt->GetSegment() << endl;
+        cout << "[ EVENT ] : " << endl << evt->GetPoint() << endl;
+        if (evt->GetSegment()) cout << evt->GetSegment() << endl;
 
         std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res;
         MosaicSweepLineStatus<double>::Iterator it, ita, itb;
@@ -220,6 +230,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             case AreaMarkings :
                 {
                     cout << "-{" << step << "}->  AREA EVENT" << endl;
+                    cout << evt->GetPoint() << endl;
                     break;;
                 }
             default :
