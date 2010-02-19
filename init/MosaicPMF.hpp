@@ -17,6 +17,7 @@ using namespace std;
 //#include "../init/MosaicSegment.hpp"
 #include "../init/MosaicSchedule.hpp"
 #include "../init/MosaicStatus.hpp"
+#include "../init/MosaicGraph.hpp"
 
 
 class MosaicPMF

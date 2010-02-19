@@ -14,6 +14,8 @@ class MosaicGraph
         unsigned int CreateNewNode(double, double);
         void AddEdge(unsigned int, unsigned int);
 
+        void SortNeighboursInCounterClockwiseOrder();
+
         friend std::ostream & operator << (std::ostream &, const MosaicGraph &);
 
     protected:

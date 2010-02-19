@@ -1,9 +1,11 @@
 #include "MosaicGraph.hpp"
 
+
 MosaicGraph::MosaicGraph()
 {
     //ctor
 }
+
 
 MosaicGraph::~MosaicGraph()
 {
@@ -15,11 +17,24 @@ MosaicGraph::~MosaicGraph()
   *
   * (documentation goes here)
   */
+void
+MosaicGraph::SortNeighboursInCounterClockwiseOrder ()
+{
+    FOREACH(it, nodes)
+        (*it)->SortNeighboursInCounterClockwiseOrder (nodes);
+}
+
+
+
+/** @brief (one liner)
+  *
+  * (documentation goes here)
+  */
 unsigned int
-MosaicGraph::CreateNewNode(double x, double y)
+MosaicGraph::CreateNewNode (double x, double y)
 {
     unsigned int id = nodes.size();
-    MosaicGraphNode * node = new MosaicGraphNode(x, y);
+    MosaicGraphNode * node = new MosaicGraphNode(x, y, id);
     nodes.push_back(node);
     return id;
 }
@@ -29,7 +44,8 @@ MosaicGraph::CreateNewNode(double x, double y)
   *
   * (documentation goes here)
   */
-void MosaicGraph::AddEdge(unsigned int n1, unsigned int n2)
+void
+MosaicGraph::AddEdge (unsigned int n1, unsigned int n2)
 {
     assert(0 <= n1  and  n1 < nodes.size());
     assert(0 <= n2  and  n2 < nodes.size());
