@@ -19,12 +19,12 @@ struct CounterClockwiseComparator
     public :
         CounterClockwiseComparator (std::vector<MosaicGraphNode *> & nnodes, int iid) : nodes(nnodes), id(iid) {}
 
-        bool operator() (int i, int j)
+        bool operator() (std::pair<int, int> pair_i, std::pair<int, int> pair_j)
         {
-            double ix = nodes[i]->x - nodes[id]->x;
-            double iy = nodes[i]->y - nodes[id]->y;
-            double jx = nodes[j]->x - nodes[id]->x;
-            double jy = nodes[j]->y - nodes[id]->y;
+            double ix = nodes[pair_i.first]->x - nodes[id]->x;
+            double iy = nodes[pair_i.first]->y - nodes[id]->y;
+            double jx = nodes[pair_j.first]->x - nodes[id]->x;
+            double jy = nodes[pair_j.first]->y - nodes[id]->y;
 
             double iAngle = atan2(iy, ix);
             double jAngle = atan2(jy, jx);
@@ -58,11 +58,20 @@ MosaicGraphNode::SortNeighboursInCounterClockwiseOrder (std::vector<MosaicGraphN
 std::ostream & operator << (std::ostream & out, const MosaicGraphNode * node)
 {
     out.precision(3);
-    out.setf( std::ios::fixed, std::ios::floatfield );
+    out.setf ( std::ios::fixed, std::ios::floatfield );
     out << "[" << node->x << ";" << node->y << "] :";
     out.unsetf ( std::ios::floatfield  );
-    FOREACH(it, node->n) out << " " << *it;
+    FOREACH(it, node->n) out << " " << (*it).first;
     out << std::endl;
     return out;
 }
 
+
+MosaicGraphNode::MosaicGraphNode(const MosaicGraphNode & other)
+{
+    //copy ctor
+    x = other.x;
+    y = other.y;
+    id = other.id;
+    n.assign(other.n.begin(), other.n.end());
+}

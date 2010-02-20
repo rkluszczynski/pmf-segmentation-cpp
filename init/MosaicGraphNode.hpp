@@ -13,11 +13,12 @@ class MosaicGraphNode
 {
     public:
         double x, y;
-        std::vector<int> n;
+        std::vector<std::pair<int, int> > n;
         int id;
 
         MosaicGraphNode(double, double, int);
         virtual ~MosaicGraphNode();
+        MosaicGraphNode(const MosaicGraphNode & other);
 
         void SortNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
 

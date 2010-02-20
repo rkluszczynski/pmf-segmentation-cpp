@@ -10,9 +10,10 @@ class MosaicGraph
     public:
         MosaicGraph();
         virtual ~MosaicGraph();
+        MosaicGraph(const MosaicGraph & other);
 
         unsigned int CreateNewNode(double, double);
-        void AddEdge(unsigned int, unsigned int);
+        void AddEdge(unsigned int, unsigned int, int);
 
         void SortNeighboursInCounterClockwiseOrder();
 

@@ -21,96 +21,9 @@ using namespace std;
 MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldHeight(h), linesNumber(n)
 {
     //ctor
-    //*
-    while (linesParameters.size() < n)
-    {
-        double alpha = UNIFORM(-M_PI_2, M_PI);
-        if (fabs(alpha - M_PI_2) < 1e-7) continue;
-
-        double maxD = 0.;
-        double a = tan(alpha);
-        if (alpha <= 0.)
-            maxD = fabs(w) / sqrt(a*a + 1);  // IV quarter (w * cosL)
-        else if (alpha <= M_PI_2)
-            maxD = fabs(h * a + w) / sqrt(a*a + 1);  // I quarter
-        else if (alpha < M_PI)
-            maxD = fabs(a * h) / sqrt(a*a + 1);  // II quarter
-        else
-            assert("WRONG alpha !" && false);
-
-        double d = UNIFORM(0., maxD);
-        linesParameters.insert( make_pair(alpha, d) );
-
-        ///printf("... added :   L = %6.3lf   D = %6.3lf   d = %6.3lf \n", alpha, maxD, d);
-    }
-    // */
-    /*
-    linesParameters.insert(make_pair(0.75 * M_PI, 1));
-    linesParameters.insert(make_pair(0.25 * M_PI, 1));
-    linesParameters.insert(make_pair(-0.25 * M_PI, 1));
-    // */
-
     vector<MosaicSegment<double> *> mosaic;
 
-    FOREACH(it, linesParameters)
-    {
-        ///cout << endl << " ->   L = " << it->ST << "   d = " << it->ND << endl;
-
-        double a = - 1. / tan(it->ST);
-        double b = it->ND / cos(M_PI_2 - it->ST);
-        /*
-        if (it->ST < 0.)
-            b = it->ND / cos(M_PI_2 - it->ST);
-        else if (it->ST < M_PI_2)
-            b = it->ND / cos(M_PI_2 - it->ST);
-        else if (it->ST < M_PI)
-            b = it->ND / cos(it->ST - M_PI_2);
-        else
-            assert(false);
-        // */
-        ///printf("  >   y  =  %.2lf  *  x  +  %.2lf\n", a, b);
-
-        double tmpx, tmpy;
-        vector<pair<double, double> > seg;
-        // left
-        if (0. < b  and  b < h)
-        {
-            ///cout << " ( " << 0. << " , " << b << " )" << endl;
-            seg.push_back(make_pair(0., b));
-        }
-        // up
-        tmpx = (h - b) / a;
-        if (0. < tmpx  and  tmpx < w)
-        {
-            ///cout << " ( " << tmpx << " , " << h << " )" << endl;
-            seg.push_back(make_pair(tmpx, h));
-        }
-        // right
-        tmpy = a * w + b;
-        if (0. < tmpy  and  tmpy < h)
-        {
-            ///cout << " ( " << w << " , " << tmpy << " )" << endl;
-            seg.push_back(make_pair(w, tmpy));
-        }
-        // down
-        tmpx = - b / a;
-        if (0. < tmpx  and  tmpx < w)
-        {
-            ///cout << " ( " << tmpx << " , " << 0. << " )" << endl;
-            seg.push_back(make_pair(tmpx, 0.));
-        }
-        assert(seg.size() == 2);
-
-        MosaicPoint<double> * p1 = new MosaicPoint<double>(seg[0].ST, seg[0].ND);
-        MosaicPoint<double> * p2 = new MosaicPoint<double>(seg[1].ST, seg[1].ND);
-        if (p1->x > p2->x) swap(p1, p2);
-
-        MosaicSegment<double> * s = new MosaicSegment<double>(p1, p2);
-        mosaic.push_back(s);
-
-        ///cout << " added segment : " << s << endl;
-    }
-
+    GenerateRandomSegmentsByPolarParameters (n, mosaic);
 
     MosaicPoint<double> * ptLU = new MosaicPoint<double>(0., fieldHeight);
     MosaicPoint<double> * ptLD = new MosaicPoint<double>(0., 0.);
@@ -134,62 +47,64 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Insert(e2);
     }
 
-    MosaicSweepLineStatus<double> * msls = new MosaicSweepLineStatus<double>();
+    MosaicGraph * graph = GenerateSegmentsGraph (evts);
+    /*
+    cout << "________________________________________" << endl;
+    cout << "########################################" << endl;
+    cout << *graph << endl;
+    // */
+    graph->SortNeighboursInCounterClockwiseOrder();
+    cout << *graph << endl;
+
+    MosaicGraph * other = new MosaicGraph(*graph);
+    cout << *other << endl;
+}
+
+
+#define WRITE_STEP(X)   { \
+                            cout << "________________________________________" << endl; \
+                            cout << "----------------------------------------" << endl; \
+                            cout << "   [ STEP " << ++step << " ]" << endl; \
+                            cout << endl; \
+                        }
+#define WRITE_EVENTS(EVTS, EV)  { \
+                                    cout << evts << endl; \
+                                    cout << "[ EVENT ] : " << endl << evt->GetPoint() << endl; \
+                                    if (evt->GetSegment()) cout << evt->GetSegment() << endl; \
+                                }
+MosaicGraph *
+MosaicPMF::GenerateSegmentsGraph (
+                                  MosaicEventsSchedule<double> * evts
+                                )
+{
     MosaicGraph * graph = new MosaicGraph();
+    MosaicSweepLineStatus<double> * msls = new MosaicSweepLineStatus<double>();
     int step = 0;
     unsigned int lastLeftId, upperLastId, lowerLastId;
 
-    cout << "----------------------------------------" << endl;
-    cout << "   [ STEP " << ++step << " ]" << endl;
-    cout << endl;
-
+    WRITE_STEP(step);
     assert(evts->SeeFirst()->GetType() == AreaMarkings);
     upperLastId = lastLeftId = graph->CreateNewNode(evts->SeeFirst()->GetPoint()->x, evts->SeeFirst()->GetPoint()->y);
     evts->Erase(evts->SeeFirst());
 
+    // process left border
     while (! evts->IsEmpty()  and  evts->SeeFirst()->GetPoint()->x == 0.0)
     {
-        cout << "----------------------------------------" << endl;
-        cout << "   [ STEP " << ++step << " ]" << endl;
-        cout << endl;
-
-        cout << evts << endl;
         VirtualMosaicEvent * evt = evts->SeeFirst();
-        cout << "[ EVENT (L) ] : " << endl << evt->GetPoint() << endl;
-        if (evt->GetSegment()) cout << evt->GetSegment() << endl;
+
+        WRITE_STEP(step);
+        WRITE_EVENTS(evts, evt);
 
         int id = graph->CreateNewNode(evt->GetPoint()->x, evt->GetPoint()->y);
-        graph->AddEdge(lastLeftId, id);
+        graph->AddEdge(lastLeftId, id, 1);
         lastLeftId = id;
 
         cout << endl;
         if (evt->GetType() == BeginSegment)
         {
             cout << "-{" << step << "}-> BEGIN EVENT" << endl;
-            std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res
-                = msls->Insert(evt->GetPoint(), evt->GetSegment());
-            assert(res.ND);
+            ProcessBeginSegmentEvent(msls, evts, evt);
             evt->GetSegment()->SetLastGraphNodeId( id );
-
-            MosaicSweepLineStatus<double>::Iterator ita = msls->Above(res.ST);
-            MosaicSweepLineStatus<double>::Iterator itb = msls->Below(res.ST);
-
-            if (! msls->IsNull(ita))
-            {
-                cout << "ABOVE" << endl;
-                MosaicSegment<double> * seg1 = (*ita)->GetSegment();
-                MosaicSegment<double> * seg2 = evt->GetSegment();
-
-                AnalyzeAndPredictIntersection(seg1, seg2, evts);
-            }
-            if (! msls->IsNull(itb))
-            {
-                cout << "BELOW" << endl;
-                MosaicSegment<double> * seg1 = evt->GetSegment();
-                MosaicSegment<double> * seg2 = (*itb)->GetSegment();
-
-                AnalyzeAndPredictIntersection(seg1, seg2, evts);
-            }
         }
         else if (evt->GetType() == AreaMarkings)
         {
@@ -199,23 +114,18 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         else
             assert("WRONG LEFT EVENT TYPE DURING EVOLUTION" && false);
 
-        cout << "----------------------------------------" << endl;
         evts->Erase(evt);
     }
-
     lowerLastId = lastLeftId;
-    cout << "########################################" << endl;
 
+    cout << "########################################" << endl;
+    // process between left and right border
     while (! evts->IsEmpty()  and  evts->SeeFirst()->GetPoint()->x < fieldWidth)
     {
-        cout << "----------------------------------------" << endl;
-        cout << "   [ STEP " << ++step << " ]" << endl;
-        cout << endl;
-
-        cout << evts << endl;
         VirtualMosaicEvent * evt = evts->SeeFirst();
-        cout << "[ __EVENT__ ] : " << endl << evt->GetPoint() << endl;
-        if (evt->GetSegment()) cout << evt->GetSegment() << endl;
+
+        WRITE_STEP(step);
+        WRITE_EVENTS(evts, evt);
 
         std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res;
         MosaicSweepLineStatus<double>::Iterator it, ita, itb;
@@ -228,43 +138,21 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             case BeginSegment :
                 {
                     cout << "-{" << step << "}-> BEGIN EVENT" << endl;
-                    res =
-                        msls->Insert(evt->GetPoint(), evt->GetSegment());
-                    assert(res.ND);
+                    ProcessBeginSegmentEvent(msls, evts, evt);
 
                     evt->GetSegment()->SetLastGraphNodeId( id );
                     if (evt->GetPoint()->y == fieldHeight)
                     {
-                        graph->AddEdge(lowerLastId, id);
+                        graph->AddEdge(lowerLastId, id, 1);
                         lowerLastId = id;
                     }
                     else if (evt->GetPoint()->y == 0.)
                     {
-                        graph->AddEdge(upperLastId, id);
+                        graph->AddEdge(upperLastId, id, 1);
                         upperLastId = id;
                     }
-                    else
-                        assert(" BEGIN EVENT INSIDE THE FIELD " and false);
+                    else  assert(" BEGIN EVENT INSIDE THE FIELD " and false);
 
-                    ita = msls->Above(res.ST);
-                    itb = msls->Below(res.ST);
-
-                    if (! msls->IsNull(ita))
-                    {
-                        cout << "ABOVE" << endl;
-                        MosaicSegment<double> * seg1 = (*ita)->GetSegment();
-                        MosaicSegment<double> * seg2 = evt->GetSegment();
-
-                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
-                    }
-                    if (! msls->IsNull(itb))
-                    {
-                        cout << "BELOW" << endl;
-                        MosaicSegment<double> * seg1 = evt->GetSegment();
-                        MosaicSegment<double> * seg2 = (*itb)->GetSegment();
-
-                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
-                    }
                     break;;
                 }
             case EndOfSegment :
@@ -280,12 +168,12 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     evt->GetSegment()->SetLastGraphNodeId( id );
                     if (evt->GetPoint()->y == fieldHeight)
                     {
-                        graph->AddEdge(lowerLastId, id);
+                        graph->AddEdge(lowerLastId, id, 1);
                         lowerLastId = id;
                     }
                     else if (evt->GetPoint()->y == 0.)
                     {
-                        graph->AddEdge(upperLastId, id);
+                        graph->AddEdge(upperLastId, id, 1);
                         upperLastId = id;
                     }
                     else
@@ -316,13 +204,13 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res2 = msls->Insert(evt->GetPoint(), s2);
 
                     assert(res1.ND);
-                    graph->AddEdge( s1->GetLastGraphNodeId(), id );
+                    graph->AddEdge( s1->GetLastGraphNodeId(), id, 2 );
                     s1->SetLastGraphNodeId( id );
                     cout << s1 << endl;
                     CheckIntersectionsAfterSwap(msls, res1.ST, res2.ST, s1, evts, 1);
 
                     assert(res2.ND);
-                    graph->AddEdge( s2->GetLastGraphNodeId(), id );
+                    graph->AddEdge( s2->GetLastGraphNodeId(), id, 2 );
                     s2->SetLastGraphNodeId( id );
                     cout << s2 << endl;
                     CheckIntersectionsAfterSwap(msls, res2.ST, res1.ST, s2, evts, 2);
@@ -347,29 +235,18 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     cout << "########################################" << endl;
 
-    cout << "----------------------------------------" << endl;
-    cout << "   [ STEP " << ++step << " ]" << endl;
-    cout << endl;
-
+    WRITE_STEP(step);
     assert(evts->SeeFirst()->GetType() == AreaMarkings);
     lastLeftId = graph->CreateNewNode(evts->SeeFirst()->GetPoint()->x, evts->SeeFirst()->GetPoint()->y);
-    graph->AddEdge(upperLastId, lastLeftId);
+    graph->AddEdge(upperLastId, lastLeftId, 1);
     evts->Erase(evts->SeeFirst());
 
     while (! evts->IsEmpty())
     {
-        cout << "----------------------------------------" << endl;
-        cout << "   [ STEP " << ++step << " ]" << endl;
-        cout << endl;
-
-        cout << evts << endl;
         VirtualMosaicEvent * evt = evts->SeeFirst();
-        cout << "[ EVENT (R) ] : " << endl << evt->GetPoint() << endl;
-        if (evt->GetSegment()) cout << evt->GetSegment() << endl;
 
-        std::pair < MosaicSweepLineStatus<double>::Iterator ,  bool  > res;
-        MosaicSweepLineStatus<double>::Iterator it, ita, itb;
-        MosaicSegment<double> * s1, * s2;
+        WRITE_STEP(step);
+        WRITE_EVENTS(evts, evt);
 
         int id = graph->CreateNewNode(evt->GetPoint()->x, evt->GetPoint()->y);
         cout << endl;
@@ -379,13 +256,14 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                 {
                     cout << "-{" << step << "}->  END  EVENT" << endl;
 
+                    MosaicSweepLineStatus<double>::Iterator it, ita, itb;
                     itb = ita = it = msls->Find(evt->GetSegment());
                     --ita;
                     ++itb;
 
                     msls->Erase(it);
 
-                    graph->AddEdge( evt->GetSegment()->GetLastGraphNodeId(), id );
+                    graph->AddEdge( evt->GetSegment()->GetLastGraphNodeId(), id, 1 );
                     evt->GetSegment()->SetLastGraphNodeId( id );
 
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
@@ -408,7 +286,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             default :
                     assert("WRONG __EVENT__ TYPE DURING EVOLUTION" && false);
         }
-        graph->AddEdge(lastLeftId, id);
+        graph->AddEdge(lastLeftId, id, 1);
         lastLeftId = id;
 
         cout << endl << msls << endl;
@@ -416,15 +294,42 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Erase(evt);
     }
 
-    graph->AddEdge(lowerLastId, lastLeftId);
+    graph->AddEdge(lowerLastId, lastLeftId, 1);
 
-    cout << "________________________________________" << endl;
-    cout << "########################################" << endl;
-    cout << "########################################" << endl;
+    return graph;
+}
+#undef WRITE_EVENTS
+#undef WRITE_STEP
 
-    cout << *graph << endl;
-    graph->SortNeighboursInCounterClockwiseOrder();
-    cout << *graph << endl;
+
+void MosaicPMF::ProcessBeginSegmentEvent (
+                                          MosaicSweepLineStatus<double> * msls,
+                                          MosaicEventsSchedule<double> * evts,
+                                          VirtualMosaicEvent * evt
+                                         )
+{
+    std::pair<MosaicSweepLineStatus<double>::Iterator, bool> res = msls->Insert(evt->GetPoint(), evt->GetSegment());
+    assert(res.ND);
+
+    MosaicSweepLineStatus<double>::Iterator ita = msls->Above(res.ST);
+    MosaicSweepLineStatus<double>::Iterator itb = msls->Below(res.ST);
+
+    if (! msls->IsNull(ita))
+    {
+        cout << "ABOVE" << endl;
+        MosaicSegment<double> * seg1 = (*ita)->GetSegment();
+        MosaicSegment<double> * seg2 = evt->GetSegment();
+
+        AnalyzeAndPredictIntersection(seg1, seg2, evts);
+    }
+    if (! msls->IsNull(itb))
+    {
+        cout << "BELOW" << endl;
+        MosaicSegment<double> * seg1 = evt->GetSegment();
+        MosaicSegment<double> * seg2 = (*itb)->GetSegment();
+
+        AnalyzeAndPredictIntersection(seg1, seg2, evts);
+    }
 }
 
 
@@ -496,6 +401,102 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
         IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
         evts->Insert(e);
     }
+}
+
+
+void
+MosaicPMF::GenerateRandomSegmentsByPolarParameters (unsigned int amount, vector<MosaicSegment<double> *> & mosaic)
+{
+    set<pair<double, double> > linesParameters;
+    //*
+    while (linesParameters.size() < amount)
+    {
+        double alpha = UNIFORM(-M_PI_2, M_PI);
+        if (fabs(alpha - M_PI_2) < 1e-7) continue;
+
+        double maxD = 0.;
+        double a = tan(alpha);
+        if (alpha <= 0.)
+            maxD = fabs(fieldWidth) / sqrt(a*a + 1);  // IV quarter (w * cosL)
+        else if (alpha <= M_PI_2)
+            maxD = fabs(fieldHeight * a + fieldWidth) / sqrt(a*a + 1);  // I quarter
+        else if (alpha < M_PI)
+            maxD = fabs(a * fieldHeight) / sqrt(a*a + 1);  // II quarter
+        else
+            assert("WRONG alpha !" && false);
+
+        double d = UNIFORM(0., maxD);
+        linesParameters.insert( make_pair(alpha, d) );
+
+        ///printf("... added :   L = %6.3lf   D = %6.3lf   d = %6.3lf \n", alpha, maxD, d);
+    }
+    // */
+    /*
+    linesParameters.insert(make_pair(0.75 * M_PI, 1));
+    linesParameters.insert(make_pair(0.25 * M_PI, 1));
+    linesParameters.insert(make_pair(-0.25 * M_PI, 1));
+    // */
+
+    mosaic.clear();
+    FOREACH(it, linesParameters)
+    {
+        ///cout << endl << " ->   L = " << it->ST << "   d = " << it->ND << endl;
+
+        double a = - 1. / tan(it->ST);
+        double b = it->ND / cos(M_PI_2 - it->ST);
+        /*
+        if (it->ST < 0.)
+            b = it->ND / cos(M_PI_2 - it->ST);
+        else if (it->ST < M_PI_2)
+            b = it->ND / cos(M_PI_2 - it->ST);
+        else if (it->ST < M_PI)
+            b = it->ND / cos(it->ST - M_PI_2);
+        else
+            assert(false);
+        // */
+        ///printf("  >   y  =  %.2lf  *  x  +  %.2lf\n", a, b);
+
+        double tmpx, tmpy;
+        vector<pair<double, double> > seg;
+        // left
+        if (0. < b  and  b < fieldHeight)
+        {
+            ///cout << " ( " << 0. << " , " << b << " )" << endl;
+            seg.push_back(make_pair(0., b));
+        }
+        // up
+        tmpx = (fieldHeight - b) / a;
+        if (0. < tmpx  and  tmpx < fieldWidth)
+        {
+            ///cout << " ( " << tmpx << " , " << h << " )" << endl;
+            seg.push_back(make_pair(tmpx, fieldHeight));
+        }
+        // right
+        tmpy = a * fieldWidth + b;
+        if (0. < tmpy  and  tmpy < fieldHeight)
+        {
+            ///cout << " ( " << w << " , " << tmpy << " )" << endl;
+            seg.push_back(make_pair(fieldWidth, tmpy));
+        }
+        // down
+        tmpx = - b / a;
+        if (0. < tmpx  and  tmpx < fieldWidth)
+        {
+            ///cout << " ( " << tmpx << " , " << 0. << " )" << endl;
+            seg.push_back(make_pair(tmpx, 0.));
+        }
+        assert(seg.size() == 2);
+
+        MosaicPoint<double> * p1 = new MosaicPoint<double>(seg[0].ST, seg[0].ND);
+        MosaicPoint<double> * p2 = new MosaicPoint<double>(seg[1].ST, seg[1].ND);
+        if (p1->x > p2->x) swap(p1, p2);
+
+        MosaicSegment<double> * s = new MosaicSegment<double>(p1, p2);
+        mosaic.push_back(s);
+
+        ///cout << " added segment : " << s << endl;
+    }
+    return;
 }
 
 

@@ -25,7 +25,6 @@ MosaicGraph::SortNeighboursInCounterClockwiseOrder ()
 }
 
 
-
 /** @brief (one liner)
   *
   * (documentation goes here)
@@ -45,13 +44,13 @@ MosaicGraph::CreateNewNode (double x, double y)
   * (documentation goes here)
   */
 void
-MosaicGraph::AddEdge (unsigned int n1, unsigned int n2)
+MosaicGraph::AddEdge (unsigned int n1, unsigned int n2, int deg)
 {
     assert(0 <= n1  and  n1 < nodes.size());
     assert(0 <= n2  and  n2 < nodes.size());
-    nodes[n1]->n.push_back(n2);
+    nodes[n1]->n.push_back(std::make_pair(n2, deg));
     if (n1 != n2)
-        nodes[n2]->n.push_back(n1);
+        nodes[n2]->n.push_back(std::make_pair(n1, deg));
 }
 
 
@@ -62,4 +61,12 @@ std::ostream & operator << (std::ostream & out, const MosaicGraph & graph)
     FOREACH(it, graph.nodes) out << i++ << " : " << *it;
     out << std::endl;
     return out;
+}
+
+
+MosaicGraph::MosaicGraph(const MosaicGraph & other)
+{
+    //copy ctor
+    FOREACH(it, other.nodes)
+        nodes.push_back (new MosaicGraphNode(*(*it)));
 }

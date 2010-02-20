@@ -39,6 +39,19 @@ class MosaicPMF
 
     private:
 
+        MosaicGraph *
+        GenerateSegmentsGraph (MosaicEventsSchedule<double> *);
+
+        void
+        GenerateRandomSegmentsByPolarParameters (unsigned int, vector<MosaicSegment<double> *> &);
+
+        void
+        ProcessBeginSegmentEvent (
+                                  MosaicSweepLineStatus<double> *,
+                                  MosaicEventsSchedule<double> *,
+                                  VirtualMosaicEvent *
+                                );
+
         void
         AnalyzeAndPredictIntersection (MosaicSegment<double> *, MosaicSegment<double> *, MosaicEventsSchedule<double> *);
         void
@@ -54,8 +67,6 @@ class MosaicPMF
         double fieldWidth;
         double fieldHeight;
         unsigned int linesNumber;
-
-        set<pair<double, double> > linesParameters;
 
 };
 
