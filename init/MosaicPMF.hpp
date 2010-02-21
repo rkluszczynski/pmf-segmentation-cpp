@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <ostream>
+#include <stack>
 #include <set>
 #include <map>
 

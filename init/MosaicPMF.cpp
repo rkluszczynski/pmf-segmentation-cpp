@@ -139,6 +139,117 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         cout << endl;
     }
     // */
+
+
+    std::vector<int> areasColors(areaGraph.size());
+    FOREACH(it, areasColors)  *it = rand() % 2;
+
+    cout << "[ COLORS ] :";
+    FOR(j, 0, areasColors.size()-1) cout << " " << j << "{" << areasColors[j] << "}";
+    cout << endl;
+
+    std::vector<int> components(areaGraph.size());
+    fill_n(components.begin(), areaGraph.size(), -1);
+    int counter = 0;
+    FOR(j, 0, areaGraph.size()-1)
+        if (components[j] == -1)
+        {
+            std::stack<int> st;
+            st.push(j);
+
+            while (! st.empty())
+            {
+                int v = st.top();
+                components[v] = counter;
+                st.pop();
+
+                FOREACH(it, areaGraph[v])
+                {
+                    if (components[*it] == -1  and  areasColors[*it] == areasColors[v])
+                    {
+                        st.push(*it);
+                    }
+                }
+            }
+            ++counter;
+        }
+
+    cout << "[ COMPONENTS ] :";
+    FOR(j, 0, components.size()-1) cout << " " << j << "[" << components[j] << "]";
+    cout << endl;
+
+
+    MosaicGraph * final = new MosaicGraph(*graph);
+    FOR(k, 0, counter-1)
+    {
+        std::set<std::pair<int, int> > edges;
+        cout << "[ COMPONENT " << k << " ]" << endl;
+
+        FOR(j, 0, components.size()-1)
+        {
+            if (components[j] == k)
+            {
+                int mem_b = -1;
+                FOREACH(it, areas[j])
+                {
+                    int a = mem_b;
+                    int b = *it;
+                    mem_b = b;
+                    if (a > b) std::swap(a,b);
+
+                    if (a >= 0)
+                    {
+                        if (edges.find(make_pair(a,b)) == edges.end())
+                        {
+                            cout << " ->  INSERT  (" << a << "," << b << ")" << endl;
+                            edges.insert(make_pair(a,b));
+                        }
+                        else {
+                            cout << " ->  REMOVE  (" << a << "," << b << ")" << endl;
+                            final->RemoveEdge(a, b);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout << *final << endl;
+    // removing vertex degree 2 with collinear neigbours
+    FOR(i, 0, final->Size()-1)
+    {
+        MosaicGraphNode * node = final->Get(i);
+        if (node->n.size() == 2)
+        {
+            int n1 = node->n[0].first;
+            int n2 = node->n[1].first;
+            int d1 = node->n[0].second;
+            int d2 = node->n[1].second;
+
+            double x0 = node->x;
+            double y0 = node->y;
+            double x1 = final->Get( n1 )->x;
+            double y1 = final->Get( n1 )->y;
+            double x2 = final->Get( n2 )->x;
+            double y2 = final->Get( n2 )->y;
+
+            double dx01 = x1 - x0;
+            double dy01 = y1 - y0;
+            double dx02 = x2 - x0;
+            double dy02 = y2 - y0;
+
+            double val = dx01 * dy02 - dx02 * dy01;
+            if (-1e-8 < val  and  val < 1e-8)
+            {
+                //cout << i << " " << n1 << " " << n2 << endl;
+                assert(d1 == d2);
+                final->RemoveEdge(i, n1);
+                final->RemoveEdge(i, n2);
+                final->AddEdge(n1, n2, d1);
+            }
+        }
+    }
+    cout << *final << endl;
+
 }
 
 
