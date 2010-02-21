@@ -64,6 +64,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     std::vector<std::vector<int> > areas;
     std::vector<std::vector<int> > areaGraph;
 
+    std::map<std::pair<int, int>, int> memory;
+
     //int i = 0;
     FOR(i, 0, other->Size()-1)
     {
@@ -71,6 +73,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         while (node->n.size() > 0)
         {
             std::vector<int> area;
+            areaGraph.push_back(area);
+
             int a = -1;
             int b = i;
             int j = 1;
@@ -93,8 +97,19 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                     int jj = 0;
                     while (other->Get(a)->n[jj].first != b)  ++jj;
                     --other->Get(a)->n[jj].second;
+
+                    memory[make_pair(a, b)] = memory[make_pair(b, a)] = areaGraph.size()-1;
                 }
                 else {
+                    //*
+                    std::map<std::pair<int, int>, int>::iterator it = memory.find(make_pair(a, b));
+                    if (it != memory.end())
+                    {
+                        int anum = it->second;
+                        areaGraph[ anum ].push_back( areaGraph.size()-1 );
+                        areaGraph[ areaGraph.size()-1 ].push_back( anum );
+                    }
+                    // */
                     other->RemoveEdge(a, b);
                 }
                 //cout << *other << endl;
@@ -109,11 +124,20 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     int i = 0;
     FOREACH(it, areas)
     {
-        cout << "[ AREA " << i++ << "] :";
+        cout << "[ AREA " << i++ << " ] :";
         FOREACH(iit, *it) cout << " " << *iit;
         cout << endl;
     }
 
+    std::cout << " ++++++++++++++++++++++++++++++++ " << std::endl;
+
+    i = 0;
+    FOREACH(it, areaGraph)
+    {
+        cout << "[ " << i++ << " ] :";
+        FOREACH(iit, *it) cout << " " << *iit;
+        cout << endl;
+    }
     // */
 }
 
@@ -153,7 +177,7 @@ MosaicPMF::GenerateSegmentsGraph (
         WRITE_EVENTS(evts, evt);
 
         int id = graph->CreateNewNode(evt->GetPoint()->x, evt->GetPoint()->y);
-        graph->AddEdge(lastLeftId, id, 1);
+        graph->AddEdge(lastLeftId, id, 0);
         lastLeftId = id;
 
         cout << endl;
@@ -200,12 +224,12 @@ MosaicPMF::GenerateSegmentsGraph (
                     evt->GetSegment()->SetLastGraphNodeId( id );
                     if (evt->GetPoint()->y == fieldHeight)
                     {
-                        graph->AddEdge(lowerLastId, id, 1);
+                        graph->AddEdge(lowerLastId, id, 0);
                         lowerLastId = id;
                     }
                     else if (evt->GetPoint()->y == 0.)
                     {
-                        graph->AddEdge(upperLastId, id, 1);
+                        graph->AddEdge(upperLastId, id, 0);
                         upperLastId = id;
                     }
                     else  assert(" BEGIN EVENT INSIDE THE FIELD " and false);
@@ -226,12 +250,12 @@ MosaicPMF::GenerateSegmentsGraph (
                     evt->GetSegment()->SetLastGraphNodeId( id );
                     if (evt->GetPoint()->y == fieldHeight)
                     {
-                        graph->AddEdge(lowerLastId, id, 1);
+                        graph->AddEdge(lowerLastId, id, 0);
                         lowerLastId = id;
                     }
                     else if (evt->GetPoint()->y == 0.)
                     {
-                        graph->AddEdge(upperLastId, id, 1);
+                        graph->AddEdge(upperLastId, id, 0);
                         upperLastId = id;
                     }
                     else
@@ -296,7 +320,7 @@ MosaicPMF::GenerateSegmentsGraph (
     WRITE_STEP(step);
     assert(evts->SeeFirst()->GetType() == AreaMarkings);
     lastLeftId = graph->CreateNewNode(evts->SeeFirst()->GetPoint()->x, evts->SeeFirst()->GetPoint()->y);
-    graph->AddEdge(upperLastId, lastLeftId, 1);
+    graph->AddEdge(upperLastId, lastLeftId, 0);
     evts->Erase(evts->SeeFirst());
 
     while (! evts->IsEmpty())
@@ -344,7 +368,7 @@ MosaicPMF::GenerateSegmentsGraph (
             default :
                     assert("WRONG __EVENT__ TYPE DURING EVOLUTION" && false);
         }
-        graph->AddEdge(lastLeftId, id, 1);
+        graph->AddEdge(lastLeftId, id, 0);
         lastLeftId = id;
 
         cout << endl << msls << endl;
@@ -352,7 +376,7 @@ MosaicPMF::GenerateSegmentsGraph (
         evts->Erase(evt);
     }
 
-    graph->AddEdge(lowerLastId, lastLeftId, 1);
+    graph->AddEdge(lowerLastId, lastLeftId, 0);
 
     return graph;
 }
