@@ -60,17 +60,21 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     MosaicGraph * other = new MosaicGraph(*graph);
     cout << *other << endl;
 
-    int i = 0;
-    //FOR(i, 0, other->Size()-1)
+
+    std::vector<std::vector<int> > areas;
+    std::vector<std::vector<int> > areaGraph;
+
+    //int i = 0;
+    FOR(i, 0, other->Size()-1)
     {
         MosaicGraphNode * node = other->Get(i);
-        if (node->n.size() > 0)
+        while (node->n.size() > 0)
         {
-            int a = i;
-            MosaicGraphNode * tmp = node;
-
+            std::vector<int> area;
+            int a = -1;
             int b = i;
             int j = 1;
+            area.push_back(i);
             do
             {
                 a = b;
@@ -80,7 +84,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                 j = 0;
                 while (other->Get(b)->n[j].first != a) ++j;
 
-                cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
+                //cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
+                area.push_back(b);
 
                 if (other->Get(b)->n[j].second > 1)
                 {
@@ -92,48 +97,23 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
                 else {
                     other->RemoveEdge(a, b);
                 }
-                cout << *other << endl;
+                //cout << *other << endl;
             }
             while (b != i);
 
-
-            /*
-            while (b != i)
-            {
-                int olda = a;
-                int oldb = b;
-                int oldj = j;
-
-                j = 0;
-                while (other->Get(b)->n[j].first != a) ++j;
-
-                cout << " WAY  : " << a << "  " << b << "   (oldj=" << oldj << ")" << endl;
-
-                a = b;
-                j = (j == 0) ? other->Get(b)->n.size()-1 : j-1;
-                b = other->Get(b)->n[ j ].first;
-
-                if (other->Get(olda)->n[oldj].second > 1)
-                {
-                    --other->Get(olda)->n[oldj].second;
-                    int jj = 0;
-                    while (other->Get(oldb)->n[jj].first != olda)  ++jj;
-                    --other->Get(oldb)->n[jj].second;
-                }
-                else {
-                    other->RemoveEdge(olda, oldb);
-                    j = 0;
-                    while (other->Get(oldb)->n[j].first != olda) ++j;
-                    j = (j == 0) ? other->Get(oldb)->n.size()-1 : j-1;
-                }
-                cout << *other << endl;
-            }
-            // */
-            //cout << " WAY  : " << a << "  " << b << endl;
-
+            areas.push_back(area);
         }
     }
     cout << *other << endl;
+
+    int i = 0;
+    FOREACH(it, areas)
+    {
+        cout << "[ AREA " << i++ << "] :";
+        FOREACH(iit, *it) cout << " " << *iit;
+        cout << endl;
+    }
+
     // */
 }
 
