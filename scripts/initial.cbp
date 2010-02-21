@@ -40,6 +40,8 @@
 		<Unit filename="..\init\MosaicEvents.hpp" />
 		<Unit filename="..\init\MosaicGraph.cpp" />
 		<Unit filename="..\init\MosaicGraph.hpp" />
+		<Unit filename="..\init\MosaicGraphEdge.cpp" />
+		<Unit filename="..\init\MosaicGraphEdge.hpp" />
 		<Unit filename="..\init\MosaicGraphNode.cpp" />
 		<Unit filename="..\init\MosaicGraphNode.hpp" />
 		<Unit filename="..\init\MosaicPMF.cpp" />

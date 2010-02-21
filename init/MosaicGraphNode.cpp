@@ -61,7 +61,7 @@ std::ostream & operator << (std::ostream & out, const MosaicGraphNode * node)
     out.setf ( std::ios::fixed, std::ios::floatfield );
     out << "[" << node->x << ";" << node->y << "] :";
     out.unsetf ( std::ios::floatfield  );
-    FOREACH(it, node->n) out << " " << (*it).first;
+    FOREACH(it, node->n) out << " " << (*it).first << "{" << (*it).second << "}";
     out << std::endl;
     return out;
 }

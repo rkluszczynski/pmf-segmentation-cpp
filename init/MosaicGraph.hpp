@@ -12,8 +12,13 @@ class MosaicGraph
         virtual ~MosaicGraph();
         MosaicGraph(const MosaicGraph & other);
 
+        inline unsigned int Size() { return nodes.size(); }
+        inline MosaicGraphNode * Get(unsigned int i) { return nodes[i]; }
+
         unsigned int CreateNewNode(double, double);
         void AddEdge(unsigned int, unsigned int, int);
+
+        void RemoveEdge(unsigned int, unsigned int);
 
         void SortNeighboursInCounterClockwiseOrder();
 
