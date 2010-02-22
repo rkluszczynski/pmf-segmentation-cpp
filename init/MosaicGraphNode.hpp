@@ -2,6 +2,7 @@
 #define MOSAICGRAPHNODE_HPP
 
 #include <cmath>
+#include <list>
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -14,6 +15,7 @@ class MosaicGraphNode
     public:
         double x, y;
         std::vector<std::pair<int, int> > n;
+        std::list<MosaicGraphNode *> nlist;
         int id;
 
         MosaicGraphNode(double, double, int);

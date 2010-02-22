@@ -30,15 +30,6 @@ struct CounterClockwiseComparator
             double jAngle = atan2(jy, jx);
 
             return iAngle < jAngle; // (-PI,PI] increasing angle values
-            /*
-            double areaTrapezoid = ix * jy - iy * jx;
-            //areaTriangle = areaTrapezoid / 2.0
-            //LeftTurn = areaTrapezoid > 0.0
-            //CompareAngle =
-            if (areaTrapezoid > 0.) return 1;
-            else if (areaTrapezoid == 0.) return 0;
-            else return -1;
-            // */
         }
 
     private :

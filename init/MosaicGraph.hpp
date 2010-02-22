@@ -2,6 +2,7 @@
 #define MOSAICGRAPH_HPP
 
 #include <cassert>
+#include <vector>
 
 #include "../init/MosaicGraphNode.hpp"
 
@@ -27,6 +28,7 @@ class MosaicGraph
     protected:
     private:
         std::vector<MosaicGraphNode *> nodes;
+
 };
 
 #endif // MOSAICGRAPH_HPP
