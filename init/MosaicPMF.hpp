@@ -41,6 +41,9 @@ class MosaicPMF
 
     private:
 
+        void
+        CalculateAreas (MosaicGraph *, std::vector<std::vector<int> > &, std::vector<std::vector<int> > *);
+
         MosaicGraph *
         GenerateSegmentsGraph (MosaicEventsSchedule<double> *);
 

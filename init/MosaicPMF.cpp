@@ -61,64 +61,11 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     cout << *other << endl;
 
 
-    std::vector<std::vector<int> > areas;
     std::vector<std::vector<int> > areaGraph;
+    std::vector<std::vector<int> > areas;
 
-    std::map<std::pair<int, int>, int> memory;
+    CalculateAreas (other, areas, &areaGraph);
 
-    //int i = 0;
-    FOR(i, 0, other->Size()-1)
-    {
-        MosaicGraphNode * node = other->Get(i);
-        while (node->n.size() > 0)
-        {
-            std::vector<int> area;
-            areaGraph.push_back(area);
-
-            int a = -1;
-            int b = i;
-            int j = 1;
-            area.push_back(i);
-            do
-            {
-                a = b;
-                j = (j == 0) ? other->Get(b)->n.size()-1 : j-1;
-                b = other->Get(b)->n[ j ].first;
-
-                j = 0;
-                while (other->Get(b)->n[j].first != a) ++j;
-
-                //cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
-                area.push_back(b);
-
-                if (other->Get(b)->n[j].second > 1)
-                {
-                    --other->Get(b)->n[j].second;
-                    int jj = 0;
-                    while (other->Get(a)->n[jj].first != b)  ++jj;
-                    --other->Get(a)->n[jj].second;
-
-                    memory[make_pair(a, b)] = memory[make_pair(b, a)] = areaGraph.size()-1;
-                }
-                else {
-                    //*
-                    std::map<std::pair<int, int>, int>::iterator it = memory.find(make_pair(a, b));
-                    if (it != memory.end())
-                    {
-                        int anum = it->second;
-                        areaGraph[ anum ].push_back( areaGraph.size()-1 );
-                        areaGraph[ areaGraph.size()-1 ].push_back( anum );
-                    }
-                    // */
-                    other->RemoveEdge(a, b);
-                }
-                //cout << *other << endl;
-            }
-            while (b != i);
-
-            areas.push_back(area);
-        }
-    }
     cout << *other << endl;
 
     int i = 0;
@@ -142,6 +89,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
 
     std::vector<int> areasColors(areaGraph.size());
+    //srand(2);
     FOREACH(it, areasColors)  *it = rand() % 2;
 
     cout << "[ COLORS ] :";
@@ -250,6 +198,89 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     }
     cout << *final << endl;
 
+
+    final->SortNeighboursInCounterClockwiseOrder();
+    CalculateAreas (final, areas, NULL);
+
+    i = 0;
+    FOREACH(it, areas)
+    {
+        cout << "[ AREA " << i++ << " ] :";
+        FOREACH(iit, *it) cout << " " << *iit;
+        cout << endl;
+    }
+
+    std::cout << " ++++++++++++++++++++++++++++++++ " << std::endl;
+
+}
+
+
+void
+MosaicPMF::CalculateAreas (
+                            MosaicGraph * graph,
+                            std::vector<std::vector<int> > & areas,
+                            std::vector<std::vector<int> > * areaGraph
+                        )
+{
+    std::map<std::pair<int, int>, int> memory;
+    if (areaGraph) areaGraph->clear();
+
+    areas.clear();
+    for (unsigned int i = 0; i < graph->Size(); ++i)
+    {
+        MosaicGraphNode * node = graph->Get(i);
+        while (node->n.size() > 0)
+        {
+            std::vector<int> area;
+            if (areaGraph) areaGraph->push_back(area);
+
+            int a = -1;
+            int b = i;
+            int j = 1;
+            area.push_back(i);
+            do
+            {
+                a = b;
+                j = (j == 0) ? graph->Get(b)->n.size()-1 : j-1;
+                b = graph->Get(b)->n[ j ].first;
+
+                j = 0;
+                while (graph->Get(b)->n[j].first != a) ++j;
+
+                //cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
+                area.push_back(b);
+
+                if (graph->Get(b)->n[j].second > 1)
+                {
+                    --graph->Get(b)->n[j].second;
+                    int jj = 0;
+                    while (graph->Get(a)->n[jj].first != b)  ++jj;
+                    --graph->Get(a)->n[jj].second;
+
+                    if (areaGraph)
+                        memory[make_pair(a, b)] = memory[make_pair(b, a)] = areaGraph->size()-1;
+                }
+                else {
+                    if (areaGraph)
+                    {
+                        std::map<std::pair<int, int>, int>::iterator it = memory.find(make_pair(a, b));
+                        if (it != memory.end())
+                        {
+                            int anum = it->second;
+                            (*areaGraph)[ anum ].push_back( areaGraph->size()-1 );
+                            (*areaGraph)[ areaGraph->size()-1 ].push_back( anum );
+                        }
+                    }
+                    graph->RemoveEdge(a, b);
+                }
+                //cout << *graph << endl;
+            }
+            while (b != i);
+
+            areas.push_back(area);
+        }
+    }
+    return;
 }
 
 
