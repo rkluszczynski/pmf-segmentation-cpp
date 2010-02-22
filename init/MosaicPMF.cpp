@@ -173,12 +173,12 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             int d1 = node->n[0].second;
             int d2 = node->n[1].second;
 
-            double x0 = node->x;
-            double y0 = node->y;
-            double x1 = final->Get( n1 )->x;
-            double y1 = final->Get( n1 )->y;
-            double x2 = final->Get( n2 )->x;
-            double y2 = final->Get( n2 )->y;
+            double x0 = node->x();
+            double y0 = node->y();
+            double x1 = final->Get( n1 )->x();
+            double y1 = final->Get( n1 )->y();
+            double x2 = final->Get( n2 )->x();
+            double y2 = final->Get( n2 )->y();
 
             double dx01 = x1 - x0;
             double dy01 = y1 - y0;
@@ -211,7 +211,6 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     }
 
     std::cout << " ++++++++++++++++++++++++++++++++ " << std::endl;
-
 }
 
 

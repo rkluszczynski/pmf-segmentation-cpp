@@ -12,22 +12,33 @@
 
 class MosaicGraphNode
 {
-    public:
-        double x, y;
+    typedef  std::list<MosaicGraphNode *>::const_iterator Iterator;
+
+    public :
         std::vector<std::pair<int, int> > n;
-        std::list<MosaicGraphNode *> nlist;
-        int id;
 
         MosaicGraphNode(double, double, int);
-        virtual ~MosaicGraphNode();
         MosaicGraphNode(const MosaicGraphNode & other);
+        virtual ~MosaicGraphNode();
+
+        inline Iterator begin() const { return nlist.begin(); }
+        inline Iterator end()   const { return nlist.end(); }
+
+        inline double x() { return _x; }
+        inline double y() { return _y; }
+
+        inline unsigned int GetId() { return id; }
 
         void SortNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraphNode *);
 
-    protected:
-    private:
+    protected :
+
+    private :
+        double _x, _y;
+        std::list<MosaicGraphNode *> nlist;
+        unsigned int id;
 };
 
 #endif // MOSAICGRAPHNODE_HPP
