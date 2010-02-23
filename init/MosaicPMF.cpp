@@ -46,9 +46,9 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Insert(e1);
         evts->Insert(e2);
     }
-    //*
+    /*
     cout << evts << endl;
-    ///freopen ("myfile.txt", "w", stdout);
+    freopen ("myfile.txt", "w", stdout);
     cout << evts << endl;
     // */
 
@@ -68,7 +68,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     std::vector<std::vector<int> > areaGraph;
     std::vector<std::vector<int> > areas;
-
+freopen ("myfile.txt", "w", stdout);
     CalculateAreas (other, areas, &areaGraph);
 
     cout << *other << endl;
@@ -252,7 +252,7 @@ MosaicPMF::CalculateAreas (
                 j = 0;
                 while (graph->Get(b)->n[j].first != a) ++j;
 
-                //cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
+                cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
                 area.push_back(b);
 
                 if (graph->Get(b)->n[j].second > 1)
@@ -274,15 +274,27 @@ MosaicPMF::CalculateAreas (
                             int anum = it->second;
                             (*areaGraph)[ anum ].push_back( areaGraph->size()-1 );
                             (*areaGraph)[ areaGraph->size()-1 ].push_back( anum );
+                            cout << "[ LINK ] :   area " << anum << "  --  area " << areaGraph->size()-1 << endl;
                         }
                     }
                     graph->RemoveEdge(a, b);
                 }
-                //cout << *graph << endl;
+                ///cout << *graph << endl;
             }
             while (b != i);
 
             areas.push_back(area);
+            cout << *graph << endl;
+            if (areaGraph and true)
+            {
+                i = 0;
+                FOREACH(it, *areaGraph)
+                {
+                    cout << "[ " << i++ << " ] :";
+                    FOREACH(iit, *it) cout << " " << *iit;
+                    cout << endl;
+                }
+            }
         }
     }
     return;
