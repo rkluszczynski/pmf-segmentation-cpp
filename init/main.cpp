@@ -12,7 +12,7 @@ int main(int argc, char ** argv)
     double  width = 3.0;
     double height = 3.0;
 
-    unsigned lines = 17;
+    unsigned lines = 41;
 
     //srand(time(NULL));
 

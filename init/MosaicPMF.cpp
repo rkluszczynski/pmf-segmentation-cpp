@@ -48,7 +48,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     }
     //*
     cout << evts << endl;
-    //freopen ("myfile.txt", "w", stdout);
+    ///freopen ("myfile.txt", "w", stdout);
     cout << evts << endl;
     // */
 
@@ -91,7 +91,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         cout << endl;
     }
     // */
-
+return;
 
     std::vector<int> areasColors(areaGraph.size());
     //srand(2);
@@ -105,6 +105,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     fill_n(components.begin(), areaGraph.size(), -1);
     int counter = 0;
     FOR(j, 0, areaGraph.size()-1)
+    {
         if (components[j] == -1)
         {
             std::stack<int> st;
@@ -126,11 +127,10 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             }
             ++counter;
         }
-
+    }
     cout << "[ COMPONENTS ] :";
     FOR(j, 0, components.size()-1) cout << " " << j << "[" << components[j] << "]";
     cout << endl;
-
 
     MosaicGraph * final = new MosaicGraph(*graph);
     FOR(k, 0, counter-1)
@@ -166,6 +166,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
             }
         }
     }
+return;
     cout << *final << endl;
     // removing vertex degree 2 with collinear neigbours
     FOR(i, 0, final->Size()-1)
@@ -292,7 +293,7 @@ MosaicPMF::CalculateAreas (
                             cout << "________________________________________" << endl; \
                             cout << "----------------------------------------" << endl; \
                             cout << "   [ STEP " << ++step << " ]" << endl; \
-                            if (step > maxstep) exit(1); \
+                            if (step > maxstep) { cout << "TOO MUCH !!!" << endl; exit(1); } \
                             cout << endl; \
                         }
 #define WRITE_EVENTS(EVTS, EV)  { \
@@ -620,6 +621,8 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
     cout << " check = " << check << endl;
     if (check == 1)
     {
+        if (seg1->GetLeftPoint()->x < seg2->GetLeftPoint()->x) std::swap(seg1, seg2);
+
         pair<double, double> pt =
             pmf::Geometry::CalculateIntersection(
                                     seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
