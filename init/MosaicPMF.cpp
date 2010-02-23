@@ -46,6 +46,11 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Insert(e1);
         evts->Insert(e2);
     }
+    //*
+    cout << evts << endl;
+    //freopen ("myfile.txt", "w", stdout);
+    cout << evts << endl;
+    // */
 
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
     /*
@@ -287,6 +292,7 @@ MosaicPMF::CalculateAreas (
                             cout << "________________________________________" << endl; \
                             cout << "----------------------------------------" << endl; \
                             cout << "   [ STEP " << ++step << " ]" << endl; \
+                            if (step > maxstep) exit(1); \
                             cout << endl; \
                         }
 #define WRITE_EVENTS(EVTS, EV)  { \
@@ -300,8 +306,9 @@ MosaicPMF::GenerateSegmentsGraph (
                                 )
 {
     MosaicGraph * graph = new MosaicGraph();
+
     MosaicSweepLineStatus<double> * msls = new MosaicSweepLineStatus<double>();
-    int step = 0;
+    int step = 0, maxstep = evts->Size() * evts->Size();
     unsigned int lastLeftId, upperLastId, lowerLastId;
 
     WRITE_STEP(step);
@@ -409,7 +416,7 @@ MosaicPMF::GenerateSegmentsGraph (
                         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
                         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
-                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
+                        AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
                     }
                     break;;
                 }
@@ -430,13 +437,13 @@ MosaicPMF::GenerateSegmentsGraph (
                     graph->AddEdge( s1->GetLastGraphNodeId(), id, 2 );
                     s1->SetLastGraphNodeId( id );
                     cout << s1 << endl;
-                    CheckIntersectionsAfterSwap(msls, res1.ST, res2.ST, s1, evts, 1);
+                    CheckIntersectionsAfterSwap(msls, res1.ST, res2.ST, s1, evts, evt->GetPoint()->x, 1);
 
                     assert(res2.ND);
                     graph->AddEdge( s2->GetLastGraphNodeId(), id, 2 );
                     s2->SetLastGraphNodeId( id );
                     cout << s2 << endl;
-                    CheckIntersectionsAfterSwap(msls, res2.ST, res1.ST, s2, evts, 2);
+                    CheckIntersectionsAfterSwap(msls, res2.ST, res1.ST, s2, evts, evt->GetPoint()->x, 2);
 
                     break;;
                 }
@@ -496,7 +503,7 @@ MosaicPMF::GenerateSegmentsGraph (
                         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
                         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
-                        AnalyzeAndPredictIntersection(seg1, seg2, evts);
+                        AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
                     }
                     break;;
                 }
@@ -543,7 +550,7 @@ void MosaicPMF::ProcessBeginSegmentEvent (
         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
         MosaicSegment<double> * seg2 = evt->GetSegment();
 
-        AnalyzeAndPredictIntersection(seg1, seg2, evts);
+        AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
     }
     if (! msls->IsNull(itb))
     {
@@ -551,7 +558,7 @@ void MosaicPMF::ProcessBeginSegmentEvent (
         MosaicSegment<double> * seg1 = evt->GetSegment();
         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
-        AnalyzeAndPredictIntersection(seg1, seg2, evts);
+        AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
     }
 }
 
@@ -562,6 +569,7 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
                                                MosaicSweepLineStatus<double>::Iterator & ignore,
                                                MosaicSegment<double> * seg,
                                                MosaicEventsSchedule<double> * evts,
+                                               double presentEventCoordinateX,
                                                int test_num
                                             )
 {
@@ -578,7 +586,7 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
             cout << "Above" << test_num << " : DIFFERENT" << endl;
             MosaicSegment<double> * _seg = (*ita)->GetSegment();
             cout << "Above" << test_num << " : " << _seg << endl;
-            AnalyzeAndPredictIntersection(seg, _seg, evts);
+            AnalyzeAndPredictIntersection(seg, _seg, evts, presentEventCoordinateX);
         }
     }
     if (! msls->IsNull(itb))
@@ -591,7 +599,7 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
             cout << "Below" << test_num << " : DIFFERENT" << endl;
             MosaicSegment<double> * _seg = (*itb)->GetSegment();
             cout << "Below" << test_num << " : " << _seg << endl;
-            AnalyzeAndPredictIntersection(seg, _seg, evts);
+            AnalyzeAndPredictIntersection(seg, _seg, evts, presentEventCoordinateX);
         }
     }
 }
@@ -600,7 +608,8 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
 void MosaicPMF::AnalyzeAndPredictIntersection (
                                                MosaicSegment<double> * seg1,
                                                MosaicSegment<double> * seg2,
-                                               MosaicEventsSchedule<double> * evts
+                                               MosaicEventsSchedule<double> * evts,
+                                               double presentEventCoordinateX
                                             )
 {
     int check = pmf::Geometry::CheckIntersection2(
@@ -618,11 +627,18 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
                                     seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
                                    seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
 
-        cout << "  ( " << pt.ST << " , " << pt.ND << " )" << endl;
+        cout << " -> ( " << pt.ST << " , " << pt.ND << " )" << endl;
 
-        MosaicPoint<double> * ipt = new MosaicPoint<double>(pt.ST, pt.ND);
-        IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
-        evts->Insert(e);
+        if (pt.ST > presentEventCoordinateX)
+        {
+            MosaicPoint<double> * ipt = new MosaicPoint<double>(pt.ST, pt.ND);
+            IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
+            evts->Insert(e);
+
+            cout << " -> ADDED" << endl;
+        }
+        else
+            cout << " -> IGNORED" << endl;
     }
 }
 
@@ -717,7 +733,7 @@ MosaicPMF::GenerateRandomSegmentsByPolarParameters (unsigned int amount, vector<
         MosaicSegment<double> * s = new MosaicSegment<double>(p1, p2);
         mosaic.push_back(s);
 
-        ///cout << " added segment : " << s << endl;
+        cout << " added segment : " << s << endl;
     }
     return;
 }

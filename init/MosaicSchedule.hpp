@@ -37,12 +37,35 @@ class MosaicEventsSchedule
         MosaicEventsSchedule() {};
         ~MosaicEventsSchedule() {};
 
+        inline
+        int Size() { return _events.size(); }
+
         Iterator End () { return _events.end(); }
 
         bool Insert(EventPoint e)
         {
-            bool res = _events.insert(e).second;
-            //cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
+            Iterator it = _events.find(e);
+            bool res;
+            if (it == End())
+            {
+                res = _events.insert(e).second;
+            }
+            else {
+                res = false;
+                if (
+                        ( (*it)->GetSegment() == e->GetSegment()  and  (*it)->GetSegment(false) == e->GetSegment(false) )
+                    or
+                        ( (*it)->GetSegment() == e->GetSegment(false)  and  (*it)->GetSegment(false) == e->GetSegment() )
+                )
+                    res = true;
+            }
+
+            if (! res)
+            {
+                cout << " RES = " << (res ? "TRUE" : "FALSE" ) << endl;
+                cout << this << endl;
+                cout << e->GetPoint() << endl;
+            }
             assert(res == true);
             return res;
         }
