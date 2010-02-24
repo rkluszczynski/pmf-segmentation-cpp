@@ -68,7 +68,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     std::vector<std::vector<int> > areaGraph;
     std::vector<std::vector<int> > areas;
-//freopen ("myfile.txt", "w", stdout);
+freopen ("myfile.txt", "w", stdout);
     CalculateAreas (other, areas, &areaGraph);
 
     cout << *other << endl;
@@ -203,7 +203,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         }
     }
     cout << *final << endl;
-
+/*
 
     final->SortNeighboursInCounterClockwiseOrder();
     CalculateAreas (final, areas, NULL);
@@ -215,7 +215,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         FOREACH(iit, *it) cout << " " << *iit;
         cout << endl;
     }
-
+//*/
     std::cout << " ++++++++++++++++++++++++++++++++ " << std::endl;
 }
 
