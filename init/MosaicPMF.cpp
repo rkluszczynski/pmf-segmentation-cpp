@@ -68,7 +68,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     std::vector<std::vector<int> > areaGraph;
     std::vector<std::vector<int> > areas;
-freopen ("myfile.txt", "w", stdout);
+//freopen ("myfile.txt", "w", stdout);
     CalculateAreas (other, areas, &areaGraph);
 
     cout << *other << endl;
@@ -91,7 +91,7 @@ freopen ("myfile.txt", "w", stdout);
         cout << endl;
     }
     // */
-return;
+///return;
 
     std::vector<int> areasColors(areaGraph.size());
     //srand(2);
@@ -166,7 +166,7 @@ return;
             }
         }
     }
-return;
+///return;
     cout << *final << endl;
     // removing vertex degree 2 with collinear neigbours
     FOR(i, 0, final->Size()-1)

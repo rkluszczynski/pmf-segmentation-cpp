@@ -13,7 +13,7 @@ int main(int argc, char ** argv)
     double height = 3.0;
 
     unsigned lines = 41;
-
+    ///srand(13);
     //srand(time(NULL));
 
     MosaicPMF * ipmf = new MosaicPMF(width, height, lines);

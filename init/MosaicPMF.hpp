@@ -42,23 +42,31 @@ class MosaicPMF
     private:
 
         void
-        CalculateAreas (MosaicGraph *, std::vector<std::vector<int> > &, std::vector<std::vector<int> > *);
-
+        CalculateAreas (
+                            MosaicGraph *,
+                            std::vector<std::vector<int> > &,
+                            std::vector<std::vector<int> > *
+                        );
         MosaicGraph *
-        GenerateSegmentsGraph (MosaicEventsSchedule<double> *);
-
+        GenerateSegmentsGraph (
+                                MosaicEventsSchedule<double> *
+                            );
         void
-        GenerateRandomSegmentsByPolarParameters (unsigned int, vector<MosaicSegment<double> *> &);
-
+        GenerateRandomSegmentsByPolarParameters (
+                                                    unsigned int, vector<MosaicSegment<double> *> &
+                                                );
         void
         ProcessBeginSegmentEvent (
                                   MosaicSweepLineStatus<double> *,
                                   MosaicEventsSchedule<double> *,
                                   VirtualMosaicEvent *
                                 );
-
         void
-        AnalyzeAndPredictIntersection (MosaicSegment<double> *, MosaicSegment<double> *, MosaicEventsSchedule<double> *, double);
+        AnalyzeAndPredictIntersection (
+                                        MosaicSegment<double> *,
+                                        MosaicSegment<double> *,
+                                        MosaicEventsSchedule<double> *, double
+                                    );
         void
         CheckIntersectionsAfterSwap (
                                         MosaicSweepLineStatus<double> *,
