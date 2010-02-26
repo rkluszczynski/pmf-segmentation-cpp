@@ -68,7 +68,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     std::vector<std::vector<int> > areaGraph;
     std::vector<std::vector<int> > areas;
-freopen ("myfile.txt", "w", stdout);
+///freopen ("myfile.txt", "w", stdout);
     CalculateAreas (other, areas, &areaGraph);
 
     cout << *other << endl;
@@ -207,7 +207,7 @@ freopen ("myfile.txt", "w", stdout);
 
     final->SortNeighboursInCounterClockwiseOrder();
     CalculateAreas (final, areas, NULL);
-
+*/
     i = 0;
     FOREACH(it, areas)
     {
@@ -220,6 +220,7 @@ freopen ("myfile.txt", "w", stdout);
 }
 
 
+#define CalculateAreasDEBUG 0
 void
 MosaicPMF::CalculateAreas (
                             MosaicGraph * graph,
@@ -251,8 +252,9 @@ MosaicPMF::CalculateAreas (
 
                 j = 0;
                 while (graph->Get(b)->n[j].first != a) ++j;
-
+#if CalculateAreasDEBUG
                 cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
+#endif
                 area.push_back(b);
 
                 if (graph->Get(b)->n[j].second > 1)
@@ -274,7 +276,9 @@ MosaicPMF::CalculateAreas (
                             int anum = it->second;
                             (*areaGraph)[ anum ].push_back( areaGraph->size()-1 );
                             (*areaGraph)[ areaGraph->size()-1 ].push_back( anum );
+#if CalculateAreasDEBUG
                             cout << "[ LINK ] :   area " << anum << "  --  area " << areaGraph->size()-1 << endl;
+#endif
                         }
                     }
                     graph->RemoveEdge(a, b);
@@ -284,6 +288,7 @@ MosaicPMF::CalculateAreas (
             while (b != i);
 
             areas.push_back(area);
+#if CalculateAreasDEBUG
             cout << *graph << endl;
             if (areaGraph and true)
             {
@@ -295,9 +300,9 @@ MosaicPMF::CalculateAreas (
                     cout << endl;
                 }
             }
+#endif
         }
     }
-    return;
 }
 
 
@@ -750,7 +755,6 @@ MosaicPMF::GenerateRandomSegmentsByPolarParameters (unsigned int amount, vector<
 
         cout << " added segment : " << s << endl;
     }
-    return;
 }
 
 
