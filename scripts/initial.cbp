@@ -6,6 +6,7 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Script file="lib_finder.script" />
 			<Target title="Debug">
 				<Option output="..\bin\Debug\init" prefix_auto="1" extension_auto="1" />
 				<Option working_dir=".." />
@@ -55,7 +56,9 @@
 			<code_completion />
 			<envvars />
 			<debugger />
-			<lib_finder disable_auto="1" />
+			<lib_finder disable_auto="1">
+				<lib name="wx" />
+			</lib_finder>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

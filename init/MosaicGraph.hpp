@@ -22,6 +22,7 @@ class MosaicGraph
         void RemoveEdge(unsigned int, unsigned int);
 
         void SortNeighboursInCounterClockwiseOrder();
+        void SaveAsGeoGebraFile(char *);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraph &);
 
