@@ -87,13 +87,14 @@ MosaicGraph::SaveAsGeoGebraFile (char * filename)
             MosaicGraphNode * pt = *it;
 
             FOREACH(iit, pt->n)
-            {
-                int i = (*iit).first;
-                txt << _("<command name='Segment'>") << endl;
-                txt << _("    <input a0='P") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("' a1='P") << wxString::Format(_("%li"), pt->GetId()) << _("'/>") << endl;
-                txt << _("    <output a0='p") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("p") << wxString::Format(_("%li"), pt->GetId()) << _("'/>") << endl;
-                txt << _("</command>") << endl;
-            }
+                if (nodes[(*iit).first]->GetId() < pt->GetId())
+                {
+                    int i = (*iit).first;
+                    txt << _("<command name='Segment'>") << endl;
+                    txt << _("    <input a0='P") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("' a1='P") << wxString::Format(_("%li"), pt->GetId()) << _("'/>") << endl;
+                    txt << _("    <output a0='p") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("p") << wxString::Format(_("%li"), pt->GetId()) << _("'/>") << endl;
+                    txt << _("</command>") << endl;
+                }
         }
         /*
 

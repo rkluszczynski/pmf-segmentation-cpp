@@ -54,6 +54,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
     graph->SaveAsGeoGebraFile("output/segraph.ggb");
+
+    return;
     /*
     cout << "________________________________________" << endl;
     cout << "########################################" << endl;
