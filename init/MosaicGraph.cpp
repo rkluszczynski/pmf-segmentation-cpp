@@ -186,6 +186,25 @@ MosaicGraph::AddEdge (unsigned int n1, unsigned int n2, int deg)
         nodes[n2]->n.push_back(std::make_pair(n1, deg));
 }
 
+void
+MosaicGraph::AddListEdge (unsigned int n1, unsigned int n2, int deg)
+{
+    assert(0 <= n1  and  n1 < nodes.size());
+    assert(0 <= n2  and  n2 < nodes.size());
+
+    MosaicGraphEdge * edge1 = new MosaicGraphEdge(n1, deg);
+    MosaicGraphEdge * edge2 = new MosaicGraphEdge(n2, deg);
+
+    MosaicGraphNode::Iterator it1 = nodes[n1]->AddNeighbour(edge2);
+    if (n1 != n2)
+    {
+        MosaicGraphNode::Iterator it2 = nodes[n2]->AddNeighbour(edge1);
+        edge1->SetOther(it1);
+        edge2->SetOther(it2);
+    }
+    else assert(false);
+}
+
 
 void
 MosaicGraph::RemoveEdge (unsigned int n1, unsigned int n2)

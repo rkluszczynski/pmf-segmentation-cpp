@@ -7,15 +7,19 @@
 #include <iostream>
 #include <algorithm>
 
+#include "MosaicGraphEdge.hpp"
+
 #define VAR(V, N)       __typeof(N) V = (N)
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
+
 class MosaicGraphNode
 {
-    typedef  std::list<MosaicGraphNode *>::const_iterator Iterator;
-
     public :
+        typedef  std::list<MosaicGraphEdge *>::const_iterator Iterator;
+
         std::vector<std::pair<int, int> > n;
+
 
         MosaicGraphNode(double, double, int);
         MosaicGraphNode(const MosaicGraphNode & other);
@@ -29,6 +33,8 @@ class MosaicGraphNode
 
         inline unsigned int GetId() { return id; }
 
+        Iterator AddNeighbour(MosaicGraphEdge *);
+
         void SortNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraphNode *);
@@ -37,7 +43,7 @@ class MosaicGraphNode
 
     private :
         double _x, _y;
-        std::list<MosaicGraphNode *> nlist;
+        std::list<MosaicGraphEdge *> nlist;
         unsigned int id;
 };
 

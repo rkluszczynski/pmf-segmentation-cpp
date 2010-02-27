@@ -16,8 +16,11 @@ class MosaicGraph
         inline unsigned int Size() { return nodes.size(); }
         inline MosaicGraphNode * Get(unsigned int i) { return nodes[i]; }
 
+        //void RemoveEdge(unsigned int, unsigned int);
+
         unsigned int CreateNewNode(double, double);
         void AddEdge(unsigned int, unsigned int, int);
+        void AddListEdge(unsigned int, unsigned int, int);
 
         void RemoveEdge(unsigned int, unsigned int);
 

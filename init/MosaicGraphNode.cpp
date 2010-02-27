@@ -46,6 +46,15 @@ MosaicGraphNode::SortNeighboursInCounterClockwiseOrder (std::vector<MosaicGraphN
 }
 
 
+MosaicGraphNode::Iterator
+MosaicGraphNode::AddNeighbour (MosaicGraphEdge * edge)
+{
+    nlist.push_back(edge);
+    MosaicGraphNode::Iterator it = nlist.end();
+    return (--it);
+}
+
+
 std::ostream & operator << (std::ostream & out, const MosaicGraphNode * node)
 {
     out.precision(3);
