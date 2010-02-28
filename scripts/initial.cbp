@@ -37,6 +37,8 @@
 		</Compiler>
 		<Unit filename="..\cmd\geometry.hpp" />
 		<Unit filename="..\headers\probability.hpp" />
+		<Unit filename="..\init\MosaicDualGraph.cpp" />
+		<Unit filename="..\init\MosaicDualGraph.hpp" />
 		<Unit filename="..\init\MosaicElement.hpp" />
 		<Unit filename="..\init\MosaicEvents.hpp" />
 		<Unit filename="..\init\MosaicGraph.cpp" />

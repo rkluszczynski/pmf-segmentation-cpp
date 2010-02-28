@@ -69,32 +69,32 @@ MosaicGraph::SaveAsGeoGebraFile (char * filename)
 
         FOREACH(it, nodes)
         {
-            MosaicGraphNode * pt = *it;
+            MosaicGraphNode * node = *it;
 
-            txt << _("<element type='point' label='P") << wxString::Format(_("%li"), pt->GetId()) << _("'>") << endl;
+            txt << _("<element type='point' label='P") << wxString::Format(_("%li"), node->GetId()) << _("'>") << endl;
 			txt << _("    <show object='true' label='true'/>") << endl;
 			txt << _("    <objColor r='0' g='0' b='255' alpha='0.0'/>") << endl;
 			txt << _("    <layer val='0'/>") << endl;
 			txt << _("    <labelMode val='0'/>") << endl;
 			txt << _("    <animation step='0.1' speed='1' type='0' playing='false'/>") << endl;
-			txt << _("    <coords x='") << wxString::Format(_("%.20lf"), pt->x()) << _("' y='") << wxString::Format(_("%.20lf"), pt->y()) << _("' z='1.0'/>") << endl;
+			txt << _("    <coords x='") << wxString::Format(_("%.20lf"), node->x()) << _("' y='") << wxString::Format(_("%.20lf"), node->y()) << _("' z='1.0'/>") << endl;
 			txt << _("    <pointSize val='3'/>") << endl;
             txt << _("</element>") << endl;
         }
 
         FOREACH(it, nodes)
         {
-            MosaicGraphNode * pt = *it;
+            MosaicGraphNode * node = *it;
 
-            FOREACH(iit, pt->n)
-                if (nodes[(*iit).first]->GetId() < pt->GetId())
+            FOREACH(iit, *node)
+                if (nodes[(*iit)->GetId()]->GetId() < node->GetId())
                 {
-                    int i = (*iit).first;
+                    int i = (*iit)->GetId();
                     txt << _("<command name='Segment'>") << endl;
-                    txt << _("    <input a0='P") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("' a1='P") << wxString::Format(_("%li"), pt->GetId()) << _("'/>") << endl;
-                    txt << _("    <output a0='p") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("p") << wxString::Format(_("%li"), pt->GetId()) << _("'/>") << endl;
+                    txt << _("    <input a0='P") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("' a1='P") << wxString::Format(_("%li"), node->GetId()) << _("'/>") << endl;
+                    txt << _("    <output a0='p") << wxString::Format(_("%li"), nodes[i]->GetId()) << _("p") << wxString::Format(_("%li"), node->GetId()) << _("'/>") << endl;
                     txt << _("</command>") << endl;
-                }
+                } // */
         }
         /*
 
@@ -154,7 +154,8 @@ void
 MosaicGraph::SortNeighboursInCounterClockwiseOrder ()
 {
     FOREACH(it, nodes)
-        (*it)->SortNeighboursInCounterClockwiseOrder (nodes);
+        //(*it)->SortNeighboursInCounterClockwiseOrder (nodes);
+        (*it)->SortListNeighboursInCounterClockwiseOrder (nodes);
 }
 
 
@@ -181,9 +182,12 @@ MosaicGraph::AddEdge (unsigned int n1, unsigned int n2, int deg)
 {
     assert(0 <= n1  and  n1 < nodes.size());
     assert(0 <= n2  and  n2 < nodes.size());
+    /*
     nodes[n1]->n.push_back(std::make_pair(n2, deg));
     if (n1 != n2)
         nodes[n2]->n.push_back(std::make_pair(n1, deg));
+    // */
+    AddListEdge(n1, n2, deg);
 }
 
 void
@@ -220,6 +224,109 @@ MosaicGraph::RemoveEdge (unsigned int n1, unsigned int n2)
     nodes[n2]->n.pop_back();
 }
 
+void
+MosaicGraph::RemoveListEdge (unsigned int n1, MosaicGraphNode::Iterator & it, unsigned int n2)
+{
+    MosaicGraphNode::Iterator jt = (*it)->GetOther();
+
+    nodes[n1]->EraseNeighbour(it);
+    nodes[n2]->EraseNeighbour(jt);
+}
+
+
+void
+MosaicGraph::RemoveNeighboursOf (unsigned int id, std::vector<int> & neighbours)
+{
+    if (!neighbours.size()) return;
+
+    std::vector<std::pair<MosaicGraphNode::Iterator, unsigned int> > toerase;
+    for (MosaicGraphNode::Iterator it = nodes[id]->Begin(); it != nodes[id]->End(); ++it)
+    {
+        int anum = (*it)->GetId();
+        if (binary_search(neighbours.begin(), neighbours.end(), anum))
+        {
+            toerase.push_back(std::make_pair(it, anum));
+        }
+    }
+    FOREACH(it, toerase)  this->RemoveListEdge(id, it->first, it->second);
+}
+
+
+void
+MosaicGraph::RemoveUnnecessaryCollinearNodes ()
+{
+    std::vector<int> newids(nodes.size());
+    fill_n(newids.begin(), newids.size(), -1);
+
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+
+        if (node->Size() == 2)
+        {
+            std::cout << node->GetId() << std::endl;
+
+            unsigned int n1 = node->Front()->GetId();
+            unsigned int n2 = node->Back()->GetId();
+            MosaicGraphNode::Iterator it1 = node->Begin();
+            MosaicGraphNode::Iterator it2 = --node->End();
+            int d1 = node->Front()->GetDegree();
+            int d2 = node->Back()->GetDegree();
+
+            double x0 = node->x();
+            double y0 = node->y();
+            double x1 = this->Get( n1 )->x();
+            double y1 = this->Get( n1 )->y();
+            double x2 = this->Get( n2 )->x();
+            double y2 = this->Get( n2 )->y();
+
+            double dx01 = x1 - x0;
+            double dy01 = y1 - y0;
+            double dx02 = x2 - x0;
+            double dy02 = y2 - y0;
+
+            double val = dx01 * dy02 - dx02 * dy01;
+            if (-1e-8 < val  and  val < 1e-8)
+            {
+                std::cout << node->GetId() << " " << n1 << " " << n2 << std::endl;
+                assert(d1 == d2);
+                this->RemoveListEdge(node->GetId(), it1, n1);
+                this->RemoveListEdge(node->GetId(), it2, n2);
+                this->AddListEdge(n1, n2, d1);
+            }
+        }
+    }
+
+    //std::cout << *this << std::endl;
+
+    int freeplace = 0;
+    int i = 0;
+    FOREACH(it, nodes)
+    {
+        if ((* it)->Size() != 0)
+        {
+            std::cout << " moving " << i << " to " << freeplace << std::endl;
+            nodes[freeplace] = nodes[i];
+            newids[i] = freeplace;
+            ++freeplace;
+        }
+        else {
+            std::cout << " erasing " << i << std::endl;
+        }
+        ++i;
+    }
+    while (nodes.size() > freeplace) nodes.pop_back();
+
+    //for(int j = 0; j < newids.size(); ++j)  std::cout << " " << j << "=" << newids[j];  std::cout << std::endl;
+
+    FOREACH(it, nodes)
+    {
+        (*it)->SetId( newids[(*it)->GetId()] );
+        FOREACH(jt, **it)
+            (*jt)->SetId( newids[(*jt)->GetId()] );
+    }
+}
+
 
 std::ostream & operator << (std::ostream & out, const MosaicGraph & graph)
 {
@@ -235,5 +342,16 @@ MosaicGraph::MosaicGraph(const MosaicGraph & other)
 {
     //copy ctor
     FOREACH(it, other.nodes)
-        nodes.push_back (new MosaicGraphNode(*(*it)));
+        nodes.push_back(new MosaicGraphNode((*it)->x(), (*it)->y(), (*it)->GetId()));
+    FOREACH(it, other.nodes)
+        FOREACH(jt, **it)
+        {
+            unsigned int nodeid = (*it)->GetId();
+            unsigned int edgeid = (*jt)->GetId();
+
+            if (nodeid < edgeid)
+                this->AddListEdge(nodeid, edgeid, (*jt)->GetDegree());
+        }
+    this->SortNeighboursInCounterClockwiseOrder();
 }
+

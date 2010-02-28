@@ -54,8 +54,9 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
     graph->SaveAsGeoGebraFile("output/segraph.ggb");
+    cout << *graph << endl;
 
-    return;
+    ///return;
     /*
     cout << "________________________________________" << endl;
     cout << "########################################" << endl;
@@ -64,10 +65,16 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     graph->SortNeighboursInCounterClockwiseOrder();
     cout << *graph << endl;
 
+    MosaicGraph * other = NULL;
     //*
-    MosaicGraph * other = new MosaicGraph(*graph);
-    cout << *other << endl;
 
+
+    MosaicDualGraph dual(graph);
+    cout << dual << endl;
+    dual.DetermineAreaColors();
+    dual.CalculateComponents();
+
+    return;
 
     std::vector<std::vector<int> > areaGraph;
     std::vector<std::vector<int> > areas;

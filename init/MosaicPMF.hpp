@@ -20,6 +20,7 @@ using namespace std;
 #include "../init/MosaicSchedule.hpp"
 #include "../init/MosaicStatus.hpp"
 #include "../init/MosaicGraph.hpp"
+#include "../init/MosaicDualGraph.hpp"
 
 
 class MosaicPMF

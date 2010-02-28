@@ -19,10 +19,15 @@ class MosaicGraph
         //void RemoveEdge(unsigned int, unsigned int);
 
         unsigned int CreateNewNode(double, double);
+
         void AddEdge(unsigned int, unsigned int, int);
         void AddListEdge(unsigned int, unsigned int, int);
 
         void RemoveEdge(unsigned int, unsigned int);
+        void RemoveListEdge(unsigned int, MosaicGraphNode::Iterator &, unsigned int);
+
+        void RemoveNeighboursOf(unsigned int, std::vector<int> &);
+        void RemoveUnnecessaryCollinearNodes();
 
         void SortNeighboursInCounterClockwiseOrder();
         void SaveAsGeoGebraFile(char *);

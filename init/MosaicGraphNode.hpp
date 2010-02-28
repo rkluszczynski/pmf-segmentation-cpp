@@ -16,26 +16,38 @@
 class MosaicGraphNode
 {
     public :
-        typedef  std::list<MosaicGraphEdge *>::const_iterator Iterator;
+        typedef  std::list<MosaicGraphEdge *>::iterator Iterator;
+        typedef  std::list<MosaicGraphEdge *>::const_iterator ConstIterator;
 
         std::vector<std::pair<int, int> > n;
 
 
-        MosaicGraphNode(double, double, int);
+        MosaicGraphNode(double, double, unsigned int);
         MosaicGraphNode(const MosaicGraphNode & other);
         virtual ~MosaicGraphNode();
 
-        inline Iterator begin() const { return nlist.begin(); }
-        inline Iterator end()   const { return nlist.end(); }
+        inline ConstIterator begin() const { return nlist.begin(); }
+        inline ConstIterator end()   const { return nlist.end(); }
+
+        inline Iterator Begin() { return nlist.begin(); }
+        inline Iterator End()   { return nlist.end(); }
+
+        inline MosaicGraphEdge * Front() { return nlist.front(); }
+        inline MosaicGraphEdge * Back()  { return nlist.back(); }
 
         inline double x() { return _x; }
         inline double y() { return _y; }
 
         inline unsigned int GetId() { return id; }
+        void SetId(unsigned int val) { id = val; }
+
+        inline unsigned int Size() { return nlist.size(); }
 
         Iterator AddNeighbour(MosaicGraphEdge *);
+        void EraseNeighbour(Iterator &);
 
         void SortNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
+        void SortListNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraphNode *);
 
