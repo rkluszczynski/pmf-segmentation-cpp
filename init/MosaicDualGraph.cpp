@@ -91,23 +91,26 @@ MosaicDualGraph::CalculateComponents ()
 
     for (int i = 0; i < areaGraph.size(); ++i)
     {
-        if (!visited[i])
+        if (! visited[i])
         {
             components.push_back(std::vector<int>());
 
             std::stack<int> st;
             st.push(i);
+            visited[i] = true;
 
             while (! st.empty())
             {
                 int v = st.top();
-                components.back().push_back(v);
-                visited[v] = true;
                 st.pop();
+                components.back().push_back(v);
 
                 FOREACH(it, areaGraph[v])
                     if (! visited[*it]  and  areasColors[*it] == areasColors[v])
+                    {
                         st.push(*it);
+                        visited[*it] = true;
+                    }
             }
         }
     }
@@ -153,6 +156,7 @@ MosaicDualGraph::CalculateComponents ()
                 }
             }
         }
+        edges.clear();
     }
 
 
