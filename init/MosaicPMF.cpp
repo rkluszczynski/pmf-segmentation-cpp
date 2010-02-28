@@ -46,10 +46,10 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
         evts->Insert(e1);
         evts->Insert(e2);
     }
-    /*
-    cout << evts << endl;
-    freopen ("myfile.txt", "w", stdout);
-    cout << evts << endl;
+    //*
+    //cout << evts << endl;
+    //freopen ("myfile.txt", "w", stdout);
+    //cout << evts << endl;
     // */
 
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
