@@ -43,11 +43,11 @@ class MosaicGraphNode
 
         inline unsigned int Size() { return nlist.size(); }
 
-        Iterator AddNeighbour(MosaicGraphEdge *);
-        void EraseNeighbour(Iterator &);
+        Iterator AddNeighbor(MosaicGraphEdge *);
+        void EraseNeighbor(Iterator &);
 
-        void SortNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
-        void SortListNeighboursInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
+        void SortNeighborsInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
+        void SortListNeighborsInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraphNode *);
 

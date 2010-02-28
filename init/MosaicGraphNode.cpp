@@ -38,7 +38,7 @@ struct CounterClockwiseComparator
 };
 
 void
-MosaicGraphNode::SortNeighboursInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
+MosaicGraphNode::SortNeighborsInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
 {
     struct CounterClockwiseComparator myComparator(nodes, id);
     std::sort(n.begin(), n.end(), myComparator);
@@ -69,7 +69,7 @@ struct CounterClockwiseListComparator
 };
 
 void
-MosaicGraphNode::SortListNeighboursInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
+MosaicGraphNode::SortListNeighborsInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
 {
     const unsigned int size = nlist.size();
     MosaicGraphEdge * neighbours[size];
@@ -95,7 +95,7 @@ MosaicGraphNode::SortListNeighboursInCounterClockwiseOrder (std::vector<MosaicGr
 
 
 MosaicGraphNode::Iterator
-MosaicGraphNode::AddNeighbour (MosaicGraphEdge * edge)
+MosaicGraphNode::AddNeighbor (MosaicGraphEdge * edge)
 {
     nlist.push_back(edge);
     MosaicGraphNode::Iterator it = nlist.end();
@@ -104,7 +104,7 @@ MosaicGraphNode::AddNeighbour (MosaicGraphEdge * edge)
 
 
 void
-MosaicGraphNode::EraseNeighbour (Iterator & it)
+MosaicGraphNode::EraseNeighbor (Iterator & it)
 {
     nlist.erase(it);
 }

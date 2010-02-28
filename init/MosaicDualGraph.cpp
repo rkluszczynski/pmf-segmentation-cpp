@@ -164,7 +164,7 @@ MosaicDualGraph::CalculateComponents ()
     }
 
     for (unsigned int i = 0; i < pmfgraph->Size(); ++i)
-        pmfgraph->RemoveNeighboursOf(i, toremove[i]);
+        pmfgraph->RemoveNeighborsOf(i, toremove[i]);
 
     std::cout << std::endl;
     pmfgraph->RemoveUnnecessaryCollinearNodes();

@@ -62,7 +62,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     cout << "########################################" << endl;
     cout << *graph << endl;
     // */
-    graph->SortNeighboursInCounterClockwiseOrder();
+    graph->SortNeighborsInCounterClockwiseOrder();
     cout << *graph << endl;
 
     MosaicGraph * other = NULL;

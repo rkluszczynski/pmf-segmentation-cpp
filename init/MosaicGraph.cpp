@@ -151,11 +151,11 @@ MosaicGraph::SaveAsGeoGebraFile (char * filename)
   * (documentation goes here)
   */
 void
-MosaicGraph::SortNeighboursInCounterClockwiseOrder ()
+MosaicGraph::SortNeighborsInCounterClockwiseOrder ()
 {
     FOREACH(it, nodes)
         //(*it)->SortNeighboursInCounterClockwiseOrder (nodes);
-        (*it)->SortListNeighboursInCounterClockwiseOrder (nodes);
+        (*it)->SortListNeighborsInCounterClockwiseOrder (nodes);
 }
 
 
@@ -199,10 +199,10 @@ MosaicGraph::AddListEdge (unsigned int n1, unsigned int n2, int deg)
     MosaicGraphEdge * edge1 = new MosaicGraphEdge(n1, deg);
     MosaicGraphEdge * edge2 = new MosaicGraphEdge(n2, deg);
 
-    MosaicGraphNode::Iterator it1 = nodes[n1]->AddNeighbour(edge2);
+    MosaicGraphNode::Iterator it1 = nodes[n1]->AddNeighbor(edge2);
     if (n1 != n2)
     {
-        MosaicGraphNode::Iterator it2 = nodes[n2]->AddNeighbour(edge1);
+        MosaicGraphNode::Iterator it2 = nodes[n2]->AddNeighbor(edge1);
         edge1->SetOther(it1);
         edge2->SetOther(it2);
     }
@@ -229,13 +229,13 @@ MosaicGraph::RemoveListEdge (unsigned int n1, MosaicGraphNode::Iterator & it, un
 {
     MosaicGraphNode::Iterator jt = (*it)->GetOther();
 
-    nodes[n1]->EraseNeighbour(it);
-    nodes[n2]->EraseNeighbour(jt);
+    nodes[n1]->EraseNeighbor(it);
+    nodes[n2]->EraseNeighbor(jt);
 }
 
 
 void
-MosaicGraph::RemoveNeighboursOf (unsigned int id, std::vector<int> & neighbours)
+MosaicGraph::RemoveNeighborsOf (unsigned int id, std::vector<int> & neighbours)
 {
     if (!neighbours.size()) return;
 
@@ -352,6 +352,6 @@ MosaicGraph::MosaicGraph(const MosaicGraph & other)
             if (nodeid < edgeid)
                 this->AddListEdge(nodeid, edgeid, (*jt)->GetDegree());
         }
-    this->SortNeighboursInCounterClockwiseOrder();
+    this->SortNeighborsInCounterClockwiseOrder();
 }
 

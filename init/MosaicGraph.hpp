@@ -26,10 +26,10 @@ class MosaicGraph
         void RemoveEdge(unsigned int, unsigned int);
         void RemoveListEdge(unsigned int, MosaicGraphNode::Iterator &, unsigned int);
 
-        void RemoveNeighboursOf(unsigned int, std::vector<int> &);
+        void RemoveNeighborsOf(unsigned int, std::vector<int> &);
         void RemoveUnnecessaryCollinearNodes();
 
-        void SortNeighboursInCounterClockwiseOrder();
+        void SortNeighborsInCounterClockwiseOrder();
         void SaveAsGeoGebraFile(char *);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraph &);
