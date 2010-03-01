@@ -19,8 +19,6 @@ class MosaicGraphNode
         typedef  std::list<MosaicGraphEdge *>::iterator Iterator;
         typedef  std::list<MosaicGraphEdge *>::const_iterator ConstIterator;
 
-        std::vector<std::pair<int, int> > n;
-
 
         MosaicGraphNode(double, double, unsigned int);
         MosaicGraphNode(const MosaicGraphNode & other);
@@ -46,8 +44,7 @@ class MosaicGraphNode
         Iterator AddNeighbor(MosaicGraphEdge *);
         void EraseNeighbor(Iterator &);
 
-        void SortNeighborsInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
-        void SortListNeighborsInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
+        void SortNodesNeighborsInCounterClockwiseOrder(std::vector<MosaicGraphNode *> &);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraphNode *);
 

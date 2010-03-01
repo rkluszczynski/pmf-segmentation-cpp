@@ -65,265 +65,24 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
     graph->SortNeighborsInCounterClockwiseOrder();
     cout << *graph << endl;
 
-    MosaicGraph * other = NULL;
-    //*
-
-
     MosaicDualGraph dual(graph);
     cout << dual << endl;
     dual.DetermineAreaColors();
     dual.CalculateComponents();
-
-    return;
-
-    std::vector<std::vector<int> > areaGraph;
-    std::vector<std::vector<int> > areas;
-///freopen ("myfile.txt", "w", stdout);
-    CalculateAreas (other, areas, &areaGraph);
-
-    cout << *other << endl;
-
-    int i = 0;
-    FOREACH(it, areas)
-    {
-        cout << "[ AREA " << i++ << " ] :";
-        FOREACH(iit, *it) cout << " " << *iit;
-        cout << endl;
-    }
-
-    std::cout << " ++++++++++++++++++++++++++++++++ " << std::endl;
-
-    i = 0;
-    FOREACH(it, areaGraph)
-    {
-        cout << "[ " << i++ << " ] :";
-        FOREACH(iit, *it) cout << " " << *iit;
-        cout << endl;
-    }
-    // */
-///return;
-
-    std::vector<int> areasColors(areaGraph.size());
-    //srand(2);
-    FOREACH(it, areasColors)  *it = rand() % 2;
-
-    cout << "[ COLORS ] :";
-    FOR(j, 0, areasColors.size()-1) cout << " " << j << "{" << areasColors[j] << "}";
-    cout << endl;
-
-    std::vector<int> components(areaGraph.size());
-    fill_n(components.begin(), areaGraph.size(), -1);
-    int counter = 0;
-    FOR(j, 0, areaGraph.size()-1)
-    {
-        if (components[j] == -1)
-        {
-            std::stack<int> st;
-            st.push(j);
-
-            while (! st.empty())
-            {
-                int v = st.top();
-                components[v] = counter;
-                st.pop();
-
-                FOREACH(it, areaGraph[v])
-                {
-                    if (components[*it] == -1  and  areasColors[*it] == areasColors[v])
-                    {
-                        st.push(*it);
-                    }
-                }
-            }
-            ++counter;
-        }
-    }
-    cout << "[ COMPONENTS ] :";
-    FOR(j, 0, components.size()-1) cout << " " << j << "[" << components[j] << "]";
-    cout << endl;
-
-    MosaicGraph * final = new MosaicGraph(*graph);
-    FOR(k, 0, counter-1)
-    {
-        std::set<std::pair<int, int> > edges;
-        cout << "[ COMPONENT " << k << " ]" << endl;
-
-        FOR(j, 0, components.size()-1)
-        {
-            if (components[j] == k)
-            {
-                int mem_b = -1;
-                FOREACH(it, areas[j])
-                {
-                    int a = mem_b;
-                    int b = *it;
-                    mem_b = b;
-                    if (a > b) std::swap(a,b);
-
-                    if (a >= 0)
-                    {
-                        if (edges.find(make_pair(a,b)) == edges.end())
-                        {
-                            cout << " ->  INSERT  (" << a << "," << b << ")" << endl;
-                            edges.insert(make_pair(a,b));
-                        }
-                        else {
-                            cout << " ->  REMOVE  (" << a << "," << b << ")" << endl;
-                            final->RemoveEdge(a, b);
-                        }
-                    }
-                }
-            }
-        }
-    }
-///return;
-    cout << *final << endl;
-    // removing vertex degree 2 with collinear neigbours
-    FOR(i, 0, final->Size()-1)
-    {
-        MosaicGraphNode * node = final->Get(i);
-        if (node->n.size() == 2)
-        {
-            int n1 = node->n[0].first;
-            int n2 = node->n[1].first;
-            int d1 = node->n[0].second;
-            int d2 = node->n[1].second;
-
-            double x0 = node->x();
-            double y0 = node->y();
-            double x1 = final->Get( n1 )->x();
-            double y1 = final->Get( n1 )->y();
-            double x2 = final->Get( n2 )->x();
-            double y2 = final->Get( n2 )->y();
-
-            double dx01 = x1 - x0;
-            double dy01 = y1 - y0;
-            double dx02 = x2 - x0;
-            double dy02 = y2 - y0;
-
-            double val = dx01 * dy02 - dx02 * dy01;
-            if (-1e-8 < val  and  val < 1e-8)
-            {
-                //cout << i << " " << n1 << " " << n2 << endl;
-                assert(d1 == d2);
-                final->RemoveEdge(i, n1);
-                final->RemoveEdge(i, n2);
-                final->AddEdge(n1, n2, d1);
-            }
-        }
-    }
-    cout << *final << endl;
-/*
-
-    final->SortNeighboursInCounterClockwiseOrder();
-    CalculateAreas (final, areas, NULL);
-*/
-    i = 0;
-    FOREACH(it, areas)
-    {
-        cout << "[ AREA " << i++ << " ] :";
-        FOREACH(iit, *it) cout << " " << *iit;
-        cout << endl;
-    }
-//*/
-    std::cout << " ++++++++++++++++++++++++++++++++ " << std::endl;
 }
 
 
-#define CalculateAreasDEBUG 0
-void
-MosaicPMF::CalculateAreas (
-                            MosaicGraph * graph,
-                            std::vector<std::vector<int> > & areas,
-                            std::vector<std::vector<int> > * areaGraph
-                        )
-{
-    std::map<std::pair<int, int>, int> memory;
-    if (areaGraph) areaGraph->clear();
-
-    areas.clear();
-    for (unsigned int i = 0; i < graph->Size(); ++i)
-    {
-        MosaicGraphNode * node = graph->Get(i);
-        while (node->n.size() > 0)
-        {
-            std::vector<int> area;
-            if (areaGraph) areaGraph->push_back(area);
-
-            int a = -1;
-            int b = i;
-            int j = 1;
-            area.push_back(i);
-            do
-            {
-                a = b;
-                j = (j == 0) ? graph->Get(b)->n.size()-1 : j-1;
-                b = graph->Get(b)->n[ j ].first;
-
-                j = 0;
-                while (graph->Get(b)->n[j].first != a) ++j;
-#if CalculateAreasDEBUG
-                cout << " WAY  : " << a << "  " << b << "   (j=" << j << ")" << endl;
-#endif
-                area.push_back(b);
-
-                if (graph->Get(b)->n[j].second > 1)
-                {
-                    --graph->Get(b)->n[j].second;
-                    int jj = 0;
-                    while (graph->Get(a)->n[jj].first != b)  ++jj;
-                    --graph->Get(a)->n[jj].second;
-
-                    if (areaGraph)
-                        memory[make_pair(a, b)] = memory[make_pair(b, a)] = areaGraph->size()-1;
-                }
-                else {
-                    if (areaGraph)
-                    {
-                        std::map<std::pair<int, int>, int>::iterator it = memory.find(make_pair(a, b));
-                        if (it != memory.end())
-                        {
-                            int anum = it->second;
-                            (*areaGraph)[ anum ].push_back( areaGraph->size()-1 );
-                            (*areaGraph)[ areaGraph->size()-1 ].push_back( anum );
-#if CalculateAreasDEBUG
-                            cout << "[ LINK ] :   area " << anum << "  --  area " << areaGraph->size()-1 << endl;
-#endif
-                        }
-                    }
-                    graph->RemoveEdge(a, b);
-                }
-                ///cout << *graph << endl;
-            }
-            while (b != i);
-
-            areas.push_back(area);
-#if CalculateAreasDEBUG
-            cout << *graph << endl;
-            if (areaGraph and true)
-            {
-                i = 0;
-                FOREACH(it, *areaGraph)
-                {
-                    cout << "[ " << i++ << " ] :";
-                    FOREACH(iit, *it) cout << " " << *iit;
-                    cout << endl;
-                }
-            }
-#endif
-        }
-    }
-}
-
-
-#define WRITE_STEP(X)   { \
+#define WRITE_SWITCH    0
+#define WRITE_STEP(X)   if (WRITE_SWITCH) \
+                        { \
                             cout << "________________________________________" << endl; \
                             cout << "----------------------------------------" << endl; \
                             cout << "   [ STEP " << ++step << " ]" << endl; \
                             if (step > maxstep) { cout << "TOO MUCH !!!" << endl; exit(1); } \
                             cout << endl; \
                         }
-#define WRITE_EVENTS(EVTS, EV)  { \
+#define WRITE_EVENTS(EVTS, EV)  if (WRITE_SWITCH) \
+                                { \
                                     cout << evts << endl; \
                                     cout << "[ EVENT ] : " << endl << evt->GetPoint() << endl; \
                                     if (evt->GetSegment()) cout << evt->GetSegment() << endl; \
@@ -558,6 +317,8 @@ MosaicPMF::GenerateSegmentsGraph (
 }
 #undef WRITE_EVENTS
 #undef WRITE_STEP
+#undef WRITE_SWITCH
+
 
 
 void MosaicPMF::ProcessBeginSegmentEvent (
@@ -589,6 +350,7 @@ void MosaicPMF::ProcessBeginSegmentEvent (
         AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
     }
 }
+
 
 
 void MosaicPMF::CheckIntersectionsAfterSwap (
@@ -631,6 +393,7 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
         }
     }
 }
+
 
 
 void MosaicPMF::AnalyzeAndPredictIntersection (
@@ -768,6 +531,7 @@ MosaicPMF::GenerateRandomSegmentsByPolarParameters (unsigned int amount, vector<
 }
 
 
+
 MosaicPMF::~MosaicPMF()
 {
     //dtor
@@ -778,6 +542,7 @@ MosaicPMF::MosaicPMF(const MosaicPMF& other)
 {
     //copy ctor
 }
+
 
 MosaicPMF& MosaicPMF::operator=(const MosaicPMF& rhs)
 {

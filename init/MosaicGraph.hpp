@@ -16,15 +16,10 @@ class MosaicGraph
         inline unsigned int Size() { return nodes.size(); }
         inline MosaicGraphNode * Get(unsigned int i) { return nodes[i]; }
 
-        //void RemoveEdge(unsigned int, unsigned int);
-
         unsigned int CreateNewNode(double, double);
 
         void AddEdge(unsigned int, unsigned int, int);
-        void AddListEdge(unsigned int, unsigned int, int);
-
-        void RemoveEdge(unsigned int, unsigned int);
-        void RemoveListEdge(unsigned int, MosaicGraphNode::Iterator &, unsigned int);
+        void RemoveEdge(unsigned int, MosaicGraphNode::Iterator &, unsigned int);
 
         void RemoveNeighborsOf(unsigned int, std::vector<int> &);
         void RemoveUnnecessaryCollinearNodes();
@@ -35,9 +30,9 @@ class MosaicGraph
         friend std::ostream & operator << (std::ostream &, const MosaicGraph &);
 
     protected:
+
     private:
         std::vector<MosaicGraphNode *> nodes;
-
 };
 
 #endif // MOSAICGRAPH_HPP

@@ -36,14 +36,14 @@ struct CounterClockwiseComparator
         std::vector<MosaicGraphNode *> nodes;
         int id;
 };
-
+/*
 void
 MosaicGraphNode::SortNeighborsInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
 {
     struct CounterClockwiseComparator myComparator(nodes, id);
     std::sort(n.begin(), n.end(), myComparator);
 }
-
+*/
 
 struct CounterClockwiseListComparator
 {
@@ -69,7 +69,7 @@ struct CounterClockwiseListComparator
 };
 
 void
-MosaicGraphNode::SortListNeighborsInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
+MosaicGraphNode::SortNodesNeighborsInCounterClockwiseOrder (std::vector<MosaicGraphNode *> & nodes)
 {
     const unsigned int size = nlist.size();
     MosaicGraphEdge * neighbours[size];
@@ -138,5 +138,5 @@ MosaicGraphNode::MosaicGraphNode(const MosaicGraphNode & other)
     }
     nlist.assign(other.nlist.begin(), other.nlist.end());
  */
-    n.assign(other.n.begin(), other.n.end());
+//    n.assign(other.n.begin(), other.n.end());
 }

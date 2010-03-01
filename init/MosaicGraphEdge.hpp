@@ -35,7 +35,7 @@ class MosaicGraphEdge
         unsigned int id;
         Iterator other;
         int degree;
-        MosaicGraphNode * node;
+        //MosaicGraphNode * node;
 };
 
 #endif // MOSAICGRAPHEDGE_HPP

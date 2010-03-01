@@ -81,7 +81,6 @@ MosaicGraph::SaveAsGeoGebraFile (char * filename)
 			txt << _("    <pointSize val='3'/>") << endl;
             txt << _("</element>") << endl;
         }
-
         FOREACH(it, nodes)
         {
             MosaicGraphNode * node = *it;
@@ -96,50 +95,13 @@ MosaicGraph::SaveAsGeoGebraFile (char * filename)
                     txt << _("</command>") << endl;
                 } // */
         }
-        /*
-
-        }
-
-        FOREACH(it, (*pts))
-        {
-            Point<REAL> * pt = *it;
-            /*
-            txt << _("<command name='Segment'>") << endl;
-            txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n2->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-            txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n2->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-            txt << _("</command>") << endl;
-            txt << _("<command name='Segment'>") << endl;
-            txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n1->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-            txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n1->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-            txt << _("</command>") << endl;
-            //*/
-            /*
-            switch (pt->type)
-            {
-                case     PT_Collision :
-                                txt << _("<command name='Segment'>") << endl;
-                                txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n2->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-                                txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n2->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-                                txt << _("</command>") << endl;
-                case PT_DeathOnBorder :
-                case        PT_Update :
-                                txt << _("<command name='Segment'>") << endl;
-                                txt << _("    <input a0='P") << wxString::Format(_("%li"), pt->n1->id) << _("' a1='P") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-                                txt << _("    <output a0='p") << wxString::Format(_("%li"), pt->n1->id) << _("p") << wxString::Format(_("%li"), pt->id) << _("'/>") << endl;
-                                txt << _("</command>") << endl;
-                                break;;
-                default :
-                                ;
-            }
-            //*/
-        //}
 
         txt << _("    </construction>") << endl;
         txt << _("</geogebra>") << endl;
 
         zip.CloseEntry();
         zip.SetComment(_("PMF Configuration"));
-        //*/
+        // */
 }
 
 
@@ -154,8 +116,7 @@ void
 MosaicGraph::SortNeighborsInCounterClockwiseOrder ()
 {
     FOREACH(it, nodes)
-        //(*it)->SortNeighboursInCounterClockwiseOrder (nodes);
-        (*it)->SortListNeighborsInCounterClockwiseOrder (nodes);
+        (*it)->SortNodesNeighborsInCounterClockwiseOrder (nodes);
 }
 
 
@@ -182,19 +143,7 @@ MosaicGraph::AddEdge (unsigned int n1, unsigned int n2, int deg)
 {
     assert(0 <= n1  and  n1 < nodes.size());
     assert(0 <= n2  and  n2 < nodes.size());
-    /*
-    nodes[n1]->n.push_back(std::make_pair(n2, deg));
-    if (n1 != n2)
-        nodes[n2]->n.push_back(std::make_pair(n1, deg));
-    // */
-    AddListEdge(n1, n2, deg);
-}
-
-void
-MosaicGraph::AddListEdge (unsigned int n1, unsigned int n2, int deg)
-{
-    assert(0 <= n1  and  n1 < nodes.size());
-    assert(0 <= n2  and  n2 < nodes.size());
+    assert(n1 != n2);
 
     MosaicGraphEdge * edge1 = new MosaicGraphEdge(n1, deg);
     MosaicGraphEdge * edge2 = new MosaicGraphEdge(n2, deg);
@@ -211,21 +160,7 @@ MosaicGraph::AddListEdge (unsigned int n1, unsigned int n2, int deg)
 
 
 void
-MosaicGraph::RemoveEdge (unsigned int n1, unsigned int n2)
-{
-    unsigned int j = 0;
-    while (j < nodes[n1]->n.size()  and  nodes[n1]->n[j].first != n2) ++j;
-    for (unsigned int i = j; i < nodes[n1]->n.size()-1; ++i) nodes[n1]->n[i] = nodes[n1]->n[i+1];
-    nodes[n1]->n.pop_back();
-
-    j = 0;
-    while (j < nodes[n2]->n.size()  and  nodes[n2]->n[j].first != n1) ++j;
-    for (unsigned int i = j; i < nodes[n2]->n.size()-1; ++i) nodes[n2]->n[i] = nodes[n2]->n[i+1];
-    nodes[n2]->n.pop_back();
-}
-
-void
-MosaicGraph::RemoveListEdge (unsigned int n1, MosaicGraphNode::Iterator & it, unsigned int n2)
+MosaicGraph::RemoveEdge (unsigned int n1, MosaicGraphNode::Iterator & it, unsigned int n2)
 {
     MosaicGraphNode::Iterator jt = (*it)->GetOther();
 
@@ -248,7 +183,7 @@ MosaicGraph::RemoveNeighborsOf (unsigned int id, std::vector<int> & neighbours)
             toerase.push_back(std::make_pair(it, anum));
         }
     }
-    FOREACH(it, toerase)  this->RemoveListEdge(id, it->first, it->second);
+    FOREACH(it, toerase)  this->RemoveEdge(id, it->first, it->second);
 }
 
 
@@ -290,17 +225,17 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes ()
             {
                 std::cout << node->GetId() << " " << n1 << " " << n2 << std::endl;
                 assert(d1 == d2);
-                this->RemoveListEdge(node->GetId(), it1, n1);
-                this->RemoveListEdge(node->GetId(), it2, n2);
-                this->AddListEdge(n1, n2, d1);
+                this->RemoveEdge(node->GetId(), it1, n1);
+                this->RemoveEdge(node->GetId(), it2, n2);
+                this->AddEdge(n1, n2, d1);
             }
         }
     }
 
     //std::cout << *this << std::endl;
 
-    int freeplace = 0;
-    int i = 0;
+    unsigned int freeplace = 0;
+    unsigned int i = 0;
     FOREACH(it, nodes)
     {
         if ((* it)->Size() != 0)
@@ -350,7 +285,7 @@ MosaicGraph::MosaicGraph(const MosaicGraph & other)
             unsigned int edgeid = (*jt)->GetId();
 
             if (nodeid < edgeid)
-                this->AddListEdge(nodeid, edgeid, (*jt)->GetDegree());
+                this->AddEdge(nodeid, edgeid, (*jt)->GetDegree());
         }
     this->SortNeighborsInCounterClockwiseOrder();
 }

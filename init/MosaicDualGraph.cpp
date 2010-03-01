@@ -21,8 +21,8 @@ MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
             if (generateDualGraph) areaGraph.push_back(area);
 
             MosaicGraphNode::Iterator nit = node->Begin();
-            int a = -1;
-            int b = i;
+            unsigned int a = -1;
+            unsigned int b = i;
 
             area.push_back(i);
             do
@@ -59,7 +59,7 @@ MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
                             std::cout << "[ LINK ] :   area " << anum << "  ~~  area " << areas.size() << std::endl;
                         }
                     }
-                    other->RemoveListEdge(a, it, b);
+                    other->RemoveEdge(a, it, b);
                 }
                 //break;
             }
@@ -89,7 +89,7 @@ MosaicDualGraph::CalculateComponents ()
     std::vector<bool> visited(areaGraph.size());
     fill_n(visited.begin(), visited.size(), false);
 
-    for (int i = 0; i < areaGraph.size(); ++i)
+    for (unsigned int i = 0; i < areaGraph.size(); ++i)
     {
         if (! visited[i])
         {
@@ -187,7 +187,7 @@ MosaicDualGraph::DetermineAreaColors ()
     FOREACH(it, areasColors)  *it = rand() % 2;
 
     std::cout << "[ COLORS ] :";
-    for (int j = 0; j < areasColors.size(); ++j) std::cout << " " << j << "{" << areasColors[j] << "}";
+    for (unsigned int j = 0; j < areasColors.size(); ++j) std::cout << " " << j << "{" << areasColors[j] << "}";
     std::cout << std::endl;
 }
 
