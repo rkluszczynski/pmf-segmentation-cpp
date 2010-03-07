@@ -14,6 +14,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -36,6 +37,10 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="..\cmd\geometry.hpp" />
+		<Unit filename="..\cmd\grayimage.cpp" />
+		<Unit filename="..\cmd\grayimage.h" />
+		<Unit filename="..\cmd\image.cpp" />
+		<Unit filename="..\cmd\image.h" />
 		<Unit filename="..\headers\probability.hpp" />
 		<Unit filename="..\init\MosaicDualGraph.cpp" />
 		<Unit filename="..\init\MosaicDualGraph.hpp" />

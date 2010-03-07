@@ -67,7 +67,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     MosaicDualGraph dual(graph);
     cout << dual << endl;
-    dual.DetermineAreaColors();
+    dual.DetermineAreasColors();
     dual.CalculateComponents();
 }
 

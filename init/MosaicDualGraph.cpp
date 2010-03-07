@@ -178,10 +178,42 @@ MosaicDualGraph::CalculateComponents ()
 }
 
 
+int
+MosaicDualGraph::DetermineAreaColor (std::vector<int> & area)
+{
+    int db = 0, de = 1;
+    std::cout << " db = " << db << std::endl;
+    while (graph->Get(area[de])->x() < graph->Get(area[de+1])->x()) ++de;
+    int ub = de;
+    std::cout << " de = " << de << std::endl;
+    while (graph->Get(area[ub])->x() == graph->Get(area[ub+1])->x()) ++ub;
+    std::cout << " ub = " << ub << std::endl;
+    int ue = ub + 1;
+    while (ue < area.size()-1  and  graph->Get(area[ue])->x() > graph->Get(area[ue+1])->x()) ++ue;
+    std::cout << " ue = " << ue << std::endl;
+
+    std::vector<int> down, up;
+    int i = 0;
+    while (i <= de) { down.push_back(area[i]); ++i; }
+    i = ue;
+    while (i >= ub) { up.push_back(area[i]); --i; }
+
+    FOREACH(it, up) std::cout << " " << *it;  std::cout << std::endl;
+    FOREACH(it, down) std::cout << " " << *it;  std::cout << std::endl;
+
+}
+
+
 void
-MosaicDualGraph::DetermineAreaColors ()
+MosaicDualGraph::DetermineAreasColors ()
 {
     areasColors.resize(areas.size());
+    int i = 0;
+    FOREACH(it, areas)
+    {
+        std::cout << "[[ AREA " << i++ << " ]]" << std::endl;
+        DetermineAreaColor(*it);
+    }
 
     //srand(2);
     FOREACH(it, areasColors)  *it = rand() % 2;

@@ -16,12 +16,13 @@ class MosaicDualGraph
         MosaicDualGraph(MosaicGraph *);
         virtual ~MosaicDualGraph();
 
-        void DetermineAreaColors();
+        void DetermineAreasColors();
         void CalculateComponents();
 
         friend std::ostream & operator << (std::ostream &, const MosaicDualGraph &);
 
     protected:
+        int DetermineAreaColor(std::vector<int> &);
 
     private:
         MosaicGraph * graph;

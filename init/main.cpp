@@ -3,6 +3,7 @@
 
 #include "MosaicPMF.hpp"
 #include "MosaicGraph.hpp"
+#include "../cmd/grayimage.h"
 
 using namespace std;
 
@@ -12,7 +13,9 @@ int main(int argc, char ** argv)
     double  width = 3.0;
     double height = 3.0;
 
-    unsigned lines = 17;
+    pmf::GrayscaleImage gimg("input/szary.png");
+
+    unsigned lines = 4;
     ///srand(13);
     //srand(time(NULL));
 
