@@ -15,7 +15,7 @@ int main(int argc, char ** argv)
 
     pmf::GrayscaleImage gimg("input/szary.png");
 
-    unsigned lines = 4;
+    unsigned lines = 10;
     ///srand(13);
     //srand(time(NULL));
 

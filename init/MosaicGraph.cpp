@@ -263,6 +263,130 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes ()
 }
 
 
+void
+MosaicGraph::MutateIntersectionElements ()
+{
+    std::vector<std::pair<int, int> > edgestoadd;
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+        if (node->Size() > 3)
+        {
+            std::cout << node->GetId() << std::endl;
+
+            double x0 = node->x();
+            double y0 = node->y();
+
+            std::vector<MosaicGraphEdge *> nlist;
+            std::vector<double> nxx;
+            std::vector<double> nyy;
+            std::vector<int> nids;
+            FOREACH(nit, *node)
+            {
+                nlist.push_back(*nit);
+
+                double xx = nodes[ (* nit)->GetId() ]->x();
+                double yy = nodes[ (* nit)->GetId() ]->y();
+
+                std::cout << "P" << node->GetId() << "x" << (* nit)->GetId();// << "   :  ";
+
+                double dx = x0 - xx;
+                double dy = y0 - yy;
+                double dd = sqrt(dx*dx + dy*dy);
+                double d = dd - 1e-7;
+                double scale = d / dd;
+
+                xx += scale * dx;
+                yy += scale * dy;
+
+                nxx.push_back(xx);
+                nyy.push_back(yy);
+                nids.push_back((*nit)->GetId());
+
+                std::cout.precision(15);
+                std::cout << "=(" << xx << "," << yy << ")" << std::endl;
+            }
+            //*
+            //for (MosaicGraphNode::Iterator nit = node->Begin(); nit != node->End(); ++nit)
+            while (node->Size() > 0)
+            {
+                MosaicGraphNode::Iterator nit = node->Begin();
+                RemoveEdge(node->GetId(), nit, (* node->Begin())->GetId());
+            }
+            // */
+            /*
+            double dist01 = (nodes[nlist[0]->GetId()]->x() - nodes[nlist[1]->GetId()]->x()) * (nodes[nlist[0]->GetId()]->x() - nodes[nlist[1]->GetId()]->x())
+                            + (nodes[nlist[0]->GetId()]->y() - nodes[nlist[1]->GetId()]->y()) * (nodes[nlist[0]->GetId()]->y() - nodes[nlist[1]->GetId()]->y());
+            double dist21 = (nodes[nlist[2]->GetId()]->x() - nodes[nlist[1]->GetId()]->x()) * (nodes[nlist[2]->GetId()]->x() - nodes[nlist[1]->GetId()]->x())
+                            + (nodes[nlist[2]->GetId()]->y() - nodes[nlist[1]->GetId()]->y()) * (nodes[nlist[2]->GetId()]->y() - nodes[nlist[1]->GetId()]->y());
+            // */
+            double dist01 = (nxx[0] - nxx[1]) * (nxx[0] - nxx[1])  +  (nyy[0] - nyy[1]) * (nyy[0] - nyy[1]);
+            double dist21 = (nxx[2] - nxx[1]) * (nxx[2] - nxx[1])  +  (nyy[2] - nyy[1]) * (nyy[2] - nyy[1]);
+
+            std::cout << "dist01 = " << dist01 << std::endl;
+            std::cout << "dist21 = " << dist21 << std::endl;
+
+            if (dist01 < dist21)
+            {
+                std::cout << " link1 : " << nids[0] << " ~ " << nids[1] << std::endl;
+
+                unsigned int nid01 = CreateNewNode(0.5 * (nxx[0] + nxx[1]), 0.5 * (nyy[0] + nyy[1]));
+                AddEdge(nid01, nids[0], 2);
+                AddEdge(nid01, nids[1], 2);
+                //edgestoadd.push_back(std::make_pair(nid01, nids[0]));
+                //edgestoadd.push_back(std::make_pair(nid01, nids[1]));
+
+                unsigned int nid23 = CreateNewNode(0.5 * (nxx[2] + nxx[3]), 0.5 * (nyy[2] + nyy[3]));
+                AddEdge(nid23, nids[2], 2);
+                AddEdge(nid23, nids[3], 2);
+                //edgestoadd.push_back(std::make_pair(nid23, nids[2]));
+                //edgestoadd.push_back(std::make_pair(nid23, nids[3]));
+            }
+            else
+            {
+                std::cout << " link2 : " << nids[1] << " ~ " << nids[2] << std::endl;
+
+                unsigned int nid21 = CreateNewNode(0.5 * (nxx[2] + nxx[1]), 0.5 * (nyy[2] + nyy[1]));
+                AddEdge(nid21, nids[2], 2);
+                AddEdge(nid21, nids[1], 2);
+                //edgestoadd.push_back(std::make_pair(nid21, nids[2]));
+                //edgestoadd.push_back(std::make_pair(nid21, nids[1]));
+
+                unsigned int nid03 = CreateNewNode(0.5 * (nxx[0] + nxx[3]), 0.5 * (nyy[0] + nyy[3]));
+                AddEdge(nid03, nids[0], 2);
+                AddEdge(nid03, nids[3], 2);
+                //edgestoadd.push_back(std::make_pair(nid03, nids[0]));
+                //edgestoadd.push_back(std::make_pair(nid03, nids[3]));
+            }
+
+            /* 4 points instead 1
+            unsigned int nid0 = CreateNewNode(nxx[0], nyy[0]);
+            unsigned int nid1 = CreateNewNode(nxx[1], nyy[1]);
+            unsigned int nid2 = CreateNewNode(nxx[2], nyy[2]);
+            unsigned int nid3 = CreateNewNode(nxx[3], nyy[3]);
+            edgestoadd.push_back(std::make_pair(nid0, nids[0]));
+            edgestoadd.push_back(std::make_pair(nid1, nids[1]));
+            edgestoadd.push_back(std::make_pair(nid2, nids[2]));
+            edgestoadd.push_back(std::make_pair(nid3, nids[3]));
+            if (dist01 < dist21)
+            {
+                std::cout << " link1 : " << nids[0] << " ~ " << nids[1] << std::endl;
+                edgestoadd.push_back(std::make_pair(nid0, nid1));
+                edgestoadd.push_back(std::make_pair(nid2, nid3));
+            }
+            else
+            {
+                std::cout << " link2 : " << nids[1] << " ~ " << nids[2] << std::endl;
+                edgestoadd.push_back(std::make_pair(nid2, nid1));
+                edgestoadd.push_back(std::make_pair(nid0, nid3));
+            }
+            // */
+        }
+    }
+    //FOREACH(it, edgestoadd)  AddEdge(it->first, it->second, 2);
+}
+
+
 std::ostream & operator << (std::ostream & out, const MosaicGraph & graph)
 {
     out << "[ MosaicGraph ]  :  nodes = " << graph.nodes.size() << std::endl;

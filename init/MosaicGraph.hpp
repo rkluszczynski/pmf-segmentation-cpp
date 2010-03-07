@@ -23,6 +23,7 @@ class MosaicGraph
 
         void RemoveNeighborsOf(unsigned int, std::vector<int> &);
         void RemoveUnnecessaryCollinearNodes();
+        void MutateIntersectionElements();
 
         void SortNeighborsInCounterClockwiseOrder();
         void SaveAsGeoGebraFile(char *);

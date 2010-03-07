@@ -174,7 +174,11 @@ MosaicDualGraph::CalculateComponents ()
     pmfgraph->RemoveUnnecessaryCollinearNodes();
 
     std::cout << *pmfgraph << std::endl;
-    pmfgraph->SaveAsGeoGebraFile("output/finalpmfgraph.ggb");
+    pmfgraph->SaveAsGeoGebraFile("output/pmfgraph.ggb");
+
+    pmfgraph->MutateIntersectionElements();
+    //pmfgraph->RemoveUnnecessaryCollinearNodes();
+    pmfgraph->SaveAsGeoGebraFile("output/finalpmf.ggb");
 }
 
 

@@ -244,7 +244,7 @@ MosaicPMF::GenerateSegmentsGraph (
                     assert("WRONG __EVENT__ TYPE DURING EVOLUTION" && false);
         }
 
-        cout << endl << msls << endl;
+        //cout << endl << msls << endl;
         //cout << *graph << endl;
         cout << "----------------------------------------" << endl;
         evts->Erase(evt);
