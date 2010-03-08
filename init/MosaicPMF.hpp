@@ -21,12 +21,13 @@ using namespace std;
 #include "../init/MosaicStatus.hpp"
 #include "../init/MosaicGraph.hpp"
 #include "../init/MosaicDualGraph.hpp"
+#include "../cmd/grayimage.h"
 
 
 class MosaicPMF
 {
     public:
-        MosaicPMF(double, double, unsigned int);
+        MosaicPMF(double, double, unsigned int, pmf::GrayscaleImage &);
         virtual ~MosaicPMF();
         MosaicPMF(const MosaicPMF& other);
         MosaicPMF& operator=(const MosaicPMF& other);

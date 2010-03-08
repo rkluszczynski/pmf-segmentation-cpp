@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "MosaicGraph.hpp"
+#include "../cmd/grayimage.h"
 
 
 class MosaicDualGraph
@@ -16,13 +17,19 @@ class MosaicDualGraph
         MosaicDualGraph(MosaicGraph *);
         virtual ~MosaicDualGraph();
 
-        void DetermineAreasColors();
+        void DetermineAreasColors(pmf::GrayscaleImage &);
         void CalculateComponents();
 
         friend std::ostream & operator << (std::ostream &, const MosaicDualGraph &);
 
     protected:
-        int DetermineAreaColor(std::vector<int> &);
+        int DetermineAreaColor(std::vector<int> &, pmf::GrayscaleImage &);
+        void CountBlackAndWhitePixels(
+                                            double ux, double uy, double unx, double uny,
+                                            double dx, double dy, double dnx, double dny,
+                                            pmf::GrayscaleImage & gimg,
+                                            double xb, double xe
+                                        );
 
     private:
         MosaicGraph * graph;

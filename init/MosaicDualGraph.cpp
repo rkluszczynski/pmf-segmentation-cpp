@@ -182,8 +182,71 @@ MosaicDualGraph::CalculateComponents ()
 }
 
 
+
+void
+MosaicDualGraph::CountBlackAndWhitePixels(
+                                            double ux, double uy, double unx, double uny,
+                                            double dx, double dy, double dnx, double dny,
+                                            pmf::GrayscaleImage & gimg,
+                                            double xb, double xe
+                                        )
+{
+    double  width = 3.0;
+    double height = 3.0;
+
+    std::cout << "[ SEGMENT  UP  ]  :  (" << ux << ";" << uy << ") - (" << unx << ";" << uny << ")" << std::endl;
+    std::cout << "[ SEGMENT DOWN ]  :  (" << dx << ";" << dy << ") - (" << dnx << ";" << dny << ")" << std::endl;
+
+    double pixelx =  width / double(gimg.GetWidth());
+    double pixely = height / double(gimg.GetHeight());
+
+    int picix = int(xb / pixelx);
+    std::cout << " start at pixel " << picix << std::endl;
+    double osx = 0.5 * pixelx + picix * pixelx;
+    while (osx <= xe)
+    {
+        double au, bu;
+        if (ux != unx)
+        {
+            au = (uny - uy) / (unx - ux);
+            bu = uy - au * ux;
+        }
+        else
+        {
+            au = 0.;
+            bu = 0.5 * (uy + uny);
+            bu = std::max(bu, 0.);
+            bu = std::min(bu, height);
+        }
+
+        double ad, bd;
+        if (dx != dnx)
+        {
+            ad = (dny - dy) / (dnx - dx);
+            bd = dy - ad * dx;
+        }
+        else
+        {
+            ad = 0.;
+            bd = 0.5 * (dy + dny);
+            bd = std::max(bd, 0.);
+            bd = std::min(bd, height);
+        }
+
+        double fromy = ad * osx + bd;
+        double  toy  = au * osx + bu;
+
+        std::cout << " " << osx << "=(" << fromy << "::" << toy << ")";
+
+
+        osx += pixelx;
+    }
+    std::cout << std::endl;
+}
+
+
 int
-MosaicDualGraph::DetermineAreaColor (std::vector<int> & area)
+MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImage & gimg)
 {
     int db = 0, de = 1;
     std::cout << " db = " << db << std::endl;
@@ -196,7 +259,7 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area)
     while (ue < area.size()-1  and  graph->Get(area[ue])->x() > graph->Get(area[ue+1])->x()) ++ue;
     std::cout << " ue = " << ue << std::endl;
 
-    std::vector<int> down, up;
+    std::vector<unsigned int> down, up;
     int i = 0;
     while (i <= de) { down.push_back(area[i]); ++i; }
     i = ue;
@@ -205,18 +268,80 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area)
     FOREACH(it, up) std::cout << " " << *it;  std::cout << std::endl;
     FOREACH(it, down) std::cout << " " << *it;  std::cout << std::endl;
 
+    assert(graph->Get(up.front())->x() == graph->Get(down.front())->x());
+    assert(graph->Get(up.back())->x() == graph->Get(down.back())->x());
+
+    int ui = 0, di = 0;
+    double ux = graph->Get(up[ui])->x();
+    double uy = graph->Get(up[ui])->y();
+    double dx = graph->Get(down[di])->x();
+    double dy = graph->Get(down[di])->y();
+    ++ui;  ++di;
+
+    while (ui < up.size()-1  or  di < down.size()-1)
+    {
+        double unx = graph->Get(up[ui])->x();
+        double uny = graph->Get(up[ui])->y();
+        double dnx = graph->Get(down[di])->x();
+        double dny = graph->Get(down[di])->y();
+
+        double xb = std::max(ux, dx);
+        double xe = std::min(unx, dnx);
+        std::cout << xb << "  " << xe << "      =>  " << ui << "/" << up.size() << " " << di << "/" << down.size() << std::endl;
+        if (dnx < unx)
+        {
+            ++di;
+            CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+            dx = dnx;
+            dy = dny;
+        }
+        else if (dnx > unx)
+        {
+            ++ui;
+            CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+            ux = unx;
+            uy = uny;
+        }
+        else if (dnx == unx)
+        {
+            if (di == down.size()-1)
+            {
+                ++ui;
+                ux = unx;
+                uy = uny;
+            }
+            else if (ui == up.size()-1)
+            {
+                ++di;
+                dx = dnx;
+                dy = dny;
+            }
+            else
+                assert("HAVE TO ANALIZE IT A BIT" && false);
+        }
+    }
+    double unx = graph->Get(up[ui])->x();
+    double uny = graph->Get(up[ui])->y();
+    double dnx = graph->Get(down[di])->x();
+    double dny = graph->Get(down[di])->y();
+
+    double xb = std::max(ux, dx);
+    double xe = std::min(unx, dnx);
+    std::cout << xb << "  " << xe << "      =>  " << ui << "/" << up.size() << " " << di << "/" << down.size() << std::endl;
+
+    CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
 }
 
 
 void
-MosaicDualGraph::DetermineAreasColors ()
+MosaicDualGraph::DetermineAreasColors (pmf::GrayscaleImage & gimg)
 {
     areasColors.resize(areas.size());
     int i = 0;
     FOREACH(it, areas)
     {
         std::cout << "[[ AREA " << i++ << " ]]" << std::endl;
-        DetermineAreaColor(*it);
+        DetermineAreaColor(*it, gimg);
     }
 
     //srand(2);

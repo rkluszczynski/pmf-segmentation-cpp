@@ -18,7 +18,7 @@ using namespace std;
 
 
 
-MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldHeight(h), linesNumber(n)
+MosaicPMF::MosaicPMF(double w, double h, unsigned int n, pmf::GrayscaleImage & gimg) : fieldWidth(w), fieldHeight(h), linesNumber(n)
 {
     //ctor
     vector<MosaicSegment<double> *> mosaic;
@@ -67,7 +67,8 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n) : fieldWidth(w), fieldH
 
     MosaicDualGraph dual(graph);
     cout << dual << endl;
-    dual.DetermineAreasColors();
+    dual.DetermineAreasColors(gimg);
+exit(0);
     dual.CalculateComponents();
 }
 
