@@ -183,7 +183,7 @@ MosaicDualGraph::CalculateComponents ()
 
 
 
-void
+int
 MosaicDualGraph::CountBlackAndWhitePixels(
                                             double ux, double uy, double unx, double uny,
                                             double dx, double dy, double dnx, double dny,
@@ -196,6 +196,9 @@ MosaicDualGraph::CountBlackAndWhitePixels(
 
     std::cout << "[ SEGMENT  UP  ]  :  (" << ux << ";" << uy << ") - (" << unx << ";" << uny << ")" << std::endl;
     std::cout << "[ SEGMENT DOWN ]  :  (" << dx << ";" << dy << ") - (" << dnx << ";" << dny << ")" << std::endl;
+
+    int black = 0;
+    int white = 0;
 
     double pixelx =  width / double(gimg.GetWidth());
     double pixely = height / double(gimg.GetHeight());
@@ -234,14 +237,32 @@ MosaicDualGraph::CountBlackAndWhitePixels(
         }
 
         double fromy = ad * osx + bd;
-        double  toy  = au * osx + bu;
+        double gotoy = au * osx + bu;
 
-        std::cout << " " << osx << "=(" << fromy << "::" << toy << ")";
+        //std::cout << " " << osx << "=(" << fromy << "::" << gotoy << ")";
 
+        int picx = int(std::max(osx, 0.) / pixelx);
+        int picyfrom = int(std::max(fromy, 0.) / pixely);
+        int picygoto = int(std::max(gotoy, 0.) / pixely);
+
+        for (int i = picyfrom; i <= picygoto; ++i)
+        {
+            if (gimg[picx][i][0] < 128)
+            {
+                black++;
+            }
+            else {
+                white++;
+            }
+        }
+        //std::cout << "#" << picx << "=" << picyfrom << ":" << picygoto;
 
         osx += pixelx;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
+    std::cout << "( B=" << black << " , W=" << white << " )  of  " << (white+black) << std::endl;
+
+    return (white > black) ? 1 : 0;
 }
 
 
@@ -329,7 +350,7 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImag
     double xe = std::min(unx, dnx);
     std::cout << xb << "  " << xe << "      =>  " << ui << "/" << up.size() << " " << di << "/" << down.size() << std::endl;
 
-    CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+    return CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
 }
 
 
@@ -337,15 +358,17 @@ void
 MosaicDualGraph::DetermineAreasColors (pmf::GrayscaleImage & gimg)
 {
     areasColors.resize(areas.size());
-    int i = 0;
-    FOREACH(it, areas)
-    {
-        std::cout << "[[ AREA " << i++ << " ]]" << std::endl;
-        DetermineAreaColor(*it, gimg);
-    }
 
     //srand(2);
     FOREACH(it, areasColors)  *it = rand() % 2;
+
+    int i = 0;
+    FOREACH(it, areas)
+    {
+        std::cout << "[[ AREA " << i << " ]]" << std::endl;
+        areasColors[i] = DetermineAreaColor(*it, gimg);
+        ++i;
+    }
 
     std::cout << "[ COLORS ] :";
     for (unsigned int j = 0; j < areasColors.size(); ++j) std::cout << " " << j << "{" << areasColors[j] << "}";

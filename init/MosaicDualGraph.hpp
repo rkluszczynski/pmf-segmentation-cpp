@@ -24,7 +24,7 @@ class MosaicDualGraph
 
     protected:
         int DetermineAreaColor(std::vector<int> &, pmf::GrayscaleImage &);
-        void CountBlackAndWhitePixels(
+        int CountBlackAndWhitePixels(
                                             double ux, double uy, double unx, double uny,
                                             double dx, double dy, double dnx, double dny,
                                             pmf::GrayscaleImage & gimg,
