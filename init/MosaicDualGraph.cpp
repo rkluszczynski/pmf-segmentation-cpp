@@ -205,6 +205,8 @@ MosaicDualGraph::CountBlackAndWhitePixels(
 
     int picix = int(xb / pixelx);
     std::cout << " start at pixel " << picix << std::endl;
+    bool printDebug = true;
+
     double osx = 0.5 * pixelx + picix * pixelx;
     while (osx <= xe)
     {
@@ -239,27 +241,33 @@ MosaicDualGraph::CountBlackAndWhitePixels(
         double fromy = ad * osx + bd;
         double gotoy = au * osx + bu;
 
-        //std::cout << " " << osx << "=(" << fromy << "::" << gotoy << ")";
+        if (printDebug)
+            std::cout << " " << osx << "=(" << fromy << "::" << gotoy << ")";
 
         int picx = int(std::max(osx, 0.) / pixelx);
-        int picyfrom = int(std::max(fromy, 0.) / pixely);
-        int picygoto = int(std::max(gotoy, 0.) / pixely);
+        int picyfrom = gimg.GetHeight() - 1 - int(std::max(gotoy, 0.) / pixely);
+        int picygoto = gimg.GetHeight() - 1 - int(std::max(fromy, 0.) / pixely);
 
         for (int i = picyfrom; i <= picygoto; ++i)
         {
-            if (gimg[picx][i][0] < 128)
+            int value = gimg[i][picx][0];
+
+            if (value < 128)
             {
                 black++;
             }
             else {
                 white++;
             }
+            if (false and printDebug)  printf("%c", (value < 128) ? 'X' : '.');
         }
-        //std::cout << "#" << picx << "=" << picyfrom << ":" << picygoto;
+        if (printDebug)
+            std::cout << "#" << picx << "=" << picyfrom << ":" << picygoto;
 
         osx += pixelx;
     }
-    //std::cout << std::endl;
+    if (printDebug)  std::cout << std::endl;
+
     std::cout << "( B=" << black << " , W=" << white << " )  of  " << (white+black) << std::endl;
 
     return (white > black) ? 1 : 0;

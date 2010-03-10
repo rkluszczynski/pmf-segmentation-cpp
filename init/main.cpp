@@ -17,7 +17,16 @@ int main(int argc, char ** argv)
     double height = 3.0;
 
     pmf::GrayscaleImage gimg("input/3x3.png");
-
+    //pmf::GrayscaleImage gimg("input/30x30.png");
+    /*
+    for(int i = 0; i < 30; ++i)
+    {
+        for(int k = 0; k < 30; ++k)
+            printf("%c", (gimg[i][k][0] < 128) ? 'X' : '.');
+        printf("\n");
+    }
+    return 0;
+    // */
     unsigned lines = 3;
     ///srand(13);
     //srand(time(NULL));
