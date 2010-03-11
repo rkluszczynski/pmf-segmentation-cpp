@@ -373,7 +373,9 @@ MosaicDualGraph::DetermineAreasColors (pmf::GrayscaleImage & gimg)
     int i = 0;
     FOREACH(it, areas)
     {
-        std::cout << "[[ AREA " << i << " ]]" << std::endl;
+        std::cout << "[[ AREA " << i << " ]]  :  ";
+        FOREACH(iit, *it)  std::cout << " " << *iit;
+        std::cout << std::endl;
         areasColors[i] = DetermineAreaColor(*it, gimg);
         ++i;
     }

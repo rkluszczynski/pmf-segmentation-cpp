@@ -48,7 +48,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n, pmf::GrayscaleImage & g
     }
     //*
     //cout << evts << endl;
-    //freopen ("myfile.txt", "w", stdout);
+    freopen ("output/myfile.txt", "w", stdout);
     //cout << evts << endl;
     // */
 
@@ -68,7 +68,7 @@ MosaicPMF::MosaicPMF(double w, double h, unsigned int n, pmf::GrayscaleImage & g
     MosaicDualGraph dual(graph);
     cout << dual << endl;
     dual.DetermineAreasColors(gimg);
-exit(0);
+//exit(0);
     dual.CalculateComponents();
 }
 
@@ -336,7 +336,7 @@ void MosaicPMF::ProcessBeginSegmentEvent (
 
     if (! msls->IsNull(ita))
     {
-        cout << "ABOVE" << endl;
+        cout << "ABOVE" << endl << **ita << endl;
         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
         MosaicSegment<double> * seg2 = evt->GetSegment();
 
@@ -404,6 +404,13 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
                                                double presentEventCoordinateX
                                             )
 {
+    if (
+            seg1->GetLeftPoint()->x > seg2->GetLeftPoint()->x
+        or
+            (seg1->GetLeftPoint()->x == seg2->GetLeftPoint()->x  and   seg1->GetLeftPoint()->y > seg2->GetLeftPoint()->y)
+    )
+        std::swap(seg1, seg2);
+
     int check = pmf::Geometry::CheckIntersection2(
                                     seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,
                                    seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
@@ -412,8 +419,6 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
     cout << " check = " << check << endl;
     if (check == 1)
     {
-        if (seg1->GetLeftPoint()->x < seg2->GetLeftPoint()->x) std::swap(seg1, seg2);
-
         pair<double, double> pt =
             pmf::Geometry::CalculateIntersection(
                                     seg1->GetLeftPoint()->x, seg1->GetLeftPoint()->y,

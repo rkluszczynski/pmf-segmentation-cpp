@@ -16,8 +16,9 @@ int main(int argc, char ** argv)
     double  width = 3.0;
     double height = 3.0;
 
-    pmf::GrayscaleImage gimg("input/3x3.png");
+    //pmf::GrayscaleImage gimg("input/3x3.png");
     //pmf::GrayscaleImage gimg("input/30x30.png");
+    pmf::GrayscaleImage gimg("input/ring-spread.png");
     /*
     for(int i = 0; i < 30; ++i)
     {
@@ -27,7 +28,7 @@ int main(int argc, char ** argv)
     }
     return 0;
     // */
-    unsigned lines = 3;
+    unsigned lines = 53;
     ///srand(13);
     //srand(time(NULL));
 
