@@ -42,6 +42,8 @@
 		<Unit filename="..\cmd\image.cpp" />
 		<Unit filename="..\cmd\image.h" />
 		<Unit filename="..\headers\probability.hpp" />
+		<Unit filename="..\init\AbstractProperties.cpp" />
+		<Unit filename="..\init\AbstractProperties.hpp" />
 		<Unit filename="..\init\MosaicDualGraph.cpp" />
 		<Unit filename="..\init\MosaicDualGraph.hpp" />
 		<Unit filename="..\init\MosaicElement.hpp" />

@@ -4,6 +4,7 @@
 #include "MosaicPMF.hpp"
 #include "MosaicGraph.hpp"
 #include "../cmd/grayimage.h"
+#include "../init/AbstractProperties.hpp"
 
 using namespace std;
 
@@ -15,6 +16,10 @@ int main(int argc, char ** argv)
 {
     double  width = 3.0;
     double height = 3.0;
+
+    AbstractProperties prop("input/mosaic.txt");
+    cout << prop;
+    return 0;
 
     //pmf::GrayscaleImage gimg("input/3x3.png");
     //pmf::GrayscaleImage gimg("input/30x30.png");

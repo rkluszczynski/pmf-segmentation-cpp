@@ -1,0 +1,5 @@
+# to test it
+
+epsilon=1e-7;
+
+author=Rafal Kluszczynski
