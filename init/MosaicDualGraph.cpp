@@ -277,19 +277,19 @@ MosaicDualGraph::CountBlackAndWhitePixels(
 int
 MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImage & gimg)
 {
-    int db = 0, de = 1;
+    unsigned int db = 0, de = 1;
     std::cout << " db = " << db << std::endl;
     while (graph->Get(area[de])->x() < graph->Get(area[de+1])->x()) ++de;
-    int ub = de;
+    unsigned int ub = de;
     std::cout << " de = " << de << std::endl;
     while (graph->Get(area[ub])->x() == graph->Get(area[ub+1])->x()) ++ub;
     std::cout << " ub = " << ub << std::endl;
-    int ue = ub + 1;
+    unsigned int ue = ub + 1;
     while (ue < area.size()-1  and  graph->Get(area[ue])->x() > graph->Get(area[ue+1])->x()) ++ue;
     std::cout << " ue = " << ue << std::endl;
 
     std::vector<unsigned int> down, up;
-    int i = 0;
+    unsigned int i = 0;
     while (i <= de) { down.push_back(area[i]); ++i; }
     i = ue;
     while (i >= ub) { up.push_back(area[i]); --i; }
@@ -300,7 +300,7 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImag
     assert(graph->Get(up.front())->x() == graph->Get(down.front())->x());
     assert(graph->Get(up.back())->x() == graph->Get(down.back())->x());
 
-    int ui = 0, di = 0;
+    unsigned int ui = 0, di = 0;
     double ux = graph->Get(up[ui])->x();
     double uy = graph->Get(up[ui])->y();
     double dx = graph->Get(down[di])->x();

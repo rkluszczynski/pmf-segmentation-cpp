@@ -44,6 +44,8 @@
 		<Unit filename="..\headers\probability.hpp" />
 		<Unit filename="..\init\AbstractProperties.cpp" />
 		<Unit filename="..\init\AbstractProperties.hpp" />
+		<Unit filename="..\init\MosaicConstants.cpp" />
+		<Unit filename="..\init\MosaicConstants.hpp" />
 		<Unit filename="..\init\MosaicDualGraph.cpp" />
 		<Unit filename="..\init\MosaicDualGraph.hpp" />
 		<Unit filename="..\init\MosaicElement.hpp" />
@@ -54,6 +56,8 @@
 		<Unit filename="..\init\MosaicGraphEdge.hpp" />
 		<Unit filename="..\init\MosaicGraphNode.cpp" />
 		<Unit filename="..\init\MosaicGraphNode.hpp" />
+		<Unit filename="..\init\MosaicLinesDeterminer.cpp" />
+		<Unit filename="..\init\MosaicLinesDeterminer.hpp" />
 		<Unit filename="..\init\MosaicPMF.cpp" />
 		<Unit filename="..\init\MosaicPMF.hpp" />
 		<Unit filename="..\init\MosaicPoint.hpp" />

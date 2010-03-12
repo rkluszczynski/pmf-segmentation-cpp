@@ -1,5 +1,16 @@
-# to test it
+#
+# This is configuration file
+#
 
+# Geometry details
 epsilon=1e-7;
+pmf-width=3;
+pmf-height=3;
 
+# Image file
+image=input/ring-spread.png
+
+# Other
+debug-intersect=0
+debug-graph=0
 author=Rafal Kluszczynski

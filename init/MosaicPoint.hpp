@@ -1,6 +1,7 @@
 #ifndef MOSAICPOINT_HPP_INCLUDED
 #define MOSAICPOINT_HPP_INCLUDED
 
+#include <iostream>
 #include <vector>
 
 using namespace std;

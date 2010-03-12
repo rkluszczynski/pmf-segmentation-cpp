@@ -26,7 +26,7 @@ class MosaicGraph
         void MutateIntersectionElements();
 
         void SortNeighborsInCounterClockwiseOrder();
-        void SaveAsGeoGebraFile(char *);
+        void SaveAsGeoGebraFile(const char *);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraph &);
 

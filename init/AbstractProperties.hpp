@@ -2,6 +2,7 @@
 #define ABSTRACTPROPERTIES_HPP
 
 #include <cstdio>
+#include <cassert>
 
 #include <iostream>
 #include <fstream>
@@ -18,8 +19,8 @@ class AbstractProperties
         AbstractProperties(const char *);
         virtual ~AbstractProperties();
 
-        AbstractProperties(const AbstractProperties& other);
-        AbstractProperties& operator=(const AbstractProperties& other);
+        //AbstractProperties(const AbstractProperties& other);
+        //AbstractProperties& operator=(const AbstractProperties& other);
 
         const std::string GetValueOf(std::string);
         const std::string GetValueOf(const char *);
@@ -27,9 +28,9 @@ class AbstractProperties
         friend std::ostream & operator << (std::ostream &, const AbstractProperties &);
 
     protected:
+        std::map<std::string, std::string> * m_data;
 
     private:
-        std::map<std::string, std::string> m_data;
         std::string m_file;
 };
 

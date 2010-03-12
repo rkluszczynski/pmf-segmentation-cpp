@@ -1,0 +1,31 @@
+#include "MosaicConstants.hpp"
+
+#define VAR(V, N)       __typeof(N) V = (N)
+#define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
+
+
+MosaicConstants::MosaicConstants(const char * filename) : MosaicConstants::AbstractProperties(filename)
+{
+    ///std::cout << "Constants ctor = " << filename << std::endl;
+    //ctor
+    m_Epsilon = atof(GetValueOf("epsilon").c_str());
+    m_PMFHeight = atof(GetValueOf("pmf-height").c_str());
+    m_PMFWidth = atof(GetValueOf("pmf-width").c_str());
+    m_ImageFile = GetValueOf("image");
+}
+
+
+MosaicConstants::~MosaicConstants()
+{
+    //dtor
+}
+
+
+std::ostream & operator << (std::ostream & out, const MosaicConstants & mc)
+{
+    out << "[ MosaicConstants ]" << std::endl;
+    const AbstractProperties * prop = static_cast<const AbstractProperties *>(&mc);
+    out << *prop << std::endl;
+    return out;
+}
+

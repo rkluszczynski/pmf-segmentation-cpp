@@ -17,6 +17,7 @@ using namespace std;
 
 //#include "../init/MosaicEvents.hpp"
 //#include "../init/MosaicSegment.hpp"
+#include "../init/MosaicLinesDeterminer.hpp"
 #include "../init/MosaicSchedule.hpp"
 #include "../init/MosaicStatus.hpp"
 #include "../init/MosaicGraph.hpp"
@@ -27,7 +28,7 @@ using namespace std;
 class MosaicPMF
 {
     public:
-        MosaicPMF(double, double, unsigned int, pmf::GrayscaleImage &);
+        MosaicPMF(double, double, MosaicLinesDeterminer &, pmf::GrayscaleImage &);
         virtual ~MosaicPMF();
         MosaicPMF(const MosaicPMF& other);
         MosaicPMF& operator=(const MosaicPMF& other);
@@ -53,10 +54,7 @@ class MosaicPMF
         GenerateSegmentsGraph (
                                 MosaicEventsSchedule<double> *
                             );
-        void
-        GenerateRandomSegmentsByPolarParameters (
-                                                    unsigned int, vector<MosaicSegment<double> *> &
-                                                );
+
         void
         ProcessBeginSegmentEvent (
                                   MosaicSweepLineStatus<double> *,
@@ -82,7 +80,7 @@ class MosaicPMF
 
         double fieldWidth;
         double fieldHeight;
-        unsigned int linesNumber;
+
 
 };
 

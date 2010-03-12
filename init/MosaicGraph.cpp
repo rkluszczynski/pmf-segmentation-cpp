@@ -22,7 +22,7 @@ MosaicGraph::~MosaicGraph()
 
 
 void
-MosaicGraph::SaveAsGeoGebraFile (char * filename)
+MosaicGraph::SaveAsGeoGebraFile (const char * filename)
 {
         wxCSConv conv_ascii(_T("ISO-8859-1"));
         wxString outputfile( filename, conv_ascii );

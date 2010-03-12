@@ -4,7 +4,7 @@
 #include "MosaicPMF.hpp"
 #include "MosaicGraph.hpp"
 #include "../cmd/grayimage.h"
-#include "../init/AbstractProperties.hpp"
+#include "../init/MosaicConstants.hpp"
 
 using namespace std;
 
@@ -14,30 +14,31 @@ void print_usage(char *, bool);
 
 int main(int argc, char ** argv)
 {
-    double  width = 3.0;
-    double height = 3.0;
-
-    AbstractProperties prop("input/mosaic.txt");
-    cout << prop;
-    return 0;
+    double  width = MosaicConstants::GetPmfWidth();
+    double height = MosaicConstants::GetPmfHeight();
+    const char * image = MosaicConstants::GetImageFile();
 
     //pmf::GrayscaleImage gimg("input/3x3.png");
     //pmf::GrayscaleImage gimg("input/30x30.png");
-    pmf::GrayscaleImage gimg("input/ring-spread.png");
+    pmf::GrayscaleImage gimg(image);
     /*
-    for(int i = 0; i < 30; ++i)
+    ofstream fout("output/ascii.txt");
+    for(int i = 0; i < gimg.GetHeight(); ++i)
     {
-        for(int k = 0; k < 30; ++k)
-            printf("%c", (gimg[i][k][0] < 128) ? 'X' : '.');
-        printf("\n");
+        for(int k = 0; k < gimg.GetWidth(); ++k)
+            fout << ((gimg[i][k][0] < 128) ? 'X' : '.');
+        fout << endl;
     }
+    fout.close();
     return 0;
     // */
-    unsigned lines = 53;
+    unsigned lines = 193;
     ///srand(13);
     //srand(time(NULL));
+    MosaicLinesDeterminer mld;
+    mld.GenerateRandomSegmentsByPolarParameters(lines, width, height);
 
-    MosaicPMF * ipmf = new MosaicPMF(width, height, lines, gimg);
+    MosaicPMF * ipmf = new MosaicPMF(width, height, mld, gimg);
 
     cout << ipmf << endl;
 

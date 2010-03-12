@@ -92,8 +92,8 @@ class MosaicSweepLineStatus
 
         bool BelowComparator(ENTRY * const & e1, ENTRY * const & e2) const
         {
-            SEGMENT * s1 = e1->GetSegment();
-            SEGMENT * s2 = e2->GetSegment();
+            //SEGMENT * s1 = e1->GetSegment();
+            //SEGMENT * s2 = e2->GetSegment();
 
             REAL y1 = e1->yy0(_x0);
             REAL y2 = e2->yy0(_x0);
