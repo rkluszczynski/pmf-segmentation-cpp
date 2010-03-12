@@ -72,7 +72,7 @@ MosaicPMF::MosaicPMF (
     //freopen ("output/60-colors-determining.txt", "w", stdout);
     dual.DetermineAreasColors(gimg);
 
-    freopen ("output/70-components.txt", "w", stdout);
+    //freopen ("output/70-components.txt", "w", stdout);
     dual.CalculateComponents();
 }
 

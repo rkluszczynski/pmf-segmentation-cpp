@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     fout.close();
     return 0;
     // */
-    unsigned lines = 50;
+    unsigned lines = 100;
     srand(13);
     //srand(time(NULL));
     MosaicLinesDeterminer mld;

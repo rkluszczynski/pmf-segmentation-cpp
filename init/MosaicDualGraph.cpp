@@ -3,7 +3,7 @@
 
 #define DEBUG_SWITCH 0
 #define DEBUG_COLORS 0
-#define DEBUG_COMPONENTS 1
+#define DEBUG_COMPONENTS 0
 
 MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
 {
@@ -134,6 +134,7 @@ MosaicDualGraph::CalculateComponents ()
         FOREACH(jt, *it) std::cout << " " << *jt;
         std::cout << std::endl;
     }
+    i = 0;
 #endif
     MosaicGraph * pmfgraph = new MosaicGraph(*graph);
     std::set<std::pair<int, int> > edges2remove;
@@ -141,7 +142,9 @@ MosaicDualGraph::CalculateComponents ()
     FOREACH(it, components)
     {
         std::set<std::pair<int, int> > edges;
-
+#if (DEBUG_COMPONENTS)
+        std::cout << "[[ COMPONENT " << i++ << " ]] :" << std::endl;
+#endif
         FOREACH(jt, *it)
         {
             int mem_b = -1;
@@ -189,16 +192,20 @@ MosaicDualGraph::CalculateComponents ()
 
 #if (DEBUG_COMPONENTS)
     std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "[[ GOING TO REMOVE ALL UNNECESSARY NODES ]]" << std::endl;
+    std::cout << *pmfgraph << std::endl;
 #endif
     pmfgraph->RemoveUnnecessaryCollinearNodes(DEBUG_COMPONENTS);
 
 #if (DEBUG_COMPONENTS)
+    std::cout << "[[ REMOVED ALL UNNECESSARY NODES ]]" << std::endl;
     std::cout << *pmfgraph << std::endl;
 #endif
     pmfgraph->SaveAsGeoGebraFile("output/pmfgraph.ggb");
 
     pmfgraph->MutateIntersectionElements();
-    //pmfgraph->RemoveUnnecessaryCollinearNodes();
+    pmfgraph->RemoveUnnecessaryCollinearNodes();
     pmfgraph->SaveAsGeoGebraFile("output/finalpmf.ggb");
 }
 

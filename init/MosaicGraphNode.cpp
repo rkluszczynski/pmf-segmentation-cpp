@@ -112,7 +112,7 @@ MosaicGraphNode::EraseNeighbor (Iterator & it)
 
 std::ostream & operator << (std::ostream & out, const MosaicGraphNode * node)
 {
-    out.precision(3);
+    out.precision(8);
     out.setf ( std::ios::fixed, std::ios::floatfield );
     out << "[" << node->_x << ";" << node->_y << "] :";
     out.unsetf ( std::ios::floatfield  );
