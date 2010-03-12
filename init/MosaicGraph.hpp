@@ -4,6 +4,7 @@
 #include <cassert>
 #include <vector>
 
+#include "../init/MosaicConstants.hpp"
 #include "../init/MosaicGraphNode.hpp"
 
 class MosaicGraph
@@ -22,7 +23,7 @@ class MosaicGraph
         void RemoveEdge(unsigned int, MosaicGraphNode::Iterator &, unsigned int);
 
         void RemoveNeighborsOf(unsigned int, std::vector<int> &);
-        void RemoveUnnecessaryCollinearNodes();
+        void RemoveUnnecessaryCollinearNodes(bool = false);
         void MutateIntersectionElements();
 
         void SortNeighborsInCounterClockwiseOrder();

@@ -18,10 +18,16 @@ using namespace std;
 
 
 
-MosaicPMF::MosaicPMF(double w, double h, MosaicLinesDeterminer & mosaic, pmf::GrayscaleImage & gimg) : fieldWidth(w), fieldHeight(h)
+MosaicPMF::MosaicPMF (
+                        double w,
+                        double h,
+                        MosaicLinesDeterminer & mosaic,
+                        pmf::GrayscaleImage & gimg
+                    )
+: fieldWidth(w), fieldHeight(h)
 {
     //ctor
-
+    /** Preparing events list **/
     MosaicPoint<double> * ptLU = new MosaicPoint<double>(0., fieldHeight);
     MosaicPoint<double> * ptLD = new MosaicPoint<double>(0., 0.);
     MosaicPoint<double> * ptRU = new MosaicPoint<double>(fieldWidth, fieldHeight);
@@ -43,29 +49,30 @@ MosaicPMF::MosaicPMF(double w, double h, MosaicLinesDeterminer & mosaic, pmf::Gr
         evts->Insert(e1);
         evts->Insert(e2);
     }
-    //*
-    //cout << evts << endl;
-    freopen ("output/myfile.txt", "w", stdout);
-    //cout << evts << endl;
-    // */
 
+    //freopen ("output/10-generation.txt", "w", stdout);
+
+    /** Generating segments graph **/
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
     graph->SaveAsGeoGebraFile("output/segraph.ggb");
-    cout << *graph << endl;
 
-    ///return;
-    /*
-    cout << "________________________________________" << endl;
-    cout << "########################################" << endl;
-    cout << *graph << endl;
-    // */
+    //freopen ("output/20-generated-graph.txt", "w", stdout);
+    //cout << *graph << endl;
+
+    //freopen ("output/30-sorted-neighbours.txt", "w", stdout);
     graph->SortNeighborsInCounterClockwiseOrder();
-    cout << *graph << endl;
+    //cout << *graph << endl;
 
+    //freopen ("output/40-dual-graph.txt", "w", stdout);
     MosaicDualGraph dual(graph);
-    cout << dual << endl;
+
+    //freopen ("output/50-dual-graph.txt", "w", stdout);
+    //cout << dual << endl;
+
+    //freopen ("output/60-colors-determining.txt", "w", stdout);
     dual.DetermineAreasColors(gimg);
-//exit(0);
+
+    freopen ("output/70-components.txt", "w", stdout);
     dual.CalculateComponents();
 }
 
@@ -112,18 +119,23 @@ MosaicPMF::GenerateSegmentsGraph (
         int id = graph->CreateNewNode(evt->GetPoint()->x, evt->GetPoint()->y);
         graph->AddEdge(lastLeftId, id, 0);
         lastLeftId = id;
-
+#if (WRITE_SWITCH)
         cout << endl;
+#endif
         if (evt->GetType() == BeginSegment)
         {
+#if (WRITE_SWITCH)
             cout << "-{" << step << "}-> BEGIN EVENT" << endl;
+#endif
             ProcessBeginSegmentEvent(msls, evts, evt);
             evt->GetSegment()->SetLastGraphNodeId( id );
         }
         else if (evt->GetType() == AreaMarkings)
         {
+#if (WRITE_SWITCH)
             cout << "-{" << step << "}->  AREA EVENT" << endl;
             cout << evt->GetPoint() << endl;
+#endif
         }
         else
             assert("WRONG LEFT EVENT TYPE DURING EVOLUTION" && false);
@@ -132,7 +144,9 @@ MosaicPMF::GenerateSegmentsGraph (
     }
     lowerLastId = lastLeftId;
 
+#if (WRITE_SWITCH)
     cout << "########################################" << endl;
+#endif
     // process between left and right border
     while (! evts->IsEmpty()  and  evts->SeeFirst()->GetPoint()->x < fieldWidth)
     {
@@ -146,12 +160,16 @@ MosaicPMF::GenerateSegmentsGraph (
         MosaicSegment<double> * s1, * s2;
 
         int id = graph->CreateNewNode(evt->GetPoint()->x, evt->GetPoint()->y);
+#if (WRITE_SWITCH)
         cout << endl;
+#endif
         switch (evt->GetType())
         {
             case BeginSegment :
                 {
+#if (WRITE_SWITCH)
                     cout << "-{" << step << "}-> BEGIN EVENT" << endl;
+#endif
                     ProcessBeginSegmentEvent(msls, evts, evt);
 
                     evt->GetSegment()->SetLastGraphNodeId( id );
@@ -171,8 +189,9 @@ MosaicPMF::GenerateSegmentsGraph (
                 }
             case EndOfSegment :
                 {
+#if (WRITE_SWITCH)
                     cout << "-{" << step << "}->  END  EVENT" << endl;
-
+#endif
                     itb = ita = it = msls->Find(evt->GetSegment());
                     --ita;
                     ++itb;
@@ -196,8 +215,9 @@ MosaicPMF::GenerateSegmentsGraph (
 
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
                     {
+#if (WRITE_SWITCH)
                         cout << "END-&-CROSS" << endl;
-
+#endif
                         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
                         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
@@ -207,8 +227,9 @@ MosaicPMF::GenerateSegmentsGraph (
                 }
             case Intersection :
                 {
+#if (WRITE_SWITCH)
                     cout << "-{" << step << "}-> CROSS EVENT" << endl;
-
+#endif
                     s1 = evt->GetSegment();
                     s2 = evt->GetSegment(false);
 
@@ -221,35 +242,43 @@ MosaicPMF::GenerateSegmentsGraph (
                     assert(res1.ND);
                     graph->AddEdge( s1->GetLastGraphNodeId(), id, 2 );
                     s1->SetLastGraphNodeId( id );
+#if (WRITE_SWITCH)
                     cout << s1 << endl;
+#endif
                     CheckIntersectionsAfterSwap(msls, res1.ST, res2.ST, s1, evts, evt->GetPoint()->x, 1);
 
                     assert(res2.ND);
                     graph->AddEdge( s2->GetLastGraphNodeId(), id, 2 );
                     s2->SetLastGraphNodeId( id );
+#if (WRITE_SWITCH)
                     cout << s2 << endl;
+#endif
                     CheckIntersectionsAfterSwap(msls, res2.ST, res1.ST, s2, evts, evt->GetPoint()->x, 2);
 
                     break;;
                 }
             case AreaMarkings :
                 {
+#if (WRITE_SWITCH)
                     cout << "-{" << step << "}->  AREA EVENT" << endl;
                     cout << evt->GetPoint() << endl;
+#endif
                     break;;
                 }
             default :
                     assert("WRONG __EVENT__ TYPE DURING EVOLUTION" && false);
         }
-
+#if (WRITE_SWITCH)
         //cout << endl << msls << endl;
         //cout << *graph << endl;
         cout << "----------------------------------------" << endl;
+#endif
         evts->Erase(evt);
     }
 
+#if (WRITE_SWITCH)
     cout << "########################################" << endl;
-
+#endif
     WRITE_STEP(step);
     assert(evts->SeeFirst()->GetType() == AreaMarkings);
     lastLeftId = graph->CreateNewNode(evts->SeeFirst()->GetPoint()->x, evts->SeeFirst()->GetPoint()->y);
@@ -264,13 +293,16 @@ MosaicPMF::GenerateSegmentsGraph (
         WRITE_EVENTS(evts, evt);
 
         int id = graph->CreateNewNode(evt->GetPoint()->x, evt->GetPoint()->y);
+#if (WRITE_SWITCH)
         cout << endl;
+#endif
         switch (evt->GetType())
         {
             case EndOfSegment :
                 {
+#if (WRITE_SWITCH)
                     cout << "-{" << step << "}->  END  EVENT" << endl;
-
+#endif
                     MosaicSweepLineStatus<double>::Iterator it, ita, itb;
                     itb = ita = it = msls->Find(evt->GetSegment());
                     --ita;
@@ -283,8 +315,9 @@ MosaicPMF::GenerateSegmentsGraph (
 
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
                     {
+#if (WRITE_SWITCH)
                         cout << "END-&-CROSS" << endl;
-
+#endif
                         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
                         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
@@ -294,8 +327,10 @@ MosaicPMF::GenerateSegmentsGraph (
                 }
             case AreaMarkings :
                 {
+#if (WRITE_SWITCH)
                     cout << "-{" << step << "}->  AREA EVENT" << endl;
                     cout << evt->GetPoint() << endl;
+#endif
                     break;;
                 }
             default :
@@ -304,8 +339,10 @@ MosaicPMF::GenerateSegmentsGraph (
         graph->AddEdge(lastLeftId, id, 0);
         lastLeftId = id;
 
+#if (WRITE_SWITCH)
         cout << endl << msls << endl;
         cout << "----------------------------------------" << endl;
+#endif
         evts->Erase(evt);
     }
 
@@ -315,7 +352,6 @@ MosaicPMF::GenerateSegmentsGraph (
 }
 #undef WRITE_EVENTS
 #undef WRITE_STEP
-#undef WRITE_SWITCH
 
 
 
@@ -333,7 +369,9 @@ void MosaicPMF::ProcessBeginSegmentEvent (
 
     if (! msls->IsNull(ita))
     {
+#if (WRITE_SWITCH)
         cout << "ABOVE" << endl << **ita << endl;
+#endif
         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
         MosaicSegment<double> * seg2 = evt->GetSegment();
 
@@ -341,7 +379,9 @@ void MosaicPMF::ProcessBeginSegmentEvent (
     }
     if (! msls->IsNull(itb))
     {
+#if (WRITE_SWITCH)
         cout << "BELOW" << endl;
+#endif
         MosaicSegment<double> * seg1 = evt->GetSegment();
         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
@@ -368,12 +408,18 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
     {
         if ( (*ita)->GetSegment() == (*ignore)->GetSegment() )
         {
+#if (WRITE_SWITCH)
             cout << "Above" << test_num << " : THE SAME" << endl;
+#endif
         }
         else {
+#if (WRITE_SWITCH)
             cout << "Above" << test_num << " : DIFFERENT" << endl;
+#endif
             MosaicSegment<double> * _seg = (*ita)->GetSegment();
+#if (WRITE_SWITCH)
             cout << "Above" << test_num << " : " << _seg << endl;
+#endif
             AnalyzeAndPredictIntersection(seg, _seg, evts, presentEventCoordinateX);
         }
     }
@@ -381,12 +427,18 @@ void MosaicPMF::CheckIntersectionsAfterSwap (
     {
         if ( (*itb)->GetSegment() == (*ignore)->GetSegment() )
         {
+#if (WRITE_SWITCH)
             cout << "Below" << test_num << " : THE SAME" << endl;
+#endif
         }
         else {
+#if (WRITE_SWITCH)
             cout << "Below" << test_num << " : DIFFERENT" << endl;
+#endif
             MosaicSegment<double> * _seg = (*itb)->GetSegment();
+#if (WRITE_SWITCH)
             cout << "Below" << test_num << " : " << _seg << endl;
+#endif
             AnalyzeAndPredictIntersection(seg, _seg, evts, presentEventCoordinateX);
         }
     }
@@ -413,7 +465,9 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
                                    seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
                                     seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
                                    seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
+#if (WRITE_SWITCH)
     cout << " check = " << check << endl;
+#endif
     if (check == 1)
     {
         pair<double, double> pt =
@@ -422,21 +476,25 @@ void MosaicPMF::AnalyzeAndPredictIntersection (
                                    seg1->GetRightPoint()->x, seg1->GetRightPoint()->y,
                                     seg2->GetLeftPoint()->x, seg2->GetLeftPoint()->y,
                                    seg2->GetRightPoint()->x, seg2->GetRightPoint()->y );
-
+#if (WRITE_SWITCH)
         cout << " -> ( " << pt.ST << " , " << pt.ND << " )" << endl;
-
+#endif
         if (pt.ST > presentEventCoordinateX)
         {
             MosaicPoint<double> * ipt = new MosaicPoint<double>(pt.ST, pt.ND);
             IntersectionEvent * e = new IntersectionEvent(ipt, seg1, seg2);
             evts->Insert(e);
-
+#if (WRITE_SWITCH)
             cout << " -> ADDED" << endl;
+#endif
         }
+#if (WRITE_SWITCH)
         else
             cout << " -> IGNORED" << endl;
+#endif
     }
 }
+#undef WRITE_SWITCH
 
 
 

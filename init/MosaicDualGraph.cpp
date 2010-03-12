@@ -1,15 +1,20 @@
 #include "MosaicDualGraph.hpp"
 
+
+#define DEBUG_SWITCH 0
+#define DEBUG_COLORS 0
+#define DEBUG_COMPONENTS 1
+
 MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
 {
     //ctor
     MosaicGraph * other = graph;
     other = new MosaicGraph(*graph);
-    std::cout << *other << std::endl;
+    //std::cout << *other << std::endl;
 
     bool generateDualGraph = true;
     std::map<std::pair<int, int>, int> memory;
-    /// TODO (Rafal#5#): to get rid of memory logn complexity
+    /// TODO (Rafal#5#): to get rid of memory logn complexity (it's rather possible)
 
     for (unsigned int i = 0; i < other->Size(); ++i)
     {
@@ -23,15 +28,18 @@ MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
             MosaicGraphNode::Iterator nit = node->Begin();
             unsigned int a = -1;
             unsigned int b = i;
-
+#if (DEBUG_SWITCH)
+            std::cout << std::endl << "[[ GOING FROM _" << i << "_ ]]" << std::endl;
+#endif
             area.push_back(i);
             do
             {
                 a = b;
                 MosaicGraphNode::Iterator it = nit;
                 b = (*it)->GetId();
-
+#if (DEBUG_SWITCH)
                 std::cout << "[ WAY ] :  " << a << " -- " << b << std::endl;
+#endif
                 area.push_back(b);
 
                 MosaicGraphNode * nodeb = other->Get(b);
@@ -56,22 +64,26 @@ MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
                             int anum = iit->second;
                             areaGraph[anum].push_back( areas.size() );
                             areaGraph[ areas.size() ].push_back(anum);
+#if (DEBUG_SWITCH)
                             std::cout << "[ LINK ] :   area " << anum << "  ~~  area " << areas.size() << std::endl;
+#endif
                         }
                     }
                     other->RemoveEdge(a, it, b);
                 }
-                //break;
             }
             while (b != i);
 
             areas.push_back(area);
+#if (DEBUG_SWITCH)
             //std::cout << *other << std::endl;
+#endif
         }
     }
 
-
+#if (DEBUG_SWITCH)
     std::cout << *other << std::endl;
+#endif
 }
 
 
@@ -114,7 +126,7 @@ MosaicDualGraph::CalculateComponents ()
             }
         }
     }
-
+#if (DEBUG_COMPONENTS)
     int i = 0;
     FOREACH(it, components)
     {
@@ -122,8 +134,7 @@ MosaicDualGraph::CalculateComponents ()
         FOREACH(jt, *it) std::cout << " " << *jt;
         std::cout << std::endl;
     }
-
-
+#endif
     MosaicGraph * pmfgraph = new MosaicGraph(*graph);
     std::set<std::pair<int, int> > edges2remove;
 
@@ -146,11 +157,15 @@ MosaicDualGraph::CalculateComponents ()
                 {
                     if (edges.find(std::make_pair(a, b)) == edges.end())
                     {
+#if (DEBUG_COMPONENTS)
                         std::cout << " ->  INSERT  (" << a << "," << b << ")" << std::endl;
+#endif
                         edges.insert(std::make_pair(a, b));
                     }
                     else {
+#if (DEBUG_COMPONENTS)
                         std::cout << " ->  REMOVE  (" << a << "," << b << ")" << std::endl;
+#endif
                         edges2remove.insert(std::make_pair(a, b));
                     }
                 }
@@ -163,17 +178,23 @@ MosaicDualGraph::CalculateComponents ()
     std::vector<std::vector<int> > toremove(graph->Size(), std::vector<int>());
     FOREACH(it, edges2remove)
     {
+#if (DEBUG_COMPONENTS)
         std::cout << "  (" << it->first << "," << it->second << ")";
+#endif
         toremove[it->first].push_back(it->second);
     }
 
     for (unsigned int i = 0; i < pmfgraph->Size(); ++i)
         pmfgraph->RemoveNeighborsOf(i, toremove[i]);
 
+#if (DEBUG_COMPONENTS)
     std::cout << std::endl;
-    pmfgraph->RemoveUnnecessaryCollinearNodes();
+#endif
+    pmfgraph->RemoveUnnecessaryCollinearNodes(DEBUG_COMPONENTS);
 
+#if (DEBUG_COMPONENTS)
     std::cout << *pmfgraph << std::endl;
+#endif
     pmfgraph->SaveAsGeoGebraFile("output/pmfgraph.ggb");
 
     pmfgraph->MutateIntersectionElements();
@@ -183,7 +204,7 @@ MosaicDualGraph::CalculateComponents ()
 
 
 
-int
+std::pair<unsigned int, unsigned int>
 MosaicDualGraph::CountBlackAndWhitePixels(
                                             double ux, double uy, double unx, double uny,
                                             double dx, double dy, double dnx, double dny,
@@ -191,21 +212,23 @@ MosaicDualGraph::CountBlackAndWhitePixels(
                                             double xb, double xe
                                         )
 {
-    double  width = 3.0;
-    double height = 3.0;
-
+    double  width = MosaicConstants::GetPmfWidth();
+    double height = MosaicConstants::GetPmfHeight();
+#if (DEBUG_COLORS)
     std::cout << "[ SEGMENT  UP  ]  :  (" << ux << ";" << uy << ") - (" << unx << ";" << uny << ")" << std::endl;
     std::cout << "[ SEGMENT DOWN ]  :  (" << dx << ";" << dy << ") - (" << dnx << ";" << dny << ")" << std::endl;
-
-    int black = 0;
-    int white = 0;
+#endif
+    unsigned int black = 0;
+    unsigned int white = 0;
 
     double pixelx =  width / double(gimg.GetWidth());
     double pixely = height / double(gimg.GetHeight());
 
     int picix = int(xb / pixelx);
+#if (DEBUG_COLORS)
     std::cout << " start at pixel " << picix << std::endl;
-    bool printDebug = true;
+#endif
+    bool printDebug = true and DEBUG_COLORS;
 
     double osx = 0.5 * pixelx + picix * pixelx;
     while (osx <= xe)
@@ -267,10 +290,10 @@ MosaicDualGraph::CountBlackAndWhitePixels(
         osx += pixelx;
     }
     if (printDebug)  std::cout << std::endl;
-
+#if (DEBUG_COLORS)
     std::cout << "( B=" << black << " , W=" << white << " )  of  " << (white+black) << std::endl;
-
-    return (white > black) ? 1 : 0;
+#endif
+    return std::make_pair(black, white);
 }
 
 
@@ -278,25 +301,30 @@ int
 MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImage & gimg)
 {
     unsigned int db = 0, de = 1;
-    std::cout << " db = " << db << std::endl;
+    //std::cout << " db = " << db << std::endl;
     while (graph->Get(area[de])->x() < graph->Get(area[de+1])->x()) ++de;
     unsigned int ub = de;
-    std::cout << " de = " << de << std::endl;
+    //std::cout << " de = " << de << std::endl;
     while (graph->Get(area[ub])->x() == graph->Get(area[ub+1])->x()) ++ub;
-    std::cout << " ub = " << ub << std::endl;
+    //std::cout << " ub = " << ub << std::endl;
     unsigned int ue = ub + 1;
     while (ue < area.size()-1  and  graph->Get(area[ue])->x() > graph->Get(area[ue+1])->x()) ++ue;
-    std::cout << " ue = " << ue << std::endl;
-
+    //std::cout << " ue = " << ue << std::endl;
+#if (DEBUG_COLORS)
+    std::cout << "   (db, de) = (" << db << "," << de << ")";
+    std::cout << "   (ub, ue) = (" << ub << "," << ue << ")";
+    std::cout << std::endl;
+#endif
     std::vector<unsigned int> down, up;
     unsigned int i = 0;
     while (i <= de) { down.push_back(area[i]); ++i; }
     i = ue;
     while (i >= ub) { up.push_back(area[i]); --i; }
 
+#if (DEBUG_COLORS)
     FOREACH(it, up) std::cout << " " << *it;  std::cout << std::endl;
     FOREACH(it, down) std::cout << " " << *it;  std::cout << std::endl;
-
+#endif
     assert(graph->Get(up.front())->x() == graph->Get(down.front())->x());
     assert(graph->Get(up.back())->x() == graph->Get(down.back())->x());
 
@@ -307,6 +335,7 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImag
     double dy = graph->Get(down[di])->y();
     ++ui;  ++di;
 
+    std::pair<unsigned int, unsigned int> pixels(0, 0);
     while (ui < up.size()-1  or  di < down.size()-1)
     {
         double unx = graph->Get(up[ui])->x();
@@ -316,18 +345,24 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImag
 
         double xb = std::max(ux, dx);
         double xe = std::min(unx, dnx);
+#if (DEBUG_COLORS)
         std::cout << xb << "  " << xe << "      =>  " << ui << "/" << up.size() << " " << di << "/" << down.size() << std::endl;
+#endif
         if (dnx < unx)
         {
             ++di;
-            CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+            std::pair<unsigned int, unsigned int> val = CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+            pixels.first  += val.first;
+            pixels.second += val.second;
             dx = dnx;
             dy = dny;
         }
         else if (dnx > unx)
         {
             ++ui;
-            CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+            std::pair<unsigned int, unsigned int> val = CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+            pixels.first  += val.first;
+            pixels.second += val.second;
             ux = unx;
             uy = uny;
         }
@@ -356,9 +391,21 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImag
 
     double xb = std::max(ux, dx);
     double xe = std::min(unx, dnx);
+#if (DEBUG_COLORS)
     std::cout << xb << "  " << xe << "      =>  " << ui << "/" << up.size() << " " << di << "/" << down.size() << std::endl;
+#endif
+    std::pair<unsigned int, unsigned int> val = CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+    pixels.first  += val.first;
+    pixels.second += val.second;
 
-    return CountBlackAndWhitePixels( ux, uy, unx, uny,  dx, dy, dnx, dny,  gimg, xb, xe );
+    int result = 0;
+    if (pixels.first < pixels.second) result = 1;
+    else if (pixels.first == pixels.second) result = rand() % 2;
+
+#if (DEBUG_COLORS)
+    std::cout << "[[ COLOR _" << result << "_ ]]  :  BLACK = " << pixels.first << " ,   WHITE = " << pixels.second << " ,   of  " << (pixels.first + pixels.second) << std::endl;
+#endif
+    return result;
 }
 
 
@@ -373,16 +420,19 @@ MosaicDualGraph::DetermineAreasColors (pmf::GrayscaleImage & gimg)
     int i = 0;
     FOREACH(it, areas)
     {
-        std::cout << "[[ AREA " << i << " ]]  :  ";
+#if (DEBUG_COLORS)
+        std::cout << std::endl << "[[ AREA " << i << " ]]  :  ";
         FOREACH(iit, *it)  std::cout << " " << *iit;
         std::cout << std::endl;
+#endif
         areasColors[i] = DetermineAreaColor(*it, gimg);
         ++i;
     }
-
+#if (DEBUG_COLORS)
     std::cout << "[ COLORS ] :";
     for (unsigned int j = 0; j < areasColors.size(); ++j) std::cout << " " << j << "{" << areasColors[j] << "}";
     std::cout << std::endl;
+#endif
 }
 
 

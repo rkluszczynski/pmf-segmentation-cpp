@@ -56,8 +56,8 @@ MosaicGraph::SaveAsGeoGebraFile (const char * filename)
 		txt << _("        <axesColor r='0' g='0' b='0'/>") << endl;
 		txt << _("        <gridColor r='192' g='192' b='192'/>") << endl;
 		txt << _("        <lineStyle axes='1' grid='10'/>") << endl;
-		txt << _("        <axis id='0' show='true' label='x' unitLabel='' tickStyle='0' showNumbers='true'/>") << endl;
-		txt << _("        <axis id='1' show='true' label='y' unitLabel='' tickStyle='0' showNumbers='true'/>") << endl;
+		txt << _("        <axis id='0' show='false' label='x' unitLabel='' tickStyle='0' showNumbers='true'/>") << endl;
+		txt << _("        <axis id='1' show='false' label='y' unitLabel='' tickStyle='0' showNumbers='true'/>") << endl;
         txt << _("    </euclidianView>") << endl;
         txt << _("    <kernel>") << endl;
         txt << _("        <continuous val='true'/>") << endl;
@@ -188,8 +188,9 @@ MosaicGraph::RemoveNeighborsOf (unsigned int id, std::vector<int> & neighbours)
 
 
 void
-MosaicGraph::RemoveUnnecessaryCollinearNodes ()
+MosaicGraph::RemoveUnnecessaryCollinearNodes (bool printDebug)
 {
+    double Epsilon = MosaicConstants::GetEpsilon();
     std::vector<int> newids(nodes.size());
     fill_n(newids.begin(), newids.size(), -1);
 
@@ -199,7 +200,7 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes ()
 
         if (node->Size() == 2)
         {
-            std::cout << node->GetId() << std::endl;
+            if (printDebug)  std::cout << node->GetId() << std::endl;
 
             unsigned int n1 = node->Front()->GetId();
             unsigned int n2 = node->Back()->GetId();
@@ -221,9 +222,10 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes ()
             double dy02 = y2 - y0;
 
             double val = dx01 * dy02 - dx02 * dy01;
-            if (-1e-8 < val  and  val < 1e-8)
+            if (-Epsilon < val  and  val < Epsilon)
             {
-                std::cout << node->GetId() << " " << n1 << " " << n2 << std::endl;
+                if (printDebug)  std::cout << node->GetId() << " " << n1 << " " << n2 << std::endl;
+
                 assert(d1 == d2);
                 this->RemoveEdge(node->GetId(), it1, n1);
                 this->RemoveEdge(node->GetId(), it2, n2);
@@ -240,13 +242,14 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes ()
     {
         if ((* it)->Size() != 0)
         {
-            std::cout << " moving " << i << " to " << freeplace << std::endl;
+            if (printDebug)  std::cout << " moving " << i << " to " << freeplace << std::endl;
+
             nodes[freeplace] = nodes[i];
             newids[i] = freeplace;
             ++freeplace;
         }
         else {
-            std::cout << " erasing " << i << std::endl;
+            if (printDebug)  std::cout << " erasing " << i << std::endl;
         }
         ++i;
     }

@@ -32,8 +32,8 @@ int main(int argc, char ** argv)
     fout.close();
     return 0;
     // */
-    unsigned lines = 193;
-    ///srand(13);
+    unsigned lines = 50;
+    srand(13);
     //srand(time(NULL));
     MosaicLinesDeterminer mld;
     mld.GenerateRandomSegmentsByPolarParameters(lines, width, height);
