@@ -19,6 +19,7 @@ MosaicConstants::MosaicConstants(const char * filename) : MosaicConstants::Abstr
 MosaicConstants::~MosaicConstants()
 {
     //dtor
+    std::cout << "[ MosaicConstants ] : destroyed" << std::endl;
 }
 
 
