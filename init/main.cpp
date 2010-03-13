@@ -14,6 +14,8 @@ void print_usage(char *, bool);
 
 int main(int argc, char ** argv)
 {
+    MosaicConstants::SetupFile(std::string("input/mosaic.txt"));
+
     double  width = MosaicConstants::GetPmfWidth();
     double height = MosaicConstants::GetPmfHeight();
     const char * image = MosaicConstants::GetImageFile();
@@ -32,8 +34,8 @@ int main(int argc, char ** argv)
     fout.close();
     return 0;
     // */
-    unsigned lines = 100;
-    srand(13);
+    unsigned lines = 200;
+    srand(17);
     //srand(time(NULL));
     MosaicLinesDeterminer mld;
     mld.GenerateRandomSegmentsByPolarParameters(lines, width, height);

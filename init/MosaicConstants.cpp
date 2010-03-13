@@ -4,6 +4,9 @@
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
 
+std::string MosaicConstants::m_ImageFile("mosaic.txt");
+
+
 MosaicConstants::MosaicConstants(const char * filename) : MosaicConstants::AbstractProperties(filename)
 {
     static int i = 0;
@@ -18,8 +21,8 @@ MosaicConstants::MosaicConstants(const char * filename) : MosaicConstants::Abstr
 
 MosaicConstants::~MosaicConstants()
 {
-    //dtor
     std::cout << "[ MosaicConstants ] : destroyed" << std::endl;
+    //dtor
 }
 
 

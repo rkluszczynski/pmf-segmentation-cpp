@@ -10,33 +10,35 @@
 class MosaicConstants : public AbstractProperties
 {
     public:
-        inline static MosaicConstants & Instance()
-        {
-            static std::auto_ptr<MosaicConstants> singleton(new MosaicConstants("input/mosaic.txt"));
-            return *singleton;
-        }
+        typedef std::auto_ptr<MosaicConstants> InstancePointer;
 
-        static double GetEpsilon()      { return Instance().m_Epsilon; }
-        static double GetPmfHeight()    { return Instance().m_PMFHeight; }
-        static double GetPmfWidth()     { return Instance().m_PMFWidth; }
-        static const char * GetImageFile()    { return Instance().m_ImageFile.c_str(); }
+        inline static void SetupFile (std::string filename) { m_ImageFile = filename; }
+        inline static InstancePointer & Instance()
+        {
+            static InstancePointer singleton(new MosaicConstants(m_ImageFile.c_str()));
+            return singleton;
+        }
+        virtual ~MosaicConstants();
+
+        static double         GetEpsilon()  { return Instance()->m_Epsilon; }
+        static double       GetPmfHeight()  { return Instance()->m_PMFHeight; }
+        static double        GetPmfWidth()  { return Instance()->m_PMFWidth; }
+        static const char * GetImageFile()  { return Instance()->m_ImageFile.c_str(); }
 
         friend std::ostream & operator << (std::ostream &, const MosaicConstants &);
 
-        MosaicConstants(const char *);
-        virtual ~MosaicConstants();
+        static std::string m_ImageFile;
 
     protected:
+        explicit MosaicConstants(const char *);
 
     private:
-
-        //inline explicit MosaicConstants(MosaicConstants const&) {}
-        //inline MosaicConstants& operator=(MosaicConstants const&) { return *this; }
+        //inline explicit MosaicConstants (MosaicConstants const &) {}
+        inline MosaicConstants & operator = (MosaicConstants const &) { return *this; }
 
         double m_Epsilon;
         double m_PMFHeight;
         double m_PMFWidth;
-        std::string m_ImageFile;
 };
 
 
