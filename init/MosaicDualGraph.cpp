@@ -323,7 +323,7 @@ MosaicDualGraph::DetermineAreaColor (std::vector<int> & area, pmf::GrayscaleImag
     std::cout << std::endl;
 #endif
     std::vector<unsigned int> down, up;
-    unsigned int i = 0;
+    unsigned int i = db;
     while (i <= de) { down.push_back(area[i]); ++i; }
     i = ue;
     while (i >= ub) { up.push_back(area[i]); --i; }
