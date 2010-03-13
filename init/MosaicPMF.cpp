@@ -1,7 +1,7 @@
 #include "MosaicPMF.hpp"
 
 using namespace std;
-#define EPSILON 1e-7
+
 #include "../cmd/geometry.hpp"
 
 #define ST first

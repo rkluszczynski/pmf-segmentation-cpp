@@ -6,7 +6,8 @@
 
 MosaicConstants::MosaicConstants(const char * filename) : MosaicConstants::AbstractProperties(filename)
 {
-    ///std::cout << "Constants ctor = " << filename << std::endl;
+    static int i = 0;
+    std::cout << "[ MosaicConstants ] : " << ++i << " " << filename << std::endl;
     //ctor
     m_Epsilon = atof(GetValueOf("epsilon").c_str());
     m_PMFHeight = atof(GetValueOf("pmf-height").c_str());
