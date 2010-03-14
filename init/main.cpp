@@ -23,6 +23,7 @@ int main(int argc, char ** argv)
     //pmf::GrayscaleImage gimg("input/3x3.png");
     //pmf::GrayscaleImage gimg("input/30x30.png");
     pmf::GrayscaleImage gimg(image);
+    //pmf::GrayscaleImage gimg("input/qq-0B.png");
     /*
     ofstream fout("output/ascii.txt");
     for(int i = 0; i < gimg.GetHeight(); ++i)
@@ -34,11 +35,12 @@ int main(int argc, char ** argv)
     fout.close();
     return 0;
     // */
-    unsigned lines = 200;
+    unsigned lines = 100;
     srand(17);
     //srand(time(NULL));
-    MosaicLinesDeterminer mld;
+    MosaicLinesDeterminer mld(true);
     mld.GenerateRandomSegmentsByPolarParameters(lines, width, height);
+    //mld.LoadSegmentsFromFile("input/lines.txt");
 
     MosaicPMF * ipmf = new MosaicPMF(width, height, mld, gimg);
 

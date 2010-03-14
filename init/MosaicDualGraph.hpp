@@ -35,6 +35,9 @@ class MosaicDualGraph
                                     double xb, double xe
                                 );
 
+        void
+        RemoveToSmallAreas(MosaicGraph *, double);
+
     private:
         MosaicGraph * graph;
 

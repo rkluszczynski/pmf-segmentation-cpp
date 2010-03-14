@@ -4,6 +4,7 @@
 #define DEBUG_SWITCH 0
 #define DEBUG_COLORS 0
 #define DEBUG_COMPONENTS 0
+#define DEBUG_SMALL 0
 
 MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
 {
@@ -207,8 +208,150 @@ MosaicDualGraph::CalculateComponents ()
     pmfgraph->MutateIntersectionElements();
     pmfgraph->RemoveUnnecessaryCollinearNodes();
     pmfgraph->SaveAsGeoGebraFile("output/finalpmf.ggb");
+
+    RemoveToSmallAreas(pmfgraph, 0.0001);
+    pmfgraph->RemoveUnnecessaryCollinearNodes();
+#if (DEBUG_SMALL)
+    std::cout << *pmfgraph << std::endl;
+#endif
+    pmfgraph->SaveAsGeoGebraFile("output/__final__.ggb");
 }
 
+
+
+void
+MosaicDualGraph::RemoveToSmallAreas(MosaicGraph * graph, double cutoff)
+{
+    MosaicGraph * copygraph = new MosaicGraph(*graph);
+    copygraph->SortNeighborsInCounterClockwiseOrder();
+
+    std::vector<std::vector<int> > nareas;
+    for (unsigned int i = 0; i < copygraph->Size(); ++i)
+    {
+        MosaicGraphNode * node = copygraph->Get(i);
+
+        while (node->Size() > 0)
+        {
+            std::vector<int> area;
+
+            MosaicGraphNode::Iterator nit = node->Begin();
+            unsigned int a = -1;
+            unsigned int b = i;
+
+            area.push_back(i);
+            do
+            {
+                a = b;
+                MosaicGraphNode::Iterator it = nit;
+                b = (*it)->GetId();
+
+                area.push_back(b);
+
+                MosaicGraphNode * nodeb = copygraph->Get(b);
+                nit = (*it)->GetOther();
+                nit = (nit == nodeb->Begin()) ? (--nodeb->End()) : (--nit);
+                //*
+                if ( (*it)->GetDegree() > 1 )
+                {
+                    (*it)->SetDegree(1);
+                    (* (*it)->GetOther() )->SetDegree(1);
+                }
+                else
+                // */
+                    copygraph->RemoveEdge(a, it, b);
+            }
+            while (b != i);
+
+            nareas.push_back(area);
+            //std::cout << *copygraph << std::endl;
+        }
+    }
+
+    std::set<std::pair<int, int> > edgestoremove;
+    FOREACH(it, nareas)
+    {
+#if (DEBUG_SMALL)
+        std::cout << std::endl;
+        std::cout << "=>";
+        FOREACH(iit, *it)  std::cout << " " << *iit;
+        std::cout << std::endl;
+#endif
+        std::vector<int>::iterator iit = it->begin();
+        double x0 = copygraph->Get(*iit)->x();
+        double y0 = copygraph->Get(*iit)->y();
+
+        std::vector<int>::iterator it1 = (++iit);
+        std::vector<int>::iterator it2 = (++iit);
+        double value = 0.;
+        while (*it->begin() != *it2)
+        {
+            double x1 = copygraph->Get(*it1)->x();
+            double y1 = copygraph->Get(*it1)->y();
+            double x2 = copygraph->Get(*it2)->x();
+            double y2 = copygraph->Get(*it2)->y();
+
+            double det = x0*y1 + x1*y2 + x2*y0 - y0*x1 - y1*x2 - y2*x0;
+            //std::cout << " ... " << det << std::endl;
+            value += det;
+
+            it1 = it2;
+            it2 = (++iit);
+        }
+#if (DEBUG_SMALL)
+        std::cout << "\\___ = " << .5 * value << std::endl;
+#endif
+        if (.5 * value < cutoff)
+        {
+#if (DEBUG_SMALL)
+            std::cout << " TO REMOVE " << std::endl;
+#endif
+            FOREACH(iit, *it)
+            {
+                std::vector<int>::iterator niit = iit + 1;
+                if (niit != it->end())
+                {
+                    unsigned int a = *iit;
+                    unsigned int b = *niit;
+                    //if (a > b)  std::swap(a,b);
+                    edgestoremove.insert(std::make_pair(a, b));
+                    edgestoremove.insert(std::make_pair(b, a));
+                }
+            }
+        }
+    }
+#if (DEBUG_SMALL)
+    std::cout << "[ SMALL AREAS EDGES ] :";
+    FOREACH(it, edgestoremove) if (it->first < it->second) std::cout << " (" << it->first << "," << it->second << ")";
+    std::cout << std::endl;
+#endif
+    for (unsigned int i = 0; i < graph->Size(); ++i)
+    {
+        MosaicGraphNode * node = graph->Get(i);
+        //FOREACH(nit, *node)
+        //for (MosaicGraphNode::Iterator nodeit = node->Begin(); nodeit != node->End(); ++nodeit)
+        MosaicGraphNode::Iterator nodeit = node->Begin();
+        while (nodeit != node->End())
+        {
+            unsigned int a = i;
+            unsigned int b = (*nodeit)->GetId();
+            MosaicGraphNode::Iterator tmp = nodeit;
+            ++nodeit;
+            //if (a > b)  std::swap(a,b);
+            if (edgestoremove.find(std::make_pair(a,b)) != edgestoremove.end()
+                and
+                (*tmp)->GetDegree() > 0
+                and
+                a < b
+                )
+            {
+#if (DEBUG_SMALL)
+                std::cout << " removing " << a << " - " << b << std::endl;
+#endif
+                graph->RemoveEdge(a, tmp, b);
+            }
+        }
+    }
+}
 
 
 std::pair<unsigned int, unsigned int>

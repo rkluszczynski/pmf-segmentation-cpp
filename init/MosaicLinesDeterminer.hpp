@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#include <iostream>
+#include <fstream>
 #include <set>
 #include <vector>
 #include <utility>
@@ -20,6 +22,8 @@ class MosaicLinesDeterminer
         virtual ~MosaicLinesDeterminer();
 
         void GenerateRandomSegmentsByPolarParameters (unsigned int, double, double);
+        void GenerateRandomSegmentsByPolarParameters2 (unsigned int, double, double);
+        void LoadSegmentsFromFile (const char *);
 
         inline ConstIterator begin() const { return mosaic.begin(); }
         inline ConstIterator end()   const { return mosaic.end(); }
