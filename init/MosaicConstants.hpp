@@ -25,6 +25,9 @@ class MosaicConstants : public AbstractProperties
         static double        GetPmfWidth()  { return Instance()->m_PMFWidth; }
         static const char * GetImageFile()  { return Instance()->m_ImageFile.c_str(); }
 
+        static const char * GetValueOfKey(const char * key) { return Instance()->GetValueOf(key).c_str(); }
+        static const char * GetTimeStamp(bool anew = false) { return Instance()->GenerateTimeStamp(anew); }
+
         friend std::ostream & operator << (std::ostream &, const MosaicConstants &);
 
         static std::string m_ImageFile;
@@ -33,6 +36,8 @@ class MosaicConstants : public AbstractProperties
         explicit MosaicConstants(const char *);
 
     private:
+        const char * GenerateTimeStamp(bool);
+
         //inline explicit MosaicConstants (MosaicConstants const &) {}
         inline MosaicConstants & operator = (MosaicConstants const &) { return *this; }
 

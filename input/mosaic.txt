@@ -6,12 +6,15 @@
 epsilon=1e-7;
 pmf-width=3;
 pmf-height=3;
+lines-amount=100;
+lines-type=0;  # 0 oznacza losuj, 1 wczytaj z pliku
+
+lines-file=input/lines.txt;
 
 # Image file
 image=input/ring-spread.png
 ;image=input/qq-0B.png
 
-# Other
+# Other testings
 debug-intersect=0
 debug-graph=0
-author=Rafal Kluszczynski
