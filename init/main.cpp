@@ -119,6 +119,7 @@ int main(int argc, char ** argv)
     //cout << ipmf << endl;
     cout << MosaicConstants::Instance()->GetTimeStamp() << endl;
     cout << MosaicConstants::Instance()->GetTimeStamp(true) << endl;
+
     return 0;
 }
 
@@ -138,6 +139,5 @@ void print_usage(char * prog_name, bool cond)
 	fprintf(stderr, "       \t\t  [ -c config file ]\n");
 	fprintf(stderr, "\n");
 
-    system("pause");
 	exit(1);
 }

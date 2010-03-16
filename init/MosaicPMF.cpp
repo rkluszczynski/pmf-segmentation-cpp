@@ -321,7 +321,7 @@ MosaicPMF::GenerateSegmentsGraph (
                         MosaicSegment<double> * seg1 = (*ita)->GetSegment();
                         MosaicSegment<double> * seg2 = (*itb)->GetSegment();
 
-                        AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
+                        //AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
                     }
                     break;;
                 }

@@ -12,7 +12,7 @@ lines-type=0;  # 0 oznacza losuj, 1 wczytaj z pliku
 lines-file=input/lines.txt;
 
 # Image file
-image=input/ring-spread.png
+image=input/ring-spread.png;
 ;image=input/qq-0B.png
 
 # Other testings
