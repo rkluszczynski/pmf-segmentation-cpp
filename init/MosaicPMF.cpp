@@ -1,5 +1,13 @@
 #include "MosaicPMF.hpp"
 
+
+#ifdef PMF_CWD
+    #define OUTPUT_DIR "./"
+#else
+    #define OUTPUT_DIR "output/"
+#endif
+
+
 using namespace std;
 
 #include "../cmd/geometry.hpp"
@@ -54,7 +62,8 @@ MosaicPMF::MosaicPMF (
 
     /** Generating segments graph **/
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
-    graph->SaveAsGeoGebraFile("output/segraph.ggb");
+    std::string filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_1_segments-graph.ggb");
+    graph->SaveAsGeoGebraFile(filepath.c_str());
 
     //freopen ("output/20-generated-graph.txt", "w", stdout);
     //cout << *graph << endl;
@@ -312,7 +321,7 @@ MosaicPMF::GenerateSegmentsGraph (
 
                     graph->AddEdge( evt->GetSegment()->GetLastGraphNodeId(), id, 2 );
                     evt->GetSegment()->SetLastGraphNodeId( id );
-
+                    /*
                     if (!msls->IsNull(ita)  and  !msls->IsNull(itb))
                     {
 #if (WRITE_SWITCH)
@@ -323,6 +332,7 @@ MosaicPMF::GenerateSegmentsGraph (
 
                         //AnalyzeAndPredictIntersection(seg1, seg2, evts, evt->GetPoint()->x);
                     }
+                    // */
                     break;;
                 }
             case AreaMarkings :

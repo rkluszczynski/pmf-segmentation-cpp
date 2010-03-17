@@ -1,5 +1,10 @@
 #include "MosaicDualGraph.hpp"
 
+#ifdef PMF_CWD
+    #define OUTPUT_DIR "./"
+#else
+    #define OUTPUT_DIR "output/"
+#endif
 
 #define DEBUG_SWITCH 0
 #define DEBUG_COLORS 0
@@ -203,18 +208,24 @@ MosaicDualGraph::CalculateComponents ()
     std::cout << "[[ REMOVED ALL UNNECESSARY NODES ]]" << std::endl;
     std::cout << *pmfgraph << std::endl;
 #endif
-    pmfgraph->SaveAsGeoGebraFile("output/pmfgraph.ggb");
+    std::string filepath;
+
+    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_2_merged-areas.ggb");
+    pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
 
     pmfgraph->MutateIntersectionElements();
     pmfgraph->RemoveUnnecessaryCollinearNodes();
-    pmfgraph->SaveAsGeoGebraFile("output/finalpmf.ggb");
 
-    RemoveToSmallAreas(pmfgraph, 0.0001);
+    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_3_ready-pmf.ggb");
+    pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
+
+    RemoveToSmallAreas(pmfgraph, atof(MosaicConstants::GetValueOfKey("area-cutoff")));
     pmfgraph->RemoveUnnecessaryCollinearNodes();
 #if (DEBUG_SMALL)
     std::cout << *pmfgraph << std::endl;
 #endif
-    pmfgraph->SaveAsGeoGebraFile("output/__final__.ggb");
+    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_result_pmf.ggb");
+    pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
 }
 
 
