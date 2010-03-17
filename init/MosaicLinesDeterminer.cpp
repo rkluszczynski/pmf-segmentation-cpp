@@ -24,8 +24,8 @@ MosaicLinesDeterminer::LoadSegmentsFromFile (const char * filename)
     fin.open(filename);
     int amount;
     double width, height;
-    fin >> width;
-    fin >> height;
+    //fin >> width;
+    //fin >> height;
     fin >> amount;
     for (int i = 0; i < amount; ++i)
     {
