@@ -179,7 +179,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     bool exists = CheckExistanceAfterForgeting (newpt, sinL, cosL, dpt, dptn, evts, line, id);
     if (exists)
     {
-        cout << " FREAKING EXISTANCE " << endl;
+        cout << " NOT NICE POINT EXISTANCE " << endl;
 
         printf("QQ ->>\n");
         //*

@@ -189,6 +189,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         bool ans = evts->Insert(e);
         if (! ans)
         {
+            out << " ---->  point is in events' queue : " << npt << endl;
             delete nseg;
             delete e;
             return false;
