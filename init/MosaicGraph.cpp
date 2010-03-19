@@ -17,6 +17,7 @@ MosaicGraph::~MosaicGraph()
 }
 
 
+#define DIST(N1, N2) sqrt( ((N2)->x()-(N1)->x())*((N2)->x()-(N1)->x()) + ((N2)->y()-(N1)->y())*((N2)->y()-(N1)->y()) )
 void
 MosaicGraph::SaveAsTextFile (const char * filename)
 {
@@ -67,13 +68,16 @@ MosaicGraph::SaveAsTextFile (const char * filename)
                 {
                     assert(n1 == 0);
                     n1 = nids[(*nit)->GetId()];
+                    l1 = DIST(node, nodes[(*nit)->GetId()]);
                 }
         }
         else
         {
             assert(node->Size() == 2);
             n1 = nids[node->Front()->GetId()];
+            l1 = DIST(node, nodes[node->Front()->GetId()]);
             n2 = nids[node->Back()->GetId()];
+            l2 = DIST(node, nodes[node->Back()->GetId()]);
         }
 
         fout.width(4);  fout << nids[node->GetId()] << " ";
@@ -90,7 +94,7 @@ MosaicGraph::SaveAsTextFile (const char * filename)
     }
     fout.close();
 }
-
+#undef DIST
 
 
 

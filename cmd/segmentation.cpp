@@ -22,7 +22,10 @@ namespace pmf
         pmf = new DoublePMF (wsize, hsize);
         pmf->SetSeed (seed);
 		if (initialFile)
+		{
             pmf->LoadPMF (initialFile);
+            pmf->RotatePoints2 (0., 1.);
+		}
 		else
             pmf->GenerateField ();
 
@@ -110,7 +113,7 @@ namespace pmf
         ofstream fout2("output/_iteration-modification.txt");
         out.rdbuf(fout2.rdbuf());
         fout3.close();
-            pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-before.zip");
+            pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-before.ggb");
 
         // * Applying random operation. *
         double chance = Uniform(0.0, 1.0);
@@ -138,7 +141,7 @@ namespace pmf
             pmf->UpdatePointVelocity (number, sinL, cosL);
         }
 
-        pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-after.zip");
+        pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-after.ggb");
         cout << "CHECK 1" << endl;
         pmf->RotatePoints2 (0., 1.);
         cout << "CHECK 2" << endl;
@@ -176,15 +179,15 @@ namespace pmf
         //if (loopIteration >= 17744) Geometry::qq = true;
 
         if (loopIteration < iterNum)
-            sprintf(filename, "output/pre.txt");
+            sprintf(filename, "output/pre.ggb");
         else
-            sprintf(filename, "output/pre%li.txt", loopIteration);
+            sprintf(filename, "output/pre%li.ggb", loopIteration);
         pmf->SavePMF(filename);
 
         if (loopIteration < iterNum)
-            sprintf(filename, "output/pre.zip");
+            sprintf(filename, "output/pre.ggb");
         else
-            sprintf(filename, "output/pre%li.zip", loopIteration);
+            sprintf(filename, "output/pre%li.ggb", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();
@@ -198,6 +201,7 @@ namespace pmf
     {
         cout << "[ SEGM ] :  post-iteration.begin()" << endl;
 
+        //pmf->SavePMF("output/post-before-check-0.ggb", GeoGebraFile);
         cout << " post check 0" << endl;
         assert( pmf->TestPointsCoincidence() );
 
@@ -229,7 +233,7 @@ namespace pmf
         if (outputfile)
         {
             pmf->SavePMF (outputfile);
-            pmf->SavePMF ("output/sim-result.zip", GeoGebraFile);
+            pmf->SavePMF ("output/sim-result.ggb", GeoGebraFile);
         }
         delete pmf;
 

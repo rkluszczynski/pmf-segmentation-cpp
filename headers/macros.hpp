@@ -21,7 +21,7 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
-/*
+//*
 #include <wx/wx.h>
 #include <wx/log.h>
 #include <wx/dcmemory.h>
