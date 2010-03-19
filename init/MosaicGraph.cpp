@@ -1,5 +1,9 @@
 #include "MosaicGraph.hpp"
 
+#include <fstream>
+
+#define REP(X,N)        for(int X = 0; X < (N); ++X)
+
 
 MosaicGraph::MosaicGraph()
 {
@@ -11,6 +15,83 @@ MosaicGraph::~MosaicGraph()
 {
     //dtor
 }
+
+
+void
+MosaicGraph::SaveAsTextFile (const char * filename)
+{
+    double  width = MosaicConstants::GetPmfWidth();
+    double height = MosaicConstants::GetPmfHeight();
+
+    std::vector<int> nids(nodes.size());
+    fill_n(nids.begin(), nodes.size(), -1);
+
+    int counter = 0;
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+        assert(node->Size() <= 3);
+        if (node->x() == 0.  or  node->x() == width  or  node->y() == 0.  or  node->y() == height)
+        {
+            if (node->Size() < 3)  continue;
+            assert(node->Size() == 3);
+        }
+        else
+            assert(node->Size() == 2);
+
+        nids[node->GetId()] = (++counter);
+    }
+    ///FOREACH(it, nids) std::cout << " " << *it;  std::cout << std::endl;
+
+    std::ofstream fout(filename);
+    fout << width << " " << height << std::endl;
+    fout << counter << std::endl;
+
+    int precision = 17;
+    fout.precision(precision);
+
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+        int n1 = 0;
+        int n2 = 0;
+        double l1 = 0.;
+        double l2 = 0.;
+
+        if (nids[node->GetId()] < 0)  continue;
+        if (node->x() == 0.  or  node->x() == width  or  node->y() == 0.  or  node->y() == height)
+        {
+            assert(node->Size() == 3);
+            FOREACH(nit, *node)
+                if (not (nodes[(*nit)->GetId()]->x() == 0.  or  nodes[(*nit)->GetId()]->x() == width  or  nodes[(*nit)->GetId()]->y() == 0.  or  nodes[(*nit)->GetId()]->y() == height))
+                {
+                    assert(n1 == 0);
+                    n1 = nids[(*nit)->GetId()];
+                }
+        }
+        else
+        {
+            assert(node->Size() == 2);
+            n1 = nids[node->Front()->GetId()];
+            n2 = nids[node->Back()->GetId()];
+        }
+
+        fout.width(4);  fout << nids[node->GetId()] << " ";
+        fout.width(precision+5);  fout << node->x() << " ";
+        fout.width(precision+5);  fout << node->y() << " ";
+        fout.width(4);                   fout << n1 << " ";
+        fout.width(4);                   fout << n2 << " ";
+        fout.width(precision+5);         fout << l1 << " ";
+        fout.width(precision+5);         fout << l2 << " ";
+        fout.width(2);                    fout << 0 << " ";
+        fout.width(3);                 fout << "-1" << " ";
+        fout.width(3);                    fout << 0 << " ";
+        fout << std::endl;
+    }
+    fout.close();
+}
+
+
 
 
 #include <wx/wx.h>

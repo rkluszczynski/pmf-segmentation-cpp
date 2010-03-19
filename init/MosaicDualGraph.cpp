@@ -224,8 +224,10 @@ MosaicDualGraph::CalculateComponents ()
 #if (DEBUG_SMALL)
     std::cout << *pmfgraph << std::endl;
 #endif
-    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_result_pmf.ggb");
+    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_result-pmf.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
+    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_result-pmf.txt");
+    pmfgraph->SaveAsTextFile(filepath.c_str());
 }
 
 

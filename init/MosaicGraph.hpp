@@ -28,6 +28,7 @@ class MosaicGraph
 
         void SortNeighborsInCounterClockwiseOrder();
         void SaveAsGeoGebraFile(const char *);
+        void SaveAsTextFile(const char *);
 
         friend std::ostream & operator << (std::ostream &, const MosaicGraph &);
 
