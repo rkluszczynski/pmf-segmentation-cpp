@@ -75,9 +75,9 @@ MosaicGraph::SaveAsTextFile (const char * filename)
         {
             assert(node->Size() == 2);
             n1 = nids[node->Front()->GetId()];
-            l1 = DIST(node, nodes[node->Front()->GetId()]);
+            l1 = DIST(node, nodes[node->Front()->GetId()]) + 1.;
             n2 = nids[node->Back()->GetId()];
-            l2 = DIST(node, nodes[node->Back()->GetId()]);
+            l2 = DIST(node, nodes[node->Back()->GetId()]) + 1.;
         }
 
         fout.width(4);  fout << nids[node->GetId()] << " ";
