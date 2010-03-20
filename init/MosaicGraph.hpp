@@ -4,6 +4,7 @@
 #include <cassert>
 #include <vector>
 
+#include "../init/GaussianRandomClass.hpp"
 #include "../init/MosaicConstants.hpp"
 #include "../init/MosaicGraphNode.hpp"
 
@@ -25,6 +26,7 @@ class MosaicGraph
         void RemoveNeighborsOf(unsigned int, std::vector<int> &);
         void RemoveUnnecessaryCollinearNodes(bool = false);
         void MutateIntersectionElements();
+        void MakeGaussianShakeToDisorder(double);
 
         void SortNeighborsInCounterClockwiseOrder();
         void SaveAsGeoGebraFile(const char *);

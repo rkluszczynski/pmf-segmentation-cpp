@@ -68,7 +68,7 @@ namespace pmf
     {
         cout << "[ SEGM ] : calculating hamiltonian" << endl;
 
-        double beta_1 = 20. + 0.009 * loopIteration;
+        double beta_1 = 20. + 0.009 * (loopIteration + 200000);
         double beta_2 = 0.0;
         double result = 0.0;
 

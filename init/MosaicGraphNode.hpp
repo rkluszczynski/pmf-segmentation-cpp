@@ -36,6 +36,8 @@ class MosaicGraphNode
         inline double x() { return _x; }
         inline double y() { return _y; }
 
+        inline void SetXY(double x, double y) { _x = x; _y = y; }
+
         inline unsigned int GetId() { return id; }
         void SetId(unsigned int val) { id = val; }
 

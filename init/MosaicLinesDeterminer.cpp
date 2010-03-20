@@ -23,7 +23,7 @@ MosaicLinesDeterminer::LoadSegmentsFromFile (const char * filename)
     ifstream fin;
     fin.open(filename);
     int amount;
-    double width, height;
+    //double width, height;
     //fin >> width;
     //fin >> height;
     fin >> amount;

@@ -2,8 +2,10 @@
 
 #ifdef PMF_CWD
     #define OUTPUT_DIR "./"
+    #define  TIMESTAMP MosaicConstants::GetTimeStamp()
 #else
     #define OUTPUT_DIR "output/"
+    #define  TIMESTAMP ""
 #endif
 
 #define DEBUG_SWITCH 0
@@ -210,13 +212,13 @@ MosaicDualGraph::CalculateComponents ()
 #endif
     std::string filepath;
 
-    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_2_merged-areas.ggb");
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_2_merged-areas.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
 
     pmfgraph->MutateIntersectionElements();
     pmfgraph->RemoveUnnecessaryCollinearNodes();
 
-    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_3_ready-pmf.ggb");
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_3_ready-pmf.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
 
     RemoveToSmallAreas(pmfgraph, atof(MosaicConstants::GetValueOfKey("area-cutoff")));
@@ -224,9 +226,16 @@ MosaicDualGraph::CalculateComponents ()
 #if (DEBUG_SMALL)
     std::cout << *pmfgraph << std::endl;
 #endif
-    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_result-pmf.ggb");
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_result-pmf.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
-    filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_result-pmf.txt");
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_result-pmf.txt");
+    pmfgraph->SaveAsTextFile(filepath.c_str());
+
+
+    pmfgraph->MakeGaussianShakeToDisorder(.001);
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_shaked-pmf.ggb");
+    pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_shaked-pmf.txt");
     pmfgraph->SaveAsTextFile(filepath.c_str());
 }
 

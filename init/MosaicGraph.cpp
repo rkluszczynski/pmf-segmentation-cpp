@@ -17,6 +17,26 @@ MosaicGraph::~MosaicGraph()
 }
 
 
+void
+MosaicGraph::MakeGaussianShakeToDisorder (double u)
+{
+    double  width = MosaicConstants::GetPmfWidth();
+    double height = MosaicConstants::GetPmfHeight();
+
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+        if (node->x() == 0.  or  node->x() == width  or  node->y() == 0.  or  node->y() == height) continue;
+
+        double x = node->x() + GaussianRandomClass::GetGaussianWithVariance(u);
+        double y = node->y() + GaussianRandomClass::GetGaussianWithVariance(u);
+        x = std::min( std::max(x, 0.0), width );
+        y = std::min( std::max(y, 0.0), height );
+        node->SetXY(x, y);
+    }
+}
+
+
 #define DIST(N1, N2) sqrt( ((N2)->x()-(N1)->x())*((N2)->x()-(N1)->x()) + ((N2)->y()-(N1)->y())*((N2)->y()-(N1)->y()) )
 void
 MosaicGraph::SaveAsTextFile (const char * filename)
@@ -24,8 +44,8 @@ MosaicGraph::SaveAsTextFile (const char * filename)
     double  width = MosaicConstants::GetPmfWidth();
     double height = MosaicConstants::GetPmfHeight();
 
-    std::vector<int> nids(nodes.size());
-    fill_n(nids.begin(), nodes.size(), -1);
+    std::vector<int> nids(nodes.size(), -1);
+    ///fill_n(nids.begin(), nodes.size(), -1);
 
     int counter = 0;
     FOREACH(it, nodes)
