@@ -1,7 +1,7 @@
 #include "MosaicGraphNode.hpp"
 
 
-MosaicGraphNode::MosaicGraphNode (double xx, double yy, unsigned int iid) : _x(xx), _y(yy), id(iid)
+MosaicGraphNode::MosaicGraphNode (double xx, double yy, unsigned int iid) : _x(xx), _y(yy), id(iid), ignoreDisorder(false)
 {
     //ctor
 }

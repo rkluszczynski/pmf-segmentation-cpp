@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
 {
 	long          opt = 0x0;
 	char * configFile = NULL;
-	time_t       seed = 17;//time(NULL);
+	time_t       seed = 16;//time(NULL);
 	char   c, *endptr;
 
 	/* -------------------------------------------------------------------- */

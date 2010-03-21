@@ -215,10 +215,13 @@ MosaicDualGraph::CalculateComponents ()
     filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_2_merged-areas.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
 
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_3_disordered-pmf.ggb");
+    pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
+
     pmfgraph->MutateIntersectionElements();
     pmfgraph->RemoveUnnecessaryCollinearNodes();
 
-    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_3_ready-pmf.ggb");
+    filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_4_ready-pmf.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
 
     RemoveToSmallAreas(pmfgraph, atof(MosaicConstants::GetValueOfKey("area-cutoff")));
@@ -231,12 +234,13 @@ MosaicDualGraph::CalculateComponents ()
     filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_result-pmf.txt");
     pmfgraph->SaveAsTextFile(filepath.c_str());
 
-
+    //*
     pmfgraph->MakeGaussianShakeToDisorder(.001);
     filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_shaked-pmf.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
     filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_shaked-pmf.txt");
     pmfgraph->SaveAsTextFile(filepath.c_str());
+    // */
 }
 
 

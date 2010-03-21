@@ -41,6 +41,9 @@ class MosaicGraphNode
         inline unsigned int GetId() { return id; }
         void SetId(unsigned int val) { id = val; }
 
+        inline bool GetIgnoreDisorder() { return ignoreDisorder; }
+        void SetIgnoreDisorder(bool val) { ignoreDisorder = val; }
+
         inline unsigned int Size() { return nlist.size(); }
 
         Iterator AddNeighbor(MosaicGraphEdge *);
@@ -56,6 +59,7 @@ class MosaicGraphNode
         double _x, _y;
         std::list<MosaicGraphEdge *> nlist;
         unsigned int id;
+        bool ignoreDisorder;
 };
 
 #endif // MOSAICGRAPHNODE_HPP

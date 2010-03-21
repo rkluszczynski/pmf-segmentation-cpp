@@ -20,18 +20,29 @@ MosaicGraph::~MosaicGraph()
 void
 MosaicGraph::MakeGaussianShakeToDisorder (double u)
 {
-    double  width = MosaicConstants::GetPmfWidth();
-    double height = MosaicConstants::GetPmfHeight();
+    double   width = MosaicConstants::GetPmfWidth();
+    double  height = MosaicConstants::GetPmfHeight();
+    double epsilon = 2. * MosaicConstants::GetEpsilon();
 
     FOREACH(it, nodes)
     {
         MosaicGraphNode * node = *it;
-        if (node->x() == 0.  or  node->x() == width  or  node->y() == 0.  or  node->y() == height) continue;
 
-        double x = node->x() + GaussianRandomClass::GetGaussianWithVariance(u);
-        double y = node->y() + GaussianRandomClass::GetGaussianWithVariance(u);
-        x = std::min( std::max(x, 0.0), width );
-        y = std::min( std::max(y, 0.0), height );
+        if (node->GetIgnoreDisorder()) continue;
+
+        double x = node->x();
+        double y = node->y();
+
+        if (not (x == 0.  or  x ==  width))
+        {
+            x += GaussianRandomClass::GetGaussianWithVariance(u);
+            x = std::min( std::max(x, epsilon), width-epsilon );
+        }
+        if (not (y == 0.  or  y == height))
+        {
+            y += GaussianRandomClass::GetGaussianWithVariance(u);
+            y = std::min( std::max(y, epsilon), height-epsilon );
+        }
         node->SetXY(x, y);
     }
 }
@@ -351,10 +362,18 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes (bool printDebug)
             double dy02 = y2 - y0;
 
             double val = (dx01 * dy02 - dx02 * dy01);
-
+#define SIGN(X) (((X) < 0) ? -1 : (((X) > 0) ? 1 : 0))
+            //if (SIGN(dx01) != SIGN(dx02)  and  SIGN(dy01) != SIGN(dy02))  coolinear = false;
+            ;
+#undef SIGN
             //if (-Epsilon < val  and  val < Epsilon)
             if (coolinear)
             {
+            if (printDebug)
+            {
+                std::cout << "( " << node->GetId() << " - " << n1 << " ) :  " << dx01 << "  " << dy01 << std::endl;
+                std::cout << "( " << node->GetId() << " - " << n2 << " ) :  " << dx02 << "  " << dy02 << std::endl;
+            }
                 if (printDebug)  std::cout << node->GetId() << " " << n1 << " " << n2 << "   : " << val << std::endl;
 
                 assert(d1 == d2);
@@ -399,6 +418,8 @@ MosaicGraph::RemoveUnnecessaryCollinearNodes (bool printDebug)
 void
 MosaicGraph::MutateIntersectionElements ()
 {
+    double epsilon = MosaicConstants::GetEpsilon();
+    double  offset = 2. * epsilon;
     std::vector<std::pair<int, int> > edgestoadd;
     FOREACH(it, nodes)
     {
@@ -426,7 +447,8 @@ MosaicGraph::MutateIntersectionElements ()
                 double dx = x0 - xx;
                 double dy = y0 - yy;
                 double dd = sqrt(dx*dx + dy*dy);
-                double d = dd - 1e-7;
+                double d = dd - offset;
+                assert(d > 0.);
                 double scale = d / dd;
 
                 xx += scale * dx;
@@ -464,12 +486,14 @@ MosaicGraph::MutateIntersectionElements ()
                 std::cout << " link1 : " << nids[0] << " ~ " << nids[1] << std::endl;
 
                 unsigned int nid01 = CreateNewNode(0.5 * (nxx[0] + nxx[1]), 0.5 * (nyy[0] + nyy[1]));
+                Get(nid01)->SetIgnoreDisorder(true);
                 AddEdge(nid01, nids[0], 2);
                 AddEdge(nid01, nids[1], 2);
                 //edgestoadd.push_back(std::make_pair(nid01, nids[0]));
                 //edgestoadd.push_back(std::make_pair(nid01, nids[1]));
 
                 unsigned int nid23 = CreateNewNode(0.5 * (nxx[2] + nxx[3]), 0.5 * (nyy[2] + nyy[3]));
+                Get(nid23)->SetIgnoreDisorder(true);
                 AddEdge(nid23, nids[2], 2);
                 AddEdge(nid23, nids[3], 2);
                 //edgestoadd.push_back(std::make_pair(nid23, nids[2]));
@@ -480,12 +504,14 @@ MosaicGraph::MutateIntersectionElements ()
                 std::cout << " link2 : " << nids[1] << " ~ " << nids[2] << std::endl;
 
                 unsigned int nid21 = CreateNewNode(0.5 * (nxx[2] + nxx[1]), 0.5 * (nyy[2] + nyy[1]));
+                Get(nid21)->SetIgnoreDisorder(true);
                 AddEdge(nid21, nids[2], 2);
                 AddEdge(nid21, nids[1], 2);
                 //edgestoadd.push_back(std::make_pair(nid21, nids[2]));
                 //edgestoadd.push_back(std::make_pair(nid21, nids[1]));
 
                 unsigned int nid03 = CreateNewNode(0.5 * (nxx[0] + nxx[3]), 0.5 * (nyy[0] + nyy[3]));
+                Get(nid03)->SetIgnoreDisorder(true);
                 AddEdge(nid03, nids[0], 2);
                 AddEdge(nid03, nids[3], 2);
                 //edgestoadd.push_back(std::make_pair(nid03, nids[0]));
