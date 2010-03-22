@@ -34,14 +34,18 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="..\detect\DetectorEvent.cpp" />
-		<Unit filename="..\detect\DetectorEvent.hpp" />
 		<Unit filename="..\detect\DetectorPoint.hpp" />
 		<Unit filename="..\detect\DetectorSchedule.cpp" />
 		<Unit filename="..\detect\DetectorSchedule.hpp" />
 		<Unit filename="..\detect\DetectorSegment.hpp" />
+		<Unit filename="..\detect\DetectorSweepLine.cpp" />
+		<Unit filename="..\detect\DetectorSweepLine.hpp" />
 		<Unit filename="..\detect\IntersectionDetector.cpp" />
 		<Unit filename="..\detect\IntersectionDetector.hpp" />
+		<Unit filename="..\detect\ScheduleEvent.cpp" />
+		<Unit filename="..\detect\ScheduleEvent.hpp" />
+		<Unit filename="..\detect\SweepLineElement.cpp" />
+		<Unit filename="..\detect\SweepLineElement.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

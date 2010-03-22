@@ -1,5 +1,5 @@
-#ifndef DETECTOREVENT_HPP
-#define DETECTOREVENT_HPP
+#ifndef SCHEDULEEVENT_HPP
+#define SCHEDULEEVENT_HPP
 
 #include "DetectorSegment.hpp"
 
@@ -11,14 +11,14 @@ typedef enum
 DetectorEventType;
 
 
-class DetectorEvent
+class ScheduleEvent
 {
     public:
         typedef DetectorPoint<double> POINT;
         typedef DetectorSegment<double> SEGMENT;
 
-        DetectorEvent(POINT *, SEGMENT *, DetectorEventType);
-        virtual ~DetectorEvent();
+        ScheduleEvent(POINT *, SEGMENT *, DetectorEventType);
+        virtual ~ScheduleEvent();
 
         inline POINT * GetPoint() const { return _pt; }
         inline DetectorEventType GetType() { return _type; }
@@ -33,4 +33,5 @@ class DetectorEvent
         void OnInit();
 };
 
-#endif // DETECTOREVENT_HPP
+
+#endif // SCHEDULEEVENT_HPP

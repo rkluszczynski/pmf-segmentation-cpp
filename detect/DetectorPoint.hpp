@@ -7,21 +7,24 @@
 template <typename REAL>
 struct DetectorPoint
 {
-    REAL x, y;
+    REAL _x, _y;
 
-    DetectorPoint (REAL xx, REAL yy) : x(xx), y(yy)  { OnInit(); }
+    DetectorPoint (REAL xx, REAL yy) : _x(xx), _y(yy)  { OnInit(); }
     virtual ~DetectorPoint()  { }
+
+    inline REAL x() const { return _x; }
+    inline REAL y() const { return _y; }
 
     void OnInit()  { }
 
-    bool operator < (const DetectorPoint<REAL> * & pt) const { return (x < pt->x); }
+    bool operator < (const DetectorPoint<REAL> * & pt) const { return (x() < pt->x()); }
 
     friend std::ostream& operator << (std::ostream& out, const DetectorPoint<REAL> * pt)
     {
         //++pmf_point_counter; // To log copy constructor
         out <<  "P" << "=";
         out.precision(20);
-        out << "(" << pt->x << "," << pt->y << ")";
+        out << "(" << pt->x() << "," << pt->y() << ")";
         return out;
     }
 };

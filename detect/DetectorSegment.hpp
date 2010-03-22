@@ -26,7 +26,7 @@ struct DetectorSegment
         REAL slope() const
         {
                 //if (Geometry::IsZero(q->x - p->x)) return infinity;
-                return (ept->y - bpt->y) / (ept->x - bpt->x);
+                return (ept->y() - bpt->y()) / (ept->x() - bpt->x());
         }
         // */
         friend std::ostream & operator << (std::ostream & out, const DetectorSegment * s)
