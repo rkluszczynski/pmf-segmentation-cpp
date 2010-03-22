@@ -46,6 +46,8 @@
 		<Unit filename="..\init\AbstractProperties.hpp" />
 		<Unit filename="..\init\GaussianRandomClass.cpp" />
 		<Unit filename="..\init\GaussianRandomClass.hpp" />
+		<Unit filename="..\init\IntersectionDetector.cpp" />
+		<Unit filename="..\init\IntersectionDetector.hpp" />
 		<Unit filename="..\init\MosaicConstants.cpp" />
 		<Unit filename="..\init\MosaicConstants.hpp" />
 		<Unit filename="..\init\MosaicDualGraph.cpp" />

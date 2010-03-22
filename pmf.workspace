@@ -7,6 +7,7 @@
 		<Project filename="scripts/Algorithms.cbp" />
 		<Project filename="scripts/cmd.cbp" />
 		<Project filename="scripts/library.cbp" />
-		<Project filename="scripts/initial.cbp" active="1" />
+		<Project filename="scripts/initial.cbp" />
+		<Project filename="scripts/detector.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>
