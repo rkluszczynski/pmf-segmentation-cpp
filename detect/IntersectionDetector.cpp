@@ -1,5 +1,7 @@
 #include "IntersectionDetector.hpp"
 
+#include <cassert>
+
 #include "DetectorSweepLine.hpp"
 
 #define VAR(V, N)       __typeof(N) V = (N)
@@ -17,7 +19,7 @@ IntersectionDetector::~IntersectionDetector()
     //dtor
 }
 
-
+#define WRITE_SWITCH 1
 bool
 IntersectionDetector::CheckIntersectionExistance()
 {
@@ -32,9 +34,77 @@ IntersectionDetector::CheckIntersectionExistance()
         ScheduleEvent * evt = *eit;
 
         cout << evt << endl;
+        cout << &dsl << endl;
+
+        switch (evt->GetType())
+        {
+            case BeginSegment :
+                {
+                    std::pair<DetectorSweepLine::Iterator, bool> res = dsl.Insert(evt->GetPoint()->x(), evt->GetSegment());
+                    assert(res.second);
+                    DetectorSweepLine::Iterator it = res.first;
+
+                    DetectorSweepLine::Iterator ita = dsl.Above(it);
+                    DetectorSweepLine::Iterator itb = dsl.Below(it);
+
+                    if (! dsl.IsNull(ita))
+                    {
+#if (WRITE_SWITCH)
+                        cout << "ABOVE  :=  " << **ita << endl;
+#endif
+                        DetectorSegment<REAL> * seg1 = (*ita)->GetSegment();
+                        DetectorSegment<REAL> * seg2 = evt->GetSegment();
+
+                        if (DoSegmentsIntersect(seg1, seg2))  return true;
+                    }
+                    if (! dsl.IsNull(itb))
+                    {
+#if (WRITE_SWITCH)
+                        cout << "BELOW  :=  " << **itb << endl;
+#endif
+                        DetectorSegment<REAL> * seg1 = (*itb)->GetSegment();
+                        DetectorSegment<REAL> * seg2 = evt->GetSegment();
+
+                        if (DoSegmentsIntersect(seg1, seg2))  return true;
+                    }
+                    break;;
+                }
+            case EndOfSegment :
+                {
+                    DetectorSweepLine::Iterator it = dsl.Find(evt->GetSegment());
+
+                    DetectorSweepLine::Iterator ita = dsl.Above(it);
+                    DetectorSweepLine::Iterator itb = dsl.Below(it);
+
+                    dsl.Erase(it);
+
+                    if (!dsl.IsNull(ita)  and  !dsl.IsNull(itb))
+                    {
+#if (WRITE_SWITCH)
+                        cout << "END-&-CROSS" << endl;
+#endif
+                        DetectorSegment<REAL> * seg1 = (*ita)->GetSegment();
+                        DetectorSegment<REAL> * seg2 = (*itb)->GetSegment();
+
+                        if (DoSegmentsIntersect(seg1, seg2))  return true;
+                    }
+                    break;;
+                }
+            default :
+                assert(false and "WRONG DetectTypeEvent !!!");
+        }
     }
 
     cout << "[ _END_ ]  IntersectionDetector::CheckIntersectionExistance()" << endl;
+    return false;
+}
+#undef WRITE_SWITCH
+
+bool
+IntersectionDetector::DoSegmentsIntersect(DetectorSegment<REAL> * seg1, DetectorSegment<REAL> * seg2)
+{
+
+    return false;
 }
 
 

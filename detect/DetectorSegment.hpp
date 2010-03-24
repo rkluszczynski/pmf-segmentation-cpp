@@ -29,9 +29,9 @@ struct DetectorSegment
                 return (ept->y() - bpt->y()) / (ept->x() - bpt->x());
         }
         // */
-        friend std::ostream & operator << (std::ostream & out, const DetectorSegment * s)
+        friend std::ostream & operator << (std::ostream & out, const DetectorSegment & s)
         {
-            out << s->GetBeginPoint() << "-" << s->GetEndPoint();
+            out << *s.GetBeginPoint() << "-" << *s.GetEndPoint();
             return out;
         }
 

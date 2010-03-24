@@ -31,6 +31,8 @@ class IntersectionDetector
     private:
         std::vector<Segment> segments;
         DetectorSchedule schedule;
+
+        bool DoSegmentsIntersect(DetectorSegment<REAL> *, DetectorSegment<REAL> *);
 };
 
 #endif // INTERSECTIONDETECTOR_HPP

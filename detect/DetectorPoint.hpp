@@ -22,8 +22,8 @@ struct DetectorPoint
     friend std::ostream & operator << (std::ostream& out, const DetectorPoint<REAL> & pt)
     {
         //++pmf_point_counter; // To log copy constructor
-        out <<  "P" << "=";
-        out.precision(20);
+        //out <<  "P" << "=";
+        //out.precision(20);
         out << "(" << pt.x() << "," << pt.y() << ")";
         return out;
     }

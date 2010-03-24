@@ -32,6 +32,40 @@ class DetectorSweepLine
         inline Iterator begin() const { return _st->begin(); }
         inline Iterator end()   const { return _st->end(); }
 
+        inline bool IsNull(Iterator it) { return it == _st->end(); }
+
+        std::pair<Iterator,bool>
+        Insert(double x, SEGMENT * seg)
+        {
+            _x0 = x;
+            return _st->insert( (new ENTRY(_x0, seg)) );
+        }
+
+        void Erase(SEGMENT * seg)
+        {
+            Iterator it = Find(seg);
+            Erase(it);
+        }
+
+        void Erase(Iterator it)
+        {
+            delete *it;
+            _st->erase(it);
+        }
+
+        Iterator Find(SEGMENT * seg)
+        {
+            ENTRY * entry = new ENTRY(_x0, seg);
+            Iterator it = _st->find( entry );
+            delete entry;
+            return it;
+        }
+
+        inline Iterator Above(Iterator it)   { return ((it == _st->begin()) ? _st->end() : --it); }
+        inline Iterator Above(SEGMENT * seg) { return Above(Find(seg)); }
+
+        inline Iterator Below(Iterator it)   { return (++it); }
+        inline Iterator Below(SEGMENT * seg) { return Below(Find(seg)); }
 
         friend std::ostream & operator << (std::ostream &, const DetectorSweepLine *);
 
@@ -39,6 +73,8 @@ class DetectorSweepLine
 
 
     protected:
+        inline void SetSweepLinePosition(double x)  { _x0 = x; }
+
     private:
         SweepLineEntryComparator * slec;
         STATUS * _st;

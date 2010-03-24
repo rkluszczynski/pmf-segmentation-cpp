@@ -36,8 +36,8 @@ SweepLineElement::OnInit()
 
 std::ostream & operator << (std::ostream & out, const SweepLineElement & el)
 {
-    out << "{ " << el.GetSegment() << "\t ~ \t" << el.GetX0() << " , " << el.GetY0() << " ; " << el.yy0(el.GetX0()) << " }";
-    //out << "{" << el->GetSegment() << "}";
+    //out << "{ " << el.GetSegment() << "\t ~ \t" << el.GetX0() << " , " << el.GetY0() << " ; " << el.yy0(el.GetX0()) << " }";
+    out << "{" << *el.GetSegment() << "}";
     return out;
 }
 
