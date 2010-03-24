@@ -24,7 +24,7 @@ IntersectionDetector::CheckIntersectionExistance()
     using std::cout;
     using std::endl;
 
-    cout << "[ BEGIN ] : IntersectionDetector::CheckIntersectionExistance()" << endl;
+    cout << "[ BEGIN ]  IntersectionDetector::CheckIntersectionExistance()" << endl;
 
     DetectorSweepLine dsl;
     FOREACH(eit, schedule)
@@ -34,7 +34,7 @@ IntersectionDetector::CheckIntersectionExistance()
         cout << evt << endl;
     }
 
-    cout << "[ _END_ ] : IntersectionDetector::CheckIntersectionExistance()" << endl;
+    cout << "[ _END_ ]  IntersectionDetector::CheckIntersectionExistance()" << endl;
 }
 
 

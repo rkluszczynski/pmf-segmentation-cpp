@@ -1,4 +1,4 @@
-#include "..\library\point.hpp"
+#include "point.hpp"
 
 namespace pmf
 {
