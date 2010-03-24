@@ -35,10 +35,12 @@ class DetectorSchedule
         DetectorSchedule();
         virtual ~DetectorSchedule();
 
+        inline Iterator begin() { return _events.begin(); }
+        inline Iterator   end() { return _events.end(); }
+
         inline int       Size() { return _events.size(); }
-        inline Iterator Begin() { return _events.end(); }
-        inline Iterator   End() { return _events.end(); }
         inline bool   IsEmpty() { return _events.empty(); }
+        inline void     Clear() { return _events.clear(); }
 
         bool Insert(EventPoint);
         void Erase(EventPoint);

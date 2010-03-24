@@ -24,6 +24,8 @@ class ScheduleEvent
         inline DetectorEventType GetType() { return _type; }
         inline SEGMENT * GetSegment() { return _sg; }
 
+        friend std::ostream & operator << (std::ostream &, const ScheduleEvent *);
+
     protected:
         POINT * _pt;
         SEGMENT * _sg;

@@ -19,12 +19,12 @@ struct DetectorPoint
 
     bool operator < (const DetectorPoint<REAL> * & pt) const { return (x() < pt->x()); }
 
-    friend std::ostream& operator << (std::ostream& out, const DetectorPoint<REAL> * pt)
+    friend std::ostream & operator << (std::ostream& out, const DetectorPoint<REAL> & pt)
     {
         //++pmf_point_counter; // To log copy constructor
         out <<  "P" << "=";
         out.precision(20);
-        out << "(" << pt->x() << "," << pt->y() << ")";
+        out << "(" << pt.x() << "," << pt.y() << ")";
         return out;
     }
 };

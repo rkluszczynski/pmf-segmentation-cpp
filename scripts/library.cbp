@@ -7,20 +7,21 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\bin\library_d" prefix_auto="1" extension_auto="1" />
+				<Option output="..\bin\rary_d" prefix_auto="1" extension_auto="1" />
 				<Option object_output="..\objs\Debug\" />
-				<Option type="3" />
+				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option createDefFile="1" />
-				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-template=wholeclass" />
 					<Add option="-DBUILD_DLL" />
+					<Add directory="..\detect" />
 				</Compiler>
 				<Linker>
 					<Add library="user32" />
+					<Add library="detect_d" />
+					<Add directory="..\lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -42,6 +43,7 @@
 			</Target>
 		</Build>
 		<Unit filename="..\library\double.cpp" />
+		<Unit filename="..\library\main.cpp" />
 		<Unit filename="..\library\point.hpp" />
 		<Extensions>
 			<code_completion />
