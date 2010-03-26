@@ -17,7 +17,7 @@ class IntersectionDetector
         typedef  std::vector<Segment>::iterator Iterator;
         typedef  std::vector<Segment>::const_iterator ConstIterator;
 
-        IntersectionDetector();
+        IntersectionDetector(double = 1e-9);
         virtual ~IntersectionDetector();
 
         inline ConstIterator begin() const { return segments.begin(); }
@@ -32,6 +32,7 @@ class IntersectionDetector
     private:
         std::vector<Segment> segments;
         DetectorSchedule schedule;
+        REAL epsilon;
 
         bool DoSegmentsIntersect(DetectorSegment<REAL> *, DetectorSegment<REAL> *);
         Point CalculateIntersection(REAL, REAL, REAL, REAL, REAL, REAL, REAL, REAL);

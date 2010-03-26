@@ -8,7 +8,7 @@
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
 
-IntersectionDetector::IntersectionDetector()
+IntersectionDetector::IntersectionDetector(double eps) : epsilon(eps)
 {
     //ctor
 }
@@ -21,8 +21,8 @@ IntersectionDetector::~IntersectionDetector()
 }
 
 
-#define WRITE_SWITCH 0
-bool
+#define WRITE_SWITCH 0
+bool
 IntersectionDetector::CheckIntersectionExistance()
 {
     using std::cout;
@@ -37,13 +37,13 @@ IntersectionDetector::CheckIntersectionExistance()
 
         cout << evt << endl;
         continue;
-        //cout << &dsl << endl;
-
+        //cout << &dsl << endl;
+
         switch (evt->GetType())
         {
             case BeginSegment :
                 {
-                    std::pair<DetectorSweepLine::Iterator, bool> res = dsl.Insert(evt->GetPoint()->x(), evt->GetSegment());
+                    std::pair<DetectorSweepLine::Iterator, bool> res = dsl.Insert(evt->GetPoint()->x() + epsilon, evt->GetSegment());
                     assert(res.second);
                     DetectorSweepLine::Iterator it = res.first;
 

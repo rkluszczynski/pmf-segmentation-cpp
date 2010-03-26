@@ -21,8 +21,6 @@ DetectorSweepLine::~DetectorSweepLine()
 
 
 
-
-
 std::ostream & operator << (std::ostream & out, const DetectorSweepLine * dsl)
 {
     out << "[ STATUS SEGMENTS ] : at position " << dsl->_x0 << std::endl;
