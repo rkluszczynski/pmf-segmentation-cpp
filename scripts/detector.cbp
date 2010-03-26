@@ -7,10 +7,10 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\lib\libdetect_d" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
+				<Option output="..\lib\detect_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\lib" />
 				<Option object_output="..\objs\Debug\" />
-				<Option type="2" />
+				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
@@ -19,10 +19,10 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="..\lib\libdetect_r" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
+				<Option output="..\lib\detect_r" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="..\lib" />
 				<Option object_output="..\objs\Release\" />
-				<Option type="2" />
+				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
