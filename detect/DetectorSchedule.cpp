@@ -19,9 +19,16 @@ bool
 DetectorSchedule::Insert(EventPoint e)
 {
     Iterator it = _events.find(e);
-    bool res = _events.insert(e).second;
-    assert(res and "NEW EVENT ADDED");
-    return res;
+    if (it == _events.end())
+    {
+        _events.insert(e).second;
+    }
+    else
+    {
+        (*it)->AddSegment(e->GetSegment());
+        assert((*it)->GetSegmentsSize() <= 2);
+    }
+    return true;
 }
 
 void

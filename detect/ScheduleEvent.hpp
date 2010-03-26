@@ -1,6 +1,7 @@
 #ifndef SCHEDULEEVENT_HPP
 #define SCHEDULEEVENT_HPP
 
+#include <vector>
 #include "DetectorSegment.hpp"
 
 typedef enum
@@ -20,15 +21,19 @@ class ScheduleEvent
         ScheduleEvent(POINT *, SEGMENT *, DetectorEventType);
         virtual ~ScheduleEvent();
 
+        inline void AddSegment(SEGMENT * seg) { _segs.push_back(seg); }
+
         inline POINT * GetPoint() const { return _pt; }
         inline DetectorEventType GetType() { return _type; }
-        inline SEGMENT * GetSegment() { return _sg; }
+        inline SEGMENT * GetSegment(int i = 0) { return _segs[i]; }
+
+        inline unsigned GetSegmentsSize() { return _segs.size(); }
 
         friend std::ostream & operator << (std::ostream &, const ScheduleEvent *);
 
     protected:
         POINT * _pt;
-        SEGMENT * _sg;
+        std::vector<SEGMENT *> _segs;
         DetectorEventType _type;
 
     private:

@@ -1,5 +1,6 @@
 #include "MosaicGraph.hpp"
 
+#include "IntersectionDetector.hpp"
 #include <fstream>
 
 #define REP(X,N)        for(int X = 0; X < (N); ++X)
@@ -14,6 +15,32 @@ MosaicGraph::MosaicGraph()
 MosaicGraph::~MosaicGraph()
 {
     //dtor
+}
+
+
+bool
+MosaicGraph::IsThereAnIntersection()
+{
+    IntersectionDetector detect;
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+        assert(node->Size() == 2);
+
+        unsigned n1 = node->Front()->GetId();
+        unsigned n2 = node->Back()->GetId();
+
+        if (node->GetId() < n1)
+        {
+            detect.AddSegment(node->x(), node->y(), nodes[n1]->x(), nodes[n1]->y());
+        }
+        if (node->GetId() < n2)
+        {
+            detect.AddSegment(node->x(), node->y(), nodes[n2]->x(), nodes[n2]->y());
+        }
+    }
+    bool answer = detect.CheckIntersectionExistance();
+    return answer;
 }
 
 
@@ -45,6 +72,8 @@ MosaicGraph::MakeGaussianShakeToDisorder (double u)
         }
         node->SetXY(x, y);
     }
+
+
 }
 
 

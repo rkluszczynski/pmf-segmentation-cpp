@@ -17,6 +17,9 @@ struct detector_event_before : std::binary_function<EVENT, EVENT, bool>
         if (e1->GetPoint()->y() < e2->GetPoint()->y()) return true;
         if (e1->GetPoint()->y() > e2->GetPoint()->y()) return false;
 
+        if (e1->GetType() == EndOfSegment  and  e2->GetType() == BeginSegment) return true;
+        if (e1->GetType() == BeginSegment  and  e2->GetType() == EndOfSegment) return false;
+
         return false;
     }
 };

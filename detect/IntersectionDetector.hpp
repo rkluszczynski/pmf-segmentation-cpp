@@ -9,10 +9,11 @@
 class IntersectionDetector
 {
     typedef double REAL;
-    typedef std::pair<REAL, REAL> Point;
-    typedef std::pair<Point, Point> Segment;
 
     public:
+        typedef std::pair<REAL, REAL> Point;
+        typedef std::pair<Point, Point> Segment;
+
         typedef  std::vector<Segment>::iterator Iterator;
         typedef  std::vector<Segment>::const_iterator ConstIterator;
 
@@ -33,6 +34,7 @@ class IntersectionDetector
         DetectorSchedule schedule;
 
         bool DoSegmentsIntersect(DetectorSegment<REAL> *, DetectorSegment<REAL> *);
+        Point CalculateIntersection(REAL, REAL, REAL, REAL, REAL, REAL, REAL, REAL);
 };
 
 #endif // INTERSECTIONDETECTOR_HPP

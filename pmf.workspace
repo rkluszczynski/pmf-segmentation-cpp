@@ -9,7 +9,9 @@
 		<Project filename="scripts/library.cbp" active="1">
 			<Depends filename="scripts/detector.cbp" />
 		</Project>
-		<Project filename="scripts/initial.cbp" />
+		<Project filename="scripts/initial.cbp">
+			<Depends filename="scripts/detector.cbp" />
+		</Project>
 		<Project filename="scripts/detector.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

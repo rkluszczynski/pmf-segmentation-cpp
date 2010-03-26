@@ -14,6 +14,7 @@ DetectorSweepLine::DetectorSweepLine()
 DetectorSweepLine::~DetectorSweepLine()
 {
     //dtor
+    FOREACH(it, (*_st)) delete *it;
     delete _st;
     delete slec;
 }

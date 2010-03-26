@@ -1,8 +1,8 @@
 #include "IntersectionDetector.hpp"
 
-#include <cassert>
-
 #include "DetectorSweepLine.hpp"
+
+#include <cassert>
 
 #define VAR(V, N)       __typeof(N) V = (N)
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
@@ -17,9 +17,11 @@ IntersectionDetector::IntersectionDetector()
 IntersectionDetector::~IntersectionDetector()
 {
     //dtor
+    ClearSegments();
 }
 
-#define WRITE_SWITCH 1
+
+#define WRITE_SWITCH 0
 bool
 IntersectionDetector::CheckIntersectionExistance()
 {
@@ -34,7 +36,8 @@ IntersectionDetector::CheckIntersectionExistance()
         ScheduleEvent * evt = *eit;
 
         cout << evt << endl;
-        cout << &dsl << endl;
+        continue;
+        //cout << &dsl << endl;
 
         switch (evt->GetType())
         {
@@ -100,17 +103,86 @@ IntersectionDetector::CheckIntersectionExistance()
 }
 #undef WRITE_SWITCH
 
+
 bool
 IntersectionDetector::DoSegmentsIntersect(DetectorSegment<REAL> * seg1, DetectorSegment<REAL> * seg2)
 {
+    assert(seg1->GetBeginPoint()->x() <= seg1->GetEndPoint()->x());
+    assert(seg2->GetBeginPoint()->x() <= seg2->GetEndPoint()->x());
+
+    /// Case when two segments starts from the same point (no intersections)
+    if (seg1->GetBeginPoint()->x() == seg2->GetBeginPoint()->x()  and  seg1->GetBeginPoint()->y() == seg2->GetBeginPoint()->y())
+        return false;
+
+    /// Case when two segments ends at the same point (no intersections)
+    if (seg1->GetEndPoint()->x() == seg2->GetEndPoint()->x()  and  seg1->GetEndPoint()->y() == seg2->GetEndPoint()->y())
+        return false;
+
+    if (
+            seg1->GetBeginPoint()->x() > seg2->GetBeginPoint()->x()
+        or
+            (seg1->GetBeginPoint()->y() == seg2->GetBeginPoint()->y()  and  seg1->GetBeginPoint()->y() > seg2->GetBeginPoint()->y())
+    )
+        std::swap(seg1, seg2);
+
+    /// begin of seg1 is less or equal than begin of seg2
+    std::pair<REAL, REAL> ipt = CalculateIntersection(
+                                    seg1->GetBeginPoint()->x(), seg1->GetBeginPoint()->y(), seg1->GetEndPoint()->x(), seg1->GetEndPoint()->y(),
+                                    seg2->GetBeginPoint()->x(), seg2->GetBeginPoint()->y(), seg2->GetEndPoint()->x(), seg2->GetEndPoint()->y()
+                                 );
+    REAL x = ipt.first;
+    REAL y = ipt.second;
+
+    REAL xmin = std::max( std::min(seg1->GetBeginPoint()->x(), seg1->GetEndPoint()->x()), std::min(seg2->GetBeginPoint()->x(), seg2->GetEndPoint()->x()) );
+    REAL xmax = std::min( std::max(seg1->GetBeginPoint()->x(), seg1->GetEndPoint()->x()), std::max(seg2->GetBeginPoint()->x(), seg2->GetEndPoint()->x()) );
+    REAL ymin = std::max( std::min(seg1->GetBeginPoint()->y(), seg1->GetEndPoint()->y()), std::min(seg2->GetBeginPoint()->y(), seg2->GetEndPoint()->y()) );
+    REAL ymax = std::min( std::max(seg1->GetBeginPoint()->y(), seg1->GetEndPoint()->y()), std::max(seg2->GetBeginPoint()->y(), seg2->GetEndPoint()->y()) );
+
+    if (xmin < x  and  x < xmax  and  ymin < y  and  y < ymax)
+        return true;
 
     return false;
+}
+
+
+IntersectionDetector::Point
+IntersectionDetector::CalculateIntersection(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr, REAL xs, REAL ys)
+{
+    if (xr != xs)
+    {
+        REAL a = (yr - ys) / (xr - xs);
+        REAL b = yr - a * xr;
+        if (xp != xq)
+        {
+            REAL c = (yp - yq) / (xp - xq);
+            REAL d = yp - c * xp;
+            REAL x = (d-b)/(a-c);
+            return std::make_pair( x, a * x + b );
+        }
+        else
+        {
+            REAL x = .5 * (xp + xq);
+            return std::make_pair( x, a * x + b );
+        }
+    }
+    else
+    {
+        REAL c = (yp - yq) / (xp - xq);
+        REAL d = yp - c * xp;
+        REAL x = .5 * (xr + xs);
+        return std::make_pair(x, c * x + d);
+    }
 }
 
 
 void
 IntersectionDetector::AddSegment(REAL p_x, REAL p_y, REAL q_x, REAL q_y)
 {
+    if (p_x > q_x  or  (p_x == q_x  and  p_y > q_y))
+    {
+        std::swap(p_x, q_x);
+        std::swap(p_y, q_y);
+    }
     segments.push_back( std::make_pair( std::make_pair(p_x, p_y), std::make_pair(q_x, q_y) ) );
 
     DetectorPoint<REAL>   * ptP = new DetectorPoint<REAL>(p_x, p_y);

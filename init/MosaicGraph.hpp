@@ -28,6 +28,8 @@ class MosaicGraph
         void MutateIntersectionElements();
         void MakeGaussianShakeToDisorder(double);
 
+        bool IsThereAnIntersection();
+
         void SortNeighborsInCounterClockwiseOrder();
         void SaveAsGeoGebraFile(const char *);
         void SaveAsTextFile(const char *);
