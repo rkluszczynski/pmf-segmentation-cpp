@@ -21,7 +21,7 @@ IntersectionDetector::~IntersectionDetector()
 }
 
 
-#define WRITE_SWITCH 1
+#define WRITE_SWITCH 0
 bool
 IntersectionDetector::CheckIntersectionExistance()
 {
@@ -44,7 +44,7 @@ IntersectionDetector::CheckIntersectionExistance()
                     FOREACH(sit, *evt)
                     {
                         std::pair<DetectorSweepLine::Iterator, bool> res = dsl.Insert(evt->GetPoint()->x() + epsilon, *sit);
-                        cout << &dsl << endl;
+                        //cout << &dsl << endl;
                         assert(res.second);
                         DetectorSweepLine::Iterator it = res.first;
 

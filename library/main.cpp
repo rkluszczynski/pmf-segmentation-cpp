@@ -10,7 +10,7 @@ int main()
     printf("%i\n", sizeof(void *));
     //return 0;
     printf("test 1\n");
-    if (false)
+    //if (false)
     {
         IntersectionDetector id;
 
@@ -26,13 +26,14 @@ int main()
         id.ClearSegments();
     }
     printf("test 2\n");
+    //if (false)
     {
         IntersectionDetector id;
 
         id.AddSegment(0, 0, 0, 3);
         id.AddSegment(0, 0, 3, 0);
-        //id.AddSegment(3, 0, 3, 3);
-        //id.AddSegment(0, 3, 3, 3);
+        id.AddSegment(3, 0, 3, 3);
+        id.AddSegment(0, 3, 3, 3);
 
         bool ans = id.CheckIntersectionExistance();
         printf("do %sintersect\n", ans ? "" : "NOT ");
