@@ -20,7 +20,7 @@ struct DetectorSegment
         const POINT GetBeginPoint()  const { return bpt; }
         const POINT GetEndPoint()    const { return ept; }
 
-        //bool isVertical()   const { return Geometry::IsZero(q->x - p->x); }
+        bool isVertical()   const { return ept->x() == bpt->x(); }
         //bool isHorizontal() const { return Geometry::IsZero(q->y - p->y); }
         //*
         REAL slope() const

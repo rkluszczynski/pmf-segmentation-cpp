@@ -34,8 +34,20 @@ DetectorSchedule::Insert(EventPoint e)
 void
 DetectorSchedule::Erase(EventPoint e)
 {
-    long _erased = _events.erase(e);
-    assert(_erased > 0);
+    Iterator it = _events.find(e);
+    assert(it != _events.end());
+
+    if ((*it)->GetSegmentsSize() > 1)
+    {
+        assert((*it)->GetSegmentsSize() <= 2);
+        (*it)->EraseSegment(e->GetSegment());
+        assert((*it)->GetSegmentsSize() <= 1);
+    }
+    else
+    {
+        _events.erase(it);
+        //assert(_erased > 0);
+    }
     delete e;
 }
 

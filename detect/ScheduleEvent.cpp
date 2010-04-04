@@ -8,7 +8,7 @@ ScheduleEvent::ScheduleEvent(POINT * pt, SEGMENT * sg, DetectorEventType type)
 : _pt(pt), _type(type)
 {
     //ctor
-    _segs.push_back(sg);
+    _segs.insert(sg);
     OnInit();
 }
 

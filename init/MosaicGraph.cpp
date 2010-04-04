@@ -74,6 +74,25 @@ MosaicGraph::MakeGaussianShakeToDisorder (double u)
     }
 
 
+    IntersectionDetector idetector;
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+
+        assert(node->Size() == 2);
+        unsigned n1 = node->Front()->GetId();
+        unsigned n2 = node->Back()->GetId();
+
+        if (n1 < node->GetId())
+            idetector.AddSegment(node->x(), node->y(), nodes[n1]->x(), nodes[n1]->y());
+        if (n2 < node->GetId())
+            idetector.AddSegment(node->x(), node->y(), nodes[n2]->x(), nodes[n2]->y());
+    }
+    //freopen("output/LOG.txt", "w", stdout);
+    bool ans = idetector.CheckIntersectionExistance();
+    printf("\n\n________________\ndo %sintersect\n\n", ans ? "" : "NOT ");
+// */
+    idetector.ClearSegments();
 }
 
 

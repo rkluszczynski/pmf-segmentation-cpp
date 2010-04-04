@@ -34,12 +34,19 @@ std::ostream & operator << (std::ostream & out, const DetectorSweepLine * dsl)
 bool
 DetectorSweepLine::BelowComparator(ENTRY * const & e1, ENTRY * const & e2) const
 {
-    //SEGMENT * s1 = e1->GetSegment();
-    //SEGMENT * s2 = e2->GetSegment();
+    SEGMENT * s1 = e1->GetSegment();
+    SEGMENT * s2 = e2->GetSegment();
 
     double y1 = e1->yy0(_x0);
     double y2 = e2->yy0(_x0);
 
     bool res = (y1 < y2);
+
+    if (y1 == y2)  res = s1->GetEndPoint()->y() < s2->GetEndPoint()->y();
+    /*
+    std::cout << "[ ? ] : " << *s1 << " < " << *s2 << std::endl;
+    std::cout << "    \\ : " << y1 << " < " << y2 << std::endl;
+    std::cout << "     \\: " << (res ? "TRUE" : "FALSE") << std::endl;
+    // */
     return res;
 }
