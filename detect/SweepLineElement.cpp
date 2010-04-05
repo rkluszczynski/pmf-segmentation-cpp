@@ -26,7 +26,7 @@ SweepLineElement::CalculateLinearFunctionValue (SEGMENT * s, REAL x) const
     assert(! s->isVertical());
     // */
     REAL _slope = s->slope();
-    REAL _b = s->GetBeginPoint()->y() - _slope * s->GetEndPoint()->x();
+    REAL _b = s->GetBeginPoint()->y() - _slope * s->GetBeginPoint()->x();
     return _slope * x + _b;
 }
 
@@ -40,7 +40,7 @@ std::ostream & operator << (std::ostream & out, const SweepLineElement & el)
 {
     out << "{ " << *el.GetSegment() << " }";
     out.precision(22);
-    out << "\t ~ \t" << el.GetX0() << " , " << el.GetY0() << " ; " << el.yy0(el.GetX0()) << " }";
+    //out << "\t ~ \t" << el.GetX0() << " , " << el.GetY0() << " ; " << el.yy0(el.GetX0()) << " }";
     return out;
 }
 

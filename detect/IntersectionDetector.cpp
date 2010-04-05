@@ -44,7 +44,6 @@ IntersectionDetector::CheckIntersectionExistance()
                     FOREACH(sit, *evt)
                     {
                         std::pair<DetectorSweepLine::Iterator, bool> res = dsl.Insert(evt->GetPoint()->x() + epsilon, *sit);
-                        //cout << &dsl << endl;
                         assert(res.second);
                         DetectorSweepLine::Iterator it = res.first;
 
@@ -80,6 +79,12 @@ IntersectionDetector::CheckIntersectionExistance()
                     FOREACH(sit, *evt)
                     {
                         DetectorSweepLine::Iterator it = dsl.Find(*sit);
+                        if (dsl.IsNull(it))
+                        {
+                            cout << "[ ERROR ]" << endl;
+                            cout << **sit << endl;
+                        }
+                        assert( not dsl.IsNull(it) );
 
                         DetectorSweepLine::Iterator ita = dsl.Above(it);
                         DetectorSweepLine::Iterator itb = dsl.Below(it);

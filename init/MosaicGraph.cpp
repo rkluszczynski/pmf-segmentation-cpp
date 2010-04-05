@@ -2,8 +2,9 @@
 
 #include "IntersectionDetector.hpp"
 #include <fstream>
+#include <vector>
 
-#define REP(X,N)        for(int X = 0; X < (N); ++X)
+#define REP(X,N)    for(unsigned int X = 0; X < (N); ++X)
 
 
 MosaicGraph::MosaicGraph()
@@ -51,48 +52,66 @@ MosaicGraph::MakeGaussianShakeToDisorder (double u)
     double  height = MosaicConstants::GetPmfHeight();
     double epsilon = 2. * MosaicConstants::GetEpsilon();
 
-    FOREACH(it, nodes)
-    {
-        MosaicGraphNode * node = *it;
+    std::vector<std::pair<double, double> > storexy(nodes.size());
+    REP(i, nodes.size())
+        storexy[i] = std::make_pair( nodes[i]->x(), nodes[i]->y() );
 
-        if (node->GetIgnoreDisorder()) continue;
-
-        double x = node->x();
-        double y = node->y();
-
-        if (not (x == 0.  or  x ==  width))
-        {
-            x += GaussianRandomClass::GetGaussianWithVariance(u);
-            x = std::min( std::max(x, epsilon), width-epsilon );
-        }
-        if (not (y == 0.  or  y == height))
-        {
-            y += GaussianRandomClass::GetGaussianWithVariance(u);
-            y = std::min( std::max(y, epsilon), height-epsilon );
-        }
-        node->SetXY(x, y);
-    }
-
-
-    IntersectionDetector idetector;
-    FOREACH(it, nodes)
-    {
-        MosaicGraphNode * node = *it;
-
-        assert(node->Size() == 2);
-        unsigned n1 = node->Front()->GetId();
-        unsigned n2 = node->Back()->GetId();
-
-        if (n1 < node->GetId())
-            idetector.AddSegment(node->x(), node->y(), nodes[n1]->x(), nodes[n1]->y());
-        if (n2 < node->GetId())
-            idetector.AddSegment(node->x(), node->y(), nodes[n2]->x(), nodes[n2]->y());
-    }
+    bool doItAgain = true;
     //freopen("output/LOG.txt", "w", stdout);
-    bool ans = idetector.CheckIntersectionExistance();
-    printf("\n\n________________\ndo %sintersect\n\n", ans ? "" : "NOT ");
-// */
-    idetector.ClearSegments();
+    while (doItAgain)
+    {
+        FOREACH(it, nodes)
+        {
+            MosaicGraphNode * node = *it;
+
+            //if (node->GetIgnoreDisorder()) continue;
+
+            unsigned index = it - nodes.begin();
+            double x = storexy[index].first;
+            double y = storexy[index].second;
+            /*
+            double x = node->x();
+            double y = node->y();
+            // */
+            if (not (x == 0.  or  x ==  width))
+            {
+                x += GaussianRandomClass::GetGaussianWithVariance(u);
+                x = std::min( std::max(x, epsilon), width-epsilon );
+            }
+            if (not (y == 0.  or  y == height))
+            {
+                y += GaussianRandomClass::GetGaussianWithVariance(u);
+                y = std::min( std::max(y, epsilon), height-epsilon );
+            }
+            node->SetXY(x, y);
+        }
+
+        IntersectionDetector idetector;
+        FOREACH(it, nodes)
+        {
+            MosaicGraphNode * node = *it;
+
+            assert(node->Size() == 2);
+            unsigned n1 = node->Front()->GetId();
+            unsigned n2 = node->Back()->GetId();
+
+            if (n1 < node->GetId())
+                idetector.AddSegment(node->x(), node->y(), nodes[n1]->x(), nodes[n1]->y());
+            if (n2 < node->GetId())
+                idetector.AddSegment(node->x(), node->y(), nodes[n2]->x(), nodes[n2]->y());
+        }
+        doItAgain = idetector.CheckIntersectionExistance();
+        idetector.ClearSegments();
+
+        if (doItAgain)
+        {
+            u *= .75;
+            printf("[ changing variance ] : %lf", u);
+            scanf("%*c");
+        }
+        printf("\n\n________________\ndo %sintersect\n\n", doItAgain ? "" : "NOT ");
+    // */
+    }
 }
 
 

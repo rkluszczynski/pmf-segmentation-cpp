@@ -23,8 +23,13 @@ DetectorSweepLine::~DetectorSweepLine()
 
 std::ostream & operator << (std::ostream & out, const DetectorSweepLine * dsl)
 {
-    out << "[ STATUS SEGMENTS ] : at position " << dsl->_x0 << std::endl;
-    FOREACH(it, (*dsl)) out << " " << *(*it) << std::endl;
+    out << "[ DetectorSweepLine ] : at position " << dsl->_x0 << std::endl;
+    FOREACH(it, (*dsl))
+    {
+        out << " " << *(*it);
+        out << "\t ~ \t" << (*it)->yy0(dsl->_x0) << " }";
+        out << std::endl;
+    }
     out << "\\__________________ : left at position " << dsl->_x0 << std::endl;
     out << std::endl;
     return out;
@@ -42,7 +47,11 @@ DetectorSweepLine::BelowComparator(ENTRY * const & e1, ENTRY * const & e2) const
 
     bool res = (y1 < y2);
 
-    if (y1 == y2)  res = s1->GetEndPoint()->y() < s2->GetEndPoint()->y();
+    if (y1 == y2)
+    {
+        //std::cout << "[ == ] !!!" << std::endl;
+        res = s1->GetEndPoint()->y() > s2->GetEndPoint()->y();
+    }
     /*
     std::cout << "[ ? ] : " << *s1 << " < " << *s2 << std::endl;
     std::cout << "    \\ : " << y1 << " < " << y2 << std::endl;

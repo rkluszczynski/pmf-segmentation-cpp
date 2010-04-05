@@ -235,7 +235,8 @@ MosaicDualGraph::CalculateComponents ()
     pmfgraph->SaveAsTextFile(filepath.c_str());
 
     //*
-    pmfgraph->MakeGaussianShakeToDisorder(.001);
+    pmfgraph->MakeGaussianShakeToDisorder( atof(MosaicConstants::GetValueOfKey("gauss-variance")) );
+
     filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_shaked-pmf.ggb");
     pmfgraph->SaveAsGeoGebraFile(filepath.c_str());
     filepath = std::string(OUTPUT_DIR) + std::string(TIMESTAMP) + std::string("_shaked-pmf.txt");
