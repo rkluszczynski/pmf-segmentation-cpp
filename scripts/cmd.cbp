@@ -91,7 +91,7 @@
 				<Option object_output="..\objs\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="-s 3 -p input/ring-spread.png -r 0.07 -o output/out-pmf-sim-s3-e24.txt -e 24 -i input/_result-pmf2.txt" />
+				<Option parameters="-s 3 -p input/ring-spread.png -r 0.07 -o output/out-pmf-sim-s3-e24.txt -e 24 -i input/_result-pmf3.txt" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>

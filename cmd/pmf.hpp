@@ -7,6 +7,8 @@
 #include <wx/string.h>
 #include "../include/statistics.h"
 #include "grayimage.h"
+#include <list>
+
 
 namespace pmf
 {
@@ -87,6 +89,8 @@ namespace pmf
             void UpdatePointVelocity (long, REAL, REAL);
             void RemoveBirthPoint (long, REAL, REAL);
             void AddBirthSegment (REAL, REAL, REAL, REAL);
+
+            void EraseSmallPolygons ();
 
             inline void AddBirthPoint (REAL, REAL, REAL);
             inline void UpdatePointVelocity (long, REAL);

@@ -43,6 +43,118 @@ PMF<REAL> :: SetSeed(time_t _seed)
 
 
 template <class REAL>
+void
+PMF<REAL> :: EraseSmallPolygons ()
+{
+    PMFLog("[ enter ] :: EraseSmallPolygons ()");
+    if (!cf) return;
+    cf->SetPointsIDs ();
+    int amount = GetCount();
+    vector<bool> wasit(amount+1, false);
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        if (not wasit[pt->id])
+        {
+            Point<REAL> * start = pt;
+
+            std::list<int> polygon;
+            polygon.push_back(start->id);
+            wasit[start->id] = true;
+
+            int popid = start->id;
+            pt = start->n1;
+
+            while (pt  and  pt->id != start->id)
+            {
+                assert(pt->n1->id == popid  or  pt->n2->id == popid);
+
+                if (pt->n1  and  pt->n1->id == popid)
+                {
+                    wasit[pt->id] = true;
+                    polygon.push_back(pt->id);
+                    popid = pt->id;
+                    pt = pt->n2;
+                }
+                else if (pt->n2  and  pt->n2->id == popid)
+                {
+                    wasit[pt->id] = true;
+                    polygon.push_back(pt->id);
+                    popid = pt->id;
+                    pt = pt->n1;
+                }
+                else
+                    assert(false and "SUPPOSE NOT TO HAPPEN");
+            }
+            if (pt == NULL)
+            {
+                polygon.push_back(0);
+
+                popid = start->id;
+                pt = start->n2;
+                while (pt)
+                {
+                    assert(pt->n1->id == popid  or  pt->n2->id == popid);
+
+                    if (pt->n1  and  pt->n1->id == popid)
+                    {
+                        wasit[pt->id] = true;
+                        polygon.push_front(pt->id);
+                        popid = pt->id;
+                        pt = pt->n2;
+                    }
+                    else if (pt->n2  and  pt->n2->id == popid)
+                    {
+                        wasit[pt->id] = true;
+                        polygon.push_front(pt->id);
+                        popid = pt->id;
+                        pt = pt->n1;
+                    }
+                    else
+                        assert(false and "SUPPOSE NOT TO HAPPEN 2");
+                }
+                polygon.push_front(0);
+            }
+            else
+            {
+                polygon.push_back(start->id);
+            }
+            /*
+            if (!pt and !start->n2)
+            {
+                popid = start->id;
+                pt = start->n2;
+
+                while (pt  and  pt->id != start->id)
+                {
+                    if (pt->n1  and  pt->n1->id == popid)
+                    {
+                        wasit[pt->id] = true;
+                        polygon.push_front(pt->id);
+                        pt = pt->n2;
+                    }
+                    else if (pt->n2  and  pt->n2->id == popid)
+                    {
+                        wasit[pt->id] = true;
+                        polygon.push_front(pt->id);
+                        pt = pt->n1;
+                    }
+                    else
+                        assert(false and "SUPPOSE NOT TO HAPPEN 2");
+                }
+            }
+            // */
+            FOREACH(it, polygon)  cout << " " << *it;
+            cout << endl;
+        }
+
+    }
+
+    PMFLog("[ leave ] :: EraseSmallPolygons ()");
+}
+
+
+template <class REAL>
 bool
 PMF<REAL> :: LoadPMF (const char * filename)
 {

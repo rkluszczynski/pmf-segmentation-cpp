@@ -102,6 +102,11 @@ namespace pmf
         pmf->RotatePoints2(sinL, cosL);
         pmf::Statistics stats = pmf->GetStatistics();
 
+
+/// TODO (Rafal#9#): check if old birth and old death are on vertical line
+
+
+
         // * Determinig limits for random move. *
         double   noOfBirths = stats.GetNumberOfBirths();
         double    noOfTurns = stats.GetNumberOfUpdates();
@@ -234,6 +239,8 @@ namespace pmf
         {
             pmf->SavePMF (outputfile);
             pmf->SavePMF ("output/sim-result.ggb", GeoGebraFile);
+
+            //pmf->EraseSmallPolygons();
         }
         delete pmf;
 
