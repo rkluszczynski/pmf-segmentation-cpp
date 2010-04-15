@@ -66,11 +66,19 @@ PMF<REAL> :: EraseSmallPolygons ()
     if (!cf) return;
     cf->SetPointsIDs ();
     int amount = GetCount();
+
+    Point<REAL> * border[5];
+    border[0] = new Point<REAL>(0., 0., 0., 0., -1);
+    border[1] = new Point<REAL>(cf->GetFieldWidth(), 0., 0., 0., -2);
+    border[2] = new Point<REAL>(cf->GetFieldWidth(), cf->GetFieldHeight(), 0., 0., -3);
+    border[3] = new Point<REAL>(0., cf->GetFieldHeight(), 0., 0., -4);
+    border[4] = border[0];
+
     vector<bool> wasit(amount+1, false);
-    FOREACH(it, *cf)
-        if (not wasit[(*it)->id])
+    FOREACH(cit, *cf)
+        if (not wasit[(*cit)->id])
         {
-            Point<REAL> * start = *it;
+            Point<REAL> * start = *cit;
 
             std::list<Point<REAL> *> polygon;
             polygon.push_back(start);
@@ -103,46 +111,64 @@ PMF<REAL> :: EraseSmallPolygons ()
             {
                 polygon.push_back(start);
             }
-            FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);
-            cout << endl;
+            //FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);  cout << endl;
 
-            if (polygon.front())
-            {
-                cout << "inside" << endl;
-            }
-            else
+            if (not polygon.front())
             {
                 cout << "chopped off" << endl;
-                double border[5][2] = { { 0., 0. }, { cf->GetFieldWidth(), 0. }, { cf->GetFieldWidth(), cf->GetFieldHeight() }, { cf->GetFieldHeight(), 0. }, { 0., 0. } };
                 Point<REAL> * end1 = *(++polygon.begin());
                 Point<REAL> * end2 = *(++polygon.rbegin());
 
-                int i, j;
-                for(i = 0; i < 4; ++i)
-                {
-                    if (Geometry::IsOnSegment(border[i][0], border[i][1], border[i+1][0], border[i+1][1], end1->x, end1->y)) break;
-                }
-                cout << " ######  " << i << "  ::: " << end1 << endl;
+                int i1 = 0;
+                while (not Geometry::IsOnSegment(border[i1]->x, border[i1]->y, border[i1+1]->x, border[i1+1]->y, end1->x, end1->y) and i1 < 4) ++i1;
+                //cout << " ######  " << i1 << "  ::: " << end1 << endl;
 
-                for(j = 0; j < 4; ++j)
-                {
-                    if (Geometry::IsOnSegment(border[j][0], border[j][1], border[j+1][0], border[j+1][1], end2->x, end2->y)) break;
-                }
-                cout << " ######  " << j << "  ::: " << end2 << endl;
+                int i2 = 0;
+                while (not Geometry::IsOnSegment(border[i2]->x, border[i2]->y, border[i2+1]->x, border[i2+1]->y, end2->x, end2->y) and i2 < 4) ++i2;
+                //cout << " ######  " << i2 << "  ::: " << end2 << endl;
 
-                if (i == j)
+                polygon.pop_back();
+                if (i1 != i2)
                 {
-                    polygon.pop_front();
-                    polygon.pop_back();
-                    polygon.push_back(polygon.front());
+                    int i = i2 + 1;
+                    while (i != i1)
+                    {
+                        polygon.push_back(border[i]);
+                        (++i) %= 4;
+                    }
+                    polygon.push_back(border[i]);
                 }
-                else
-                {
-                    assert("TODO" and false);
-                }
+                polygon.pop_front();
+                polygon.push_back(polygon.front());
+
             }
-            FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);
-            cout << endl;
+            else
+            {
+                cout << "inside" << endl;
+            }
+            FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);  cout << endl;
+
+            double area = 0.;
+            Point<REAL> * ppt = *polygon.begin();
+            double x0 = ppt->x;
+            double y0 = ppt->y;
+            FOREACH(it, polygon)
+            {
+                if (it == polygon.begin()) continue;
+
+                if ((++it) == polygon.end()) break;
+                --it;
+                double x1 = (*it)->x;
+                double y1 = (*it)->y;
+                ++it;
+                double x2 = (*it)->x;
+                double y2 = (*it)->y;
+                --it;
+                double det = x0*y1 + x1*y2 + x2*y0 - y0*x1 - y1*x2 - y2*x0;
+                //std::cout << " ... " << det << std::endl;
+                area += det;
+            }
+            cout << "[ AREA VALUE ] : " << abs(0.5 * area) << endl;
 
         }
 

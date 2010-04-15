@@ -14,8 +14,10 @@ int main(int argc, char **argv)
 {
     //*
     pmf::DoublePMF * pmf = new pmf::DoublePMF (3., 3.);
-    pmf->LoadPMF ("output/RESULT-WITH-SMALL.txt");
-    pmf->RotatePoints2 (0., 1.);
+    //pmf->LoadPMF ("output/RESULT-WITH-SMALL.txt");
+    srand(0);
+    pmf->GenerateField();
+    //pmf->RotatePoints2 (0., 1.);
     pmf->SavePMF ("output/_BEFORE.txt");
     pmf->SavePMF ("output/_BEFORE.ggb", pmf::GeoGebraFile);
     pmf->EraseSmallPolygons ();

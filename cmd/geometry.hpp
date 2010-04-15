@@ -33,13 +33,14 @@ namespace pmf
          *   false - point is outside the segment
          */
         {
+            ///printf(" is on (%f,%f)--(%f,%f)  point  (%f,%f) ???\n", xp, yp, xq, yq, xr, yr);
             /*
              if( sgnDet(xp, yp, xq, yq, xr, yr) == 0
                  &&  MIN(xp,xq) <= xr  &&  xr <= MAX(xp,xq)
                  &&  MIN(yp,yq) <= yr  &&  yr <= MAX(yp,yq) )
                  return(1);
              */
-             if( SgnDet(xp, yp, xq, yq, xr, yr) == 0 )
+             if( SgnDet(xp, yp, xq, yq, xr, yr) == REAL(0) )
              {
                 if( min(xp,xq) <= xr  &&  xr <= max(xp,xq)
                     &&  min(yp,yq) <= yr  &&  yr <= max(yp,yq) ) return true;
