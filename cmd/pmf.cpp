@@ -42,6 +42,22 @@ PMF<REAL> :: SetSeed(time_t _seed)
 #include "energy.hpp"
 
 
+
+
+#define Macro_DeterminePointId(PT,POPID)  \
+                if (PT->n1  and  PT->n1->id == POPID) \
+                { \
+                    POPID = PT->id; \
+                    PT = PT->n2; \
+                } \
+                else if (pt->n2  and  pt->n2->id == POPID) \
+                { \
+                    POPID = PT->id; \
+                    PT = PT->n1; \
+                } \
+                else \
+                    assert(false and "SUPPOSE NOT TO HAPPEN");
+
 template <class REAL>
 void
 PMF<REAL> :: EraseSmallPolygons ()
@@ -52,106 +68,87 @@ PMF<REAL> :: EraseSmallPolygons ()
     int amount = GetCount();
     vector<bool> wasit(amount+1, false);
     FOREACH(it, *cf)
-    {
-        Point<REAL> * pt = *it;
-        if (not wasit[pt->id])
+        if (not wasit[(*it)->id])
         {
-            Point<REAL> * start = pt;
+            Point<REAL> * start = *it;
 
-            std::list<int> polygon;
-            polygon.push_back(start->id);
+            std::list<Point<REAL> *> polygon;
+            polygon.push_back(start);
             wasit[start->id] = true;
 
             int popid = start->id;
-            pt = start->n1;
-
+            Point<REAL> * pt = start->n1;
             while (pt  and  pt->id != start->id)
             {
                 assert(pt->n1->id == popid  or  pt->n2->id == popid);
-
-                if (pt->n1  and  pt->n1->id == popid)
-                {
-                    wasit[pt->id] = true;
-                    polygon.push_back(pt->id);
-                    popid = pt->id;
-                    pt = pt->n2;
-                }
-                else if (pt->n2  and  pt->n2->id == popid)
-                {
-                    wasit[pt->id] = true;
-                    polygon.push_back(pt->id);
-                    popid = pt->id;
-                    pt = pt->n1;
-                }
-                else
-                    assert(false and "SUPPOSE NOT TO HAPPEN");
+                wasit[pt->id] = true;
+                polygon.push_back(pt);
+                Macro_DeterminePointId(pt, popid);
             }
             if (pt == NULL)
             {
-                polygon.push_back(0);
-
+                polygon.push_back(NULL);
                 popid = start->id;
                 pt = start->n2;
                 while (pt)
                 {
                     assert(pt->n1->id == popid  or  pt->n2->id == popid);
-
-                    if (pt->n1  and  pt->n1->id == popid)
-                    {
-                        wasit[pt->id] = true;
-                        polygon.push_front(pt->id);
-                        popid = pt->id;
-                        pt = pt->n2;
-                    }
-                    else if (pt->n2  and  pt->n2->id == popid)
-                    {
-                        wasit[pt->id] = true;
-                        polygon.push_front(pt->id);
-                        popid = pt->id;
-                        pt = pt->n1;
-                    }
-                    else
-                        assert(false and "SUPPOSE NOT TO HAPPEN 2");
+                    wasit[pt->id] = true;
+                    polygon.push_front(pt);
+                    Macro_DeterminePointId(pt, popid);
                 }
-                polygon.push_front(0);
+                polygon.push_front(NULL);
             }
             else
             {
-                polygon.push_back(start->id);
+                polygon.push_back(start);
             }
-            /*
-            if (!pt and !start->n2)
-            {
-                popid = start->id;
-                pt = start->n2;
+            FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);
+            cout << endl;
 
-                while (pt  and  pt->id != start->id)
+            if (polygon.front())
+            {
+                cout << "inside" << endl;
+            }
+            else
+            {
+                cout << "chopped off" << endl;
+                double border[5][2] = { { 0., 0. }, { cf->GetFieldWidth(), 0. }, { cf->GetFieldWidth(), cf->GetFieldHeight() }, { cf->GetFieldHeight(), 0. }, { 0., 0. } };
+                Point<REAL> * end1 = *(++polygon.begin());
+                Point<REAL> * end2 = *(++polygon.rbegin());
+
+                int i, j;
+                for(i = 0; i < 4; ++i)
                 {
-                    if (pt->n1  and  pt->n1->id == popid)
-                    {
-                        wasit[pt->id] = true;
-                        polygon.push_front(pt->id);
-                        pt = pt->n2;
-                    }
-                    else if (pt->n2  and  pt->n2->id == popid)
-                    {
-                        wasit[pt->id] = true;
-                        polygon.push_front(pt->id);
-                        pt = pt->n1;
-                    }
-                    else
-                        assert(false and "SUPPOSE NOT TO HAPPEN 2");
+                    if (Geometry::IsOnSegment(border[i][0], border[i][1], border[i+1][0], border[i+1][1], end1->x, end1->y)) break;
+                }
+                cout << " ######  " << i << "  ::: " << end1 << endl;
+
+                for(j = 0; j < 4; ++j)
+                {
+                    if (Geometry::IsOnSegment(border[j][0], border[j][1], border[j+1][0], border[j+1][1], end2->x, end2->y)) break;
+                }
+                cout << " ######  " << j << "  ::: " << end2 << endl;
+
+                if (i == j)
+                {
+                    polygon.pop_front();
+                    polygon.pop_back();
+                    polygon.push_back(polygon.front());
+                }
+                else
+                {
+                    assert("TODO" and false);
                 }
             }
-            // */
-            FOREACH(it, polygon)  cout << " " << *it;
+            FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);
             cout << endl;
-        }
 
-    }
+        }
 
     PMFLog("[ leave ] :: EraseSmallPolygons ()");
 }
+#undef DeterminePointId
 
 
 template <class REAL>
