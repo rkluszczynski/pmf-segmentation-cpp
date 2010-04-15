@@ -60,12 +60,13 @@ PMF<REAL> :: SetSeed(time_t _seed)
 
 template <class REAL>
 void
-PMF<REAL> :: EraseSmallPolygons ()
+PMF<REAL> :: EraseSmallPolygons (REAL cutoff)
 {
     PMFLog("[ enter ] :: EraseSmallPolygons ()");
     if (!cf) return;
     cf->SetPointsIDs ();
     int amount = GetCount();
+    vector<bool> leaveit(amount+1, true);
 
     Point<REAL> * border[5];
     border[0] = new Point<REAL>(0., 0., 0., 0., -1);
@@ -146,7 +147,7 @@ PMF<REAL> :: EraseSmallPolygons ()
             {
                 cout << "inside" << endl;
             }
-            FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);  cout << endl;
+            //FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);  cout << endl;
 
             double area = 0.;
             Point<REAL> * ppt = *polygon.begin();
@@ -157,21 +158,39 @@ PMF<REAL> :: EraseSmallPolygons ()
                 if (it == polygon.begin()) continue;
 
                 if ((++it) == polygon.end()) break;
-                --it;
-                double x1 = (*it)->x;
-                double y1 = (*it)->y;
-                ++it;
                 double x2 = (*it)->x;
                 double y2 = (*it)->y;
                 --it;
+                double x1 = (*it)->x;
+                double y1 = (*it)->y;
                 double det = x0*y1 + x1*y2 + x2*y0 - y0*x1 - y1*x2 - y2*x0;
                 //std::cout << " ... " << det << std::endl;
                 area += det;
             }
-            cout << "[ AREA VALUE ] : " << abs(0.5 * area) << endl;
+            area = abs(0.5 * area);
+            cout << "[ AREA VALUE ] : " << area << endl;
 
+            if (area < cutoff)
+            {
+                cout << "to remove :" << endl;
+                FOREACH(it, polygon)  cout << " " << ((*it) ? (*it)->id : 0);  cout << endl;
+                cout << "--" << endl;
+                FOREACH(it, polygon)  leaveit[(*it)->id] = false;
+            }
         }
 
+    FOREACH(cit, *cf)
+    {
+        if (not leaveit[(*cit)->id])
+        {
+            delete *cit;
+            *cit = NULL;
+        }
+    }
+    cf->ClearNullPointers();
+
+
+    REP(i,4) delete border[i];
     PMFLog("[ leave ] :: EraseSmallPolygons ()");
 }
 #undef DeterminePointId

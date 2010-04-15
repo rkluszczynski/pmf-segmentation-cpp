@@ -57,6 +57,8 @@ namespace pmf
             bool remove_point_with_id (long);
             */
 
+            void ClearNullPointers();
+
             inline void ClearPointsContainer() { pts->clear(); }
             //inline void ClearPointsContainer() { while(! pts->empty()) pts->pop_back(); }
     };
@@ -80,6 +82,18 @@ namespace pmf
 
     template <class REAL>
     void Configuration<REAL>::DestroyPoints ()  { FOREACH(it, *pts)  delete *it; }
+
+
+    template <class REAL>
+    void Configuration<REAL>::ClearNullPointers ()
+    {
+        std::vector<Point<REAL> *> * npts = new vector<Point<REAL> *> ();
+        FOREACH(it, *pts)
+            if (*it)  npts->push_back(*it);
+        ClearPointsContainer();
+        delete pts;
+        pts = npts;
+    }
 
 
     template <class REAL>

@@ -20,8 +20,9 @@ int main(int argc, char **argv)
     //pmf->RotatePoints2 (0., 1.);
     pmf->SavePMF ("output/_BEFORE.txt");
     pmf->SavePMF ("output/_BEFORE.ggb", pmf::GeoGebraFile);
-    pmf->EraseSmallPolygons ();
+    pmf->EraseSmallPolygons (0.01);
     pmf->SavePMF ("output/_AFTER.txt");
+    pmf->SavePMF ("output/_AFTER.ggb", pmf::GeoGebraFile);
     //pmf->SavePMF (dir, GeoGebraFile);
     return 0;
     // */

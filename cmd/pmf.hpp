@@ -90,7 +90,7 @@ namespace pmf
             void RemoveBirthPoint (long, REAL, REAL);
             void AddBirthSegment (REAL, REAL, REAL, REAL);
 
-            void EraseSmallPolygons ();
+            void EraseSmallPolygons (REAL);
 
             inline void AddBirthPoint (REAL, REAL, REAL);
             inline void UpdatePointVelocity (long, REAL);
@@ -105,7 +105,7 @@ namespace pmf
             bool SavePMF(const char *, PMFFileType);
             //bool SaveConfiguration(const char *);
             //bool SaveConfigurationAsSVG(const char *, double, double);
-            void DrawPMF (wxMemoryDC& dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
+            void DrawPMF (wxMemoryDC & dc, int scale = 200) { cf->DrawConfiguration(dc, scale); }
 
             inline void PushBack (Point<REAL> * pt)  { cf->PushBack(pt); }
             Configuration<REAL> * GetCf ()  { return cf; }
