@@ -30,7 +30,8 @@ namespace pmf
             pmf->GenerateField ();
 
         out.rdbuf(cout.rdbuf());
-
+        pmf->SavePMF("output/_first-conf.ggb", GeoGebraFile);
+        scanf("%*c");
         cout << "[ SEGM ] : ctor.end()" << endl;
     }
 
@@ -179,9 +180,11 @@ namespace pmf
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
-        int iterNum = 27270;//22900;
+        //int iterNum = 27270;
+        int iterNum = 22900;
 
         //if (loopIteration >= 17744) Geometry::qq = true;
+        //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
 
         if (loopIteration < iterNum)
             sprintf(filename, "output/pre.ggb");

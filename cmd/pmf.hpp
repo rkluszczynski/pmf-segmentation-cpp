@@ -99,6 +99,7 @@ namespace pmf
 
             bool TestPointsCoincidence ();
             bool IsFreeEpsilonCoincidence (REAL, REAL);
+            bool IsOldBirthBeforeOldDeathInEpsilonDistance ();
 
             void SetSeed(time_t);
             bool LoadPMF(const char *);

@@ -2,6 +2,15 @@
 #define TESTING_HPP_INCLUDED
 
 
+template <class REAL>
+bool
+PMF<REAL> :: IsOldBirthBeforeOldDeathInEpsilonDistance ()
+{
+
+    return false;
+}
+
+
     template <class REAL> class PointLexicographicalComparator
     {
         public:
@@ -11,7 +20,6 @@
                 return p1->x > p2->x;
             }
     };
-
 
 template <class REAL>
 bool
@@ -62,7 +70,7 @@ PMF<REAL> :: IsFreeEpsilonCoincidence (REAL xx, REAL yy)
         FOREACH(it, *cf)
         {
             Point<REAL> * pt = *it;
-            if (Geometry::IsZero(pt->x - xx)  &&  Geometry::IsZero(pt->y - yy))
+            if (Geometry::IsZero(pt->x - xx)  and  Geometry::IsZero(pt->y - yy))
             {
                 out.precision(20);
                 out << "[ BANG ] : x = " << xx << endl;
