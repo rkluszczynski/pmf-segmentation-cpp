@@ -62,7 +62,10 @@ MosaicPMF::MosaicPMF (
 
     /** Generating segments graph **/
     MosaicGraph * graph = GenerateSegmentsGraph (evts);
-    std::string filepath = std::string(OUTPUT_DIR) + std::string(MosaicConstants::GetTimeStamp()) + std::string("_1_segments-graph.ggb");
+    std::string filepath = "";
+    filepath += std::string(OUTPUT_DIR);
+    //filepath += std::string(MosaicConstants::GetTimeStamp());
+    filepath += std::string("_1_segments-graph.ggb");
     graph->SaveAsGeoGebraFile(filepath.c_str());
 
     //freopen ("output/20-generated-graph.txt", "w", stdout);/users/staff/system/klusi/PROJECTS/PMF-Project

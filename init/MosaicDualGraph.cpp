@@ -30,8 +30,7 @@ MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
 
         while (node->Size() > 0)
         {
-            std::vector<int> area;
-            if (generateDualGraph) areaGraph.push_back(area);
+            if (generateDualGraph) areaGraph.push_back(std::vector<int>());
 
             MosaicGraphNode::Iterator nit = node->Begin();
             unsigned int a = -1;
@@ -39,6 +38,7 @@ MosaicDualGraph::MosaicDualGraph(MosaicGraph * graph) : graph(graph)
 #if (DEBUG_SWITCH)
             std::cout << std::endl << "[[ GOING FROM _" << i << "_ ]]" << std::endl;
 #endif
+            std::vector<int> area;
             area.push_back(i);
             do
             {

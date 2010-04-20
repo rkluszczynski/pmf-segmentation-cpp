@@ -8,7 +8,7 @@ pmf-width=3;
 pmf-height=3;
 
 lines-type=0;  # 0 oznacza losuj, 1 wczytaj z pliku
-lines-amount=100;
+lines-amount=7;
 lines-file=input/lines.txt;
 
 area-cutoff=0.0001;

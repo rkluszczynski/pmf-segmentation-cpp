@@ -85,20 +85,58 @@ MosaicGraph::MakeGaussianShakeToDisorder (double u)
             }
             node->SetXY(x, y);
         }
+        //std::cout << *this << std::endl;
 
         IntersectionDetector idetector;
         FOREACH(it, nodes)
         {
             MosaicGraphNode * node = *it;
+            if (node->Size() == 3)
+            {
+                double x0 = node->x();
+                double y0 = node->y();
+                std::vector<int> noncollinearids;
+                unsigned previd = node->Back()->GetId();
+                FOREACH(nit, *node)
+                {
+                    unsigned currentid = (*nit)->GetId();
+                    double x1 = nodes[previd]->x();
+                    double y1 = nodes[previd]->y();
+                    double x2 = nodes[currentid]->x();
+                    double y2 = nodes[currentid]->y();
+                    double det = x0 * y1 + x1 * y2 + x2 * y0 - x0 * y2 - x1 * y0 - x2 * y1;
 
-            assert(node->Size() == 2);
-            unsigned n1 = node->Front()->GetId();
-            unsigned n2 = node->Back()->GetId();
-
-            if (n1 < node->GetId())
-                idetector.AddSegment(node->x(), node->y(), nodes[n1]->x(), nodes[n1]->y());
-            if (n2 < node->GetId())
-                idetector.AddSegment(node->x(), node->y(), nodes[n2]->x(), nodes[n2]->y());
+                    if (det != 0.)
+                    {
+                        //std::cout << " " << node->GetId() << " ========== > " << previd << " " << currentid << std::endl;
+                        noncollinearids.push_back(previd);
+                        noncollinearids.push_back(currentid);
+                    }
+                    previd = currentid;
+                }
+                assert(noncollinearids.size() == 4);
+                unsigned neighbourid = 0;
+                REP(i,noncollinearids.size()) REP(k,noncollinearids.size())
+                    if (noncollinearids[i] > noncollinearids[k])  std::swap(noncollinearids[i], noncollinearids[k]);
+                REP(i,noncollinearids.size()-1)
+                    if (noncollinearids[i] == noncollinearids[i+1])
+                    {
+                        //printf("\n assigned %.21lf ; %.21lf \n\n", nodes[(*nit)->GetId()]->x(), nodes[(*nit)->GetId()]->y());
+                        assert(neighbourid == 0);
+                        neighbourid = noncollinearids[i];
+                    }
+                assert(neighbourid > 0);
+                if (neighbourid < node->GetId())
+                    idetector.AddSegment(node->x(), node->y(), nodes[neighbourid]->x(), nodes[neighbourid]->y());
+            }
+            else
+            {
+                assert(node->Size() == 2);
+                unsigned n1 = node->Front()->GetId();
+                unsigned n2 = node->Back()->GetId();
+                if (n1 < node->GetId())  idetector.AddSegment(node->x(), node->y(), nodes[n1]->x(), nodes[n1]->y());
+                if (n2 < node->GetId())  idetector.AddSegment(node->x(), node->y(), nodes[n2]->x(), nodes[n2]->y());
+            }
         }
         doItAgain = idetector.CheckIntersectionExistance();
         idetector.ClearSegments();
@@ -112,6 +150,14 @@ MosaicGraph::MakeGaussianShakeToDisorder (double u)
         printf("\n\n________________\ndo %sintersect\n\n", doItAgain ? "" : "NOT ");
     // */
     }
+    /*
+    FOREACH(it, nodes)
+    {
+        MosaicGraphNode * node = *it;
+        printf("%4d :  (%.21lf, %.21lf) \n", node->GetId(), node->x(), node->y());
+        //printf("%4d :  (%e, %e) \n", node->GetId(), node->x(), node->y());
+    }
+    // */
 }
 
 
