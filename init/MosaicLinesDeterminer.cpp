@@ -3,6 +3,8 @@
 #define VAR(V, N)       __typeof(N) V = (N)
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
+#define SHOW_COMMANDS 1
+
 
 MosaicLinesDeterminer::MosaicLinesDeterminer(bool debug) : debug(debug)
 {
@@ -65,6 +67,10 @@ MosaicLinesDeterminer::LoadSegmentsFromFile (const char * filename)
 void
 MosaicLinesDeterminer::GenerateRandomSegmentsByPolarParameters (unsigned int amount, double fieldHeight, double fieldWidth)
 {
+#if SHOW_COMMANDS
+    int pointCounter = 0;
+    ofstream fout("output/lines-ggb-cmds.txt");
+#endif
     mosaic.clear();
     //*
     std::set<MosaicPoint<double> *, classcompx> setx;
@@ -181,6 +187,11 @@ MosaicLinesDeterminer::GenerateRandomSegmentsByPolarParameters (unsigned int amo
         MosaicSegment<double> * s = new MosaicSegment<double>(p1, p2);
         mosaic.push_back(s);
 
+#if SHOW_COMMANDS
+        fout << "P" << pointCounter++ << "=(" << p1->x << "," << p1->y << ")" << endl;
+        fout << "P" << pointCounter++ << "=(" << p2->x << "," << p2->y << ")" << endl;
+        fout << "odcinek[P" << pointCounter-2 << ",P" << pointCounter-1 << "]" << endl;
+#endif
         if (debug)  cout << " added segment : " << s << endl;
     }
 }
