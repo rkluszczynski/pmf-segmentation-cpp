@@ -15,7 +15,8 @@ area-cutoff=0.0001;
 gauss-variance=.001;
 
 # Image file
-image=input/ring-spread.png;
+image=output/spreadring.png;
+;image=input/ring-spread.png;
 ;image=input/qq-0B.png
 
 # Other testings

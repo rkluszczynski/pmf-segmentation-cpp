@@ -2,6 +2,7 @@
 #include "probability.hpp"
 #include "pmf.hpp"
 
+#define SAVE_PMR 1
 
 namespace pmf
 {
@@ -33,6 +34,12 @@ namespace pmf
         pmf->SavePMF("output/_first-conf.ggb", GeoGebraFile);
         scanf("%*c");
         cout << "[ SEGM ] : ctor.end()" << endl;
+#if SAVE_PMR
+        FILE * fp = fopen("output/pmr.txt", "w");
+        fprintf(fp, "Picture : %s\n", pictureFile);
+        fprintf(fp, "   Seed : %li\n", seed);
+        fclose(fp);
+#endif
     }
 
 
@@ -79,7 +86,14 @@ namespace pmf
 
         result = beta_1 * storedArea + beta_2 * storedElen;
         fprintf(stderr, "[ENERGY] : %lf  (%.2lf)\n", result, tmpArea);
-
+#if SAVE_PMR
+        if (!loopIteration)
+        {
+            FILE * fp = fopen("output/pmr.txt", "a");
+            fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
+            fclose(fp);
+        }
+#endif
         return result;
     }
 
@@ -159,6 +173,11 @@ namespace pmf
     BinarySegmentation::ApplyModification()
     {
         cout << "[ SEGM ] : applying modification" << endl;
+#if SAVE_PMR
+        FILE * fp = fopen("output/pmr.txt", "a");
+        fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
+        fclose(fp);
+#endif
     }
 
     void
@@ -167,6 +186,11 @@ namespace pmf
         cout << "[ SEGM ] : canceling modification" << endl;
 
         std::swap(pmf, clone);
+#if SAVE_PMR
+        FILE * fp = fopen("output/pmr.txt", "a");
+        fprintf(fp, "%li;0\n", loopIteration);
+        fclose(fp);
+#endif
     }
 
     void
