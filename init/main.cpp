@@ -26,6 +26,7 @@ int main(int argc, char ** argv)
 	time_t       seed = 655;//15;//time(NULL);
 	char   c, *endptr;
 
+    seed = time(NULL);
 	/* -------------------------------------------------------------------- */
 	/*   Getting values of parameters to the program.                       */
 	/* -------------------------------------------------------------------- */
