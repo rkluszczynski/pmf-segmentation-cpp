@@ -19,11 +19,13 @@ namespace pmf
             virtual void  Prepare ();
             virtual void  Finish ();
 
+            virtual bool  CheckRunningCondition();
+
+
         protected:
             virtual void           PreIteration();
             virtual void          PostIteration();
 
-            virtual bool  CheckRunningCondition();
             virtual bool    CheckApplyCondition();
             virtual double CalculateHamiltonian();
             virtual void       MakeModification();

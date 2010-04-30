@@ -58,7 +58,7 @@ void runInParallel(int n)
                         printf("sync::end()\n");
                     }
                 #pragma omp barrier
-                if (done) runIt = false;
+                    if (done) runIt = false;
             }
             ++run[id];
         }

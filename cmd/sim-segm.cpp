@@ -157,7 +157,7 @@ int main (int argc, char *argv[])
 
         pmf::BinarySegmentation simulation( sizeArak, sizeArak, initialFile, outputFile, seed, pictureFile, iterations, pmrStop );
         ftime(&tbeg);
-        simulation.Run ();
+        simulation.RunTheSimulation();
 	    ftime(&tend);
 
         // * How long was I unconscious? *

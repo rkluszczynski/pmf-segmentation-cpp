@@ -1,4 +1,5 @@
 #include "segmentation.h"
+#include "MultiCoreSegmentation.h"
 
 
 void print_usage(char * prog_name, bool cond = false)
@@ -32,6 +33,15 @@ namespace pmf
 #define REAL double
 int main (int argc, char *argv[])
 {
+
+    MultiCoreSegmentation mcs(1);
+
+    mcs.SimulateOnMultiCore();
+
+    return 0;
+
+
+
 	long           opt = 0x0;
 	double    sizeArak = 0.0;
 	char * initialFile = NULL;
@@ -157,7 +167,7 @@ int main (int argc, char *argv[])
 
         pmf::BinarySegmentation simulation( sizeArak, sizeArak, initialFile, outputFile, seed, pictureFile, iterations, pmrStop );
         ftime(&tbeg);
-        simulation.Run ();
+        simulation.RunTheSimulation();
 	    ftime(&tend);
 
         // * How long was I unconscious? *
