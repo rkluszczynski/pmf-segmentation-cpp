@@ -83,7 +83,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                 #pragma omp barrier
                     if (done) nextStep = false;
             }
-            --syncSteps;
+            ++syncSteps;
         }
         sims[id]->FinishSimulation();
     }
