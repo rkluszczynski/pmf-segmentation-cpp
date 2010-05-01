@@ -3,6 +3,8 @@
 #include <omp.h>
 #include <sstream>
 
+#include "SegmentationParameters.h"
+
 
 MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
 {
@@ -15,24 +17,32 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
 
     simulations = new pmf::BinarySegmentation * [numberOfThreads];
 
-    double sizeArak = 3.0;
-    char * initialFile = NULL;
-    time_t seed = 0;
-    char * pictureFile = "input/ring-spread.png";
+    SegmentationParameters sparam;
+    sparam.SetFieldHeight (3.0);
+    sparam.SetFieldWidth (3.0);
+    sparam.SetInitialFile (NULL);
+    sparam.SetSeed (0);
 
-    long iterations = 0L;
-    double pmrStop = .07;
+    sparam.SetInitialFile ("output/_shaked-pmf.txt");
+    sparam.SetPictureFile ("input/bush-gauss-histogramcurvation.png");
+    //char * pictureFile = "input/ring-spread.png";
 
+    sparam.SetIterationsNumber (0L);
+    sparam.SetPMRRate (.07);
+
+    FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
 #pragma omp parallel default(none) \
-                firstprivate(sizeArak, initialFile, seed, pictureFile, iterations, pmrStop) \
-                shared(sims)
+                firstprivate(sparam) \
+                shared(sims,stream)
     {
         int id = omp_get_thread_num();
         std::stringstream ssout;
         ssout << "output-test" << "_thread-" << id << ".txt";
-        sims[id] =
-            new pmf::BinarySegmentation( sizeArak, sizeArak, initialFile, ssout.str().c_str(), seed + id, pictureFile, iterations, pmrStop );
+        sparam.SetOutputFile (ssout.str().c_str());
+
+        sims[id] = new pmf::BinarySegmentation( sparam );
+        sparam.PrintParameters(stream);
     }
 }
 
@@ -65,7 +75,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
             sims[id]->RunNextStep();
             if (! sims[id]->CheckRunningCondition()) done = true;
 
-            if (sync  or  syncSteps == 100  or  done)
+            if (sync  or  syncSteps == 200  or  done)
             {
                 #pragma omp critical
                     sync = true;

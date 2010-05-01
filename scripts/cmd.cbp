@@ -134,6 +134,14 @@
 		<Unit filename="..\cmd\MultiCoreSegmentation.h">
 			<Option target="sim-multicore-Debug" />
 		</Unit>
+		<Unit filename="..\cmd\SegmentationParameters.cpp">
+			<Option target="sim-segm-Debug" />
+			<Option target="sim-multicore-Debug" />
+		</Unit>
+		<Unit filename="..\cmd\SegmentationParameters.h">
+			<Option target="sim-segm-Debug" />
+			<Option target="sim-multicore-Debug" />
+		</Unit>
 		<Unit filename="..\cmd\adding.cpp">
 			<Option target="add-Debug" />
 		</Unit>

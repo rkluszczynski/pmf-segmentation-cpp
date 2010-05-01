@@ -102,7 +102,7 @@ PMF<REAL> :: ScanVerticalLine(GrayscaleImage * img, REAL xx, REAL delta)
 
         while (yy < pt.second)
         {
-            int pixel = int( (*img)[ int(yy*scaleY) ][ int(xx*scaleX) ][0] );
+            int pixel = int( (*img)[ img->GetHeight() - int(yy*scaleY) ][ int(xx*scaleX) ][0] );
             //int pixel = int( (*img)[ int(xx*scaleX) ][ int(yy*scaleY) ][0] );
             int dist  = abs(pixel - startTopColor);
             //cout << "   PIXEL   : " << int(xx * scaleX) << "  x  " << int(yy * scaleY) << " = " << pixel << "  {" << dist << "}" << endl;

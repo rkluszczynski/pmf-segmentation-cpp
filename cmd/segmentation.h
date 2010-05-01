@@ -4,6 +4,7 @@
 #include "simulation.hpp"
 #include "grayimage.h"
 #include "../include/statistics.h"
+#include "SegmentationParameters.h"
 
 
 namespace pmf
@@ -13,6 +14,7 @@ namespace pmf
     class BinarySegmentation : public SimulatedAnnealingSimulation<double>
     {
         public:
+            BinarySegmentation(SegmentationParameters &);
             BinarySegmentation(double, double, const char *, const char *, time_t, const char *, long, double);
             virtual ~BinarySegmentation();
 
@@ -33,6 +35,8 @@ namespace pmf
             virtual void     CancelModification();
 
         private:
+            SegmentationParameters parameters;
+
             long loopIteration;
             long iterations;
             double rate;

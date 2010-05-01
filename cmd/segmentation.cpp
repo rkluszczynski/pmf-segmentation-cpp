@@ -7,6 +7,30 @@
 namespace pmf
 {
 
+    BinarySegmentation::BinarySegmentation(SegmentationParameters & params)
+    : parameters(params)
+    {
+        cout << "[ SEGM ] : ctor.begin()" << endl;
+
+        img = new GrayscaleImage(parameters.GetPictureFile());
+        pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight());
+        pmf->SetSeed (parameters.GetSeed());
+		if (parameters.GetInitialFile())
+		{
+            pmf->LoadPMF (parameters.GetInitialFile());
+            pmf->RotatePoints2 (0., 1.);
+		}
+		else
+            pmf->GenerateField ();
+
+        loopIteration = 0;
+        iterations = parameters.GetIterationsNumber();
+        rate = parameters.GetPMRRate();
+        outputfile = parameters.GetOutputFile();
+
+        cout << "[ SEGM ] : ctor.end()" << endl;
+    }
+
     BinarySegmentation::BinarySegmentation(double wsize, double hsize, const char * initialFile, const char * outputFile, time_t seed, const char * pictureFile, long iter, double pmr)
     : loopIteration(0), iterations(iter), rate(pmr), outputfile(outputFile)
     {
