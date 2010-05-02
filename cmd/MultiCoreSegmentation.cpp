@@ -8,8 +8,9 @@
 
 MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
 {
+    numberOfThreads = 2;
     //ctor
-    if (numberOfThreads > 0) omp_set_num_threads(num);
+    if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
 
     fprintf(stderr, "Number of threads : %i\n", numberOfThreads);
@@ -21,7 +22,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
     sparam.SetInitialFile (NULL);
-    sparam.SetSeed (0);
+    sparam.SetSeed (10);
 
     sparam.SetInitialFile ("output/_shaked-pmf.txt");
     sparam.SetPictureFile ("input/bush-gauss-histogramcurvation.png");
@@ -43,6 +44,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
         std::stringstream ssout;
         ssout << "th" << id << "_";
         sparam.SetOutputPrefix (ssout.str().c_str());
+        sparam.SetSeed (sparam.GetSeed() + id);
 
         sims[id] = new pmf::BinarySegmentation( sparam );
         sparam.PrintParameters(stream);
@@ -76,7 +78,6 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         while (nextStep)
         {
             sims[id]->RunNextStep();
-nextStep = false; continue;
             if (! sims[id]->CheckRunningCondition()) done = true;
 
             if (sync  or  syncSteps == 200  or  done)

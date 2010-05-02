@@ -11,7 +11,7 @@ namespace pmf
     : parameters(params)
     {
         cout << "[ SEGM ] : ctor.begin()" << endl;
-        std::string fout1name( std::string(params.GetOutputDirectory()) + std::string(params.GetOutputPrefix()) + std::string("gen.txt") );
+        std::string fout1name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("gen.txt") );
         cout << fout1name << endl;
         ofstream fout1( fout1name.c_str() );
         out.rdbuf(fout1.rdbuf());
@@ -64,7 +64,8 @@ namespace pmf
         scanf("%*c");
         cout << "[ SEGM ] : ctor.end()" << endl;
 #if SAVE_PMR
-        FILE * fp = fopen("output/pmr.txt", "w");
+        std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
+        FILE * fp = fopen(pmrfile.c_str(), "w");
         fprintf(fp, "Picture : %s\n", pictureFile);
         fprintf(fp, "   Seed : %li\n", seed);
         fclose(fp);
@@ -118,7 +119,8 @@ namespace pmf
 #if SAVE_PMR
         if (!loopIteration)
         {
-            FILE * fp = fopen("output/pmr.txt", "a");
+            std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
+            FILE * fp = fopen(pmrfile.c_str(), "a");
             fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
             fclose(fp);
         }
@@ -208,9 +210,10 @@ namespace pmf
     void
     BinarySegmentation::ApplyModification()
     {
-        cout << "[ SEGM ] : applying modification" << endl;
+        cout << "[ SEGM ] _" << parameters.GetOutputPrefix() << ": applying modification" << endl;
 #if SAVE_PMR
-        FILE * fp = fopen("output/pmr.txt", "a");
+        std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
+        FILE * fp = fopen(pmrfile.c_str(), "a");
         fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
         fclose(fp);
 #endif
@@ -219,11 +222,12 @@ namespace pmf
     void
     BinarySegmentation::CancelModification()
     {
-        cout << "[ SEGM ] : canceling modification" << endl;
+        cout << "[ SEGM ] _" << parameters.GetOutputPrefix() << ": canceling modification" << endl;
 
         std::swap(pmf, clone);
 #if SAVE_PMR
-        FILE * fp = fopen("output/pmr.txt", "a");
+        std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
+        FILE * fp = fopen(pmrfile.c_str(), "a");
         fprintf(fp, "%li;0\n", loopIteration);
         fclose(fp);
 #endif
@@ -271,7 +275,7 @@ namespace pmf
     void
     BinarySegmentation::PostIteration()
     {
-        cout << "[ SEGM ] :  post-iteration.begin()" << endl;
+        cout << "[ SEGM ] _" << parameters.GetOutputPrefix() << ":  post-iteration.begin()" << endl;
 
         //pmf->SavePMF("output/post-before-check-0.ggb", GeoGebraFile);
         cout << " post check 0" << endl;
@@ -283,7 +287,7 @@ namespace pmf
         cout << " post check 2" << endl;
         ++loopIteration;
 
-        cout << "[ SEGM ] :  post-iteration.end()" << endl;
+        cout << "[ SEGM ] _" << parameters.GetOutputPrefix() << ":  post-iteration.end()" << endl;
     }
 
 
@@ -304,8 +308,11 @@ namespace pmf
 
         if (outputfile)
         {
-            pmf->SavePMF (outputfile);
-            pmf->SavePMF ("output/sim-result.ggb", GeoGebraFile);
+            std::string resultfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string(parameters.GetOutputFile()) );
+            pmf->SavePMF (resultfile.c_str());
+
+            std::string resultggb( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("sim-result.ggb") );
+            pmf->SavePMF (resultggb.c_str(), GeoGebraFile);
 
             //pmf->EraseSmallPolygons();
         }
