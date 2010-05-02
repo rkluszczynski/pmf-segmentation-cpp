@@ -7,10 +7,14 @@
 namespace pmf
 {
 
-    BinarySegmentation::BinarySegmentation(SegmentationParameters & params)
+    BinarySegmentation::BinarySegmentation(SegmentationParameters params)
     : parameters(params)
     {
         cout << "[ SEGM ] : ctor.begin()" << endl;
+        std::string fout1name( std::string(params.GetOutputDirectory()) + std::string(params.GetOutputPrefix()) + std::string("gen.txt") );
+        cout << fout1name << endl;
+        ofstream fout1( fout1name.c_str() );
+        out.rdbuf(fout1.rdbuf());
 
         img = new GrayscaleImage(parameters.GetPictureFile());
         pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight());
@@ -28,6 +32,7 @@ namespace pmf
         rate = parameters.GetPMRRate();
         outputfile = parameters.GetOutputFile();
 
+        out.rdbuf(cout.rdbuf());
         cout << "[ SEGM ] : ctor.end()" << endl;
     }
 
@@ -126,9 +131,11 @@ namespace pmf
     BinarySegmentation::MakeModification()
     {
         using Probability::Uniform;
-        cout << "[ SEGM ] : modification.begin()" << endl;
+        cout << "[ SEGM ] " << parameters.GetOutputPrefix() << ": modification.begin()" << endl;
 
-        ofstream fout3("output/rot.txt");
+        ///ofstream fout3("output/rot.txt");
+        std::string fout3name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("rot.txt") );
+        ofstream fout3( fout3name.c_str() );
         out.rdbuf(fout3.rdbuf());
 
         double angle = Uniform<double>(0.0, 2. * M_PI);
@@ -154,10 +161,14 @@ namespace pmf
         double limit1 = areaOfPMF * denominatorZ;
         double limit2 = (areaOfPMF + noOfBirths) * denominatorZ;
 
-        ofstream fout2("output/_iteration-modification.txt");
+        ///ofstream fout2("output/_iteration-modification.txt");
+        std::string fout2name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("_iteration-modification.txt") );
+        ofstream fout2( fout2name.c_str() );
         out.rdbuf(fout2.rdbuf());
         fout3.close();
-            pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-before.ggb");
+
+            std::string cf1file( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("rotated-before.ggb") );
+            pmf->GetCf()->SaveConfigurationAsGGB(cf1file.c_str());
 
         // * Applying random operation. *
         double chance = Uniform(0.0, 1.0);
@@ -185,7 +196,8 @@ namespace pmf
             pmf->UpdatePointVelocity (number, sinL, cosL);
         }
 
-        pmf->GetCf()->SaveConfigurationAsGGB("output/rotated-after.ggb");
+        std::string cf2file( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("rotated-after.ggb") );
+        pmf->GetCf()->SaveConfigurationAsGGB( cf2file.c_str() );
         cout << "CHECK 1" << endl;
         pmf->RotatePoints2 (0., 1.);
         cout << "CHECK 2" << endl;
@@ -224,7 +236,11 @@ namespace pmf
         cout << "[ ITER ] : " << loopIteration << endl;
         cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
 
-        ofstream fout2("output/last-iteration-save.txt");
+        std::string _str;
+        _str += std::string(parameters.GetOutputDirectory());
+        _str += std::string(parameters.GetOutputPrefix());
+        _str += std::string("last-iteration-save.txt");
+        ofstream fout2( _str.c_str() );
         out.rdbuf(fout2.rdbuf());
 
         char filename[256];
@@ -235,15 +251,15 @@ namespace pmf
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
 
         if (loopIteration < iterNum)
-            sprintf(filename, "output/pre.ggb");
+            sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.txt")).c_str() );
         else
-            sprintf(filename, "output/pre%li.ggb", loopIteration);
+            sprintf(filename, "output/%spre%li.txt", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
         pmf->SavePMF(filename);
 
         if (loopIteration < iterNum)
-            sprintf(filename, "output/pre.ggb");
+            sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.ggb")).c_str() );
         else
-            sprintf(filename, "output/pre%li.ggb", loopIteration);
+            sprintf(filename, "output/%spre%li.ggb", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();

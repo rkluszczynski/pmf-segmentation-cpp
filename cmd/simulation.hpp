@@ -67,6 +67,7 @@ namespace pmf
 
         MakeModification ();
         bool __apply = CheckApplyCondition();
+return;
         if (__apply)
         {
             __newH = CalculateHamiltonian();

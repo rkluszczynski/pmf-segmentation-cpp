@@ -27,6 +27,9 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
     sparam.SetPictureFile ("input/bush-gauss-histogramcurvation.png");
     //char * pictureFile = "input/ring-spread.png";
 
+    sparam.SetOutputDirectory ("output/");
+    sparam.SetOutputFile ("output-test-file.txt");
+
     sparam.SetIterationsNumber (0L);
     sparam.SetPMRRate (.07);
 
@@ -38,8 +41,8 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
     {
         int id = omp_get_thread_num();
         std::stringstream ssout;
-        ssout << "output-test" << "_thread-" << id << ".txt";
-        sparam.SetOutputFile (ssout.str().c_str());
+        ssout << "th" << id << "_";
+        sparam.SetOutputPrefix (ssout.str().c_str());
 
         sims[id] = new pmf::BinarySegmentation( sparam );
         sparam.PrintParameters(stream);
@@ -73,6 +76,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         while (nextStep)
         {
             sims[id]->RunNextStep();
+nextStep = false; continue;
             if (! sims[id]->CheckRunningCondition()) done = true;
 
             if (sync  or  syncSteps == 200  or  done)
@@ -98,7 +102,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         sims[id]->FinishSimulation();
     }
 
-
+#pragma omp barrier
     fprintf(stderr, "simulations::end()");
 }
 

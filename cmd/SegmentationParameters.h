@@ -34,9 +34,17 @@ class SegmentationParameters
         inline
         void SetInitialFile(char * val) { m_InitialFile = strdup(val); }
         inline
+        char * GetOutputDirectory() { return m_OutputDiectory; }
+        inline
+        void SetOutputDirectory(const char * val) { m_OutputDiectory = strdup(val); }
+        inline
         char * GetOutputFile() { return m_OutputFile; }
         inline
         void SetOutputFile(const char * val) { m_OutputFile = strdup(val); }
+        inline
+        char * GetOutputPrefix() { return m_OutputPrefix; }
+        inline
+        void SetOutputPrefix(const char * val) { m_OutputPrefix = strdup(val); }
         inline
         time_t GetSeed() { return m_Seed; }
         inline
@@ -64,7 +72,9 @@ class SegmentationParameters
         double m_FieldWidth;
         double m_FieldHeight;
         char * m_InitialFile;
+        char * m_OutputDiectory;
         char * m_OutputFile;
+        char * m_OutputPrefix;
         char * m_PictureFile;
         time_t m_Seed;
         long m_IterationsNumber;

@@ -20,7 +20,7 @@ SegmentationParameters::SegmentationParameters(char * filename)
 void
 SegmentationParameters::Init()
 {
-    m_InitialFile = m_PictureFile = m_OutputFile = NULL;
+    m_InitialFile = m_PictureFile = m_OutputDiectory = m_OutputFile = m_OutputPrefix = NULL;
 }
 
 void
@@ -56,6 +56,8 @@ SegmentationParameters::~SegmentationParameters()
     if (m_InitialFile) delete m_InitialFile;
     if (m_PictureFile) delete m_PictureFile;
     if (m_OutputFile) delete m_OutputFile;
+    if (m_OutputDiectory) delete m_OutputDiectory;
+    if (m_OutputPrefix) delete m_OutputPrefix;
 }
 
 SegmentationParameters::SegmentationParameters(const SegmentationParameters & other)
@@ -69,10 +71,12 @@ SegmentationParameters::SegmentationParameters(const SegmentationParameters & ot
     m_IterationsNumber = other.m_IterationsNumber;
     m_PMRRate = other.m_PMRRate;
 
-    m_PictureFile = m_InitialFile = m_OutputFile = NULL;
+    Init();
     if (other.m_PictureFile) m_PictureFile = strdup(other.m_PictureFile);
     if (other.m_InitialFile) m_InitialFile = strdup(other.m_InitialFile);
+    if (other.m_OutputDiectory) m_OutputDiectory = strdup(other.m_OutputDiectory);
     if (other.m_OutputFile) m_OutputFile = strdup(other.m_OutputFile);
+    if (other.m_OutputPrefix) m_OutputPrefix = strdup(other.m_OutputPrefix);
 }
 
 SegmentationParameters & SegmentationParameters::operator = (const SegmentationParameters & rhs)
@@ -100,7 +104,7 @@ SegmentationParameters::PrintParameters (FILE * stream)
 
 std::ostream & operator << (std::ostream & out, const SegmentationParameters & params)
 {
-    out << "[ AbstractProperties ] :  "<<std::endl;
+    out << "[ SegmentationParameters ] :  " << std::endl;
     size_t width = 0;
     FOREACH(it, params.m_data) width = std::max(width, it->first.length());
     width += 5;

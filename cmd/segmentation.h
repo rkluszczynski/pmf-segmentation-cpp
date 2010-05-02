@@ -14,7 +14,7 @@ namespace pmf
     class BinarySegmentation : public SimulatedAnnealingSimulation<double>
     {
         public:
-            BinarySegmentation(SegmentationParameters &);
+            BinarySegmentation(SegmentationParameters);
             BinarySegmentation(double, double, const char *, const char *, time_t, const char *, long, double);
             virtual ~BinarySegmentation();
 
