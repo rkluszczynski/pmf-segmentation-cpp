@@ -119,9 +119,17 @@ namespace pmf
             REAL CalculateEnergy(GrayscaleImage * img);
             pair<REAL, REAL> ScanVerticalLine(GrayscaleImage *, REAL, REAL);
 
+            //inline
+            std::ostream & GetOutStream() { return out; }
+            //inline
+            void SetOutStream(std::ostream & ostr) { out.rdbuf(ostr.rdbuf()); }
+
+
         protected:
             time_t seed;
             Configuration<REAL> * cf;
+
+            std::ostream out;
 
 
         private:
@@ -173,7 +181,7 @@ namespace pmf
     };
 
 
-    std::ostream out(std::cout.rdbuf());
+    //std::ostream out(std::cout.rdbuf());
 
 
     #include "pmf.cpp"

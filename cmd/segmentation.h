@@ -18,10 +18,15 @@ namespace pmf
             BinarySegmentation(double, double, const char *, const char *, time_t, const char *, long, double);
             virtual ~BinarySegmentation();
 
+            PMF<double> * GetPMF() const { return pmf; }
+            void ReplacePMF(PMF<double> *);
+
             virtual void  Prepare ();
             virtual void  Finish ();
 
             virtual bool  CheckRunningCondition();
+            inline double  GetStoredImageEnergy() { return storedArea; }
+                   double  CalculateImageEnergy();
 
 
         protected:
@@ -46,6 +51,7 @@ namespace pmf
             const char * outputfile;
 
             double storedArea, storedElen;
+            double tmpArea, tmpElen;
             double areaOfPMF, angle;
             bool apply;
     };

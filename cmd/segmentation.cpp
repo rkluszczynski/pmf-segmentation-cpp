@@ -8,17 +8,19 @@ namespace pmf
 {
 
     BinarySegmentation::BinarySegmentation(SegmentationParameters params)
-    : parameters(params)
+    : parameters(params), loopIteration(0L)
     {
         cout << "[ SEGM ] : ctor.begin()" << endl;
         std::string fout1name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("gen.txt") );
         cout << fout1name << endl;
         ofstream fout1( fout1name.c_str() );
-        out.rdbuf(fout1.rdbuf());
+        //out.rdbuf(fout1.rdbuf());
 
         img = new GrayscaleImage(parameters.GetPictureFile());
         pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight());
         pmf->SetSeed (parameters.GetSeed());
+
+        pmf->SetOutStream( fout1 );
 		if (parameters.GetInitialFile())
 		{
             pmf->LoadPMF (parameters.GetInitialFile());
@@ -27,12 +29,12 @@ namespace pmf
 		else
             pmf->GenerateField ();
 
-        loopIteration = 0;
         iterations = parameters.GetIterationsNumber();
         rate = parameters.GetPMRRate();
         outputfile = parameters.GetOutputFile();
 
-        out.rdbuf(cout.rdbuf());
+        //out.rdbuf(cout.rdbuf());
+        pmf->SetOutStream( cout );
         cout << "[ SEGM ] : ctor.end()" << endl;
     }
 
@@ -45,7 +47,8 @@ namespace pmf
         cout << "[ SEGM ] : ctor.begin()" << endl;
 
         ofstream fout1("output/gen.txt");
-        out.rdbuf(fout1.rdbuf());
+        //out.rdbuf(fout1.rdbuf());
+        pmf->SetOutStream( fout1 );
 
         img = new GrayscaleImage(pictureFile);
 
@@ -59,7 +62,8 @@ namespace pmf
 		else
             pmf->GenerateField ();
 
-        out.rdbuf(cout.rdbuf());
+        //out.rdbuf(cout.rdbuf());
+        pmf->SetOutStream( cout );
         pmf->SavePMF("output/_first-conf.ggb", GeoGebraFile);
         scanf("%*c");
         cout << "[ SEGM ] : ctor.end()" << endl;
@@ -78,6 +82,14 @@ namespace pmf
         cout << "[ SEGM ] : dtor.begin()" << endl;
         delete img;
         cout << "[ SEGM ] : dtor.end()" << endl;
+    }
+
+
+    void
+    BinarySegmentation::ReplacePMF(DoublePMF * npmf)
+    {
+        delete pmf;
+        pmf = npmf->Clone();
     }
 
 
@@ -110,12 +122,11 @@ namespace pmf
         double beta_2 = 0.0;
         double result = 0.0;
 
-        double tmpArea, tmpElen;
-        tmpArea = storedArea = pmf->CalculateEnergy(img);
+        tmpArea = pmf->CalculateEnergy(img);
         tmpElen = storedElen = 0.0;
 
-        result = beta_1 * storedArea + beta_2 * storedElen;
-        fprintf(stderr, "[ENERGY] : %lf  (%.2lf)\n", result, tmpArea);
+        result = beta_1 * tmpArea + beta_2 * tmpElen;
+        fprintf(stderr, "[ENERGY] : %lf  (%.7lf)\n", result, tmpArea);
 #if SAVE_PMR
         if (!loopIteration)
         {
@@ -138,11 +149,12 @@ namespace pmf
         ///ofstream fout3("output/rot.txt");
         std::string fout3name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("rot.txt") );
         ofstream fout3( fout3name.c_str() );
-        out.rdbuf(fout3.rdbuf());
+        //out.rdbuf(fout3.rdbuf());
+        pmf->SetOutStream( fout3 );
 
         double angle = Uniform<double>(0.0, 2. * M_PI);
         cout << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
-        out << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
+        pmf->GetOutStream() << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         double sinL = sin(angle);
         double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
@@ -166,7 +178,8 @@ namespace pmf
         ///ofstream fout2("output/_iteration-modification.txt");
         std::string fout2name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("_iteration-modification.txt") );
         ofstream fout2( fout2name.c_str() );
-        out.rdbuf(fout2.rdbuf());
+        //out.rdbuf(fout2.rdbuf());
+        pmf->SetOutStream( fout2 );
         fout3.close();
 
             std::string cf1file( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("rotated-before.ggb") );
@@ -184,7 +197,8 @@ namespace pmf
 
                 if (pmf->AddBirthPoint (x, y, sinL, cosL)) break;
 
-                out << "BANG" << endl;
+                //out << "BANG" << endl;
+                pmf->GetOutStream() << "BANG" << endl;
             }
         }
         else if(chance < limit2)
@@ -204,6 +218,7 @@ namespace pmf
         pmf->RotatePoints2 (0., 1.);
         cout << "CHECK 2" << endl;
 
+        pmf->SetOutStream( cout );
         cout << "[ SEGM ] : modification.end()" << endl;
     }
 
@@ -211,6 +226,7 @@ namespace pmf
     BinarySegmentation::ApplyModification()
     {
         cout << "[ SEGM ] _" << parameters.GetOutputPrefix() << ": applying modification" << endl;
+        storedArea = tmpArea;
 #if SAVE_PMR
         std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
         FILE * fp = fopen(pmrfile.c_str(), "a");
@@ -245,7 +261,8 @@ namespace pmf
         _str += std::string(parameters.GetOutputPrefix());
         _str += std::string("last-iteration-save.txt");
         ofstream fout2( _str.c_str() );
-        out.rdbuf(fout2.rdbuf());
+        //out.rdbuf(fout2.rdbuf());
+        pmf->SetOutStream( fout2 );
 
         char filename[256];
         //int iterNum = 27270;
@@ -269,6 +286,7 @@ namespace pmf
         clone = pmf->Clone();
         apply = true;
 
+        pmf->SetOutStream( cout );
         cout << "[ SEGM ] :  pre-iteration.end()" << endl;
     }
 
@@ -297,6 +315,7 @@ namespace pmf
         cout << "[ SEGM ] : prepare.begin()" << endl;
 
         areaOfPMF = M_PI * pmf->GetHeight() * pmf->GetWidth();
+        storedArea = 1.;
 
         cout << "[ SEGM ] : prepare.end()" << endl;
     }
@@ -320,4 +339,9 @@ namespace pmf
 
         cout << "[ SEGM ] : finish.end()" << endl;
     }
+
+
+    double
+    BinarySegmentation::CalculateImageEnergy() { return pmf->CalculateEnergy(img); }
+
 }

@@ -1,7 +1,7 @@
 
 
 template <class REAL>
-PMF<REAL> :: PMF (REAL fWidth, REAL fHeight)
+PMF<REAL> :: PMF (REAL fWidth, REAL fHeight) : out(cout.rdbuf())
 { //ctor
     seed = time(NULL);
     cf   = new Configuration<REAL> (fWidth, fHeight);

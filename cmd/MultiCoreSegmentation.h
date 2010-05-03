@@ -12,11 +12,25 @@ class MultiCoreSegmentation
 
         void SimulateOnMultiCore();
 
+
     protected:
+        void UseIndependentStrategy();
+        void UseMinimalRateStrategy();
+        void UseGibbsRandomizationStrategy();
+
 
     private:
+        enum StrategyType
+        {
+            IndependentStrategy,
+            MinimalRateStrategy,
+            GibbsRandomizationStrategy
+        };
+
         int numberOfThreads;
+        StrategyType strategy;
         pmf::BinarySegmentation ** simulations;
+
 };
 
 #endif // MULTICORESEGMENTATION_H

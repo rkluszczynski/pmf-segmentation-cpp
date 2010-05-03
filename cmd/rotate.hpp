@@ -77,7 +77,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
     }
 
     std::vector<bool> changed(GetCount() + 1);
-    std::fill_n(changed.begin(), GetCount() + 1, false);
+    std::fill(changed.begin(), changed.end(), false);
     /* Changing types of points */
     FOREACH(it, *cf)
     {

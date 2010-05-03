@@ -17,7 +17,7 @@ PMF<REAL> :: CalculateEnergy (GrayscaleImage * img)
     }
     REAL maxAmount = REAL( max(oColor[0], oColor[1]) );
     REAL     total = REAL( oColor[0] + oColor[1] );
-    //*
+    /*
     cout << " oBLACK = " << (total - oColor[0]) / total << endl;
     cout << " oWHITE = " << (total - oColor[1]) / total << endl;
     //*/

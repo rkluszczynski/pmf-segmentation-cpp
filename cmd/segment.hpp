@@ -22,7 +22,7 @@ namespace pmf
             ~Segment()
             {
                 //out << "[ DEALLOCATING SEGMENT ]  :  " << this << endl;
-                out << "[ DEALLOCATING SEGMENT ]  :  ending at " << q << endl;
+                //out << "[ DEALLOCATING SEGMENT ]  :  ending at " << q << endl;
                 --pmf_segment_counter;
             }
 
@@ -50,7 +50,7 @@ namespace pmf
             void OnInit()
             {
                 assert(p->x <= q->x  ||  Geometry::IsZero(q->x - p->x));
-                out << "[ _ALLOCATING_ SEGMENT ]  :  " << this << endl;
+                //out << "[ _ALLOCATING_ SEGMENT ]  :  " << this << endl;
                 ++pmf_segment_counter;
             }
 

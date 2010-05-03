@@ -6,7 +6,7 @@
 #include "SegmentationParameters.h"
 
 
-MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num)
+MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(IndependentStrategy)
 {
     numberOfThreads = 2;
     //ctor
@@ -78,25 +78,47 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         while (nextStep)
         {
             sims[id]->RunNextStep();
+            //printf(" [[{%i}[%.7lf]]] ", id, sims[id]->CalculateImageEnergy());
             if (! sims[id]->CheckRunningCondition()) done = true;
 
-            if (sync  or  syncSteps == 200  or  done)
+            if (sync  or  syncSteps == 300  or  done)
             {
                 #pragma omp critical
                     sync = true;
                 #pragma omp barrier
                 #pragma omp master
                     {
-                        printf("sync::begin()\n");
+                        printf("sync::begin() =>  %i:%i\n", id, syncSteps);
 
+                        if (done) printf(" IT IS DONE \n");
+                        printf("[ energy during sync ] :");
+                        for (int i = 0; i < omp_get_num_threads(); ++i)
+                            printf("  [%i]=%.5lf(%.3lf)", i, sims[i]->CalculateImageEnergy(), sims[i]->GetStoredImageEnergy());
+                        printf("\n");
+
+                        switch (strategy)
+                        {
+                            case IndependentStrategy :
+                                                        UseIndependentStrategy();
+                                                        break;;
+                            case MinimalRateStrategy :
+                                                        UseMinimalRateStrategy();
+                                                        break;;
+                            case GibbsRandomizationStrategy :
+                                                        UseGibbsRandomizationStrategy();
+                                                        break;;
+                            default :
+                                        assert("NOT KNOWN STRATEGY" and false);
+                                        break;
+                        }
                         scanf("%*c");
 
-                        syncSteps = 0;
                         sync = false;
                         printf("sync::end()\n");
                     }
                 #pragma omp barrier
                     if (done) nextStep = false;
+                    syncSteps = 0;
             }
             ++syncSteps;
         }
@@ -105,5 +127,34 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
 #pragma omp barrier
     fprintf(stderr, "simulations::end()");
+}
+
+
+void
+MultiCoreSegmentation::UseIndependentStrategy ()
+{
+
+}
+
+void
+MultiCoreSegmentation::UseMinimalRateStrategy ()
+{
+    vector<double> pmrs(numberOfThreads);
+    for (int i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImageEnergy();
+    vector<double>::iterator minit = min_element(pmrs.begin(), pmrs.end());
+    int minpos = minit - pmrs.begin();
+
+    printf("[ sync ] : minimum at %i with value %.5lf\n", minpos, *minit);
+    for (int i = 0; i < omp_get_num_threads(); ++i)
+    {
+        if (i == minpos) continue;
+        simulations[i]->ReplacePMF( simulations[minpos]->GetPMF() );
+    }
+}
+
+void
+MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
+{
+
 }
 

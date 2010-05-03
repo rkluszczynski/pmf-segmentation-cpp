@@ -1,17 +1,18 @@
 #include "SegmentationParameters.h"
 
+#include <iostream>
 #include <fstream>
 
 #define VAR(V, N)       __typeof(N) V = (N)
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
 
-SegmentationParameters::SegmentationParameters()
+SegmentationParameters::SegmentationParameters() : m_log(std::clog)
 {
     Init();
 }
 
-SegmentationParameters::SegmentationParameters(char * filename)
+SegmentationParameters::SegmentationParameters(char * filename) : m_log(std::clog)
 {
     Init();
     LoadConfigurationFile(filename);
@@ -60,7 +61,8 @@ SegmentationParameters::~SegmentationParameters()
     if (m_OutputPrefix) delete m_OutputPrefix;
 }
 
-SegmentationParameters::SegmentationParameters(const SegmentationParameters & other)
+SegmentationParameters::SegmentationParameters (const SegmentationParameters & other)
+: m_log(std::clog)
 {
     //copy ctor
     m_data = other.m_data;

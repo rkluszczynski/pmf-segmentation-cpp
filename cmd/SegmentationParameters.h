@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <ctime>
 #include <cstring>
+#include <iostream>
 #include <string>
 #include <map>
 
@@ -15,6 +16,11 @@ class SegmentationParameters
         virtual ~SegmentationParameters();
 
         void PrintParameters(FILE * = stdout);
+
+        inline
+        std::ostream & GetLogOut() { return m_log; }
+        inline
+        void SetLogOut(std::ostream & out) { m_log.rdbuf( out.rdbuf() ); }
 
         SegmentationParameters(const SegmentationParameters& other);
         SegmentationParameters& operator=(const SegmentationParameters& other);
@@ -62,8 +68,10 @@ class SegmentationParameters
         inline
         void SetPMRRate(double val) { m_PMRRate = val; }
 
+
     protected:
         std::map<std::string, std::string>  m_data;
+
 
     private:
         void Init();
@@ -79,6 +87,8 @@ class SegmentationParameters
         time_t m_Seed;
         long m_IterationsNumber;
         double m_PMRRate;
+
+        std::ostream & m_log;
 };
 
 #endif // SEGMENTATIONPARAMETERS_H
