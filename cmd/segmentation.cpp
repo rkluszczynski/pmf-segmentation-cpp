@@ -271,16 +271,16 @@ namespace pmf
         //if (loopIteration >= 17744) Geometry::qq = true;
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
 
-        if (loopIteration < iterNum)
+        //if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.txt")).c_str() );
-        else
-            sprintf(filename, "output/%spre%li.txt", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
+        //else
+            //sprintf(filename, "output/%spre%li.txt", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
         pmf->SavePMF(filename);
 
-        if (loopIteration < iterNum)
+        //if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.ggb")).c_str() );
-        else
-            sprintf(filename, "output/%spre%li.ggb", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
+        //else
+            //sprintf(filename, "output/%spre%li.ggb", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();
