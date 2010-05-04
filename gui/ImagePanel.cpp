@@ -286,13 +286,13 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
                 int ix1 = int(pt->n1->x * pmfw_1 * img.GetWidth());
                 int iy1 = int(pt->n1->y * pmfh_1 * img.GetHeight());
 
-                dc.DrawLine(ix, iy, ix1, iy1);
+                dc.DrawLine(ix, img.GetHeight()-1 - iy, ix1, img.GetHeight()-1 - iy1);
             }
             if (pt->n2) {
                 int ix2 = int(pt->n2->x * pmfw_1 * img.GetWidth());
                 int iy2 = int(pt->n2->y * pmfh_1 * img.GetHeight());
 
-                dc.DrawLine(ix, iy, ix2, iy2);
+                dc.DrawLine(ix, img.GetHeight()-1 - iy, ix2, img.GetHeight()-1 - iy2);
             }
         }
 

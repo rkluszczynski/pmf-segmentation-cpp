@@ -15,7 +15,10 @@ area-cutoff=0.0001;
 gauss-variance=.001;
 
 # Image file
-image=input/bush-gauss-histogramcurvation.png;
+;image=output/segm_kruki.png;
+;image=output/grzybek2.png;
+image=output/szara-wisienka-do-segm.png;
+;image=input/bush-gauss-histogramcurvation.png;
 ;image=output/spreadring.png;
 ;image=input/ring-spread.png;
 ;image=input/qq-0B.png
