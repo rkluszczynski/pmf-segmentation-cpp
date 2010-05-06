@@ -9,6 +9,7 @@
 MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(IndependentStrategy)
 {
     numberOfThreads = 1;
+    numberOfStepsToSync = 500;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
@@ -27,7 +28,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
     sparam.SetInitialFile ("output/_shaked-pmf.txt");
 
-    sparam.SetPictureFile ("output/szara-wisienka-do-segm.png");
+    sparam.SetPictureFile ("input/tmp/szara-wisienka-do-segm.png");
     //sparam.SetPictureFile ("output/grzybek2.png");
     //sparam.SetPictureFile ("input/moj-grzybek-to-simulate.png");
     //sparam.SetPictureFile ("output/segm_kruki.png");
@@ -38,7 +39,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     sparam.SetOutputFile ("output-test-file.txt");
 
     sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.107);
+    sparam.SetPMRRate (.17);
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
@@ -71,7 +72,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
     fprintf(stderr, "simulations::begin()");
 
     pmf::BinarySegmentation * * sims = simulations;
-    int syncSteps = 999;
+    int syncSteps = numberOfStepsToSync;
 
     bool sync = false;
     bool done = false;
@@ -87,7 +88,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
             //printf(" [[{%i}[%.7lf]]] ", id, sims[id]->CalculateImageEnergy());
             if (! sims[id]->CheckRunningCondition()) done = true;
 
-            if (sync  or  syncSteps == 1000  or  done)
+            if (sync  or  syncSteps == 0  or  done)
             {
                 #pragma omp critical
                     sync = true;
@@ -124,9 +125,9 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                     }
                 #pragma omp barrier
                     if (done) nextStep = false;
-                    syncSteps = 0;
+                    syncSteps = numberOfStepsToSync;
             }
-            ++syncSteps;
+            --syncSteps;
         }
         sims[id]->FinishSimulation();
     }

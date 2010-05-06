@@ -27,7 +27,7 @@ class MultiCoreSegmentation
             GibbsRandomizationStrategy
         };
 
-        int numberOfThreads;
+        int numberOfThreads, numberOfStepsToSync;
         StrategyType strategy;
         pmf::BinarySegmentation ** simulations;
 
