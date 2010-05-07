@@ -9,7 +9,7 @@
 MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(GibbsRandomizationStrategy)
 {
     numberOfThreads = 2;
-    numberOfStepsToSync = 5;
+    numberOfStepsToSync = 1500;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
@@ -39,7 +39,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     sparam.SetOutputFile ("output-test-file.txt");
 
     sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.17);
+    sparam.SetPMRRate (.15);
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
@@ -49,7 +49,10 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     {
         int id = omp_get_thread_num();
         std::stringstream ssout;
-        ssout << "th" << id << "_";
+        if (numberOfThreads == 1)
+            ssout << "singiel_";
+        else
+            ssout << "th" << id << "_";
         sparam.SetOutputPrefix (ssout.str().c_str());
         sparam.SetSeed (sparam.GetSeed() + id);
 
@@ -86,14 +89,14 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         {
             sims[id]->RunNextStep();
             //printf(" [[{%i}[%.7lf]]] ", id, sims[id]->CalculateImageEnergy());
-            if (! sims[id]->CheckRunningCondition()) done = true;
+            if (not sims[id]->CheckRunningCondition()) done = true;
 
             if (sync  or  syncSteps == 0  or  done)
             {
                 #pragma omp critical
                     sync = true;
                 #pragma omp barrier
-                #pragma omp master
+                #pragma omp single
                     {
                         printf("sync::begin() =>  %i:%i\n", id, syncSteps);
 
@@ -103,22 +106,25 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                             printf("  [%i]=%.5lf(%.3lf)", i, sims[i]->CalculateImageEnergy(), sims[i]->GetStoredImageEnergy());
                         printf("\n");
 
-                        switch (strategy)
+                        if (not done)
                         {
-                            case IndependentStrategy :
-                                                        UseIndependentStrategy();
-                                                        break;;
-                            case MinimalRateStrategy :
-                                                        UseMinimalRateStrategy();
-                                                        break;;
-                            case GibbsRandomizationStrategy :
-                                                        UseGibbsRandomizationStrategy();
-                                                        break;;
-                            default :
-                                        assert("NOT KNOWN STRATEGY" and false);
-                                        break;
+                            switch (strategy)
+                            {
+                                case IndependentStrategy :
+                                                            UseIndependentStrategy();
+                                                            break;;
+                                case MinimalRateStrategy :
+                                                            UseMinimalRateStrategy();
+                                                            break;;
+                                case GibbsRandomizationStrategy :
+                                                            UseGibbsRandomizationStrategy();
+                                                            break;;
+                                default :
+                                            assert("NOT KNOWN STRATEGY" and false);
+                                            break;
+                            }
                         }
-                        //scanf("%*c");
+                        scanf("%*c");
 
                         sync = false;
                         printf("sync::end()\n");
@@ -131,6 +137,13 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         }
         sims[id]->FinishSimulation();
     }
+#pragma omp barrier
+
+    double energies[numberOfThreads];
+    for (int i = 0; i < numberOfThreads; ++i)  energies[i] = simulations[i]->GetStoredImageEnergy();
+    double * mineng = min_element(energies, energies + numberOfThreads);
+    int thid = mineng - energies;
+    printf("NUMBER __%i__ ended!\n", thid);
 
 #pragma omp barrier
     fprintf(stderr, "simulations::end()");
@@ -170,30 +183,31 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
     int minpos = minptr - pmrs;
     printf("[ sync ] : minimum at %i with value %.5lf\n", minpos, *minptr);
 
-    for (int i = 0; i < numberOfThreads; ++i)  pmrs[i] -= pmrs[minpos];
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
+    double minval = *minptr;
+    for (int i = 0; i < numberOfThreads; ++i)  pmrs[i] -= minval;
+    //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
 
-    double probs[numberOfThreads];
-    for (int i = 0; i < numberOfThreads; ++i)  probs[i] = exp(-pmrs[minpos]);
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs[i]);  printf("\n");
+    double weights[numberOfThreads];
+    for (int i = 0; i < numberOfThreads; ++i) weights[i] = exp(-pmrs[i]);
+    //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", weights[i]);  printf("\n");
 
     double probs_prefsum[numberOfThreads];
-    probs_prefsum[0] = probs[0];
-    for (int i = 1; i < numberOfThreads; ++i) probs_prefsum[i] = (probs_prefsum[i-1] + probs[i]);
+    probs_prefsum[0] = weights[0];
+    for (int i = 1; i < numberOfThreads; ++i) probs_prefsum[i] = (probs_prefsum[i-1] + weights[i]);
+    //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
 
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
-
-    double rand = pmf::Probability::Uniform(0., probs_prefsum[numberOfThreads-1]);
+    double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
+    //printf("[ rand ] : %.11lf\n", rand);
     double * randptr = lower_bound(probs_prefsum, probs_prefsum + numberOfThreads, rand);
     int randpos = randptr - probs_prefsum;
-    printf("[ sync ] : gibbs random choice at %i with probability %.5lf\n", randpos, *randptr / probs_prefsum[numberOfThreads-1]);
-    /*
+    printf("[ sync ] : gibbs random choice at %i with probability %.5lf\n", randpos, weights[randpos] / probs_prefsum[numberOfThreads-1]);
+
+    //*
     for (int i = 0; i < omp_get_num_threads(); ++i)
     {
-        if (i == minpos) continue;
-        simulations[i]->ReplacePMF( simulations[minpos]->GetPMF() );
+        if (i == randpos) continue;
+        simulations[i]->ReplacePMF( simulations[randpos]->GetPMF() );
     }
     // */
-    scanf("%*c");
 }
 

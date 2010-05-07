@@ -19,7 +19,8 @@ namespace pmf
             virtual void     PrepareSimulation ();
             virtual void      FinishSimulation ();
 
-            virtual void      RunTheSimulation ();
+            virtual
+             inline void      RunTheSimulation ();
             virtual bool CheckRunningCondition () = 0;
             virtual void           RunNextStep ();
 
@@ -93,6 +94,7 @@ namespace pmf
 
 
     template <typename REAL>
+    inline
     void
     SimulatedAnnealingSimulation<REAL> :: RunTheSimulation ()
     {

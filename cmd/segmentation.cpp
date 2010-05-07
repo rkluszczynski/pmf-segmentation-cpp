@@ -253,7 +253,7 @@ namespace pmf
     BinarySegmentation::PreIteration()
     {
         cout << "_________________________________" << endl;
-        cout << "[ ITER ] : " << loopIteration << endl;
+        cout << "[ ITER ] _" << parameters.GetOutputPrefix() << ": " << loopIteration << endl;
         cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
 
         std::string _str;
