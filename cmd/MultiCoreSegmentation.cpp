@@ -6,10 +6,10 @@
 #include "SegmentationParameters.h"
 
 
-MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(IndependentStrategy)
+MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(GibbsRandomizationStrategy)
 {
-    numberOfThreads = 1;
-    numberOfStepsToSync = 500;
+    numberOfThreads = 2;
+    numberOfStepsToSync = 5;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
@@ -162,6 +162,38 @@ MultiCoreSegmentation::UseMinimalRateStrategy ()
 void
 MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
 {
+    double pmrs[numberOfThreads];
+    for (int i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImageEnergy();
+    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
 
+    double * minptr = min_element(pmrs, pmrs + numberOfThreads);
+    int minpos = minptr - pmrs;
+    printf("[ sync ] : minimum at %i with value %.5lf\n", minpos, *minptr);
+
+    for (int i = 0; i < numberOfThreads; ++i)  pmrs[i] -= pmrs[minpos];
+    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
+
+    double probs[numberOfThreads];
+    for (int i = 0; i < numberOfThreads; ++i)  probs[i] = exp(-pmrs[minpos]);
+    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs[i]);  printf("\n");
+
+    double probs_prefsum[numberOfThreads];
+    probs_prefsum[0] = probs[0];
+    for (int i = 1; i < numberOfThreads; ++i) probs_prefsum[i] = (probs_prefsum[i-1] + probs[i]);
+
+    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
+
+    double rand = pmf::Probability::Uniform(0., probs_prefsum[numberOfThreads-1]);
+    double * randptr = lower_bound(probs_prefsum, probs_prefsum + numberOfThreads, rand);
+    int randpos = randptr - probs_prefsum;
+    printf("[ sync ] : gibbs random choice at %i with probability %.5lf\n", randpos, *randptr / probs_prefsum[numberOfThreads-1]);
+    /*
+    for (int i = 0; i < omp_get_num_threads(); ++i)
+    {
+        if (i == minpos) continue;
+        simulations[i]->ReplacePMF( simulations[minpos]->GetPMF() );
+    }
+    // */
+    scanf("%*c");
 }
 
