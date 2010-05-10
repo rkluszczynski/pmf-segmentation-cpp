@@ -7,10 +7,10 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\lib\detect_d" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\lib" />
-				<Option object_output="..\objs\Debug\" />
-				<Option type="3" />
+				<Option output="../lib/libdetect_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../objs/Debug/" />
+				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
@@ -19,9 +19,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="..\lib\detect_r" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="..\lib" />
-				<Option object_output="..\objs\Release\" />
+				<Option output="../lib/detect_r" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../lib" />
+				<Option object_output="../objs/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -34,18 +34,18 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="..\detect\DetectorPoint.hpp" />
-		<Unit filename="..\detect\DetectorSchedule.cpp" />
-		<Unit filename="..\detect\DetectorSchedule.hpp" />
-		<Unit filename="..\detect\DetectorSegment.hpp" />
-		<Unit filename="..\detect\DetectorSweepLine.cpp" />
-		<Unit filename="..\detect\DetectorSweepLine.hpp" />
-		<Unit filename="..\detect\IntersectionDetector.cpp" />
-		<Unit filename="..\detect\IntersectionDetector.hpp" />
-		<Unit filename="..\detect\ScheduleEvent.cpp" />
-		<Unit filename="..\detect\ScheduleEvent.hpp" />
-		<Unit filename="..\detect\SweepLineElement.cpp" />
-		<Unit filename="..\detect\SweepLineElement.hpp" />
+		<Unit filename="../detect/DetectorPoint.hpp" />
+		<Unit filename="../detect/DetectorSchedule.cpp" />
+		<Unit filename="../detect/DetectorSchedule.hpp" />
+		<Unit filename="../detect/DetectorSegment.hpp" />
+		<Unit filename="../detect/DetectorSweepLine.cpp" />
+		<Unit filename="../detect/DetectorSweepLine.hpp" />
+		<Unit filename="../detect/IntersectionDetector.cpp" />
+		<Unit filename="../detect/IntersectionDetector.hpp" />
+		<Unit filename="../detect/ScheduleEvent.cpp" />
+		<Unit filename="../detect/ScheduleEvent.hpp" />
+		<Unit filename="../detect/SweepLineElement.cpp" />
+		<Unit filename="../detect/SweepLineElement.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

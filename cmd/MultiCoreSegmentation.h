@@ -27,10 +27,12 @@ class MultiCoreSegmentation
             GibbsRandomizationStrategy
         };
 
+        inline StrategyType GetStrategyType() { return strategy; }
+
+
         int numberOfThreads, numberOfStepsToSync;
         StrategyType strategy;
         pmf::BinarySegmentation ** simulations;
-
 };
 
 #endif // MULTICORESEGMENTATION_H

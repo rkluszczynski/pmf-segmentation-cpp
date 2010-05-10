@@ -1,14 +1,18 @@
 #include "MultiCoreSegmentation.h"
 
-#include <omp.h>
+#include <cstdio>
+#include <cassert>
 #include <sstream>
 
 #include "SegmentationParameters.h"
 
+#include <omp.h>
+
+//#pragma omp threadprivate(__PRETTY_FUNCTION__)
 
 MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(MinimalRateStrategy)
 {
-    numberOfThreads = 4;
+    numberOfThreads = 1;
     numberOfStepsToSync = 750;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
@@ -22,7 +26,6 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
-    sparam.SetInitialFile (NULL);
     sparam.SetSeed (17);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
@@ -73,13 +76,15 @@ void
 MultiCoreSegmentation::SimulateOnMultiCore ()
 {
     fprintf(stderr, "simulations::begin()");
+    int erno = 0;
 
     pmf::BinarySegmentation * * sims = simulations;
     int syncSteps = 1;//numberOfStepsToSync;
+    assert(syncSteps > 0);
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done) firstprivate(syncSteps)
+#pragma omp parallel default(none) shared(sims, sync, done, erno) firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
@@ -91,6 +96,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
             //printf(" [[{%i}[%.7lf]]] ", id, sims[id]->CalculateImageEnergy());
             if (not sims[id]->CheckRunningCondition()) done = true;
 
+            --syncSteps;
             if (sync  or  syncSteps == 0  or  done)
             {
                 #pragma omp critical
@@ -109,7 +115,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
                         if (not done)
                         {
-                            switch (strategy)
+                            switch (this->GetStrategyType())
                             {
                                 case IndependentStrategy :
                                                             UseIndependentStrategy();
@@ -121,7 +127,8 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                                                             UseGibbsRandomizationStrategy();
                                                             break;;
                                 default :
-                                            assert("NOT KNOWN STRATEGY" and false);
+                                            erno = 100;
+                                            done = true;
                                             break;
                             }
                         }
@@ -131,23 +138,32 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                         printf("sync::end()\n");
                     }
                 #pragma omp barrier
-                    if (done) nextStep = false;
-                    syncSteps = numberOfStepsToSync;
-                    srand( rand() + id * 100 );
+                    if (done) { nextStep = false; }
+                    else
+                    {
+                        syncSteps = numberOfStepsToSync;
+                        srand( rand() + id * 100 );
+                    }
             }
-            --syncSteps;
-        }
+        } // end while
         sims[id]->FinishSimulation();
+    } // end parallel region
+#pragma omp barrier
+    if (!erno)
+    {
+        double energies[numberOfThreads];
+        for (int i = 0; i < numberOfThreads; ++i)  energies[i] = simulations[i]->GetStoredImageEnergy();
+        double * mineng = min_element(energies, energies + numberOfThreads);
+        int thid = mineng - energies;
+        printf("NUMBER __%i__ ended!\n", thid);
     }
-#pragma omp barrier
-
-    double energies[numberOfThreads];
-    for (int i = 0; i < numberOfThreads; ++i)  energies[i] = simulations[i]->GetStoredImageEnergy();
-    double * mineng = min_element(energies, energies + numberOfThreads);
-    int thid = mineng - energies;
-    printf("NUMBER __%i__ ended!\n", thid);
-
-#pragma omp barrier
+    else
+    {
+        switch (erno)
+        {
+            case 100 : assert("NOT KNOWN STRATEGY" and false);
+        }
+    }
     fprintf(stderr, "simulations::end()");
 }
 

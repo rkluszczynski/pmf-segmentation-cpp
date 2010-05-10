@@ -38,19 +38,19 @@ class SegmentationParameters
         inline
         char * GetInitialFile() { return m_InitialFile; }
         inline
-        void SetInitialFile(char * val) { m_InitialFile = strdup(val); }
+        void SetInitialFile(char * val) { m_InitialFile = (val) ? strdup(val) : NULL; }
         inline
         char * GetOutputDirectory() { return m_OutputDiectory; }
         inline
-        void SetOutputDirectory(const char * val) { m_OutputDiectory = strdup(val); }
+        void SetOutputDirectory(const char * val) { m_OutputDiectory = (val) ? strdup(val) : NULL; }
         inline
         char * GetOutputFile() { return m_OutputFile; }
         inline
-        void SetOutputFile(const char * val) { m_OutputFile = strdup(val); }
+        void SetOutputFile(const char * val) { m_OutputFile = (val) ? strdup(val) : NULL; }
         inline
         char * GetOutputPrefix() { return m_OutputPrefix; }
         inline
-        void SetOutputPrefix(const char * val) { m_OutputPrefix = strdup(val); }
+        void SetOutputPrefix(const char * val) { m_OutputPrefix = (val) ? strdup(val) : NULL; }
         inline
         time_t GetSeed() { return m_Seed; }
         inline

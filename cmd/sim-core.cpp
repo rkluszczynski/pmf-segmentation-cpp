@@ -33,11 +33,8 @@ namespace pmf
 #define REAL double
 int main (int argc, char *argv[])
 {
-
     MultiCoreSegmentation mcs(2);
-
-    mcs.SimulateOnMultiCore();
-
+    //mcs.SimulateOnMultiCore();
     return 0;
 
 
