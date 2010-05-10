@@ -6,8 +6,8 @@ template <class REAL>
 REAL
 PMF<REAL> :: CalculateEnergy (GrayscaleImage * img)
 {
-    int oColor[2] = { 0, 0 };
-    REAL delta = 0.04999999;
+    REAL oColor[2] = { 0, 0 };
+    REAL delta = 0.03999999;
 
     for (REAL xx = 0.0;  xx < GetWidth();  xx += delta)
     {
@@ -107,8 +107,23 @@ PMF<REAL> :: ScanVerticalLine(GrayscaleImage * img, REAL xx, REAL delta)
             int dist  = abs(pixel - startTopColor);
             //cout << "   PIXEL   : " << int(xx * scaleX) << "  x  " << int(yy * scaleY) << " = " << pixel << "  {" << dist << "}" << endl;
 
-            if (dist < 128)  amount[0] += (dist + 1);
-            else  amount[1] += (255 - dist + 1);
+            amount[0] += (dist);
+            amount[1] += (255 - dist);
+
+            /*
+            if (dist < 128)
+            {
+                int addon = dist;
+                addon = 0;
+                amount[0] += (addon + 1);
+            }
+            else
+            {
+                int addon = 255 - dist;
+                addon = 0;
+                amount[1] += (addon + 1);
+            }
+            // */
             //cout << "           : " << amount[0] << " , " << amount[1] << endl;
 
             yy += (1. / scaleY);

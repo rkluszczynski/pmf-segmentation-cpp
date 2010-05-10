@@ -96,7 +96,7 @@ namespace pmf
     bool
     BinarySegmentation::CheckRunningCondition()
     {
-        cout << "[ SEGM ] : checking running condition" << endl;
+        cout << "[ SEGM ] : checking running condition  (" << storedArea << ")" << endl;
 
         if (iterations > 0  &&  loopIteration >= iterations) return false;
         if (rate > 0.0  &&  rate > storedArea) return false;
@@ -118,7 +118,8 @@ namespace pmf
     {
         cout << "[ SEGM ] : calculating hamiltonian" << endl;
 
-        double beta_1 = 20. + 0.009 * (loopIteration + 200000);
+        //double beta_1 = 20. + 0.009 * (loopIteration + 70000);
+        double beta_1 = 2000. + 0.01 * loopIteration;
         double beta_2 = 0.0;
         double result = 0.0;
 

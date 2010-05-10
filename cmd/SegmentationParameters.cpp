@@ -9,18 +9,20 @@
 
 SegmentationParameters::SegmentationParameters() : m_log(std::clog)
 {
-    Init();
+    OnInit();
 }
 
 SegmentationParameters::SegmentationParameters(char * filename) : m_log(std::clog)
 {
-    Init();
+    OnInit();
     LoadConfigurationFile(filename);
 }
 
 void
-SegmentationParameters::Init()
+SegmentationParameters::OnInit()
 {
+    m_IterationsNumber = 0L;
+    m_PMRRate = 0.;
     m_InitialFile = m_PictureFile = m_OutputDiectory = m_OutputFile = m_OutputPrefix = NULL;
 }
 
@@ -65,6 +67,7 @@ SegmentationParameters::SegmentationParameters (const SegmentationParameters & o
 : m_log(std::clog)
 {
     //copy ctor
+    OnInit();
     m_data = other.m_data;
 
     m_FieldWidth = other.m_FieldWidth;
@@ -73,7 +76,6 @@ SegmentationParameters::SegmentationParameters (const SegmentationParameters & o
     m_IterationsNumber = other.m_IterationsNumber;
     m_PMRRate = other.m_PMRRate;
 
-    Init();
     if (other.m_PictureFile) m_PictureFile = strdup(other.m_PictureFile);
     if (other.m_InitialFile) m_InitialFile = strdup(other.m_InitialFile);
     if (other.m_OutputDiectory) m_OutputDiectory = strdup(other.m_OutputDiectory);

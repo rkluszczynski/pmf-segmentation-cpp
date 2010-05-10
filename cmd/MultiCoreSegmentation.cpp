@@ -6,10 +6,10 @@
 #include "SegmentationParameters.h"
 
 
-MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(GibbsRandomizationStrategy)
+MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(MinimalRateStrategy)
 {
-    numberOfThreads = 2;
-    numberOfStepsToSync = 1500;
+    numberOfThreads = 4;
+    numberOfStepsToSync = 750;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
@@ -39,7 +39,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     sparam.SetOutputFile ("output-test-file.txt");
 
     sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.15);
+    sparam.SetPMRRate (.018);
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
@@ -75,7 +75,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
     fprintf(stderr, "simulations::begin()");
 
     pmf::BinarySegmentation * * sims = simulations;
-    int syncSteps = numberOfStepsToSync;
+    int syncSteps = 1;//numberOfStepsToSync;
 
     bool sync = false;
     bool done = false;
@@ -99,6 +99,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                 #pragma omp single
                     {
                         printf("sync::begin() =>  %i:%i\n", id, syncSteps);
+                        numberOfStepsToSync += 250;
 
                         if (done) printf(" IT IS DONE \n");
                         printf("[ energy during sync ] :");
@@ -124,7 +125,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                                             break;
                             }
                         }
-                        scanf("%*c");
+                        //scanf("%*c");
 
                         sync = false;
                         printf("sync::end()\n");
@@ -132,6 +133,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                 #pragma omp barrier
                     if (done) nextStep = false;
                     syncSteps = numberOfStepsToSync;
+                    srand( rand() + id * 100 );
             }
             --syncSteps;
         }
@@ -161,6 +163,8 @@ MultiCoreSegmentation::UseMinimalRateStrategy ()
 {
     vector<double> pmrs(numberOfThreads);
     for (int i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImageEnergy();
+    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
+
     vector<double>::iterator minit = min_element(pmrs.begin(), pmrs.end());
     int minpos = minit - pmrs.begin();
 
@@ -188,8 +192,8 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
 
     double weights[numberOfThreads];
-    for (int i = 0; i < numberOfThreads; ++i) weights[i] = exp(-pmrs[i]);
-    //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", weights[i]);  printf("\n");
+    for (int i = 0; i < numberOfThreads; ++i) weights[i] = 2. * exp(-pmrs[i]);
+    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", weights[i]);  printf("\n");
 
     double probs_prefsum[numberOfThreads];
     probs_prefsum[0] = weights[0];

@@ -74,7 +74,7 @@ class SegmentationParameters
 
 
     private:
-        void Init();
+        void OnInit();
         void LoadConfigurationFile(char *);
 
         double m_FieldWidth;
