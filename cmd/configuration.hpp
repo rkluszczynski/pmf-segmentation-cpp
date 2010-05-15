@@ -1,3 +1,12 @@
+// *** ADDED BY HEADER FIXUP ***
+#include <wx/dcmemory.h>
+#include <wx/filename.h>
+#include <wx/strconv.h>
+#include <wx/string.h>
+#include <wx/txtstrm.h>
+#include <wx/wfstream.h>
+#include <wx/zipstrm.h>
+// *** END ***
 #ifndef CONFIGURATION_HPP_INCLUDED
 #define CONFIGURATION_HPP_INCLUDED
 
@@ -42,8 +51,8 @@ namespace pmf
             pmf::Statistics GetStatistics();
 
             void SaveToFile (const char *);
-            void ShowConfiguration (std::ostream & out);
-            void PrintConfiguration (std::ostream & out);
+            void ShowConfiguration (std::ostream & out, int precision = 17);
+            void PrintConfiguration (std::ostream & out, int precision = 17);
             void SaveConfigurationAsGGB (const char *);
             void SaveConfigurationAsGGB (std::ostream & out);
 
@@ -138,12 +147,11 @@ namespace pmf
 
 
     template <class REAL>
-    void Configuration<REAL>::PrintConfiguration (std::ostream & out)
+    void Configuration<REAL>::PrintConfiguration (std::ostream & out, int precision)
     {
         out << fieldWidth << " " << fieldHeight << endl;
         out << pts->size() << endl;
 
-        int precision = 17;
         out.precision(precision);
         FOREACH(it, (*pts))
         {
@@ -165,12 +173,12 @@ namespace pmf
 
 
     template <class REAL>
-    void Configuration<REAL>::ShowConfiguration (std::ostream & out)
+    void Configuration<REAL>::ShowConfiguration (std::ostream & out, int precision)
     {
         out << "[ CONFIGURATION ] :> ";
         out << fieldWidth << " x " << fieldHeight << "  [ " << pts->size() << " ]";
         out << endl;
-        PrintConfiguration(out);
+        PrintConfiguration(out, precision);
         out << endl;
     }
 

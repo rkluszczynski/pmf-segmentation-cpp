@@ -31,13 +31,20 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="..\cmd" />
 		</Compiler>
+		<Unit filename="..\cmd\configuration.hpp" />
+		<Unit filename="..\cmd\point.hpp" />
+		<Unit filename="..\post\PolygonsGraph.cpp" />
+		<Unit filename="..\post\PolygonsGraph.h" />
 		<Unit filename="..\post\main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<debugger />
-			<lib_finder disable_auto="1" />
+			<lib_finder disable_auto="1">
+				<lib name="wx" />
+			</lib_finder>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
