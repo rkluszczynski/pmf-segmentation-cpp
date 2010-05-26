@@ -8,7 +8,7 @@
 
 namespace pmf
 {
-    long long   pmf_point_counter = 0;
+    //long long   pmf_point_counter = 0;
 
     extern std::ostream out;
 
@@ -55,12 +55,12 @@ namespace pmf
             //l1 = (n1) ? n1->id : 0;
             //l2 = (n2) ? n2->id : 0;
             n1 = n2 = NULL;
-            --pmf_point_counter;
+            //--pmf_point_counter;
         }
 
         void OnInit()
         {
-            ++pmf_point_counter;
+            //++pmf_point_counter;
             //out << "[ _ALLOCATING_ POINT ]  :  " << this << endl;
             //strcpy(label, "POINT");
         }

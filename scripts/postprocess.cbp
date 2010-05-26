@@ -37,6 +37,8 @@
 		<Unit filename="..\cmd\point.hpp" />
 		<Unit filename="..\post\PolygonsGraph.cpp" />
 		<Unit filename="..\post\PolygonsGraph.h" />
+		<Unit filename="..\post\PolygonsSchedule.cpp" />
+		<Unit filename="..\post\PolygonsSchedule.h" />
 		<Unit filename="..\post\main.cpp" />
 		<Extensions>
 			<code_completion />
