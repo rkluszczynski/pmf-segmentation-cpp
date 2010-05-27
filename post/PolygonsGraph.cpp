@@ -12,6 +12,11 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     pmf.LoadPMF(filename);
     pmf.RotatePoints2(0., 1.);
 
+    pmf::GrayscaleImage img("../input/30x30.png");
+    double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
+    double column = .5 * pixelWidth;
+
+
     pmf.GetCf()->ShowConfiguration(cout, 5);
 
     PolygonsSchedule schedule;
@@ -22,11 +27,17 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         schedule.Insert(pt);
     }
     //cout << schedule << endl;
+
     while (schedule.Size() > 0)
     {
         pmf::Point<double> * pt = schedule.SeeFirst();
         schedule.Erase( pt );
 
+        if (pt->x > column)
+        {
+            cout << "... scan at " << column << endl;
+            column += pixelWidth;
+        }
         cout << pt << endl;
     }
     cout << schedule << endl;

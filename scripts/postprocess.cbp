@@ -34,6 +34,10 @@
 			<Add directory="..\cmd" />
 		</Compiler>
 		<Unit filename="..\cmd\configuration.hpp" />
+		<Unit filename="..\cmd\grayimage.cpp" />
+		<Unit filename="..\cmd\grayimage.h" />
+		<Unit filename="..\cmd\image.cpp" />
+		<Unit filename="..\cmd\image.h" />
 		<Unit filename="..\cmd\point.hpp" />
 		<Unit filename="..\post\PolygonsGraph.cpp" />
 		<Unit filename="..\post\PolygonsGraph.h" />
