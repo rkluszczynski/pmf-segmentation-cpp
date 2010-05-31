@@ -8,7 +8,7 @@
 
 namespace pmf
 {
-    long long   pmf_segment_counter = 0;
+    //long long   pmf_segment_counter = 0;
 
     extern std::ostream out;
 
@@ -23,7 +23,7 @@ namespace pmf
             {
                 //out << "[ DEALLOCATING SEGMENT ]  :  " << this << endl;
                 //out << "[ DEALLOCATING SEGMENT ]  :  ending at " << q << endl;
-                --pmf_segment_counter;
+                ///--pmf_segment_counter;
             }
 
             const POINT GetP() const { return p; }
@@ -51,7 +51,7 @@ namespace pmf
             {
                 assert(p->x <= q->x  ||  Geometry::IsZero(q->x - p->x));
                 //out << "[ _ALLOCATING_ SEGMENT ]  :  " << this << endl;
-                ++pmf_segment_counter;
+                ///++pmf_segment_counter;
             }
 
         static REAL infinity;

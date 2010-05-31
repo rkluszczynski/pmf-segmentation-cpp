@@ -5,6 +5,8 @@
 #include "../cmd/point.hpp"
 #include "../cmd/geometry.hpp"
 
+#include "PolygonsEvents.hpp"
+
 
 template <class EVENT>
 struct polygons_event_before : binary_function<EVENT,EVENT,bool>

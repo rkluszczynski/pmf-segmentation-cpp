@@ -363,7 +363,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
     while (! evts->IsEmpty())
     {
         out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
-        out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+        ///out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
         out << endl << "_________________________________________________" << endl;
         out << "  STEP " << (++step) << endl;
         Event * evt = evts->SeeFirst();
@@ -409,7 +409,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
     out << evts << endl;
     out << line << endl;
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
-    out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+    ///out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
     //*
     FOREACH(it, *cf)

@@ -7,6 +7,7 @@
 		<Option compiler="gcc" />
 		<Option virtualFolders="wxsmith\;dialogs\;panels\;components\;" />
 		<Build>
+			<Script file="lib_finder.script" />
 			<Target title="Release">
 				<Option output="..\bin\Release\PMFApplication" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
@@ -109,7 +110,7 @@
 					<wxDialog wxs="wxsmith/ModPointDialog.wxs" src="ModPointDialog.cpp" hdr="ModPointDialog.h" xrc="ModPointDialog.xrc" name="ModPointDialog" language="CPP" />
 				</resources>
 			</wxsmith>
-			<lib_finder>
+			<lib_finder disable_auto="1">
 				<lib name="wx" />
 			</lib_finder>
 		</Extensions>

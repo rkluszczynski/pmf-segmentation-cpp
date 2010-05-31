@@ -14,6 +14,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
 
     pmf::GrayscaleImage img("../input/30x30.png");
     double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
+    double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
     double column = .5 * pixelWidth;
 
 
@@ -33,9 +34,20 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         pmf::Point<double> * pt = schedule.SeeFirst();
         schedule.Erase( pt );
 
+
+
         if (pt->x > column)
         {
             cout << "... scan at " << column << endl;
+
+            double row = .5 * pixelWidth;
+            while (row < pmf.GetHeight())
+            {
+
+
+
+                row += pixelHeight;
+            }
             column += pixelWidth;
         }
         cout << pt << endl;

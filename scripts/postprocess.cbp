@@ -6,6 +6,7 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Script file="lib_finder.script" />
 			<Target title="Debug">
 				<Option output="..\bin\Debug\post" prefix_auto="1" extension_auto="1" />
 				<Option object_output="..\objs\post\Debug\" />
@@ -39,6 +40,7 @@
 		<Unit filename="..\cmd\image.cpp" />
 		<Unit filename="..\cmd\image.h" />
 		<Unit filename="..\cmd\point.hpp" />
+		<Unit filename="..\post\PolygonsEvents.hpp" />
 		<Unit filename="..\post\PolygonsGraph.cpp" />
 		<Unit filename="..\post\PolygonsGraph.h" />
 		<Unit filename="..\post\PolygonsSchedule.cpp" />
