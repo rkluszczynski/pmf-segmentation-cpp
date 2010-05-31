@@ -24,15 +24,38 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     FOREACH(it, *pmf.GetCf())
     {
         pmf::Point<double> * pt = &(**it);
+        PolygonsSchedule::SEGMENT s1 = NULL, s2 = NULL;
+
+        switch (pt->type)
+        {
+            case pmf::PT_BirthInField:
+            case pmf::PT_BirthOnBorder:
+                                    break;;
+            case pmf::PT_DeathOnBorder:
+            case pmf::PT_Update:
+                                    break;;
+            case pmf::PT_Collision:
+                                    break;;
+            default :
+                        assert("ZLE ZLE ZLE" and false);
+        }
         //cout << pt << endl;
-        schedule.Insert(pt);
+        schedule.Insert(pt, s1, s2);
+    }
+
+    FOREACH(it, *pmf.GetCf())
+    {
+        pmf::Point<double> * pt = &(**it);
+        //cout << pt << endl;
+        //schedule.Insert(pt);
     }
     //cout << schedule << endl;
-
+/**
     while (schedule.Size() > 0)
     {
-        pmf::Point<double> * pt = schedule.SeeFirst();
-        schedule.Erase( pt );
+        PolygonsSchedule::Event evt = schedule.SeeFirst();
+        pmf::Point<double> * pt = evt->GetPoint();
+        schedule.Erase( evt );
 
 
 
@@ -53,6 +76,8 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         cout << pt << endl;
     }
     cout << schedule << endl;
+
+*/
 }
 
 

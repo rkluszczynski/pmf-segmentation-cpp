@@ -11,9 +11,11 @@
 template <class EVENT>
 struct polygons_event_before : binary_function<EVENT,EVENT,bool>
 {
-    bool operator () (const EVENT & pt1, const EVENT & pt2) const
+    bool operator () (const EVENT & e1, const EVENT & e2) const
     {
         using pmf::Geometry::IsZero;
+        pmf::Point<double>* pt1 = e1->GetPoint();
+        pmf::Point<double>* pt2 = e2->GetPoint();
 
         if (! IsZero(pt1->x - pt2->x))
         {
@@ -46,10 +48,13 @@ struct polygons_event_before : binary_function<EVENT,EVENT,bool>
 
 class PolygonsSchedule
 {
-    typedef pmf::Point<double>* POINT;
-    typedef std::set<POINT, polygons_event_before<POINT> > EventList;
 
     public:
+        typedef VirtualPolygonsEvent::POINT* POINT;
+        typedef VirtualPolygonsEvent::SEGMENT* SEGMENT;
+
+        typedef VirtualPolygonsEvent* Event;
+        typedef std::set<Event, polygons_event_before<Event> > EventList;
         typedef EventList::iterator Iterator;
 
         PolygonsSchedule();
@@ -63,10 +68,10 @@ class PolygonsSchedule
         Iterator Begin () { return _events.begin(); }
         Iterator End () { return _events.end(); }
 
-        POINT SeeFirst() { return *_events.begin(); }
+        Event SeeFirst() { return *_events.begin(); }
 
-        bool Insert(POINT pt);
-        void Erase(POINT pt);
+        bool Insert(POINT, SEGMENT, SEGMENT);
+        void Erase(Event);
 
         friend std::ostream & operator << (std::ostream &, const PolygonsSchedule &);
 
