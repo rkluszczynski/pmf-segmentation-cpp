@@ -3,6 +3,7 @@
 #include "../post/PolygonsSchedule.h"
 #include "configuration.hpp"
 #include "pmf.hpp"
+#include "segment.hpp"
 
 
 PolygonsGraph::PolygonsGraph(const char * filename)
@@ -17,10 +18,17 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
     double column = .5 * pixelWidth;
 
-
     pmf.GetCf()->ShowConfiguration(cout, 5);
 
     PolygonsSchedule schedule;
+    pmf::Segment<double> * n1[pmf.GetCf()->GetPointsCount()+1];
+    pmf::Segment<double> * n2[pmf.GetCf()->GetPointsCount()+1];
+
+    FOREACH(it, *pmf.GetCf())
+    {
+        pmf::Point<double> * pt = &(**it);
+    }
+
     FOREACH(it, *pmf.GetCf())
     {
         pmf::Point<double> * pt = &(**it);

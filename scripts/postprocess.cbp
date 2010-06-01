@@ -40,6 +40,7 @@
 		<Unit filename="..\cmd\image.cpp" />
 		<Unit filename="..\cmd\image.h" />
 		<Unit filename="..\cmd\point.hpp" />
+		<Unit filename="..\cmd\segment.hpp" />
 		<Unit filename="..\post\PolygonsElement.hpp" />
 		<Unit filename="..\post\PolygonsEvents.hpp" />
 		<Unit filename="..\post\PolygonsGraph.cpp" />
