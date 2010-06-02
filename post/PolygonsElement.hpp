@@ -1,11 +1,13 @@
 #ifndef POLYGONSELEMENT_HPP_INCLUDED
 #define POLYGONSELEMENT_HPP_INCLUDED
 
+#include "segment.hpp"
+
 
     template <typename REAL> struct PolygonsSweepLineElement
     {
         public:
-            typedef Segment<REAL> SEGMENT;
+            typedef pmf::Segment<REAL> SEGMENT;
 
 
             PolygonsSweepLineElement(const REAL & x, SEGMENT * s) : _x0(x), _seg(s)

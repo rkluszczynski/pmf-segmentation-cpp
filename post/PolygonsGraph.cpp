@@ -1,9 +1,11 @@
 #include "PolygonsGraph.h"
 
-#include "../post/PolygonsSchedule.h"
 #include "configuration.hpp"
 #include "pmf.hpp"
 #include "segment.hpp"
+
+#include "PolygonsSchedule.h"
+#include "PolygonsSweepLine.h"
 
 
 PolygonsGraph::PolygonsGraph(const char * filename)
@@ -61,6 +63,9 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         pmf::Point<double> * pt = &(**it);
         schedule.Insert(pt, Sn1[pt->id], Sn2[pt->id]);
     }
+
+
+    PolygonsSweepLine sweep;
 
 //**
     double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
