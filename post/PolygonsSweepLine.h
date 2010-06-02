@@ -1,6 +1,8 @@
 #ifndef POLYGONSSWEEPLINE_H
 #define POLYGONSSWEEPLINE_H
 
+#include "geometry.hpp"
+
 #include "PolygonsElement.hpp"
 
 
@@ -30,7 +32,17 @@ class PolygonsSweepLine
         inline
         bool PolygonsSweepLineBelowComparator(ENTRY * e1, ENTRY * e2) const
         {
-            return true;
+            using pmf::Geometry::IsZero;
+
+            SEGMENT * s1 = e1->GetSegment();
+            SEGMENT * s2 = e2->GetSegment();
+
+            double y1 = e1->yy0(_x0);
+            double y2 = e2->yy0(_x0);
+                //bool res = true;
+            bool res = (y1 < y2);
+
+            return res;
         }
 
 
