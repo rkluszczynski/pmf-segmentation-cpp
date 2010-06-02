@@ -19,38 +19,51 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     double column = .5 * pixelWidth;
 
     pmf.GetCf()->ShowConfiguration(cout, 5);
+    const unsigned n = pmf.GetCount() + 1u;
 
     PolygonsSchedule schedule;
-    pmf::Segment<double> * n1[pmf.GetCf()->GetPointsCount()+1];
-    pmf::Segment<double> * n2[pmf.GetCf()->GetPointsCount()+1];
+    pmf::Point<double> * Points[n];
+    pmf::Segment<double> * Sn1[n];
+    pmf::Segment<double> * Sn2[n];
+    for (unsigned i = 1u; i < n; ++i) Points[i] = NULL;
+    for (unsigned i = 1u; i < n; ++i) Sn1[i] = Sn2[i] = NULL;
 
     FOREACH(it, *pmf.GetCf())
     {
         pmf::Point<double> * pt = &(**it);
-    }
+        pmf::Point<double> * n1 = pt->n1;
+        pmf::Point<double> * n2 = pt->n2;
 
-    FOREACH(it, *pmf.GetCf())
-    {
-        pmf::Point<double> * pt = &(**it);
-        PolygonsSchedule::SEGMENT s1 = NULL, s2 = NULL;
-
-        switch (pt->type)
+        Points[pt->id] = pt;
+        if (n1  and  pt->x < n1->x)
         {
-            case pmf::PT_BirthInField:
-            case pmf::PT_BirthOnBorder:
-                                    break;;
-            case pmf::PT_DeathOnBorder:
-            case pmf::PT_Update:
-                                    break;;
-            case pmf::PT_Collision:
-                                    break;;
-            default :
-                        assert("ZLE ZLE ZLE" and false);
+            pmf::Segment<double> * s = new pmf::Segment<double>(pt, n1);
+            Sn1[pt->id] = s;
+            int id = n1->WhichNeighbourHasID(pt->id);
+            assert(id > 0);
+            if (id == 1) Sn1[n1->id] = s; else Sn2[n1->id] = s;
         }
-        //cout << pt << endl;
-        schedule.Insert(pt, s1, s2);
+        if (n2  and  pt->x < n2->x)
+        {
+            pmf::Segment<double> * s = new pmf::Segment<double>(pt, n2);
+            Sn2[pt->id] = s;
+            int id = n2->WhichNeighbourHasID(pt->id);
+            assert(id > 0);
+            if (id == 1) Sn1[n2->id] = s; else Sn2[n2->id] = s;
+        }
+    }
+    for (unsigned i = 1u; i < n; ++i)
+    {
+        printf("%3li :  (%p)  x  (%p)\n", Points[i]->id, Sn1[i], Sn2[i]);
+        //cout << Points[i]->id << " :   " << Sn1[i] << "  x  " << Sn2[i] << endl;
     }
 
+    FOREACH(it, *pmf.GetCf())
+    {
+        pmf::Point<double> * pt = &(**it);
+        schedule.Insert(pt, Sn1[pt->id], Sn2[pt->id]);
+    }
+return;
     FOREACH(it, *pmf.GetCf())
     {
         pmf::Point<double> * pt = &(**it);

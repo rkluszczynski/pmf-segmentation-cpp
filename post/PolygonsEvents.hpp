@@ -8,7 +8,9 @@ typedef enum
 {
     PolygonsBeginSegment,
     PolygonsEndOfSegment,
-    PolygonsUpdateSegment
+    PolygonsUpdateSegment,
+    PolygonsBorderBegin,
+    PolygonsBorderEnd
 }
 PolygonsEventType;
 
@@ -60,6 +62,24 @@ class PolygonsUpdateEvent : public VirtualPolygonsEvent
         PolygonsUpdateEvent(POINT * pt, SEGMENT * s1, SEGMENT * s2) : VirtualPolygonsEvent(pt, s1, s2) {}
 
         PolygonsEventType GetType() const { return PolygonsUpdateSegment; }
+};
+
+
+class PolygonsBorderBeginEvent : public VirtualPolygonsEvent
+{
+    public:
+        PolygonsBorderBeginEvent(POINT * pt, SEGMENT * s) : VirtualPolygonsEvent(pt, s, NULL) {}
+
+        PolygonsEventType GetType() const { return PolygonsBorderBegin; }
+};
+
+
+class PolygonsBorderEndEvent : public VirtualPolygonsEvent
+{
+    public:
+        PolygonsBorderEndEvent(POINT * pt, SEGMENT * s) : VirtualPolygonsEvent(pt, s, NULL) {}
+
+        PolygonsEventType GetType() const { return PolygonsBorderEnd; }
 };
 
 
