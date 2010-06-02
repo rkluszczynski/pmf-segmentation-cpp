@@ -83,7 +83,7 @@ namespace pmf
             void GenerateField();
             void RotatePoints (REAL, REAL);
             void RotatePoints2 (REAL);
-            void RotatePoints2 (REAL, REAL);
+            void RotatePoints2 (REAL, REAL, bool = true);
 
             bool AddBirthPoint (REAL, REAL, REAL, REAL);
             void UpdatePointVelocity (long, REAL, REAL);

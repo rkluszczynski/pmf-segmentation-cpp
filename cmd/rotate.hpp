@@ -60,7 +60,7 @@ PMF<REAL> :: RotatePoints2 (REAL alpha = 0.0)
 #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX) * (SSIN) + (YY) * (CCOS))
 template <class REAL>
 void
-PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
+PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL, bool debug)
 {
     using Geometry::IsZero;
     PMFLog("Rotating configuration with  sinL = %f  and  cosL = %f", sinL, cosL);
@@ -119,7 +119,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
 
         changed[pt->id] = true;
     }
-    out << " GetCount() == " << GetCount() << endl;
+    if (debug) out << " GetCount() == " << GetCount() << endl;
 
     // Reassigning IDs
     FOREACH(it, *cf) (*it)->id = 0;
@@ -127,7 +127,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
     FOREACH(it, *cf)
     {
         Point<REAL> * pt = *it;
-        out << " --> " << pt << endl;
+        if (debug) out << " --> " << pt << endl;
         if (pt->type == PT_Update) continue;
 
         switch (pt->type)
@@ -136,39 +136,39 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL)
                                 pt->id = ++count;
                                 for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2)
                                 {
-                                    out << "  _> " << tmp << endl;
+                                    if (debug) out << "  _> " << tmp << endl;
                                     tmp->id = ++count;
-                                    out << "  1> " << tmp << endl;
+                                    if (debug) out << "  1> " << tmp << endl;
                                 }
                                 for(Point<REAL> * tmp = pt->n2; tmp->type == PT_Update; tmp = tmp->n2)
                                 {
-                                    out << "  _> " << tmp << endl;
+                                    if (debug) out << "  _> " << tmp << endl;
                                     tmp->id = ++count;
-                                    out << "  2> " << tmp << endl;
+                                    if (debug) out << "  2> " << tmp << endl;
                                 }
                                 break;;
             case PT_BirthOnBorder :
                                 pt->id = ++count;
                                 for(Point<REAL> * tmp = pt->n1; tmp->type == PT_Update; tmp = tmp->n2)
                                 {
-                                    out << "  _> " << tmp << endl;
+                                    if (debug) out << "  _> " << tmp << endl;
                                     tmp->id = ++count;
-                                    out << "  0> " << tmp << endl;
+                                    if (debug) out << "  0> " << tmp << endl;
                                 }
                                 break;;
             default :
                                 pt->id = ++count;
         }
-        out << " ^^^ " << pt << endl;
+        if (debug) out << " ^^^ " << pt << endl;
     }
-    out << "    count   == " << count << endl;
+    if (debug) out << "    count   == " << count << endl;
     FOREACH(it, *cf)
     {
         assert( (*it)->id > 0 );
-        out << "    ~ " << *it << endl;
+        if (debug) out << "    ~ " << *it << endl;
     }
     assert(count == GetCount());
-    out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl;
+    if (debug) { out << "[ ROTATED ]" << endl;  FOREACH(it, *cf) out << (*it) << endl; }
 }
 
 

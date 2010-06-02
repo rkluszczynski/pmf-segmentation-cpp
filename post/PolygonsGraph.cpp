@@ -11,12 +11,9 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     //ctor
     pmf::PMF<double> pmf(0., 0.);
     pmf.LoadPMF(filename);
-    pmf.RotatePoints2(0., 1.);
+    pmf.RotatePoints2(0., 1., false);
 
     pmf::GrayscaleImage img("../input/30x30.png");
-    double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
-    double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
-    double column = .5 * pixelWidth;
 
     pmf.GetCf()->ShowConfiguration(cout, 5);
     const unsigned n = pmf.GetCount() + 1u;
@@ -52,26 +49,24 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             if (id == 1) Sn1[n2->id] = s; else Sn2[n2->id] = s;
         }
     }
+    /*
     for (unsigned i = 1u; i < n; ++i)
     {
         printf("%3li :  (%p)  x  (%p)\n", Points[i]->id, Sn1[i], Sn2[i]);
         //cout << Points[i]->id << " :   " << Sn1[i] << "  x  " << Sn2[i] << endl;
     }
-
+    //*/
     FOREACH(it, *pmf.GetCf())
     {
         pmf::Point<double> * pt = &(**it);
         schedule.Insert(pt, Sn1[pt->id], Sn2[pt->id]);
     }
-return;
-    FOREACH(it, *pmf.GetCf())
-    {
-        pmf::Point<double> * pt = &(**it);
-        //cout << pt << endl;
-        //schedule.Insert(pt);
-    }
-    //cout << schedule << endl;
-/**
+
+//**
+    double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
+    double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
+    double column = .5 * pixelWidth;
+
     while (schedule.Size() > 0)
     {
         PolygonsSchedule::Event evt = schedule.SeeFirst();
@@ -79,9 +74,9 @@ return;
         schedule.Erase( evt );
 
 
-
-        if (pt->x > column)
+        while (pt->x > column)
         {
+            cout << endl;
             cout << "... scan at " << column << endl;
 
             double row = .5 * pixelWidth;
@@ -94,11 +89,12 @@ return;
             }
             column += pixelWidth;
         }
-        cout << pt << endl;
+        cout << '*';
+        //cout << pt << endl;
     }
-    cout << schedule << endl;
-
-*/
+    cout << endl;
+    ///cout << schedule << endl;
+// */
 }
 
 
