@@ -76,8 +76,28 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     {
         PolygonsSchedule::Event evt = schedule.SeeFirst();
         pmf::Point<double> * pt = evt->GetPoint();
-        schedule.Erase( evt );
+        cout << pt << endl;
 
+        switch (evt->GetType())
+        {
+            case PolygonsBeginSegment :
+                                    sweep.Insert(pt, Sn2[pt->id]);
+            case PolygonsBorderBegin :
+                                    sweep.Insert(pt, Sn1[pt->id]);
+                                    break;;
+            case PolygonsEndOfSegment :
+                                    sweep.Erase(Sn2[pt->id]);
+            case PolygonsBorderEnd :
+                                    sweep.Erase(Sn1[pt->id]);
+                                    break;;
+            case PolygonsUpdateSegment :
+                                    sweep.Erase(Sn1[pt->id]);
+                                    sweep.Insert(pt, Sn2[pt->id]);
+                                    break;;
+            default :
+                    assert("ZLE BO ZLE" and false);
+        }
+        schedule.Erase( evt );
 
         while (pt->x > column)
         {

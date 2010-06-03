@@ -9,6 +9,7 @@
 class PolygonsSweepLine
 {
     typedef PolygonsSweepLineElement<double> ENTRY;
+    typedef ENTRY::POINT POINT;
     typedef ENTRY::SEGMENT SEGMENT;
 
     class PolygonsSweepLineComparator
@@ -25,9 +26,46 @@ class PolygonsSweepLine
 
 
     public:
-        PolygonsSweepLine();
+        typedef STATUS::iterator Iterator;
+        typedef STATUS::const_iterator ConstIterator;
+
+        PolygonsSweepLine(double = 1e-9);
         virtual ~PolygonsSweepLine();
 
+        void SetSweepLinePosition(double x)
+        {
+            assert(x >= _x0);
+            _x0 = x;
+        }
+
+        pair<Iterator, bool> Insert(const POINT * pt, SEGMENT * seg)
+        {
+            if (pt) SetSweepLinePosition(pt->x + _epsilon);
+            return _st.insert( new ENTRY(_x0, seg) );
+        }
+        inline
+        void Erase(SEGMENT * seg)
+        {
+            Iterator it = Find(seg);
+            assert(! IsNull(it));
+            Erase(it);
+        }
+        void Erase(Iterator it)
+        {
+            assert(! IsNull(it));
+            ENTRY * ent = *it;
+            _st.erase(it);
+            delete ent;
+        }
+
+        Iterator Find(SEGMENT * seg)
+        {
+            ENTRY * entry = new ENTRY(_x0, seg);
+            Iterator it = _st.find( entry );
+            delete entry;
+            return it;
+        }
+        bool IsNull(Iterator it) { return it == _st.end(); }
 
         inline
         bool PolygonsSweepLineBelowComparator(ENTRY * e1, ENTRY * e2) const
@@ -51,7 +89,7 @@ class PolygonsSweepLine
     private:
         STATUS _st;
         double _x0;
-
+        const double _epsilon;
 };
 
 #endif // POLYGONSSWEEPLINE_H

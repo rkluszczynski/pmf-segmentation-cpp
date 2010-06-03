@@ -7,6 +7,7 @@
     template <typename REAL> struct PolygonsSweepLineElement
     {
         public:
+            typedef pmf::Point<REAL> POINT;
             typedef pmf::Segment<REAL> SEGMENT;
 
 
