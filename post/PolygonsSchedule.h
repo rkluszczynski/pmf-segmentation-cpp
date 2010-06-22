@@ -71,6 +71,7 @@ class PolygonsSchedule
         Event SeeFirst() { return *_events.begin(); }
 
         bool Insert(POINT, SEGMENT, SEGMENT);
+        bool Insert(VirtualPolygonsEvent *);
         void Erase(Event);
 
         friend std::ostream & operator << (std::ostream &, const PolygonsSchedule &);

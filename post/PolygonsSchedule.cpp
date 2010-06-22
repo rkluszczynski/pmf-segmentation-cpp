@@ -41,6 +41,12 @@ PolygonsSchedule::Insert(POINT pt, SEGMENT s1, SEGMENT s2 = NULL)
     return true;
 }
 
+bool
+PolygonsSchedule::Insert(VirtualPolygonsEvent * evt)
+{
+    _events.insert(evt);
+    return true;
+}
 
 void
 PolygonsSchedule::Erase(Event evt)

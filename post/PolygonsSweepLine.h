@@ -32,6 +32,9 @@ class PolygonsSweepLine
         PolygonsSweepLine(double = 1e-9);
         virtual ~PolygonsSweepLine();
 
+        Iterator begin() const { return _st.begin(); }
+        Iterator end()   const { return _st.end(); }
+
         void SetSweepLinePosition(double x)
         {
             assert(x >= _x0);

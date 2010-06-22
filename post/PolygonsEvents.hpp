@@ -10,7 +10,8 @@ typedef enum
     PolygonsEndOfSegment,
     PolygonsUpdateSegment,
     PolygonsBorderBegin,
-    PolygonsBorderEnd
+    PolygonsBorderEnd,
+    PolygonsMarker
 }
 PolygonsEventType;
 
@@ -82,5 +83,13 @@ class PolygonsBorderEndEvent : public VirtualPolygonsEvent
         PolygonsEventType GetType() const { return PolygonsBorderEnd; }
 };
 
+
+class PolygonsMarkerEvent : public VirtualPolygonsEvent
+{
+    public:
+        PolygonsMarkerEvent(POINT * pt, SEGMENT * s) : VirtualPolygonsEvent(pt, s, NULL) {}
+
+        PolygonsEventType GetType() const { return PolygonsMarker; }
+};
 
 #endif // POLYGONSEVENTS_HPP_INCLUDED

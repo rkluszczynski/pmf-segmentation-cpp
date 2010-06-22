@@ -18,6 +18,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     pmf::GrayscaleImage img("../input/30x30.png");
 
     pmf.GetCf()->ShowConfiguration(cout, 5);
+    pmf.SavePMF("../output/__singiel_output-test-file.ggb", pmf::GeoGebraFile);
     const unsigned n = pmf.GetCount() + 1u;
 
     PolygonsSchedule schedule;
@@ -51,6 +52,12 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             if (id == 1) Sn1[n2->id] = s; else Sn2[n2->id] = s;
         }
     }
+    pmf::Point<double> * p1 = new pmf::Point<double>(-0.1, pmf.GetHeight() + .1, NULL, NULL, 0., 0., long(n + 1), pmf::PT_TypesCount);
+    pmf::Point<double> * p2 = new pmf::Point<double>(pmf.GetWidth() + .1, pmf.GetHeight() + .1, p1, NULL, 0., 0., long(n + 2), pmf::PT_TypesCount);
+    p1->n1 = p2;
+    pmf::Segment<double> * s12 = new pmf::Segment<double>(p1, p2);
+    PolygonsMarkerEvent * pme = new PolygonsMarkerEvent(p2, s12);
+
     /*
     for (unsigned i = 1u; i < n; ++i)
     {
@@ -63,10 +70,11 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         pmf::Point<double> * pt = &(**it);
         schedule.Insert(pt, Sn1[pt->id], Sn2[pt->id]);
     }
+    schedule.Insert(pme);
 
 
     PolygonsSweepLine sweep;
-
+    sweep.Insert(p1, s12);
 //**
     double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
     double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
@@ -76,7 +84,27 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     {
         PolygonsSchedule::Event evt = schedule.SeeFirst();
         pmf::Point<double> * pt = evt->GetPoint();
-        cout << pt << endl;
+        //cout << pt << endl;
+
+        while (pt->x > column)
+        {
+            cout << endl;
+            cout << "... scan at " << column << endl;
+
+            double row = .5 * pixelHeight;
+            PolygonsSweepLine::Iterator it = sweep.begin();
+            while (row < pmf.GetHeight())
+            {
+                while ( it != sweep.end()  and   (*it)->y0(column) < row )
+                {
+                    cout << "--- passed line : " << (*it)->GetSegment()->GetP()->id << " ~ " << (*it)->GetSegment()->GetQ()->id << endl;
+                    ++it;
+                }
+
+                row += pixelHeight;
+            }
+            column += pixelWidth;
+        }
 
         switch (evt->GetType())
         {
@@ -94,26 +122,14 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                                     sweep.Erase(Sn1[pt->id]);
                                     sweep.Insert(pt, Sn2[pt->id]);
                                     break;;
+            case PolygonsMarker :
+                                    sweep.Erase(evt->GetSegment(false));
+                                    break;;
             default :
-                    assert("ZLE BO ZLE" and false);
+                    assert("STH is WRONG" and false);
         }
         schedule.Erase( evt );
 
-        while (pt->x > column)
-        {
-            cout << endl;
-            cout << "... scan at " << column << endl;
-
-            double row = .5 * pixelWidth;
-            while (row < pmf.GetHeight())
-            {
-
-
-
-                row += pixelHeight;
-            }
-            column += pixelWidth;
-        }
         cout << '*';
         //cout << pt << endl;
     }
