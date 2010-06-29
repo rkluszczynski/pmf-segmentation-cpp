@@ -21,6 +21,9 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     pmf.SavePMF("../output/__singiel_output-test-file.ggb", pmf::GeoGebraFile);
     const unsigned n = pmf.GetCount() + 1u;
 
+    double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
+    double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
+
     PolygonsSchedule schedule;
     pmf::Point<double> * Points[n];
     pmf::Segment<double> * Sn1[n];
@@ -52,8 +55,9 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             if (id == 1) Sn1[n2->id] = s; else Sn2[n2->id] = s;
         }
     }
-    pmf::Point<double> * p1 = new pmf::Point<double>(-0.1, pmf.GetHeight() + .1, NULL, NULL, 0., 0., long(n + 1), pmf::PT_TypesCount);
-    pmf::Point<double> * p2 = new pmf::Point<double>(pmf.GetWidth() + .1, pmf.GetHeight() + .1, p1, NULL, 0., 0., long(n + 2), pmf::PT_TypesCount);
+    double x_offset = .25 * pixelWidth;
+    pmf::Point<double> * p1 = new pmf::Point<double>(-x_offset, pmf.GetHeight() + x_offset, NULL, NULL, 0., 0., long(n + 1), pmf::PT_TypesCount);
+    pmf::Point<double> * p2 = new pmf::Point<double>(pmf.GetWidth() + x_offset, pmf.GetHeight() + x_offset, p1, NULL, 0., 0., long(n + 2), pmf::PT_TypesCount);
     p1->n1 = p2;
     pmf::Segment<double> * s12 = new pmf::Segment<double>(p1, p2);
     PolygonsMarkerEvent * pme = new PolygonsMarkerEvent(p2, s12);
@@ -74,11 +78,11 @@ PolygonsGraph::PolygonsGraph(const char * filename)
 
 
     PolygonsSweepLine sweep;
-    sweep.Insert(p1, s12);
 //**
-    double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
-    double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
     double column = .5 * pixelWidth;
+    long areaCount = 0l;
+
+    sweep.Insert(p1, s12, areaCount);
 
     while (schedule.Size() > 0)
     {
@@ -92,6 +96,15 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             cout << "... scan at " << column << endl;
 
             double row = .5 * pixelHeight;
+            PolygonsSweepLine::Iterator it2 = sweep.begin();
+            cout << " ==> ";
+            while (it2 != sweep.end())
+            {
+                cout << " " << (*it2)->GetUpperAreaNumber();
+                ++it2;
+            }
+            cout << endl;
+
             PolygonsSweepLine::Iterator it = sweep.begin();
             while (row < pmf.GetHeight())
             {
@@ -106,12 +119,14 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             column += pixelWidth;
         }
 
+        PolygonsSweepLine::Iterator it;
+        long areaId;
         switch (evt->GetType())
         {
             case PolygonsBeginSegment :
-                                    sweep.Insert(pt, Sn2[pt->id]);
+                                    sweep.Insert(pt, Sn2[pt->id], ++areaCount);
             case PolygonsBorderBegin :
-                                    sweep.Insert(pt, Sn1[pt->id]);
+                                    sweep.Insert(pt, Sn1[pt->id], ++areaCount);
                                     break;;
             case PolygonsEndOfSegment :
                                     sweep.Erase(Sn2[pt->id]);
@@ -119,8 +134,11 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                                     sweep.Erase(Sn1[pt->id]);
                                     break;;
             case PolygonsUpdateSegment :
-                                    sweep.Erase(Sn1[pt->id]);
-                                    sweep.Insert(pt, Sn2[pt->id]);
+                                    it = sweep.Find(Sn1[pt->id]);
+                                    areaId = (*it)->GetUpperAreaNumber();
+                                    sweep.Erase(it);
+                                    //sweep.Erase(Sn1[pt->id]);
+                                    sweep.Insert(pt, Sn2[pt->id], areaId);
                                     break;;
             case PolygonsMarker :
                                     sweep.Erase(evt->GetSegment(false));

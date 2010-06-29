@@ -41,10 +41,10 @@ class PolygonsSweepLine
             _x0 = x;
         }
 
-        pair<Iterator, bool> Insert(const POINT * pt, SEGMENT * seg)
+        pair<Iterator, bool> Insert(const POINT * pt, SEGMENT * seg, long num)
         {
             if (pt) SetSweepLinePosition(pt->x + _epsilon);
-            return _st.insert( new ENTRY(_x0, seg) );
+            return _st.insert( new ENTRY(_x0, seg, num) );
         }
         inline
         void Erase(SEGMENT * seg)
@@ -63,7 +63,7 @@ class PolygonsSweepLine
 
         Iterator Find(SEGMENT * seg)
         {
-            ENTRY * entry = new ENTRY(_x0, seg);
+            ENTRY * entry = new ENTRY(_x0, seg, -1l);
             Iterator it = _st.find( entry );
             delete entry;
             return it;
@@ -75,8 +75,8 @@ class PolygonsSweepLine
         {
             using pmf::Geometry::IsZero;
 
-            SEGMENT * s1 = e1->GetSegment();
-            SEGMENT * s2 = e2->GetSegment();
+            //SEGMENT * s1 = e1->GetSegment();
+            //SEGMENT * s2 = e2->GetSegment();
 
             double y1 = e1->yy0(_x0);
             double y2 = e2->yy0(_x0);

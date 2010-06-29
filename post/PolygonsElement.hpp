@@ -11,9 +11,10 @@
             typedef pmf::Segment<REAL> SEGMENT;
 
 
-            PolygonsSweepLineElement(const REAL & x, SEGMENT * s) : _x0(x), _seg(s)
+            PolygonsSweepLineElement(const REAL & x, SEGMENT * s, long id) : _x0(x), _seg(s)
             {
                 OnInit();
+                _up_area = id;
                 _y0 = CalculateLinearFunctionValue(_seg, _x0);
             }
             virtual ~PolygonsSweepLineElement() { }
@@ -22,6 +23,11 @@
             SEGMENT * GetSegment() const { return _seg; }
             REAL GetX0() const { return _x0; }
             REAL GetY0() const { return _y0; }
+
+            inline
+            REAL GetUpperAreaNumber() { return _up_area; }
+            inline
+            void SetUpperAreaNumber(long num) { _up_area = num; }
 
             REAL y0(const REAL & x)
             {
@@ -42,6 +48,7 @@
 
         private:
             REAL  _x0, _y0;
+            long  _up_area;
             SEGMENT * _seg;
 
             void OnInit() { }
