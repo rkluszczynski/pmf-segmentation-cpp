@@ -106,11 +106,11 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             cout << endl;
 
             PolygonsSweepLine::Iterator it = sweep.begin();
-            while (row < pmf.GetHeight())
+            while (row < pmf.GetHeight() + pixelHeight)
             {
                 while ( it != sweep.end()  and   (*it)->y0(column) < row )
                 {
-                    cout << "--- passed line : " << (*it)->GetSegment()->GetP()->id << " ~ " << (*it)->GetSegment()->GetQ()->id << endl;
+                    cout << "--- passed line : " << (*it)->GetSegment()->GetP()->id << " ~ " << (*it)->GetSegment()->GetQ()->id << " | " << (*it)->GetUpperAreaNumber() << endl;
                     ++it;
                 }
 
@@ -119,18 +119,34 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             column += pixelWidth;
         }
 
-        PolygonsSweepLine::Iterator it;
+        PolygonsSweepLine::Iterator it, it1, it2;
         long areaId;
         switch (evt->GetType())
         {
             case PolygonsBeginSegment :
-                                    sweep.Insert(pt, Sn2[pt->id], ++areaCount);
+                                    /// FIX IT
+                                    it1 = sweep.Insert(pt, Sn2[pt->id], ++areaCount).first;
+                                    it2 = sweep.Insert(pt, Sn1[pt->id], ++areaCount).first;
+                                    break;;
             case PolygonsBorderBegin :
-                                    sweep.Insert(pt, Sn1[pt->id], ++areaCount);
+                                    it1 = it2 = sweep.Insert(pt, Sn1[pt->id], ++areaCount).first;
+                                    --it2;
+                                    //*
+                                    if (not sweep.IsNull(it2))
+                                    {
+                                        areaId = (*it2)->GetUpperAreaNumber();
+                                        (*it1)->SetUpperAreaNumber(areaId);
+                                        --areaCount;
+                                    }
+                                    // */
                                     break;;
             case PolygonsEndOfSegment :
+                                    /// FIX IT
                                     sweep.Erase(Sn2[pt->id]);
+                                    sweep.Erase(Sn1[pt->id]);
+                                    break;;
             case PolygonsBorderEnd :
+                                    /// FIX IT
                                     sweep.Erase(Sn1[pt->id]);
                                     break;;
             case PolygonsUpdateSegment :
@@ -152,6 +168,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         //cout << pt << endl;
     }
     cout << endl;
+    cout << " Made areas " << areaCount << endl;
     ///cout << schedule << endl;
 // */
 }
