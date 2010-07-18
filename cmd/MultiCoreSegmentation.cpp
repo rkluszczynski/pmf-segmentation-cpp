@@ -5,14 +5,17 @@
 #include <sstream>
 
 #include "SegmentationParameters.h"
+#include "SynchronizationTimer.h"
 
 #include <omp.h>
 
 //#pragma omp threadprivate(__PRETTY_FUNCTION__)
 
-MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), strategy(MinimalRateStrategy)
+MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
+    //strategy(MinimalRateStrategy)
+    strategy(GibbsRandomizationStrategy)
 {
-    numberOfThreads = 1;
+    numberOfThreads = 3;
     numberOfStepsToSync = 750;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
@@ -26,7 +29,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
-    sparam.SetSeed (17);
+    sparam.SetSeed (172);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
     sparam.SetInitialFile ("output/_shaked-pmf.txt");
@@ -42,7 +45,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
     sparam.SetOutputFile ("output-test-file.txt");
 
     sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.018);
+    sparam.SetPMRRate (.02);
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
@@ -55,7 +58,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num), s
         if (numberOfThreads == 1)
             ssout << "singiel_";
         else
-            ssout << "th" << id << "_";
+            ssout << "th" << id << "__grs_";
         sparam.SetOutputPrefix (ssout.str().c_str());
         sparam.SetSeed (sparam.GetSeed() + id);
 
@@ -79,15 +82,16 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
     int erno = 0;
 
     pmf::BinarySegmentation * * sims = simulations;
-    int syncSteps = 1;//numberOfStepsToSync;
-    assert(syncSteps > 0);
+    //int syncSteps = 1;//numberOfStepsToSync;
+    //assert(syncSteps > 0);
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno) firstprivate(syncSteps)
+#pragma omp parallel default(none) shared(sims, sync, done, erno) //firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
+        SynchronizationTimer timer(this->GetStrategyType());
 
         sims[id]->PrepareSimulation();
         while (nextStep)
@@ -96,16 +100,18 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
             //printf(" [[{%i}[%.7lf]]] ", id, sims[id]->CalculateImageEnergy());
             if (not sims[id]->CheckRunningCondition()) done = true;
 
-            --syncSteps;
-            if (sync  or  syncSteps == 0  or  done)
+            //--syncSteps;
+            bool timeToSync = timer.CheckSynchronizationTime();
+            //if (sync  or  syncSteps == 0  or  done)
+            if (timeToSync or sync or done)
             {
                 #pragma omp critical
                     sync = true;
                 #pragma omp barrier
                 #pragma omp single
                     {
-                        printf("sync::begin() =>  %i:%i\n", id, syncSteps);
-                        numberOfStepsToSync += 250;
+                        //printf("sync::begin() =>  %i:%i\n", id, syncSteps);
+                        printf("sync::begin() =>  %i:%i\n", id, timer.GetStepCount());
 
                         if (done) printf(" IT IS DONE \n");
                         printf("[ energy during sync ] :");
@@ -121,10 +127,15 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                                                             UseIndependentStrategy();
                                                             break;;
                                 case MinimalRateStrategy :
+                                                            numberOfStepsToSync += 250;
                                                             UseMinimalRateStrategy();
                                                             break;;
                                 case GibbsRandomizationStrategy :
+                                                            numberOfStepsToSync += 250;
                                                             UseGibbsRandomizationStrategy();
+                                                            break;;
+                                case ParallelTemperingStrategy :
+                                                            UseParallelTemperingStrategy();
                                                             break;;
                                 default :
                                             erno = 100;
@@ -141,7 +152,8 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                     if (done) { nextStep = false; }
                     else
                     {
-                        syncSteps = numberOfStepsToSync;
+                        //syncSteps = numberOfStepsToSync;
+                        timer.SetStepCount(numberOfStepsToSync);
                         srand( rand() + id * 100 );
                     }
             }
@@ -171,7 +183,6 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 void
 MultiCoreSegmentation::UseIndependentStrategy ()
 {
-
 }
 
 void
@@ -231,3 +242,8 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
     // */
 }
 
+void
+MultiCoreSegmentation::UseParallelTemperingStrategy ()
+{
+
+}

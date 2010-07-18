@@ -2,7 +2,7 @@
 #define MULTICORESEGMENTATION_H
 
 #include "segmentation.h"
-
+#include "MultiCoreTypes.h"
 
 class MultiCoreSegmentation
 {
@@ -17,17 +17,12 @@ class MultiCoreSegmentation
         void UseIndependentStrategy();
         void UseMinimalRateStrategy();
         void UseGibbsRandomizationStrategy();
+        void UseParallelTemperingStrategy();
 
 
     private:
-        enum StrategyType
-        {
-            IndependentStrategy,
-            MinimalRateStrategy,
-            GibbsRandomizationStrategy
-        };
-
-        inline StrategyType GetStrategyType() { return strategy; }
+        inline
+        StrategyType GetStrategyType() { return strategy; }
 
 
         int numberOfThreads, numberOfStepsToSync;
