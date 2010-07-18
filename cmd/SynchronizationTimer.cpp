@@ -1,10 +1,14 @@
 #include "SynchronizationTimer.h"
 #include "MultiCoreTypes.h"
+
+#include "probability.hpp"
+
 #include <cassert>
 
 SynchronizationTimer::SynchronizationTimer(int sType) : strategyType(sType)
 {
     syncSteps = 1;
+    syncProb = 0.;
 }
 
 SynchronizationTimer::~SynchronizationTimer()
@@ -15,21 +19,35 @@ SynchronizationTimer::~SynchronizationTimer()
 bool
 SynchronizationTimer::CheckSynchronizationTime()
 {
+    bool timeForSynchronization = false;
     switch (strategyType)
     {
         case IndependentStrategy :
         case MinimalRateStrategy :
         case GibbsRandomizationStrategy :
                                     if (syncSteps > 0) --syncSteps;
+                                    timeForSynchronization = (syncSteps == 0);
                                     break;;
+        case ParallelTemperingStrategy :
+                                    {
+                                        double fate = pmf::Probability::Uniform(0., 1.);
+                                        timeForSynchronization = (fate < syncProb);
+                                        break;;
+                                    }
         default :
                     assert("wrong strategy type" and false);
     }
-    return syncSteps == 0;
+    return timeForSynchronization;
 }
 
 void
 SynchronizationTimer::SetStepCount(int steps)
 {
     syncSteps = steps;
+}
+
+void
+SynchronizationTimer::SetSyncProbability(double prob)
+{
+    syncProb = prob;
 }

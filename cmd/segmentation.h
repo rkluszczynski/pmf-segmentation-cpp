@@ -24,9 +24,10 @@ namespace pmf
             virtual void  Prepare ();
             virtual void  Finish ();
 
-            virtual bool  CheckRunningCondition();
-            inline double  GetStoredImageEnergy() { return storedArea; }
-                   double  CalculateImageEnergy();
+            virtual bool        CheckRunningCondition();
+            inline double           GetStoredImagePMR() { return storedArea; }
+            inline double GetStoredSegmentationEnergy() { return storedEnergy; }
+                   double        CalculateImageEnergy();
 
 
         protected:
@@ -50,8 +51,8 @@ namespace pmf
             GrayscaleImage * img;
             const char * outputfile;
 
-            double storedArea, storedElen;
-            double tmpArea, tmpElen;
+            double storedArea, storedEnergy, storedElen;
+            double tmpArea, tmpEnergy, tmpElen;
             double areaOfPMF, angle;
             bool apply;
     };

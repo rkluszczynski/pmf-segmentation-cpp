@@ -11,6 +11,7 @@ class SynchronizationTimer
         bool CheckSynchronizationTime();
 
         void SetStepCount(int);
+        void SetSyncProbability(double);
 
         inline
         int GetStepCount() { return syncSteps; }
@@ -19,6 +20,7 @@ class SynchronizationTimer
     private:
         int strategyType;
         int syncSteps;
+        double syncProb;
 };
 
 #endif // SYNCHRONIZATIONTIMER_H

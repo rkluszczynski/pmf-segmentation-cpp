@@ -126,7 +126,7 @@ namespace pmf
         tmpArea = pmf->CalculateEnergy(img);
         tmpElen = storedElen = 0.0;
 
-        result = beta_1 * tmpArea + beta_2 * tmpElen;
+        tmpEnergy = result = beta_1 * tmpArea + beta_2 * tmpElen;
         fprintf(stderr, "[ENERGY] : %lf  (%.7lf)\n", result, tmpArea);
 #if SAVE_PMR
         if (!loopIteration)
@@ -228,6 +228,7 @@ namespace pmf
     {
         cout << "[ SEGM ] _" << parameters.GetOutputPrefix() << ": applying modification" << endl;
         storedArea = tmpArea;
+        storedEnergy = tmpEnergy;
 #if SAVE_PMR
         std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
         FILE * fp = fopen(pmrfile.c_str(), "a");
