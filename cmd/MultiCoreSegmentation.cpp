@@ -16,7 +16,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     //strategy(GibbsRandomizationStrategy)
     //strategy(ParallelTemperingStrategy)
 {
-    numberOfThreads = 2;
+    numberOfThreads = 5;
     numberOfStepsToSync = 750;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
@@ -30,7 +30,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
-    sparam.SetSeed (7117);
+    sparam.SetSeed (7217);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
     sparam.SetInitialFile ("output/_shaked-pmf.txt");
