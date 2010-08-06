@@ -16,7 +16,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     //strategy(GibbsRandomizationStrategy)
     //strategy(ParallelTemperingStrategy)
 {
-    numberOfThreads = 5;
+    numberOfThreads = 1;
     numberOfStepsToSync = 750;
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
