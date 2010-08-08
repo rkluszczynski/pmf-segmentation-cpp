@@ -41,6 +41,8 @@
 		<Unit filename="..\cmd\image.h" />
 		<Unit filename="..\cmd\point.hpp" />
 		<Unit filename="..\cmd\segment.hpp" />
+		<Unit filename="..\post\FindUnionClass.cpp" />
+		<Unit filename="..\post\FindUnionClass.h" />
 		<Unit filename="..\post\PolygonsElement.hpp" />
 		<Unit filename="..\post\PolygonsEvents.hpp" />
 		<Unit filename="..\post\PolygonsGraph.cpp" />
