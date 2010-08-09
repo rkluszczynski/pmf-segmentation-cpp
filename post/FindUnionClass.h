@@ -13,14 +13,17 @@ class FindUnionClass
         unsigned Find (unsigned);
         void Union (unsigned, unsigned);
 
-        bool IsRoot (unsigned id) { return parent[id] == id; }
+        bool IsRoot (unsigned id) { return _parent[id] == id; }
+        unsigned GetSizeOf (unsigned id) { return _size[id]; }
+
+        unsigned size () { return _parent.size(); }
 
     protected:
 
     private:
-        std::vector<unsigned> parent;
-        std::vector<unsigned> rank;
-        std::vector<unsigned> size;
+        std::vector<unsigned> _parent;
+        std::vector<unsigned> _rank;
+        std::vector<unsigned> _size;
 };
 
 #endif // FINDUNIONCLASS_H

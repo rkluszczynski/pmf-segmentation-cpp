@@ -6,6 +6,7 @@
 
 #include "PolygonsSchedule.h"
 #include "PolygonsSweepLine.h"
+#include "FindUnionClass.h"
 
 
 PolygonsGraph::PolygonsGraph(const char * filename)
@@ -78,9 +79,11 @@ PolygonsGraph::PolygonsGraph(const char * filename)
 
 
     PolygonsSweepLine sweep;
+    FindUnionClass areasIds;
 //**
     double column = .5 * pixelWidth;
-    long areaCount = 0l;
+    //long areaCount = 0l;
+    long areaCount = areasIds.MakeNewSet();
 
     sweep.Insert(p1, s12, areaCount);
 
@@ -125,18 +128,18 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         {
             case PolygonsBeginSegment :
                                     /// FIX IT
-                                    it1 = sweep.Insert(pt, Sn2[pt->id], ++areaCount).first;
-                                    it2 = sweep.Insert(pt, Sn1[pt->id], ++areaCount).first;
+                                    it1 = sweep.Insert(pt, Sn2[pt->id], areasIds.MakeNewSet() ).first;
+                                    it2 = sweep.Insert(pt, Sn1[pt->id], areasIds.MakeNewSet() ).first;
                                     break;;
             case PolygonsBorderBegin :
-                                    it1 = it2 = sweep.Insert(pt, Sn1[pt->id], ++areaCount).first;
+                                    it1 = it2 = sweep.Insert(pt, Sn1[pt->id], areasIds.MakeNewSet() ).first;
                                     --it2;
                                     //*
                                     if (not sweep.IsNull(it2))
                                     {
                                         areaId = (*it2)->GetUpperAreaNumber();
                                         (*it1)->SetUpperAreaNumber(areaId);
-                                        --areaCount;
+                                        //--areaCount;
                                     }
                                     // */
                                     break;;
@@ -168,7 +171,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         //cout << pt << endl;
     }
     cout << endl;
-    cout << " Made areas " << areaCount << endl;
+    cout << " Made areas " << areasIds.size() << endl;
     ///cout << schedule << endl;
 // */
 }
