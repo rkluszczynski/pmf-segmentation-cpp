@@ -25,7 +25,7 @@
             REAL GetY0() const { return _y0; }
 
             inline
-            REAL GetUpperAreaNumber() { return _up_area; }
+            long GetUpperAreaNumber() { return _up_area; }
             inline
             void SetUpperAreaNumber(long num) { _up_area = num; }
 

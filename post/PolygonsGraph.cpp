@@ -86,12 +86,14 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     long areaCount = areasIds.MakeNewSet();
 
     sweep.Insert(p1, s12, areaCount);
+    std::map<long, std::set<long> > children;
+    children[0] = std::set<long>();
 
     while (schedule.Size() > 0)
     {
         PolygonsSchedule::Event evt = schedule.SeeFirst();
         pmf::Point<double> * pt = evt->GetPoint();
-        //cout << pt << endl;
+        //cout << endl << endl << pt << endl;
 
         while (pt->x > column)
         {
@@ -104,6 +106,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             while (it2 != sweep.end())
             {
                 cout << " " << (*it2)->GetUpperAreaNumber();
+                cout << "(" << areasIds.Find( (*it2)->GetUpperAreaNumber() ) << ")";
                 ++it2;
             }
             cout << endl;
@@ -113,7 +116,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
             {
                 while ( it != sweep.end()  and   (*it)->y0(column) < row )
                 {
-                    cout << "--- passed line : " << (*it)->GetSegment()->GetP()->id << " ~ " << (*it)->GetSegment()->GetQ()->id << " | " << (*it)->GetUpperAreaNumber() << endl;
+                    cout << "--- passed line : " << (*it)->GetSegment()->GetP()->id << " ~ " << (*it)->GetSegment()->GetQ()->id << " | " << (*it)->GetUpperAreaNumber() << " -> " << areasIds.Find( (*it)->GetUpperAreaNumber() ) << endl;
                     ++it;
                 }
 
@@ -127,9 +130,21 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         switch (evt->GetType())
         {
             case PolygonsBeginSegment :
-                                    /// FIX IT
+                                    if (Sn1[pt->id]->GetQ()->y > Sn2[pt->id]->GetQ()->y)
+                                        std::swap( Sn1[pt->id], Sn2[pt->id] );
+                                    assert(Sn1[pt->id]->GetP()->id == Sn2[pt->id]->GetP()->id);
+                                    /// TODO : check it
                                     it1 = sweep.Insert(pt, Sn2[pt->id], areasIds.MakeNewSet() ).first;
                                     it2 = sweep.Insert(pt, Sn1[pt->id], areasIds.MakeNewSet() ).first;
+
+                                    printf("  it2 = %li\n", (*it2)->GetUpperAreaNumber() );
+                                    printf("  it1 = %li\n", (*it1)->GetUpperAreaNumber() );
+                                    ++it1;
+                                    printf("++it1 = %li\n", (*it1)->GetUpperAreaNumber() );
+
+                                    areasIds.Union((*it2)->GetUpperAreaNumber(), (*it1)->GetUpperAreaNumber());
+                                    --it1;
+                                    children[ areasIds.Find((*it1)->GetUpperAreaNumber()) ] = std::set<long>();
                                     break;;
             case PolygonsBorderBegin :
                                     it1 = it2 = sweep.Insert(pt, Sn1[pt->id], areasIds.MakeNewSet() ).first;
@@ -144,9 +159,23 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                                     // */
                                     break;;
             case PolygonsEndOfSegment :
+                                    if (Sn1[pt->id]->GetP()->y < Sn2[pt->id]->GetP()->y)
+                                        std::swap( Sn1[pt->id], Sn2[pt->id] );
+                                    assert(Sn1[pt->id]->GetQ()->id == Sn2[pt->id]->GetQ()->id);
                                     /// FIX IT
-                                    sweep.Erase(Sn2[pt->id]);
-                                    sweep.Erase(Sn1[pt->id]);
+                                    it1 = sweep.Find(Sn1[pt->id]);
+                                    it2 = sweep.Find(Sn2[pt->id]);
+
+                                    printf("  it2 = %li\n", (*it2)->GetUpperAreaNumber() );
+                                    printf("  it1 = %li\n", (*it1)->GetUpperAreaNumber() );
+                                    ++it1;
+                                    printf("++it1 = %li\n", (*it1)->GetUpperAreaNumber() );
+
+                                    areasIds.Union((*it2)->GetUpperAreaNumber(), (*it1)->GetUpperAreaNumber());
+                                    --it1;
+                                    children[ areasIds.Find((*it2)->GetUpperAreaNumber()) ].insert( areasIds.Find((*it1)->GetUpperAreaNumber()) );
+                                    sweep.Erase(it2);
+                                    sweep.Erase(it1);
                                     break;;
             case PolygonsBorderEnd :
                                     /// FIX IT
@@ -167,12 +196,26 @@ PolygonsGraph::PolygonsGraph(const char * filename)
         }
         schedule.Erase( evt );
 
+        //FOREACH(sle, sweep)  cout << " __>  [" << (*sle)->GetUpperAreaNumber() << "]{" << areasIds.Find((*sle)->GetUpperAreaNumber()) << "}  " << **sle << endl;
+        //scanf("%*c");
         cout << '*';
         //cout << pt << endl;
     }
     cout << endl;
     cout << " Made areas " << areasIds.size() << endl;
+    cout << "\\__> ";
+    for(unsigned i = 0; i < areasIds.size(); ++i)
+        cout << " " << i << "[" << areasIds.Find(i) << "]";
+    cout << endl;
     ///cout << schedule << endl;
+
+    FOREACH(iiit, children)
+    {
+        cout << "[ " << iiit->first << " ]  : ";
+        FOREACH(viiit, iiit->second)  cout << " " << *viiit;
+        cout << endl;
+    }
+
 // */
 }
 

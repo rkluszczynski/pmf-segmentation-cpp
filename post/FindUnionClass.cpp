@@ -31,6 +31,8 @@ FindUnionClass::Find (unsigned id)
 void
 FindUnionClass::Union (unsigned id1, unsigned id2)
 {
+    if (id1 > id2)  std::swap(id1, id2);
+
     unsigned root1 = Find(id1);
     unsigned root2 = Find(id2);
 
@@ -47,7 +49,7 @@ FindUnionClass::Union (unsigned id1, unsigned id2)
     else if (root1 != root2)
     {
          _parent[root2] = root1;
-         _rank[root1]++;
+         ++_rank[root1];
          _size[root1] += _size[root2];
     }
 }
