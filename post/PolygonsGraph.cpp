@@ -25,6 +25,9 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
     double pixelHeight = pmf.GetHeight() / double(img.GetHeight());
 
+    double scaleWidth = double(img.GetWidth()) / pmf.GetWidth();
+    double scaleHeight = double(img.GetHeight()) / pmf.GetHeight();
+
     PolygonsSchedule schedule;
     pmf::Point<double> * Points[n];
     pmf::Segment<double> * Sn1[n];
@@ -89,6 +92,8 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     std::map<long, std::set<long> > children;
     children[0] = std::set<long>();
 
+    std::queue<std::pair<long, long> > pary;
+
     while (schedule.Size() > 0)
     {
         PolygonsSchedule::Event evt = schedule.SeeFirst();
@@ -120,6 +125,17 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                     ++it;
                 }
 
+                int r = int(row * scaleHeight);
+                int c = int(column * scaleWidth);
+
+                if (it != sweep.end())
+                {
+                    cout << " -> img[" << r << "][" << c << "] = " << int(img[r][c][1]) << endl;
+
+                    std::pair<unsigned, unsigned> & para = areasIds.GetCounterOf( areasIds.Find( (*it)->GetUpperAreaNumber() ) );
+                    if (int(img[r][c][1]) < 128)  ++para.first;
+                    else  ++para.second;
+                }
                 row += pixelHeight;
             }
             column += pixelWidth;
@@ -145,6 +161,9 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                                     areasIds.Union((*it2)->GetUpperAreaNumber(), (*it1)->GetUpperAreaNumber());
                                     --it1;
                                     children[ areasIds.Find((*it1)->GetUpperAreaNumber()) ] = std::set<long>();
+                                    children[ (*it1)->GetUpperAreaNumber() ].insert( (*it2)->GetUpperAreaNumber() );
+
+                                    pary.push( make_pair((*it1)->GetUpperAreaNumber(), (*it2)->GetUpperAreaNumber()) );
                                     break;;
             case PolygonsBorderBegin :
                                     it1 = it2 = sweep.Insert(pt, Sn1[pt->id], areasIds.MakeNewSet() ).first;
@@ -173,7 +192,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
 
                                     areasIds.Union((*it2)->GetUpperAreaNumber(), (*it1)->GetUpperAreaNumber());
                                     --it1;
-                                    children[ areasIds.Find((*it2)->GetUpperAreaNumber()) ].insert( areasIds.Find((*it1)->GetUpperAreaNumber()) );
+                                    //children[ areasIds.Find((*it2)->GetUpperAreaNumber()) ].insert( areasIds.Find((*it1)->GetUpperAreaNumber()) );
                                     sweep.Erase(it2);
                                     sweep.Erase(it1);
                                     break;;
@@ -209,14 +228,43 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     cout << endl;
     ///cout << schedule << endl;
 
+/*
     FOREACH(iiit, children)
+    {
+        cout << "[ " << areasIds.Find(iiit->first) << " ]  : ";
+        FOREACH(viiit, iiit->second)  cout << " " << areasIds.Find(*viiit);
+        cout << endl;
+    }
+// */
+    std::map<long, std::set<long> > grafik;
+    for(unsigned i = 0; i < areasIds.size(); ++i)  grafik[i] = std::set<long>();
+    while (not pary.empty())
+    {
+        std::pair<long, long> para = pary.front();
+        pary.pop();
+
+        unsigned v = areasIds.Find(para.first);
+        unsigned u = areasIds.Find(para.second);
+
+        if (grafik[v].find(u) == grafik[v].end())
+        {
+            grafik[u].insert(v);
+        }
+    }
+
+    FOREACH(iiit, grafik)  if (not iiit->second.size())  grafik.erase(iiit);
+    FOREACH(iiit, grafik)
     {
         cout << "[ " << iiit->first << " ]  : ";
         FOREACH(viiit, iiit->second)  cout << " " << *viiit;
         cout << endl;
     }
 
-// */
+    for(unsigned i = 0; i < areasIds.size(); ++i)
+        if (i == areasIds.Find(i))
+        {
+            cout << "[ result ] : " << i << " -> " << areasIds.GetCounterOf(i).first << " , " << areasIds.GetCounterOf(i).second << endl;
+        }
 }
 
 

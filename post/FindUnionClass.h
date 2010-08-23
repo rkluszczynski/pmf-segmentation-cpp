@@ -14,7 +14,7 @@ class FindUnionClass
         void Union (unsigned, unsigned);
 
         bool IsRoot (unsigned id) { return _parent[id] == id; }
-        unsigned GetSizeOf (unsigned id) { return _size[id]; }
+        std::pair<unsigned, unsigned> & GetCounterOf (unsigned id) { return _counter[id]; }
 
         unsigned size () { return _parent.size(); }
 
@@ -23,7 +23,7 @@ class FindUnionClass
     private:
         std::vector<unsigned> _parent;
         std::vector<unsigned> _rank;
-        std::vector<unsigned> _size;
+        std::vector<std::pair<unsigned, unsigned> > _counter;
 };
 
 #endif // FINDUNIONCLASS_H
