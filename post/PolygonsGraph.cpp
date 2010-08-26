@@ -11,6 +11,7 @@
 
 PolygonsGraph::PolygonsGraph(const char * filename)
 {
+    char * filename2 = strdup(filename);
     //ctor
     pmf::PMF<double> pmf(0., 0.);
     pmf.LoadPMF(filename);
@@ -19,7 +20,10 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     pmf::GrayscaleImage img("../input/30x30.png");
 
     pmf.GetCf()->ShowConfiguration(cout, 5);
-    pmf.SavePMF("../output/__singiel_output-test-file.ggb", pmf::GeoGebraFile);
+    unsigned len2 = strlen(filename2);
+    while (filename2[len2-1] != '.') --len2;
+    strcpy( filename2 + len2, "ggb");
+    pmf.SavePMF(filename2, pmf::GeoGebraFile);
     const unsigned n = pmf.GetCount() + 1u;
 
     double pixelWidth = pmf.GetWidth() / double(img.GetWidth());
@@ -65,6 +69,8 @@ PolygonsGraph::PolygonsGraph(const char * filename)
     p1->n1 = p2;
     pmf::Segment<double> * s12 = new pmf::Segment<double>(p1, p2);
     PolygonsMarkerEvent * pme = new PolygonsMarkerEvent(p2, s12);
+
+    cout << s12 << endl;
 
     /*
     for (unsigned i = 1u; i < n; ++i)
@@ -130,7 +136,7 @@ PolygonsGraph::PolygonsGraph(const char * filename)
 
                 if (it != sweep.end())
                 {
-                    cout << " -> img[" << r << "][" << c << "] = " << int(img[r][c][1]) << endl;
+                    //cout << " -> img[" << r << "][" << c << "] = " << int(img[r][c][1]) << endl;
 
                     std::pair<unsigned, unsigned> & para = areasIds.GetCounterOf( areasIds.Find( (*it)->GetUpperAreaNumber() ) );
                     if (int(img[r][c][1]) < 128)  ++para.first;
@@ -167,15 +173,16 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                                     break;;
             case PolygonsBorderBegin :
                                     it1 = it2 = sweep.Insert(pt, Sn1[pt->id], areasIds.MakeNewSet() ).first;
-                                    --it2;
-                                    //*
-                                    if (not sweep.IsNull(it2))
+                                    printf("  it1 = %li\n", (*it1)->GetUpperAreaNumber() );
+                                    ++it2;
+                                    if ((pt->x > 0.) and (pt->y == pmf.GetHeight()))
                                     {
-                                        areaId = (*it2)->GetUpperAreaNumber();
-                                        (*it1)->SetUpperAreaNumber(areaId);
-                                        //--areaCount;
+                                        assert((*it2)->GetSegment() == s12);
+                                        printf("  it2 = %li\n", (*it2)->GetUpperAreaNumber() );
+
+                                        areasIds.Union((*it2)->GetUpperAreaNumber(), (*it1)->GetUpperAreaNumber());
+                                        (*it2)->SetUpperAreaNumber( areasIds.MakeNewSet() );
                                     }
-                                    // */
                                     break;;
             case PolygonsEndOfSegment :
                                     if (Sn1[pt->id]->GetP()->y < Sn2[pt->id]->GetP()->y)
@@ -197,8 +204,17 @@ PolygonsGraph::PolygonsGraph(const char * filename)
                                     sweep.Erase(it1);
                                     break;;
             case PolygonsBorderEnd :
+                                    it1 = it2 = sweep.Find(Sn1[pt->id]);
                                     /// FIX IT
-                                    sweep.Erase(Sn1[pt->id]);
+                                    ++it2;
+                                    if ((pt->x > 0.) and (pt->y == pmf.GetHeight()))
+                                    {
+                                        assert((*it2)->GetSegment() == s12);
+                                        printf("  it2 = %li\n", (*it2)->GetUpperAreaNumber() );
+
+                                        (*it2)->SetUpperAreaNumber( (*it1)->GetUpperAreaNumber() );
+                                    }
+                                    sweep.Erase(it1);
                                     break;;
             case PolygonsUpdateSegment :
                                     it = sweep.Find(Sn1[pt->id]);
