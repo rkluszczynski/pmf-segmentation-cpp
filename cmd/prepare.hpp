@@ -33,15 +33,37 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         Segment<REAL> * s1 = NULL, * s2 = NULL;
         if (            pt->n1->x < rotxx  ||  Geometry::IsZero(rotxx - pt->n1->x))
         {
+            out << " trying to push s1" << endl;
+        //*
+        out << "[ SMAP ] : " << endl;
+        FOREACH(it, smap)
+        {
+            out << "  { " << it->ST.ST << ", " << it->ST.ND << " } : " << it->ND << endl;;
+        }
+        // */
             if ( smap.find( make_pair(pt->n1->id, pt->id) ) == smap.end() )
+            {
+                out << " ... s1 ";
                 spq.push( (s1 = new Segment<REAL> (pt->n1, pt)) );
+                out << "pushed" << endl;
+            }
         }
         if (pt->n2  &&  (pt->n2->x < rotxx || Geometry::IsZero(rotxx - pt->n2->x)))
         {
+            out << " trying to push s2" << endl;
             if ( smap.find( make_pair(pt->n2->id, pt->id) ) == smap.end() )
+            {
                 spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
+                out << " ... s2 pushed" << endl;
+            }
         }
-
+        //*
+        out << "[ SMAP ] : " << endl;
+        FOREACH(it, smap)
+        {
+            out << "  { " << it->ST.ST << ", " << it->ST.ND << " } : " << it->ND << endl;;
+        }
+        // */
         SegmentsMapIterator it1, it2;
         if (s1) out << "  #>-{s1}-> " << s1 << endl;
         if (s2) out << "  #>-{s2}-> " << s2 << endl;
@@ -90,7 +112,9 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         }
         if (s1) out << "   >-{s1}-> " << s1 << endl;
         if (s2) out << "   >-{s2}-> " << s2 << endl;
-        evts->Insert( new OldEvent(pt, s1, s2) );
+        OldEvent * oevt = new OldEvent(pt, s1, s2);
+        out << " inserting old event : " << oevt << endl;
+        evts->Insert( oevt );
         //*
         out << " MAPA : ";
         FOREACH(it, smap)

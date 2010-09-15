@@ -30,7 +30,8 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
-    sparam.SetSeed (7217);
+    //sparam.SetSeed (7217);
+    sparam.SetSeed (24);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
     sparam.SetInitialFile ("output/_shaked-pmf.txt");

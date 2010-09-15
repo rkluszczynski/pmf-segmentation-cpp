@@ -23,6 +23,17 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
         PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
         SegmentsMap       smap( (SegmentMapComparator()) );
 
+        //*
+        PointPriorityQueue ppq2( cf->begin(), cf->end(), PointComparator<REAL>() );
+        while (! ppq2.empty())
+        {
+            pt = ppq2.top();
+            ppq2.pop();
+
+            out << " ___:> " << pt << endl;
+        }
+        // */
+
         cf->ClearPointsContainer();
         long counter = 0;
         while (! ppq.empty())
@@ -52,11 +63,13 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
                 smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
 
             out << "... removing point : " << pt << endl;
+            cf->PrintConfiguration (out);
             PrepareTheEvolution (evts, line, ppq, smap, pt->x);
         }
     }
     /* ************************************************************************************** */
     PMFLog("[ REM ] : point  ( %.2lf , %.2lf )", pt->org_x, pt->org_y);
+    out << cf << endl;
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );

@@ -2,7 +2,7 @@
 #include "probability.hpp"
 #include "pmf.hpp"
 
-#define SAVE_PMR 1
+#define SAVE_PMR 0
 
 namespace pmf
 {
@@ -160,12 +160,10 @@ namespace pmf
         double cosL = cos(angle);
         //pmf->RotatePointTypes(sinL, cosL);
 
-        pmf->RotatePoints2(sinL, cosL);
+        pmf->RotatePoints2(sinL, cosL, true);
         pmf::Statistics stats = pmf->GetStatistics();
 
-
 /// TODO (Rafal#9#): check if old birth and old death are on vertical line
-
 
 
         // * Determinig limits for random move. *
@@ -182,6 +180,8 @@ namespace pmf
         //out.rdbuf(fout2.rdbuf());
         pmf->SetOutStream( fout2 );
         fout3.close();
+
+        pmf->GetOutStream() << endl << stats << endl;
 
             std::string cf1file( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("rotated-before.ggb") );
             pmf->GetCf()->SaveConfigurationAsGGB(cf1file.c_str());
@@ -205,6 +205,7 @@ namespace pmf
         else if(chance < limit2)
         {
             int number = rand() % int(noOfBirths);
+            pmf->GetOutStream() << " random number = " << number << endl;
             pmf->RemoveBirthPoint (number, sinL, cosL);
         }
         else
@@ -268,21 +269,21 @@ namespace pmf
 
         char filename[256];
         //int iterNum = 27270;
-        int iterNum = 22900;
+        int iterNum = 16427;
 
         //if (loopIteration >= 17744) Geometry::qq = true;
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
 
-        //if (loopIteration < iterNum)
+        if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.txt")).c_str() );
-        //else
-            //sprintf(filename, "output/%spre%li.txt", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
+        else
+            sprintf(filename, "output/%spre%li.txt", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
         pmf->SavePMF(filename);
 
-        //if (loopIteration < iterNum)
+        if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.ggb")).c_str() );
-        //else
-            //sprintf(filename, "output/%spre%li.ggb", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
+        else
+            sprintf(filename, "output/%spre%li.ggb", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
         pmf->SavePMF(filename, GeoGebraFile);
 
         clone = pmf->Clone();
