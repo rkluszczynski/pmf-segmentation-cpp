@@ -68,6 +68,8 @@ class SegmentationParameters
         inline
         void SetPMRRate(double val) { m_PMRRate = val; }
 
+        // for debuging :
+        static int _trigger;
 
     protected:
         std::map<std::string, std::string>  m_data;

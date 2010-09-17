@@ -52,6 +52,9 @@ namespace pmf
                         if (p2->n2->id == p1->id  &&  p1->n1->id == p2->id)  return true;
                     }
 
+                    if (SegmentationParameters::_trigger == 1)
+                        if (p1->x != p2->x)  return p1->x > p2->x;
+
                     if (! Geometry::IsZero(p1->y - p2->y))
                     {
                         if (p1->y < p2->y) return false;

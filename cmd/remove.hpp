@@ -46,12 +46,12 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
                 if (number == counter)  break;
                 ++counter;
             }
-
             cf->PushBack(pt);
         }
 
         if (! ppq.empty())
         {
+            cf->PrintConfiguration(out);
             while (! cf->IsEmpty()  &&  Geometry::IsZero( cf->Back()->x - pt->x ))
             {
                 ppq.push( cf->Back() );
@@ -61,7 +61,12 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
             smap[ make_pair(pt->id, pt->n1->id) ] = new Segment<REAL> (pt, pt->n1);
             if (pt->type == PT_BirthInField)
                 smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
-
+            //*
+            out << "[ CONFIGURATION before PrepareTheEvolution ] : " << endl;
+            cf->PrintConfiguration(out);
+            out << "[ SMAP before PrepareTheEvolution ] : " << endl;
+            FOREACH(it, smap)  out << "  { " << it->ST.ST << ", " << it->ST.ND << " } : " << it->ND << endl;;
+            // */
             out << "... removing point : " << pt << endl;
             cf->PrintConfiguration (out);
             PrepareTheEvolution (evts, line, ppq, smap, pt->x);

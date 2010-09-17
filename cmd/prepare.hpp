@@ -34,17 +34,18 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         if (            pt->n1->x < rotxx  ||  Geometry::IsZero(rotxx - pt->n1->x))
         {
             out << " trying to push s1" << endl;
-        //*
-        out << "[ SMAP ] : " << endl;
-        FOREACH(it, smap)
-        {
-            out << "  { " << it->ST.ST << ", " << it->ST.ND << " } : " << it->ND << endl;;
-        }
-        // */
+            //*
+            out << "[ SMAP ] : " << endl;
+            FOREACH(it, smap)
+                out << "  { " << it->ST.ST << ", " << it->ST.ND << " } : " << it->ND << endl;;
+            // */
             if ( smap.find( make_pair(pt->n1->id, pt->id) ) == smap.end() )
             {
                 out << " ... s1 ";
-                spq.push( (s1 = new Segment<REAL> (pt->n1, pt)) );
+                Point<REAL> * ptb = pt->n1;
+                Point<REAL> * pte = pt;
+                //if (ptb->x > pte->x)  std::swap(ptb, pte);
+                spq.push( (s1 = new Segment<REAL> (ptb, pte)) );
                 out << "pushed" << endl;
             }
         }
@@ -58,7 +59,7 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
             }
         }
         //*
-        out << "[ SMAP ] : " << endl;
+        out << "[ SMAP after tries ] : " << endl;
         FOREACH(it, smap)
         {
             out << "  { " << it->ST.ST << ", " << it->ST.ND << " } : " << it->ND << endl;;

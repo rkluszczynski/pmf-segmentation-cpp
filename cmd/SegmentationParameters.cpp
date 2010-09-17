@@ -7,6 +7,9 @@
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
 
+int SegmentationParameters::_trigger = 0;
+
+
 SegmentationParameters::SegmentationParameters() : m_log(std::clog)
 {
     OnInit();
