@@ -269,18 +269,16 @@ namespace pmf
 
         char filename[256];
         //int iterNum = 27270;
-        int iterNum = 16429;
+        int iterNum = 916429;
 
         //if (loopIteration >= 17744) Geometry::qq = true;
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
+        if (loopIteration == 16429)  SegmentationParameters::_trigger = 1;
 
         if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.txt")).c_str() );
         else
-        {
-            SegmentationParameters::_trigger = 1;
             sprintf(filename, "output/%spre%li.txt", parameters.GetOutputPrefix() ? parameters.GetOutputPrefix() : "", loopIteration);
-        }
         pmf->SavePMF(filename);
 
         if (loopIteration < iterNum)
