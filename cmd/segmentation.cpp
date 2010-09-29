@@ -269,7 +269,7 @@ namespace pmf
 
         char filename[256];
         //int iterNum = 27270;
-        int iterNum = 916429;
+        int iterNum = 20318;
 
         //if (loopIteration >= 17744) Geometry::qq = true;
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);

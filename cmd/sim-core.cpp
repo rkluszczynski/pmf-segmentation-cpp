@@ -30,9 +30,14 @@ namespace pmf
     }
 }
 
+
+int _tmp_seed;
+
 #define REAL double
 int main (int argc, char *argv[])
 {
+    if (argc == 2) _tmp_seed = atoi(argv[1]);
+
     MultiCoreSegmentation mcs(2);
     mcs.SimulateOnMultiCore();
     return 0;

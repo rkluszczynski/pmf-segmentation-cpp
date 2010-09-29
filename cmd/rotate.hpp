@@ -120,6 +120,7 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL, bool debug)
         changed[pt->id] = true;
     }
     if (debug) out << " GetCount() == " << GetCount() << endl;
+    if (debug) FOREACH(it, *cf) out << " !$:> " << *it << endl;
 
     // Reassigning IDs
     FOREACH(it, *cf) (*it)->id = 0;

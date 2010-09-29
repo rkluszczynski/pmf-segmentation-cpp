@@ -11,6 +11,8 @@
 
 //#pragma omp threadprivate(__PRETTY_FUNCTION__)
 
+extern int _tmp_seed;
+
 MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     strategy(MinimalRateStrategy)
     //strategy(GibbsRandomizationStrategy)
@@ -31,10 +33,11 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
     //sparam.SetSeed (7217);
-    sparam.SetSeed (24);
+    sparam.SetSeed (13);
+    //sparam.SetSeed (_tmp_seed);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
-    sparam.SetInitialFile ("output/_shaked-pmf.txt");
+    //sparam.SetInitialFile ("output/_shaked-pmf.txt");
 
     sparam.SetPictureFile ("input/tmp/szara-wisienka-do-segm.png");
     //sparam.SetPictureFile ("output/grzybek2.png");
