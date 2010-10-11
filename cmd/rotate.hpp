@@ -122,6 +122,8 @@ PMF<REAL> :: RotatePoints2 (REAL sinL, REAL cosL, bool debug)
     if (debug) out << " GetCount() == " << GetCount() << endl;
     if (debug) FOREACH(it, *cf) out << " !$:> " << *it << endl;
 
+    if (SegmentationParameters::_trigger == 20318) exit(20318);
+
     // Reassigning IDs
     FOREACH(it, *cf) (*it)->id = 0;
     long count = 0;

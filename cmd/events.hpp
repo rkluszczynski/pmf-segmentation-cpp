@@ -38,6 +38,11 @@ namespace pmf
             virtual EventType GetType() const = 0;
             virtual SEGMENT * GetSegment(bool first = true) const = 0;
             virtual ~Event() { --pmf_event_counter; }
+
+            friend std::ostream& operator << (std::ostream & out, const Event & evt)
+            {
+                return out;
+            }
     };
 
 

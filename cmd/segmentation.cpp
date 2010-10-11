@@ -274,6 +274,7 @@ namespace pmf
         //if (loopIteration >= 17744) Geometry::qq = true;
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
         if (loopIteration == 16429)  SegmentationParameters::_trigger = 1;
+        if (loopIteration == 20318)  SegmentationParameters::_trigger = 20318;
 
         if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.txt")).c_str() );
