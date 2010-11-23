@@ -162,6 +162,8 @@ namespace pmf
             EventsSchedule() {};
             ~EventsSchedule() {};
 
+            inline size_t size() { return _events.size(); }
+
             bool InsertBirthEvent(POINT * pt);
 
             Iterator LowerBound (EventPoint e)

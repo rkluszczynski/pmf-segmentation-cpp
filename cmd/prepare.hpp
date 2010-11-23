@@ -22,6 +22,14 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
     //typedef map<pair<long, long>, Segment<REAL> *, SegmentMapComparator>                                     SegmentsMap;
     typedef typename SegmentsMap::iterator                                                           SegmentsMapIterator;
 
+    //*
+    out << "  ppq.size()  = " <<  ppq.size() << endl;
+    out << " smap.size()  = " << smap.size() << endl;
+    out << endl;
+    out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+    //out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+    out << endl;
+    // */
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
     //SegmentsMap         smap( (SegmentMapComparator()) );
     while (! ppq.empty())
@@ -135,6 +143,13 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
 
         line->Insert( s->GetP(), s );
     }
+    //*
+    out << endl << "______AT_THE_END_OF_PREPARATION______" << endl;
+    out << evts << endl;
+    out << "___ end of evts" << endl;
+    out << line << endl;
+    out << "___ end of line" << endl;
+    // */
     return;
 }
 

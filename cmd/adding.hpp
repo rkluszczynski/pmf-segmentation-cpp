@@ -44,9 +44,9 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
         PrepareTheEvolution (evts, line, ppq, smap, rotxx);
     }
-    /*
+    //*
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
-    out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
+    //out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
     out << endl << line << endl << endl;
     out << "__________ DO THE (R)EVOLUTION !!! __________" << endl;

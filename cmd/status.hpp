@@ -34,6 +34,7 @@ namespace pmf
 
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }
+            ///inline size_t size() const { return _st.size(); }
 
             REAL GetX0() { return _x0; }
 

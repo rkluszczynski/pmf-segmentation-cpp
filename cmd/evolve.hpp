@@ -360,6 +360,12 @@ void
 PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * evts, SweepLineStatus<REAL> * line, long id)
 {
     long step = 0;
+    //*
+    out << endl << "_________________________________________________" << endl;
+    out << evts << endl;
+    out << "evts.size() == " << evts->size() << endl;
+    out << endl << "_________________________________________________" << endl;
+    // */
     while (! evts->IsEmpty())
     {
         out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
@@ -409,6 +415,7 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
     out << evts << endl;
     out << line << endl;
     out << " PMF_ELEMENT_COUNTER  = " << pmf::pmf_element_counter << endl;
+    assert(pmf::pmf_element_counter == 0);
     ///out << " PMF_SEGMENT_COUNTER  = " << pmf::pmf_segment_counter << endl;
 
     //*
