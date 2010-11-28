@@ -47,6 +47,7 @@ namespace pmf
                 if (pt2->type == PT_DeathOnBorder  &&  pt1->type != PT_DeathOnBorder) return false;
 
                 if (pt1->type == PT_Update         &&  pt2->type == PT_Update) return pt1->id < pt2->id;
+                cout << "QQQQQQQQQQQQQQQQQQQQQQQ" << endl;
             }
             // */
             if (e1->GetType() == NormalDeath  &&  e2->GetType() != NormalDeath) return true;
@@ -65,6 +66,17 @@ namespace pmf
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
                 if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             }
+
+            static double eps2 = EPSILON * EPSILON;
+            double d = (e1->GetPoint()->y - e2->GetPoint()->y)*(e1->GetPoint()->y - e2->GetPoint()->y)
+                    + (e1->GetPoint()->x - e2->GetPoint()->x)*(e1->GetPoint()->x - e2->GetPoint()->x);
+            assert(eps2 < d);
+
+            if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
+            if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
+
+            if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
+            if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             /*
                 // does not work on seed 3774659 and size 1
             if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
@@ -136,6 +148,22 @@ namespace pmf
 
             if (! IsZero(e1->GetPoint()->y - e2->GetPoint()->y))
             {
+                if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
+                if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
+            }
+
+
+            if (e1->GetType() == OldPoint  &&  e2->GetType() == OldPoint)
+            {
+                static double eps2 = EPSILON * EPSILON;
+                double d = (e1->GetPoint()->y - e2->GetPoint()->y)*(e1->GetPoint()->y - e2->GetPoint()->y)
+                        + (e1->GetPoint()->x - e2->GetPoint()->x)*(e1->GetPoint()->x - e2->GetPoint()->x);
+                assert(0. < eps2);
+                assert(eps2 < d);
+
+                if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
+                if (e1->GetPoint()->x > e2->GetPoint()->x) return false;
+
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
                 if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             }
