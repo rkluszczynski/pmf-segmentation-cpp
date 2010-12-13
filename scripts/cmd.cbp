@@ -137,6 +137,12 @@
 		<Unit filename="..\cmd\MultiCoreTypes.h">
 			<Option target="sim-multicore-Debug" />
 		</Unit>
+		<Unit filename="..\cmd\NumericParameters.cpp">
+			<Option target="sim-multicore-Debug" />
+		</Unit>
+		<Unit filename="..\cmd\NumericParameters.hpp">
+			<Option target="sim-multicore-Debug" />
+		</Unit>
 		<Unit filename="..\cmd\SegmentationParameters.cpp">
 			<Option target="sim-segm-Debug" />
 			<Option target="sim-multicore-Debug" />

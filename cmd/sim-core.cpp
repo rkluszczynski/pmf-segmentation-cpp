@@ -1,6 +1,7 @@
 #include "segmentation.h"
 #include "MultiCoreSegmentation.h"
 
+#include "NumericParameters.hpp"
 
 void print_usage(char * prog_name, bool cond = false)
 {
