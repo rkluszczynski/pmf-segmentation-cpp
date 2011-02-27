@@ -117,6 +117,11 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-fopenmp" />
+					<Add option="-msse2" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-DHAVE_SSE2=1" />
+					<Add option="-DDSFMT_MEXP=19937" />
+					<Add directory="..\src\dSFMT" />
 				</Compiler>
 				<Linker>
 					<Add library="gomp" />
@@ -128,6 +133,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="..\cmd\DoubleProbability.cpp">
+			<Option target="sim-multicore-Debug" />
+		</Unit>
+		<Unit filename="..\cmd\DoubleProbability.h">
+			<Option target="sim-multicore-Debug" />
+		</Unit>
 		<Unit filename="..\cmd\MultiCoreSegmentation.cpp">
 			<Option target="sim-multicore-Debug" />
 		</Unit>
@@ -329,6 +340,46 @@
 			<Option target="Debug" />
 			<Option target="sim-segm-Debug" />
 			<Option target="sim-multicore-Debug" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params11213.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params1279.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params132049.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params19937.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params216091.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params2203.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params4253.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params44497.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params521.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT-params86243.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\dSFMT\dSFMT.h">
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="..\src\statistics.cpp">
 			<Option target="Debug" />
