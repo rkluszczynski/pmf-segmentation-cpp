@@ -117,10 +117,10 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-fopenmp" />
-					<Add option="-msse2" />
 					<Add option="-fno-strict-aliasing" />
-					<Add option="-DHAVE_SSE2=1" />
+					<Add option="-msse2" />
 					<Add option="-DDSFMT_MEXP=19937" />
+					<Add option="-DHAVE_SSE2=1" />
 					<Add directory="..\src\dSFMT" />
 				</Compiler>
 				<Linker>

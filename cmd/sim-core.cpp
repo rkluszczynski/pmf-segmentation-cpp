@@ -1,6 +1,7 @@
 #include "segmentation.h"
 #include "MultiCoreSegmentation.h"
 
+#include "DoubleProbability.h"
 #include "NumericParameters.hpp"
 
 void print_usage(char * prog_name, bool cond = false)
@@ -31,12 +32,30 @@ namespace pmf
     }
 }
 
+void testRandom()
+{
+    const long NUM = 100000000L;
+    DoubleProbability dp(0);
+
+    long cnt = 0;
+    for (long i = 0; i < NUM; i++)
+    {
+        double x = dp.GetUniform();
+        double y = dp.GetUniform();
+        if (x * x + y * y < 1.0)  ++cnt;
+    }
+    double pi = double(cnt << 2) / double(NUM );
+    printf("%.8lf\n", pi);
+    exit (0);
+}
+
 
 int _tmp_seed;
 
 #define REAL double
 int main (int argc, char *argv[])
 {
+    testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 
     MultiCoreSegmentation mcs(2);

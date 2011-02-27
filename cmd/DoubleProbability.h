@@ -1,10 +1,11 @@
 #ifndef PROBABILITY_H
 #define PROBABILITY_H
 
+#include <cstdlib>
 #include <cmath>
 #include <utility>
 
-#include "dSFMT.c"
+#include "dSFMT.h"
 
 class DoubleProbability
 {
@@ -18,7 +19,8 @@ class DoubleProbability
         double GetExp(double);
         double GetUniform(double, double);
         inline
-        double GetUniform()  { return GetStdUniform(); }
+        //double GetUniform()  { return GetStdUniform(); }
+        double GetUniform()  { return GetMTUniform(); }
 
     protected:
         void OnInit();

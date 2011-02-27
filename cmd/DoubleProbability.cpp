@@ -1,5 +1,8 @@
 #include "DoubleProbability.h"
 
+#include "dSFMT.c"
+
+
 DoubleProbability::DoubleProbability()  { OnInit(); }
 DoubleProbability::DoubleProbability(time_t seed) : _seed(seed)  { OnInit(); }
 
