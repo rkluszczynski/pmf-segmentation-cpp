@@ -225,7 +225,8 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         REAL angle, newAngle;
         if (pt->type == PT_Update)  angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
         else  angle = 0.0;
-        DetermineUpdateAngle<REAL> (newAngle);
+        ///DetermineUpdateAngle<REAL> (newAngle);
+        newAngle = Probability::PRNG->DetermineUpdateAngle();
 
         newAngle += angle;
         if (newAngle > M_PI_2)  newAngle -= M_PI;
@@ -234,14 +235,16 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         out << " newAngle = " << newAngle << endl;
         if (pt->type == PT_BirthOnBorder)
         {
-            while (IsZero(newAngle)) newAngle = Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
+            ///while (IsZero(newAngle)) newAngle = Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
+            while (IsZero(newAngle)) newAngle = Probability::PRNG->GetUniform(EPSILON-M_PI_2, M_PI_2-EPSILON);
             if (pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
             if (pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
         }
         out << " newAngle = " << newAngle << endl;
 
         int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
-        Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
+        ///Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
+        Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Probability::PRNG->GetExp(2.));
         if (ArrangeNewEvent(newpt, evts, line, id, sinL, cosL)) break;
 
         delete newpt;

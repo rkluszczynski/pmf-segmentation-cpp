@@ -144,7 +144,7 @@ namespace pmf
     void
     BinarySegmentation::MakeModification()
     {
-        using Probability::Uniform;
+        using Probability::_Uniform;
         cout << "[ SEGM ] " << parameters.GetOutputPrefix() << ": modification.begin()" << endl;
 
         ///ofstream fout3("output/rot.txt");
@@ -153,7 +153,7 @@ namespace pmf
         //out.rdbuf(fout3.rdbuf());
         pmf->SetOutStream( fout3 );
 
-        double angle = Uniform<double>(0.0, 2. * M_PI);
+        double angle = Probability::PRNG->GetUniform(0.0, 2. * M_PI);
         cout << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         pmf->GetOutStream() << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         double sinL = sin(angle);
@@ -187,14 +187,14 @@ namespace pmf
             pmf->GetCf()->SaveConfigurationAsGGB(cf1file.c_str());
 
         // * Applying random operation. *
-        double chance = Uniform(0.0, 1.0);
+        double chance = Probability::PRNG->GetUniform();
         if (chance < limit1)
         {
             double x, y;
             while (true)
             {
-                x = Uniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
-                y = Uniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
+                x = Probability::PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
+                y = Probability::PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
 
                 if (pmf->AddBirthPoint (x, y, sinL, cosL)) break;
 

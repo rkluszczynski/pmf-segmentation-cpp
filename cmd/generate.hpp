@@ -14,8 +14,8 @@ inline
 long
 PMF<REAL> :: GenerateInitialBirths (EventsSchedule<REAL> * evts)
 {
-    using Probability::Exp;
-    using Probability::Uniform;
+    using Probability::_Exp;
+    using Probability::_Uniform;
 
     REAL halfPI = M_PI_2;
     REAL fieldHeight = GetHeight();
@@ -24,36 +24,39 @@ PMF<REAL> :: GenerateInitialBirths (EventsSchedule<REAL> * evts)
 
     // Generating left birth sites ...
     PMFLogV("[ INFO ] : Generating boundary left birth sites ... ");
-    REAL vertical = Exp<REAL>(2.0);
+    ///REAL vertical = Exp<REAL>(2.0);
+    REAL vertical = Probability::PRNG->GetExp(2.);
     while (vertical < fieldHeight) {
         //REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         Point<REAL> * pt = new Point<REAL>(0.0, vertical, 0.0, 0.0, ++id, PT_BirthOnBorder);
         evts->InsertBirthEvent(pt);
-        vertical += Exp<REAL>(2.0);
+        vertical += Probability::PRNG->GetExp(2.);
     }
 
     // Generating upper birth sites ...
     PMFLogV("[ INFO ] : Generating upper birth sites ...  ");
-    REAL horizontal = Exp<REAL>(2.0);
+    REAL horizontal = Probability::PRNG->GetExp(2.0);
     while (horizontal <= fieldWidth) {
-        REAL angle = Uniform<REAL> ( -halfPI, halfPI);
+        REAL angle = Probability::PRNG->GetUniform( -halfPI, halfPI);
         if (angle < 0.0) {
             Point<REAL> * pt = new Point<REAL>(horizontal, 0.0, 0.0, 0.0, ++id, PT_BirthOnBorder);
             evts->InsertBirthEvent(pt);
         }
-        horizontal += Exp<REAL>(2.0);
+        horizontal += Probability::PRNG->GetExp(2.0);
     }
 
     // Generating lower birth sites ...
     PMFLogV("[ INFO ] : Generating lower birth sites ...  ");
-    horizontal = Exp<REAL>(2.0);
+    horizontal = Probability::PRNG->GetExp(2.0);
     while (horizontal <= fieldWidth) {
-        REAL angle = Uniform<REAL> ( -halfPI, halfPI);
+        ///REAL angle = Uniform<REAL> ( -halfPI, halfPI);
+        REAL angle = Probability::PRNG->GetUniform ( -halfPI, halfPI);
         if (angle > 0.0) {
             Point<REAL> * pt = new Point<REAL>(horizontal, fieldWidth, 0.0, 0.0, ++id, PT_BirthOnBorder);
             evts->InsertBirthEvent(pt);
         }
-        horizontal += Exp<REAL>(2.0);
+        ///horizontal += Exp<REAL>(2.0);
+        horizontal += Probability::PRNG->GetExp(2.0);
     }
     return id;
 }
@@ -70,13 +73,13 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
 
     if (cf->IsEmpty()) return;
 
-    REAL offset = Exp<REAL>(GetHeight() * M_PI);
+    REAL offset = Probability::PRNG->GetExp(GetHeight() * M_PI);
     if (offset < EPSILON)  offset = 2. * EPSILON;
     Point<REAL> * prev = cf->SeeLastPoint();
     Point<REAL> * pt = ev->GetPoint();
     if (prev->x + offset < pt->x)
     {
-        REAL tmpY = Uniform<REAL> (0.0, GetHeight());
+        REAL tmpY = Probability::PRNG->GetUniform (0.0, GetHeight());
         if (IsZero(GetHeight() - tmpY)) tmpY = GetHeight() - 2. * EPSILON;
         else if (IsZero(tmpY)) tmpY = 2. * EPSILON;
 
@@ -98,10 +101,10 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     Point<REAL> * pt = ev->GetPoint();
     while (true)
     {
-        REAL upperLength = Exp<REAL>(2.0);
-        REAL lowerLength = Exp<REAL>(2.0);
+        REAL upperLength = Probability::PRNG->GetExp(2.0);
+        REAL lowerLength = Probability::PRNG->GetExp(2.0);
         REAL upperAngle, lowerAngle;
-        DetermineBirthAngles (upperAngle, lowerAngle);
+        Probability::PRNG->DetermineBirthAngles (upperAngle, lowerAngle);
 
         if (! newpt1)
         {

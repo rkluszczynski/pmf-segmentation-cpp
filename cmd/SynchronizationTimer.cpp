@@ -30,7 +30,8 @@ SynchronizationTimer::CheckSynchronizationTime()
                                     break;;
         case ParallelTemperingStrategy :
                                     {
-                                        double fate = pmf::Probability::Uniform(0., 1.);
+                                        ///double fate = pmf::Probability::Uniform(0., 1.);
+                                        double fate = pmf::Probability::PRNG->GetUniform(0., 1.);
                                         timeForSynchronization = (fate < syncProb);
                                         break;;
                                     }

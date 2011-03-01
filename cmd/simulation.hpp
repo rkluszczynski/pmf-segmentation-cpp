@@ -76,7 +76,8 @@ namespace pmf
             if (__deltaH > 0.0)
             {
                 REAL  __limit = exp(-__deltaH);
-                REAL __chance = Probability::Uniform(0.0, 1.0);
+                //REAL __chance = Probability::Uniform(0.0, 1.0);
+                REAL __chance = Probability::PRNG->GetUniform();
                 if (__chance > __limit)
                     __apply = false;
             }

@@ -2,15 +2,17 @@
 #define PROBABILITY_HPP_INCLUDED
 
 #include "../headers/macros.hpp"
+#include "../cmd/DoubleProbability.h"
 
 namespace pmf
 {
     namespace Probability
     {
+        static DoubleProbability * PRNG;
 
         template <class REAL>
         void
-        DetermineBirthAngles(REAL & up, REAL & down)
+        _DetermineBirthAngles(REAL & up, REAL & down)
         {
             REAL angleL, angleB, angle;
             do {
@@ -30,7 +32,7 @@ namespace pmf
 
         template <class REAL>
         void
-        DetermineUpdateAngle(REAL & fi)
+        _DetermineUpdateAngle(REAL & fi)
         {
             REAL zm = ((REAL)rand()) / ((REAL)RAND_MAX);
             fi = (REAL)acos(zm) * ((((REAL)rand()/(REAL)RAND_MAX) > 0.5)?1:(-1));
@@ -39,7 +41,7 @@ namespace pmf
 
         template <class REAL>
         REAL
-        Exp (REAL lambda)
+        _Exp (REAL lambda)
         {
             REAL u = (((REAL)rand()) / (REAL)RAND_MAX);
             if(u < ((REAL)0.00001)) u = (REAL)0.00001;
@@ -50,7 +52,7 @@ namespace pmf
 
         template <class REAL>
         REAL
-        Uniform (REAL a, REAL b)
+        _Uniform (REAL a, REAL b)
         {
             if (b < a)  swap(a, b);
             REAL u = (((REAL)rand()) / (REAL)RAND_MAX);

@@ -247,7 +247,8 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
     for (int i = 1; i < numberOfThreads; ++i) probs_prefsum[i] = (probs_prefsum[i-1] + weights[i]);
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
 
-    double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
+    ///double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
+    double rand = pmf::Probability::PRNG->GetUniform(0., probs_prefsum[numberOfThreads-1]);
     //printf("[ rand ] : %.11lf\n", rand);
     double * randptr = lower_bound(probs_prefsum, probs_prefsum + numberOfThreads, rand);
     int randpos = randptr - probs_prefsum;
@@ -285,7 +286,8 @@ MultiCoreSegmentation::UseParallelTemperingStrategy ()
         if (delta > 0.)
         {
             double limit = exp(-delta);
-            double chance = pmf::Probability::Uniform(0., 1.);
+            ///double chance = pmf::Probability::Uniform(0., 1.);
+            double chance = pmf::Probability::PRNG->GetUniform(0., 1.);
             if (chance > limit)
                 doTheSwap = false;
         }

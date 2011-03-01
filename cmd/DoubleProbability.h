@@ -36,4 +36,5 @@ class DoubleProbability
         dsfmt_t dsfmt;
 };
 
+
 #endif // PROBABILITY_H
