@@ -6,6 +6,7 @@
 
 #include "SegmentationParameters.h"
 #include "SynchronizationTimer.h"
+#include "../cmd/DoubleProbability.h"
 
 #include <omp.h>
 
@@ -20,6 +21,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
 {
     numberOfThreads = 1;
     numberOfStepsToSync = 750;
+
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
@@ -32,8 +34,8 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
-    //sparam.SetSeed (7217);
-    sparam.SetSeed (13);
+    sparam.SetSeed (7217);
+    //sparam.SetSeed (13);
     //sparam.SetSeed (_tmp_seed);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
@@ -56,7 +58,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     pmf::BinarySegmentation * * sims = simulations;
 #pragma omp parallel default(none) \
                 firstprivate(sparam) \
-                shared(sims,stream)
+                shared(sims,stream,pmf::Probability::PRNG)
     {
         int id = omp_get_thread_num();
         std::stringstream ssout;
@@ -92,7 +94,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno) //firstprivate(syncSteps)
+#pragma omp parallel default(none) shared(sims, sync, done, erno, pmf::Probability::PRNG) //firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;

@@ -52,10 +52,21 @@ void testRandom()
 
 int _tmp_seed;
 
+
+namespace pmf
+{
+    namespace Probability
+    {
+        DoubleProbability * PRNG;
+    }
+}
+
 #define REAL double
 int main (int argc, char *argv[])
 {
-    testRandom();
+    pmf::Probability::PRNG = new DoubleProbability(7217);
+    cout << pmf::Probability::PRNG << endl;
+    //testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 
     MultiCoreSegmentation mcs(2);

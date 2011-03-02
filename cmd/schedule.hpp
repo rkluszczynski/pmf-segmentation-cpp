@@ -67,6 +67,8 @@ namespace pmf
                 if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             }
 
+
+            /**
             static double eps2 = EPSILON * EPSILON;
             double d = (e1->GetPoint()->y - e2->GetPoint()->y)*(e1->GetPoint()->y - e2->GetPoint()->y)
                     + (e1->GetPoint()->x - e2->GetPoint()->x)*(e1->GetPoint()->x - e2->GetPoint()->x);
@@ -77,6 +79,9 @@ namespace pmf
 
             if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
             if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
+            /// */
+
+
             /*
                 // does not work on seed 3774659 and size 1
             if (e1->GetPoint()->x < e2->GetPoint()->x) return true;
@@ -153,6 +158,7 @@ namespace pmf
             }
 
 
+            /**
             if (e1->GetType() == OldPoint  &&  e2->GetType() == OldPoint)
             {
                 static double eps2 = EPSILON * EPSILON;
@@ -167,6 +173,9 @@ namespace pmf
                 if (e1->GetPoint()->y < e2->GetPoint()->y) return true;
                 if (e1->GetPoint()->y > e2->GetPoint()->y) return false;
             }
+            /// */
+
+
             /*
                 // does not work on seed 3774659 and size 1
             if (e1->GetPoint()->x < e2->GetPoint()->x) return true;

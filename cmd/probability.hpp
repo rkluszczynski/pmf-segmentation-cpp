@@ -8,7 +8,7 @@ namespace pmf
 {
     namespace Probability
     {
-        static DoubleProbability * PRNG;
+        extern DoubleProbability * PRNG;
 
         template <class REAL>
         void
