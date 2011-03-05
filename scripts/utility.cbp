@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="PMF Utility" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug-sse2">
+				<Option output="..\lib\libutils-sse2_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\objs\Debug\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release-sse2">
+				<Option output="..\lib\libutils-sse2" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\objs\Release\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-Wall" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="Debug-sse2;Release-sse2;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add option="-msse2" />
+			<Add option="-DDSFMT_DO_NOT_USE_OLD_NAMES" />
+			<Add option="-DDSFMT_MEXP=19937" />
+			<Add option="-DHAVE_SSE2=1" />
+		</Compiler>
+		<Unit filename="..\src\utils\DoublePRNG.cpp" />
+		<Unit filename="..\src\utils\DoublePRNG.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params11213.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params1279.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params132049.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params19937.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params216091.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params2203.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params4253.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params44497.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params521.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT-params86243.h" />
+		<Unit filename="..\src\utils\dSFMT\dSFMT.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\src\utils\dSFMT\dSFMT.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -115,6 +115,7 @@
 				<Option compiler="gcc" />
 				<Option parameters="-s 3 -p input/ring-spread.png -o output/out-pmf-sim-s3-e24.txt -r 0.07 -e 0 -n 2" />
 				<Compiler>
+					<Add option="-O3" />
 					<Add option="-fopenmp" />
 					<Add option="-fno-strict-aliasing" />
 					<Add option="-msse2" />
