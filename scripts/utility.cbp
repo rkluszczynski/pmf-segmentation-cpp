@@ -45,6 +45,8 @@
 		</Compiler>
 		<Unit filename="..\src\utils\DoublePRNG.cpp" />
 		<Unit filename="..\src\utils\DoublePRNG.h" />
+		<Unit filename="..\src\utils\NumericParameters.cpp" />
+		<Unit filename="..\src\utils\NumericParameters.h" />
 		<Unit filename="..\src\utils\dSFMT\dSFMT-params.h" />
 		<Unit filename="..\src\utils\dSFMT\dSFMT-params11213.h" />
 		<Unit filename="..\src\utils\dSFMT\dSFMT-params1279.h" />
