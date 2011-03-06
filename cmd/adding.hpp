@@ -62,10 +62,10 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
     Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
     while (true)
     {
-        REAL upperLength = Probability::PRNG->GetExp(2.0);
-        REAL lowerLength = Probability::PRNG->GetExp(2.0);
+        REAL upperLength = PRNG->GetExp(2.0);
+        REAL lowerLength = PRNG->GetExp(2.0);
         REAL upperAngle, lowerAngle;
-        Probability::PRNG->DetermineBirthAngles (upperAngle, lowerAngle);
+        PRNG->DetermineBirthAngles (upperAngle, lowerAngle);
 
         if (! newpt1)
         {

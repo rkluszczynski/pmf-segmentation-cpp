@@ -43,6 +43,8 @@ namespace pmf
             dsfmt_t dsfmt;
     };
 
+
+    DoublePRNG * PRNG;
 }
 
 #endif // DOUBLEPRNG_H

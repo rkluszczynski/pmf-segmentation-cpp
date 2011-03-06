@@ -1,7 +1,7 @@
 #include "segmentation.h"
 #include "MultiCoreSegmentation.h"
 
-#include "DoubleProbability.h"
+#include "DoublePRNG.h"
 #include "NumericParameters.hpp"
 
 void print_usage(char * prog_name, bool cond = false)
@@ -35,7 +35,7 @@ namespace pmf
 void testRandom()
 {
     const long NUM = 100000000L;
-    DoubleProbability dp(0);
+    pmf::DoublePRNG dp(0);
 
     long cnt = 0;
     for (long i = 0; i < NUM; i++)
@@ -53,19 +53,11 @@ void testRandom()
 int _tmp_seed;
 
 
-namespace pmf
-{
-    namespace Probability
-    {
-        DoubleProbability * PRNG;
-    }
-}
-
 #define REAL double
 int main (int argc, char *argv[])
 {
-    pmf::Probability::PRNG = new DoubleProbability(7217);
-    cout << pmf::Probability::PRNG << endl;
+    pmf::PRNG = new pmf::DoublePRNG(((time_t)7217));
+    cout << pmf::PRNG << endl;
     //testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 

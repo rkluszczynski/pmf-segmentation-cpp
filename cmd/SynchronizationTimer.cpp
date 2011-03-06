@@ -1,7 +1,8 @@
 #include "SynchronizationTimer.h"
 #include "MultiCoreTypes.h"
 
-#include "probability.hpp"
+//#include "probability.hpp"
+#include "DoublePRNG.h"
 
 #include <cassert>
 
@@ -31,7 +32,7 @@ SynchronizationTimer::CheckSynchronizationTime()
         case ParallelTemperingStrategy :
                                     {
                                         ///double fate = pmf::Probability::Uniform(0., 1.);
-                                        double fate = pmf::Probability::PRNG->GetUniform(0., 1.);
+                                        double fate = pmf::PRNG->GetUniform(0., 1.);
                                         timeForSynchronization = (fate < syncProb);
                                         break;;
                                     }

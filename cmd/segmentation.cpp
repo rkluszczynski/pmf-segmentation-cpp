@@ -153,7 +153,7 @@ namespace pmf
         //out.rdbuf(fout3.rdbuf());
         pmf->SetOutStream( fout3 );
 
-        double angle = Probability::PRNG->GetUniform(0.0, 2. * M_PI);
+        double angle = PRNG->GetUniform(0.0, 2. * M_PI);
         cout << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         pmf->GetOutStream() << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         double sinL = sin(angle);
@@ -187,14 +187,14 @@ namespace pmf
             pmf->GetCf()->SaveConfigurationAsGGB(cf1file.c_str());
 
         // * Applying random operation. *
-        double chance = Probability::PRNG->GetUniform();
+        double chance = PRNG->GetUniform();
         if (chance < limit1)
         {
             double x, y;
             while (true)
             {
-                x = Probability::PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
-                y = Probability::PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
+                x = PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
+                y = PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
 
                 if (pmf->AddBirthPoint (x, y, sinL, cosL)) break;
 

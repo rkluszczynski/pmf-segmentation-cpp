@@ -142,7 +142,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     assert(wh > 0);
     REAL length = (wh == 1) ? dptn->l1 : dptn->l2;
     // 2009-11-14
-    length += ( Probability::PRNG->GetExp(1.0) + EPSILON );
+    length += ( PRNG->GetExp(1.0) + EPSILON );
     if (wh == 1) dptn->l1 = length;
     else dptn->l2 = length;
     // *
@@ -184,7 +184,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         printf("QQ ->>\n");
         //*
         ///REAL newLength = Probability::Uniform<REAL>(dist + EPSILON, length - EPSILON);
-        REAL newLength = Probability::PRNG->GetUniform(dist + EPSILON, length - EPSILON);
+        REAL newLength = PRNG->GetUniform(dist + EPSILON, length - EPSILON);
         REAL newScale = newLength / length;
         assert(newScale < 1.0);
         assert(newScale > dist/length);

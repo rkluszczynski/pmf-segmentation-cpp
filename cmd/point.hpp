@@ -117,7 +117,7 @@ namespace pmf
         #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))
         #define Y_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(SSIN)+(YY)*(CCOS))
         ///REAL length = (llength == 0.0) ? Exp<REAL>(2.0) : llength;
-        REAL length = (llength == 0.0) ? Probability::PRNG->GetExp(2.) : llength;
+        REAL length = (llength == 0.0) ? PRNG->GetExp(2.) : llength;
         //cerr << " LENGTH = " << length << endl;
 
         REAL rotx = X_ROTATED(x, y, sinL, cosL);

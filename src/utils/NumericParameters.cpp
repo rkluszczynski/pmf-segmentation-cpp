@@ -1,5 +1,9 @@
 #include "NumericParameters.h"
 
+namespace pmf {
+
+
+
 NumericParameters::NumericParameters(NumericParameters::REAL epsilon)
 {
     //ctor
@@ -28,3 +32,7 @@ NumericParameters& NumericParameters::operator=(const NumericParameters& rhs)
     return *this;
 }
 /// */
+
+
+
+} // namespace pmf

@@ -2,13 +2,13 @@
 #define PROBABILITY_HPP_INCLUDED
 
 #include "../headers/macros.hpp"
-#include "../cmd/DoubleProbability.h"
+//#include "../cmd/DoubleProbability.h"
 
 namespace pmf
 {
     namespace Probability
     {
-        extern DoubleProbability * PRNG;
+        //extern DoubleProbability * PRNG;
 
         template <class REAL>
         void

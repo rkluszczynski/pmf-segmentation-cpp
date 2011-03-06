@@ -83,10 +83,10 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     // */
     while(true)
     {
-        REAL newAngle = Probability::PRNG->GetUniform(EPSILON-M_PI_2, M_PI_2-EPSILON);
+        REAL newAngle = PRNG->GetUniform(EPSILON-M_PI_2, M_PI_2-EPSILON);
         out << " newAngle = " << newAngle << endl;
 
-        REAL length = Probability::PRNG->GetExp (2.0);
+        REAL length = PRNG->GetExp (2.0);
         if (length < EPSILON) length = EPSILON;
         Point<REAL> * newpt = pt->GenerateNeighbour(2, newAngle, count, length);
 

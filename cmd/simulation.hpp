@@ -2,7 +2,8 @@
 #define SIMULATION_HPP_INCLUDED
 
 #include "geometry.hpp"
-#include "probability.hpp"
+//#include "probability.hpp"
+#include "DoublePRNG.h"
 
 namespace pmf
 {
@@ -77,7 +78,7 @@ namespace pmf
             {
                 REAL  __limit = exp(-__deltaH);
                 //REAL __chance = Probability::Uniform(0.0, 1.0);
-                REAL __chance = Probability::PRNG->GetUniform();
+                REAL __chance = pmf::PRNG->GetUniform();
                 if (__chance > __limit)
                     __apply = false;
             }

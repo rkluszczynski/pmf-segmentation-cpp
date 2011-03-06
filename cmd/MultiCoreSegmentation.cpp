@@ -6,7 +6,8 @@
 
 #include "SegmentationParameters.h"
 #include "SynchronizationTimer.h"
-#include "../cmd/DoubleProbability.h"
+//#include "../cmd/DoubleProbability.h"
+#include "DoublePRNG.h"
 
 #include <omp.h>
 
@@ -58,7 +59,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     pmf::BinarySegmentation * * sims = simulations;
 #pragma omp parallel default(none) \
                 firstprivate(sparam) \
-                shared(sims,stream,pmf::Probability::PRNG)
+                shared(sims,stream,pmf::PRNG)
     {
         int id = omp_get_thread_num();
         std::stringstream ssout;
@@ -94,7 +95,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno, pmf::Probability::PRNG) //firstprivate(syncSteps)
+#pragma omp parallel default(none) shared(sims, sync, done, erno, pmf::PRNG) //firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
@@ -250,7 +251,7 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
 
     ///double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
-    double rand = pmf::Probability::PRNG->GetUniform(0., probs_prefsum[numberOfThreads-1]);
+    double rand = pmf::PRNG->GetUniform(0., probs_prefsum[numberOfThreads-1]);
     //printf("[ rand ] : %.11lf\n", rand);
     double * randptr = lower_bound(probs_prefsum, probs_prefsum + numberOfThreads, rand);
     int randpos = randptr - probs_prefsum;
@@ -289,7 +290,7 @@ MultiCoreSegmentation::UseParallelTemperingStrategy ()
         {
             double limit = exp(-delta);
             ///double chance = pmf::Probability::Uniform(0., 1.);
-            double chance = pmf::Probability::PRNG->GetUniform(0., 1.);
+            double chance = pmf::PRNG->GetUniform(0., 1.);
             if (chance > limit)
                 doTheSwap = false;
         }

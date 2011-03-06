@@ -118,12 +118,17 @@
 					<Add option="-O3" />
 					<Add option="-fopenmp" />
 					<Add option="-msse2" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="--param max-inline-insns-single=1800" />
+					<Add option="--param inline-unit-growth=500" />
+					<Add option="--param large-function-growth=900" />
 					<Add option="-DDSFMT_MEXP=19937" />
 					<Add option="-DHAVE_SSE2=1" />
 					<Add directory="..\src\utils" />
 				</Compiler>
 				<Linker>
 					<Add library="gomp" />
+					<Add library="..\lib\libutils-sse2.a" />
 					<Add directory="..\lib" />
 				</Linker>
 			</Target>
