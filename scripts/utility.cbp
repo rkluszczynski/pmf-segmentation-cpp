@@ -16,6 +16,8 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add option="-msse2" />
+					<Add option="-DHAVE_SSE2=1" />
 				</Compiler>
 			</Target>
 			<Target title="Release-sse2">
@@ -28,6 +30,8 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-Wall" />
+					<Add option="-msse2" />
+					<Add option="-DHAVE_SSE2=1" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -38,10 +42,12 @@
 			<Add alias="All" targets="Debug-sse2;Release-sse2;" />
 		</VirtualTargets>
 		<Compiler>
-			<Add option="-msse2" />
+			<Add option="-fno-strict-aliasing" />
+			<Add option="--param max-inline-insns-single=1800" />
+			<Add option="--param inline-unit-growth=500" />
+			<Add option="--param large-function-growth=900" />
 			<Add option="-DDSFMT_DO_NOT_USE_OLD_NAMES" />
 			<Add option="-DDSFMT_MEXP=19937" />
-			<Add option="-DHAVE_SSE2=1" />
 		</Compiler>
 		<Unit filename="..\src\utils\DoublePRNG.cpp" />
 		<Unit filename="..\src\utils\DoublePRNG.h" />

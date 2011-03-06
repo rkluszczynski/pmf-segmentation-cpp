@@ -14,7 +14,6 @@
 		</Project>
 		<Project filename="scripts/detector.cbp" />
 		<Project filename="scripts/postprocess.cbp" />
-		<Project filename="scripts/dSFMT.cbp" />
 		<Project filename="scripts/utility.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

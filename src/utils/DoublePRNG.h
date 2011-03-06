@@ -27,6 +27,8 @@ namespace pmf
             //double GetUniform()  { return GetStdUniform(); }
             double GetUniform()  { return GetMTUniform(); }
 
+            unsigned int GetInt() { return dsfmt_genrand_uint32(&dsfmt); }
+
         protected:
             void OnInit();
 

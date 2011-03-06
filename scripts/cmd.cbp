@@ -117,11 +117,10 @@
 				<Compiler>
 					<Add option="-O3" />
 					<Add option="-fopenmp" />
-					<Add option="-fno-strict-aliasing" />
 					<Add option="-msse2" />
 					<Add option="-DDSFMT_MEXP=19937" />
 					<Add option="-DHAVE_SSE2=1" />
-					<Add directory="..\src\dSFMT" />
+					<Add directory="..\src\utils" />
 				</Compiler>
 				<Linker>
 					<Add library="gomp" />
@@ -133,12 +132,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="..\cmd\DoubleProbability.cpp">
-			<Option target="sim-multicore-Debug" />
-		</Unit>
-		<Unit filename="..\cmd\DoubleProbability.h">
-			<Option target="sim-multicore-Debug" />
-		</Unit>
 		<Unit filename="..\cmd\MultiCoreSegmentation.cpp">
 			<Option target="sim-multicore-Debug" />
 		</Unit>
