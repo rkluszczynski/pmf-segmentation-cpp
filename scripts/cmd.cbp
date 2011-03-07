@@ -115,13 +115,9 @@
 				<Option compiler="gcc" />
 				<Option parameters="-s 3 -p input/ring-spread.png -o output/out-pmf-sim-s3-e24.txt -r 0.07 -e 0 -n 2" />
 				<Compiler>
-					<Add option="-O3" />
+					<Add option="-g" />
 					<Add option="-fopenmp" />
 					<Add option="-msse2" />
-					<Add option="-fno-strict-aliasing" />
-					<Add option="--param max-inline-insns-single=1800" />
-					<Add option="--param inline-unit-growth=500" />
-					<Add option="--param large-function-growth=900" />
 					<Add option="-DDSFMT_MEXP=19937" />
 					<Add option="-DHAVE_SSE2=1" />
 					<Add directory="..\src\utils" />
@@ -144,12 +140,6 @@
 			<Option target="sim-multicore-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\MultiCoreTypes.h">
-			<Option target="sim-multicore-Debug" />
-		</Unit>
-		<Unit filename="..\cmd\NumericParameters.cpp">
-			<Option target="sim-multicore-Debug" />
-		</Unit>
-		<Unit filename="..\cmd\NumericParameters.hpp">
 			<Option target="sim-multicore-Debug" />
 		</Unit>
 		<Unit filename="..\cmd\SegmentationParameters.cpp">
@@ -338,46 +328,6 @@
 			<Option target="Debug" />
 			<Option target="sim-segm-Debug" />
 			<Option target="sim-multicore-Debug" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params11213.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params1279.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params132049.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params19937.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params216091.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params2203.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params4253.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params44497.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params521.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT-params86243.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT.c">
-			<Option compilerVar="CC" />
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="..\src\dSFMT\dSFMT.h">
-			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="..\src\statistics.cpp">
 			<Option target="Debug" />

@@ -23,19 +23,12 @@ namespace pmf
             double DetermineUpdateAngle();
             double GetExp(double);
             double GetUniform(double, double);
-            inline
-            //double GetUniform()  { return GetStdUniform(); }
-            double GetUniform()  { return GetMTUniform(); }
+            double GetUniform();
 
-            unsigned int GetInt() { return dsfmt_genrand_uint32(&dsfmt); }
+            unsigned int GetInt();
 
         protected:
             void OnInit();
-
-            inline
-            double GetMTUniform()  { return dsfmt_genrand_open_open(&dsfmt); }
-            inline
-            double GetStdUniform()  { return double(rand()) * _norm; }
 
         private:
             time_t  _seed;
@@ -44,7 +37,7 @@ namespace pmf
     };
 
 
-    DoublePRNG * PRNG;
+    extern DoublePRNG * PRNG;
 }
 
 #endif // DOUBLEPRNG_H

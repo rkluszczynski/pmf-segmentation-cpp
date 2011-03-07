@@ -1,7 +1,11 @@
 #include "DoublePRNG.h"
 
+#include "dSFMT/dSFMT.c"
+
+
 namespace pmf {
 
+DoublePRNG * PRNG;
 
 
 DoublePRNG::DoublePRNG()  { OnInit(); }
@@ -67,6 +71,12 @@ DoublePRNG::GetUniform (double a, double b)
     return (b-a) * GetUniform() + a;
 }
 
+double
+DoublePRNG::GetUniform ()
+{
+    return dsfmt_genrand_open_open(&dsfmt);;
+    return double(rand()) * _norm;
+}
 
 
 DoublePRNG::DoublePRNG(const DoublePRNG& other)

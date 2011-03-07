@@ -2,7 +2,7 @@
 #include "MultiCoreSegmentation.h"
 
 #include "DoublePRNG.h"
-#include "NumericParameters.hpp"
+#include "NumericParameters.h"
 
 void print_usage(char * prog_name, bool cond = false)
 {

@@ -5,7 +5,9 @@
 		<Project filename="Tests.cbp" />
 		<Project filename="gui/gui.cbp" />
 		<Project filename="scripts/Algorithms.cbp" />
-		<Project filename="scripts/cmd.cbp" active="1" />
+		<Project filename="scripts/cmd.cbp" active="1">
+			<Depends filename="scripts/utility.cbp" />
+		</Project>
 		<Project filename="scripts/library.cbp">
 			<Depends filename="scripts/detector.cbp" />
 		</Project>
