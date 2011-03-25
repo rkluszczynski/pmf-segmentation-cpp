@@ -70,7 +70,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     //REAL x0 = line->GetX0();
     //if (! (pt->x >= x0 || Geometry::IsZero(pt->x - x0)))
     //if (! Geometry::IsZero(pt->x - x0))
-        line->SetSweepLinePosition2(pt->x + 0.5 * EPSILON);
+        line->SetSweepLinePosition2(pt->x + 0.5 * NumericParameters::GetEpsilon());
     out << "... sweep line position set" << endl;
     /*
     ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
@@ -83,12 +83,12 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     // */
     while(true)
     {
-        REAL newAngle = PRNG->GetUniform(EPSILON-M_PI_2, M_PI_2-EPSILON);
+        REAL newAngle = PRNG->GetUniform(NumericParameters::GetEpsilon()-M_PI_2, M_PI_2-NumericParameters::GetEpsilon());
         out << " newAngle = " << newAngle << endl;
 
         REAL length = PRNG->GetExp (2.0);
-        if (length < EPSILON) length = EPSILON;
-        Point<REAL> * newpt = pt->GenerateNeighbour(2, newAngle, count, length);
+        if (length < NumericParameters::GetEpsilon()) length = NumericParameters::GetEpsilon();
+        Point<REAL> * newpt = pt->GenerateNeighbour(PRNG, 2, newAngle, count, length);
 
         if (ArrangeNewEvent(newpt, evts, line, count, sinL, cosL)) break;
 

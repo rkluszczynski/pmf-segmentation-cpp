@@ -1,11 +1,12 @@
 #ifndef SYNCHRONIZATIONTIMER_H
 #define SYNCHRONIZATIONTIMER_H
 
+#include "DoublePRNG.h"
 
 class SynchronizationTimer
 {
     public:
-        SynchronizationTimer(int);
+        SynchronizationTimer(int, pmf::DoublePRNG *);
         virtual ~SynchronizationTimer();
 
         bool CheckSynchronizationTime();
@@ -21,6 +22,7 @@ class SynchronizationTimer
         int strategyType;
         int syncSteps;
         double syncProb;
+        pmf::DoublePRNG * PRNG;
 };
 
 #endif // SYNCHRONIZATIONTIMER_H

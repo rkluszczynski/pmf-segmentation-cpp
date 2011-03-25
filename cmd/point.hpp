@@ -5,6 +5,8 @@
 #include "../cmd/probability.hpp"
 #include "../cmd/geometry.hpp"
 
+#include "DoublePRNG.h"
+
 
 namespace pmf
 {
@@ -70,7 +72,7 @@ namespace pmf
         //bool operator< (const Point<REAL> & point)   const { return(x <  point.x); }
 
 
-        Point<REAL> * GenerateNeighbour (int, REAL, long &, REAL, REAL, REAL);
+        Point<REAL> * GenerateNeighbour (DoublePRNG *, int, REAL, long &, REAL, REAL, REAL);
         void StoreCoordinates()   { org_x = x; org_y = y; }
         void ResumeCoordinates()  { x = org_x; y = org_y; }
         bool IsEqual(REAL, REAL);
@@ -111,7 +113,7 @@ namespace pmf
 
     template <typename REAL>
     Point<REAL> *
-    Point<REAL>::GenerateNeighbour(int neighborNum, REAL angle, long & ptId, REAL llength = 0.0, REAL sinL = 0.0, REAL cosL = 1.0)
+    Point<REAL>::GenerateNeighbour(DoublePRNG * PRNG, int neighborNum, REAL angle, long & ptId, REAL llength = 0.0, REAL sinL = 0.0, REAL cosL = 1.0)
     {
         using Probability::_Exp;
         #define X_ROTATED(XX,YY,SSIN,CCOS) ((XX)*(CCOS)-(YY)*(SSIN))

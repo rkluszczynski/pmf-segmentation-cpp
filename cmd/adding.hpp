@@ -13,8 +13,8 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
     PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, acos(cosL), RadiansToDegree(acos(cosL)));
 
-    if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * EPSILON;
-    else if (IsZero(yy)) yy = 2. * EPSILON;
+    if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * NumericParameters::GetEpsilon();
+    else if (IsZero(yy)) yy = 2. * NumericParameters::GetEpsilon();
 
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
@@ -69,7 +69,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
         if (! newpt1)
         {
-            newpt1 = newpt->GenerateNeighbour(1, upperAngle, count, upperLength);
+            newpt1 = newpt->GenerateNeighbour(PRNG, 1, upperAngle, count, upperLength);
             out << " trying newpt1 : " << newpt1 << endl;
             bool ans = ArrangeNewEvent(newpt1, evts, line, count, sinL, cosL);
             if (! ans)
@@ -82,7 +82,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
         }
         if (! newpt2)
         {
-            newpt2 = newpt->GenerateNeighbour(2, lowerAngle, count, lowerLength);
+            newpt2 = newpt->GenerateNeighbour(PRNG, 2, lowerAngle, count, lowerLength);
             out << " trying newpt2 : " << newpt2 << endl;
             bool ans = ArrangeNewEvent(newpt2, evts, line, count, sinL, cosL);
             if (! ans)

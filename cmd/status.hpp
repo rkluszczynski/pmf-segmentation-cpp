@@ -48,13 +48,13 @@ namespace pmf
             void SetSweepLinePosition2(REAL x)
             {
                 //assert(x >= _x0 || Geometry::IsZero(x - _x0));
-                assert(_x0 - x < 3. * EPSILON);
+                assert(_x0 - x < 3. * NumericParameters::GetEpsilon());
                 _x0 = x;
             }
             // */
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
-                if (pt) SetSweepLinePosition(pt->x + EPSILON);
+                if (pt) SetSweepLinePosition(pt->x + NumericParameters::GetEpsilon());
                 _endids.insert( seg->GetQ()->id );
                 ///assert( _endids.insert( seg->GetQ()->id ).ND );  // does not work for old events
                 return _st.insert( new ENTRY(_x0, seg) );

@@ -9,6 +9,8 @@
 #include "grayimage.h"
 #include <list>
 
+#include "DoublePRNG.h"
+
 
 namespace pmf
 {
@@ -105,6 +107,7 @@ namespace pmf
             bool IsOldBirthBeforeOldDeathInEpsilonDistance ();
 
             void SetSeed(time_t);
+            void SetPRNG(DoublePRNG *);
             bool LoadPMF(const char *);
             bool SavePMF(const char *, PMFFileType);
             //bool SaveConfiguration(const char *);
@@ -131,6 +134,8 @@ namespace pmf
         protected:
             time_t seed;
             Configuration<REAL> * cf;
+
+            DoublePRNG * PRNG;
 
             std::ostream out;
 

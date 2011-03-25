@@ -6,7 +6,7 @@
 
 #include <cassert>
 
-SynchronizationTimer::SynchronizationTimer(int sType) : strategyType(sType)
+SynchronizationTimer::SynchronizationTimer(int sType, pmf::DoublePRNG * prng) : strategyType(sType), PRNG(prng)
 {
     syncSteps = 1;
     syncProb = 0.;
@@ -32,7 +32,7 @@ SynchronizationTimer::CheckSynchronizationTime()
         case ParallelTemperingStrategy :
                                     {
                                         ///double fate = pmf::Probability::Uniform(0., 1.);
-                                        double fate = pmf::PRNG->GetUniform(0., 1.);
+                                        double fate = PRNG->GetUniform(0., 1.);
                                         timeForSynchronization = (fate < syncProb);
                                         break;;
                                     }

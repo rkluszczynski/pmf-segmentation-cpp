@@ -3,6 +3,7 @@
 
 #include "segmentation.h"
 #include "MultiCoreTypes.h"
+#include "DoublePRNG.h"
 
 class MultiCoreSegmentation
 {
@@ -14,10 +15,10 @@ class MultiCoreSegmentation
 
 
     protected:
-        void UseIndependentStrategy();
-        void UseMinimalRateStrategy();
-        void UseGibbsRandomizationStrategy();
-        void UseParallelTemperingStrategy();
+        void UseIndependentStrategy(int);
+        void UseMinimalRateStrategy(int);
+        void UseGibbsRandomizationStrategy(int);
+        void UseParallelTemperingStrategy(int);
 
 
     private:
@@ -28,6 +29,7 @@ class MultiCoreSegmentation
         int numberOfThreads, numberOfStepsToSync;
         StrategyType strategy;
         pmf::BinarySegmentation ** simulations;
+        pmf::DoublePRNG ** prngs;
 };
 
 #endif // MULTICORESEGMENTATION_H

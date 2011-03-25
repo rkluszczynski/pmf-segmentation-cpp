@@ -31,6 +31,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     scanf("%*c");
 
     simulations = new pmf::BinarySegmentation * [numberOfThreads];
+    prngs = new pmf::DoublePRNG * [numberOfThreads];
 
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
@@ -57,9 +58,10 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
+    pmf::DoublePRNG * * _prngs = prngs;
 #pragma omp parallel default(none) \
                 firstprivate(sparam) \
-                shared(sims,stream,pmf::PRNG)
+                shared(sims,stream,_prngs)
     {
         int id = omp_get_thread_num();
         std::stringstream ssout;
@@ -70,6 +72,8 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
         sparam.SetOutputPrefix (ssout.str().c_str());
         sparam.SetSeed (sparam.GetSeed() + id);
 
+        _prngs[id] = new pmf::DoublePRNG(((time_t)7217));
+        sparam.SetPRNG(_prngs[id]);
         sims[id] = new pmf::BinarySegmentation( sparam );
         sparam.PrintParameters(stream);
     }
@@ -95,11 +99,11 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno, pmf::PRNG) //firstprivate(syncSteps)
+#pragma omp parallel default(none) shared(sims, sync, done, erno) //firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
-        SynchronizationTimer timer(this->GetStrategyType());
+        SynchronizationTimer timer(this->GetStrategyType(), prngs[id]);
         switch (this->GetStrategyType())
         {
             case IndependentStrategy :
@@ -145,18 +149,18 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                             switch (this->GetStrategyType())
                             {
                                 case IndependentStrategy :
-                                                            UseIndependentStrategy();
+                                                            UseIndependentStrategy(id);
                                                             break;;
                                 case MinimalRateStrategy :
                                                             numberOfStepsToSync += 250;
-                                                            UseMinimalRateStrategy();
+                                                            UseMinimalRateStrategy(id);
                                                             break;;
                                 case GibbsRandomizationStrategy :
                                                             numberOfStepsToSync += 250;
-                                                            UseGibbsRandomizationStrategy();
+                                                            UseGibbsRandomizationStrategy(id);
                                                             break;;
                                 case ParallelTemperingStrategy :
-                                                            UseParallelTemperingStrategy();
+                                                            UseParallelTemperingStrategy(id);
                                                             break;;
                                 default :
                                             erno = 100;
@@ -202,12 +206,12 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
 
 void
-MultiCoreSegmentation::UseIndependentStrategy ()
+MultiCoreSegmentation::UseIndependentStrategy (int id)
 {
 }
 
 void
-MultiCoreSegmentation::UseMinimalRateStrategy ()
+MultiCoreSegmentation::UseMinimalRateStrategy (int id)
 {
     vector<double> pmrs(numberOfThreads);
     for (int i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImagePMR();
@@ -225,7 +229,7 @@ MultiCoreSegmentation::UseMinimalRateStrategy ()
 }
 
 void
-MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
+MultiCoreSegmentation::UseGibbsRandomizationStrategy (int id)
 {
     //double pmrs[numberOfThreads];
     double energies[numberOfThreads];
@@ -251,7 +255,7 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
 
     ///double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
-    double rand = pmf::PRNG->GetUniform(0., probs_prefsum[numberOfThreads-1]);
+    double rand = prngs[id]->GetUniform(0., probs_prefsum[numberOfThreads-1]);
     //printf("[ rand ] : %.11lf\n", rand);
     double * randptr = lower_bound(probs_prefsum, probs_prefsum + numberOfThreads, rand);
     int randpos = randptr - probs_prefsum;
@@ -267,7 +271,7 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy ()
 }
 
 void
-MultiCoreSegmentation::UseParallelTemperingStrategy ()
+MultiCoreSegmentation::UseParallelTemperingStrategy (int id)
 {
     printf("[ sync ] :: begin() \n");
     printf("[ sync ] : parallel tempering strategy \n");
@@ -290,7 +294,7 @@ MultiCoreSegmentation::UseParallelTemperingStrategy ()
         {
             double limit = exp(-delta);
             ///double chance = pmf::Probability::Uniform(0., 1.);
-            double chance = pmf::PRNG->GetUniform(0., 1.);
+            double chance = prngs[id]->GetUniform(0., 1.);
             if (chance > limit)
                 doTheSwap = false;
         }

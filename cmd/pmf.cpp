@@ -24,6 +24,10 @@ PMF<REAL> :: SetSeed(time_t _seed)
     srand(seed);
 }
 
+template <class REAL>
+void
+PMF<REAL> :: SetPRNG(pmf::DoublePRNG * _prng) { PRNG = _prng; }
+
 
 #include "common.hpp"
 #include "generate.hpp"

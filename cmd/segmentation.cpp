@@ -19,6 +19,8 @@ namespace pmf
         img = new GrayscaleImage(parameters.GetPictureFile());
         pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight());
         pmf->SetSeed (parameters.GetSeed());
+        pmf->SetPRNG (parameters.GetPRNG());
+        prng = parameters.GetPRNG();
 
         pmf->SetOutStream( fout1 );
 		if (parameters.GetInitialFile())
@@ -153,7 +155,7 @@ namespace pmf
         //out.rdbuf(fout3.rdbuf());
         pmf->SetOutStream( fout3 );
 
-        double angle = PRNG->GetUniform(0.0, 2. * M_PI);
+        double angle = prng->GetUniform(0.0, 2. * M_PI);
         cout << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         pmf->GetOutStream() << "         : rotating at angle " << angle << "  (" << Geometry::RadiansToDegree(angle) << ")" << endl;
         double sinL = sin(angle);
@@ -187,14 +189,15 @@ namespace pmf
             pmf->GetCf()->SaveConfigurationAsGGB(cf1file.c_str());
 
         // * Applying random operation. *
-        double chance = PRNG->GetUniform();
+        double chance = prng->GetUniform();
         if (chance < limit1)
         {
             double x, y;
+            double eps = NumericParameters::GetEpsilon();
             while (true)
             {
-                x = PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetWidth() - 2. * EPSILON);
-                y = PRNG->GetUniform(0.0 + 2. * EPSILON, pmf->GetHeight() - 2. * EPSILON);
+                x = prng->GetUniform(0.0 + 2. * eps, pmf->GetWidth() - 2. * eps);
+                y = prng->GetUniform(0.0 + 2. * eps, pmf->GetHeight() - 2. * eps);
 
                 if (pmf->AddBirthPoint (x, y, sinL, cosL)) break;
 

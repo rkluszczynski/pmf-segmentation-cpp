@@ -5,7 +5,7 @@
 
 namespace pmf {
 
-DoublePRNG * PRNG;
+//DoublePRNG * PRNG;
 
 
 DoublePRNG::DoublePRNG()  { OnInit(); }
@@ -82,12 +82,20 @@ DoublePRNG::GetUniform ()
 DoublePRNG::DoublePRNG(const DoublePRNG& other)
 {
     //copy ctor
+    _seed = other._seed;
+    _norm = other._norm;
+    //dsfmt = other.dsfmt;
+    OnInit();
 }
 
 DoublePRNG& DoublePRNG::operator=(const DoublePRNG& rhs)
 {
     if (this == &rhs) return *this; // handle self assignment
     //assignment operator
+    _seed = rhs._seed;
+    _norm = rhs._norm;
+    //dsfmt = rhs.dsfmt;
+    OnInit();
     return *this;
 }
 

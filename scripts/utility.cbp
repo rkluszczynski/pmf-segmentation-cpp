@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-msse2" />
+					<Add option="-fopenmp" />
 					<Add option="-DHAVE_SSE2=1" />
 				</Compiler>
 			</Target>
@@ -53,6 +54,8 @@
 		<Unit filename="..\src\utils\DoublePRNG.h" />
 		<Unit filename="..\src\utils\NumericParameters.cpp" />
 		<Unit filename="..\src\utils\NumericParameters.h" />
+		<Unit filename="..\src\utils\PrallelDoublePRNG.cpp" />
+		<Unit filename="..\src\utils\PrallelDoublePRNG.h" />
 		<Unit filename="..\src\utils\dSFMT\dSFMT-params.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

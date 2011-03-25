@@ -37,7 +37,7 @@ namespace pmf
     };
 
 
-    extern DoublePRNG * PRNG;
+    //extern DoublePRNG * PRNG;
 }
 
 #endif // DOUBLEPRNG_H

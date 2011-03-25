@@ -74,14 +74,14 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
     if (cf->IsEmpty()) return;
 
     REAL offset = PRNG->GetExp(GetHeight() * M_PI);
-    if (offset < EPSILON)  offset = 2. * EPSILON;
+    if (offset < NumericParameters::GetEpsilon())  offset = 2. * NumericParameters::GetEpsilon();
     Point<REAL> * prev = cf->SeeLastPoint();
     Point<REAL> * pt = ev->GetPoint();
     if (prev->x + offset < pt->x)
     {
         REAL tmpY = PRNG->GetUniform (0.0, GetHeight());
-        if (IsZero(GetHeight() - tmpY)) tmpY = GetHeight() - 2. * EPSILON;
-        else if (IsZero(tmpY)) tmpY = 2. * EPSILON;
+        if (IsZero(GetHeight() - tmpY)) tmpY = GetHeight() - 2. * NumericParameters::GetEpsilon();
+        else if (IsZero(tmpY)) tmpY = 2. * NumericParameters::GetEpsilon();
 
         Point<REAL> * newPt = new Point<REAL>(prev->x + offset, tmpY, 0.0, 0.0, ++id, PT_BirthInField);
         evts->InsertBirthEvent(newPt);
@@ -108,7 +108,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
 
         if (! newpt1)
         {
-            newpt1 = pt->GenerateNeighbour(1, upperAngle, id, upperLength);
+            newpt1 = pt->GenerateNeighbour(PRNG, 1, upperAngle, id, upperLength);
             bool ans = ArrangeNewEvent(newpt1, evts, line, id, sinL, cosL);
             if (! ans)
             {
@@ -119,7 +119,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         }
         if (! newpt2)
         {
-            newpt2 = pt->GenerateNeighbour(2, lowerAngle, id, lowerLength);
+            newpt2 = pt->GenerateNeighbour(PRNG, 2, lowerAngle, id, lowerLength);
             bool ans = ArrangeNewEvent(newpt2, evts, line, id, sinL, cosL);
             if (! ans)
             {

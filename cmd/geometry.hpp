@@ -2,6 +2,7 @@
 #define GEOMETRY_HPP_INCLUDED
 
 #include "../headers/macros.hpp"
+#include "NumericParameters.h"
 
 namespace pmf
 {
@@ -10,7 +11,8 @@ namespace pmf
         template <class REAL>
         inline
         bool
-        IsZero(REAL x) { return x >= -EPSILON && x <= EPSILON; }
+        ///IsZero(REAL x) { return x >= -EPSILON && x <= EPSILON; }
+        IsZero(REAL x) { return x >= -NumericParameters::GetEpsilonDistance() && x <= NumericParameters::GetEpsilonDistance(); }
 
 
         template <class REAL>
@@ -45,24 +47,26 @@ namespace pmf
                 if( min(xp,xq) <= xr  &&  xr <= max(xp,xq)
                     &&  min(yp,yq) <= yr  &&  yr <= max(yp,yq) ) return true;
 
-                if(abs(xp-xq) < EPSILON)
+                ///if(abs(xp-xq) < EPSILON)
+                REAL epsilon = NumericParameters::GetEpsilon();
+                if(abs(xp-xq) < epsilon)
                 {
-                    if(abs(yp-yq) < EPSILON)
+                    if(abs(yp-yq) < epsilon)
                     {
-                        if(abs(xp-xr) < EPSILON  &&  abs(xr-xq) < EPSILON
-                            &&  abs(yp-yr) < EPSILON  &&  abs(yr-yq) < EPSILON) return true;
+                        if(abs(xp-xr) < epsilon  &&  abs(xr-xq) < epsilon
+                            &&  abs(yp-yr) < epsilon  &&  abs(yr-yq) < epsilon) return true;
                     }
                     else {
-                        if(abs(xp-xr) < EPSILON  &&  abs(xr-xq) < EPSILON
+                        if(abs(xp-xr) < epsilon  &&  abs(xr-xq) < epsilon
                             &&  min(yp,yq) <= yr  &&  yr <= max(yp,yq) ) return true;
                     }
                 }
                 else {
                     if(min(xp,xq) <= xr  &&  xr <= max(xp,xq))
                     {
-                        if(abs(yp-yq) < EPSILON)
+                        if(abs(yp-yq) < epsilon)
                         {
-                            if (abs(yp-yr) < EPSILON  &&  abs(yr-yq) < EPSILON) return true;
+                            if (abs(yp-yr) < epsilon  &&  abs(yr-yq) < epsilon) return true;
                         }
                         else {
                             if(min(yp,yq) <= yr  &&  yr <= max(yp,yq)) return true;

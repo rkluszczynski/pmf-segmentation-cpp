@@ -24,6 +24,7 @@ NumericParameters::NumericParameters(const NumericParameters& other)
 {
     //copy ctor
 }
+/// */
 
 NumericParameters& NumericParameters::operator=(const NumericParameters& rhs)
 {
@@ -31,8 +32,6 @@ NumericParameters& NumericParameters::operator=(const NumericParameters& rhs)
     //assignment operator
     return *this;
 }
-/// */
-
 
 
 } // namespace pmf

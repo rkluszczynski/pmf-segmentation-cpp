@@ -16,14 +16,23 @@ namespace pmf
             typedef std::auto_ptr<NumericParameters> InstancePointer;
             typedef double REAL;
 
-            inline static InstancePointer & Instance()
+            //inline static InstancePointer & Instance()
+            inline static NumericParameters * & Instance()
             {
-                static InstancePointer singleton(new NumericParameters( 0.0000001 ));
+                //static InstancePointer singleton(new NumericParameters( 0.0000001 ));
+                static NumericParameters * singleton = NULL;
+                if (singleton == NULL)
+                {
+                    #pragma omp critical
+                    {
+                        singleton = new NumericParameters( 0.0000001 );
+                    }
+                }
                 return singleton;
             }
             virtual ~NumericParameters();
             //NumericParameters(const NumericParameters& other);
-            //NumericParameters& operator=(const NumericParameters& other);
+            NumericParameters& operator=(const NumericParameters& other);
 
             static REAL GetEpsilonDistance() { return Instance()->m_AxisEpsilon; }
             static REAL         GetEpsilon() { return Instance()->m_DistanceEpsilon; }

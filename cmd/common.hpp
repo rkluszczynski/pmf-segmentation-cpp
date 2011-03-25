@@ -236,7 +236,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         if (pt->type == PT_BirthOnBorder)
         {
             ///while (IsZero(newAngle)) newAngle = Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
-            while (IsZero(newAngle)) newAngle = PRNG->GetUniform(EPSILON-M_PI_2, M_PI_2-EPSILON);
+            while (IsZero(newAngle)) newAngle = PRNG->GetUniform(NumericParameters::GetEpsilon()-M_PI_2, M_PI_2-NumericParameters::GetEpsilon());
             if (pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
             if (pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
         }
@@ -244,7 +244,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
 
         int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
         ///Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
-        Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, PRNG->GetExp(2.));
+        Point<REAL> * newpt = pt->GenerateNeighbour(PRNG, whichNeighbour, newAngle, id, PRNG->GetExp(2.));
         if (ArrangeNewEvent(newpt, evts, line, id, sinL, cosL)) break;
 
         delete newpt;

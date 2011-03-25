@@ -1,7 +1,6 @@
 #include "segmentation.h"
 #include "MultiCoreSegmentation.h"
 
-#include "DoublePRNG.h"
 #include "NumericParameters.h"
 
 void print_usage(char * prog_name, bool cond = false)
@@ -56,9 +55,12 @@ int _tmp_seed;
 #define REAL double
 int main (int argc, char *argv[])
 {
-    pmf::PRNG = new pmf::DoublePRNG(((time_t)7217));
-    cout << pmf::PRNG << endl;
-    //testRandom();
+std::cout << "QQ" << std::endl;
+    //pmf::PRNG = new pmf::DoublePRNG(((time_t)7217));
+std::cout << "QQ" << std::endl;
+    //cout << pmf::PRNG << endl;
+std::cout << "QQ" << std::endl;
+    testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 
     MultiCoreSegmentation mcs(2);

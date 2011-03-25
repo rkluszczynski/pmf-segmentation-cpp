@@ -40,6 +40,9 @@ namespace pmf
             virtual void      ApplyModification();
             virtual void     CancelModification();
 
+            virtual
+             inline double         GetUniform01() { return parameters.GetPRNG()->GetUniform(); };
+
         private:
             SegmentationParameters parameters;
 
@@ -50,6 +53,8 @@ namespace pmf
             PMF<double> * clone;
             GrayscaleImage * img;
             const char * outputfile;
+
+            pmf::DoublePRNG * prng;
 
             double storedArea, storedEnergy, storedElen;
             double tmpArea, tmpEnergy, tmpElen;

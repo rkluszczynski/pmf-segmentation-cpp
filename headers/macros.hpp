@@ -45,7 +45,7 @@
 using namespace std;
 
 
-#define EPSILON 1e-7
+//#define EPSILON 1e-7
 
 #define PMFLog(FRT, ARGS...)  wxLogMessage(wxString::Format(wxT(FRT), ##ARGS));
 #define PMFLogV(FRT, ARGS...) wxLogVerbose(wxString::Format(wxT(FRT), ##ARGS));

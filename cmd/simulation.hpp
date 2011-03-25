@@ -39,6 +39,9 @@ namespace pmf
             virtual void      ApplyModification() = 0;
             virtual void     CancelModification() = 0;
 
+            virtual
+             inline double         GetUniform01() = 0;
+
         private:
             REAL __engH, __newH;
     };
@@ -78,7 +81,8 @@ namespace pmf
             {
                 REAL  __limit = exp(-__deltaH);
                 //REAL __chance = Probability::Uniform(0.0, 1.0);
-                REAL __chance = pmf::PRNG->GetUniform();
+                //REAL __chance = pmf::PRNG->GetUniform();
+                REAL __chance = GetUniform01();
                 if (__chance > __limit)
                     __apply = false;
             }

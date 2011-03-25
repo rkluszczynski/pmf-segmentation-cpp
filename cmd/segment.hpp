@@ -58,7 +58,7 @@ namespace pmf
     };
 
 
-    template <typename REAL> REAL Segment<REAL>::infinity = 1 / EPSILON;
+    template <typename REAL> REAL Segment<REAL>::infinity = 1 / NumericParameters::GetEpsilon();
 }
 
 
