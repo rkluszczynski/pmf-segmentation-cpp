@@ -31,6 +31,37 @@ namespace pmf
     }
 }
 
+#include "PrallelDoublePRNG.h"
+#include <omp.h>
+
+void testParallelRandom()
+{
+    const long NUM = 10000000L;
+    const unsigned THS = 3;
+
+    PrallelDoublePRNG * prng = new PrallelDoublePRNG(THS);
+    printf("PRNG created!\n");
+    omp_set_num_threads(THS);
+#pragma omp parallel default(none) \
+                shared(prng)
+    {
+        int id = omp_get_thread_num();
+        pmf::DoublePRNG dp(id);
+        ///std::cout << "id = " << id << std::endl;
+        bool sharedPRNG = false;
+        long cnt = 0;
+        for (long i = 1L; i < NUM; ++i)
+        {
+            double x = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
+            double y = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
+            if (x * x + y * y < 1.0)  ++cnt;
+        }
+        double pi = double(cnt << 2) / double(NUM);
+        printf("[ %2i ] : %.8lf\n", id, pi);
+    }
+    exit(0);
+}
+
 void testRandom()
 {
     const long NUM = 100000000L;
@@ -60,7 +91,8 @@ std::cout << "QQ" << std::endl;
 std::cout << "QQ" << std::endl;
     //cout << pmf::PRNG << endl;
 std::cout << "QQ" << std::endl;
-    testRandom();
+    testParallelRandom();
+    //testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 
     MultiCoreSegmentation mcs(2);

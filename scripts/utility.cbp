@@ -21,6 +21,19 @@
 					<Add option="-DHAVE_SSE2=1" />
 				</Compiler>
 			</Target>
+			<Target title="Debug-std">
+				<Option output="..\lib\libutils-std_d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\objs\Debug\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="-fopenmp" />
+				</Compiler>
+			</Target>
 			<Target title="Release-sse2">
 				<Option output="..\lib\libutils-sse2" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
@@ -43,6 +56,7 @@
 			<Add alias="All" targets="Debug-sse2;Release-sse2;" />
 		</VirtualTargets>
 		<Compiler>
+			<Add option="-fopenmp" />
 			<Add option="-fno-strict-aliasing" />
 			<Add option="--param max-inline-insns-single=1800" />
 			<Add option="--param inline-unit-growth=500" />
@@ -50,12 +64,17 @@
 			<Add option="-DDSFMT_DO_NOT_USE_OLD_NAMES" />
 			<Add option="-DDSFMT_MEXP=19937" />
 		</Compiler>
+		<Linker>
+			<Add library="..\lib\libgomp-1.dll" />
+		</Linker>
 		<Unit filename="..\src\utils\DoublePRNG.cpp" />
 		<Unit filename="..\src\utils\DoublePRNG.h" />
 		<Unit filename="..\src\utils\NumericParameters.cpp" />
 		<Unit filename="..\src\utils\NumericParameters.h" />
 		<Unit filename="..\src\utils\PrallelDoublePRNG.cpp" />
 		<Unit filename="..\src\utils\PrallelDoublePRNG.h" />
+		<Unit filename="..\src\utils\SharedDoublePRNG.cpp" />
+		<Unit filename="..\src\utils\SharedDoublePRNG.h" />
 		<Unit filename="..\src\utils\dSFMT\dSFMT-params.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
@@ -95,6 +114,9 @@
 		</Unit>
 		<Unit filename="..\src\utils\dSFMT\dSFMT.h">
 			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="..\src\utils\wrapper.c">
+			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
 			<code_completion />

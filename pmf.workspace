@@ -5,7 +5,7 @@
 		<Project filename="Tests.cbp" />
 		<Project filename="gui/gui.cbp" />
 		<Project filename="scripts/Algorithms.cbp" />
-		<Project filename="scripts/cmd.cbp">
+		<Project filename="scripts/cmd.cbp" active="1">
 			<Depends filename="scripts/utility.cbp" />
 		</Project>
 		<Project filename="scripts/library.cbp">
@@ -16,6 +16,6 @@
 		</Project>
 		<Project filename="scripts/detector.cbp" />
 		<Project filename="scripts/postprocess.cbp" />
-		<Project filename="scripts/utility.cbp" active="1" />
+		<Project filename="scripts/utility.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
