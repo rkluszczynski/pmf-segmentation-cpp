@@ -32,10 +32,11 @@ namespace pmf
     template <class REAL> class PointComparator
     {
         public:
+            PointComparator(REAL eps) : epsilon(eps) { }
             bool operator() (Point<REAL> * const & p1, Point<REAL> * const & p2) const
             {
                 //*
-                if (Geometry::IsZero(p1->x - p2->x))
+                if (Geometry::IsZero(p1->x - p2->x, epsilon))
                 {
                     if (p1->type == PT_BirthOnBorder  &&  p2->type != PT_BirthOnBorder) return false;
                     if (p2->type == PT_BirthOnBorder  &&  p1->type != PT_BirthOnBorder) return true;
@@ -57,7 +58,7 @@ namespace pmf
                     //if (SegmentationParameters::_trigger == 1)
                         if (p1->x != p2->x)  return p1->x > p2->x;
 
-                    if (! Geometry::IsZero(p1->y - p2->y))
+                    if (! Geometry::IsZero(p1->y - p2->y, epsilon))
                     {
                         if (p1->y < p2->y) return false;
                         if (p1->y > p2->y) return true;
@@ -66,6 +67,8 @@ namespace pmf
                 //*/
                 return p1->x > p2->x;
             }
+        private:
+            REAL epsilon;
     };
 
     class SegmentMapComparator
@@ -81,7 +84,8 @@ namespace pmf
     template <class REAL> class PMF
     {
         public:
-            PMF(REAL, REAL);
+            //PMF(REAL, REAL);
+            PMF(REAL, REAL, NumericalParameters);
             virtual ~PMF();
 
             PMF<REAL> * Clone();
@@ -136,6 +140,7 @@ namespace pmf
             Configuration<REAL> * cf;
 
             DoublePRNG * PRNG;
+            NumericalParameters nparams;
 
             std::ostream out;
 

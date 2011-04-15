@@ -98,9 +98,11 @@ namespace pmf
     };
 
 
-    template <class EVENT>
+    template <class EVENT, class REAL>
     struct event_before_2 : binary_function<EVENT,EVENT,bool>
     {
+        event_before_2(REAL eps) : epsilon(eps) {}
+
         bool operator () (const EVENT & e1, const EVENT & e2) const
         {
             using Geometry::IsZero;
@@ -183,14 +185,22 @@ namespace pmf
             // */
             return false;
         }
+        REAL epsilon;
     };
 
 
-    template <class REAL = double, class COMP = event_before_2<Event *> >
+struct classcomp {
+  bool operator() (const int& lhs, const int& rhs) const
+  {return lhs<rhs;}
+};
+
+    //template <class REAL = double, class COMP >
+    template <class REAL = double>
     class EventsSchedule
     {
         typedef Point<double> POINT;
         typedef Event * EventPoint;
+        typedef event_before_2<Event *, REAL>(0.1) COMP;
         typedef std::set<EventPoint, COMP > EventList;
 
         public:

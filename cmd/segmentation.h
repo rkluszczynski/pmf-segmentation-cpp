@@ -55,6 +55,7 @@ namespace pmf
             const char * outputfile;
 
             pmf::DoublePRNG * prng;
+            pmf::NumericalParameters * numerics;
 
             double storedArea, storedEnergy, storedElen;
             double tmpArea, tmpEnergy, tmpElen;

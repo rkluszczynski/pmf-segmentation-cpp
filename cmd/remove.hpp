@@ -11,7 +11,7 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
     long count = GetCount();
 
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     /* ************************************************************************************** */
     PMFLog("[ REM ] : point in directions at angle %.3lf (%.1lf)", acos(cosL), RadiansToDegree(acos(cosL)));
@@ -20,11 +20,11 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
     Point<REAL> * pt;
     if (! cf->IsEmpty())
     {
-        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>(nparams.GetAxisEpsilon()) );
         SegmentsMap       smap( (SegmentMapComparator()) );
 
         //*
-        PointPriorityQueue ppq2( cf->begin(), cf->end(), PointComparator<REAL>() );
+        PointPriorityQueue ppq2( cf->begin(), cf->end(), PointComparator<REAL>(nparams.GetAxisEpsilon()) );
         while (! ppq2.empty())
         {
             pt = ppq2.top();
@@ -52,15 +52,16 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
         if (! ppq.empty())
         {
             cf->PrintConfiguration(out);
-            while (! cf->IsEmpty()  &&  Geometry::IsZero( cf->Back()->x - pt->x ))
+            REAL epsilon = nparams.GetAxisEpsilon();
+            while (! cf->IsEmpty()  &&  Geometry::IsZero( cf->Back()->x - pt->x, epsilon ))
             {
                 ppq.push( cf->Back() );
                 cf->PopBack();
             }
 
-            smap[ make_pair(pt->id, pt->n1->id) ] = new Segment<REAL> (pt, pt->n1);
+            smap[ make_pair(pt->id, pt->n1->id) ] = new Segment<REAL> (pt, pt->n1, nparams);
             if (pt->type == PT_BirthInField)
-                smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
+                smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2, nparams);
             //*
             out << "[ CONFIGURATION before PrepareTheEvolution ] : " << endl;
             cf->PrintConfiguration(out);

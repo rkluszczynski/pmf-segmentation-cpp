@@ -11,7 +11,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     long count = GetCount();
 
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     /* ************************************************************************************** */
     PMFLog("[ UPD ] : point in directions at angle %.3lf (%.1lf)", acos(cosL), RadiansToDegree(acos(cosL)));
@@ -20,7 +20,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     Point<REAL> * pt;
     if (! cf->IsEmpty())
     {
-        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>(nparams.GetAxisEpsilon()) );
         SegmentsMap       smap( (SegmentMapComparator()) );
 
         cf->ClearPointsContainer();
@@ -53,7 +53,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
             }
             // */
 
-            smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2);
+            smap[ make_pair(pt->id, pt->n2->id) ] = new Segment<REAL> (pt, pt->n2, nparams);
             /// FIXME (klusi#1#): possible BUG : analize when two update points are vertical
             out << endl << "... updating point : " << pt << endl;
 
@@ -64,13 +64,15 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     /* ************************************************************************************** */
     PMFLog("[ UPD ] : point  ( %.2lf , %.2lf )", pt->org_x, pt->org_y);
     out << line << endl;
+    REAL epsilon = nparams.GetAxisEpsilon();
+    REAL depsilon = nparams.GetDistEpsilon();
 
     //assert (evts->SeeFirst()->GetPoint() == pt);
     //evts->Erase ( evts->SeeFirst() );
     //REAL x0 = line->GetX0();
     //if (! (pt->x >= x0 || Geometry::IsZero(pt->x - x0)))
     //if (! Geometry::IsZero(pt->x - x0))
-        line->SetSweepLinePosition2(pt->x + 0.5 * NumericParameters::GetEpsilon());
+        line->SetSweepLinePosition2(pt->x + 0.5 * epsilon);
     out << "... sweep line position set" << endl;
     /*
     ForgetOldCollisionPoint(sinL, cosL, pt, pt->n1, evts, line, count);
@@ -83,11 +85,11 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     // */
     while(true)
     {
-        REAL newAngle = PRNG->GetUniform(NumericParameters::GetEpsilon()-M_PI_2, M_PI_2-NumericParameters::GetEpsilon());
+        REAL newAngle = PRNG->GetUniform(epsilon-M_PI_2, M_PI_2-epsilon);
         out << " newAngle = " << newAngle << endl;
 
         REAL length = PRNG->GetExp (2.0);
-        if (length < NumericParameters::GetEpsilon()) length = NumericParameters::GetEpsilon();
+        if (length < depsilon) length = depsilon;
         Point<REAL> * newpt = pt->GenerateNeighbour(PRNG, 2, newAngle, count, length);
 
         if (ArrangeNewEvent(newpt, evts, line, count, sinL, cosL)) break;

@@ -31,18 +31,19 @@ PMF<REAL> :: TestPointsCoincidence ()
     Point<REAL> * pt, * prev = NULL;
     if (! cf->IsEmpty())
     {
-        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>(nparams.GetAxisEpsilon()) );
 
         while (! ppq.empty())
         {
             pt = ppq.top();
             ppq.pop();
 
+            REAL epsilon = nparams.GetAxisEpsilon();
             if (    prev
                 and
-                    Geometry::IsZero(pt->x - prev->x)
+                    Geometry::IsZero(pt->x - prev->x, epsilon)
                 and
-                    Geometry::IsZero(pt->y - prev->y)
+                    Geometry::IsZero(pt->y - prev->y, epsilon)
                )
             {
                 wrong = true;
@@ -70,7 +71,8 @@ PMF<REAL> :: IsFreeEpsilonCoincidence (REAL xx, REAL yy)
         FOREACH(it, *cf)
         {
             Point<REAL> * pt = *it;
-            if (Geometry::IsZero(pt->x - xx)  and  Geometry::IsZero(pt->y - yy))
+            REAL epsilon = nparams.GetAxisEpsilon();
+            if (Geometry::IsZero(pt->x - xx, epsilon)  and  Geometry::IsZero(pt->y - yy, epsilon))
             {
                 out.precision(20);
                 out << "[ BANG ] : x = " << xx << endl;

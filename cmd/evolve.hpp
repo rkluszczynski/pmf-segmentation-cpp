@@ -74,15 +74,17 @@ PMF<REAL> :: CheckExistanceAfterForgeting  (Point<REAL> * npt, REAL sinL, REAL c
 
     std::vector<Point<REAL> *> vec;
     npt->type = type;
+
+    REAL epsilon = nparams.GetAxisEpsilon();
     while (true)
     {
         if (it == evts->End()) break;
 
         Point<REAL> * tmp = (*it)->GetPoint();
 
-        if (! Geometry::IsZero( npt->x - tmp->x )) break;
+        if (! Geometry::IsZero( npt->x - tmp->x, epsilon )) break;
 
-        if (Geometry::IsZero( npt->y - tmp->y ))
+        if (Geometry::IsZero( npt->y - tmp->y, epsilon ))
         {
             vec.push_back(tmp);
         }
@@ -142,7 +144,8 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     assert(wh > 0);
     REAL length = (wh == 1) ? dptn->l1 : dptn->l2;
     // 2009-11-14
-    length += ( PRNG->GetExp(1.0) + NumericParameters::GetEpsilon() );
+    REAL depsilon = nparams.GetDistEpsilon();
+    length += ( PRNG->GetExp(1.0) + depsilon );
     if (wh == 1) dptn->l1 = length;
     else dptn->l2 = length;
     // *
@@ -184,7 +187,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         printf("QQ ->>\n");
         //*
         ///REAL newLength = Probability::Uniform<REAL>(dist + EPSILON, length - EPSILON);
-        REAL newLength = PRNG->GetUniform(dist + NumericParameters::GetEpsilon(), length - NumericParameters::GetEpsilon());
+        REAL newLength = PRNG->GetUniform(dist + depsilon, length - depsilon);
         REAL newScale = newLength / length;
         assert(newScale < 1.0);
         assert(newScale > dist/length);
@@ -204,10 +207,10 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         printf("-<<\n");
     }
     out << "     x : " << newpt->x << endl;
-    out << " x + E : " << newpt->x + NumericParameters::GetEpsilon() << endl;
+    out << " x + E : " << newpt->x + nparams.GetAxisEpsilon() << endl;
     out << "    x0 : " << line->GetX0() << endl;
 
-    bool res = ((newpt->x + NumericParameters::GetEpsilon()) >= line->GetX0());
+    bool res = ((newpt->x + nparams.GetAxisEpsilon()) >= line->GetX0());
     out << "   res : " << (res ? "TRUE" : "FALSE")  << endl;
 
     assert( ArrangeNewEvent(newpt, evts, line, id, sinL, cosL, true) );
@@ -274,11 +277,12 @@ PMF<REAL> :: IsTheEventInvalid (REAL sinL, REAL cosL, Event * & ev, EventsSchedu
             assert(seg2);
             //line->SetSweepLinePosition( pt->x + EPSILON);
             //REAL savedX0 = line->GetX0();
+            REAL epsilon = nparams.GetAxisEpsilon();
             if (! (line->GetX0() < pt->x))
             {
-                line->SetSweepLinePosition2( pt->x - NumericParameters::GetEpsilon() * 0.5 );
+                line->SetSweepLinePosition2( pt->x - epsilon * 0.5 );
             }
-            line->SetSweepLinePosition2( pt->x - NumericParameters::GetEpsilon() * 0.5 );
+            line->SetSweepLinePosition2( pt->x - epsilon * 0.5 );
             assert(line->GetX0() < pt->x);
 
             /*

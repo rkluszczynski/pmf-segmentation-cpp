@@ -2,7 +2,7 @@
 #define GEOMETRY_HPP_INCLUDED
 
 #include "../headers/macros.hpp"
-#include "NumericParameters.h"
+#include "NumericalParameters.h"
 
 namespace pmf
 {
@@ -12,16 +12,18 @@ namespace pmf
         inline
         bool
         ///IsZero(REAL x) { return x >= -EPSILON && x <= EPSILON; }
-        IsZero(REAL x) { return x >= -NumericParameters::GetEpsilonDistance() && x <= NumericParameters::GetEpsilonDistance(); }
+        //IsZero(REAL x) { return x >= -NumericParameters::GetEpsilonDistance() && x <= NumericParameters::GetEpsilonDistance(); }
+        IsZero(REAL x, const REAL & eps) { return x >= -eps && x <= eps; }
 
 
         template <class REAL>
         int
-        SgnDet(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr)
+        SgnDet(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr, REAL & eps)
         {
             REAL tmp = xp*yq + xr*yp + xq*yr - xr*yq - xq*yp - xp*yr;
             //if(abs(tmp) < EPSILON) return(0);
-            if (IsZero(tmp)) return(0);
+            ///if (IsZero(tmp)) return(0);
+            if (IsZero(tmp, eps)) return(0);
             else if(tmp > 0.0) return(1);
             else return(-1);
         }
@@ -29,7 +31,7 @@ namespace pmf
 
         template <class REAL>
         bool
-        IsOnSegment(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr)
+        IsOnSegment(REAL xp, REAL yp, REAL xq, REAL yq, REAL xr, REAL yr, pmf::NumericalParameters & np)
         /* Return values:
          *    true - point (xr,yr) belongs to a segment (xp,yp)-(xq,yq)
          *   false - point is outside the segment
@@ -42,13 +44,15 @@ namespace pmf
                  &&  MIN(yp,yq) <= yr  &&  yr <= MAX(yp,yq) )
                  return(1);
              */
-             if( SgnDet(xp, yp, xq, yq, xr, yr) == REAL(0) )
+             ///if( SgnDet(xp, yp, xq, yq, xr, yr) == REAL(0) )
+             if( SgnDet(xp, yp, xq, yq, xr, yr, np.GetAxisEpsilon()) == REAL(0) )
              {
                 if( min(xp,xq) <= xr  &&  xr <= max(xp,xq)
                     &&  min(yp,yq) <= yr  &&  yr <= max(yp,yq) ) return true;
 
                 ///if(abs(xp-xq) < EPSILON)
-                REAL epsilon = NumericParameters::GetEpsilon();
+                //REAL epsilon = NumericParameters::GetEpsilon();
+                REAL epsilon = np.GetAxisEpsilon();
                 if(abs(xp-xq) < epsilon)
                 {
                     if(abs(yp-yq) < epsilon)
@@ -81,7 +85,7 @@ namespace pmf
         template <class REAL>
         int
         CheckIntersection ( REAL xp, REAL yp, REAL xq, REAL yq /* Line 1 ( p-q ) */,
-                            REAL xr, REAL yr, REAL xs, REAL ys /* Line 2 ( r-s ) */ )
+                            REAL xr, REAL yr, REAL xs, REAL ys /* Line 2 ( r-s ) */, pmf::NumericalParameters & np )
         /* Returning values:
          *    0  - lines do not cross
          *    1  - lines crosses each others
@@ -89,21 +93,32 @@ namespace pmf
          */
         {
             int sgnDetPQR, sgnDetPQS, sgnDetRSP, sgnDetRSQ;
-
+            /*
             sgnDetPQR = SgnDet(xp, yp, xq, yq, xr, yr);
             sgnDetPQS = SgnDet(xp, yp, xq, yq, xs, ys);
             sgnDetRSP = SgnDet(xr, yr, xs, ys, xp, yp);
             sgnDetRSQ = SgnDet(xr, yr, xs, ys, xq, yq);
+            // */
+            sgnDetPQR = SgnDet(xp, yp, xq, yq, xr, yr, np.GetAxisEpsilon());
+            sgnDetPQS = SgnDet(xp, yp, xq, yq, xs, ys, np.GetAxisEpsilon());
+            sgnDetRSP = SgnDet(xr, yr, xs, ys, xp, yp, np.GetAxisEpsilon());
+            sgnDetRSQ = SgnDet(xr, yr, xs, ys, xq, yq, np.GetAxisEpsilon());
 
             if ( (sgnDetPQR != 0  ||  sgnDetPQS != 0)  &&
                  (sgnDetRSP != 0  ||  sgnDetRSQ != 0)  &&
                 sgnDetPQR == - sgnDetPQS  &&  sgnDetRSP == - sgnDetRSQ
                )
                 return(1);
+            /*
             if (IsOnSegment(xp, yp, xq, yq, xr, yr)) return(2);
             if (IsOnSegment(xp, yp, xq, yq, xs, ys)) return(3);
             if (IsOnSegment(xr, yr, xs, ys, xp, yp)) return(4);
             if (IsOnSegment(xr, yr, xs, ys, xq, yq)) return(5);
+            // */
+            if (IsOnSegment(xp, yp, xq, yq, xr, yr, np.GetAxisEpsilon())) return(2);
+            if (IsOnSegment(xp, yp, xq, yq, xs, ys, np.GetAxisEpsilon())) return(3);
+            if (IsOnSegment(xr, yr, xs, ys, xp, yp, np.GetAxisEpsilon())) return(4);
+            if (IsOnSegment(xr, yr, xs, ys, xq, yq, np.GetAxisEpsilon())) return(5);
             return(0);
         }
 
@@ -112,13 +127,13 @@ extern bool qq;
         template <class REAL>
         int
         CheckIntersection2 ( REAL xp, REAL yp, REAL xq, REAL yq /* Line 1 ( p-q ) */,
-                             REAL xr, REAL yr, REAL xs, REAL ys /* Line 2 ( r-s ) */ )
+                             REAL xr, REAL yr, REAL xs, REAL ys /* Line 2 ( r-s ) */, pmf::NumericalParameters & np )
         /* Returning values:
          *    0  - lines do not cross
          *    1  - lines crosses each others
          */
         {
-            pair<REAL, REAL> ipt = CalculateIntersection(xp, yp, xq, yq, xr, yr, xs, ys);
+            pair<REAL, REAL> ipt = CalculateIntersection(xp, yp, xq, yq, xr, yr, xs, ys, np);
             REAL x = ipt.ST;
             REAL y = ipt.ND;
 
@@ -139,26 +154,27 @@ extern bool qq;
             cout << " @@@@@@@@@@@@@ ymax = " << ymax << endl;
                 }
             //*/
-            if (IsZero(xmax - xmin))
+            REAL epsilon = np.GetAxisEpsilon();
+            if (IsZero(xmax - xmin, epsilon))
             {
-                if (IsZero(ymax - ymin))
+                if (IsZero(ymax - ymin, epsilon))
                 {
-                    if (!IsZero(x - xmax) || !IsZero(x - xmin) || !IsZero(y - ymax) || !IsZero(y - ymin)) return 0;
+                    if (!IsZero(x - xmax, epsilon) || !IsZero(x - xmin, epsilon) || !IsZero(y - ymax, epsilon) || !IsZero(y - ymin, epsilon)) return 0;
                 }
                 else {
-                    if (!IsZero(x - xmax) || !IsZero(x - xmin) || y < ymin || ymax < y) return 0;
+                    if (!IsZero(x - xmax, epsilon) || !IsZero(x - xmin, epsilon) || y < ymin || ymax < y) return 0;
                 }
             }
             else {
-                if (IsZero(ymax - ymin))
+                if (IsZero(ymax - ymin, epsilon))
                 {
-                    if (x < xmin || xmax < x || !IsZero(y - ymax) || !IsZero(y - ymin)) return 0;
+                    if (x < xmin || xmax < x || !IsZero(y - ymax, epsilon) || !IsZero(y - ymin, epsilon)) return 0;
                 }
                 else {
                     if (x < xmin || xmax < x || y < ymin || ymax < y) return 0;
                 }
             }
-            if (IsZero(xq-x) && IsZero(yq-y)) return 5;
+            if (IsZero(xq-x, epsilon) && IsZero(yq-y, epsilon)) return 5;
             return 1;
         }
 
@@ -166,15 +182,16 @@ extern bool qq;
         template <class REAL>
         void
         CalculateIntersection ( REAL x3, REAL y3, REAL x4, REAL y4,
-                                REAL x1, REAL y1, REAL x2, REAL y2, REAL & x, REAL & y )
+                                REAL x1, REAL y1, REAL x2, REAL y2, REAL & x, REAL & y, pmf::NumericalParameters & np )
         {
             REAL a, b, c, d;
-            if(! IsZero(x1 - x2))
+            REAL epsilon = np.GetAxisEpsilon();
+            if(! IsZero(x1 - x2, epsilon))
             //if( x1 != x2 )
             {
                 a = (y1 - y2)/(x1 - x2);
                 b = y1 - a * x1;
-                if(! IsZero(x3 - x4))
+                if(! IsZero(x3 - x4, epsilon))
                 {
                     c = (y3 - y4)/(x3 - x4);
                     d = y3 - c * x3;
@@ -200,10 +217,10 @@ extern bool qq;
         template <class REAL>
         pair<REAL, REAL>
         CalculateIntersection ( REAL x3, REAL y3, REAL x4, REAL y4,
-                                REAL x1, REAL y1, REAL x2, REAL y2)
+                                REAL x1, REAL y1, REAL x2, REAL y2, pmf::NumericalParameters & np )
         {
             pair<REAL, REAL> result;
-            CalculateIntersection(x3, y3, x4, y4, x1, y1, x2, y2, result.first, result.second);
+            CalculateIntersection(x3, y3, x4, y4, x1, y1, x2, y2, result.first, result.second, np);
             return result;
         }
 

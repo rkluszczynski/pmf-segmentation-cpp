@@ -40,38 +40,39 @@ PMF<REAL> :: ScanVerticalLine(GrayscaleImage * img, REAL xx, REAL delta)
         Point<REAL> * pt = *it;
         Point<REAL> * n1 = pt->n1;
         Point<REAL> * n2 = pt->n2;
+        REAL epsilon = nparams.GetAxisEpsilon();
 
         switch (pt->type)
         {
             case PT_BirthOnBorder :
-                                    if (IsZero(pt->y)  &&  pt->x < xx)  ++amountYeq0;
+                                    if (IsZero(pt->y, epsilon)  &&  pt->x < xx)  ++amountYeq0;
                                     assert(n2 == NULL);
                                     break;
             case PT_DeathOnBorder :
-                                    if (IsZero(pt->y)  &&  pt->x < xx)  ++amountYeq0;
+                                    if (IsZero(pt->y, epsilon)  &&  pt->x < xx)  ++amountYeq0;
                                     assert(n2 == NULL);
             case PT_Update        :
                                 {
-                                    int q1 = CheckIntersection2(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax);
+                                    int q1 = CheckIntersection2(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax, nparams);
                                     if (q1 > 0)
                                     {
-                                        pair<REAL, REAL> cpt = CalculateIntersection(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax);
+                                        pair<REAL, REAL> cpt = CalculateIntersection(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax, nparams);
                                         pq.push(cpt);
                                     }
                                     break;
                                 }
             case PT_Collision     :
                                 {
-                                    int q1 = CheckIntersection2(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax);
+                                    int q1 = CheckIntersection2(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax, nparams);
                                     if (q1 > 0)
                                     {
-                                        pair<REAL, REAL> cpt = CalculateIntersection(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax);
+                                        pair<REAL, REAL> cpt = CalculateIntersection(pt->x, pt->y, n1->x, n1->y, xx, 0.0, xx, ymax, nparams);
                                         pq.push(cpt);
                                     }
-                                    int q2 = CheckIntersection2(pt->x, pt->y, n2->x, n2->y, xx, 0.0, xx, ymax);
+                                    int q2 = CheckIntersection2(pt->x, pt->y, n2->x, n2->y, xx, 0.0, xx, ymax, nparams);
                                     if (q2 > 0)
                                     {
-                                        pair<REAL, REAL> cpt = CalculateIntersection(pt->x, pt->y, n2->x, n2->y, xx, 0.0, xx, ymax);
+                                        pair<REAL, REAL> cpt = CalculateIntersection(pt->x, pt->y, n2->x, n2->y, xx, 0.0, xx, ymax, nparams);
                                         pq.push(cpt);
                                     }
                                     break;

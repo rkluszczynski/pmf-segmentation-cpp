@@ -30,7 +30,10 @@ namespace pmf
             typedef typename STATUS::iterator Iterator;
             typedef typename STATUS::const_iterator ConstInterator;
 
-            SweepLineStatus() : _st(SweepComparator(*this)), _x0(-std::numeric_limits<REAL>::max())  {}
+            SweepLineStatus(NumericalParameters np) :   _st(SweepComparator(*this)),
+                                                        _x0(-std::numeric_limits<REAL>::max()),
+                                                        _nparams(np)
+                                                    {}
 
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }
@@ -41,20 +44,22 @@ namespace pmf
             void SetSweepLinePosition(REAL x)
             {
                 using Geometry::IsZero;
-                assert(x >= _x0 || IsZero(x - _x0));
-                if (x >= _x0  ||  IsZero(x - _x0)) _x0 = x;
+                REAL epsilon = _nparams.GetAxisEpsilon();
+                assert(x >= _x0 || IsZero(x - _x0, epsilon));
+                if (x >= _x0  ||  IsZero(x - _x0, epsilon)) _x0 = x;
             }
             // *
             void SetSweepLinePosition2(REAL x)
             {
                 //assert(x >= _x0 || Geometry::IsZero(x - _x0));
-                assert(_x0 - x < 3. * NumericParameters::GetEpsilon());
+                assert(_x0 - x < 3. * _nparams.GetAxisEpsilon());
                 _x0 = x;
             }
             // */
             pair<Iterator,bool> Insert(const POINT pt, SEGMENT * seg)
             {
-                if (pt) SetSweepLinePosition(pt->x + NumericParameters::GetEpsilon());
+                //if (pt) SetSweepLinePosition(pt->x + NumericParameters::GetEpsilon());
+                if (pt) SetSweepLinePosition(pt->x + _nparams.GetAxisEpsilon());
                 _endids.insert( seg->GetQ()->id );
                 ///assert( _endids.insert( seg->GetQ()->id ).ND );  // does not work for old events
                 return _st.insert( new ENTRY(_x0, seg) );
@@ -198,6 +203,8 @@ namespace pmf
             STATUS _st;
             REAL _x0;
             set<long> _endids;
+
+            NumericalParameters _nparams;
 
     };
 

@@ -25,13 +25,13 @@ PMF<REAL> :: DetectPossibleCollision (Segment<REAL> * seg1, Segment<REAL> * seg2
 
     Point<REAL> * result = NULL;
     int collision = CheckIntersection2<REAL>( seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
-                                              seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
+                                              seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y, nparams );
     out << "COLLISION VALUE = " << collision << endl;
     if (collision > 0)
     {
         pair<REAL, REAL> cpt = CalculateIntersection<REAL> (
                                             seg1->GetP()->x, seg1->GetP()->y, seg1->GetQ()->x, seg1->GetQ()->y,
-                                            seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y );
+                                            seg2->GetP()->x, seg2->GetP()->y, seg2->GetQ()->x, seg2->GetQ()->y, nparams );
         /// TODO (klusi#2#): possible BUG : when collision point is an EPSILON further then two update points very near to each other (less then EPSILON) //
         /// NOTE (klusi#1#): note in previous line probably fixed by ordering //
 
@@ -111,7 +111,7 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
     using  namespace Geometry;
 
     Point<REAL> * parent = npt->n1;
-    Segment<REAL> * nseg = new Segment<REAL>(parent, npt);
+    Segment<REAL> * nseg = new Segment<REAL>(parent, npt, nparams);
 
     REAL nx = X_ROTATED(npt->x, npt->y, -sinL, cosL);
     REAL ny = Y_ROTATED(npt->x, npt->y, -sinL, cosL);
@@ -146,10 +146,10 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
         out << "       px = " << px << "   ;    py = " << py << endl;
 
         // npt outside the field
-        int up    = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0);
-        int down  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight());
-        int right = CheckIntersection2<REAL>(nx, ny, px, py, GetWidth(), 0.0, GetWidth(), GetHeight());
-        int left  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, 0.0, GetHeight());
+        int up    = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0, nparams);
+        int down  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight(), nparams);
+        int right = CheckIntersection2<REAL>(nx, ny, px, py, GetWidth(), 0.0, GetWidth(), GetHeight(), nparams);
+        int left  = CheckIntersection2<REAL>(nx, ny, px, py, 0.0, 0.0, 0.0, GetHeight(), nparams);
         //int up    = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, 0.0, GetWidth(), 0.0);
         //int down  = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, 0.0, GetHeight(), GetWidth(), GetHeight());
         //int right = CheckIntersection2<REAL>(npt->x, npt->y, parent->x, parent->y, GetWidth(), 0.0, GetWidth(), GetHeight());
@@ -160,16 +160,16 @@ PMF<REAL> :: ArrangeNewEvent (Point<REAL> * npt, EventsSchedule<REAL> * evts, Sw
 
         REAL cx, cy;
         if (up != 0  &&  up != 5) {
-            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0, cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, 0.0, GetWidth(), 0.0, cx, cy, nparams);
         }
         else if (down != 0  &&  down != 5) {
-            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight(), cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, GetHeight(), GetWidth(), GetHeight(), cx, cy, nparams);
         }
         else if (right != 0  &&  right != 5) {
-            CalculateIntersection<REAL>(nx, ny, px, py, GetWidth(), 0.0, GetWidth(), GetHeight(), cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, GetWidth(), 0.0, GetWidth(), GetHeight(), cx, cy, nparams);
         }
         else if (left != 0  &&  left != 5) {
-            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, 0.0, 0.0, GetHeight(), cx, cy);
+            CalculateIntersection<REAL>(nx, ny, px, py, 0.0, 0.0, 0.0, GetHeight(), cx, cy, nparams);
         }
         else assert(false);
 
@@ -236,7 +236,8 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         if (pt->type == PT_BirthOnBorder)
         {
             ///while (IsZero(newAngle)) newAngle = Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
-            while (IsZero(newAngle)) newAngle = PRNG->GetUniform(NumericParameters::GetEpsilon()-M_PI_2, M_PI_2-NumericParameters::GetEpsilon());
+            REAL epsilon = nparams.GetAxisEpsilon();
+            while (IsZero(newAngle, epsilon)) newAngle = PRNG->GetUniform(epsilon-M_PI_2, M_PI_2-epsilon);
             if (pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
             if (pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
         }

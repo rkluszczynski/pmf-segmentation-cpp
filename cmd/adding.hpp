@@ -13,8 +13,9 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
 
     PMFLog("[ ADD ] : point at (%.2lf, %.2lf) in directions at angle %.3lf (%.1lf)", xx, yy, acos(cosL), RadiansToDegree(acos(cosL)));
 
-    if (IsZero(GetHeight() - yy)) yy = GetHeight() - 2. * NumericParameters::GetEpsilon();
-    else if (IsZero(yy)) yy = 2. * NumericParameters::GetEpsilon();
+    REAL epsilon = nparams.GetAxisEpsilon();
+    if (IsZero(GetHeight() - yy, epsilon)) yy = GetHeight() - 2. * epsilon;
+    else if (IsZero(yy, epsilon)) yy = 2. * epsilon;
 
     REAL rotxx = X_ROTATED (xx, yy, sinL, cosL);
     REAL rotyy = Y_ROTATED (xx, yy, sinL, cosL);
@@ -26,11 +27,11 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
     long count = GetCount();
 
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     if (! cf->IsEmpty())
     {
-        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>() );
+        PointPriorityQueue ppq( cf->begin(), cf->end(), PointComparator<REAL>(nparams.GetAxisEpsilon()) );
         SegmentsMap       smap( (SegmentMapComparator()) );
 
         cf->ClearPointsContainer();

@@ -1,11 +1,12 @@
 
 
 template <class REAL>
-PMF<REAL> :: PMF (REAL fWidth, REAL fHeight) : out(cout.rdbuf())
+PMF<REAL> :: PMF (REAL fWidth, REAL fHeight, NumericalParameters np) : out(cout.rdbuf()), nparams(np)
 { //ctor
     seed = time(NULL);
     cf   = new Configuration<REAL> (fWidth, fHeight);
     //srand(seed);
+    //nparams = np;
 }
 
 
@@ -249,7 +250,7 @@ PMF<REAL> :: Clone ()
 {
     if (!cf) return NULL;
 
-    PMF<REAL> * newPMF = new PMF<REAL> (GetWidth(), GetHeight());
+    PMF<REAL> * newPMF = new PMF<REAL> (GetWidth(), GetHeight(), nparams);
     //newPMF->SetSeed(seed);
 
     cf->SetPointsIDs ();

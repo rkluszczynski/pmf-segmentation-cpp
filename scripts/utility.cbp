@@ -51,9 +51,25 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="Release-std">
+				<Option output="..\lib\libutils-std" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="..\objs\Release\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-Wall" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="Debug-sse2;Release-sse2;" />
+			<Add alias="All-sse2" targets="Debug-sse2;Release-sse2;" />
+			<Add alias="All-std" targets="Debug-std;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-fopenmp" />
@@ -69,12 +85,14 @@
 		</Linker>
 		<Unit filename="..\src\utils\DoublePRNG.cpp" />
 		<Unit filename="..\src\utils\DoublePRNG.h" />
-		<Unit filename="..\src\utils\NumericParameters.cpp" />
-		<Unit filename="..\src\utils\NumericParameters.h" />
+		<Unit filename="..\src\utils\NumericalParameters.cpp" />
+		<Unit filename="..\src\utils\NumericalParameters.h" />
 		<Unit filename="..\src\utils\PrallelDoublePRNG.cpp" />
 		<Unit filename="..\src\utils\PrallelDoublePRNG.h" />
 		<Unit filename="..\src\utils\SharedDoublePRNG.cpp" />
 		<Unit filename="..\src\utils\SharedDoublePRNG.h" />
+		<Unit filename="..\src\utils\_NumericParameters.cpp" />
+		<Unit filename="..\src\utils\_NumericParameters.h" />
 		<Unit filename="..\src\utils\dSFMT\dSFMT-params.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

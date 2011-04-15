@@ -18,7 +18,7 @@ namespace pmf
 
         public :
             //Segment() {}
-            Segment(POINT pp, POINT qq) : p(pp), q(qq) { OnInit(); }
+            Segment(POINT pp, POINT qq, NumericalParameters & np) : p(pp), q(qq) { OnInit(np); }
             ~Segment()
             {
                 //out << "[ DEALLOCATING SEGMENT ]  :  " << this << endl;
@@ -46,19 +46,23 @@ namespace pmf
 
         private :
             POINT p, q;
+            REAL epsilon;
+            REAL infinity;
 
-            void OnInit()
+            void OnInit(NumericalParameters & np)
             {
-                assert(p->x <= q->x  ||  Geometry::IsZero(q->x - p->x));
+                epsilon = np.GetAxisEpsilon();
+                assert(p->x <= q->x  ||  Geometry::IsZero(q->x - p->x, epsilon));
                 //out << "[ _ALLOCATING_ SEGMENT ]  :  " << this << endl;
                 ///++pmf_segment_counter;
+
+                infinity = 1. / epsilon;
             }
 
-        static REAL infinity;
     };
 
 
-    template <typename REAL> REAL Segment<REAL>::infinity = 1 / NumericParameters::GetEpsilon();
+    //template <typename REAL> REAL Segment<REAL>::infinity = 0.;
 }
 
 

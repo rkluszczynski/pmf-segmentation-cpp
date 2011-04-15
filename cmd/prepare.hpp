@@ -32,6 +32,7 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
     // */
     SegmentPriorityQueue spq( (SegmentComparator<REAL>()) );
     //SegmentsMap         smap( (SegmentMapComparator()) );
+    REAL epsilon = nparams.GetAxisEpsilon();
     while (! ppq.empty())
     {
         Point<REAL> * pt = ppq.top();
@@ -39,7 +40,7 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
         out << " ~~~~~~    " << pt << endl;
 
         Segment<REAL> * s1 = NULL, * s2 = NULL;
-        if (            pt->n1->x < rotxx  ||  Geometry::IsZero(rotxx - pt->n1->x))
+        if (            pt->n1->x < rotxx  ||  Geometry::IsZero(rotxx - pt->n1->x, epsilon))
         {
             out << " trying to push s1" << endl;
             //*
@@ -53,16 +54,16 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
                 Point<REAL> * ptb = pt->n1;
                 Point<REAL> * pte = pt;
                 //if (ptb->x > pte->x)  std::swap(ptb, pte);
-                spq.push( (s1 = new Segment<REAL> (ptb, pte)) );
+                spq.push( (s1 = new Segment<REAL> (ptb, pte, nparams)) );
                 out << "pushed" << endl;
             }
         }
-        if (pt->n2  &&  (pt->n2->x < rotxx || Geometry::IsZero(rotxx - pt->n2->x)))
+        if (pt->n2  &&  (pt->n2->x < rotxx || Geometry::IsZero(rotxx - pt->n2->x, epsilon)))
         {
             out << " trying to push s2" << endl;
             if ( smap.find( make_pair(pt->n2->id, pt->id) ) == smap.end() )
             {
-                spq.push( (s2 = new Segment<REAL> (pt->n2, pt)) );
+                spq.push( (s2 = new Segment<REAL> (pt->n2, pt, nparams)) );
                 out << " ... s2 pushed" << endl;
             }
         }
@@ -81,13 +82,13 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
             case  PT_BirthInField :
                                 if (!s2)
                                 {
-                                    s2 = new Segment<REAL> (pt, pt->n2);
+                                    s2 = new Segment<REAL> (pt, pt->n2, nparams);
                                     smap[ make_pair(pt->id, pt->n2->id) ] = s2;
                                 }
             case PT_BirthOnBorder :
                                 if (!s1)
                                 {
-                                    s1 = new Segment<REAL> (pt, pt->n1);
+                                    s1 = new Segment<REAL> (pt, pt->n1, nparams);
                                     smap[ make_pair(pt->id, pt->n1->id) ] = s1;
                                 }
                                 break;;
@@ -113,7 +114,7 @@ PMF<REAL> :: PrepareTheEvolution (EventsSchedule<REAL> * evts, SweepLineStatus<R
                                     assert(it1 != smap.end());
                                     s1 = it1->ND;
                                 }
-                                s2 = new Segment<REAL> (pt, pt->n2);
+                                s2 = new Segment<REAL> (pt, pt->n2, nparams);
                                 smap[ make_pair(pt->id, pt->n2->id)] = s2;
                                 break;;
             default:

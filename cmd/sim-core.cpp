@@ -36,11 +36,12 @@ namespace pmf
 
 void testParallelRandom()
 {
-    const long NUM = 10000000L;
-    const unsigned THS = 3;
+    const long NUM = 100000000L;
+    const unsigned THS = 4;
 
-    PrallelDoublePRNG * prng = new PrallelDoublePRNG(THS);
-    printf("PRNG created!\n");
+    PrallelDoublePRNG * prng = NULL;
+    //prng = new PrallelDoublePRNG(THS);
+    //printf("PRNG created!\n");
     omp_set_num_threads(THS);
 #pragma omp parallel default(none) \
                 shared(prng)
@@ -52,8 +53,10 @@ void testParallelRandom()
         long cnt = 0;
         for (long i = 1L; i < NUM; ++i)
         {
-            double x = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
-            double y = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
+            //double x = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
+            //double y = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
+            double x = dp.GetUniform();
+            double y = dp.GetUniform();
             if (x * x + y * y < 1.0)  ++cnt;
         }
         double pi = double(cnt << 2) / double(NUM);

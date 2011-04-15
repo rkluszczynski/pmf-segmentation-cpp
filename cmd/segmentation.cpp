@@ -16,8 +16,9 @@ namespace pmf
         ofstream fout1( fout1name.c_str() );
         //out.rdbuf(fout1.rdbuf());
 
+        numerics = new NumericalParameters(0.00000001);
         img = new GrayscaleImage(parameters.GetPictureFile());
-        pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight());
+        pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight(), *numerics);
         pmf->SetSeed (parameters.GetSeed());
         pmf->SetPRNG (parameters.GetPRNG());
         prng = parameters.GetPRNG();
@@ -54,7 +55,8 @@ namespace pmf
 
         img = new GrayscaleImage(pictureFile);
 
-        pmf = new DoublePMF (wsize, hsize);
+        numerics = new NumericalParameters(0.00000001);
+        pmf = new DoublePMF (wsize, hsize, *numerics);
         pmf->SetSeed (seed);
 		if (initialFile)
 		{
@@ -193,7 +195,7 @@ namespace pmf
         if (chance < limit1)
         {
             double x, y;
-            double eps = NumericParameters::GetEpsilon();
+            double eps = numerics->GetAxisEpsilon();
             while (true)
             {
                 x = prng->GetUniform(0.0 + 2. * eps, pmf->GetWidth() - 2. * eps);

@@ -25,7 +25,8 @@ PMF<REAL> :: DetermineN (Point<REAL> * pt, int which, std::vector<bool> & change
                                     ;
             }
         }
-        if (! IsZero(tmp->x - pt->x))
+        REAL epsilon = nparams.GetAxisEpsilon();
+        if (! IsZero(tmp->x - pt->x, epsilon))
         {
             if (tmp->x < pt->x) return BirthEnd;
             else return DeathEnd;

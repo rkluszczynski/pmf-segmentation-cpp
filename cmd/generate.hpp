@@ -74,14 +74,15 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
     if (cf->IsEmpty()) return;
 
     REAL offset = PRNG->GetExp(GetHeight() * M_PI);
-    if (offset < NumericParameters::GetEpsilon())  offset = 2. * NumericParameters::GetEpsilon();
+    REAL epsilon = nparams.GetAxisEpsilon();
+    if (offset < epsilon)  offset = 2. * epsilon;
     Point<REAL> * prev = cf->SeeLastPoint();
     Point<REAL> * pt = ev->GetPoint();
     if (prev->x + offset < pt->x)
     {
         REAL tmpY = PRNG->GetUniform (0.0, GetHeight());
-        if (IsZero(GetHeight() - tmpY)) tmpY = GetHeight() - 2. * NumericParameters::GetEpsilon();
-        else if (IsZero(tmpY)) tmpY = 2. * NumericParameters::GetEpsilon();
+        if (IsZero(GetHeight() - tmpY, epsilon)) tmpY = GetHeight() - 2. * epsilon;
+        else if (IsZero(tmpY, epsilon)) tmpY = 2. * epsilon;
 
         Point<REAL> * newPt = new Point<REAL>(prev->x + offset, tmpY, 0.0, 0.0, ++id, PT_BirthInField);
         evts->InsertBirthEvent(newPt);
@@ -170,7 +171,7 @@ void
 PMF<REAL> :: GenerateField ()
 {
     EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
-    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>();
+    SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     long id = GenerateInitialBirths(evts);
     while (! evts->IsEmpty())
