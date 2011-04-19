@@ -98,10 +98,10 @@ namespace pmf
     };
 
 
-    template <class EVENT, class REAL>
+    template <class EVENT>
     struct event_before_2 : binary_function<EVENT,EVENT,bool>
     {
-        event_before_2(REAL eps) : epsilon(eps) {}
+        //event_before_2(REAL eps) : epsilon(eps) {}
 
         bool operator () (const EVENT & e1, const EVENT & e2) const
         {
@@ -185,22 +185,28 @@ namespace pmf
             // */
             return false;
         }
-        REAL epsilon;
+        //REAL epsilon;
     };
 
 
-struct classcomp {
-  bool operator() (const int& lhs, const int& rhs) const
-  {return lhs<rhs;}
+template <class EVENT>
+struct classcomp
+{
+    classcomp() {}
+
+    bool operator() (const EVENT & lhs, const EVENT & rhs) const
+    { return lhs<rhs; }
+
+    double epsilon;
 };
 
-    //template <class REAL = double, class COMP >
-    template <class REAL = double>
+
+    template <class REAL = double, class COMP = event_before_2<Event *> >
+    //template <class REAL = double>
     class EventsSchedule
     {
         typedef Point<double> POINT;
         typedef Event * EventPoint;
-        typedef event_before_2<Event *, REAL>(0.1) COMP;
         typedef std::set<EventPoint, COMP > EventList;
 
         public:
