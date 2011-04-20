@@ -226,7 +226,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         if (pt->type == PT_Update)  angle = atan((pt->y - pt->n1->y) / (pt->x - pt->n1->x));
         else  angle = 0.0;
         ///DetermineUpdateAngle<REAL> (newAngle);
-        newAngle = PRNG->DetermineUpdateAngle();
+        newAngle = GetPRNG()->DetermineUpdateAngle();
 
         newAngle += angle;
         if (newAngle > M_PI_2)  newAngle -= M_PI;
@@ -237,7 +237,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
         {
             ///while (IsZero(newAngle)) newAngle = Uniform<REAL>(EPSILON-M_PI_2, M_PI_2-EPSILON);
             REAL epsilon = nparams.GetAxisEpsilon();
-            while (IsZero(newAngle, epsilon)) newAngle = PRNG->GetUniform(epsilon-M_PI_2, M_PI_2-epsilon);
+            while (IsZero(newAngle, epsilon)) newAngle = GetPRNG()->GetUniform(epsilon-M_PI_2, M_PI_2-epsilon);
             if (pt->y == 0.0  &&  newAngle < 0)  newAngle = -newAngle;
             if (pt->y == GetHeight()  &&  newAngle > 0)  newAngle = -newAngle;
         }
@@ -245,7 +245,7 @@ PMF<REAL> :: ProcessUpdateEvent (Event * ev, EventsSchedule<REAL> * evts, SweepL
 
         int whichNeighbour = (pt->type == PT_Update) ? 2 : 1;
         ///Point<REAL> * newpt = pt->GenerateNeighbour(whichNeighbour, newAngle, id, Exp<REAL> (2.0));
-        Point<REAL> * newpt = pt->GenerateNeighbour(PRNG, whichNeighbour, newAngle, id, PRNG->GetExp(2.));
+        Point<REAL> * newpt = pt->GenerateNeighbour(GetPRNG(), whichNeighbour, newAngle, id, GetPRNG()->GetExp(2.));
         if (ArrangeNewEvent(newpt, evts, line, id, sinL, cosL)) break;
 
         delete newpt;

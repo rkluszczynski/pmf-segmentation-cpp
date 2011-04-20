@@ -10,7 +10,7 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
 
     long count = GetCount();
 
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>(nparams.GetAxisEpsilon());
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     /* ************************************************************************************** */
@@ -85,12 +85,12 @@ PMF<REAL> :: UpdatePointVelocity (long number, REAL sinL, REAL cosL)
     // */
     while(true)
     {
-        REAL newAngle = PRNG->GetUniform(epsilon-M_PI_2, M_PI_2-epsilon);
+        REAL newAngle = GetPRNG()->GetUniform(epsilon-M_PI_2, M_PI_2-epsilon);
         out << " newAngle = " << newAngle << endl;
 
-        REAL length = PRNG->GetExp (2.0);
+        REAL length = GetPRNG()->GetExp (2.0);
         if (length < depsilon) length = depsilon;
-        Point<REAL> * newpt = pt->GenerateNeighbour(PRNG, 2, newAngle, count, length);
+        Point<REAL> * newpt = pt->GenerateNeighbour(GetPRNG(), 2, newAngle, count, length);
 
         if (ArrangeNewEvent(newpt, evts, line, count, sinL, cosL)) break;
 

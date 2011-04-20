@@ -23,7 +23,11 @@ namespace pmf
         pmf->SetPRNG (parameters.GetPRNG());
         prng = parameters.GetPRNG();
 
+        prng = new DoublePRNG(parameters.GetSeed());
+        pmf->SetPRNG (prng);
+
         pmf->SetOutStream( fout1 );
+        cout << "[ SEGM ] : ctor.checkpoint1()" << endl;
 		if (parameters.GetInitialFile())
 		{
             pmf->LoadPMF (parameters.GetInitialFile());
@@ -31,6 +35,7 @@ namespace pmf
 		}
 		else
             pmf->GenerateField ();
+        cout << "[ SEGM ] : ctor.checkpoint2()" << endl;
 
         iterations = parameters.GetIterationsNumber();
         rate = parameters.GetPMRRate();
@@ -327,6 +332,9 @@ namespace pmf
         areaOfPMF = M_PI * pmf->GetHeight() * pmf->GetWidth();
         storedArea = 1.;
 
+        prng = new DoublePRNG(parameters.GetSeed());
+        pmf->SetPRNG (prng);
+
         cout << "[ SEGM ] : prepare.end()" << endl;
     }
 
@@ -354,4 +362,13 @@ namespace pmf
     double
     BinarySegmentation::CalculateImageEnergy() { return pmf->CalculateEnergy(img); }
 
+    double
+    BinarySegmentation::GetUniform01() { return prng->GetUniform(); }
+
+    void
+    BinarySegmentation::SetPRNG(pmf::DoublePRNG * _prng)
+    {
+        prng = _prng;
+        pmf->SetPRNG(prng);
+    }
 }

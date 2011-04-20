@@ -16,8 +16,10 @@ namespace pmf
             DoublePRNG();
             DoublePRNG(time_t seed);
             virtual ~DoublePRNG();
+            /*
             DoublePRNG(const DoublePRNG& other);
             DoublePRNG& operator=(const DoublePRNG& other);
+            // */
 
             void DetermineBirthAngles(double &, double &);
             double DetermineUpdateAngle();

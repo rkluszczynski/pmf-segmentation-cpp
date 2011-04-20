@@ -25,38 +25,38 @@ PMF<REAL> :: GenerateInitialBirths (EventsSchedule<REAL> * evts)
     // Generating left birth sites ...
     PMFLogV("[ INFO ] : Generating boundary left birth sites ... ");
     ///REAL vertical = Exp<REAL>(2.0);
-    REAL vertical = PRNG->GetExp(2.);
+    REAL vertical = GetPRNG()->GetExp(2.);
     while (vertical < fieldHeight) {
         //REAL angle = Uniform<REAL> ( -polowaPI, polowaPI);
         Point<REAL> * pt = new Point<REAL>(0.0, vertical, 0.0, 0.0, ++id, PT_BirthOnBorder);
         evts->InsertBirthEvent(pt);
-        vertical += PRNG->GetExp(2.);
+        vertical += GetPRNG()->GetExp(2.);
     }
 
     // Generating upper birth sites ...
     PMFLogV("[ INFO ] : Generating upper birth sites ...  ");
-    REAL horizontal = PRNG->GetExp(2.0);
+    REAL horizontal = GetPRNG()->GetExp(2.0);
     while (horizontal <= fieldWidth) {
-        REAL angle = PRNG->GetUniform( -halfPI, halfPI);
+        REAL angle = GetPRNG()->GetUniform( -halfPI, halfPI);
         if (angle < 0.0) {
             Point<REAL> * pt = new Point<REAL>(horizontal, 0.0, 0.0, 0.0, ++id, PT_BirthOnBorder);
             evts->InsertBirthEvent(pt);
         }
-        horizontal += PRNG->GetExp(2.0);
+        horizontal += GetPRNG()->GetExp(2.0);
     }
 
     // Generating lower birth sites ...
     PMFLogV("[ INFO ] : Generating lower birth sites ...  ");
-    horizontal = PRNG->GetExp(2.0);
+    horizontal = GetPRNG()->GetExp(2.0);
     while (horizontal <= fieldWidth) {
         ///REAL angle = Uniform<REAL> ( -halfPI, halfPI);
-        REAL angle = PRNG->GetUniform ( -halfPI, halfPI);
+        REAL angle = GetPRNG()->GetUniform ( -halfPI, halfPI);
         if (angle > 0.0) {
             Point<REAL> * pt = new Point<REAL>(horizontal, fieldWidth, 0.0, 0.0, ++id, PT_BirthOnBorder);
             evts->InsertBirthEvent(pt);
         }
         ///horizontal += Exp<REAL>(2.0);
-        horizontal += PRNG->GetExp(2.0);
+        horizontal += GetPRNG()->GetExp(2.0);
     }
     return id;
 }
@@ -73,14 +73,14 @@ PMF<REAL> :: CheckNewBirthSite (Event * ev, EventsSchedule<REAL> * evts, long & 
 
     if (cf->IsEmpty()) return;
 
-    REAL offset = PRNG->GetExp(GetHeight() * M_PI);
+    REAL offset = GetPRNG()->GetExp(GetHeight() * M_PI);
     REAL epsilon = nparams.GetAxisEpsilon();
     if (offset < epsilon)  offset = 2. * epsilon;
     Point<REAL> * prev = cf->SeeLastPoint();
     Point<REAL> * pt = ev->GetPoint();
     if (prev->x + offset < pt->x)
     {
-        REAL tmpY = PRNG->GetUniform (0.0, GetHeight());
+        REAL tmpY = GetPRNG()->GetUniform (0.0, GetHeight());
         if (IsZero(GetHeight() - tmpY, epsilon)) tmpY = GetHeight() - 2. * epsilon;
         else if (IsZero(tmpY, epsilon)) tmpY = 2. * epsilon;
 
@@ -102,14 +102,14 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
     Point<REAL> * pt = ev->GetPoint();
     while (true)
     {
-        REAL upperLength = PRNG->GetExp(2.0);
-        REAL lowerLength = PRNG->GetExp(2.0);
+        REAL upperLength = GetPRNG()->GetExp(2.0);
+        REAL lowerLength = GetPRNG()->GetExp(2.0);
         REAL upperAngle, lowerAngle;
-        PRNG->DetermineBirthAngles (upperAngle, lowerAngle);
+        GetPRNG()->DetermineBirthAngles (upperAngle, lowerAngle);
 
         if (! newpt1)
         {
-            newpt1 = pt->GenerateNeighbour(PRNG, 1, upperAngle, id, upperLength);
+            newpt1 = pt->GenerateNeighbour(GetPRNG(), 1, upperAngle, id, upperLength);
             bool ans = ArrangeNewEvent(newpt1, evts, line, id, sinL, cosL);
             if (! ans)
             {
@@ -120,7 +120,7 @@ PMF<REAL> :: ProcessBirthEvent (Event * ev, EventsSchedule<REAL> * evts, SweepLi
         }
         if (! newpt2)
         {
-            newpt2 = pt->GenerateNeighbour(PRNG, 2, lowerAngle, id, lowerLength);
+            newpt2 = pt->GenerateNeighbour(GetPRNG(), 2, lowerAngle, id, lowerLength);
             bool ans = ArrangeNewEvent(newpt2, evts, line, id, sinL, cosL);
             if (! ans)
             {
@@ -170,7 +170,7 @@ template <class REAL>
 void
 PMF<REAL> :: GenerateField ()
 {
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>(nparams.GetAxisEpsilon());
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     long id = GenerateInitialBirths(evts);

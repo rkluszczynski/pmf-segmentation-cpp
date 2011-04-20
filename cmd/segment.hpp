@@ -29,11 +29,11 @@ namespace pmf
             const POINT GetP() const { return p; }
             const POINT GetQ() const { return q; }
 
-            bool isVertical()   const { return Geometry::IsZero(q->x - p->x); }
-            bool isHorizontal() const { return Geometry::IsZero(q->y - p->y); }
+            bool isVertical()   const { return Geometry::IsZero(q->x - p->x, epsilon); }
+            bool isHorizontal() const { return Geometry::IsZero(q->y - p->y, epsilon); }
             REAL slope() const
             {
-                if (Geometry::IsZero(q->x - p->x)) return infinity;
+                if (Geometry::IsZero(q->x - p->x, epsilon)) return infinity;
                 return (q->y - p->y) / (q->x - p->x);
             }
 

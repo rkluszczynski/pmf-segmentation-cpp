@@ -26,7 +26,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
     /* ************************************************************************************** */
     long count = GetCount();
 
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>(nparams.GetAxisEpsilon());
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     if (! cf->IsEmpty())
@@ -63,14 +63,14 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
     Point<REAL> * newpt1 = NULL, * newpt2 = NULL;
     while (true)
     {
-        REAL upperLength = PRNG->GetExp(2.0);
-        REAL lowerLength = PRNG->GetExp(2.0);
+        REAL upperLength = GetPRNG()->GetExp(2.0);
+        REAL lowerLength = GetPRNG()->GetExp(2.0);
         REAL upperAngle, lowerAngle;
-        PRNG->DetermineBirthAngles (upperAngle, lowerAngle);
+        GetPRNG()->DetermineBirthAngles (upperAngle, lowerAngle);
 
         if (! newpt1)
         {
-            newpt1 = newpt->GenerateNeighbour(PRNG, 1, upperAngle, count, upperLength);
+            newpt1 = newpt->GenerateNeighbour(GetPRNG(), 1, upperAngle, count, upperLength);
             out << " trying newpt1 : " << newpt1 << endl;
             bool ans = ArrangeNewEvent(newpt1, evts, line, count, sinL, cosL);
             if (! ans)
@@ -83,7 +83,7 @@ PMF<REAL> :: AddBirthPoint (REAL xx, REAL yy, REAL sinL, REAL cosL)
         }
         if (! newpt2)
         {
-            newpt2 = newpt->GenerateNeighbour(PRNG, 2, lowerAngle, count, lowerLength);
+            newpt2 = newpt->GenerateNeighbour(GetPRNG(), 2, lowerAngle, count, lowerLength);
             out << " trying newpt2 : " << newpt2 << endl;
             bool ans = ArrangeNewEvent(newpt2, evts, line, count, sinL, cosL);
             if (! ans)

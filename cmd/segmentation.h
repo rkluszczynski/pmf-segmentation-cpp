@@ -29,6 +29,8 @@ namespace pmf
             inline double GetStoredSegmentationEnergy() { return storedEnergy; }
                    double        CalculateImageEnergy();
 
+            void SetPRNG(pmf::DoublePRNG * _prng);
+
 
         protected:
             virtual void           PreIteration();
@@ -40,8 +42,7 @@ namespace pmf
             virtual void      ApplyModification();
             virtual void     CancelModification();
 
-            virtual
-             inline double         GetUniform01() { return parameters.GetPRNG()->GetUniform(); };
+            virtual double         GetUniform01();
 
         private:
             SegmentationParameters parameters;

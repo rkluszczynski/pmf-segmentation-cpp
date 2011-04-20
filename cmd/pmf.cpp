@@ -7,6 +7,7 @@ PMF<REAL> :: PMF (REAL fWidth, REAL fHeight, NumericalParameters np) : out(cout.
     cf   = new Configuration<REAL> (fWidth, fHeight);
     //srand(seed);
     //nparams = np;
+    prng = NULL;
 }
 
 
@@ -23,11 +24,21 @@ PMF<REAL> :: SetSeed(time_t _seed)
 {
     seed = _seed;
     srand(seed);
+    printf("[ pmf::seed bef ] %p\n", prng);
+    //if (PRNG) delete PRNG;
+    prng = new DoublePRNG(seed);
+    printf("[ pmf::seed aft ] %p\n", prng);
 }
 
 template <class REAL>
 void
-PMF<REAL> :: SetPRNG(pmf::DoublePRNG * _prng) { PRNG = _prng; }
+PMF<REAL> :: SetPRNG(pmf::DoublePRNG * _prng)
+{
+    //if (PRNG) delete PRNG;
+    printf("[ pmf::prng bef ] %p\n", prng);
+    prng = _prng;
+    printf("[ pmf::prng aft ] %p\n", prng);
+}
 
 
 #include "common.hpp"

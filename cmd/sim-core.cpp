@@ -1,7 +1,7 @@
 #include "segmentation.h"
 #include "MultiCoreSegmentation.h"
 
-#include "NumericParameters.h"
+#include "NumericalParameters.h"
 
 void print_usage(char * prog_name, bool cond = false)
 {
@@ -34,20 +34,34 @@ namespace pmf
 #include "PrallelDoublePRNG.h"
 #include <omp.h>
 
-void testParallelRandom()
+void testParallelRandom_init(pmf::DoublePRNG * * dprngs)
 {
-    const long NUM = 100000000L;
-    const unsigned THS = 4;
-
-    PrallelDoublePRNG * prng = NULL;
-    //prng = new PrallelDoublePRNG(THS);
-    //printf("PRNG created!\n");
-    omp_set_num_threads(THS);
-#pragma omp parallel default(none) \
-                shared(prng)
+    pmf::DoublePRNG * * dps = dprngs;
+    printf("dps[0] = %p\n", dps[0]);
+#pragma omp parallel default(none) shared(dps)
     {
         int id = omp_get_thread_num();
         pmf::DoublePRNG dp(id);
+        //dps[id] = &dp;
+        printf("-%i-\n", id);
+        printf("-%i-> %i\n", id, int(dps[id]->GetUniform() * 10));
+        printf("-%i-\n", id);
+        printf("dps[0] = %p\n", dps[0]);
+    }
+    printf("dps[0] = %p\n", dps[0]);
+}
+
+void testParallelRandom_calculate(pmf::DoublePRNG * * dprngs)
+{
+    const long NUM = 100000000L;
+    pmf::DoublePRNG * * dps = dprngs;
+#pragma omp parallel default(none) shared(dps)
+    {
+        int id = omp_get_thread_num();
+        printf("dps[0] = %p\n", dps[0]);
+
+        pmf::DoublePRNG dp(id);
+        //dps[id] = &dp;
         ///std::cout << "id = " << id << std::endl;
         bool sharedPRNG = false;
         long cnt = 0;
@@ -55,13 +69,30 @@ void testParallelRandom()
         {
             //double x = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
             //double y = sharedPRNG ? prng->GetUniform(id) : dp.GetUniform();
-            double x = dp.GetUniform();
-            double y = dp.GetUniform();
+            double x = dps[id]->GetUniform();
+            double y = dps[id]->GetUniform();
             if (x * x + y * y < 1.0)  ++cnt;
         }
         double pi = double(cnt << 2) / double(NUM);
         printf("[ %2i ] : %.8lf\n", id, pi);
     }
+}
+
+void testParallelRandom()
+{
+    const unsigned THS = 4;
+
+    PrallelDoublePRNG * prng = NULL;
+    //prng = new PrallelDoublePRNG(THS);
+    //printf("PRNG created!\n");
+    pmf::DoublePRNG * dps[THS];
+    for(int i = 0; i < THS; ++i) dps[i] = new pmf::DoublePRNG(i);
+
+    omp_set_num_threads(THS);
+    testParallelRandom_init(dps);
+    printf("[ sync ]\n");
+    testParallelRandom_calculate(dps);
+    printf("[ done ]\n");
     exit(0);
 }
 
@@ -94,7 +125,7 @@ std::cout << "QQ" << std::endl;
 std::cout << "QQ" << std::endl;
     //cout << pmf::PRNG << endl;
 std::cout << "QQ" << std::endl;
-    testParallelRandom();
+    //testParallelRandom();
     //testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 

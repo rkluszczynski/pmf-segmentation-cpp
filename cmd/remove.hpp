@@ -10,7 +10,7 @@ PMF<REAL> :: RemoveBirthPoint (long number, REAL sinL, REAL cosL)
 
     long count = GetCount();
 
-    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>();
+    EventsSchedule<REAL> * evts = new EventsSchedule<REAL>(nparams.GetAxisEpsilon());
     SweepLineStatus<REAL> * line = new SweepLineStatus<REAL>(nparams);
 
     /* ************************************************************************************** */

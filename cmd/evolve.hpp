@@ -145,7 +145,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
     REAL length = (wh == 1) ? dptn->l1 : dptn->l2;
     // 2009-11-14
     REAL depsilon = nparams.GetDistEpsilon();
-    length += ( PRNG->GetExp(1.0) + depsilon );
+    length += ( GetPRNG()->GetExp(1.0) + depsilon );
     if (wh == 1) dptn->l1 = length;
     else dptn->l2 = length;
     // *
@@ -187,7 +187,7 @@ PMF<REAL> :: ForgetOldCollisionPoint (REAL sinL, REAL cosL, Point<REAL> * dpt, P
         printf("QQ ->>\n");
         //*
         ///REAL newLength = Probability::Uniform<REAL>(dist + EPSILON, length - EPSILON);
-        REAL newLength = PRNG->GetUniform(dist + depsilon, length - depsilon);
+        REAL newLength = GetPRNG()->GetUniform(dist + depsilon, length - depsilon);
         REAL newScale = newLength / length;
         assert(newScale < 1.0);
         assert(newScale > dist/length);

@@ -58,12 +58,15 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;
+    REP(i,numberOfThreads) prngs[i] = new pmf::DoublePRNG(((time_t)7217));
     pmf::DoublePRNG * * _prngs = prngs;
 #pragma omp parallel default(none) \
                 firstprivate(sparam) \
                 shared(sims,stream,_prngs)
     {
         int id = omp_get_thread_num();
+        printf("[%i] ctor::parallel region::begin()\n", id);
+
         std::stringstream ssout;
         if (numberOfThreads == 1)
             ssout << "singiel_";
@@ -72,10 +75,14 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
         sparam.SetOutputPrefix (ssout.str().c_str());
         sparam.SetSeed (sparam.GetSeed() + id);
 
-        _prngs[id] = new pmf::DoublePRNG(((time_t)7217));
+        //_prngs[id] = new pmf::DoublePRNG(((time_t)7217));
         sparam.SetPRNG(_prngs[id]);
+        //pmf::DoublePRNG dp(id);
+        //sparam.SetPRNG(&dp);
         sims[id] = new pmf::BinarySegmentation( sparam );
         sparam.PrintParameters(stream);
+
+        printf("[%i] ctor::parallel region::end()\n", id);
     }
 }
 
@@ -94,12 +101,16 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
     int erno = 0;
 
     pmf::BinarySegmentation * * sims = simulations;
+    pmf::DoublePRNG * * _prngs = prngs;
     //int syncSteps = 1;//numberOfStepsToSync;
     //assert(syncSteps > 0);
 
+    pmf::DoublePRNG dps[numberOfThreads];
+    REP(i,numberOfThreads) _prngs[i] = &(dps[i]);
+
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno) //firstprivate(syncSteps)
+#pragma omp parallel default(none) shared(sims, sync, done, erno, _prngs, dps) //firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
@@ -121,6 +132,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
         sims[id]->PrepareSimulation();
         while (nextStep)
         {
+            sims[id]->SetPRNG(&(dps[id]));
             sims[id]->RunNextStep();
             //printf(" [[{%i}[%.7lf]]] ", id, sims[id]->CalculateImageEnergy());
             if (not sims[id]->CheckRunningCondition()) done = true;
@@ -181,6 +193,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                         timer.SetStepCount(numberOfStepsToSync);
                         srand( rand() + id * 100 );
                     }
+                    sims[id]->SetPRNG(&(dps[id]));
             }
         } // end while
         sims[id]->FinishSimulation();

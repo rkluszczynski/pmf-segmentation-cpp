@@ -134,12 +134,19 @@ namespace pmf
             //inline
             void SetOutStream(std::ostream & ostr) { out.rdbuf(ostr.rdbuf()); }
 
+            inline
+            pmf::DoublePRNG * GetPRNG()
+            {
+                //assert(prng != NULL);
+                return prng;
+            }
+
 
         protected:
             time_t seed;
             Configuration<REAL> * cf;
 
-            DoublePRNG * PRNG;
+            DoublePRNG * prng;
             NumericalParameters nparams;
 
             std::ostream out;

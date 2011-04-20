@@ -33,7 +33,9 @@ namespace pmf
             SweepLineStatus(NumericalParameters np) :   _st(SweepComparator(*this)),
                                                         _x0(-std::numeric_limits<REAL>::max()),
                                                         _nparams(np)
-                                                    {}
+                                                    {
+                                                        epsilon = np.GetAxisEpsilon();
+                                                    }
 
             Iterator begin() const { return _st.begin(); }
             Iterator end()   const { return _st.end(); }
@@ -150,7 +152,7 @@ namespace pmf
                         cout << s1 << endl;
                         res = ( s1->GetQ()->y < y1 );
                         cout << " res{<} = " << (res ? "TRUE" : "FALSE") << endl;
-                        res = IsZero(s1->GetQ()->y - y1);
+                        res = IsZero(s1->GetQ()->y - y1, epsilon);
                         cout << " res{=} = " << (res ? "TRUE" : "FALSE") << endl;
                         res = (y1 < s1->GetQ()->y);
                         cout << " res{>} = " << (res ? "TRUE" : "FALSE") << endl;
@@ -158,7 +160,7 @@ namespace pmf
                         cout << s2 << endl;
                         res = ( s2->GetQ()->y < y2 );
                         cout << " res{<} = " << (res ? "TRUE" : "FALSE") << endl;
-                        res = IsZero(s2->GetQ()->y - y2);
+                        res = IsZero(s2->GetQ()->y - y2, epsilon);
                         cout << " res{=} = " << (res ? "TRUE" : "FALSE") << endl;
                         res = ( y2 < s2->GetQ()->y );
                         cout << " res{>} = " << (res ? "TRUE" : "FALSE") << endl;
@@ -170,10 +172,10 @@ namespace pmf
 
                              if (s2->GetQ()->y < y2  &&  y1 < s1->GetQ()->y) { res = false; }
                         else if (s1->GetQ()->y < y1  &&  y2 < s2->GetQ()->y) { res = true; }
-                        else if (IsZero(s2->GetQ()->y - y2)  &&  y1 < s1->GetQ()->y) { res = false; }
-                        else if (IsZero(s1->GetQ()->y - y1)  &&  y2 < s2->GetQ()->y) { res = true; }
-                        else if (IsZero(s2->GetQ()->y - y2)  &&  s1->GetQ()->y < y1) { res = true; }
-                        else if (IsZero(s1->GetQ()->y - y1)  &&  s2->GetQ()->y < y2) { res = false; }
+                        else if (IsZero(s2->GetQ()->y - y2, epsilon)  &&  y1 < s1->GetQ()->y) { res = false; }
+                        else if (IsZero(s1->GetQ()->y - y1, epsilon)  &&  y2 < s2->GetQ()->y) { res = true; }
+                        else if (IsZero(s2->GetQ()->y - y2, epsilon)  &&  s1->GetQ()->y < y1) { res = true; }
+                        else if (IsZero(s1->GetQ()->y - y1, epsilon)  &&  s2->GetQ()->y < y2) { res = false; }
                         /*
                         else if (s2->GetQ()->y < y2  &&  IsZero(y1 - s1->GetQ()->y)) { res = false; }
                         else if (IsZero(s1->GetQ()->y - y1)  &&  y2 < s2->GetQ()->y) { res = true; }
@@ -205,7 +207,7 @@ namespace pmf
             set<long> _endids;
 
             NumericalParameters _nparams;
-
+            REAL epsilon;
     };
 
 }

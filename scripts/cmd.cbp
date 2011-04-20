@@ -121,7 +121,7 @@
 					<Add directory="..\src\utils" />
 				</Compiler>
 				<Linker>
-					<Add library="..\lib\libutils-std.a" />
+					<Add library="..\lib\libutils-std_d.a" />
 					<Add library="..\lib\libgomp-1.dll" />
 					<Add directory="..\lib" />
 				</Linker>

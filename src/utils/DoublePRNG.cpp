@@ -78,7 +78,7 @@ DoublePRNG::GetUniform ()
     return double(rand()) * _norm;
 }
 
-
+/*
 DoublePRNG::DoublePRNG(const DoublePRNG& other)
 {
     //copy ctor
@@ -98,6 +98,6 @@ DoublePRNG& DoublePRNG::operator=(const DoublePRNG& rhs)
     OnInit();
     return *this;
 }
-
+// */
 
 } // namespace pmf
