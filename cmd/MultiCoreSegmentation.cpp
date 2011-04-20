@@ -20,7 +20,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     //strategy(GibbsRandomizationStrategy)
     //strategy(ParallelTemperingStrategy)
 {
-    numberOfThreads = 1;
+    numberOfThreads = 2;
     numberOfStepsToSync = 750;
 
     //ctor
@@ -110,7 +110,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno, _prngs, dps) //firstprivate(syncSteps)
+#pragma omp parallel shared(sims, sync, done, erno, _prngs, dps) //firstprivate(syncSteps)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
@@ -126,7 +126,11 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                                         timer.SetSyncProbability(0.001);
                                         break;;
             default :
+                    {
                         assert("wrong strategy type for timer" and false);
+                        //fprintf(stderr, "wrong strategy type for timer");
+                        //exit(-1);
+                    }
         }
 
         sims[id]->PrepareSimulation();
