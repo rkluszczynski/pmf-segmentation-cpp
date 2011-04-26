@@ -16,14 +16,12 @@ namespace pmf
         ofstream fout1( fout1name.c_str() );
         //out.rdbuf(fout1.rdbuf());
 
-        numerics = new NumericalParameters(0.00000001);
-        img = new GrayscaleImage(parameters.GetPictureFile());
+        numerics = new NumericalParameters (0.00000001);
+        prng = new DoublePRNG (parameters.GetSeed());
+        img = new GrayscaleImage (parameters.GetPictureFile());
         pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight(), *numerics);
-        pmf->SetSeed (parameters.GetSeed());
-        pmf->SetPRNG (parameters.GetPRNG());
-        prng = parameters.GetPRNG();
 
-        prng = new DoublePRNG(parameters.GetSeed());
+        pmf->SetSeed (parameters.GetSeed());
         pmf->SetPRNG (prng);
 
         pmf->SetOutStream( fout1 );
@@ -267,6 +265,7 @@ namespace pmf
     {
         cout << "_________________________________" << endl;
         cout << "[ ITER ] _" << parameters.GetOutputPrefix() << ": " << loopIteration << endl;
+        pmf->SetPRNG (prng);
         cout << "[ SEGM ] :  pre-iteration.begin()" << endl;
 
         std::string _str;

@@ -29,7 +29,6 @@ class MultiCoreSegmentation
         int numberOfThreads, numberOfStepsToSync;
         StrategyType strategy;
         pmf::BinarySegmentation ** simulations;
-        pmf::DoublePRNG ** prngs;
 };
 
 #endif // MULTICORESEGMENTATION_H
