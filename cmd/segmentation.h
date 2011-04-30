@@ -29,7 +29,8 @@ namespace pmf
             inline double GetStoredSegmentationEnergy() { return storedEnergy; }
                    double        CalculateImageEnergy();
 
-            void SetPRNG(pmf::DoublePRNG * _prng);
+            inline
+            pmf::DoublePRNG * GetPRNG() { return prng; }
 
 
         protected:

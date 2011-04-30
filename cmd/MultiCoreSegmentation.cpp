@@ -21,7 +21,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     //strategy(ParallelTemperingStrategy)
 {
     numberOfThreads = 2;
-    numberOfStepsToSync = 750;
+    numberOfStepsToSync = 10;//750;
 
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
@@ -31,7 +31,6 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
     scanf("%*c");
 
     simulations = new pmf::BinarySegmentation * [numberOfThreads];
-    prngs = new pmf::DoublePRNG * [numberOfThreads];
 
     SegmentationParameters sparam;
     sparam.SetFieldHeight (3.0);
@@ -85,6 +84,7 @@ MultiCoreSegmentation::~MultiCoreSegmentation ()
 {
     //dtor
     REP(i, numberOfThreads)  delete simulations[i];
+    delete[] simulations;
 }
 
 
@@ -104,7 +104,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
-        SynchronizationTimer timer(this->GetStrategyType(), prngs[id]);
+        SynchronizationTimer timer(this->GetStrategyType(), sims[id]->GetPRNG());
         switch (this->GetStrategyType())
         {
             case IndependentStrategy :
@@ -174,7 +174,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                                             break;
                             }
                         }
-                        //scanf("%*c");
+                        scanf("%*c");
 
                         sync = false;
                         printf("sync::end()\n");
@@ -185,7 +185,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                     {
                         //syncSteps = numberOfStepsToSync;
                         timer.SetStepCount(numberOfStepsToSync);
-                        srand( rand() + id * 100 );
+                        //srand( rand() + id * 100 );
                     }
             }
         } // end while
@@ -261,7 +261,7 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy (int id)
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
 
     ///double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
-    double rand = prngs[id]->GetUniform(0., probs_prefsum[numberOfThreads-1]);
+    double rand = simulations[id]->GetPRNG()->GetUniform(0., probs_prefsum[numberOfThreads-1]);
     //printf("[ rand ] : %.11lf\n", rand);
     double * randptr = lower_bound(probs_prefsum, probs_prefsum + numberOfThreads, rand);
     int randpos = randptr - probs_prefsum;
@@ -300,7 +300,7 @@ MultiCoreSegmentation::UseParallelTemperingStrategy (int id)
         {
             double limit = exp(-delta);
             ///double chance = pmf::Probability::Uniform(0., 1.);
-            double chance = prngs[id]->GetUniform(0., 1.);
+            double chance = simulations[id]->GetPRNG()->GetUniform(0., 1.);
             if (chance > limit)
                 doTheSwap = false;
         }

@@ -363,11 +363,12 @@ namespace pmf
 
     double
     BinarySegmentation::GetUniform01() { return prng->GetUniform(); }
-
+/*
     void
     BinarySegmentation::SetPRNG(pmf::DoublePRNG * _prng)
     {
         prng = _prng;
         pmf->SetPRNG(prng);
     }
+// */
 }
