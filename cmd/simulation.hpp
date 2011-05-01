@@ -39,8 +39,7 @@ namespace pmf
             virtual void      ApplyModification() = 0;
             virtual void     CancelModification() = 0;
 
-            virtual
-             inline double         GetUniform01() = 0;
+            virtual double         GetUniform01() = 0;
 
         private:
             REAL __engH, __newH;

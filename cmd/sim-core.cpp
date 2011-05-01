@@ -63,7 +63,7 @@ void testParallelRandom_calculate(pmf::DoublePRNG * * dprngs)
         pmf::DoublePRNG dp(id);
         //dps[id] = &dp;
         ///std::cout << "id = " << id << std::endl;
-        bool sharedPRNG = false;
+        //bool sharedPRNG = false;
         long cnt = 0;
         for (long i = 1L; i < NUM; ++i)
         {
@@ -82,11 +82,11 @@ void testParallelRandom()
 {
     const unsigned THS = 4;
 
-    PrallelDoublePRNG * prng = NULL;
+    //PrallelDoublePRNG * prng = NULL;
     //prng = new PrallelDoublePRNG(THS);
     //printf("PRNG created!\n");
     pmf::DoublePRNG * dps[THS];
-    for(int i = 0; i < THS; ++i) dps[i] = new pmf::DoublePRNG(i);
+    for(unsigned i = 0; i < THS; ++i) dps[i] = new pmf::DoublePRNG(i);
 
     omp_set_num_threads(THS);
     testParallelRandom_init(dps);
