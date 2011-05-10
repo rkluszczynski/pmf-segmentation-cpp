@@ -73,10 +73,13 @@ namespace pmf
 
 
         Point<REAL> * GenerateNeighbour (DoublePRNG *, int, REAL, long &, REAL, REAL, REAL);
-        void StoreCoordinates()   { org_x = x; org_y = y; }
-        void ResumeCoordinates()  { x = org_x; y = org_y; }
-        bool IsEqual(REAL, REAL);
+        void StoreCoordinates ()   { org_x = x; org_y = y; }
+        void ResumeCoordinates ()  { x = org_x; y = org_y; }
+        bool IsEqual (REAL, REAL);
         int WhichNeighbourHasID (long);
+
+        inline
+        REAL CalculateDistance (const Point<REAL> *) const;
 
 
         friend std::ostream& operator << (std::ostream& out, const Point<REAL> * pt)
@@ -167,6 +170,15 @@ namespace pmf
         if (! n2) return -2;
         if (n2->id == id) return 2;
         return 0;
+    }
+
+
+    template <typename REAL>
+    inline
+    REAL
+    Point<REAL>::CalculateDistance (const Point<REAL> * anotherPt) const
+    {
+        return sqrt( (x - anotherPt->x)*(x - anotherPt->x) + (y - anotherPt->y)*(y - anotherPt->y) );
     }
 
 

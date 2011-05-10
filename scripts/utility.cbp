@@ -68,8 +68,7 @@
 			</Target>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All-sse2" targets="Debug-sse2;Release-sse2;" />
-			<Add alias="All-std" targets="Debug-std;" />
+			<Add alias="default" targets="Release-std;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-fopenmp" />

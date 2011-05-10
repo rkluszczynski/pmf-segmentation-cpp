@@ -2,7 +2,7 @@
 #include "probability.hpp"
 #include "pmf.hpp"
 
-#define SAVE_PMR 0
+#define SAVE_PMR 1
 
 namespace pmf
 {
@@ -130,7 +130,7 @@ namespace pmf
         double beta_2 = 0.0;
         double result = 0.0;
 
-        tmpArea = pmf->CalculateEnergy(img);
+        tmpArea = pmf->CalculateGrayscaleImageEnergyTerm(img);
         tmpElen = storedElen = 0.0;
 
         tmpEnergy = result = beta_1 * tmpArea + beta_2 * tmpElen;
@@ -139,8 +139,12 @@ namespace pmf
         if (!loopIteration)
         {
             std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
-            FILE * fp = fopen(pmrfile.c_str(), "a");
-            fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
+            FILE * fp = fopen(pmrfile.c_str(), "w");
+
+        double pmfeps = numerics->GetDistEpsilon();
+        double tmpLJ = pmf->CalculateLennardJonesEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
+
+            fprintf(fp, "%li;%.21lf;\t%21lf\n", loopIteration, storedArea, tmpLJ);
             fclose(fp);
         }
 #endif
@@ -241,7 +245,12 @@ namespace pmf
 #if SAVE_PMR
         std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
         FILE * fp = fopen(pmrfile.c_str(), "a");
-        fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
+
+        double pmfeps = numerics->GetDistEpsilon();
+        double tmpLJ = pmf->CalculateLennardJonesEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
+
+        fprintf(fp, "%li;%.21lf;\t%21lf\n", loopIteration, storedArea, tmpLJ);
+        //fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
         fclose(fp);
 #endif
     }
@@ -359,7 +368,7 @@ namespace pmf
 
 
     double
-    BinarySegmentation::CalculateImageEnergy() { return pmf->CalculateEnergy(img); }
+    BinarySegmentation::CalculateImageEnergy() { return pmf->CalculateGrayscaleImageEnergyTerm(img); }
 
     double
     BinarySegmentation::GetUniform01() { return prng->GetUniform(); }

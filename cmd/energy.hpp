@@ -3,8 +3,69 @@
 
 
 template <class REAL>
+inline
 REAL
-PMF<REAL> :: CalculateEnergy (GrayscaleImage * img)
+LJDistTerm(REAL r, REAL sig12, REAL sig6)
+{
+    REAL tmp = r*r*r*r*r*r;
+    tmp = 1. / tmp;
+    return tmp * (sig12 * tmp - sig6);
+
+}
+
+template <class REAL>
+REAL
+PMF<REAL> :: CalculateLennardJonesEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
+{
+    REAL term = 4. * epsilon_LJ;
+    REAL energy = 0.;
+    REAL LJcutoff = LJDistTerm(rcut_LJ, sigma12_LJ, sigma6_LJ);
+
+    REAL minD = numeric_limits<REAL>::max();
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        Point<REAL> * n1 = pt->n1;
+        Point<REAL> * n2 = pt->n2;
+
+        REAL dist;
+        switch (pt->type)
+        {
+            case PT_BirthOnBorder :
+                                    assert(n1 and not n2);
+                                    break;
+            case PT_DeathOnBorder :
+                                    assert(n2 == NULL);
+            case PT_Update        :
+                                    dist = pt->CalculateDistance(n1);
+                                    minD = min(minD, dist);
+                                    if (dist < rcut_LJ)  energy += (LJDistTerm(dist, sigma12_LJ, sigma6_LJ) - LJcutoff);
+                                    break;
+            case PT_Collision     :
+                                    dist = pt->CalculateDistance(n1);
+                                    minD = min(minD, dist);
+                                    if (dist < rcut_LJ)  energy += (LJDistTerm(dist, sigma12_LJ, sigma6_LJ) - LJcutoff);
+                                    dist = pt->CalculateDistance(n2);
+                                    minD = min(minD, dist);
+                                    if (dist < rcut_LJ)  energy += (LJDistTerm(dist, sigma12_LJ, sigma6_LJ) - LJcutoff);
+                                    break;
+            case PT_BirthInField  :
+                                    assert(n1 and n2);
+                                    break;
+            default :
+                        assert("WRONG POINT TYPE DURING CALCULATING ENERGY" && false);
+        }
+    }
+    energy *= term;
+    printf("\n\n MINIMAL DISTANCE = %.21lf / %.21lf\n\n", minD, rcut_LJ);
+    printf("            ENERGY  = %.21lf\n\n", energy);
+    return energy;
+}
+
+
+template <class REAL>
+REAL
+PMF<REAL> :: CalculateGrayscaleImageEnergyTerm (GrayscaleImage * img)
 {
     REAL oColor[2] = { 0, 0 };
     REAL delta = 0.03999999;

@@ -126,7 +126,8 @@ namespace pmf
             inline long GetCount()  { return cf->GetPointsCount(); }
             inline pmf::Statistics GetStatistics() { return cf->GetStatistics(); }
 
-            REAL CalculateEnergy(GrayscaleImage * img);
+            REAL CalculateGrayscaleImageEnergyTerm(GrayscaleImage * img);
+            REAL CalculateLennardJonesEnergyTerm (REAL, REAL, REAL, REAL);
             pair<REAL, REAL> ScanVerticalLine(GrayscaleImage *, REAL, REAL);
 
             //inline
