@@ -70,13 +70,9 @@ class SegmentationParameters
         inline
         void SetPMRRate(double val) { m_PMRRate = val; }
 
-        inline
-        pmf::DoublePRNG * GetPRNG() { return prng; }
-        inline
-        void SetPRNG(pmf::DoublePRNG * _prng) { prng = _prng; }
-
         // for debuging :
         static int _trigger;
+
 
     protected:
         std::map<std::string, std::string>  m_data;
@@ -96,8 +92,6 @@ class SegmentationParameters
         time_t m_Seed;
         long m_IterationsNumber;
         double m_PMRRate;
-
-        pmf::DoublePRNG * prng;
 
         std::ostream & m_log;
 };

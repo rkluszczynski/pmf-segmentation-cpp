@@ -120,11 +120,6 @@ int _tmp_seed;
 #define REAL double
 int main (int argc, char *argv[])
 {
-std::cout << "QQ" << std::endl;
-    //pmf::PRNG = new pmf::DoublePRNG(((time_t)7217));
-std::cout << "QQ" << std::endl;
-    //cout << pmf::PRNG << endl;
-std::cout << "QQ" << std::endl;
     //testParallelRandom();
     //testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);

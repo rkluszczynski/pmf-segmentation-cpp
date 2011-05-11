@@ -15,13 +15,14 @@
 
 extern int _tmp_seed;
 
-MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
+MultiCoreSegmentation::MultiCoreSegmentation (unsigned noOfThreads) : numberOfThreads(noOfThreads),
     strategy(MinimalRateStrategy)
     //strategy(GibbsRandomizationStrategy)
     //strategy(ParallelTemperingStrategy)
 {
+    assert(numberOfThreads > 0u);
     numberOfThreads = 2;
-    numberOfStepsToSync = 10;//750;
+    numberOfStepsToSync = 750;
 
     //ctor
     if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
@@ -65,7 +66,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (int num) : numberOfThreads(num),
         printf("[%i] ctor::parallel region::begin()\n", id);
 
         std::stringstream ssout;
-        if (numberOfThreads == 1)
+        if (numberOfThreads == 1u)
             ssout << "singiel_";
         else
             ssout << "th" << id << "of" << numberOfThreads << "_";
@@ -195,10 +196,10 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
     if (!erno)
     {
         double energies[numberOfThreads];
-        for (int i = 0; i < numberOfThreads; ++i)  energies[i] = simulations[i]->GetStoredImagePMR();
+        for (unsigned i = 0; i < numberOfThreads; ++i)  energies[i] = simulations[i]->GetStoredImagePMR();
         double * mineng = min_element(energies, energies + numberOfThreads);
-        int thid = mineng - energies;
-        printf("NUMBER __%i__ ended!\n", thid);
+        unsigned thid = unsigned(mineng - energies);
+        printf("NUMBER __%u__ ended!\n", thid);
     }
     else
     {
@@ -220,8 +221,8 @@ void
 MultiCoreSegmentation::UseMinimalRateStrategy (int id)
 {
     vector<double> pmrs(numberOfThreads);
-    for (int i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImagePMR();
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
+    for (unsigned i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImagePMR();
+    for (unsigned i = 0; i < numberOfThreads; ++i) printf(" %.7lf", pmrs[i]);  printf("\n");
 
     vector<double>::iterator minit = min_element(pmrs.begin(), pmrs.end());
     int minpos = minit - pmrs.begin();
@@ -240,24 +241,24 @@ MultiCoreSegmentation::UseGibbsRandomizationStrategy (int id)
     //double pmrs[numberOfThreads];
     double energies[numberOfThreads];
     //for (int i = 0; i < numberOfThreads; ++i) pmrs[i] = simulations[i]->GetStoredImagePMR();
-    for (int i = 0; i < numberOfThreads; ++i) energies[i] = simulations[i]->GetStoredSegmentationEnergy();
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", energies[i]);  printf("\n");
+    for (unsigned i = 0; i < numberOfThreads; ++i) energies[i] = simulations[i]->GetStoredSegmentationEnergy();
+    for (unsigned i = 0; i < numberOfThreads; ++i) printf(" %.7lf", energies[i]);  printf("\n");
 
     double * minptr = min_element(energies, energies + numberOfThreads);
     int minpos = minptr - energies;
     printf("[ sync ] : minimum at %i with value %.5lf\n", minpos, *minptr);
 
     double minval = *minptr;
-    for (int i = 0; i < numberOfThreads; ++i)  energies[i] -= minval;
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", energies[i]);  printf("\n");
+    for (unsigned i = 0; i < numberOfThreads; ++i)  energies[i] -= minval;
+    for (unsigned i = 0; i < numberOfThreads; ++i) printf(" %.7lf", energies[i]);  printf("\n");
 
     double weights[numberOfThreads];
-    for (int i = 0; i < numberOfThreads; ++i) weights[i] = exp(-energies[i]);
+    for (unsigned i = 0; i < numberOfThreads; ++i) weights[i] = exp(-energies[i]);
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", weights[i]);  printf("\n");
 
     double probs_prefsum[numberOfThreads];
     probs_prefsum[0] = weights[0];
-    for (int i = 1; i < numberOfThreads; ++i) probs_prefsum[i] = (probs_prefsum[i-1] + weights[i]);
+    for (unsigned i = 1; i < numberOfThreads; ++i) probs_prefsum[i] = (probs_prefsum[i-1] + weights[i]);
     //for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", probs_prefsum[i]);  printf("\n");
 
     ///double rand = pmf::Probability::Uniform<double>(0., probs_prefsum[numberOfThreads-1]);
@@ -283,12 +284,12 @@ MultiCoreSegmentation::UseParallelTemperingStrategy (int id)
     printf("[ sync ] : parallel tempering strategy \n");
 
     double energies[numberOfThreads];
-    for (int i = 0; i < numberOfThreads; ++i) energies[i] = simulations[i]->GetStoredSegmentationEnergy();
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", energies[i]);  printf("\n");
+    for (unsigned i = 0; i < numberOfThreads; ++i) energies[i] = simulations[i]->GetStoredSegmentationEnergy();
+    for (unsigned i = 0; i < numberOfThreads; ++i) printf(" %.7lf", energies[i]);  printf("\n");
 
-    for (int i = 0; i < numberOfThreads; ++i)
+    for (unsigned i = 0; i < numberOfThreads; ++i)
     {
-        int swapper = rand() % (numberOfThreads - 1);
+        unsigned swapper = unsigned(rand() % (numberOfThreads - 1u));
         if (swapper >= i)  ++swapper;
 
         printf("[ swap ] : trying %d <-> %d \n", i, swapper);
@@ -309,5 +310,5 @@ MultiCoreSegmentation::UseParallelTemperingStrategy (int id)
         if (doTheSwap) std::swap(simulations[i], simulations[swapper]);
     }
     printf("[ sync ] :: end() \n");
-    for (int i = 0; i < numberOfThreads; ++i) printf(" %.7lf", simulations[i]->GetStoredSegmentationEnergy());  printf("\n");
+    for (unsigned i = 0; i < numberOfThreads; ++i) printf(" %.7lf", simulations[i]->GetStoredSegmentationEnergy());  printf("\n");
 }

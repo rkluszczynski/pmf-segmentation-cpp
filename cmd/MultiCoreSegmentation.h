@@ -8,7 +8,7 @@
 class MultiCoreSegmentation
 {
     public:
-        MultiCoreSegmentation(int = 0);
+        MultiCoreSegmentation(unsigned = 1u);
         virtual ~MultiCoreSegmentation();
 
         void SimulateOnMultiCore();
@@ -26,7 +26,7 @@ class MultiCoreSegmentation
         StrategyType GetStrategyType() { return strategy; }
 
 
-        int numberOfThreads, numberOfStepsToSync;
+        unsigned numberOfThreads, numberOfStepsToSync;
         StrategyType strategy;
         pmf::BinarySegmentation ** simulations;
 };
