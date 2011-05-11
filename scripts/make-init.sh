@@ -1,27 +1,30 @@
 #!/bin/sh
 
-PROGFILE=../bin/ppmf-sim.exe
+PROGFILE=../bin/init.exe
 
 WXCFG="/vosoft/unicore/pmf/wx-2.8.12/bin/wx-config"
-OBJDIR=`dirname $0`/../objs/src
+OBJDIR=`dirname $0`/../objs/init
 
-
-
-
-
-
-#Compiling: ..\cmd\SegmentationParameters.cpp
-#Compiling: ..\cmd\SynchronizationTimer.cpp
 #Compiling: ..\cmd\grayimage.cpp
 #Compiling: ..\cmd\image.cpp
-#Compiling: ..\cmd\segmentation.cpp
-#Compiling: ..\cmd\sim-core.cpp
-#Compiling: ..\src\statistics.cpp
-#Compiling: ..\cmd\MultiCoreSegmentation.cpp
-FILES="../cmd/SegmentationParameters.cpp ../cmd/SynchronizationTimer.cpp ../cmd/grayimage.cpp ../cmd/image.cpp ../cmd/segmentation.cpp ../cmd/sim-core.cpp ../src/statistics.cpp ../cmd/MultiCoreSegmentation.cpp"
+#Compiling: ..\init\AbstractProperties.cpp
+#Compiling: ..\init\GaussianRandomClass.cpp
+#Compiling: ..\init\MosaicConstants.cpp
+#Compiling: ..\init\MosaicDualGraph.cpp
+#Compiling: ..\init\MosaicGraph.cpp
+#Compiling: ..\init\MosaicGraphEdge.cpp
+#Compiling: ..\init\MosaicGraphNode.cpp
+#Compiling: ..\init\MosaicLinesDeterminer.cpp
+#Compiling: ..\init\MosaicPMF.cpp
+#Compiling: ..\init\main.cpp
+FILES="../cmd/grayimage.cpp ../cmd/image.cpp ../init/AbstractProperties.cpp ../init/GaussianRandomClass.cpp ../init/MosaicConstants.cpp ../init/MosaicDualGraph.cpp ../init/MosaicGraph.cpp ../init/MosaicGraphEdge.cpp ../init/MosaicGraphNode.cpp ../init/MosaicLinesDeterminer.cpp ../init/MosaicPMF.cpp ../init/main.cpp"
 
-CPP="g++ -Wall -fexceptions -I ../detect -I ../src/utils -L ../lib"
-LFLAGS="-lutils-std -ldetect_d"
+#D:\PROJECTS\PMF-Project\init\main.cpp: In function 'int main(int, char**)':
+#D:\PROJECTS\PMF-Project\init\main.cpp:120:17: warning: unused variable 'ipmf'
+#Linking console executable: ..\bin\Debug\init.exe
+
+CPP="g++ -Wall -fexceptions -I ../detect -I ../src/utils -L ../lib `$WXCFG --cppflags`"
+LFLAGS="-lutils-std -ldetect_d `$WXCFG --libs`"
 
 #COMPILE_CMD="g++ -I ../src/utils/ -I ../src/utils/dSFMT -fopenmp -fno-strict-aliasing --param max-inline-insns-single=1800 --param inline-unit-growth=500 --param large-function-growth=900 -DDSFMT_DO_NOT_USE_OLD_NAMES -DDSFMT_MEXP=19937 -Wall -s -O3"
 
