@@ -3,6 +3,7 @@
 
 #include "dSFMT/dSFMT.h"
 #include <omp.h>
+#include <algorithm>
 
 #define BUFFOR 10000000
 

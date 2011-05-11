@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 #include <utility>
 
 #include "dSFMT/dSFMT.h"
