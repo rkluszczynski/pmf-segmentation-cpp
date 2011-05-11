@@ -67,7 +67,7 @@ template <class REAL>
 REAL
 PMF<REAL> :: CalculateLennardJonesMinimalDistanceEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
 {
-    REAL term = 4. * epsilon_LJ;
+    //REAL term = 4. * epsilon_LJ;
     REAL energy = 0.;
 
     NearestPointsDistance npd;

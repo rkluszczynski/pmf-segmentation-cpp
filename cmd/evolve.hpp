@@ -392,22 +392,22 @@ PMF<REAL> :: EvolveTheRestOfField (REAL sinL, REAL cosL, EventsSchedule<REAL> * 
         switch (evt->GetType())
         {
             case    OldPoint :
-                    PMFLogV("-{%i}-> _OLD_ EVENT", step);
+                    PMFLogV("-{%li}-> _OLD_ EVENT", step);
                     ProcessOldEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case BorderBirth :
-                    PMFLogV("-{%i}-> BIRTH EVENT", step);
+                    PMFLogV("-{%li}-> BIRTH EVENT", step);
             case PointUpdate :
-                    PMFLogV("-{%i}-> UPDATE EVENT", step);
+                    PMFLogV("-{%li}-> UPDATE EVENT", step);
                     ProcessUpdateEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case NormalDeath :
             case BorderDeath :
-                    PMFLogV("-{%i}-> DEATH EVENT", step);
+                    PMFLogV("-{%li}-> DEATH EVENT", step);
                     ProcessDeathEvent(evt, evts, line, id, sinL, cosL);
                     break;;
             case NormalBirth :
-                    PMFLogV("-{%i}-> BIRTH EVENT", step);
+                    PMFLogV("-{%li}-> BIRTH EVENT", step);
             default :
                     assert("WRONG EVENT TYPE DURING EVOLUTION" && false);
         }
