@@ -10,6 +10,7 @@
 #include <list>
 
 #include "DoublePRNG.h"
+#include "NearestPointsDistance.h"
 
 
 namespace pmf
@@ -127,7 +128,8 @@ namespace pmf
             inline pmf::Statistics GetStatistics() { return cf->GetStatistics(); }
 
             REAL CalculateGrayscaleImageEnergyTerm(GrayscaleImage * img);
-            REAL CalculateLennardJonesEnergyTerm (REAL, REAL, REAL, REAL);
+            REAL CalculateLennardJonesNeighboursEnergyTerm (REAL, REAL, REAL, REAL);
+            REAL CalculateLennardJonesMinimalDistanceEnergyTerm (REAL, REAL, REAL, REAL);
             pair<REAL, REAL> ScanVerticalLine(GrayscaleImage *, REAL, REAL);
 
             //inline

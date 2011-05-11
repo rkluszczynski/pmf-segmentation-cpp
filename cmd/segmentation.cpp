@@ -142,7 +142,7 @@ namespace pmf
             FILE * fp = fopen(pmrfile.c_str(), "w");
 
         double pmfeps = numerics->GetDistEpsilon();
-        double tmpLJ = pmf->CalculateLennardJonesEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
+        double tmpLJ = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
 
             fprintf(fp, "%li;%.21lf;\t%21lf\n", loopIteration, storedArea, tmpLJ);
             fclose(fp);
@@ -172,7 +172,7 @@ namespace pmf
         //pmf->RotatePointTypes(sinL, cosL);
 
         pmf->RotatePoints2(sinL, cosL, true);
-        pmf::Statistics stats = pmf->GetStatistics();
+        Statistics stats = pmf->GetStatistics();
 
 /// TODO (Rafal#9#): check if old birth and old death are on vertical line
 
@@ -247,9 +247,11 @@ namespace pmf
         FILE * fp = fopen(pmrfile.c_str(), "a");
 
         double pmfeps = numerics->GetDistEpsilon();
-        double tmpLJ = pmf->CalculateLennardJonesEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
+        double tmpLJn = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
 
-        fprintf(fp, "%li;%.21lf;\t%21lf\n", loopIteration, storedArea, tmpLJ);
+        double tmpLJm = pmf->CalculateLennardJonesMinimalDistanceEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
+
+        fprintf(fp, "%li;%.21lf;\t%21lf;\t%7lf\n", loopIteration, storedArea, tmpLJn, tmpLJm);
         //fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
         fclose(fp);
 #endif

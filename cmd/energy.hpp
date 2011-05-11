@@ -15,7 +15,7 @@ LJDistTerm(REAL r, REAL sig12, REAL sig6)
 
 template <class REAL>
 REAL
-PMF<REAL> :: CalculateLennardJonesEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
+PMF<REAL> :: CalculateLennardJonesNeighboursEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
 {
     REAL term = 4. * epsilon_LJ;
     REAL energy = 0.;
@@ -60,6 +60,25 @@ PMF<REAL> :: CalculateLennardJonesEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, 
     printf("\n\n MINIMAL DISTANCE = %.21lf / %.21lf\n\n", minD, rcut_LJ);
     printf("            ENERGY  = %.21lf\n\n", energy);
     return energy;
+}
+
+
+template <class REAL>
+REAL
+PMF<REAL> :: CalculateLennardJonesMinimalDistanceEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
+{
+    REAL term = 4. * epsilon_LJ;
+    REAL energy = 0.;
+
+    NearestPointsDistance npd;
+    FOREACH(it, *cf) npd.addPoint((*it)->x, (*it)->y);
+    double dist = npd.determineNearestPointsDistance();
+
+    REAL sig12 = sigma12_LJ;
+    REAL sig6 = sigma6_LJ;
+
+    energy += LJDistTerm(dist, sig12, sig6);
+    return dist;
 }
 
 

@@ -80,10 +80,12 @@
 			<Add option="-DDSFMT_MEXP=19937" />
 		</Compiler>
 		<Linker>
-			<Add library="..\lib\libgomp-1.dll" />
+			<Add library="gomp" />
 		</Linker>
 		<Unit filename="..\src\utils\DoublePRNG.cpp" />
 		<Unit filename="..\src\utils\DoublePRNG.h" />
+		<Unit filename="..\src\utils\NearestPointsDistance.cpp" />
+		<Unit filename="..\src\utils\NearestPointsDistance.h" />
 		<Unit filename="..\src\utils\NumericalParameters.cpp" />
 		<Unit filename="..\src\utils\NumericalParameters.h" />
 		<Unit filename="..\src\utils\PrallelDoublePRNG.cpp" />
