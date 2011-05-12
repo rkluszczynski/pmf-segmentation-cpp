@@ -124,7 +124,32 @@ int main (int argc, char *argv[])
     //testRandom();
     if (argc == 2) _tmp_seed = atoi(argv[1]);
 
-    MultiCoreSegmentation mcs(2);
+
+    SegmentationParameters sparam;
+    sparam.SetFieldHeight (3.0);
+    sparam.SetFieldWidth (3.0);
+    sparam.SetSeed (7217);
+    //sparam.SetSeed (13);
+    //sparam.SetSeed (_tmp_seed);
+
+    //sparam.SetInitialFile ("output/_shaked-pmf.txt");
+    //sparam.SetInitialFile ("output/_shaked-pmf.txt");
+
+    sparam.SetPictureFile ("input/tmp/szara-wisienka-do-segm.png");
+    //sparam.SetPictureFile ("output/grzybek2.png");
+    //sparam.SetPictureFile ("input/moj-grzybek-to-simulate.png");
+    //sparam.SetPictureFile ("output/segm_kruki.png");
+    //sparam.SetPictureFile ("input/bush-gauss-histogramcurvation.png");
+    //char * pictureFile = "input/ring-spread.png";
+
+    sparam.SetOutputDirectory ("output/");
+    sparam.SetOutputFile ("output-test-file.txt");
+
+    sparam.SetIterationsNumber (0L);
+    sparam.SetPMRRate (.018);
+
+
+    MultiCoreSegmentation mcs (sparam, 2);
     mcs.SimulateOnMultiCore();
     return 0;
 

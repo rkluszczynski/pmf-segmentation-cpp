@@ -15,46 +15,25 @@
 
 extern int _tmp_seed;
 
-MultiCoreSegmentation::MultiCoreSegmentation (unsigned noOfThreads) : numberOfThreads(noOfThreads),
+MultiCoreSegmentation::MultiCoreSegmentation (SegmentationParameters & segparams, unsigned noOfThreads) : numberOfThreads(noOfThreads),
     strategy(MinimalRateStrategy)
     //strategy(GibbsRandomizationStrategy)
     //strategy(ParallelTemperingStrategy)
 {
-    assert(numberOfThreads > 0u);
     numberOfThreads = 2;
     numberOfStepsToSync = 750;
 
     //ctor
-    if (numberOfThreads > 0) omp_set_num_threads(numberOfThreads);
+    if (numberOfThreads > 0u) omp_set_num_threads(numberOfThreads);
     else numberOfThreads = omp_get_num_threads();
+
+    SegmentationParameters sparam = segparams;
 
     fprintf(stderr, "Number of threads : %i\n", numberOfThreads);
     scanf("%*c");
 
     simulations = new pmf::BinarySegmentation * [numberOfThreads];
 
-    SegmentationParameters sparam;
-    sparam.SetFieldHeight (3.0);
-    sparam.SetFieldWidth (3.0);
-    sparam.SetSeed (7217);
-    //sparam.SetSeed (13);
-    //sparam.SetSeed (_tmp_seed);
-
-    //sparam.SetInitialFile ("output/_shaked-pmf.txt");
-    //sparam.SetInitialFile ("output/_shaked-pmf.txt");
-
-    sparam.SetPictureFile ("input/tmp/szara-wisienka-do-segm.png");
-    //sparam.SetPictureFile ("output/grzybek2.png");
-    //sparam.SetPictureFile ("input/moj-grzybek-to-simulate.png");
-    //sparam.SetPictureFile ("output/segm_kruki.png");
-    //sparam.SetPictureFile ("input/bush-gauss-histogramcurvation.png");
-    //char * pictureFile = "input/ring-spread.png";
-
-    sparam.SetOutputDirectory ("output/");
-    sparam.SetOutputFile ("output-test-file.txt");
-
-    sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.018);
 
     FILE * stream = stderr;
     pmf::BinarySegmentation * * sims = simulations;

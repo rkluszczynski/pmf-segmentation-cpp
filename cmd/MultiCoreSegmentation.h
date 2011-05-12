@@ -8,7 +8,7 @@
 class MultiCoreSegmentation
 {
     public:
-        MultiCoreSegmentation(unsigned = 1u);
+        MultiCoreSegmentation (SegmentationParameters &, unsigned = 0u);
         virtual ~MultiCoreSegmentation();
 
         void SimulateOnMultiCore();
