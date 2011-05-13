@@ -7,8 +7,8 @@
 namespace pmf
 {
 
-    BinarySegmentation::BinarySegmentation(SegmentationParameters params)
-    : parameters(params), loopIteration(0L)
+    BinarySegmentation::BinarySegmentation (SegmentationParameters params, unsigned thId)
+    : parameters(params), loopIteration(0L), threadId(thId)
     {
         cout << "[ SEGM ] : ctor.begin()" << endl;
         std::string fout1name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("gen.txt") );
@@ -136,11 +136,12 @@ namespace pmf
         tmpArea = pmf->CalculateGrayscaleImageEnergyTerm(img);
         tmpElen = storedElen = 0.0;
 
-        tmpLJn = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, _sigma12, _sigma6, _rcutoff);
+        //tmpLJn = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, _sigma12, _sigma6, _rcutoff);
+        tmpLJn = pmf->CalculateSmoothPotentialLogEnergyTerm (_rcutoff, 100.);
         tmpLJg = pmf->CalculateLennardJonesMinimalDistanceEnergyTerm(numerics->GetAxisEpsilon(), 4.*_sigma12, 2.*_sigma6, _rcutoff);
 
         tmpEnergy = result = beta_1 * tmpArea + beta_2 * tmpElen + beta_LJn * tmpLJn + beta_LJg * tmpLJg;
-        fprintf(stderr, "[ENERGY] : %lf  (img=%.7lf / LJn=%.11lf / LJg=%.11lf)\n", result, tmpArea, tmpLJn, tmpLJg);
+        fprintf(stderr, "[ENERGY-%u] : %lf  (img=%.7lf / Log=%.11lf / LJg=%.11lf)\n", threadId, result, tmpArea, tmpLJn, tmpLJg);
 #if SAVE_PMR
         if (!loopIteration)
         {

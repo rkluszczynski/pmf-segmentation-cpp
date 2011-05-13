@@ -80,7 +80,8 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
 
     bool sync = false;
     bool done = false;
-#pragma omp parallel default(none) shared(sims, sync, done, erno)
+//#pragma omp parallel default(none) shared(sims, sync, done, erno)
+#pragma omp parallel shared(sims, sync, done, erno)
     {
         int id = omp_get_thread_num();
         bool nextStep = true;
