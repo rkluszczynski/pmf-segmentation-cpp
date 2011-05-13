@@ -1,13 +1,15 @@
 #!/bin/sh
-
-CHECK=`find . -type d | wc -l`
-if [ $CHECK -gt 1 ]; then
+#
+#	usage : $0 how_many_jobs how_many_threads
+#
+SAVECHECK=`find . -type d | wc -l`
+if [ $SAVECHECK -gt 1 ]; then
 	echo "ERROR: some directory exist in cwd"
 	exit 1
 fi
 
-THREADS=${1:-4}
-HOW_MANY_JOBS=3
+HOW_MANY_JOBS=${1:-10}
+THREADS=${2:-4}
 
 CWD="`pwd`"
 JOBSLOG=$CWD/qsub.log

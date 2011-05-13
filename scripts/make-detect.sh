@@ -11,7 +11,7 @@ OBJDIR=`dirname $0`/../objs/Debug/detect
 #Compiling: ..\detect\DetectorSchedule.cpp
 FILES="../detect/DetectorSweepLine.cpp ../detect/IntersectionDetector.cpp ../detect/ScheduleEvent.cpp ../detect/SweepLineElement.cpp ../detect/DetectorSchedule.cpp"
 
-CPP="g++ -Wall"
+CPP="g++ -Wall -s -O3"
 
 #COMPILE_CMD="g++ -I ../src/utils/ -I ../src/utils/dSFMT -fopenmp -fno-strict-aliasing --param max-inline-insns-single=1800 --param inline-unit-growth=500 --param large-function-growth=900 -DDSFMT_DO_NOT_USE_OLD_NAMES -DDSFMT_MEXP=19937 -Wall -s -O3"
 

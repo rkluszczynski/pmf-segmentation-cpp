@@ -19,7 +19,7 @@ OBJDIR=`dirname $0`/../objs/init
 #Compiling: ..\init\main.cpp
 FILES="../cmd/grayimage.cpp ../cmd/image.cpp ../init/AbstractProperties.cpp ../init/GaussianRandomClass.cpp ../init/MosaicConstants.cpp ../init/MosaicDualGraph.cpp ../init/MosaicGraph.cpp ../init/MosaicGraphEdge.cpp ../init/MosaicGraphNode.cpp ../init/MosaicLinesDeterminer.cpp ../init/MosaicPMF.cpp ../init/main.cpp"
 
-CPP="g++ -Wall -fexceptions -I ../detect -I ../src/utils -L ../lib `$WXCFG --cppflags`"
+CPP="g++ -O2 -Wall -fexceptions -I ../detect -I ../src/utils -L ../lib `$WXCFG --cppflags`"
 LFLAGS="-lutils-std -ldetect_d `$WXCFG --libs`"
 
 #COMPILE_CMD="g++ -I ../src/utils/ -I ../src/utils/dSFMT -fopenmp -fno-strict-aliasing --param max-inline-insns-single=1800 --param inline-unit-growth=500 --param large-function-growth=900 -DDSFMT_DO_NOT_USE_OLD_NAMES -DDSFMT_MEXP=19937 -Wall -s -O3"

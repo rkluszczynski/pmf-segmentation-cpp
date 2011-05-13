@@ -15,7 +15,7 @@ OBJDIR=`dirname $0`/../objs/src
 #Compiling: ..\cmd\MultiCoreSegmentation.cpp
 FILES="../cmd/SegmentationParameters.cpp ../cmd/SynchronizationTimer.cpp ../cmd/grayimage.cpp ../cmd/image.cpp ../cmd/segmentation.cpp ../cmd/sim-core.cpp ../src/statistics.cpp ../cmd/MultiCoreSegmentation.cpp"
 
-CPP="g++ -Wall -fexceptions -fopenmp -I ../src/utils -L ../lib -DDSFMT_MEXP=19937 `$WXCFG --cppflags`"
+CPP="g++ -s -O2 -Wall -fexceptions -fopenmp -I ../src/utils -L ../lib -DDSFMT_MEXP=19937 `$WXCFG --cppflags`"
 LFLAGS="-lutils-std `$WXCFG --libs`"
 
 #COMPILE_CMD="g++ -I ../src/utils/ -I ../src/utils/dSFMT -fopenmp -fno-strict-aliasing --param max-inline-insns-single=1800 --param inline-unit-growth=500 --param large-function-growth=900 -DDSFMT_DO_NOT_USE_OLD_NAMES -DDSFMT_MEXP=19937 -Wall -s -O3"
