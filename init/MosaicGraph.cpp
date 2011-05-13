@@ -145,7 +145,7 @@ MosaicGraph::MakeGaussianShakeToDisorder (double u)
         {
             u *= .75;
             printf("[ changing variance ] : %lf", u);
-            scanf("%*c");
+///            scanf("%*c");
         }
         printf("\n\n________________\ndo %sintersect\n\n", doItAgain ? "" : "NOT ");
     // */

@@ -127,11 +127,11 @@ int main (int argc, char *argv[])
 
     _tmp_cores = 8;
     _tmp_seed = 7217;
-    char tmp_imgfile = "input/tmp/szara-wisienka-do-segm.png";
+    char * tmp_imgfile = "input/tmp/szara-wisienka-do-segm.png";
 
     if (argc > 1  and  argc <= 4) _tmp_cores = atoi(argv[1]);
     if (argc > 2  and  argc <= 4) _tmp_seed = atoi(argv[2]);
-    if (argc == 4) tmp_imgfile = argc[3];
+    if (argc == 4) tmp_imgfile = argv[3];
 
 
     SegmentationParameters sparam;
@@ -155,8 +155,8 @@ int main (int argc, char *argv[])
     sparam.SetOutputFile ("output-test-file.txt");
 
     sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.018);
-    sparam.SetPMFEpsilon (0.00000001);
+    sparam.SetPMRRate (.02);
+    sparam.SetPMFEpsilon (1e-7);
 
     MultiCoreSegmentation mcs (sparam, _tmp_cores);
     mcs.SimulateOnMultiCore();
