@@ -7,7 +7,7 @@
 #define FOREACH(I, C)   for(VAR(I, (C).begin()); I != (C).end(); ++I)
 
 
-int SegmentationParameters::_trigger = 0;
+int SegmentationParameters::_debugTrigger = 0;
 
 
 SegmentationParameters::SegmentationParameters() : m_log(std::clog)
@@ -25,7 +25,7 @@ void
 SegmentationParameters::OnInit()
 {
     m_IterationsNumber = 0L;
-    m_PMRRate = 0.;
+    m_PmfEpsilon = m_PMRRate = 0.;
     m_InitialFile = m_PictureFile = m_OutputDiectory = m_OutputFile = m_OutputPrefix = NULL;
 }
 
@@ -78,6 +78,7 @@ SegmentationParameters::SegmentationParameters (const SegmentationParameters & o
     m_Seed = other.m_Seed;
     m_IterationsNumber = other.m_IterationsNumber;
     m_PMRRate = other.m_PMRRate;
+    m_PmfEpsilon = other.m_PmfEpsilon;
 
     if (other.m_PictureFile) m_PictureFile = strdup(other.m_PictureFile);
     if (other.m_InitialFile) m_InitialFile = strdup(other.m_InitialFile);
@@ -104,7 +105,7 @@ SegmentationParameters::PrintParameters (FILE * stream)
     fprintf(stream, "[ INFO ] :         Seed (-e) = %li\n"  , m_Seed);
     fprintf(stream, "[ INFO ] : Picture File (-p) = '%s'\n" , m_PictureFile);
     fprintf(stream, "[ INFO ] :   Iterations (-n) = %li\n"  , m_IterationsNumber);
-    fprintf(stream, "[ INFO ] : Stopping PMR (-r) = %.2lf\n", m_PMRRate);
+    fprintf(stream, "[ INFO ] : Stopping PMR (-r) = %.4lf\n", m_PMRRate);
     fprintf(stream, "\n");
 }
 

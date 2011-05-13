@@ -16,7 +16,8 @@ namespace pmf
         ofstream fout1( fout1name.c_str() );
         //out.rdbuf(fout1.rdbuf());
 
-        numerics = new NumericalParameters (0.00000001);
+        numerics = new NumericalParameters (parameters.GetPMFEpsilon());
+        assert(parameters.GetPMFEpsilon() > 0.);
         prng = new DoublePRNG (parameters.GetSeed());
         img = new GrayscaleImage (parameters.GetPictureFile());
         pmf = new DoublePMF (parameters.GetFieldWidth(), parameters.GetFieldHeight(), *numerics);
@@ -128,23 +129,24 @@ namespace pmf
         //double beta_1 = 20. + 0.009 * (loopIteration + 70000);
         double beta_1 = 2000. + 0.01 * loopIteration;
         double beta_2 = 0.0;
+        double beta_LJn = 1.0;
+        double beta_LJg = 1.0;
         double result = 0.0;
 
         tmpArea = pmf->CalculateGrayscaleImageEnergyTerm(img);
         tmpElen = storedElen = 0.0;
 
-        tmpEnergy = result = beta_1 * tmpArea + beta_2 * tmpElen;
-        fprintf(stderr, "[ENERGY] : %lf  (%.7lf)\n", result, tmpArea);
+        tmpLJn = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, _sigma12, _sigma6, _rcutoff);
+        tmpLJg = pmf->CalculateLennardJonesMinimalDistanceEnergyTerm(numerics->GetAxisEpsilon(), 4.*_sigma12, 2.*_sigma6, _rcutoff);
+
+        tmpEnergy = result = beta_1 * tmpArea + beta_2 * tmpElen + beta_LJn * tmpLJn + beta_LJg * tmpLJg;
+        fprintf(stderr, "[ENERGY] : %lf  (img=%.7lf / LJn=%.11lf / LJg=%.11lf)\n", result, tmpArea, tmpLJn, tmpLJg);
 #if SAVE_PMR
         if (!loopIteration)
         {
             std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
             FILE * fp = fopen(pmrfile.c_str(), "w");
-
-        double pmfeps = numerics->GetDistEpsilon();
-        double tmpLJ = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
-
-            fprintf(fp, "%li;%.21lf;\t%21lf\n", loopIteration, storedArea, tmpLJ);
+            fprintf(fp, "%li;%.21lf;\t%.17lf;\t%.17lf\n", loopIteration, storedArea, tmpLJn, tmpLJg);
             fclose(fp);
         }
 #endif
@@ -245,13 +247,7 @@ namespace pmf
 #if SAVE_PMR
         std::string pmrfile( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pmr.txt") );
         FILE * fp = fopen(pmrfile.c_str(), "a");
-
-        double pmfeps = numerics->GetDistEpsilon();
-        double tmpLJn = pmf->CalculateLennardJonesNeighboursEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
-
-        double tmpLJm = pmf->CalculateLennardJonesMinimalDistanceEnergyTerm(.1, pmfeps, pmfeps, 4*pmfeps);
-
-        fprintf(fp, "%li;%.21lf;\t%21lf;\t%7lf\n", loopIteration, storedArea, tmpLJn, tmpLJm);
+        fprintf(fp, "%li;%.21lf;\t%.17lf;\t%.17lf\n", loopIteration, storedArea, tmpLJn, tmpLJg);
         //fprintf(fp, "%li;%.21lf\n", loopIteration, storedArea);
         fclose(fp);
 #endif
@@ -289,12 +285,14 @@ namespace pmf
 
         char filename[256];
         //int iterNum = 27270;
-        int iterNum = 20299;
+        int iterNum = numeric_limits<int>::max();
+        //iterNum = 20299;
 
         //if (loopIteration >= 17744) Geometry::qq = true;
         //if (loopIteration >= iterNum) pmf->EraseSmallPolygons(0.0001);
-        if (loopIteration == 16429)  SegmentationParameters::_trigger = 1;
-        if (loopIteration == 20318)  SegmentationParameters::_trigger = 20318;
+
+        //if (loopIteration == 16429)  SegmentationParameters::_trigger = 1;
+        //if (loopIteration == 20318)  SegmentationParameters::_trigger = 20318;
 
         if (loopIteration < iterNum)
             sprintf(filename, std::string(std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("pre.txt")).c_str() );
@@ -342,8 +340,13 @@ namespace pmf
         areaOfPMF = M_PI * pmf->GetHeight() * pmf->GetWidth();
         storedArea = 1.;
 
-        prng = new DoublePRNG(parameters.GetSeed());
-        pmf->SetPRNG (prng);
+        double pmfeps = numerics->GetDistEpsilon() * 20;
+        _sigma6 = (pmfeps * pmfeps) * (pmfeps * pmfeps) * (pmfeps * pmfeps);
+        _sigma12 = _sigma6 * _sigma6;
+        _rcutoff = 4 * pmfeps;
+
+        //prng = new DoublePRNG(parameters.GetSeed());
+        //pmf->SetPRNG (prng);
 
         cout << "[ SEGM ] : prepare.end()" << endl;
     }

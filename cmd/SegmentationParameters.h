@@ -70,8 +70,13 @@ class SegmentationParameters
         inline
         void SetPMRRate(double val) { m_PMRRate = val; }
 
+        inline
+        double GetPMFEpsilon() { return m_PmfEpsilon; }
+        inline
+        void SetPMFEpsilon(double val) { m_PmfEpsilon = val; }
+
         // for debuging :
-        static int _trigger;
+        static int _debugTrigger;
 
 
     protected:
@@ -92,6 +97,8 @@ class SegmentationParameters
         time_t m_Seed;
         long m_IterationsNumber;
         double m_PMRRate;
+
+        double m_PmfEpsilon;
 
         std::ostream & m_log;
 };

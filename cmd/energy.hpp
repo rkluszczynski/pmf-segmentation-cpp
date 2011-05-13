@@ -5,9 +5,9 @@
 template <class REAL>
 inline
 REAL
-LJDistTerm(REAL r, REAL sig12, REAL sig6)
+LJDistTerm(REAL squareDist, REAL sig12, REAL sig6)
 {
-    REAL tmp = r*r*r*r*r*r;
+    REAL tmp = squareDist*squareDist*squareDist;
     tmp = 1. / tmp;
     return tmp * (sig12 * tmp - sig6);
 
@@ -19,16 +19,17 @@ PMF<REAL> :: CalculateLennardJonesNeighboursEnergyTerm (REAL epsilon_LJ, REAL si
 {
     REAL term = 4. * epsilon_LJ;
     REAL energy = 0.;
-    REAL LJcutoff = LJDistTerm(rcut_LJ, sigma12_LJ, sigma6_LJ);
+    REAL squareRcut_LJ = rcut_LJ * rcut_LJ;
 
-    REAL minD = numeric_limits<REAL>::max();
+    REAL LJcutoff = LJDistTerm(rcut_LJ, sigma12_LJ, sigma6_LJ);
+    //REAL minD2 = numeric_limits<REAL>::max();
     FOREACH(it, *cf)
     {
         Point<REAL> * pt = *it;
         Point<REAL> * n1 = pt->n1;
         Point<REAL> * n2 = pt->n2;
 
-        REAL dist;
+        REAL squareDist;
         switch (pt->type)
         {
             case PT_BirthOnBorder :
@@ -37,17 +38,17 @@ PMF<REAL> :: CalculateLennardJonesNeighboursEnergyTerm (REAL epsilon_LJ, REAL si
             case PT_DeathOnBorder :
                                     assert(n2 == NULL);
             case PT_Update        :
-                                    dist = pt->CalculateDistance(n1);
-                                    minD = min(minD, dist);
-                                    if (dist < rcut_LJ)  energy += (LJDistTerm(dist, sigma12_LJ, sigma6_LJ) - LJcutoff);
+                                    squareDist = pt->CalculateSquareDistance(n1);
+                                    //minD2 = min(minD2, squareDist);
+                                    if (squareDist < squareRcut_LJ)  energy += (LJDistTerm(squareDist, sigma12_LJ, sigma6_LJ) - LJcutoff);
                                     break;
             case PT_Collision     :
-                                    dist = pt->CalculateDistance(n1);
-                                    minD = min(minD, dist);
-                                    if (dist < rcut_LJ)  energy += (LJDistTerm(dist, sigma12_LJ, sigma6_LJ) - LJcutoff);
-                                    dist = pt->CalculateDistance(n2);
-                                    minD = min(minD, dist);
-                                    if (dist < rcut_LJ)  energy += (LJDistTerm(dist, sigma12_LJ, sigma6_LJ) - LJcutoff);
+                                    squareDist = pt->CalculateSquareDistance(n1);
+                                    //minD2 = min(minD2, squareDist);
+                                    if (squareDist < squareRcut_LJ)  energy += (LJDistTerm(squareDist, sigma12_LJ, sigma6_LJ) - LJcutoff);
+                                    squareDist = pt->CalculateSquareDistance(n2);
+                                    //minD2 = min(minD2, squareDist);
+                                    if (squareDist < squareRcut_LJ)  energy += (LJDistTerm(squareDist, sigma12_LJ, sigma6_LJ) - LJcutoff);
                                     break;
             case PT_BirthInField  :
                                     assert(n1 and n2);
@@ -57,8 +58,8 @@ PMF<REAL> :: CalculateLennardJonesNeighboursEnergyTerm (REAL epsilon_LJ, REAL si
         }
     }
     energy *= term;
-    printf("\n\n MINIMAL DISTANCE = %.21lf / %.21lf\n\n", minD, rcut_LJ);
-    printf("            ENERGY  = %.21lf\n\n", energy);
+    //printf("\n\n MINIMAL DISTANCE = %.21lf / %.21lf\n\n", sqrt(minD2), rcut_LJ);
+    //printf("            ENERGY  = %.21lf\n\n", energy);
     return energy;
 }
 
@@ -67,18 +68,18 @@ template <class REAL>
 REAL
 PMF<REAL> :: CalculateLennardJonesMinimalDistanceEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
 {
-    //REAL term = 4. * epsilon_LJ;
-    REAL energy = 0.;
-
     NearestPointsDistance npd;
     FOREACH(it, *cf) npd.addPoint((*it)->x, (*it)->y);
-    double dist = npd.determineNearestPointsDistance();
+    assert(npd.size() == cf->GetPointsCount());
+
+    double squareDist = npd.determineNearestPointsSquareDistance();
 
     REAL sig12 = sigma12_LJ;
     REAL sig6 = sigma6_LJ;
 
-    energy += LJDistTerm(dist, sig12, sig6);
-    return dist;
+    REAL energy = (4. * epsilon_LJ * LJDistTerm(squareDist, sig12, sig6));
+    //printf("\n\n MIN.GLOBAL DISTANCE = %.21lf / ENERGY = %.21lf\n\n", sqrt(squareDist), energy);
+    return energy;
 }
 
 

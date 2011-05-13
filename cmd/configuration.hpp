@@ -44,7 +44,7 @@ namespace pmf
 
             inline REAL GetFieldWidth()  { return  fieldWidth; }
             inline REAL GetFieldHeight() { return fieldHeight; }
-            inline long GetPointsCount() { return pts->size(); }
+            inline unsigned GetPointsCount() { return pts->size(); }
             inline bool IsEmpty() { return pts->empty(); }
             inline Point<REAL> * SeeLastPoint() { return pts->back(); }
 

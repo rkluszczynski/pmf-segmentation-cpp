@@ -79,7 +79,7 @@ namespace pmf
         int WhichNeighbourHasID (long);
 
         inline
-        REAL CalculateDistance (const Point<REAL> *) const;
+        REAL CalculateSquareDistance (const Point<REAL> *) const;
 
 
         friend std::ostream& operator << (std::ostream& out, const Point<REAL> * pt)
@@ -176,9 +176,9 @@ namespace pmf
     template <typename REAL>
     inline
     REAL
-    Point<REAL>::CalculateDistance (const Point<REAL> * anotherPt) const
+    Point<REAL>::CalculateSquareDistance (const Point<REAL> * anotherPt) const
     {
-        return sqrt( (x - anotherPt->x)*(x - anotherPt->x) + (y - anotherPt->y)*(y - anotherPt->y) );
+        return (x - anotherPt->x)*(x - anotherPt->x) + (y - anotherPt->y)*(y - anotherPt->y);
     }
 
 

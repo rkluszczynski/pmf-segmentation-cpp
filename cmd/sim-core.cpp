@@ -114,7 +114,7 @@ void testRandom()
 }
 
 
-int _tmp_seed;
+int _tmp_seed, _tmp_cores;
 
 
 #define REAL double
@@ -122,7 +122,14 @@ int main (int argc, char *argv[])
 {
     //testParallelRandom();
     //testRandom();
-    if (argc == 2) _tmp_seed = atoi(argv[1]);
+
+    /// tmp usage :  argv[0]  threads  seed
+
+    _tmp_cores = 8;
+    _tmp_seed = 7217;
+
+    if (argc == 1  or  argc == 2) _tmp_cores = atoi(argv[1]);
+    if (argc == 2) _tmp_seed = atoi(argv[2]);
 
 
     SegmentationParameters sparam;
@@ -130,10 +137,10 @@ int main (int argc, char *argv[])
     sparam.SetFieldWidth (3.0);
     sparam.SetSeed (7217);
     //sparam.SetSeed (13);
-    //sparam.SetSeed (_tmp_seed);
+    sparam.SetSeed (_tmp_seed);
 
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
-    //sparam.SetInitialFile ("output/_shaked-pmf.txt");
+    sparam.SetInitialFile ("output/_shaked-pmf.txt");
 
     sparam.SetPictureFile ("input/tmp/szara-wisienka-do-segm.png");
     //sparam.SetPictureFile ("output/grzybek2.png");
@@ -147,9 +154,9 @@ int main (int argc, char *argv[])
 
     sparam.SetIterationsNumber (0L);
     sparam.SetPMRRate (.018);
+    sparam.SetPMFEpsilon (0.00000001);
 
-
-    MultiCoreSegmentation mcs (sparam, 2);
+    MultiCoreSegmentation mcs (sparam, _tmp_cores);
     mcs.SimulateOnMultiCore();
     return 0;
 

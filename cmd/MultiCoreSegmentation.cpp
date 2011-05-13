@@ -20,7 +20,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (SegmentationParameters & segparams
     //strategy(GibbsRandomizationStrategy)
     //strategy(ParallelTemperingStrategy)
 {
-    numberOfThreads = 2;
+///    numberOfThreads = 2;
     numberOfStepsToSync = 750;
 
     //ctor
@@ -30,7 +30,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (SegmentationParameters & segparams
     SegmentationParameters sparam = segparams;
 
     fprintf(stderr, "Number of threads : %i\n", numberOfThreads);
-    scanf("%*c");
+///    scanf("%*c");
 
     simulations = new pmf::BinarySegmentation * [numberOfThreads];
 
@@ -154,7 +154,7 @@ MultiCoreSegmentation::SimulateOnMultiCore ()
                                             break;
                             }
                         }
-                        scanf("%*c");
+///                        scanf("%*c");
 
                         sync = false;
                         printf("sync::end()\n");

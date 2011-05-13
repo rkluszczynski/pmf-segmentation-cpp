@@ -61,6 +61,7 @@ namespace pmf
 
             double storedArea, storedEnergy, storedElen;
             double tmpArea, tmpEnergy, tmpElen;
+            double tmpLJn, tmpLJg, _sigma6, _sigma12, _rcutoff;
             double areaOfPMF, angle;
             bool apply;
     };
