@@ -127,9 +127,11 @@ int main (int argc, char *argv[])
 
     _tmp_cores = 8;
     _tmp_seed = 7217;
+    char tmp_imgfile = "input/tmp/szara-wisienka-do-segm.png";
 
-    if (argc == 1  or  argc == 2) _tmp_cores = atoi(argv[1]);
-    if (argc == 2) _tmp_seed = atoi(argv[2]);
+    if (argc > 1  and  argc <= 4) _tmp_cores = atoi(argv[1]);
+    if (argc > 2  and  argc <= 4) _tmp_seed = atoi(argv[2]);
+    if (argc == 4) tmp_imgfile = argc[3];
 
 
     SegmentationParameters sparam;
@@ -142,7 +144,7 @@ int main (int argc, char *argv[])
     //sparam.SetInitialFile ("output/_shaked-pmf.txt");
     sparam.SetInitialFile ("output/_shaked-pmf.txt");
 
-    sparam.SetPictureFile ("input/tmp/szara-wisienka-do-segm.png");
+    sparam.SetPictureFile (tmp_imgfile);
     //sparam.SetPictureFile ("output/grzybek2.png");
     //sparam.SetPictureFile ("input/moj-grzybek-to-simulate.png");
     //sparam.SetPictureFile ("output/segm_kruki.png");
