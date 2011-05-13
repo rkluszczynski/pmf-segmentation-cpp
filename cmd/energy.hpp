@@ -2,6 +2,55 @@
 #define ENERGY_HPP_INCLUDED
 
 
+#define SmoothLogTerm(_R, _Rcut) log(_Rcut / _R)
+template <class REAL>
+REAL
+PMF<REAL> :: CalculateSmoothPotentialLogEnergyTerm (REAL rcut_Log, REAL betaN, REAL betaG)
+{
+    REAL energy = 0.;
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        Point<REAL> * n1 = pt->n1;
+        Point<REAL> * n2 = pt->n2;
+
+        REAL dist;
+        switch (pt->type)
+        {
+            case PT_BirthOnBorder :
+                                    assert(n1 and not n2);
+                                    break;
+            case PT_DeathOnBorder :
+                                    assert(n2 == NULL);
+            case PT_Update        :
+                                    dist = sqrt ( pt->CalculateSquareDistance(n1) );
+                                    if (dist < rcut_Log)  energy += SmoothLogTerm(dist, rcut_Log);
+                                    break;
+            case PT_Collision     :
+                                    dist = sqrt ( pt->CalculateSquareDistance(n1) );
+                                    if (dist < rcut_Log)  energy += SmoothLogTerm(dist, rcut_Log);
+                                    dist = sqrt ( pt->CalculateSquareDistance(n2) );
+                                    if (dist < rcut_Log)  energy += SmoothLogTerm(dist, rcut_Log);
+                                    break;
+            case PT_BirthInField  :
+                                    assert(n1 and n2);
+                                    break;
+            default :
+                        assert("WRONG POINT TYPE DURING CALCULATING ENERGY" && false);
+        }
+    }
+    energy *= betaN;
+    if (betaG > 0.)
+    {
+        NearestPointsDistance npd;
+        FOREACH(it, *cf) npd.addPoint((*it)->x, (*it)->y);
+        energy += (betaG * SmoothLogTerm( npd.determineNearestPointsDistance() , rcut_Log));
+    }
+    return energy;
+}
+#undef SmoothLogTerm
+
+
 template <class REAL>
 inline
 REAL
