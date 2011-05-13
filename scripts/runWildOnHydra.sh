@@ -21,6 +21,7 @@ for i in `seq 1 $HOW_MANY_JOBS`
 do
 	echo "Number $i"
 	DIR="$CWD/sim-num-$i"
+#	SEED=$(($i * 20 + 100))
 	SEED=""
 	mkdir $DIR
 	cp `dirname $0`/runOnHydra.pbs $DIR/runOnHydra-no$i.pbs

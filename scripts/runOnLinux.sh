@@ -9,7 +9,7 @@ if [ $CHECK -gt 1 ]; then
 	exit 1
 fi
 
-echo "INFO: Running on $THREADS threads using seed = $SEED"
+echo "INFO: Running on `hostname` with $THREADS threads using seed = $SEED"
 
 DIR=`dirname $0`
 INITCFG=$DIR/../input/mosaic.txt
