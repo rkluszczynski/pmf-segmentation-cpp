@@ -15,7 +15,8 @@ CPP="g++ -Wall"
 
 #COMPILE_CMD="g++ -I ../src/utils/ -I ../src/utils/dSFMT -fopenmp -fno-strict-aliasing --param max-inline-insns-single=1800 --param inline-unit-growth=500 --param large-function-growth=900 -DDSFMT_DO_NOT_USE_OLD_NAMES -DDSFMT_MEXP=19937 -Wall -s -O3"
 
-rm $OBJDIR/*.o
+mkdir -p $OBJDIR
+rm -f $OBJDIR/*.o
 for fname in $FILES;
 do
 	echo "Compiling: $fname"
@@ -23,6 +24,8 @@ do
 	$CPP $fname -c -o $OBJDIR/$bname.o
 done
 
+rm -f $LIBFILE
+echo "Linking static library: $LIBFILE"
 ar -cvq $LIBFILE $OBJDIR/*.o
 ls -al $LIBFILE
 

@@ -63,7 +63,7 @@ MultiCoreSegmentation::MultiCoreSegmentation (SegmentationParameters & segparams
 MultiCoreSegmentation::~MultiCoreSegmentation ()
 {
     //dtor
-    REP(i, numberOfThreads)  delete simulations[i];
+    for (unsigned i = 0u; i < numberOfThreads; ++i)  delete simulations[i];
     delete[] simulations;
 }
 
