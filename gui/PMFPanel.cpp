@@ -475,7 +475,8 @@ bool PMFPanel::NewPMF(wxString path)
     int  width = 200;
     int height = 200;
 
-    pmf::PMF<double> * q = new pmf::PMF<double>(0.0, 0.0);
+    pmf::NumericalParameters np(0.0000001);
+    pmf::PMF<double> * q = new pmf::PMF<double>(0.0, 0.0, np);
     //q->LoadPMF(filepath);
 
      //width = int(double(scale) * q->GetWidth());

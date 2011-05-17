@@ -249,14 +249,16 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
     wxImage img = image.ConvertToGreyscale();
     GrayScaleImage gsimg(img.GetWidth(), img.GetHeight());
 
+    int div = 2;
+    int rest = 255 - 255 / div;
     for (int x = 0; x < img.GetWidth(); x++) {
         for (int y = 0; y < img.GetHeight(); y++) {
             int rr = img.GetRed(x,y);
             int gg = img.GetGreen(x,y);
             int bb = img.GetBlue(x,y);
-            rr = 128 + rr / 2;
-            gg = 128 + gg / 2;
-            bb = 128 + bb / 2;
+            rr = rest + rr / div;
+            gg = rest + gg / div;
+            bb = rest + bb / div;
             img.SetRGB(x, y, rr, gg, bb);
 
             gsimg.PutPixelValue(x, y, img.GetGreen(x,y));
@@ -269,7 +271,8 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
     if (pmf) {
         wxMemoryDC dc(*bmp);
 
-        wxColor cc(16,8,128);
+        //wxColor cc(16,8,128);
+        wxColor cc(34,177,76);
         wxPen pen(cc, 1);
         //wxPen pen(*wxBLUE, 1);
         dc.SetPen(pen);

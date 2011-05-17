@@ -32,9 +32,15 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DDSFMT_MEXP=19937" />
 					<Add directory="..\src" />
 					<Add directory="..\headers" />
+					<Add directory="..\src\utils" />
 				</Compiler>
+				<Linker>
+					<Add library="utils-std" />
+					<Add directory="..\lib" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -102,12 +108,12 @@
 					<load_resource file="ModPointDialog.xrc" />
 				</gui>
 				<resources>
-					<wxFrame wxs="wxsmith/mainFrame.wxs" src="mainFrame.cpp" hdr="mainFrame.h" xrc="mainFrame.xrc" name="mainFrame" language="CPP" />
-					<wxDialog wxs="wxsmith/GenerateDialog.wxs" src="GenerateDialog.cpp" hdr="GenerateDialog.h" xrc="GenerateDialog.xrc" name="GenerateDialog" language="CPP" />
-					<wxPanel wxs="wxsmith/ImagePanel.wxs" src="ImagePanel.cpp" hdr="ImagePanel.h" name="ImagePanel" language="CPP" />
-					<wxPanel wxs="wxsmith/PMFPanel.wxs" src="PMFPanel.cpp" hdr="PMFPanel.h" xrc="PMFPanel.xrc" name="PMFPanel" language="CPP" />
-					<wxDialog wxs="wxsmith/AddPointDialog.wxs" src="AddPointDialog.cpp" hdr="AddPointDialog.h" xrc="AddPointDialog.xrc" name="AddPointDialog" language="CPP" />
-					<wxDialog wxs="wxsmith/ModPointDialog.wxs" src="ModPointDialog.cpp" hdr="ModPointDialog.h" xrc="ModPointDialog.xrc" name="ModPointDialog" language="CPP" />
+					<wxFrame wxs="wxsmith/mainFrame.wxs" src="mainFrame.cpp" hdr="mainFrame.h" xrc="mainFrame.xrc" fwddecl="0" i18n="1" name="mainFrame" language="CPP" />
+					<wxDialog wxs="wxsmith/GenerateDialog.wxs" src="GenerateDialog.cpp" hdr="GenerateDialog.h" xrc="GenerateDialog.xrc" fwddecl="0" i18n="1" name="GenerateDialog" language="CPP" />
+					<wxPanel wxs="wxsmith/ImagePanel.wxs" src="ImagePanel.cpp" hdr="ImagePanel.h" fwddecl="0" i18n="1" name="ImagePanel" language="CPP" />
+					<wxPanel wxs="wxsmith/PMFPanel.wxs" src="PMFPanel.cpp" hdr="PMFPanel.h" xrc="PMFPanel.xrc" fwddecl="0" i18n="1" name="PMFPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/AddPointDialog.wxs" src="AddPointDialog.cpp" hdr="AddPointDialog.h" xrc="AddPointDialog.xrc" fwddecl="0" i18n="1" name="AddPointDialog" language="CPP" />
+					<wxDialog wxs="wxsmith/ModPointDialog.wxs" src="ModPointDialog.cpp" hdr="ModPointDialog.h" xrc="ModPointDialog.xrc" fwddecl="0" i18n="1" name="ModPointDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 			<lib_finder disable_auto="1">
