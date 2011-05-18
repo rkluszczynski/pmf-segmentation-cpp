@@ -1,6 +1,12 @@
 #!/bin/sh
-
-PROGFILE=../bin/ppmf-sim.exe
+#
+#
+if [ $# -ne 1 ]
+then
+	echo "[ USAGE ] : `basename $0` <progname>"
+	exit 1
+fi
+PROGFILE=../bin/`basename ${1:-"ppmf-sim2.exe"}`
 
 WXCFG="/vosoft/unicore/pmf/wx-2.8.12/bin/wx-config"
 OBJDIR=`dirname $0`/../objs/src

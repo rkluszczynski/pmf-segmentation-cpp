@@ -1,7 +1,8 @@
 #!/bin/sh
 
 THREADS=${1:-8}
-SEED=${2:-$RANDOM}
+PROGFILE=${2:-"ppmf-sim.exe"}
+SEED=${3:-$RANDOM}
 
 CHECK=`find . -type d | wc -l`
 if [ $CHECK -gt 1 ]; then
@@ -28,7 +29,8 @@ echo "BEGIN: `/bin/date`"
 $DIR/../bin/init.exe -e $SEED -c $INITCFG
 
 echo "SEGM: `/bin/date`"
+echo "EXEC: $PROGFILE"
 
-$DIR/../bin/ppmf-sim.exe $THREADS $SEED $IMGFILE
+$DIR/../bin/$PROGFILE $THREADS $SEED $IMGFILE
 
 echo "END: `/bin/date`"

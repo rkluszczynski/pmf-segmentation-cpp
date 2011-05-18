@@ -22,7 +22,12 @@ function analyzeSimulation
 	LASTTH=$((${THsNUM} - 1))
 	for i in `seq 0 ${LASTTH}`
 	do
-		ITERsNUM=`grep "^\[ ITER \] _th${i}of${THsNUM}_" $STDOUT | tail -1 | cut -d':' -f2`
+		if [ "${THsNUM}" -eq "1" ]
+		then
+			ITERsNUM=`grep "^\[ ITER \] _singiel_" $STDOUT | tail -1 | cut -d':' -f2`
+		else		
+			ITERsNUM=`grep "^\[ ITER \] _th${i}of${THsNUM}_" $STDOUT | tail -1 | cut -d':' -f2`
+		fi
 		#echo Thread-$i : $ITERsNUM
 		k=$(($i + 2))
 		ThPMR=$(echo ${THsPMRs} | cut -d'=' -f${k} | cut -d'(' -f1)
