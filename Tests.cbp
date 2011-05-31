@@ -252,6 +252,9 @@
 			<Add option="-g" />
 			<Add option="-I headers -I src" />
 		</Compiler>
+		<Unit filename="headers\avl.hpp">
+			<Option target="test-avl" />
+		</Unit>
 		<Unit filename="tests\10245-map.cpp">
 			<Option target="10245-map" />
 		</Unit>
