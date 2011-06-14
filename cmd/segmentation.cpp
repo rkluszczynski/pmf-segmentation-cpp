@@ -117,6 +117,8 @@ namespace pmf
         cout << "[ SEGM ] : checking apply condition ... ";
 
         //return SimulatedAnnealingSimulation<double>::CheckApplyCondition();
+        if (pmf->DetermineMinimalSquareDistance() < 0.000000001) apply = false;
+
         cout << (apply ? "TRUE" : "FALSE") << endl;
         return apply;
     }

@@ -114,18 +114,24 @@ PMF<REAL> :: CalculateLennardJonesNeighboursEnergyTerm (REAL epsilon_LJ, REAL si
 
 
 template <class REAL>
+inline
 REAL
-PMF<REAL> :: CalculateLennardJonesMinimalDistanceEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
+PMF<REAL> :: DetermineMinimalSquareDistance ()
 {
     NearestPointsDistance npd;
     FOREACH(it, *cf) npd.addPoint((*it)->x, (*it)->y);
     assert(npd.size() == cf->GetPointsCount());
 
-    double squareDist = npd.determineNearestPointsSquareDistance();
+    return npd.determineNearestPointsSquareDistance();
+}
 
+template <class REAL>
+REAL
+PMF<REAL> :: CalculateLennardJonesMinimalDistanceEnergyTerm (REAL epsilon_LJ, REAL sigma12_LJ, REAL sigma6_LJ, REAL rcut_LJ)
+{
+    double squareDist = DetermineMinimalSquareDistance();
     REAL sig12 = sigma12_LJ;
     REAL sig6 = sigma6_LJ;
-
     REAL energy = (4. * epsilon_LJ * LJDistTerm(squareDist, sig12, sig6));
     //printf("\n\n MIN.GLOBAL DISTANCE = %.21lf / ENERGY = %.21lf\n\n", sqrt(squareDist), energy);
     return energy;

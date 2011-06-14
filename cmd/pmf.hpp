@@ -127,6 +127,8 @@ namespace pmf
             inline long GetCount()  { return cf->GetPointsCount(); }
             inline pmf::Statistics GetStatistics() { return cf->GetStatistics(); }
 
+            inline REAL DetermineMinimalSquareDistance ();
+
             REAL CalculateGrayscaleImageEnergyTerm(GrayscaleImage * img);
             REAL CalculateLennardJonesNeighboursEnergyTerm (REAL, REAL, REAL, REAL);
             REAL CalculateLennardJonesMinimalDistanceEnergyTerm (REAL, REAL, REAL, REAL);

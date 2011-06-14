@@ -43,6 +43,7 @@ NearestPointsDistance::determineNearestPointsSquareDistance(std::pair<POINT*,POI
     std::vector<POINT*> vpts(hpts);
     sort(vpts.begin(), vpts.end(), _orderYX);
 
+    if (n < 2u) return std::numeric_limits<DISTTYPE>::max();
     DISTTYPE squareDist = pointsSquareDistance(hpts[0], hpts[1]);
     DISTTYPE dist = sqrt(squareDist);
     if (nearestPair)

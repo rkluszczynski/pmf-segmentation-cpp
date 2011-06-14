@@ -121,7 +121,7 @@
 					<Add directory="..\src\utils" />
 				</Compiler>
 				<Linker>
-					<Add library="utils-std" />
+					<Add library="utils-std_d" />
 					<Add library="gomp" />
 					<Add directory="..\lib" />
 				</Linker>
