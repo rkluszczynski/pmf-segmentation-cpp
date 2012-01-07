@@ -19,6 +19,15 @@ class SegmentationParameters
 
         void PrintParameters(FILE * = stdout);
 
+        void AddParameter(const std::string, const std::string);
+        inline
+        void AddParameter(const char * name, const char * value) { if (name and value) AddParameter(std::string(name), std::string(value)); }
+
+        std::string GetParameter(const std::string);
+        inline
+        const
+        char * GetParameter(char * name) { return (name) ? GetParameter(std::string(name)).c_str() : NULL; }
+
         inline
         std::ostream & GetLogOut() { return m_log; }
         inline

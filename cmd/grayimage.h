@@ -14,9 +14,14 @@ namespace pmf
 
             virtual ~GrayscaleImage();
 
+            long GetSquarePrefixSum(int, int);
+
 
         protected:
         private:
+            int height, width;
+            long ** sums;
+
             void OnInit();
     };
 

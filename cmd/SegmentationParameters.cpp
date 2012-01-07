@@ -57,6 +57,18 @@ SegmentationParameters::LoadConfigurationFile(char * filename)
     }
 }
 
+void
+SegmentationParameters::AddParameter(const std::string name, const std::string value)
+{
+    m_data.insert( make_pair(name, value) );
+}
+
+std::string
+SegmentationParameters::GetParameter(const std::string name)
+{
+    return m_data[name];
+}
+
 SegmentationParameters::~SegmentationParameters()
 {
     if (m_InitialFile) delete m_InitialFile;
