@@ -1,14 +1,14 @@
 #PBS -N UNICORE_Job
 #PBS -q plgrid
-#PBS -l nodes=1:ppn=THREADS
+#PBS -l nodes=1:ppn=THREADS:noht
 #PBS -l mem=256mb
-#PBS -l walltime=11820
+#PBS -l walltime=36000
 #PBS -m n
 #PBS -o DIR/stdout
 #PBS -e DIR/stderr
 
 cd DIR
 
-/mnt/lustre/unicore/klusi-dir/pmf/trunk/scripts/runOnLinux.sh THREADS PROGFILE SEED
+/vosoft/unicore/pmf/trunk/scripts/runOnLinux.sh THREADS PROGFILE SEED
 
 

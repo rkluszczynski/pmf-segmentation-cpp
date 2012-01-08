@@ -348,6 +348,10 @@ namespace pmf
         _sigma12 = _sigma6 * _sigma6;
         _rcutoff = 4 * pmfeps;
 
+        cout << "[ PARAM ] :   sigma6 = " << cout.precision(21) << _sigma6 << endl;
+        cout << "[ PARAM ] :  sigma12 = " << cout.precision(21) << _sigma12 << endl;
+        cout << "[ PARAM ] : r_cutoff = " << cout.precision(21) << _rcutoff << endl;
+
         //prng = new DoublePRNG(parameters.GetSeed());
         //pmf->SetPRNG (prng);
 
