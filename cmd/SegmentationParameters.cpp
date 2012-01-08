@@ -69,6 +69,16 @@ SegmentationParameters::GetParameter(const std::string name)
     return m_data[name];
 }
 
+double
+SegmentationParameters::GetParameterAsDouble(const std::string name)
+{
+    char * endptr;
+    double value = strtod(m_data[name].c_str(), &endptr);
+    if (*endptr) return 0;
+    return value;
+}
+
+
 SegmentationParameters::~SegmentationParameters()
 {
     if (m_InitialFile) delete m_InitialFile;

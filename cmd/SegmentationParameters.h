@@ -27,6 +27,9 @@ class SegmentationParameters
         inline
         const
         char * GetParameter(char * name) { return (name) ? GetParameter(std::string(name)).c_str() : NULL; }
+        double GetParameterAsDouble(const std::string);
+        inline
+        double GetParameterAsDouble(char * name) { return (name) ? GetParameterAsDouble(std::string(name)) : 0.; }
 
         inline
         std::ostream & GetLogOut() { return m_log; }
