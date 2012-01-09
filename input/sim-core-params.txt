@@ -1,0 +1,6 @@
+
+energy.image.loop=0.01
+energy.image.offset=2000
+
+;energy.lj.neighbours=11.
+energy.lj.global=12.

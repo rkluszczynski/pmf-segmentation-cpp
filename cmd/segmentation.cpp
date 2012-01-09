@@ -11,6 +11,8 @@ namespace pmf
     : parameters(params), loopIteration(0L), threadId(thId)
     {
         cout << "[ SEGM ] : ctor.begin()" << endl;
+        OnInit();
+
         std::string fout1name( std::string(parameters.GetOutputDirectory()) + std::string(parameters.GetOutputPrefix()) + std::string("gen.txt") );
         cout << fout1name << endl;
         ofstream fout1( fout1name.c_str() );
@@ -84,6 +86,25 @@ namespace pmf
 #endif
     }
 
+    void
+    BinarySegmentation::OnInit()
+    {
+        beta_LJn = parameters.GetParameterAsDouble("energy.lj.neighbours");
+        beta_LJg = parameters.GetParameterAsDouble("energy.lj.global");
+        //if (beta_LJn == 0.) beta_LJn = 1.0;
+        //if (beta_LJg == 0.) beta_LJg = 1.0;
+        if (beta_LJn < 1e-16) beta_LJn = 1.0;
+        if (beta_LJg < 1e-16) beta_LJg = 1.0;
+    }
+
+
+    BinarySegmentation::BinarySegmentation()
+    {
+        cout << "[ TEST ] : ctor.begin()" << endl;
+        OnInit();
+        testImagePrefixSums();
+        cout << "[ TEST ] : ctor.end()" << endl;
+    }
 
     BinarySegmentation::~BinarySegmentation()
     {
@@ -131,8 +152,6 @@ namespace pmf
         //double beta_1 = 20. + 0.009 * (loopIteration + 70000);
         double beta_1 = 2000. + 0.01 * loopIteration;
         double beta_2 = 0.0;
-        double beta_LJn = 1.0;
-        double beta_LJg = 1.0;
         double result = 0.0;
 
         tmpArea = pmf->CalculateGrayscaleImageEnergyTerm(img);
@@ -392,4 +411,25 @@ namespace pmf
         pmf->SetPRNG(prng);
     }
 // */
+
+
+
+    /** Test functions */
+    void BinarySegmentation::testImagePrefixSums()
+    {
+        pmf::GrayscaleImage img("input/square30x20.png");
+
+        pmf::NumericalParameters numerics(1e-7);
+        pmf::PMF<double> * ppmf;
+        ppmf = new pmf::PMF<double>(3., 3., numerics);
+        ppmf->LoadPMF ("input/qq.cf");
+        ppmf->RotatePoints2 (0., 1.);
+
+        cout << "---" << endl;
+        double eng = ppmf->CalculateGrayscaleImageEnergyTerm(&img);
+        cout << " ENG = " << eng << endl;
+
+        exit(0);
+    }
+
 }

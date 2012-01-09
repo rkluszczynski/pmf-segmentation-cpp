@@ -14,6 +14,7 @@ namespace pmf
     class BinarySegmentation : public SimulatedAnnealingSimulation<double>
     {
         public:
+            BinarySegmentation();
             BinarySegmentation(SegmentationParameters, unsigned = 0u);
             BinarySegmentation(double, double, const char *, const char *, time_t, const char *, long, double);
             virtual ~BinarySegmentation();
@@ -32,6 +33,8 @@ namespace pmf
             inline
             pmf::DoublePRNG * GetPRNG() { return prng; }
 
+            void testImagePrefixSums();
+
 
         protected:
             virtual void           PreIteration();
@@ -46,6 +49,8 @@ namespace pmf
             virtual double         GetUniform01();
 
         private:
+            void OnInit();
+
             SegmentationParameters parameters;
 
             long loopIteration;
@@ -64,6 +69,9 @@ namespace pmf
             double tmpLJn, tmpLJg, _sigma6, _sigma12, _rcutoff;
             double areaOfPMF, angle;
             bool apply;
+
+            double beta_LJn;
+            double beta_LJg;
 
             unsigned threadId;
     };

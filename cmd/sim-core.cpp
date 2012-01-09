@@ -114,18 +114,58 @@ void testRandom()
 }
 
 
+void testImageNewEnergy()
+{
+        pmf::GrayscaleImage img("input/square30x20.png");
+        for (int r = -1; r <= img.GetHeight(); ++r)
+        {
+            for (int c = -1; c <= img.GetWidth(); ++c)
+            {
+                cout << " " << long(img.GetGreen(c,r)) << "/" << img.GetSquarePrefixSum(r, c);
+            }
+            cout << endl;
+        }
+        cout << "--" << endl;
+
+        cout << int( img.GetGreen(0, 0) ) << " -> " << img.GetSquarePrefixSum(0, 0) << endl;
+        cout << int( img.GetGreen(15, 0) ) << " -> " << img.GetSquarePrefixSum(15, 0) << endl;
+        cout << int( img.GetGreen(0, 15) ) << " -> " << img.GetSquarePrefixSum(0, 15) << endl;
+        cout << int( img.GetGreen(15, 15) ) << " -> " << img.GetSquarePrefixSum(15, 15) << endl;
+
+        for (int R = 0; R < img.GetHeight(); ++R)
+        {
+            for (int C = 0; C < img.GetWidth(); ++C)
+            {
+                long val = 0L;
+                for (int r = 0; r <= R; ++r)
+                    for (int c = 0; c <= C; ++c)
+                        val += long(img.GetGreen(c, r));
+
+                assert(img.GetSquarePrefixSum(R, C) == val);
+                //cout << '.';
+            }
+            cout << '*';
+        }
+        cout << endl;
+
+    pmf::BinarySegmentation bs;
+
+    exit(0);
+}
+
 int _tmp_seed, _tmp_cores;
 
 
 #define REAL double
 int main (int argc, char *argv[])
 {
+    //testImageNewEnergy();
     //testParallelRandom();
     //testRandom();
 
     /// tmp usage :  argv[0]  threads  seed
 
-    _tmp_cores = 8;
+    _tmp_cores = 2;
     _tmp_seed = 7217;
     char * tmp_imgfile = "input/tmp/szara-wisienka-do-segm.png";
 
@@ -134,7 +174,7 @@ int main (int argc, char *argv[])
     if (argc == 4) tmp_imgfile = argv[3];
 
 
-    SegmentationParameters sparam;
+    SegmentationParameters sparam("input/sim-core-params2.txt");
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
     sparam.SetSeed (7217);

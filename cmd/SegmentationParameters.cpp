@@ -32,33 +32,40 @@ SegmentationParameters::OnInit()
 void
 SegmentationParameters::LoadConfigurationFile(char * filename)
 {
-    std::ifstream propertiesfile(filename);
-    std::string line;
-    while ( getline(propertiesfile, line) )
+    std::ifstream fin(filename, std::ios::in);
+    if (not fin.fail())
     {
-        if (line.length() == 0) continue;
-        if (line[0] == '#') continue;
-        if (line[0] == ';') continue;
-
-        size_t eqpos = line.find('=');
-        if (eqpos == std::string::npos) continue;
-
-        size_t endpos = line.find(';');
-        if (endpos == std::string::npos) endpos = line.length();
-
-        std::string index = line.substr(0, eqpos);
-        std::string value = line.substr(eqpos + 1, endpos - eqpos - 1);
-
-        bool wasnew = m_data.insert( make_pair(index, value) ).second;
-        if (!wasnew)
+        std::string line;
+        while ( getline(fin, line) )
         {
-            fprintf(stderr, "[ WARN ] : value of '%s' overwritten (by '%s')\n", index.c_str(), value.c_str());
+            if (line.length() == 0) continue;
+            if (line[0] == '#') continue;
+            if (line[0] == ';') continue;
+
+            size_t eqpos = line.find('=');
+            if (eqpos == std::string::npos) continue;
+
+            size_t endpos = line.find(';');
+            if (endpos == std::string::npos) endpos = line.length();
+
+            std::string index = line.substr(0, eqpos);
+            std::string value = line.substr(eqpos + 1, endpos - eqpos - 1);
+
+            bool wasnew = m_data.insert( make_pair(index, value) ).second;
+            if (!wasnew)
+            {
+                fprintf(stderr, "[ WARN ] : value of '%s' overwritten (by '%s')\n", index.c_str(), value.c_str());
+            }
         }
     }
+    else {
+        fprintf(stderr, "[ WARN ] : properties file '%s' not exists\n", filename);
+    }
+    fin.close();
 }
 
 void
-SegmentationParameters::AddParameter(const std::string name, const std::string value)
+SegmentationParameters::SetParameter(const std::string name, const std::string value)
 {
     m_data.insert( make_pair(name, value) );
 }

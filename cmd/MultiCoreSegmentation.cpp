@@ -292,3 +292,4 @@ MultiCoreSegmentation::UseParallelTemperingStrategy (int id)
     printf("[ sync ] :: end() \n");
     for (unsigned i = 0; i < numberOfThreads; ++i) printf(" %.7lf", simulations[i]->GetStoredSegmentationEnergy());  printf("\n");
 }
+
