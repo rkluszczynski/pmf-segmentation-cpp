@@ -95,6 +95,9 @@ namespace pmf
         //if (beta_LJg == 0.) beta_LJg = 1.0;
         if (beta_LJn < 1e-16) beta_LJn = 1.0;
         if (beta_LJg < 1e-16) beta_LJg = 1.0;
+
+        cout << "[ PARAM ] : beta_LJn = " << beta_LJn << endl;
+        cout << "[ PARAM ] : beta_LJg = " << beta_LJg << endl;
     }
 
 

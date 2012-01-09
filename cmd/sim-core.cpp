@@ -174,7 +174,7 @@ int main (int argc, char *argv[])
     if (argc == 4) tmp_imgfile = argv[3];
 
 
-    SegmentationParameters sparam("input/sim-core-params2.txt");
+    SegmentationParameters sparam("input/sim-core-params.txt");
     sparam.SetFieldHeight (3.0);
     sparam.SetFieldWidth (3.0);
     sparam.SetSeed (7217);
@@ -195,8 +195,8 @@ int main (int argc, char *argv[])
     sparam.SetOutputFile ("output-test-file.txt");
 
     sparam.SetIterationsNumber (0L);
-    sparam.SetPMRRate (.02);
-    //sparam.SetPMRRate (.018);
+    //sparam.SetPMRRate (.02);
+    sparam.SetPMRRate (.018);
     sparam.SetPMFEpsilon (1e-7);
 
     MultiCoreSegmentation mcs (sparam, _tmp_cores);
