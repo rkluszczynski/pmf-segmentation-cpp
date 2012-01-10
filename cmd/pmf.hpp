@@ -130,6 +130,8 @@ namespace pmf
             inline REAL DetermineMinimalSquareDistance ();
 
             REAL CalculateGrayscaleImageEnergyTerm(GrayscaleImage * img);
+            REAL CalculateGrayscaleImageEnergyTerm2(GrayscaleImage * img);
+
             REAL CalculateLennardJonesNeighboursEnergyTerm (REAL, REAL, REAL, REAL);
             REAL CalculateLennardJonesMinimalDistanceEnergyTerm (REAL, REAL, REAL, REAL);
             REAL CalculateSmoothPotentialLogEnergyTerm (REAL, REAL, REAL = 0.);

@@ -432,6 +432,10 @@ namespace pmf
         double eng = ppmf->CalculateGrayscaleImageEnergyTerm(&img);
         cout << " ENG = " << eng << endl;
 
+        cout << "---" << endl;
+        double eng2 = ppmf->CalculateGrayscaleImageEnergyTerm2(&img);
+        cout << " ENG2 = " << eng2 << endl;
+
         exit(0);
     }
 

@@ -159,7 +159,7 @@ int _tmp_seed, _tmp_cores;
 #define REAL double
 int main (int argc, char *argv[])
 {
-    //testImageNewEnergy();
+    testImageNewEnergy();
     //testParallelRandom();
     //testRandom();
 

@@ -277,4 +277,49 @@ PMF<REAL> :: ScanVerticalLine(GrayscaleImage * img, REAL xx, REAL delta)
 }
 
 
+template <class REAL>
+REAL
+PMF<REAL> :: CalculateGrayscaleImageEnergyTerm2 (GrayscaleImage * img)
+{
+    REAL oColor[2] = { 0, 0 };
+    REAL epsilon = nparams.GetAxisEpsilon();
+
+    FOREACH(it, *cf)
+    {
+        Point<REAL> * pt = *it;
+        Point<REAL> * n1 = pt->n1;
+        Point<REAL> * n2 = pt->n2;
+
+        switch (pt->type)
+        {
+            case PT_BirthOnBorder :
+                                    assert(n2 == NULL);
+                                    break;
+            case PT_DeathOnBorder :
+                                    assert(n2 == NULL);
+            case PT_Update        :
+                                {
+                                    break;
+                                }
+            case PT_Collision     :
+                                {
+                                    break;
+                                }
+            case PT_BirthInField  :
+                                    break;
+            default :
+                        assert("WRONG POINT TYPE DURING CALCULATING ENERGY" && false);
+        }
+    }
+
+    REAL maxAmount = REAL( max(oColor[0], oColor[1]) );
+    REAL     total = REAL( oColor[0] + oColor[1] ) + epsilon;
+    //*
+    cout << " oBLACK-2 = " << (total - oColor[0]) / total << endl;
+    cout << " oWHITE-2 = " << (total - oColor[1]) / total << endl;
+    //*/
+    return (total - maxAmount) / total;
+}
+
+
 #endif // ENERGY_HPP_INCLUDED
