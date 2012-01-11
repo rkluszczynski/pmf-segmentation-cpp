@@ -284,9 +284,17 @@ PMF<REAL> :: CalculateGrayscaleImageEnergyTerm2 (GrayscaleImage * img)
     REAL oColor[2] = { 0, 0 };
     REAL epsilon = nparams.GetAxisEpsilon();
 
+    Point<REAL> * prevPt = NULL;
+    Point<REAL> * nextPt = NULL;
+
     FOREACH(it, *cf)
     {
         Point<REAL> * pt = *it;
+        nextPt = ((it+1) == cf->end()) ? NULL : *(it + 1);
+
+        REAL minus = (prevPt) ? (.5 * (pt->x + prevPt->x)) : (pt->x - epsilon);
+        REAL plus = (nextPt) ? (.5 * (pt->x + nextPt->x)) : (pt->x + epsilon);
+
         Point<REAL> * n1 = pt->n1;
         Point<REAL> * n2 = pt->n2;
 
@@ -310,6 +318,8 @@ PMF<REAL> :: CalculateGrayscaleImageEnergyTerm2 (GrayscaleImage * img)
             default :
                         assert("WRONG POINT TYPE DURING CALCULATING ENERGY" && false);
         }
+
+        prevPt = pt;
     }
 
     REAL maxAmount = REAL( max(oColor[0], oColor[1]) );
