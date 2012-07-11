@@ -28,6 +28,9 @@ then
 elif [ -e  /people/plgkluszczynski/pmf/wx-2.8.12/lib ]
 then
 	export LD_LIBRARY_PATH=/people/plgkluszczynski/pmf/wx-2.8.12/lib
+elif [ -e  /home/plgrid/plgkluszczynski/reef/pmf/wx-2.8.12/lib ]
+then
+	export LD_LIBRARY_PATH=/home/plgrid/plgkluszczynski/reef/pmf/wx-2.8.12/lib
 else
 	echo "[ ERROR ]: no wxWidgets library!"
 	exit 1

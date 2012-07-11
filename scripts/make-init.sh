@@ -3,7 +3,8 @@
 PROGFILE=../bin/init.exe
 
 #WXCFG="/vosoft/unicore/pmf/wx-2.8.12/bin/wx-config"
-WXCFG="/people/plgkluszczynski/pmf/wx-2.8.12/bin/wx-config"
+#WXCFG="/people/plgkluszczynski/pmf/wx-2.8.12/bin/wx-config"
+WXCFG="/home/plgrid/plgkluszczynski/reef/pmf/wx-2.8.12/bin/wx-config"
 OBJDIR=`dirname $0`/../objs/init
 
 #Compiling: ..\cmd\grayimage.cpp
