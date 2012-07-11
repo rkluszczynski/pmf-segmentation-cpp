@@ -22,8 +22,17 @@ cp $INITCFG ./input/
 IMGFILE=`grep ^image ./input/mosaic.txt | cut -d'=' -f2 | cut -d';' -f1`
 cp $DIR/../$IMGFILE ./$IMGFILE
 
-
-export LD_LIBRARY_PATH=/vosoft/unicore/pmf/wx-2.8.12/lib
+if [ -e /vosoft/unicore/pmf/wx-2.8.12/lib ]
+then
+	export LD_LIBRARY_PATH=/vosoft/unicore/pmf/wx-2.8.12/lib
+elif [ -e  /people/plgkluszczynski/pmf/wx-2.8.12/lib ]
+then
+	export LD_LIBRARY_PATH=/people/plgkluszczynski/pmf/wx-2.8.12/lib
+else
+	echo "[ ERROR ]: no wxWidgets library!"
+	exit 1
+fi
+echo "LD_LIBRARY_PATH='${LD_LIBRARY_PATH}'"
 echo "BEGIN: `/bin/date`"
 
 $DIR/../bin/init.exe -e $SEED -c $INITCFG
