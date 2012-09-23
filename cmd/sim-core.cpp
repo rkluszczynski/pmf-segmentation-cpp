@@ -196,7 +196,13 @@ int main (int argc, char *argv[])
 
     sparam.SetIterationsNumber (0L);
     //sparam.SetPMRRate (.02);
-    sparam.SetPMRRate (.018);
+    if (sparam.IsParameter(std::string("pmr.rate"))) {
+        double pmrRate = sparam.GetParameterAsDouble(std::string("pmr.rate"));
+        sparam.SetPMRRate(pmrRate);
+    }
+    else {
+        sparam.SetPMRRate (.018);
+    }
     sparam.SetPMFEpsilon (1e-7);
 
     MultiCoreSegmentation mcs (sparam, _tmp_cores);

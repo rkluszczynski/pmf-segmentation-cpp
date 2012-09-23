@@ -19,6 +19,11 @@ class SegmentationParameters
 
         void PrintParameters(FILE * = stdout);
 
+        bool IsParameter(const std::string);
+        inline
+        const
+        bool IsParameter(char * name) { return (name) ? IsParameter(std::string(name)) : false; }
+
         void SetParameter(const std::string, const std::string);
         inline
         void SetParameter(const char * name, const char * value) { if (name and value) SetParameter(std::string(name), std::string(value)); }

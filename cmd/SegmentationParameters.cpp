@@ -64,6 +64,12 @@ SegmentationParameters::LoadConfigurationFile(char * filename)
     fin.close();
 }
 
+bool
+SegmentationParameters::IsParameter(const std::string name)
+{
+    return m_data.find(name) != m_data.end();
+}
+
 void
 SegmentationParameters::SetParameter(const std::string name, const std::string value)
 {
