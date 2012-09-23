@@ -1,5 +1,6 @@
 
-pmr.rate=0.18
+# Simulation PMR 
+pmr.rate=0.2
 
 energy.image.loop=0.01
 energy.image.offset=2000
