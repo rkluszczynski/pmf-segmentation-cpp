@@ -168,6 +168,7 @@ int main (int argc, char *argv[])
     _tmp_cores = 2;
     _tmp_seed = 7217;
     char * tmp_imgfile = "input/tmp/szara-wisienka-do-segm.png";
+    tmp_imgfile = NULL;
 
     if (argc > 1  and  argc <= 4) _tmp_cores = atoi(argv[1]);
     if (argc > 2  and  argc <= 4) _tmp_seed = atoi(argv[2]);
