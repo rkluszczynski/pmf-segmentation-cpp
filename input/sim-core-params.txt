@@ -5,5 +5,6 @@ pmr.rate=0.2
 energy.image.loop=0.01
 energy.image.offset=2000
 
-energy.lj.neighbours=1.
-energy.lj.global=1.
+energy.lj.neighbours=0.01
+energy.lj.global=0.01
+

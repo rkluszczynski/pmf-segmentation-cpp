@@ -6,6 +6,7 @@
 function analyzeSimulation
 {
 	STDOUT=${1-.}/stdout
+	STDERR=${1-.}/stderr
 	if [ ! -e ${STDOUT} ]
 	then
 		echo file $STDOUT not existing ... ignoring
@@ -35,7 +36,17 @@ function analyzeSimulation
 	done 
 
 	StoppingThread=$(grep ended $STDOUT | cut -d'_' -f3)
-	RECORD="${RECORD} ${StoppingThread};"
+	SegFault=$(grep "Segmentation fault" ${STDERR})
+	JobKilled=$(grep "PBS: job killed" ${STDERR})
+	if [ "${SegFault}" != "" ]
+	then
+		RECORD="${RECORD} -1;"
+	elif [ "${JobKilled}" != "" ]
+	then
+		RECORD="${RECORD} -2;"
+	else
+		RECORD="${RECORD} ${StoppingThread};"
+	fi
 
 	SIMSTART=$(grep "^BEGIN: " ${STDOUT} | cut -b 8-)
 	SIMSTOP=$(grep "^END: " ${STDOUT} | cut -b 6-)
@@ -43,6 +54,7 @@ function analyzeSimulation
 	RECORD="${RECORD} ${SIMTIME};"
 
 	echo ${RECORD}
+	#tail ${STDERR} | grep PBS
 }
 
 for entry in `ls`

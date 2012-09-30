@@ -2,10 +2,13 @@
 #PBS -q plgrid
 #PBS -l nodes=1:ppn=THREADS:noht
 #PBS -l mem=256mb
-#PBS -l walltime=36000
+#PBS -l walltime=72000
 #PBS -m n
+#PBS -d DIR
 #PBS -o DIR/stdout
 #PBS -e DIR/stderr
+#PBS -W group_list=plgrid
+#PBS -A plgkluszczynski2012a
 
 cd DIR
 

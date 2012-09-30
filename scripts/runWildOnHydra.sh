@@ -25,6 +25,7 @@ JOBSLOG=${CWD}/qsub-${HOW_MANY_JOBS}x${THREADS}.log
 hostname > ${JOBSLOG}
 pwd >> ${JOBSLOG}
 date >> ${JOBSLOG}
+_QSUB_STARTTIME=$(/bin/date +%s)
 for i in `seq 1 ${HOW_MANY_JOBS}`
 do
 	echo "Number ${i}"
@@ -43,5 +44,7 @@ do
 	qsub ${QSUBFILE} >> ${JOBSLOG}
 	cd -
 done
-
+_QSUB_ENDTIME=$(/bin/date +%s)
 date >> ${JOBSLOG}
+echo "Submission time of ${HOW_MANY_JOBS} tasks = $(expr ${_QSUB_ENDTIME} - ${_QSUB_STARTTIME}) sec." | tee -a ${JOBSLOG}
+
