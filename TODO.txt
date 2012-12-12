@@ -3,6 +3,29 @@
 
  . implement method  IsTheIntersection  in time O(n*logk)
 
+ 
+ Bo co dokladnie masz na mysli przez "kiepski sposob"?
+[10:25:22] <Marek Magrys (CYFRONET)> write ma³ym blokiem
+[10:25:33] <Marek Magrys (CYFRONET)> przynajmniej tak mi siê wydaje po rzucie okiem na strace
+[10:25:47] <Marek Magrys (CYFRONET)> nie chcê Ci zapsuæ obliczeñ, wiêc tylko krótko podgl¹dam
+[10:25:55] <Marek Magrys (CYFRONET)> ale na oko leci¹ write'y po ok. 150b
+[10:26:02] <Rafa³ Kluszczyñski (ICM)> Uhm, mozliwe, bo co krok zapisuje stan konfiguracji...
+[10:26:36] <Marek Magrys (CYFRONET)> dlatego masz s³ab¹ efektywnoœæ
+[10:26:51] <Marek Magrys (CYFRONET)> œredni cputime/walltime to 23%
+[10:26:56] <Marek Magrys (CYFRONET)> dla wszystkich Twoich zadañ
+[10:27:02] <Marek Magrys (CYFRONET)> procesy wiêkszoœæ czasu siedz¹ w 'D'
+[10:27:29] <Marek Magrys (CYFRONET)> korzystnie dla obu stron by³oby, gdybyœ jakoœ buforowa³ te zapisy
+[10:27:32] <Marek Magrys (CYFRONET)> i rzuca³ je blokiem 1M
+[10:27:48] <Marek Magrys (CYFRONET)> i wydaje mi siê jeszcze
+[10:27:58] <Marek Magrys (CYFRONET)> ¿e doœæ czêsto robisz open/close
+[10:28:27] <Marek Magrys (CYFRONET)> nie chce mi siê grzebaæ w statsach, ale na oko ok. 200 razy na sekundê robisz parê open+close
+[10:28:36] <Marek Magrys (CYFRONET)> to te¿ jest kiepskie dla obliczeñ :)
+[10:29:02] <Marek Magrys (CYFRONET)> nie wiem na ile takie modyfikacje maj¹ dla Ciebie sens
+[10:29:16] <Marek Magrys (CYFRONET)> ale mo¿esz dostaæ speedup 4x jak dobrze u³o¿ysz te IO
+
+
+[10:34:50] <Marek Magrys (CYFRONET)> i pomyœl o buforze I/O, bo z zapisami po kilkaset bajtów ka¿dy Ciê z lustra wyrzuci przy pewnej skali :)
+[10:35:01] <Marek Magrys (CYFRONET)> optymalne I/O dla lustre to co najmniej 1MB
 
 
  ___ THINGS _ DONE ___
