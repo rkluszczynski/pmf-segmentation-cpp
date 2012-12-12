@@ -273,8 +273,8 @@ void ImagePanel::PresentPMF(PMF<double> * pmf)
 
         //wxColor cc(16,8,128);
         wxColor cc(34,177,76);
-        wxPen pen(cc, 1);
-        //wxPen pen(*wxBLUE, 1);
+        //wxPen pen(cc, 1);
+        wxPen pen(*wxBLUE, 1);
         dc.SetPen(pen);
 
         for(Element<pmf_point<double> > * iter = pmf->getFirstElement(); iter; iter = iter->next) {

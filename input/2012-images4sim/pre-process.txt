@@ -1,1 +1,1 @@
-Using GIMP:1. rozmycie gaussa x 22. poziomy (do krancow histogramy) + przegiecie w minimum lokalnym3. kontrast o 30
+Using GIMP:1. rozmycie gaussa x 2	Filtry -> Rozmycie -> Rozmycie Gaussa -> maska 5x5	2. poziomy (do krancow histogramy) + przegiecie w minimum lokalnym3. kontrast o 30
