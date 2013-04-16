@@ -195,7 +195,14 @@ int main (int argc, char *argv[])
     sparam.SetOutputDirectory ("output/");
     sparam.SetOutputFile ("output-test-file.txt");
 
-    sparam.SetIterationsNumber (0L);
+    long iterationsNumber = 0L;
+printf("QQ\n");
+    if (sparam.IsParameter(std::string("pmr.iterations"))) {
+	iterationsNumber = atol(sparam.GetParameter(std::string("pmr.iterations")).c_str());
+printf("QQ\n");
+    }
+    sparam.SetIterationsNumber (iterationsNumber);
+printf("QQ\n");
     //sparam.SetPMRRate (.02);
     if (sparam.IsParameter(std::string("pmr.rate"))) {
         double pmrRate = sparam.GetParameterAsDouble(std::string("pmr.rate"));
